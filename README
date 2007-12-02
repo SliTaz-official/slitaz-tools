@@ -1,0 +1,78 @@
+SliTaz tools v1.3 - La boîte à outils SliTaz.                              2007
+===============================================================================
+
+
+Les fichiers contenus dans cette archive sont utilisés pour construire,
+modifier et redistribuer SliTaz GNU/Linux, mini distro fonctionnant RAM,
+et pleinement installable sur disque dur. Les outils SliTaz sont déstinés
+à la création de paquets et à accompagner le livre de cuisine (Cookbook)
+de Slitaz. Le Cookbook fournit beaucoup d'informations au sujet de la création
+de SliTaz et Tazwok est utilisé pour compiler et générer la distribution
+automatiquement. On the Web : http://www.slitaz.org/
+
+
+AUTHORS    - Les auteurs de SliTaz tools.
+ChangeLog  - Notes au sujet des changements dans la boîte.
+COPYING    - La licence.
+README     - Ce fichier!
+
+
+stuff/ - Les fichiers de configurations
+---------------------------------------
+Contient des fichiers de configuration et des Makefiles tels que ceux utilisée
+pour compiler Busybox ou le noyau Linux.
+
+
+doc/ - La documentation
+-----------------------
+Le répertoire doc/ contient toutes la documentation fournie avec les outils.
+Il y a des manuels, des texte d'aide et diverses notes qui peuvent être utiles.
+
+
+hacker/ - Hacker User
+---------------------
+Des fichiers et répertoires destinés à l'utilisateur hacker (/home/hacker).
+
+
+rootcd/ - La racine du LiveCD
+-----------------------------
+Contient les fichiers, messages, et configs utilisés pour la création de
+cdrom bootable de SliTaz. Ce répertoire contient aussi un exemple de fichier
+boot/grub/menu.lst utilisé par GRUB et des fichiers pour créer un cdrom
+autorun.
+
+
+rootfs/ - Pseudo système racine
+-------------------------------
+
+ * usr/share/
+   Ce répertoire contient les licenses, des exemples et des pixmaps.
+   
+ * etc/
+   Le par feu (firewall) et le script de démarrage du démon cron.
+
+
+tinyutils/ - Petits utilitaitres
+--------------------------------
+
+
+ * gztazmod.sh
+   Script permettant de compresser les modules d'un noyau Linux.
+
+ * mktazdevs.sh
+   Script créant les devices pour SliTaz (s'install dans /sbin).
+
+ * tazkmap & tazlocale
+   Ces deux scripts configure le clavier et la locale utilisant dialog.
+
+ * tazx & starx
+   C'est le script qui configure la session graphique. Il utilise dialog.
+   startx lui lance 'tazx' si le fichier ~/.xsession n'existe pas pour
+   configure le serveur Xvesa. L'utilitaire 'tazx' utilise fe fichier d'aide
+   tazx-help.txt son chemin est défini par la variable HELP_FILE (par défaut
+   le chemin est: /usr/share/doc/slitaz/tazx-help.txt).
+
+
+===============================================================================
+                                                         http://www.slitaz.org/
+
