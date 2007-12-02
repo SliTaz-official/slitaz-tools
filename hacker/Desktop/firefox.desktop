@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Firefox
+Comment=Web browse
+TryExec=firefox
+Exec=firefox %F
+Icon=/usr/share/pixmaps/mozicon.png

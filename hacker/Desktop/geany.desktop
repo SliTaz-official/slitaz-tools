@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Geany
+Comment=Lightweight and powerfull IDE.
+TryExec=geany
+Exec=geany %F
+Icon=/usr/share/pixmaps/geany.png

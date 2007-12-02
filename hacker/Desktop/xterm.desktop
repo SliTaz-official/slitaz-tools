@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Xterm
+Comment=X terminal emulator
+TryExec=xterm -bg grey16 -fg white -cr orange
+Exec=xterm -bg grey16 -fg white -cr orange %F
+Icon=/home/hacker/Images/Icons/e17/terminal_tango.edj
