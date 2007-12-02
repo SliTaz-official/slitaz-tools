@@ -1,0 +1,186 @@
+2007-12-01  Christophe Lincoln  <pankso@slitaz.org>
+
+ * Suppression des fichiers de Tazlito. Tazlito est maintenant un projet à
+   lui-même avec son dépôt Mercurial.
+   
+ * Les tools ne fourniront plus le menu par défaut des LiveCD, ça serat un
+   paquet à part avec quelques autres fichiers additionnels propre à la saveur
+   de la distribution (y a le son dans le menu standard et pas de son dans
+   certaines versions). Les images du fond d'écran ont aussi été supprimée de
+   l'archive.
+
+
+2007-11-06  Christophe Lincoln  <pankso@slitaz.org>
+
+ * Release - SliTaz tools 1.3
+
+ * Ajput d'un script d'installation (beta) et de mountbox, un boite de dialog
+   GTK à mount/umount.
+
+
+2007-11-04  Christophe Lincoln  <pankso@slitaz.org>
+
+ * tazlito/tazlito :
+   Ajout d'une commande de vérification avant publication et d'une commande
+   permettant de graver directemnt un image ISO. Devine le /dev/xxx, la vitesse
+   et lance wodim avec les bonnes options.
+   
+ * rootf/etc/init.d/rcS :
+   Ajout d'une fonction créant le lien /dev/cdrom si il n'existe pas (supprimé
+   des base-file et donc créé à chaque utilisation de LiveCD (c'est plus
+   pratique d'avoir /dev/cdrom et 'eject' ne fonctionne pas autrement.
+
+
+2007-10-31  Christophe Lincoln  <pankso@slitaz.org>
+
+ * rootfs/etc :
+   Modification de rcS.conf, c'est lui qui lance maintenant le scripts et
+   les demons. les modules du noyau à charger et les systèmes de fihiers à
+   vérifier. La plus part de la configuration du système d'initialisation est
+   donc centralisée dans un seul fichier, Les demons utilisent le fichier
+   /etc/daemons.conf pour connaître les options à utiliser. Il n'y a donc plus
+   besoin de modifier les scripts (voir aussi /etc/init.d/README).
+
+
+2007-10-25  Christophe Lincoln  <pankso@slitaz.org>
+
+ * tazito/tazlito :
+   Correction de la commande 'gen-distro' pour qu'elle arrive a copier la
+   recette (une histoire de $PWD). Ajout de la commande 'addhacker' et modif
+   des messages affichés.
+   
+ * Rangement et classement des fichiers. Le rép hacker/ contient les fichiers
+   pour /home/hacker et le rootfs/ contient les fichiers, images et scripts
+   d'initialisation fournits par le paquet slitaz-tools.
+
+
+2007-10-11  Christophe Lincoln  <pankso@slitaz.org>
+
+ * Release - SliTaz tools 1.2
+
+ * tinyutils/addhacker :
+   Juste un petit script qui ajoute l'utilisteur Hacker au rootfs du LiveCD.
+
+ * rootfs/etc/init.d/rcS :
+   Indentation avec des tabs et suppression des commandes 'sleep' qui font
+   perdre 4 secondes au démarrage.
+
+ * rootfs/etc/init.d/slitaz-bootopts.sh :
+   Ajout d'un bout code qui active une partition swap virtuel (/home/swap) si
+   elle existe (à créer préalablement sur le media USB).
+
+ * tazlito/{tazlito, tazlito.html} :
+   Nettoyage du code, ajout de commentaires. Ecriture du manuel de Tazlito
+   au format xHTML et notation de la version 1.0. Tazlito est prête pour être
+   publié en version initiale (part of slitaz-tools-1.2).
+
+
+2007-10-07  Christophe Lincoln  <pankso@slitaz.org>
+
+ * Ajout d'exemples dans rootfs/usr/share/examples et dans /home/hacker.
+   Préparation des scripts d'initialisation pour les intégrer automatiquement
+   au paquet slitaz-tools créé par Tazwok (voir la recette).
+
+ * configs/ :
+   Ajout d'un exemple de configuration (.mozconfig) pour Firefox.
+
+ * rootfs/usr/share/images/ :
+   Ajout de deux nouveaux fonds d'écrans...
+
+
+2007-09-28  Christophe Lincoln  <pankso@slitaz.org>
+
+ * doc/ :
+   Création d'un répertoire pour la documentation de Tazlito, des petits
+   utilitaires (tinyutils) et pour la doc en général.
+
+ * tazlito :
+   Ajout de l'utilitaire tazlito "SliTaz live Tool" permettant de créer et
+   s'amuser avec le LiveCD de SliTaz. Tazlito est aussi capable de générer une
+   distribution depuis une liste et des paquets situées dans un repositoire.
+   L'utilitaire peut aussi extraire une image ISO dans un répertoire pour être
+   hackée et reconstruite. Pour installer Tazlito depuis le sources de
+   slitaz-tools : # make install_tazlito.
+
+ * rootfs/ :
+   Création d'un répetoire rootfs et déplacement de etc/ home/ et share/ dans
+   le pseudo système racine.
+
+
+2007-08-03  Chistophe Lincoln  <pankso@libordux.org>
+
+ * rootfs/etc/jwm/system.jwmrc : Modification du style, ajout dicônes sur la barre des
+   tâches et d'une image pour fond d'écran.
+
+ * rootfs/share/images :
+   Ajout des 2 premiers fonds d'écrans home made avec mtPaint.
+
+ * rootfs/share/doc/slitaz/cooking-index.html :
+   Modif des liens et du texte.
+
+ * tinyutils/tazx :
+   Modification du script pout qu'il copie automatiquement un
+   fichier de configuration pour JWM et 'sed' en cas d'écran 1280x1024.
+
+ * rootcd/ :
+   Mise à jour des liens et des textes des pages de présentation.
+
+ * rootfs/home/.gtkrc-2.0 :
+   Une exemple pour avoir un beau thème GTK.
+
+  * ChangeLog :
+   Modification du coding style avec une ligne vide entre chaque item. On
+   peut utiliser Geany pour insérer automatiquement une entrée dans le fichier.
+
+
+2007-06-28  Chistophe Lincoln  <pankso@libordux.org>
+
+ * Release - SliTaz tools 1.1
+
+ * rootfs/etc/jwm/system.jwmrc :
+   Modification du fichier de configuration principale de JWM contenant les
+   changements qu'il faut pour la version 2.0 du WM.
+
+ * rootcd/index.html :
+   Modifications de la page HTML allant sur le cdrom et donnant les
+   instructions de base si un utilisateur ouvre le media depuis un système
+   en fonctionnement.
+
+ * rootfs/etc/lighttpd/lighttpd.conf :
+   Modification de la version du serveur.
+
+
+2007-06-25  Chistophe Lincoln  <pankso@libordux.org>
+
+ * rootfs/share/examples/etc :
+   Ajout de deux exemples avec un fichier 'fstab' et un fichier 'TZ' pour
+   la configuration du fuseau horaire (par défaut UTC).
+
+ * tinyutils/getXorg-7.2 :
+   Ajout du script aidant à récupérer Xorg 7.2 depuis le miroir officiel.
+
+ * rootfs/etc/init.d/* :
+   Modification des scripts de démarrage en utilisant le code décrit dans le
+   Cookbook.
+
+ * README :
+   Modification du fichier d'explication README avec une description
+   des nouveautés.
+
+
+2007-04-18  Chistophe Lincoln  <pankso@libordux.org>
+
+ * configs/busybox-1.2.2.config :
+   Suppression de l'applet 'cpio' et utilisation de la version GNU de
+   l'archiveur 'cpio'.
+
+ * ChangeLog :
+   Création de ce fichie ChangeLog
+
+2007-03-14  Chistophe Lincoln  <pankso@libordux.org>
+
+ * First release - SliTaz tools 1.0
+
+
+===============================================================================
+SliTaz GNU/Linux tools - ChangeLog
