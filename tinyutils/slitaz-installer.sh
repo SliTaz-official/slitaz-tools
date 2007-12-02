@@ -91,16 +91,42 @@ mount $TARGET_DEV /mnt/target
 mount -t iso9660 $CDROM /media/cdrom
 
 # Copy and install.
-echo "Copie des fichiers nécessaires..."
+echo -n "Création du répertoire /boot..."
 mkdir -p /mnt/target/boot
+status
+echo -n "Copie du noyau Linux..."
 cp /media/cdrom/boot/bzImage /mnt/target/boot/$KERNEL
-cp /media/cdrom/boot/rootfs.gz /mnt/target
+status
 
-# Extract
-echo "Extraction du système de fichiers racine (rootfs)..."
-cd /mnt/target
-gzip -d rootfs.gz && cpio -id < rootfs
-rm rootfs init
+if [ -f /media/cdrom/boot/rootfs.lz ]; then
+	echo -n "Copie du système de fichier racine..."
+	cp /media/cdrom/boot/rootfs.lz /mnt/target
+	status
+	# Extract lzma rootfs
+	echo "Extraction du système de fichiers racine (rootfs.lz)..."
+	cd /mnt/target
+	lzma d rootfs.lz rootfs.cpio
+	cpio -id < rootfs.cpio
+	echo -n "Suppression des fichiers inutiles..."
+	rm rootfs.cpio init
+	status
+else
+	echo -n "Copie du système de fichier racine..."
+	cp /media/cdrom/boot/rootfs.gz /mnt/target
+	status
+	# Extract gziped rootfs
+	echo "Extraction du système de fichiers racine (rootfs.gz)..."
+	cd /mnt/target
+	gzip -d rootfs.gz && cpio -id < rootfs
+	echo -n "Suppression des fichiers inutiles..."
+	rm rootfs init
+	status
+fi
+
+if [ ! -f /mnt/target/boot/grub/menu.lst ]; then
+	mkdir -p /mnt/target/boot/grub
+	cp /boot/grub/menu.lst /mnt/target/boot/grub
+fi
 
 # End info
 echo ""
@@ -115,7 +141,7 @@ système) :
     # grub-install --root-directory=/mnt/target /dev/hda
 
 Les lignes qui feront démarrer SliTaz via le fichier de configuration de GRUB
-/boot/grub/menu.lst, en modifiant root(hd0,0) en fonction de votre système:
+/boot/grub/menu.lst, en modifiant root(hd0,0) en fonction de votre système :
 
     title  SliTaz GNU/Linux (cooking) (Kernel $KERNEL)
            root(hd0,0)
