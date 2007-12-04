@@ -59,17 +59,17 @@ flash key, USB disk or local HD partitions. Please use the
     <button>
       <label>Mount</label>
       <input file icon="forward"></input>
-      <action>echo -e "Mounting $DEVICE...\n"</action>
+      <action>echo "Mounting $DEVICE..."</action>
       <action>mkdir -p $MOUNT_POINT; mount $DEVICE $MOUNT_POINT; sleep 1</action>
-      <action>echo; mount | grep $DEVICE; echo</action>
+      <action>mount | grep $DEVICE; echo "Done."</action>
     </button>
     
     <button>
       <label>Umount</label>
       <input file icon="undo"></input>
-      <action>echo -e "Unmounting $MOUNT_POINT...\n"</action>
+      <action>echo "Unmounting $MOUNT_POINT..."</action>
       <action>umount $MOUNT_POINT; sleep 1</action>
-      <action>echo; mount | grep $DEVICE; echo</action>
+      <action>mount | grep $DEVICE; echo "Done."</action>
     </button>
     
     <button>
