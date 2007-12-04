@@ -14,13 +14,13 @@ F1        SliTaz GNU/Linux - Temporary Autonomous Zone.          help
  <F3>     Pour afficher l'image splash.
  <F4>     Pour afficher le message de bienvenue.
 
- Slitaz GNU/Linux est distribue sans aucunes garanties,
- et publie car potentiellement utile. SliTaz n as aucune
- pretention, nous ne somme que des passionnes par l informatique
- libre, et qui aimons la liberte.
+ Slitaz GNU/Linux est distribue sans aucunes garanties, et publie 
+ car potentiellement utile. SliTaz n as aucune pretention, nous ne
+ somme que des passionnes par l informatique libre, et qui aimons la
+ liberte.
 
- Site web : http://www.slitaz.org/
-
+ Site web  : http://www.slitaz.org/
+ Canal IRC : irc.freenode.net #slitaz
 
 
 

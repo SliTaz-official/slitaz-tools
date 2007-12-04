@@ -4,9 +4,9 @@
 # Personal files : ~/.icons and ~/.fonts
 #
 
-gtk-theme-name = "Clearlooks-DeepSky"
+gtk-theme-name = "Clearlooks-Quicksilver"
+#gtk-theme-name = "Clearlooks-DeepSky"
 #gtk-theme-name = "Clearlooks-Olive"
-#gtk-theme-name = "Clearlooks-Quicksilver"
 
 gtk-icon-theme-name = "Tango"
 
