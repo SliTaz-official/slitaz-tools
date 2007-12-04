@@ -107,8 +107,8 @@ if [ -f /media/cdrom/boot/rootfs.lz ]; then
 	cd /mnt/target
 	lzma d rootfs.lz rootfs.cpio
 	cpio -id < rootfs.cpio
-	echo -n "Suppression des fichiers inutiles..."
-	rm rootfs.cpio init
+	echo -n "Suppression des fichiers copiés..."
+	rm rootfs.cpio rootfs.lz init
 	status
 else
 	echo -n "Copie du système de fichier racine..."
@@ -123,10 +123,32 @@ else
 	status
 fi
 
+# Creat the target GRUB configuration.
+#
 if [ ! -f /mnt/target/boot/grub/menu.lst ]; then
+	echo "Creating default GRUB menu.lst..."
 	mkdir -p /mnt/target/boot/grub
-	cp /boot/grub/menu.lst /mnt/target/boot/grub
-fi
+cat > /mnt/target/boot/grub/menu.lst << EOF
+# /boot/grub/menu.lst: GRUB boot loader configuration.
+#
+
+# By default, boot the first entry.
+default 0
+
+# Boot automatically after 20 secs.
+timeout 20
+
+# Change the colors.
+color yellow/brown light-green/black
+
+# For booting SliTaz from : $TARGET_DEV
+#
+title 	SliTaz GNU/Linux (cooking) (Kernel $KERNEL)
+		root(hd0,0)
+		kernel /boot/$KERNEL root=$TARGET_DEV
+
+EOF
+	fi
 
 # End info
 echo ""
@@ -140,8 +162,11 @@ système) :
 
     # grub-install --root-directory=/mnt/target /dev/hda
 
-Les lignes qui feront démarrer SliTaz via le fichier de configuration de GRUB
-/boot/grub/menu.lst, en modifiant root(hd0,0) en fonction de votre système :
+Les lignes suivantes on été ajoutées au fichier de configuration de GRUB
+/boot/grub/menu.lst de la cible. Elles feront démarrer SliTaz en modifiant 
+la valeure root(hd0,0) en fonction de votre système. Si vous n'installé pas
+GRUB, vous pouvez utiliser ces même lignes dans un autre fichier menu.lst,
+situé sur une autre partitions :
 
     title  SliTaz GNU/Linux (cooking) (Kernel $KERNEL)
            root(hd0,0)
