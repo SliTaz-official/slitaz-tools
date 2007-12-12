@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/ash
 #
 #  ALSA Configurator - Modified for SliTaz GNU/Linux
 #  Last modif : 20071202
@@ -33,18 +33,13 @@ PROCFS="/proc"
 SYSFS="/sys"
 
 # i18n stuff
-if test "$USE_NLS" = "yes" && which gettext > /dev/null; then
-  xecho() {
-    gettext -s "$*"
-  }
-else
   xecho() {
     echo "$*"
   }
   gettext() {
     echo -n "$*"
   }
-fi
+
 xmsg() {
   msg=$(gettext "$1")
   shift
@@ -414,7 +409,8 @@ convert_isapnp_id () {
     let b='(('$1' & 0x03) << 3) | (('$1' >> 13) & 0x07)'
     let c='('$1'>> 8) & 0x1f'
     strs='@ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    echo ${strs:$a:1}${strs:$b:1}${strs:$c:1}
+    echo $strs | awk "{ printf \"%s%s%s\n\", \
+          substr(\$0,$a+1,1),substr(\$0,$b+1,1),substr(\$0,$c+1,1) }"
 }
 
 # swap high & low bytes
@@ -670,7 +666,7 @@ setup_hwcfg () {
 ac_config_card () {
 
     CARD_DRIVER=snd-$1
-    CARD_OPTS="${*:2}"
+    shift; CARD_OPTS="$*"
 	SOUND_CORE="snd"
 
 	# Keep card driver name in /var/lib to be used by boot scripts.
@@ -704,12 +700,14 @@ ac_config_card () {
 # check playback
 # return 0 - OK, 1 - NG, 2 - not working (irq/dma problem)
 ac_try_load () {
-    test -n "$LOGFILE" && echo "$1 ${*:2}" >> "$LOGFILE"
-    /sbin/modprobe snd-$1 ${*:2} >/dev/null 2>&1
-    if $lsmod | grep -q -E '^(snd-|snd_)'$1' '; then
+    local p1=$1
+    shift
+    test -n "$LOGFILE" && echo "$p1 $*" >> "$LOGFILE"
+    /sbin/modprobe snd-$p1 $* >/dev/null 2>&1
+    if $lsmod | grep -q -E '^(snd-|snd_)'$p1' '; then
 	: ;
     else
-	/sbin/modprobe -r snd-$1 >/dev/null 2>&1
+	/sbin/modprobe -r snd-$p1 >/dev/null 2>&1
 	return 1
     fi
 
@@ -727,7 +725,7 @@ ac_try_load () {
     kill -9 $pp > /dev/null 2>&1
     st=$?
     ac_cardname=`head -n 1 $PROCFS/asound/cards | sed -e 's/^[0-9].* - \(.*\)$/\1/'`
-    /sbin/modprobe -r snd-$1 >/dev/null 2>&1
+    /sbin/modprobe -r snd-$p1 >/dev/null 2>&1
     if [ $st = 0 ]; then
 	# irq problem?
 	test -n "$LOGFILE" && echo "no playback return" >> "$LOGFILE"
@@ -743,12 +741,15 @@ ac_try_load () {
 # return 0 - OK, 1 - NG, 2 - not working (irq/dma problem)
 # ac_try_capture card duplex opts
 ac_try_capture () {
-    test -n "$LOGFILE" && echo "$1 ${*:2}" >> "$LOGFILE"
-    /sbin/modprobe snd-$1 ${*:3} >/dev/null 2>&1
-    if $lsmod | grep -q -E '^(snd-|snd_)'$1' '; then
+    local p1=$1
+    local p2=$2
+    shift 2
+    test -n "$LOGFILE" && echo "$p1 $p2 $*" >> "$LOGFILE"
+    /sbin/modprobe snd-$p1 $* >/dev/null 2>&1
+    if $lsmod | grep -q -E '^(snd-|snd_)'$p1' '; then
 	: ;
     else
-	/sbin/modprobe -r snd-$1 >/dev/null 2>&1
+	/sbin/modprobe -r snd-$p1 >/dev/null 2>&1
 	return 1
     fi
 
@@ -757,7 +758,7 @@ ac_try_capture () {
     amixer set PCM 0% mute >/dev/null 2>&1
 
     play_pid=0
-    if [ $2 = yes ]; then
+    if [ $p2 = yes ]; then
 	# try duplex - start dummy playing
 	aplay -N -r8000 -fS16_LE -traw -c1 < /dev/zero > /dev/null 2>&1 &
 	play_pid=$!
@@ -773,7 +774,7 @@ ac_try_capture () {
     st=$?
     # kill playback process if any
     test $play_pid != 0 && kill -9 $play_pid
-    /sbin/modprobe -r snd-$1 >/dev/null 2>&1
+    /sbin/modprobe -r snd-$p1 >/dev/null 2>&1
     if [ $st = 0 ]; then
 	test -n "$LOGFILE" && echo "capture no return" >> "$LOGFILE"
 	return 2
@@ -803,6 +804,7 @@ get_dma_pair () {
 # return 0 - OK, 1 - NG, 2 - not working (dma problem?)
 #
 ac_try_irq () {
+    local p2=$2
     card=$1
     opts="$2 ${mpfx}irq=$3"
     ac_try_load $card $opts >/dev/null 2>&1
@@ -813,8 +815,9 @@ ac_try_irq () {
 	return 0
 	;;
     2)
-	for irq in ${*:4}; do
-	    opts="$2 ${mpfx}irq=$irq"
+	shift 3
+	for irq in $*; do
+	    opts="$p2 ${mpfx}irq=$irq"
 	    ac_try_load $card $opts >/dev/null 2>&1
 	    if [ $? = 0 ]; then
 		ac_opts="$opts"
@@ -834,12 +837,15 @@ ac_try_irq () {
 # return 0 - OK, 1 - NG
 #
 ac_try_dmas () {
+    local p1=$1
+    local p2=$2
+    shift 2
     dma_list=`check_dma_avail 1 0 3 5`
-    for irq in ${*:3}; do
+    for irq in $*; do
 	for dma1 in $dma_list; do
 	    for dma2 in `get_dma_pair $dma1`; do
-		opts="$2 ${mpfx}dma1=$dma1 ${mpfx}dma2=$dma2 ${mpfx}irq=$irq"
-		ac_try_load $1 $opts >/dev/null 2>&1
+		opts="$p2 ${mpfx}dma1=$dma1 ${mpfx}dma2=$dma2 ${mpfx}irq=$irq"
+		ac_try_load $p1 $opts >/dev/null 2>&1
 		result=$?
 		if [ $result = 1 ]; then
 		    if [ $try_all_combination = 1 ]; then
@@ -850,13 +856,13 @@ ac_try_dmas () {
 		elif [ $result = 0 ]; then
 		    test -n "$LOGFILE" && echo "Now checking capture..." >> "$LOGFILE"
 		    ac_opts="$opts"
-		    ac_try_capture $1 yes $opts >/dev/null 2>&1 && return 0
+		    ac_try_capture $p1 yes $opts >/dev/null 2>&1 && return 0
 		    for d in yes no; do
 			for dma2 in $dma_list; do
 			    if [ $dma1 != $dma2 ]; then
-				opts="$2 ${mpfx}dma1=$dma1 ${mpfx}dma2=$dma2 ${mpfx}irq=$irq"
+				opts="$p2 ${mpfx}dma1=$dma1 ${mpfx}dma2=$dma2 ${mpfx}irq=$irq"
 				ac_opts="$opts"
-				ac_try_capture $1 $d $opts >/dev/null 2>&1 && return 0
+				ac_try_capture $p1 $d $opts >/dev/null 2>&1 && return 0
 			    fi
 			done
 		    done
@@ -1013,15 +1019,15 @@ ac_config_legacy () {
     else
 	probe_list=$*
     fi
-    menu_args=()
+    menu_args=""
 
     for card in $probe_list; do
 	cardname=`/sbin/modinfo -d snd-$card | sed -e 's/^\"\(.*\)\"$/\1/g'`
 	if [ x"$cardname" != x ]; then
-	    menu_args=("${menu_args[@]}" "$card" "$cardname" "on")
+	    menu_args="$menu_args \"$card\" \"$cardname\" on"
 	fi
     done
-    if [ x$menu_args = x ]; then
+    if [ "$menu_args" = "" ]; then
 	msg=$(gettext "No legacy drivers are available
    for your machine")
 	$DIALOG --msgbox "$msg" 5 50
@@ -1031,8 +1037,7 @@ ac_config_legacy () {
     msg=$(gettext "           Probing legacy ISA cards
 
         Please select the drivers to probe:")
-    $DIALOG --title "$title" --checklist "$msg" \
-	17 64 8 "${menu_args[@]}" 2> $FOUND || acex 0
+    eval $DIALOG --title \"$title\" --checklist \"$msg\" 17 64 8 $menu_args 2> $FOUND || acex 0
 
     if [ $try_all_combination != 1 ]; then
 	msg=$(gettext "
@@ -1094,7 +1099,7 @@ fi
     
 probe_cards
 
-devs_found=()
+devs_found=""
 devs_olist=""
 
 if [ -s "$FOUND" ]; then
@@ -1106,16 +1111,16 @@ if [ -s "$FOUND" ]; then
 	    cardname="$card"
 	fi
 	card=${card##snd-}
-	devs_found=("${devs_found[@]}" "$card" "$cardname")
-	devs_devs=("${devs_devs[@]}" "$card" "$dev")
+	devs_found="$devs_found $card \"$cardname\""
+	#devs_devs=("${devs_devs[@]}" "$card" "$dev")
     done <"$FOUND"
     devs_olist=`cat $FOUND`
 fi
-if [ x$devs_found != x ]; then
+if [ "$devs_found" != "" ]; then
     #
     # check for TP600E
     #
-    if [ ${devs_found[0]} = cs46xx ]; then
+    if [ "${devs_found%% *}" = "cs46xx" ]; then
 	if $lspci -nv 2>/dev/null| grep -q "Subsystem: 1014:1010"; then
 	    msg=$(gettext "
  Looks like you having a Thinkpad 600E or 770 notebook.
@@ -1147,13 +1152,13 @@ if [ x$devs_found != x ]; then
         fi	
     fi
    
-    devs_found=("${devs_found[@]}" "legacy" "Probe legacy ISA (non-PnP) chips")
+    devs_found="$devs_found legacy 'Probe legacy ISA (non-PnP) chips'"
     title=$(gettext "Soundcard Selection")
     msg=$(gettext "
          Following card(s) are found on your system.
          Please skip or choose a soundcard to configure :
 ")
-    $DIALOG --title "$title" --menu "$msg" 17 76 8 "${devs_found[@]}" 2> $FOUND || acex 0
+    eval $DIALOG --title \"$title\" --menu \"$msg\" 17 76 8 $devs_found 2> $FOUND || acex 0
     card=`head -n 1 $FOUND`
     if [ "$card" = "legacy" ]; then
 	ac_config_legacy
