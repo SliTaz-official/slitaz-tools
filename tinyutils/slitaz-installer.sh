@@ -103,10 +103,9 @@ if [ -f /media/cdrom/boot/rootfs.lz ]; then
 	cp /media/cdrom/boot/rootfs.lz /mnt/target
 	status
 	# Extract lzma rootfs
-	echo "Extraction du système de fichiers racine (rootfs.lz)..."
+	echo "Extraction du système de fichiers racine (rootfs.gz)..."
 	cd /mnt/target
-	lzma d rootfs.lz rootfs.cpio
-	cpio -id < rootfs.cpio
+	(zcat rootfs.gz 2>/dev/null || lzma d rootfs.gz -so) | cpio -id
 	echo -n "Suppression des fichiers copiés..."
 	rm rootfs.cpio rootfs.lz init
 	status
