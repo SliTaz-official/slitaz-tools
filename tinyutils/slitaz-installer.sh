@@ -98,29 +98,16 @@ echo -n "Copie du noyau Linux..."
 cp /media/cdrom/boot/bzImage /mnt/target/boot/$KERNEL
 status
 
-if [ -f /media/cdrom/boot/rootfs.lz ]; then
-	echo -n "Copie du système de fichier racine..."
-	cp /media/cdrom/boot/rootfs.lz /mnt/target
-	status
-	# Extract lzma rootfs
-	echo "Extraction du système de fichiers racine (rootfs.gz)..."
-	cd /mnt/target
-	(zcat rootfs.gz 2>/dev/null || lzma d rootfs.gz -so) | cpio -id
-	echo -n "Suppression des fichiers copiés..."
-	rm rootfs.cpio rootfs.lz init
-	status
-else
-	echo -n "Copie du système de fichier racine..."
-	cp /media/cdrom/boot/rootfs.gz /mnt/target
-	status
-	# Extract gziped rootfs
-	echo "Extraction du système de fichiers racine (rootfs.gz)..."
-	cd /mnt/target
-	gzip -d rootfs.gz && cpio -id < rootfs
-	echo -n "Suppression des fichiers inutiles..."
-	rm rootfs init
-	status
-fi
+# Copy and extract lzma'ed or gziped rootfs
+echo -n "Copie du système de fichier racine..."
+cp /media/cdrom/boot/rootfs.gz /mnt/target
+status
+echo "Extraction du système de fichiers racine (rootfs.gz)..."
+cd /mnt/target
+(zcat rootfs.gz 2>/dev/null || lzma d rootfs.gz -so) | cpio -id
+echo -n "Suppression des fichiers copiés..."
+rm -f rootfs rootfs.cpio rootfs.gz init
+status
 
 # Creat the target GRUB configuration.
 #
