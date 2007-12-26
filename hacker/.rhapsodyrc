@@ -31,7 +31,7 @@ mode =
 # }
 
 server {
-	irc.libordux.org 6667 
+	irc.freenode.net 6667 
 }
 
 # Channel favorite list is also contained within curly brackets.
