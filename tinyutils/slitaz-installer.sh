@@ -109,10 +109,15 @@ echo -n "Suppression des fichiers copiés..."
 rm -f rootfs rootfs.cpio rootfs.gz init
 status
 
+# /etc/skel
+echo -n "Copie des fichiers personnels de hacker dans : /etc/skel..."
+cp -a /mnt/target/home/hacker /mnt/target/etc/skel
+status
+
 # Creat the target GRUB configuration.
 #
 if [ ! -f /mnt/target/boot/grub/menu.lst ]; then
-	echo "Creating default GRUB menu.lst..."
+	echo "Création du fichier de configuration de GRUB (menu.lst)..."
 	mkdir -p /mnt/target/boot/grub
 cat > /mnt/target/boot/grub/menu.lst << EOF
 # /boot/grub/menu.lst: GRUB boot loader configuration.
