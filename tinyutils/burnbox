@@ -1,0 +1,115 @@
+#! /bin/sh
+# 
+# Gtkdialog box to burn ISO images using Wodim with basic options.
+# - SliTaz GNU/Linux 2008.
+#
+VERSION=20080106
+
+# Burn/wodim dialog box. Sleep a bit with progress bar to let user cancel
+# ISO burning and exit when finished.
+#
+export BURN_DIALOG='
+<vbox>
+    <text>
+      <label>Burning ISO image</label>
+    </text>
+    <progressbar>
+      <label>Please wait...</label>
+      <input>for i in $(seq 0 10 100); do echo $i; sleep 1; done</input>
+      <action>wodim speed=$SPEED dev=$DEVICE $OPTIONS $ISO_IMAGE</action>
+      <action type="exit">Ready</action>
+    </progressbar>
+  <hbox>
+   <button cancel></button>
+  </hbox>
+ </vbox>
+'
+
+# We need at least devive, speed and ISO image path.
+#
+export MOUNT_DIALOG='
+<vbox>
+
+  <text use-markup="true">
+    <label>
+"
+<b>SliTaz - Burnbox</b>"
+    </label>
+  </text>
+  <text wrap="true" width-chars="54" use-markup="true">
+    <label>
+"
+Burn ISO images to CD or DVD writer using Wodim from cdrkit.
+Please verify device writer setting, add options if wanted or
+needed and select an ISO image file. Note : You can manipulate 
+ISO images with ISO Master utility.
+"
+    </label>
+  </text>
+  
+  <frame Configuration>
+  <hbox>
+    <text use-markup="true">
+      <label>"<b>Device     : </b>"</label>
+    </text>
+    <entry>
+      <default>/dev/cdrom</default>
+      <variable>DEVICE</variable>
+    </entry>
+  </hbox>
+  <hbox>
+    <text use-markup="true">
+      <label>"<b>Speed     : </b>"</label>
+    </text>
+    <entry>
+      <default>8</default>
+      <variable>SPEED</variable>
+    </entry>
+  </hbox>
+  <hbox>
+    <text use-markup="true">
+      <label>"<b>Options  : </b>"</label>
+    </text>
+    <entry>
+      <default>-eject -multi</default>
+      <variable>OPTIONS</variable>
+    </entry>
+  </hbox>
+  </frame>
+   
+  <frame ISO image>
+    <hbox>
+      <text use-markup="true">
+        <label>"<b>File : </b>"</label>
+      </text>
+      <entry>
+        <variable>ISO_IMAGE</variable>
+      </entry>
+      <button>
+        <input file stock="gtk-open"></input>
+        <action type="fileselect">ISO_IMAGE</action>
+      </button>
+    </hbox>
+  </frame>
+    
+  <hbox>
+    <button>
+      <label>Burn</label>
+      <input file icon="forward"></input>
+      <action>echo "Burning $ISO_IMAGE..."</action>
+      <action>gtkdialog --program=BURN_DIALOG</action>
+    </button>
+    
+    <button>
+      <input file icon="exit"></input>
+      <action type="exit">Exit</action>
+    </button>
+  </hbox>
+  
+</vbox>
+'
+
+# Execute main dialog.
+gtkdialog --program=MOUNT_DIALOG
+
+exit 0
