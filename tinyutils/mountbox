@@ -2,83 +2,110 @@
 # 
 # Gtkdialog box for the mount command. Part of SliTaz tools.
 #
-VERSION=20071105
+VERSION=20080113
 
 # Check if user is root.
 check_root()
 {
 	if test $(id -u) != 0 ; then
-	   echo -e "\nYou must be root to run `basename $0` with this command."
-	   echo -e "Please type 'su' and root password to become super-user.\n"
-	   exit 0
+		echo -e "
+You must be root to run `basename $0`. Please type 'su' and 
+root password to become super-user.\n"
+		exit 0
 	fi
 }
+
+export FDISK_LIST='
+  <vbox>
+    <text use-markup="true">
+      <label>"
+<b>Harddisk devices list</b>"
+      </label>
+    </text>
+    <frame Partitions table>
+      <text wrap="false" width-chars="58">
+        <input>fdisk -l | grep ^/dev</input>
+      </text>
+    </frame>
+    <hbox>
+      <button>
+        <input file icon="exit"></input>
+        <action type="closewindow">FDISK_LIST</action>
+      </button>
+    </hbox>
+  </vbox>
+'
 
 # Mount and umount buttons with fiel for devive and mount point.
 #
 export MOUNT_DIALOG='
- <vbox>
-
-  <text use-markup="true">
-    <label>
+  <vbox>
+ 
+    <text use-markup="true">
+      <label>
 "
 <b>SliTaz - Mountbox</b>"
-    </label>
-  </text>
-  <text wrap="true" width-chars="44" use-markup="true">
-    <label>
-"
-Mount a device on a mount point. Device can be cdrom,
-flash key, USB disk or local HD partitions. Please use the
-<small>fdisk -l</small> to get a list of avalaible devices to mount
-"
-    </label>
-  </text>
-  
-  <hbox>
-    <text use-markup="true">
-      <label>"<b>Device             : </b>"</label>
+      </label>
     </text>
-    <entry>
-      <default>/dev/sda1</default>
-      <variable>DEVICE</variable>
-    </entry>
-  </hbox>
-  
-  <hbox>
-    <text use-markup="true">
-      <label>"<b>Mount point   : </b>"</label>
+    <text wrap="true" width-chars="44" use-markup="true">
+      <label>
+"
+Mount device on a mount point. Device can be cdrom, 
+flash key, USB disk or local HD partitions.
+"
+      </label>
     </text>
-    <entry>
-      <default>/media/flash</default>
-      <variable>MOUNT_POINT</variable>
-    </entry>
-  </hbox>
-
-  <hbox>
-    <button>
-      <label>Mount</label>
-      <input file icon="forward"></input>
-      <action>echo "Mounting $DEVICE..."</action>
-      <action>mkdir -p $MOUNT_POINT; mount $DEVICE $MOUNT_POINT; sleep 1</action>
-      <action>mount | grep $DEVICE; echo "Done."</action>
-    </button>
-    
-    <button>
-      <label>Umount</label>
-      <input file icon="undo"></input>
-      <action>echo "Unmounting $MOUNT_POINT..."</action>
-      <action>umount $MOUNT_POINT; sleep 1</action>
-      <action>mount | grep $DEVICE; echo "Done."</action>
-    </button>
-    
-    <button>
-      <input file icon="exit"></input>
-      <action type="exit">Exit</action>
-    </button>
-  </hbox>
   
- </vbox>
+    <frame Configuration>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Device             : </b>"</label>
+        </text>
+        <entry>
+          <default>/dev/sda1</default>
+          <variable>DEVICE</variable>
+        </entry>
+        <button>
+          <label>List</label>
+          <input file icon="drive-harddisk"></input>
+	      <action type="launch">FDISK_LIST</action>
+        </button>
+      </hbox>
+  
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Mount point   : </b>"</label>
+        </text>
+        <entry>
+          <default>/media/flash</default>
+          <variable>MOUNT_POINT</variable>
+        </entry>
+      </hbox>
+    
+    </frame>
+    
+    <hbox>
+      <button>
+        <label>Mount</label>
+        <input file icon="forward"></input>
+        <action>echo "Mounting $DEVICE..."</action>
+        <action>mkdir -p $MOUNT_POINT; mount $DEVICE $MOUNT_POINT; sleep 1</action>
+        <action>mount | grep $DEVICE; echo "Done."</action>
+      </button>
+      <button>
+        <label>Umount</label>
+        <input file icon="undo"></input>
+        <action>echo "Unmounting $MOUNT_POINT..."</action>
+        <action>umount $MOUNT_POINT; sleep 1</action>
+        <action>mount | grep $DEVICE; echo "Done."</action>
+      </button>
+      <button>
+        <input file icon="exit"></input>
+        <action type="exit">Exit</action>
+      </button>
+    </hbox>
+  
+  </vbox>
 '
 
 # Only root can mount.
