@@ -1,0 +1,251 @@
+#!/bin/sh
+# 
+# Gtkdialog box to manage network connexion.
+# - SliTaz GNU/Linux 2008.
+#
+VERSION=20080113
+
+# Check if user is root.
+check_root()
+{
+	if test $(id -u) != 0 ; then
+		echo -e "
+You must be root to run `basename $0`. Please type 'su' and 
+root password to become super-user.\n"
+		exit 0
+	fi
+}
+
+# Interafce status with ifconfig without arguments to show all
+# active connections.
+#
+export IFCONFIG='
+  <vbox>
+    <text use-markup="true">
+      <label>"
+<b>Active network interfaces</b>"
+      </label>
+    </text>
+    <text wrap="false">
+      <input>date</input>
+    </text>
+    <frame Ifconfig>
+      <text wrap="false" width-chars="58">
+        <input>ifconfig</input>
+      </text>
+    </frame>
+    <hbox>
+      <button>
+        <input file icon="exit"></input>
+        <action type="closewindow">IFCONFIG</action>
+      </button>
+    </hbox>
+  </vbox>
+'
+
+# The main dialog with notebook and all options.
+#
+export NET_BOX='
+  <vbox>
+    <text use-markup="true">
+      <label>"
+<b>SliTaz - Netbox</b>"
+      </label>
+    </text>
+    <text wrap="true" width-chars="44">
+      <label>
+"
+Manage network connections getting dynamic IP by
+DHCP or static IP. Netbox can start or stop networking,
+configure network interfaces or directly edit files.
+"
+      </label>
+    </text>
+    
+    <frame General>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Interface   : </b>"</label>
+        </text>
+        <entry>
+          <input>. /etc/network.conf; echo $INTERFACE</input>
+          <variable>INTERFACE</variable>
+        </entry>
+      </hbox>
+    </frame>
+  
+    <notebook labels="DHCP|Static IP|System wide">
+  
+    <frame Udhcpc>
+            <hbox>
+        <text wrap="true">
+          <label>
+"The -b options make DHCP client run in background 
+if lease cannot be immediatly negociated."
+          </label>
+        </text>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Options     : </b>"</label>
+        </text>
+        <entry>
+          <default>-b</default>
+          <variable>UDHCPC_OPTS</variable>
+        </entry>
+      </hbox>
+      <hbox>
+        <button>
+          <label>Start</label>
+          <input file icon="forward"></input>
+          <action>sed -i s/`cat /etc/network.conf | grep ^INTERFACE=`/INTERFACE=\"$INTERFACE\"/ /etc/network.conf</action>
+          <action>sed -i s/DHCP=\"no\"/DHCP=\"yes\"/ /etc/network.conf</action>
+          <action>sed -i s/STATIC=\"yes\"/STATIC=\"no\"/ /etc/network.conf</action>
+          <action>udhcpc $UDHCPC_OPTS -i $INTERFACE -p /var/run/udhcpc.$INTERFACE.pid</action>
+        </button>
+        <button>
+          <label>Stop</label>
+          <input file icon="stop"></input>
+          <action>echo -n "Stopping interface : $INTERFACE... "</action>
+          <action>ifconfig $INTERFACE down</action>
+          <action>killall -q udhcpc; echo "done"</action>
+        </button>
+      </hbox>
+    </frame>
+    
+    <frame Configuration>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>IP                : </b>"</label>
+        </text>
+        <entry>
+          <input>. /etc/network.conf; echo "$IP"</input>
+          <variable>IP</variable>
+        </entry>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Netmask    : </b>"</label>
+        </text>
+        <entry>
+          <input>. /etc/network.conf; echo "$NETMASK"</input>
+          <variable>NETMASK</variable>
+        </entry>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Gateway    : </b>"</label>
+        </text>
+        <entry>
+          <input>. /etc/network.conf; echo "$GATEWAY"</input>
+          <variable>GATEWAY</variable>
+        </entry>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>DNS server : </b>"</label>
+        </text>
+        <entry>
+          <input>. /etc/network.conf; echo "$DNS_SERVER"</input>
+          <variable>DNS_SERVER</variable>
+        </entry>
+      </hbox>
+      <hbox>
+        <button>
+          <label>Start</label>
+          <input file icon="forward"></input>
+          <action>ifconfig lo down</action>
+          <action>ifconfig $INTERFACE down</action>
+          <action>sed -i s/`cat /etc/network.conf | grep ^INTERFACE=`/INTERFACE=\"$INTERFACE\"/ /etc/network.conf</action>
+          <action>sed -i s/DHCP=\"yes\"/DHCP=\"no\"/ /etc/network.conf</action>
+          <action>sed -i s/STATIC=\"no\"/STATIC=\"yes\"/ /etc/network.conf</action>
+          <action>sed -i s/`cat /etc/network.conf | grep ^IP=`/IP=\"$IP\"/ /etc/network.conf</action>
+          <action>sed -i s/`cat /etc/network.conf | grep ^NETMASK=`/NETMASK=\"$NETMASK\"/ /etc/network.conf</action>
+          <action>sed -i s/`cat /etc/network.conf | grep ^GATEWAY=`/GATEWAY=\"$GATEWAY\"/ /etc/network.conf</action>
+          <action>sed -i s/`cat /etc/network.conf | grep ^DNS_SERVER=`/DNS_SERVER=\"$DNS_SERVER\"/ /etc/network.conf</action>
+          <action>/etc/init.d/network.sh</action>
+        </button>
+        <button>
+          <label>Stop</label>
+          <input file icon="stop"></input>
+          <action>echo -n "Stopping interface : $INTERFACE... "</action>
+          <action>ifconfig $INTERFACE down; echo "done"</action>
+        </button>
+      </hbox>
+    </frame>
+    
+    <frame Configuration files>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Hosts            : </b>"</label>
+        </text>
+        <entry editable="false">
+          <default>/etc/hosts</default>
+          <variable>HOSTS</variable>
+        </entry>
+        <button>
+          <input file icon="accessories-text-editor"></input>
+          <action type="lauch">leafpad $HOSTS</action>
+        </button>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Host name    : </b>"</label>
+        </text>
+        <entry editable="false">
+          <default>/etc/hostname</default>
+          <variable>HOSTNAME</variable>
+        </entry>
+        <button>
+          <input file icon="accessories-text-editor"></input>
+          <action type="lauch">leafpad $HOSTNAME</action>
+        </button>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Network       : </b>"</label>
+        </text>
+        <entry editable="false">
+          <default>/etc/network.conf</default>
+          <variable>CONFIG_FILE</variable>
+        </entry>
+        <button>
+          <input file icon="accessories-text-editor"></input>
+          <action type="lauch">leafpad $CONFIG_FILE</action>
+        </button>
+      </hbox>
+      <hbox>
+        <button>
+          <label>Restart</label>
+          <input file icon="reload"></input>
+          <action>echo -n "Stopping interface : $INTERFACE... "</action>
+          <action>ifconfig lo down</action>
+          <action>ifconfig $INTERFACE down</action>
+          <action>killall -q udhcpc; echo "done"</action>
+          <action>/etc/init.d/network.sh</action>
+        </button>
+      </hbox>
+    </frame>
+    
+    </notebook>
+
+    <hbox>
+      <button>
+        <label>Status</label>
+        <input file icon="network-wired"></input>
+	    <action type="launch">IFCONFIG</action>
+      </button>
+      <button>
+        <input file icon="exit"></input>
+        <action type="exit">Exit</action>
+      </button>
+    </hbox>
+  
+  </vbox>
+'
+
+# Only root can configure network.
+check_root
+gtkdialog --program=NET_BOX
+
+exit 0
