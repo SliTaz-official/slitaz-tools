@@ -1,0 +1,59 @@
+#! /bin/sh
+#
+# Gtkdialog to execute program as root from a WM menu.
+# - SliTaz GNU/Linux 2008.
+#
+VERSION=20080113
+
+# Usage.
+if [ -z "$1" ]; then
+    echo "Slitaz subox version : $VERSION"
+    echo -e "\nUsage : subox program\n"
+    exit 0
+fi
+
+# Keep binary name in a tmp file to be used by SU_DIALOG.
+echo "$1" > /tmp/subox-exec
+
+# Main window and root passord default entry set to 'root'.
+export SU_DIALOG='
+  <vbox>
+  
+    <text use-markup="true">
+      <label>
+"
+<b>SliTaz - Subox</b>"
+      </label>
+    </text>
+    <text wrap="true" width-chars="46">
+      <label>
+"
+Please enter root password to execute :"
+      </label>
+    </text>
+    <text>
+      <input file>/tmp/subox-exec</input>
+    </text>
+    
+    <hbox>
+      <text use-markup="true">
+        <label>"<b>Root password :</b>"</label>
+      </text>
+      <entry visibility="false">
+        <default>root</default>
+        <variable>PASSWD</variable>
+      </entry>
+    </hbox>
+    
+    <hbox>
+      <button ok>
+        <action>echo $PASSWD | su -c `cat /tmp/subox-exec` &</action>
+        <action type="closewindow">SU_DIALOG</action>
+      </button>
+      <button cancel></button>
+    </hbox>
+  
+  </vbox>
+'
+
+gtkdialog --program=SU_DIALOG
