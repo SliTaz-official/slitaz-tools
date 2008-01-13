@@ -43,12 +43,14 @@ export IFCONFIG='
   </vbox>
 '
 
-# The main dialog with notebook and all options.
+# The main dialog with notebook, start/stop buttons and all options.
+# Note than /etc/network.conf is seded wehwn an interafce is activate
 #
 export NET_BOX='
   <vbox>
     <text use-markup="true">
-      <label>"
+      <label>
+"
 <b>SliTaz - Netbox</b>"
       </label>
     </text>
@@ -65,7 +67,7 @@ configure network interfaces or directly edit files.
     <frame General>
       <hbox>
         <text use-markup="true">
-          <label>"<b>Interface   : </b>"</label>
+          <label>"<b>Interface   :</b>"</label>
         </text>
         <entry>
           <input>. /etc/network.conf; echo $INTERFACE</input>
@@ -87,7 +89,7 @@ if lease cannot be immediatly negociated."
       </hbox>
       <hbox>
         <text use-markup="true">
-          <label>"<b>Options     : </b>"</label>
+          <label>"<b>Options     :</b>"</label>
         </text>
         <entry>
           <default>-b</default>
@@ -116,7 +118,7 @@ if lease cannot be immediatly negociated."
     <frame Configuration>
       <hbox>
         <text use-markup="true">
-          <label>"<b>IP                : </b>"</label>
+          <label>"<b>IP                :</b>"</label>
         </text>
         <entry>
           <input>. /etc/network.conf; echo "$IP"</input>
@@ -125,7 +127,7 @@ if lease cannot be immediatly negociated."
       </hbox>
       <hbox>
         <text use-markup="true">
-          <label>"<b>Netmask    : </b>"</label>
+          <label>"<b>Netmask    :</b>"</label>
         </text>
         <entry>
           <input>. /etc/network.conf; echo "$NETMASK"</input>
@@ -134,7 +136,7 @@ if lease cannot be immediatly negociated."
       </hbox>
       <hbox>
         <text use-markup="true">
-          <label>"<b>Gateway    : </b>"</label>
+          <label>"<b>Gateway    :</b>"</label>
         </text>
         <entry>
           <input>. /etc/network.conf; echo "$GATEWAY"</input>
@@ -143,7 +145,7 @@ if lease cannot be immediatly negociated."
       </hbox>
       <hbox>
         <text use-markup="true">
-          <label>"<b>DNS server : </b>"</label>
+          <label>"<b>DNS server :</b>"</label>
         </text>
         <entry>
           <input>. /etc/network.conf; echo "$DNS_SERVER"</input>
@@ -177,7 +179,7 @@ if lease cannot be immediatly negociated."
     <frame Configuration files>
       <hbox>
         <text use-markup="true">
-          <label>"<b>Hosts            : </b>"</label>
+          <label>"<b>Hosts            :</b>"</label>
         </text>
         <entry editable="false">
           <default>/etc/hosts</default>
@@ -190,7 +192,7 @@ if lease cannot be immediatly negociated."
       </hbox>
       <hbox>
         <text use-markup="true">
-          <label>"<b>Host name    : </b>"</label>
+          <label>"<b>Host name    :</b>"</label>
         </text>
         <entry editable="false">
           <default>/etc/hostname</default>
@@ -203,7 +205,7 @@ if lease cannot be immediatly negociated."
       </hbox>
       <hbox>
         <text use-markup="true">
-          <label>"<b>Network       : </b>"</label>
+          <label>"<b>Network       :</b>"</label>
         </text>
         <entry editable="false">
           <default>/etc/network.conf</default>

@@ -50,7 +50,7 @@ ISO images with ISO Master utility.
   <frame Configuration>
   <hbox>
     <text use-markup="true">
-      <label>"<b>Device     : </b>"</label>
+      <label>"<b>Device     :</b>"</label>
     </text>
     <entry>
       <default>/dev/cdrom</default>
@@ -59,16 +59,15 @@ ISO images with ISO Master utility.
   </hbox>
   <hbox>
     <text use-markup="true">
-      <label>"<b>Speed     : </b>"</label>
+      <label>"<b>Speed     :</b>"</label>
     </text>
     <entry>
-      <default>8</default>
-      <variable>SPEED</variable>
+      <input>cat /proc/sys/dev/cdrom/info | grep "drive speed" | cut -f 3</input>
     </entry>
   </hbox>
   <hbox>
     <text use-markup="true">
-      <label>"<b>Options  : </b>"</label>
+      <label>"<b>Options  :</b>"</label>
     </text>
     <entry>
       <default>-eject -multi</default>
@@ -80,7 +79,7 @@ ISO images with ISO Master utility.
   <frame ISO image>
     <hbox>
       <text use-markup="true">
-        <label>"<b>File : </b>"</label>
+        <label>"<b>File :</b>"</label>
       </text>
       <entry>
         <variable>ISO_IMAGE</variable>
