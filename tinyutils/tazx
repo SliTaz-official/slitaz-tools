@@ -3,7 +3,7 @@
 # Tazx - Ncurses startx script for SliTaz GNU/Linux using Dialog boxes.
 # This tinyutils is part of slitaz-tools.
 #
-# 2007/10/08 <pankso@slitaz.org> - GNU gpl v3.
+# 20080114 <pankso@slitaz.org> - GNU gpl v3.
 #
 : ${DIALOG=dialog}
 
@@ -11,33 +11,41 @@
 XSERVER=Xvesa
 DOC=/usr/share/doc/slitaz-tools/tazx.txt
 MOUSE=/dev/input/mice,5
+WM=jwm
 
 exec 3>&1
 value=`$DIALOG --help-button \
     --clear \
     --title " Start X on SliTaz " \
     --menu \
-"L'application 'tazx' vous permet de démarrer ou reconfigurer \
-votre session X sur votre système GNU/Linux. Syntaxe : \
+"L'application 'tazx' vous permet configurer votre session X \
+sur votre système GNU/Linux. Syntaxe : \
 Ecran largeur x hauteur x nb-couleurs" 15 70 5 \
-"1" "Screen 640x480x16" \
-"2" "Screen 640x480x24" \
-"3" "Screen 800x600x16" \
-"4" "Screen 800x600x24" \
-"5" "Screen 1024x768x16" \
-"6" "Screen 1024x768x24" \
-"7" "Screen 1280x1024x16" \
-"8" "Screen 1280x1024x24" \
-"9" "Screen 800x600x16 with XTerm." \
-"quit" "Quitter l'application 'tazx'." \
+"320x200x8" "PseudoColor" \
+"640x480x16" "TrueColor" \
+"640x480x24" "TrueColor" \
+"800x600x8" "PseudoColor" \
+"800x600x16" "TrueColor" \
+"800x600x24" "TrueColor" \
+"1024x768x8" "PseudoColor" \
+"1024x768x16" "TrueColor" \
+"1024x768x24" "TrueColor" \
+"1280x1024x8" "PseudoColor" \
+"1280x1024x16" "TrueColor" \
+"1280x1024x24" "TrueColor" \
+"1600x1200x8" "PseudoColor" \
+"1600x1200x16" "TrueColor" \
+"1600x1200x24" "TrueColor" \
+"1920x1440x16" "TrueColor" \
+"xterm" "800x600x16 avec XTerm." \
+"quit" "Quitter l'application." \
 2>&1 1>&3`
 retval=$?
 exec 3>&-
 
 case $retval in
   0)
-    continue
-  ;;
+    continue ;;
   1)
     echo "Cancel pressed..."
     exit 0 ;;
@@ -52,38 +60,16 @@ case $retval in
     else
       echo "ESC pressed..."
       exit 0
-    fi;;
+    fi ;;
 esac
 
 # Set selected value.
 case $value in
-	1)
-		SCREEN=640x480x16
-		WM=jwm ;;
-	2)
-		SCREEN=640x480x24
-		WM=jwm ;;
-	3)
-		SCREEN=800x600x16
-		WM=jwm ;;
-	4)
-		SCREEN=800x600x24
-		WM=jwm ;;
-	5)
-		SCREEN=1024x768x16
-		WM=jwm ;;
-	6)
-		SCREEN=1024x768x24
-		WM=jwm ;;
-	7)
-		SCREEN=1280x1024x16
-		WM=jwm ;;
-	8)
-		SCREEN=1280x1024x24
-		WM=jwm ;;
-	9)
+	xterm)
 		Xvesa -ac -shadow -screen 1024x768x24 -br &
 		exec xterm -cr green -geometry 80x35+0-0 ;;
+	*)
+		SCREEN=$value ;;
 esac
 
 # Copy a JWM system config if any in present in user home
@@ -91,25 +77,27 @@ esac
 if [ ! -f "$HOME/.jwmrc" ] ; then
     cp /etc/jwm/system.jwmrc $HOME/.jwmrc
 fi
-if [ "$SCREEN" = "1280x1024x16" ] ; then
+if [ "$SCREEN" = "1280x1024x[0-9]" ] ; then
     sed -i s/'1024x768.png'/'1280x1024.png'/ $HOME/.jwmrc
 fi
-if [ "$SCREEN" = "1280x1024x24" ] ; then
-    sed -i s/'1024x768.png'/'1280x1024.png'/ $HOME/.jwmrc
+if [ "$SCREEN" = "1024x768x[0-9]" ] ; then
+    sed -i s/'1280x1024.png'/'1024x768.png'/ $HOME/.jwmrc
 fi
 
 # Creat ~/.xsession to keep the configuration selected.
 #
-touch $HOME/.xsession
+cat > $HOME/.xsession << EOT
+# ~/.xsession: Start X window session on your system.
+#
+$XSERVER -ac -shadow -screen $SCREEN -mouse $MOUSE &
+sleep 1 &
+#xterm -bg khaki3 -fg white -cr orange -geometry 80x15+20+20 &
+#xpad &
+#mpg123 sound.wav &
+exec $WM
+EOT
+
 chmod 700 $HOME/.xsession
-echo "# ~/.xsession: Start X window session on your system." > $HOME/.xsession
-echo "#" >> $HOME/.xsession
-echo "$XSERVER -ac -shadow -screen $SCREEN -mouse $MOUSE &" >> $HOME/.xsession
-echo "sleep 1 &" >> $HOME/.xsession
-echo "#xterm -bg khaki3 -fg white -cr orange -geometry 80x15+20+20 &" >> $HOME/.xsession
-echo "#xpad &" >> $HOME/.xsession
-echo "#mpg123 sound.wav &" >> $HOME/.xsession
-echo "exec $WM" >> $HOME/.xsession
 
 # End messages.
 echo "Configuration réussie."
