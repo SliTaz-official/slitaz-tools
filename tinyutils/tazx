@@ -15,9 +15,9 @@ WM=jwm
 
 exec 3>&1
 value=`$DIALOG --help-button \
-    --clear \
-    --title " Start X on SliTaz " \
-    --menu \
+	--clear \
+	--title " Start X on SliTaz " \
+	--menu \
 "L'application 'tazx' vous permet configurer votre session X \
 sur votre système GNU/Linux. Syntaxe : \
 Ecran largeur x hauteur x nb-couleurs" 15 70 5 \
@@ -39,23 +39,22 @@ retval=$?
 exec 3>&-
 
 case $retval in
-  0)
-    continue ;;
-  1)
-    echo "Cancel pressed..."
-    exit 0 ;;
-  2)
-    $DIALOG --clear \
-      --title " Aide - Help " \
-      --textbox "$DOC" 15 70
-      exec tazx ;;
-  255)
-    if test -n "$value"; then
-      echo "$value"
-    else
-      echo "ESC pressed..."
-      exit 0
-    fi ;;
+	0)
+		continue ;;
+	1)
+		echo "Cancel pressed..."
+		exit 0 ;;
+	2)
+		$DIALOG --clear \
+		--title " Aide - Help " --textbox "$DOC" 15 70
+		exec tazx ;;
+	255)
+		if test -n "$value"; then
+			echo "$value"
+		else
+			echo "ESC pressed..."
+			exit 0
+		fi ;;
 esac
 
 # Set selected value.
@@ -69,14 +68,14 @@ esac
 
 # Copy a JWM system config if any in present in user home
 # and change backgroud image if the 3/4 is not respected.
-if [ ! -f "$HOME/.jwmrc" ] ; then
+if [ ! -f "$HOME/.jwmrc" ]; then
     cp /etc/jwm/system.jwmrc $HOME/.jwmrc
 fi
-if [ "$SCREEN" = "1280x1024x[0-9]" ] ; then
-    sed -i s/'1024x768.png'/'1280x1024.png'/ $HOME/.jwmrc
+if echo $SCREEN | grep -q '1280x1024'; then
+	sed -i s/'1024x768.png'/'1280x1024.png'/ $HOME/.jwmrc
 fi
-if [ "$SCREEN" = "1024x768x[0-9]" ] ; then
-    sed -i s/'1280x1024.png'/'1024x768.png'/ $HOME/.jwmrc
+if echo $SCREEN | grep -q '1024x768'; then
+	sed -i s/'1280x1024.png'/'1024x768.png'/ $HOME/.jwmrc
 fi
 
 # Creat ~/.xsession to keep the configuration selected.
