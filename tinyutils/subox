@@ -56,4 +56,4 @@ Please enter root password to execute :"
   </vbox>
 '
 
-gtkdialog --program=SU_DIALOG
+gtkdialog --center --program=SU_DIALOG

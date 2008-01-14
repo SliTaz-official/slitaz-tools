@@ -9,20 +9,20 @@ VERSION=20080106
 # ISO burning and exit when finished.
 #
 export BURN_DIALOG='
-<vbox>
-    <text>
-      <label>Burning ISO image</label>
+  <vbox>
+    <text use-markup="true" width-chars="28">
+      <label>
+"
+<b>Burnbox working</b>
+"
+      </label>
     </text>
     <progressbar>
       <label>Please wait...</label>
-      <input>for i in $(seq 0 10 100); do echo $i; sleep 1; done</input>
-      <action>wodim speed=$SPEED dev=$DEVICE $OPTIONS $ISO_IMAGE</action>
-      <action type="exit">Ready</action>
+      <input>for i in 15 30 45; do echo $i; sleep 1; done; echo "Burning ISO..."; wodim speed=$SPEED dev=$DEVICE $OPTIONS $ISO_IMAGE >/dev/null; echo "Done..."; for i in 60 75 90; do echo $i; sleep 1; done; echo 100</input>
+      <action type="exit">Burned</action>
     </progressbar>
-  <hbox>
-   <button cancel></button>
-  </hbox>
- </vbox>
+  </vbox>
 '
 
 # We need at least devive, speed and ISO image path.
@@ -63,6 +63,7 @@ ISO images with ISO Master utility.
     </text>
     <entry>
       <input>cat /proc/sys/dev/cdrom/info | grep "drive speed" | cut -f 3</input>
+      <variable>SPEED</variable>
     </entry>
   </hbox>
   <hbox>
@@ -85,7 +86,7 @@ ISO images with ISO Master utility.
         <variable>ISO_IMAGE</variable>
       </entry>
       <button>
-        <input file stock="gtk-open"></input>
+        <input file stock="gtk-cdrom"></input>
         <action type="fileselect">ISO_IMAGE</action>
       </button>
     </hbox>
