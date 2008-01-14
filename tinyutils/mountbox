@@ -16,6 +16,7 @@ root password to become super-user.\n"
 }
 
 export FDISK_LIST='
+<window title="Fdisk -l" icon-name="media-flash">
   <vbox>
     <text use-markup="true">
       <label>"
@@ -34,11 +35,13 @@ export FDISK_LIST='
       </button>
     </hbox>
   </vbox>
+</window>
 '
 
 # Mount and umount buttons with fiel for devive and mount point.
 #
 export MOUNT_DIALOG='
+<window title="Mountbox" icon-name="media-flash">
   <vbox>
  
     <text use-markup="true">
@@ -81,7 +84,6 @@ flash key, USB disk or local HD partitions.
           <variable>MOUNT_POINT</variable>
         </entry>
       </hbox>
-    
     </frame>
     
     <hbox>
@@ -106,6 +108,7 @@ flash key, USB disk or local HD partitions.
     </hbox>
   
   </vbox>
+</window>
 '
 
 # Only root can mount.

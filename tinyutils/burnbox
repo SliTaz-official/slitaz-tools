@@ -3,12 +3,13 @@
 # Gtkdialog box to burn ISO images using Wodim with basic options.
 # - SliTaz GNU/Linux 2008.
 #
-VERSION=20080106
+VERSION=20080114
 
 # Burn/wodim dialog box. Sleep a bit with progress bar to let user cancel
 # ISO burning and exit when finished.
 #
 export BURN_DIALOG='
+<window title="Burnbox working" icon-name="dialog-warning">
   <vbox>
     <text use-markup="true" width-chars="28">
       <label>
@@ -23,90 +24,92 @@ export BURN_DIALOG='
       <action type="exit">Burned</action>
     </progressbar>
   </vbox>
+</window>
 '
 
 # We need at least devive, speed and ISO image path.
 #
 export MOUNT_DIALOG='
-<vbox>
+<window title="Burnbox" icon-name="drive-optical">
+  <vbox>
 
-  <text use-markup="true">
-    <label>
+    <text use-markup="true">
+      <label>
 "
 <b>SliTaz - Burnbox</b>"
-    </label>
-  </text>
-  <text wrap="true" width-chars="54" use-markup="true">
-    <label>
+      </label>
+    </text>
+    <text wrap="true" width-chars="54" use-markup="true">
+      <label>
 "
 Burn ISO images to CD or DVD writer using Wodim from cdrkit.
 Please verify device writer setting, add options if wanted or
 needed and select an ISO image file. Note : You can manipulate 
 ISO images with ISO Master utility.
 "
-    </label>
-  </text>
+      </label>
+    </text>
   
-  <frame Configuration>
-  <hbox>
-    <text use-markup="true">
-      <label>"<b>Device     :</b>"</label>
-    </text>
-    <entry>
-      <default>/dev/cdrom</default>
-      <variable>DEVICE</variable>
-    </entry>
-  </hbox>
-  <hbox>
-    <text use-markup="true">
-      <label>"<b>Speed     :</b>"</label>
-    </text>
-    <entry>
-      <input>cat /proc/sys/dev/cdrom/info | grep "drive speed" | cut -f 3</input>
-      <variable>SPEED</variable>
-    </entry>
-  </hbox>
-  <hbox>
-    <text use-markup="true">
-      <label>"<b>Options  :</b>"</label>
-    </text>
-    <entry>
-      <default>-eject -multi</default>
-      <variable>OPTIONS</variable>
-    </entry>
-  </hbox>
-  </frame>
+    <frame Configuration>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Device     :</b>"</label>
+        </text>
+        <entry>
+          <default>/dev/cdrom</default>
+          <variable>DEVICE</variable>
+        </entry>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Speed     :</b>"</label>
+        </text>
+        <entry>
+          <input>cat /proc/sys/dev/cdrom/info | grep "drive speed" | cut -f 3</input>
+          <variable>SPEED</variable>
+        </entry>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Options  :</b>"</label>
+        </text>
+        <entry>
+          <default>-eject -multi</default>
+          <variable>OPTIONS</variable>
+        </entry>
+      </hbox>
+    </frame>
    
-  <frame ISO image>
+    <frame ISO image>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>File :</b>"</label>
+        </text>
+        <entry>
+          <variable>ISO_IMAGE</variable>
+        </entry>
+        <button>
+          <input file stock="gtk-cdrom"></input>
+          <action type="fileselect">ISO_IMAGE</action>
+        </button>
+      </hbox>
+    </frame>
+    
     <hbox>
-      <text use-markup="true">
-        <label>"<b>File :</b>"</label>
-      </text>
-      <entry>
-        <variable>ISO_IMAGE</variable>
-      </entry>
       <button>
-        <input file stock="gtk-cdrom"></input>
-        <action type="fileselect">ISO_IMAGE</action>
+        <label>Burn</label>
+        <input file icon="forward"></input>
+        <action>echo "Burning $ISO_IMAGE..."</action>
+        <action>gtkdialog --program=BURN_DIALOG</action>
+      </button>
+      <button>
+        <input file icon="exit"></input>
+        <action type="exit">Exit</action>
       </button>
     </hbox>
-  </frame>
-    
-  <hbox>
-    <button>
-      <label>Burn</label>
-      <input file icon="forward"></input>
-      <action>echo "Burning $ISO_IMAGE..."</action>
-      <action>gtkdialog --program=BURN_DIALOG</action>
-    </button>
-    
-    <button>
-      <input file icon="exit"></input>
-      <action type="exit">Exit</action>
-    </button>
-  </hbox>
   
-</vbox>
+  </vbox>
+</window>
 '
 
 # Execute main dialog.

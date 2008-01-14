@@ -20,6 +20,7 @@ root password to become super-user.\n"
 # active connections.
 #
 export IFCONFIG='
+<window title="Ifconfig" icon-name="network-wired">
   <vbox>
     <text use-markup="true">
       <label>"
@@ -41,12 +42,14 @@ export IFCONFIG='
       </button>
     </hbox>
   </vbox>
+</window>
 '
 
 # The main dialog with notebook, start/stop buttons and all options.
 # Note than /etc/network.conf is seded wehwn an interafce is activate
 #
 export NET_BOX='
+<window title="Netbox" icon-name="network-wired">
   <vbox>
     <text use-markup="true">
       <label>
@@ -244,6 +247,7 @@ if lease cannot be immediatly negociated."
     </hbox>
   
   </vbox>
+</window>
 '
 
 # Only root can configure network.

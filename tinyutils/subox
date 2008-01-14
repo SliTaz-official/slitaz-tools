@@ -17,6 +17,7 @@ echo "$1" > /tmp/subox-exec
 
 # Main window and root passord default entry set to 'root'.
 export SU_DIALOG='
+<window title="Subox">
   <vbox>
   
     <text use-markup="true">
@@ -54,6 +55,7 @@ Please enter root password to execute :"
     </hbox>
   
   </vbox>
+</window>
 '
 
 gtkdialog --center --program=SU_DIALOG
