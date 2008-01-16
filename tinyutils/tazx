@@ -18,7 +18,7 @@ value=`$DIALOG --help-button \
 	--clear \
 	--title " Start X on SliTaz " \
 	--menu \
-"L'application 'tazx' vous permet configurer votre session X \
+"L'application 'tazx' vous permet de configurer votre session X \
 sur votre système GNU/Linux. Syntaxe : \
 Ecran largeur x hauteur x nb-couleurs" 15 70 5 \
 "640x480x16" "TrueColor" \
