@@ -3,7 +3,7 @@
 # Tazx - Ncurses startx script for SliTaz GNU/Linux using Dialog boxes.
 # This tinyutils is part of slitaz-tools.
 #
-# 20080114 <pankso@slitaz.org> - GNU gpl v3.
+# 20080204 <pankso@slitaz.org> - GNU gpl v3.
 #
 : ${DIALOG=dialog}
 
@@ -11,22 +11,25 @@
 XSERVER=Xvesa
 DOC=/usr/share/doc/slitaz-tools/tazx.txt
 MOUSE=/dev/input/mice,5
-WM=jwm
+WM=$1
+${WM:=jwm}
 
+# Main dialog.
 exec 3>&1
 value=`$DIALOG --help-button \
-	--clear \
-	--title " Start X on SliTaz " \
+	--clear --colors \
+	--title " Configure X " \
 	--menu \
-"L'application 'tazx' vous permet de configurer votre session X \
-sur votre système GNU/Linux. Syntaxe : \
-Ecran largeur x hauteur x nb-couleurs" 15 70 5 \
+"L'application 'tazx' permet de configurer votre session X.\n\
+Gestionnaire de fenêtres : \Z2$WM\Zn" 16 70 5 \
 "640x480x16" "TrueColor" \
 "640x480x24" "TrueColor" \
 "800x600x16" "TrueColor" \
 "800x600x24" "TrueColor" \
 "1024x768x16" "TrueColor" \
 "1024x768x24" "TrueColor" \
+"1280x800x16" "TrueColor" \
+"1280x800x24" "TrueColor" \
 "1280x1024x16" "TrueColor" \
 "1280x1024x24" "TrueColor" \
 "1600x1200x16" "TrueColor" \
@@ -38,6 +41,7 @@ Ecran largeur x hauteur x nb-couleurs" 15 70 5 \
 retval=$?
 exec 3>&-
 
+# Continue, exit or help...
 case $retval in
 	0)
 		continue ;;
@@ -50,7 +54,7 @@ case $retval in
 		exec tazx ;;
 	255)
 		if test -n "$value"; then
-			echo "$value"
+			continue
 		else
 			echo "ESC pressed..."
 			exit 0
@@ -60,41 +64,52 @@ esac
 # Set selected value.
 case $value in
 	xterm)
-		Xvesa -ac -shadow -screen 1024x768x24 -br &
-		exec xterm -cr green -geometry 80x35+0-0 ;;
+		Xvesa -ac -shadow -screen 800x600x24 -br &
+		exec xterm -cr orange -geometry 80x35+0-0 ;;
 	*)
 		SCREEN=$value ;;
 esac
 
-# Copy a JWM system config if any in present in user home
-# and change backgroud image if the 3/4 is not respected.
+# Copy a JWM system config if any present in user home
 if [ ! -f "$HOME/.jwmrc" ]; then
     cp /etc/jwm/system.jwmrc $HOME/.jwmrc
 fi
+# Change backgroud image if the 3/4 is not respected.
 if echo $SCREEN | grep -q '1280x1024'; then
 	sed -i s/'1024x768.png'/'1280x1024.png'/ $HOME/.jwmrc
 fi
 if echo $SCREEN | grep -q '1024x768'; then
 	sed -i s/'1280x1024.png'/'1024x768.png'/ $HOME/.jwmrc
 fi
+# Tile Wallpaper for 1280x800.
+if echo $SCREEN | grep -q '1280x800'; then
+	sed -i s/'type="image"'/'type="tile"'/ $HOME/.jwmrc
+fi
+
+# e17 start with enlightenment_start.
+if [ "$WM" == "e17" ]; then
+	 WM=enlightenment_start
+	 XSEVER_OPTS="dpms -terminate"
+fi
 
 # Creat ~/.xsession to keep the configuration selected.
 #
-cat > $HOME/.xsession << EOT
+cat > $HOME/.xsession << _EOT_
 # ~/.xsession: Start X window session on your system.
 #
-$XSERVER -ac -shadow -screen $SCREEN -mouse $MOUSE &
-sleep 1 &
-#xterm -bg khaki3 -fg white -cr orange -geometry 80x15+20+20 &
-#xpad &
+$XSERVER -ac -shadow $XSEVER_OPTS -screen $SCREEN -mouse $MOUSE &
 #mpg123 sound.wav &
+#xterm -bg black -fg white -cr orange &
+#xpad &
 exec $WM
-EOT
+_EOT_
 
 chmod 700 $HOME/.xsession
 
-# End messages.
-echo "Configuration réussie."
-echo "Screen : $SCREEN"
+# Console messages.
+echo "X server   : $XSERVER"
+echo "Screen     : $SCREEN"
+echo "Exec WM    : $WM"
+echo ""
 
 exit 0
