@@ -11,8 +11,12 @@
 XSERVER=Xvesa
 DOC=/usr/share/doc/slitaz-tools/tazx.txt
 MOUSE=/dev/input/mice,5
-WM=$1
-${WM:=jwm}
+# WM can be specified on cmdline.
+if [ -n "$1" ]; then
+	WM=$1
+else
+	WM=jwm
+fi
 
 # Main dialog.
 exec 3>&1
