@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Scpbox
+GenericName=Secure copy
+GenericName[fr]=Transfer sécurisé
+Comment=Upload or download files with scp
+Exec=scpbox
+Icon=/usr/share/icons/Tango/jwm/folder-remote.png
+Type=Application
+Categories=Application;Network;

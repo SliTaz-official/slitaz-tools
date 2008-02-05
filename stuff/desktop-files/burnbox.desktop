@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Burnbox
+GenericName=Burn ISO images
+GenericName[fr]=Graver des images ISO
+Comment=Burn ISO images to CD or DVD
+Exec=burnbox
+Icon=/usr/share/icons/Tango/jwm/drive-optical.png
+Type=Application
+Categories=GTK;Utility;

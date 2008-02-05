@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Netbox
+GenericName=Configure networking
+GenericName[fr]=Configurer le réseau
+Comment=Configure network interface anf host values
+Exec=subox netbox
+Icon=/usr/share/icons/Tango/jwm/network-wired.png
+Type=Application
+Categories=System;Application;

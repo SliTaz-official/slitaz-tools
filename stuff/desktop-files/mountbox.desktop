@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Mountbox
+GenericName=Mount devices
+GenericName[fr]=Monter un media
+Comment=Mount devices on mount points
+Exec=subox mountbox
+Icon=/usr/share/icons/Tango/jwm/media-flash.png
+Type=Application
+Categories=System;Application;
