@@ -1,23 +1,27 @@
 #!/bin/sh
-# SliTaz GNU/Linux text mode installer.
+# slitaz-installer.sh - SliTaz GNU/Linux installer script.
 #
-VERSION=beta
+# So this is SliTaz installer all in SHell script compatible Ash from Busybox.
+# All the comments are in English but displayed messages are in French. The 
+# scrip starts with a few main variables, then all the functions and then
+# a sequece of functions.
+#
+# (C) 2007-2008 SliTaz - GNU General Public License v3.
+#
+# Author : Christophe Lincoln <pankso@slitaz.org>
+#
+VERSION=0.1
 
+# We need to know cdrom device and kernel version string
+# to copy files.
 DRIVE_NAME=`cat /proc/sys/dev/cdrom/info | grep "drive name" | cut -f 3`
 CDROM=/dev/$DRIVE_NAME
+TARGET_ROOT=/mnt/target
 KERNEL=vmlinuz-`uname -r`
 
-# Check if user is root.
-check_root()
-{
-	if test $(id -u) != 0 ; then
-	   echo -e "
-Vous devez être root pour continuer l'installation du système. Arrêt.
-Vous pouvez utiliser 'su' suivi du mot de passe root pour devenir 
-administarteur.\n"
-	   exit 0
-	fi
-}
+#######################
+# Installer functions #
+#######################
 
 # Status function.
 status()
@@ -32,11 +36,13 @@ status()
 	echo -e "\\033[0;39m ]"
 }
 
-# Basic informations.
-echo ""
-echo -e "\033[1mSliTaz GNU/Linux - Installateur mode texte\033[0m"
-echo "================================================================================"
-echo "
+# Start install with basic informations.
+start_install()
+{
+	echo ""
+	echo -e "\033[1mSliTaz GNU/Linux - Installateur mode texte\033[0m"
+	echo "================================================================================"
+	echo "
 Bienvenue dans l'installateur en mode texte de SliTaz GNU/Linux. Il vous
 suffirat de répondre à quelques questions lors des différentes étapes
 d'installation. Avant de commencer, assurer vous de connaître le nom de la
@@ -47,79 +53,133 @@ sur la cible. Pour finir, vous aurez aussi la possibilité d'installer le
 gestionnaire de démarrage GRUB, si besoin est. A noter que pour continuer
 cette installation, vous devez avoir les droits d'administrateur root, qui
 peuvent s'obtenir via la commande 'su' et le mot de passe 'root'."
-echo ""
-echo "================================================================================"
-echo ""
-
-echo -n "Commencer l'installation (oui/Non) ? "; read anser
-if [ ! "$anser" = "oui" ]; then
-	echo -e "\nArrêt volontaire.\n"
-	exit 0
-fi
+	echo ""
+	echo "================================================================================"
+	echo ""
+	echo -n "Commencer l'installation (oui/Non) ? "; read anser
+	if [ ! "$anser" = "oui" ]; then
+		echo -e "\nArrêt volontaire.\n"
+		exit 0
+	fi
+}
 
 # Exit install if user is not root.
-#check_root
+check_root()
+{
+	if test $(id -u) != 0 ; then
+	   echo -e "
+Vous devez être root pour continuer l'installation du système. Arrêt.
+Vous pouvez utiliser 'su' suivi du mot de passe root pour devenir 
+administarteur.\n"
+	   exit 0
+	fi
+}
 
-# Ask for partitions.
-echo "
-Veuilliez indiquer la partition à utiliser pour installer SliTaz,
-exemple : /dev/hda1."
-echo ""
-echo -n "Partition à utiliser ? "; read anser
-if [ "$anser" == "" ]; then
-	echo -e "\nPas de partition spécifiée. Arrêt.\n"
-	exit 0
-else
-	TARGET_DEV=$anser
-fi
+# We need a partition to install.
+ask_for_target_dev()
+{
+	echo "
+	Veuilliez indiquer la partition à utiliser pour installer SliTaz,
+	exemple : /dev/hda1."
+	echo ""
+	echo -n "Partition à utiliser ? "; read anser
+	if [ "$anser" == "" ]; then
+		echo -e "\nPas de partition spécifiée. Arrêt.\n"
+		exit 0
+	else
+		TARGET_DEV=$anser
+	fi
+}
 
 # Mkfs if needed/wanted.
-echo "
-SliTaz va être installé sur la partition : $TARGET_DEV"
-echo ""
-echo -n "Faut t'il formater la partition en ext3 (oui/Non) ? "; read anser
-if [ "$anser" == "oui" ]; then
-	mkfs.ext3 $TARGET_DEV
-else
-	echo "Le système de fichiers déjà présent sera utilisé..."
-fi
+mkfs_target_dev()
+{
+	echo "
+	SliTaz va être installé sur la partition : $TARGET_DEV"
+	echo ""
+	echo -n "Faut t'il formater la partition en ext3 (oui/Non) ? "; read anser
+	if [ "$anser" == "oui" ]; then
+		mkfs.ext3 $TARGET_DEV
+	else
+		echo "Le système de fichiers déjà présent sera utilisé..."
+	fi
+}
 
-# Mount.
-echo "Montage de la partitions et du cdrom..."
-mkdir -p /mnt/target /media/cdrom
-mount $TARGET_DEV /mnt/target
-mount -t iso9660 $CDROM /media/cdrom
+# Mount target device and cdrom.
+mount_devices()
+{
+	mkdir -p $TARGET_ROOT /media/cdrom
+	echo "Montage de la partitions et du cdrom..."
+	mount $TARGET_DEV $TARGET_ROOT
+	mount -t iso9660 $CDROM /media/cdrom	
+}
 
-# Copy and install.
-echo -n "Création du répertoire /boot..."
-mkdir -p /mnt/target/boot
-status
-echo -n "Copie du noyau Linux..."
-cp /media/cdrom/boot/bzImage /mnt/target/boot/$KERNEL
-status
+# Copy and install Kernel.
+install_kernel()
+{
+	echo -n "Création du répertoire /boot..."
+	mkdir -p $TARGET_ROOT/boot
+	status
+	echo -n "Copie du noyau Linux..."
+	cp /media/cdrom/boot/bzImage $TARGET_ROOT/boot/$KERNEL
+	status
+}
 
-# Copy and extract lzma'ed or gziped rootfs
-echo -n "Copie du système de fichier racine..."
-cp /media/cdrom/boot/rootfs.gz /mnt/target
-status
-echo "Extraction du système de fichiers racine (rootfs.gz)..."
-cd /mnt/target
-(zcat rootfs.gz 2>/dev/null || lzma d rootfs.gz -so) | cpio -id
-echo -n "Suppression des fichiers copiés..."
-rm -f rootfs rootfs.cpio rootfs.gz init
-status
+# Syslinux/isolinux.
+copy_bootloaders()
+{
+	echo -n "Copie des bootloaders syslinux/isolinux..."
+	if [ -d "/media/cdrom/boot/syslinux" ]; then
+		cp -a /media/cdrom/boot/syslinux $TARGET_ROOT/boot
+	fi
+	if [ -d "/media/cdrom/boot/isolinux" ]; then
+		cp -a /media/cdrom/boot/isolinux $TARGET_ROOT/boot
+	fi
+	status
+}
 
-# /etc/skel
-echo -n "Copie des fichiers personnels de hacker dans : /etc/skel..."
-cp -a /mnt/target/home/hacker /mnt/target/etc/skel
-status
+# Copy and extract lzma'ed or gziped rootfs.
+copy_extract_rootfs()
+{
+	echo -n "Copie du système de fichier racine..."
+	cp /media/cdrom/boot/rootfs.gz $TARGET_ROOT
+	status
+	echo "Extraction du système de fichiers racine (rootfs.gz)..."
+	cd $TARGET_ROOT
+	(zcat rootfs.gz 2>/dev/null || lzma d rootfs.gz -so) | cpio -id
+	echo -n "Suppression des fichiers copiés..."
+	rm -f rootfs rootfs.cpio rootfs.gz init
+	status
+}
 
-# Creat the target GRUB configuration.
-#
-if [ ! -f /mnt/target/boot/grub/menu.lst ]; then
-	echo "Création du fichier de configuration de GRUB (menu.lst)..."
-	mkdir -p /mnt/target/boot/grub
-cat > /mnt/target/boot/grub/menu.lst << EOF
+# /etc/skel with hacker default personnal files.
+creat_etc_skel()
+{
+	echo -n "Copie des fichiers personnels de hacker dans : /etc/skel..."
+	cp -a $TARGET_ROOT/home/hacker $TARGET_ROOT/etc/skel
+	status
+}
+
+# Determin disk letter, GRUB partition number and GRUB disk number.
+grub_install()
+{
+	DISK_LETTER=${TARGET_DEV#/dev/[h-s]d}
+	DISK_LETTER=${DISK_LETTER%[0-9]}
+	GRUB_PARTITION=$((${TARGET_DEV#/dev/hd[a-z]}-1))
+	for disk in a b c d e f g h
+	do
+		nb=$(($nb+1))
+		if [ "$disk" = "$DISK_LETTER" ]; then
+			GRUB_DISK=$(($nb-1))
+			break
+		fi
+	done
+	GRUB_ROOT="(hd${GRUB_DISK},${GRUB_PARTITION})"
+
+	# Creat the target GRUB configuration.
+	echo -n "Création du fichier de configuration de GRUB (menu.lst)..."
+	mkdir -p $TARGET_ROOT/boot/grub
+	cat > $TARGET_ROOT/boot/grub/menu.lst << _EOF_
 # /boot/grub/menu.lst: GRUB boot loader configuration.
 #
 
@@ -135,33 +195,68 @@ color yellow/brown light-green/black
 # For booting SliTaz from : $TARGET_DEV
 #
 title 	SliTaz GNU/Linux (cooking) (Kernel $KERNEL)
-		root(hd0,0)
+		root $GRUB_ROOT
 		kernel /boot/$KERNEL root=$TARGET_DEV
 
-EOF
-	fi
-
-# End info
-echo ""
-echo -e "\033[1mInstallation terminée\033[0m
+_EOF_
+	status
+	# GRUB info with disk name used for grub-install
+	TARGET_DISK=`echo $TARGET_DEV | sed s/"[0-9]"/''/`
+	echo ""
+	echo -e "\033[1mGRUB - Informations et installation\033[0m
 ================================================================================
 
 Avant de redémarrer sur votre nouveau système SliTaz GNU/Linux, veuillez vous
 assurer qu'un gestionnaire de démarrage est bien installé. Si ce n'est pas le
-cas vous pouvez lancer la commande (en modifiant 'hda' en fonction de votre
-système) :
+cas vous pouvez répondre oui et installer GRUB ou lancer la commande :
 
-    # grub-install --root-directory=/mnt/target /dev/hda
+    # grub-install --no-floppy --root-directory=$TARGET_ROOT $TARGET_DISK
 
 Les lignes suivantes on été ajoutées au fichier de configuration de GRUB
-/boot/grub/menu.lst de la cible. Elles feront démarrer SliTaz en modifiant 
-la valeure root(hd0,0) en fonction de votre système. Si vous n'installé pas
-GRUB, vous pouvez utiliser ces même lignes dans un autre fichier menu.lst,
-situé sur une autre partitions :
+/boot/grub/menu.lst de la cible. Elles feront démarrer SliTaz en installant
+GRUB. Si vous n'installez pas GRUB, vous pouvez utiliser ces même lignes dans
+un autre fichier menu.lst, situé sur une autre partitions :
 
     title  SliTaz GNU/Linux (cooking) (Kernel $KERNEL)
-           root(hd0,0)
+           root $GRUB_ROOT
            kernel /boot/$KERNEL root=$TARGET_DEV
 
 ================================================================================"
-echo ""
+	echo ""
+
+	# GRUB install
+	echo -n "Installer GRUB sur le disque : $TARGET_DISK (oui/Non) ? "; read anser
+	if [ "$anser" = "oui" ]; then
+		grub-install --no-floppy --root-directory=$TARGET_ROOT $TARGET_DISK
+	fi
+}
+
+# End of installation
+end_of_install()
+{
+	echo "
+================================================================================
+Installation terminée. Vous pouvez dès maintenant redémarrer sur votre nouveau
+système SliTaz GNU/Linux et commencer à finement le configurer en fonction de
+vos besoins et préférences. Vous trouverez un support technique gratuit via
+la liste de discussion et/ou le forum officiel."
+	echo ""
+}
+
+######################
+# Installer sequence #
+######################
+
+start_install
+check_root
+ask_for_target_dev
+mkfs_target_dev
+mount_devices
+install_kernel
+copy_bootloaders
+copy_extract_rootfs
+creat_etc_skel
+grub_install
+end_of_install
+
+exit 0
