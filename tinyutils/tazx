@@ -3,7 +3,7 @@
 # Tazx - Ncurses startx script for SliTaz GNU/Linux using Dialog boxes.
 # This tinyutils is part of slitaz-tools.
 #
-# 20080204 <pankso@slitaz.org> - GNU gpl v3.
+# 20080205 <pankso@slitaz.org> - GNU gpl v3.
 #
 : ${DIALOG=dialog}
 
@@ -26,6 +26,8 @@ value=`$DIALOG --help-button \
 	--menu \
 "L'application 'tazx' permet de configurer votre session X.\n\
 Gestionnaire de fenêtres : \Z2$WM\Zn" 16 70 5 \
+"640x400x16" "TrueColor" \
+"640x400x24" "TrueColor" \
 "640x480x16" "TrueColor" \
 "640x480x24" "TrueColor" \
 "800x600x16" "TrueColor" \
@@ -68,7 +70,7 @@ esac
 # Set selected value.
 case $value in
 	xterm)
-		Xvesa -ac -shadow -screen 800x600x24 -br &
+		Xvesa -ac -shadow -screen 800x600x16 -br &
 		exec xterm -cr orange -geometry 80x35+0-0 ;;
 	*)
 		SCREEN=$value ;;
