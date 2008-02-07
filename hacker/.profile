@@ -1,11 +1,11 @@
 # ~/.profile: Executed by Bourne-compatible login SHells.
 #
 
-# Path to personal scripts and executables (~/Bin).
+# Path to personnal scripts and executables (~/.local/bin).
 #
-if [ -d "$HOME/Bin" ] ; then
-	PATH=$HOME/Bin:$PATH
-	export export 
+if [ -d "$HOME/.local/bin" ] ; then
+	PATH=$HOME/.local/bin:$PATH
+	export PATH
 fi
 
 # Java home directory path.
