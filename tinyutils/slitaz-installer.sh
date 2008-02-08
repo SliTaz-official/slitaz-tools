@@ -39,10 +39,11 @@ status()
 # Start install with basic informations.
 start_install()
 {
+	clear
 	echo ""
-	echo -e "\033[1mSliTaz GNU/Linux - Installateur mode texte\033[0m"
-	echo "================================================================================"
-	echo "
+	echo -e "\033[1mSliTaz GNU/Linux - Installateur mode texte\033[0m
+================================================================================
+
 Bienvenue dans l'installateur en mode texte de SliTaz GNU/Linux. Il vous
 suffirat de répondre à quelques questions lors des différentes étapes
 d'installation. Avant de commencer, assurer vous de connaître le nom de la
@@ -52,9 +53,9 @@ Ensuite il va monter le cdrom, décompresser les fichiers et les installer
 sur la cible. Pour finir, vous aurez aussi la possibilité d'installer le 
 gestionnaire de démarrage GRUB, si besoin est. A noter que pour continuer
 cette installation, vous devez avoir les droits d'administrateur root, qui
-peuvent s'obtenir via la commande 'su' et le mot de passe 'root'."
-	echo ""
-	echo "================================================================================"
+peuvent s'obtenir via la commande 'su' et le mot de passe 'root'.
+
+================================================================================"
 	echo ""
 	echo -n "Commencer l'installation (oui/Non) ? "; read anser
 	if [ ! "$anser" = "oui" ]; then
@@ -75,14 +76,30 @@ administarteur.\n"
 	fi
 }
 
+# Display a list of available partition.
+fdisk_list()
+{
+	echo ""
+	fdisk -l | grep ^/dev
+	echo ""
+}
+
 # We need a partition to install.
 ask_for_target_dev()
 {
-	echo "
-	Veuilliez indiquer la partition à utiliser pour installer SliTaz,
-	exemple : /dev/hda1."
 	echo ""
-	echo -n "Partition à utiliser ? "; read anser
+	echo -e "\033[1mPartition racine\033[0m
+================================================================================
+
+Veuilliez indiquer la partition à utiliser pour installer SliTaz GNU/Linux,
+exemple : '/dev/hda1'. Vous pouvez tapez 'list' pour afficher une liste 
+des partitions disponibles sur le ou les disques durs."
+	echo ""
+	echo -n "Partition à utiliser : "; read anser
+	while [ "$anser" == "list" ]; do
+		fdisk_list
+		echo -n "Partition à utiliser : "; read anser
+	done
 	if [ "$anser" == "" ]; then
 		echo -e "\nPas de partition spécifiée. Arrêt.\n"
 		exit 0
@@ -94,8 +111,8 @@ ask_for_target_dev()
 # Mkfs if needed/wanted.
 mkfs_target_dev()
 {
-	echo "
-	SliTaz va être installé sur la partition : $TARGET_DEV"
+	echo ""
+	echo "* SliTaz va être installé sur la partition : $TARGET_DEV"
 	echo ""
 	echo -n "Faut t'il formater la partition en ext3 (oui/Non) ? "; read anser
 	if [ "$anser" == "oui" ]; then
@@ -110,8 +127,12 @@ mount_devices()
 {
 	mkdir -p $TARGET_ROOT /media/cdrom
 	echo "Montage de la partitions et du cdrom..."
+	# Mount point can be already used.
+	if mount | grep $TARGET_ROOT; then
+		umount $TARGET_ROOT
+	fi
 	mount $TARGET_DEV $TARGET_ROOT
-	mount -t iso9660 $CDROM /media/cdrom	
+	mount -t iso9660 $CDROM /media/cdrom || exit 1
 }
 
 # Copy and install Kernel.
@@ -165,7 +186,7 @@ grub_install()
 {
 	DISK_LETTER=${TARGET_DEV#/dev/[h-s]d}
 	DISK_LETTER=${DISK_LETTER%[0-9]}
-	GRUB_PARTITION=$((${TARGET_DEV#/dev/hd[a-z]}-1))
+	GRUB_PARTITION=$((${TARGET_DEV#/dev/[h-s]d[a-z]}-1))
 	for disk in a b c d e f g h
 	do
 		nb=$(($nb+1))
@@ -234,8 +255,10 @@ un autre fichier menu.lst, situé sur une autre partitions :
 # End of installation
 end_of_install()
 {
-	echo "
+	echo ""
+	echo -e "\033[1mFin de l'installation\033[0m
 ================================================================================
+
 Installation terminée. Vous pouvez dès maintenant redémarrer sur votre nouveau
 système SliTaz GNU/Linux et commencer à finement le configurer en fonction de
 vos besoins et préférences. Vous trouverez un support technique gratuit via
