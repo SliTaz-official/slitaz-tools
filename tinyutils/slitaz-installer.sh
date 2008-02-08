@@ -37,7 +37,7 @@ status()
 }
 
 # Start install with basic informations.
-start_install()
+start_infos()
 {
 	clear
 	echo ""
@@ -125,11 +125,15 @@ mkfs_target_dev()
 # Mount target device and cdrom.
 mount_devices()
 {
+	echo ""
 	mkdir -p $TARGET_ROOT /media/cdrom
 	echo "Montage de la partitions et du cdrom..."
-	# Mount point can be already used.
+	# Mount points can be already used.
 	if mount | grep $TARGET_ROOT; then
 		umount $TARGET_ROOT
+	fi
+	if mount | grep /media/cdrom; then
+		umount /media/cdrom
 	fi
 	mount $TARGET_DEV $TARGET_ROOT
 	mount -t iso9660 $CDROM /media/cdrom || exit 1
@@ -138,6 +142,7 @@ mount_devices()
 # Copy and install Kernel.
 install_kernel()
 {
+	echo ""
 	echo -n "Création du répertoire /boot..."
 	mkdir -p $TARGET_ROOT/boot
 	status
@@ -168,17 +173,25 @@ copy_extract_rootfs()
 	echo "Extraction du système de fichiers racine (rootfs.gz)..."
 	cd $TARGET_ROOT
 	(zcat rootfs.gz 2>/dev/null || lzma d rootfs.gz -so) | cpio -id
+	echo ""
 	echo -n "Suppression des fichiers copiés..."
 	rm -f rootfs rootfs.cpio rootfs.gz init
 	status
 }
 
-# /etc/skel with hacker default personnal files.
-creat_etc_skel()
+# Pre configure freshly installed system.
+pre_config_system()
 {
+	# /etc/skel with hacker default personnal files.
 	echo -n "Copie des fichiers personnels de hacker dans : /etc/skel..."
 	cp -a $TARGET_ROOT/home/hacker $TARGET_ROOT/etc/skel
 	status
+	# Add root device to CHECK_FS in rcS.conf to check filesystem 
+	# on each boot.
+	echo -n "Configuration de CHECK_FS dans /etc/rcS.conf..."
+	sed -i s#'CHECK_FS=\"\"'#"CHECK_FS=\"$TARGET_DEV\""# $TARGET_ROOT/etc/rcS.conf	
+	status
+	sleep 2
 }
 
 # Determin disk letter, GRUB partition number and GRUB disk number.
@@ -249,6 +262,8 @@ un autre fichier menu.lst, situé sur une autre partitions :
 	echo -n "Installer GRUB sur le disque : $TARGET_DISK (oui/Non) ? "; read anser
 	if [ "$anser" = "oui" ]; then
 		grub-install --no-floppy --root-directory=$TARGET_ROOT $TARGET_DISK
+	else
+		echo "GRUB n'a pas été installé."
 	fi
 }
 
@@ -262,7 +277,7 @@ end_of_install()
 Installation terminée. Vous pouvez dès maintenant redémarrer sur votre nouveau
 système SliTaz GNU/Linux et commencer à finement le configurer en fonction de
 vos besoins et préférences. Vous trouverez un support technique gratuit via
-la liste de discussion et/ou le forum officiel."
+la liste de discussion et/ou le forum officiel du projet."
 	echo ""
 }
 
@@ -270,7 +285,7 @@ la liste de discussion et/ou le forum officiel."
 # Installer sequence #
 ######################
 
-start_install
+start_infos
 check_root
 ask_for_target_dev
 mkfs_target_dev
@@ -278,7 +293,7 @@ mount_devices
 install_kernel
 copy_bootloaders
 copy_extract_rootfs
-creat_etc_skel
+pre_config_system
 grub_install
 end_of_install
 
