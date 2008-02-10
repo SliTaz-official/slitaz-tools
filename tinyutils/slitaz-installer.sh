@@ -112,7 +112,7 @@ des partitions disponibles sur le ou les disques durs."
 mkfs_target_dev()
 {
 	echo ""
-	echo "* SliTaz va être installé sur la partition : $TARGET_DEV"
+	echo "SliTaz va être installé sur la partition : $TARGET_DEV"
 	echo ""
 	echo -n "Faut t'il formater la partition en ext3 (oui/Non) ? "; read anser
 	if [ "$anser" == "oui" ]; then
@@ -220,8 +220,8 @@ grub_install()
 # By default, boot the first entry.
 default 0
 
-# Boot automatically after 20 secs.
-timeout 20
+# Boot automatically after 8 secs.
+timeout 8
 
 # Change the colors.
 color yellow/brown light-green/black
