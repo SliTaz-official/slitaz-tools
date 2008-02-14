@@ -48,7 +48,7 @@ Please enter root password to execute :"
     
     <hbox>
       <button ok>
-        <action>echo $PASSWD | su -c `cat /tmp/subox-exec` &</action>
+        <action>echo $PASSWD | su -c "`cat /tmp/subox-exec`" &</action>
         <action type="closewindow">SU_DIALOG</action>
       </button>
       <button cancel></button>

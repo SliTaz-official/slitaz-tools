@@ -90,6 +90,7 @@ fi
 # Tile Wallpaper for 1280x800.
 if echo $SCREEN | grep -q '1280x800'; then
 	sed -i s/'type="image"'/'type="tile"'/ $HOME/.jwmrc
+	sed -i s/'1024x768.png'/'1280x1024.png'/ $HOME/.jwmrc
 fi
 
 # e17 start with enlightenment_start.
