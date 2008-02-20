@@ -172,10 +172,25 @@ copy_extract_rootfs()
 	status
 	echo "Extraction du système de fichiers racine (rootfs.gz)..."
 	cd $TARGET_ROOT
-	(zcat rootfs.gz 2>/dev/null || lzma d rootfs.gz -so) | cpio -id
+	( zcat rootfs.gz 2>/dev/null || lzma d rootfs.gz -so 2>/dev/null || \
+	  cat rootfs.gz ) | cpio -id
+	if [ -f .usr.sqfs ]; then
+		echo -en "\nDécompression de /usr... "
+		/sbin/unsquashfs .usr.sqfs
+		if [ -d squashfs-root/.moved ]; then
+			( cd squashfs-root/.moved ; find * -print ) | \
+			while read $file; do
+				rm -f $file
+				mv squashfs-root/.moved/$file $file
+			done
+			rmdir squashfs-root/.moved
+		fi
+		mv squashfs-root/* usr
+		rmdir squashfs-root
+	fi
 	echo ""
 	echo -n "Suppression des fichiers copiés..."
-	rm -f rootfs rootfs.cpio rootfs.gz init
+	rm -f rootfs.gz init
 	status
 }
 
