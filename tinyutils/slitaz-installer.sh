@@ -183,7 +183,7 @@ copy_extract_rootfs()
 				rm -f $file
 				mv squashfs-root/.moved/$file $file
 			done
-			rmdir squashfs-root/.moved
+			rm -rf squashfs-root/.moved
 		fi
 		mv squashfs-root/* usr
 		rmdir squashfs-root
