@@ -176,10 +176,11 @@ copy_extract_rootfs()
 	  cat rootfs.gz ) | cpio -id
 	if [ -f .usr.sqfs ]; then
 		echo -en "\nDécompression de /usr... "
-		/sbin/unsquashfs .usr.sqfs
+		sbin/unsquashfs .usr.sqfs
 		if [ -d squashfs-root/.moved ]; then
-			( cd squashfs-root/.moved ; find * -type f -print ) | \
+			( cd squashfs-root/.moved ; find * -print ) | \
 			while read $file; do
+				[ -L $file ] || continue
 				rm -f $file
 				mv squashfs-root/.moved/$file $file
 			done
