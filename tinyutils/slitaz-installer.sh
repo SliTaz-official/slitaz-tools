@@ -180,10 +180,10 @@ copy_extract_rootfs()
 		rm .usr.sqfs
 		if [ -d squashfs-root/.moved ]; then
 			( cd squashfs-root/.moved ; find * -print ) | \
-			while read $file; do
-				[ -L $file ] || continue
-				rm -f $file
-				mv squashfs-root/.moved/$file $file
+			while read file; do
+				[ -L "$file" ] || continue
+				rm -f "$file"
+				mv "squashfs-root/.moved/$file" "$file"
 			done
 			rm -rf squashfs-root/.moved
 		fi
