@@ -177,6 +177,7 @@ copy_extract_rootfs()
 	if [ -f .usr.sqfs ]; then
 		echo -en "\nDécompression de /usr... "
 		sbin/unsquashfs .usr.sqfs
+		rm .usr.sqfs
 		if [ -d squashfs-root/.moved ]; then
 			( cd squashfs-root/.moved ; find * -print ) | \
 			while read $file; do
