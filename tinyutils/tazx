@@ -1,13 +1,14 @@
 #!/bin/sh
 #
-# Tazx - Ncurses startx script for SliTaz GNU/Linux using Dialog boxes.
+# Tazx - Ncurses X configuration for SliTaz GNU/Linux using Dialog boxes.
 # This tinyutils is part of slitaz-tools.
 #
-# 20080205 <pankso@slitaz.org> - GNU gpl v3.
+# 20080222 <pankso@slitaz.org> - GNU gpl v3.
 #
 : ${DIALOG=dialog}
 
 # Variables.
+#
 XSERVER=Xvesa
 DOC=/usr/share/doc/slitaz-tools/tazx.txt
 MOUSE=/dev/input/mice,5
@@ -17,6 +18,10 @@ if [ -n "$1" ]; then
 else
 	WM=jwm
 fi
+
+####################
+#  Tazx functions  #
+####################
 
 # Change backgroud image if the 3/4 is not respected.
 change_jwm_background()
@@ -32,101 +37,128 @@ change_jwm_background()
 	fi
 }
 
-# Main dialog.
-exec 3>&1
-value=`$DIALOG --help-button \
-	--clear --colors \
-	--title " Configure X " \
-	--menu \
-"L'application 'tazx' permet de configurer votre session X.\n\
-Gestionnaire de fenêtres : \Z2$WM\Zn" 16 70 5 \
-"640x400x16" "TrueColor" \
-"640x400x24" "TrueColor" \
-"640x480x16" "TrueColor" \
-"640x480x24" "TrueColor" \
-"800x600x16" "TrueColor" \
-"800x600x24" "TrueColor" \
-"1024x768x16" "TrueColor" \
-"1024x768x24" "TrueColor" \
-"1280x800x16" "TrueColor" \
-"1280x800x24" "TrueColor" \
-"1280x1024x16" "TrueColor" \
-"1280x1024x24" "TrueColor" \
-"1600x1200x16" "TrueColor" \
-"1600x1200x24" "TrueColor" \
-"1920x1440x16" "TrueColor" \
-"xterm" "800x600x16" \
-"quit" "Quitter" \
-2>&1 1>&3`
-retval=$?
-exec 3>&-
-
-# Continue, exit or help...
-case $retval in
-	0)
-		continue ;;
-	1)
-		echo "Cancel pressed..."
-		exit 0 ;;
-	2)
-		$DIALOG --clear \
-		--title " Aide - Help " --textbox "$DOC" 15 70
-		exec tazx ;;
-	255)
-		if test -n "$value"; then
-			continue
-		else
-			echo "ESC pressed..."
-			exit 0
-		fi ;;
-esac
-
-# Set selected value.
-case $value in
-	xterm)
-		Xvesa -ac -shadow -screen 800x600x16 -br &
-		exec xterm -cr orange -geometry 80x35+0-0 ;;
-	*)
-		NEW_SCREEN=$value ;;
-esac
+# Screen configuration dialog.
+screen_config_dialog()
+{
+	exec 3>&1
+	value=`$DIALOG --help-button \
+		--clear --colors \
+		--title " Configure X " \
+		--menu \
+	"L'application 'tazx' permet de configurer une session X.\n\
+	Gestionnaire de fenêtres : \Z2$WM\Zn" 16 70 5 \
+	"640x400x16" "TrueColor" \
+	"640x400x24" "TrueColor" \
+	"640x480x16" "TrueColor" \
+	"640x480x24" "TrueColor" \
+	"800x600x16" "TrueColor" \
+	"800x600x24" "TrueColor" \
+	"1024x768x16" "TrueColor" \
+	"1024x768x24" "TrueColor" \
+	"1280x800x16" "TrueColor" \
+	"1280x800x24" "TrueColor" \
+	"1280x1024x16" "TrueColor" \
+	"1280x1024x24" "TrueColor" \
+	"1600x1200x16" "TrueColor" \
+	"1600x1200x24" "TrueColor" \
+	"1920x1440x16" "TrueColor" \
+	"xterm" "800x600x16" \
+	"quit" "Quitter" \
+	2>&1 1>&3`
+	retval=$?
+	exec 3>&-
+	# Continue, exit or help...
+	case $retval in
+		0)
+			continue ;;
+		1)
+			echo "Cancel pressed..."
+			exit 0 ;;
+		2)
+			$DIALOG --clear \
+			--title " Aide - Help " --textbox "$DOC" 16 70
+			exec tazx ;;
+		255)
+			if test -n "$value"; then
+				continue
+			else
+				echo "ESC pressed..."
+				exit 0
+			fi ;;
+	esac
+	# Set selected value.
+	case $value in
+		xterm)
+			Xvesa -ac -shadow -screen 800x600x16 -br &
+			exec xterm -cr orange -geometry 80x35+0-0 ;;
+		*)
+			NEW_SCREEN=$value ;;
+	esac
+}
 
 # Slim config if root.
-if test $(id -u) = 0; then
-	# Get current screen size or set default to 1024x768x24 to sed
-	# config file with the new value.
-	if [ -f /etc/X11/screen.conf ]; then
-		. /etc/X11/screen.conf
-	else
-		SCREEN=1024x768x24
+slim_config()
+{
+	if test $(id -u) = 0; then
+		# Get current screen size or set default to 1024x768x24 to sed
+		# config file with the new value.
+		if [ -f /etc/X11/screen.conf ]; then
+			. /etc/X11/screen.conf
+		else
+			SCREEN=1024x768x24
+		fi
+		if [ -f /etc/slim.conf ]; then
+			mkdir -p /etc/X11
+			echo "SCREEN=$NEW_SCREEN" > /etc/X11/screen.conf
+			sed -i s/"$SCREEN"/"$NEW_SCREEN"/ /etc/slim.conf
+		fi
+		JWM_CONFIG=/etc/jwm/system.jwmrc
+		change_jwm_background
 	fi
-	if [ -f /etc/slim.conf ]; then
-		mkdir -p /etc/X11
-		echo "SCREEN=$NEW_SCREEN" > /etc/X11/screen.conf
-		sed -i s/"$SCREEN"/"$NEW_SCREEN"/ /etc/slim.conf
-	fi
-	JWM_CONFIG=/etc/jwm/system.jwmrc
-	change_jwm_background
-fi
-
-# ~/.xinitrc for slim login.
-echo "$WM" > $HOME/.xinitrc
-
-# Copy a JWM system config if any present in user home
-if [ ! -f "$HOME/.jwmrc" ]; then
-    cp /etc/jwm/system.jwmrc $HOME/.jwmrc
-fi
-JWM_CONFIG=$HOME/.jwmrc
-change_jwm_background
+}
 
 # e17 start with enlightenment_start.
-if [ "$WM" == "e17" ]; then
-	 WM=enlightenment_start
-	 XSEVER_OPTS="dpms -terminate"
-fi
+e17_stuff()
+{
+	if [ "$WM" == "e17" ]; then
+		 WM=enlightenment_start
+		 XSEVER_OPTS="dpms -terminate"
+	fi
+}
 
-# Creat ~/.xsession to keep the configuration selected.
-#
-cat > $HOME/.xsession << _EOT_
+# ~/.xinitrc for slim login.
+creat_xinitrc()
+{
+	echo "$WM" > $HOME/.xinitrc
+	if [ ! -f /home/hacker/.xinitrc ]; then
+		echo "$WM" > /home/hacker/.xinitrc
+		chown hacker.hacker /home/hacker/.xinitrc
+	fi
+}
+
+# Copy a JWM system config if any present in user home.
+jwm_config()
+{
+	if [ ! -f "$HOME/.jwmrc" ]; then
+		cp /etc/jwm/system.jwmrc $HOME/.jwmrc
+		JWM_CONFIG=$HOME/.jwmrc
+		change_jwm_background
+	fi
+	# In Live mode hacker JWM config dose not exist, this is
+	# because tazx is executed at boot time by root.
+	if [ ! -f "/home/hacker/.jwmrc" ]; then
+		cp /etc/jwm/system.jwmrc /home/hacker/.jwmrc
+		JWM_CONFIG=/home/hacker/.jwmrc
+		change_jwm_background
+		chown hacker.hacker $JWM_CONFIG
+	fi
+}
+
+# Creat ~/.xsession to keep the configuration selected (used 
+# only by startx, Slim login manager use .xinitrc).
+creat_xsession()
+{
+	cat > $HOME/.xsession << _EOT_
 # ~/.xsession: Start X window session on your system.
 #
 $XSERVER -ac -shadow $XSEVER_OPTS -screen $NEW_SCREEN -mouse $MOUSE &
@@ -134,13 +166,29 @@ $XSERVER -ac -shadow $XSEVER_OPTS -screen $NEW_SCREEN -mouse $MOUSE &
 #xpad &
 exec $WM
 _EOT_
-chmod 700 $HOME/.xsession
+	chmod 700 $HOME/.xsession
+}
 
-# Console messages.
-echo ""
-echo "X server   : $XSERVER"
-echo "Screen     : $NEW_SCREEN"
-echo "Exec WM    : $WM"
-echo ""
+# Console message.
+console_message()
+{
+	echo ""
+	echo "X server   : $XSERVER"
+	echo "Screen     : $NEW_SCREEN"
+	echo "Exec WM    : $WM"
+	echo ""
+}
+
+###################
+#  Tazx sequence  #
+###################
+
+screen_config_dialog
+slim_config
+e17_stuff
+creat_xinitrc
+jwm_config
+creat_xsession
+console_message
 
 exit 0
