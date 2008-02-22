@@ -187,6 +187,7 @@ copy_extract_rootfs()
 		echo -en "\nDécompression de /usr... "
 		rmdir usr
 		sbin/unsquashfs -d usr $sqfs
+		rm -f $sqfs 2> /dev/null
 	fi
 	if [ -d usr/.moved ]; then
 		echo -en "\nRestoration des fichiers déplacés dans /usr... "
