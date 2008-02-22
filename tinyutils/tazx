@@ -18,6 +18,20 @@ else
 	WM=jwm
 fi
 
+# Change backgroud image if the 3/4 is not respected.
+change_jwm_background()
+{
+	if echo $NEW_SCREEN | grep -q '1280x1024'; then
+		sed -i s/'1024x768.png'/'1280x1024.png'/ $JWM_CONFIG
+	fi
+	if echo $NEW_SCREEN | grep -q '1024x768'; then
+		sed -i s/'1280x1024.png'/'1024x768.png'/ $JWM_CONFIG
+	fi
+	if echo $NEW_SCREEN | grep -q '1280x800'; then
+		sed -i s/'1024x768.png'/'1280x800.png'/ $JWM_CONFIG
+	fi
+}
+
 # Main dialog.
 exec 3>&1
 value=`$DIALOG --help-button \
@@ -73,25 +87,36 @@ case $value in
 		Xvesa -ac -shadow -screen 800x600x16 -br &
 		exec xterm -cr orange -geometry 80x35+0-0 ;;
 	*)
-		SCREEN=$value ;;
+		NEW_SCREEN=$value ;;
 esac
+
+# Slim config if root.
+if test $(id -u) = 0; then
+	# Get current screen size or set default to 1024x768x24 to sed
+	# config file with the new value.
+	if [ -f /etc/X11/screen.conf ]; then
+		. /etc/X11/screen.conf
+	else
+		SCREEN=1024x768x24
+	fi
+	if [ -f /etc/slim.conf ]; then
+		mkdir -p /etc/X11
+		echo "SCREEN=$NEW_SCREEN" > /etc/X11/screen.conf
+		sed -i s/"$SCREEN"/"$NEW_SCREEN"/ /etc/slim.conf
+	fi
+	JWM_CONFIG=/etc/jwm/system.jwmrc
+	change_jwm_background
+fi
+
+# ~/.xinitrc for slim login.
+echo "$WM" > $HOME/.xinitrc
 
 # Copy a JWM system config if any present in user home
 if [ ! -f "$HOME/.jwmrc" ]; then
     cp /etc/jwm/system.jwmrc $HOME/.jwmrc
 fi
-# Change backgroud image if the 3/4 is not respected.
-if echo $SCREEN | grep -q '1280x1024'; then
-	sed -i s/'1024x768.png'/'1280x1024.png'/ $HOME/.jwmrc
-fi
-if echo $SCREEN | grep -q '1024x768'; then
-	sed -i s/'1280x1024.png'/'1024x768.png'/ $HOME/.jwmrc
-fi
-# Tile Wallpaper for 1280x800.
-if echo $SCREEN | grep -q '1280x800'; then
-	sed -i s/'type="image"'/'type="tile"'/ $HOME/.jwmrc
-	sed -i s/'1024x768.png'/'1280x1024.png'/ $HOME/.jwmrc
-fi
+JWM_CONFIG=$HOME/.jwmrc
+change_jwm_background
 
 # e17 start with enlightenment_start.
 if [ "$WM" == "e17" ]; then
@@ -104,18 +129,17 @@ fi
 cat > $HOME/.xsession << _EOT_
 # ~/.xsession: Start X window session on your system.
 #
-$XSERVER -ac -shadow $XSEVER_OPTS -screen $SCREEN -mouse $MOUSE &
-#mpg123 sound.wav &
-#xterm -bg black -fg white -cr orange &
+$XSERVER -ac -shadow $XSEVER_OPTS -screen $NEW_SCREEN -mouse $MOUSE &
+#xterm &
 #xpad &
 exec $WM
 _EOT_
-
 chmod 700 $HOME/.xsession
 
 # Console messages.
+echo ""
 echo "X server   : $XSERVER"
-echo "Screen     : $SCREEN"
+echo "Screen     : $NEW_SCREEN"
 echo "Exec WM    : $WM"
 echo ""
 
