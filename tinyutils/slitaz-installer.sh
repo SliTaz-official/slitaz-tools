@@ -174,21 +174,30 @@ copy_extract_rootfs()
 	cd $TARGET_ROOT
 	( zcat rootfs.gz 2>/dev/null || lzma d rootfs.gz -so 2>/dev/null || \
 	  cat rootfs.gz ) | cpio -id
-	if [ -f .usr.sqfs ]; then
+	# remove link to cdrom
+	[ -d cdrom ] && rmdir cdrom
+	if [ -L usr ]; then
+		rm usr
+		mv ../rootcd/usr .
+	fi
+	# unpack /usr
+	$sqfs="../rootcd/usr.sqfs"
+	[ -f $sqfs ] || sqfs=".usr.sqfs"
+	if [ -f $sqfs ]; then
 		echo -en "\nDécompression de /usr... "
-		sbin/unsquashfs .usr.sqfs
-		rm .usr.sqfs
-		if [ -d squashfs-root/.moved ]; then
-			( cd squashfs-root/.moved ; find * -print ) | \
-			while read file; do
-				[ -L "$file" ] || continue
-				rm -f "$file"
-				mv "squashfs-root/.moved/$file" "$file"
-			done
-			rm -rf squashfs-root/.moved
-		fi
-		mv squashfs-root/* usr
-		rmdir squashfs-root
+		rmdir usr
+		sbin/unsquashfs -d usr $sqfs
+		rm $sqfs
+	fi
+	if [ -d usr/.moved ]; then
+		echo -en "\nRestoration des fichiers déplacés dans /usr... "
+		( cd usr/.moved ; find * -print ) | \
+		while read file; do
+			[ -L "$file" ] || continue
+			rm -f "$file"
+			mv "usr/.moved/$file" "$file"
+		done
+		rm -rf usr/.moved
 	fi
 	echo ""
 	echo -n "Suppression des fichiers copiés..."
