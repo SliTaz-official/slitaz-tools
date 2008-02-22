@@ -28,12 +28,15 @@ change_jwm_background()
 {
 	if echo $NEW_SCREEN | grep -q '1280x1024'; then
 		sed -i s/'1024x768.png'/'1280x1024.png'/ $JWM_CONFIG
+		sed -i s/'1280x800.png'/'1280x1024.png'/ $JWM_CONFIG
 	fi
 	if echo $NEW_SCREEN | grep -q '1024x768'; then
 		sed -i s/'1280x1024.png'/'1024x768.png'/ $JWM_CONFIG
+		sed -i s/'1280x800.png'/'1024x768.png'/ $JWM_CONFIG
 	fi
 	if echo $NEW_SCREEN | grep -q '1280x800'; then
-		sed -i s/'1024x768.png'/'1280x800.png'/ $JWM_CONFIG
+	    sed -i s/'1024x768.png'/'1280x800.png'/ $JWM_CONFIG
+		sed -i s/'1280x1024.png'/'1280x800.png'/ $JWM_CONFIG
 	fi
 }
 
@@ -92,7 +95,11 @@ screen_config_dialog()
 			Xvesa -ac -shadow -screen 800x600x16 -br &
 			exec xterm -cr orange -geometry 80x35+0-0 ;;
 		*)
-			NEW_SCREEN=$value ;;
+			NEW_SCREEN=$value
+			# /etc/X11/screen.conf exist for Live mode, if this file dos not
+			# exist tazx is executed at boot time.
+			mkdir -p /etc/X11
+			echo "SCREEN=$NEW_SCREEN" > /etc/X11/screen.conf ;;
 	esac
 }
 
@@ -100,17 +107,10 @@ screen_config_dialog()
 slim_config()
 {
 	if test $(id -u) = 0; then
-		# Get current screen size or set default to 1024x768x24 to sed
-		# config file with the new value.
-		if [ -f /etc/X11/screen.conf ]; then
-			. /etc/X11/screen.conf
-		else
-			SCREEN=1024x768x24
-		fi
+		# Get current screen size and sed config file with the new value.
 		if [ -f /etc/slim.conf ]; then
-			mkdir -p /etc/X11
-			echo "SCREEN=$NEW_SCREEN" > /etc/X11/screen.conf
-			sed -i s/"$SCREEN"/"$NEW_SCREEN"/ /etc/slim.conf
+			RES=$(grep ^xserver_arguments /etc/slim.conf | sed 's/xserver_arguments.*-screen *//')
+			sed "s/\(xserver_arguments.*-screen \).*/\1 $NEW_SCREEN/" /etc/slim.conf
 		fi
 		JWM_CONFIG=/etc/jwm/system.jwmrc
 		change_jwm_background
