@@ -178,16 +178,15 @@ copy_extract_rootfs()
 	[ -d cdrom ] && rmdir cdrom
 	if [ -L usr ]; then
 		rm usr
-		mv ../rootcd/usr .
+		cp -a /cdrom/usr .
 	fi
 	# unpack /usr
-	$sqfs="../rootcd/usr.sqfs"
+	sqfs="/cdrom/usr.sqfs"
 	[ -f $sqfs ] || sqfs=".usr.sqfs"
 	if [ -f $sqfs ]; then
 		echo -en "\nDécompression de /usr... "
 		rmdir usr
 		sbin/unsquashfs -d usr $sqfs
-		rm $sqfs
 	fi
 	if [ -d usr/.moved ]; then
 		echo -en "\nRestoration des fichiers déplacés dans /usr... "
