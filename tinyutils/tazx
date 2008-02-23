@@ -95,11 +95,7 @@ screen_config_dialog()
 			Xvesa -ac -shadow -screen 800x600x16 -br &
 			exec xterm -cr orange -geometry 80x35+0-0 ;;
 		*)
-			NEW_SCREEN=$value
-			# /etc/X11/screen.conf exist for Live mode, if this file dos not
-			# exist tazx is executed at boot time.
-			mkdir -p /etc/X11
-			echo "SCREEN=$NEW_SCREEN" > /etc/X11/screen.conf ;;
+			NEW_SCREEN=$value ;;
 	esac
 }
 
@@ -107,10 +103,14 @@ screen_config_dialog()
 slim_config()
 {
 	if test $(id -u) = 0; then
+		# /etc/X11/screen.conf exist for Live mode, if this file dos not
+		# exist tazx is executed at boot time.
+		mkdir -p /etc/X11
+		echo "SCREEN=$NEW_SCREEN" > /etc/X11/screen.conf
 		# Get current screen size and sed config file with the new value.
 		if [ -f /etc/slim.conf ]; then
 			RES=$(grep ^xserver_arguments /etc/slim.conf | sed 's/xserver_arguments.*-screen *//')
-			sed "s/\(xserver_arguments.*-screen \).*/\1 $NEW_SCREEN/" /etc/slim.conf
+			sed -i "s/\(xserver_arguments.*-screen \).*/\1 $NEW_SCREEN/" /etc/slim.conf
 		fi
 		JWM_CONFIG=/etc/jwm/system.jwmrc
 		change_jwm_background
@@ -126,13 +126,34 @@ e17_stuff()
 	fi
 }
 
+# Sample xinitrc for user (WM can be specified with F1 at slim login).
+xinitrc_sample()
+{
+	cat >  $FILE << "EOF"
+# ~/.xinitrc: Executed by slim login manager to startx X session.
+#
+case $1 in
+	e17|enlightenment_start)
+		exec enlightenment_start
+		;;
+	*)
+		exec jwm
+		;;
+esac
+EOF
+}
+
 # ~/.xinitrc for slim login.
 creat_xinitrc()
 {
-	echo "$WM" > $HOME/.xinitrc
+	FILE=$HOME/.xinitrc
+	xinitrc_sample
+	# In Live mode hacker needs a xinitrc, since tazx 
+	# is executed only by root.
 	if [ ! -f /home/hacker/.xinitrc ]; then
-		echo "$WM" > /home/hacker/.xinitrc
-		chown hacker.hacker /home/hacker/.xinitrc
+		FILE=/home/hacker/.xinitrc
+		xinitrc_sample
+		chown hacker.hacker $FILE
 	fi
 }
 
@@ -158,25 +179,15 @@ jwm_config()
 # only by startx, Slim login manager use .xinitrc).
 creat_xsession()
 {
-	cat > $HOME/.xsession << _EOT_
-# ~/.xsession: Start X window session on your system.
+	cat > $HOME/.xsession << _EOF_
+# ~/.xsession: Start X window session manually on your system (startx).
 #
 $XSERVER -ac -shadow $XSEVER_OPTS -screen $NEW_SCREEN -mouse $MOUSE &
 #xterm &
 #xpad &
 exec $WM
-_EOT_
+_EOF_
 	chmod 700 $HOME/.xsession
-}
-
-# Console message.
-console_message()
-{
-	echo ""
-	echo "X server   : $XSERVER"
-	echo "Screen     : $NEW_SCREEN"
-	echo "Exec WM    : $WM"
-	echo ""
 }
 
 ###################
@@ -189,6 +200,5 @@ e17_stuff
 creat_xinitrc
 jwm_config
 creat_xsession
-console_message
 
 exit 0
