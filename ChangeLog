@@ -1,3 +1,13 @@
+2008-02-24  Christophe Lincoln  <pankso@slitaz.org>
+
+ * Release - SliTaz tools 1.8
+   
+   Un nouvel installateur, tazx modifié pour prendre en charge la configuration
+   de slim (X login manger) et nettoyé dans la foulée (tout en fonction). 
+   L'installateur ncurses pemret de faire une nouvelle install très facilement
+   et la partie "system upgrade" rest encore à coder.
+   
+
 2008-02-07  Christophe Lincoln  <pankso@slitaz.org>
 
  * Release - SliTaz tools 1.7
