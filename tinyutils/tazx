@@ -194,7 +194,7 @@ _EOF_
 #  Tazx sequence  #
 ###################
 
-screen_config_dialog
+[ -n "$NEW_SECREEN" ] || screen_config_dialog
 slim_config
 e17_stuff
 creat_xinitrc
