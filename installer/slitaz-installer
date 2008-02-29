@@ -259,7 +259,7 @@ Le nom de machine ou 'hostname' est utilisé pour identifier votre machine sur
 le réseau et en local par le système (defaut: slitaz). A noter que cette\
 valeur peut aussi être modifiée une fois le système installé en utilisant
 'netbox' graphiquement ou en ligne de commande.\n\n
-\Z2Nom de machine:\Zn" 18 70 2>&1 1>&3`
+\Z2Nom de machine:\Zn" 18 70  "slitaz" 2>&1 1>&3`
 	retval=$?
 	exec 3>&-
 	check_retval
@@ -278,7 +278,7 @@ clean_target()
 		echo "XXX"
 		cd $TARGET_ROOT
 		# Keep /home in case of reinstall.
-		for dir in *
+		for dir in $TARGET_ROOT/*
 		do
 			case "$dir" in
 				home)
@@ -287,10 +287,12 @@ clean_target()
 				lost+found)
 					break ;;
 				*)
+					echo "Deleting: $dir" >> $LOG
 					rm -rf $dir 2>$LOG ;;
 			esac
 		done
 		if [ -d $TARGET_ROOT/mklost+found ]; then
+			echo "Execute mklost+found" >> $LOG
 			mklost+found 2>>$LOG
 		fi
 	fi
@@ -324,6 +326,7 @@ copy_bootloaders()
 # Extract lzma'ed or gziped rootfs.
 extract_rootfs()
 {
+	echo "Extract lzma'ed or geziped rootfs" >> $LOG
 	cd $TARGET_ROOT
 	(zcat rootfs.gz 2>/dev/null || lzma d rootfs.gz -so 2>/dev/null || \
 	 cat rootfs.gz) 2>>$LOG | cpio -id 2>>$LOG
@@ -581,6 +584,8 @@ umount_devices()
 end_of_install()
 {
 	echo "end_of_install: `date`" >>$LOG
+	# Save log file right place
+	cp $LOG $TARGET_ROOT/var/log
 	$DIALOG --title " Installation terminée " \
 		--backtitle "$BACKLIST" \
 		--yes-label "Exit" \
