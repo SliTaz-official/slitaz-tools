@@ -280,15 +280,16 @@ clean_target()
 		# Keep /home in case of reinstall.
 		for dir in $TARGET_ROOT/*
 		do
-			case "$dir" in
+			dirname=`basename $dir`
+			case "$dirname" in
 				home)
-					mv home home.bak
+					mv $TARGET_ROOT/home $TARGET_ROOT/home.bak
 					echo "keeping /home found on: $TARGET_DEV" >>$LOG ;;
 				lost+found)
 					break ;;
 				*)
 					echo "Deleting: $dir" >> $LOG
-					rm -rf $dir 2>$LOG ;;
+					rm -rf $dir 2>>$LOG ;;
 			esac
 		done
 		if [ -d $TARGET_ROOT/mklost+found ]; then
