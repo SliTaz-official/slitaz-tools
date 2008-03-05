@@ -1,0 +1,7 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=SliTaz installer
+Exec=subox 'xterm -T "SliTaz Installer" -cr white -e slitaz-installer'
+Icon=/usr/share/icons/Tango/jwm/system-installer.png
+Type=Application
+Categories=System;
