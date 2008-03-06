@@ -136,6 +136,16 @@ flash key, USB disk or local HD partitions.
         <action>mount | grep $DEVICE; echo "Done."</action>
       </button>
       <button>
+        <label>Browse</label>
+        <input file icon="folder"></input>
+        <action>emelfm2 --one=$MOUNT_POINT</action>
+      </button>
+      <button>
+        <label>Eject</label>
+        <input file icon="media-cdrom"></input>
+        <action>eject</action>
+      </button>
+      <button>
         <input file icon="exit"></input>
         <action type="exit">Exit</action>
       </button>
