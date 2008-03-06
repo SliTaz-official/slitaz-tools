@@ -3,7 +3,7 @@
 # Tazx - Ncurses X configuration for SliTaz GNU/Linux using Dialog boxes.
 # This tinyutils is part of slitaz-tools.
 #
-# 20080222 <pankso@slitaz.org> - GNU gpl v3.
+# 20080306 <pankso@slitaz.org> - GNU gpl v3.
 #
 : ${DIALOG=dialog}
 
@@ -126,17 +126,48 @@ e17_stuff()
 	fi
 }
 
+# Openbox with openbox-session.
+openbox_stuff()
+{
+	if [ "$WM" == "openbox" -o "$WM" == "ob" ]; then
+		 WM=openbox-session
+		 XSEVER_OPTS="dpms -terminate"
+	fi
+	# Check if a personnal autostart script exist if OB is installed.
+	if [ -d "/var/lib/tazpkg/installed/openbox" ]; then
+		if [ ! -f "$HOME/.config/openbox/autostart.sh" ]; then
+			mkdir -p $HOME/.config/openbox
+			cp /etc/xdg/openbox/autostart.sh $HOME/.config/openbox
+		fi
+		# Script for hacker, Openbox can be used with a LiveCD flavor or
+		# LiveUSB.
+		if [ ! -f "/home/hacker/.config/openbox/autostart.sh" ]; then
+			mkdir -p /home/hacker/.config/openbox
+			cp /etc/xdg/openbox/autostart.sh /home/hacker/.config/openbox
+		fi
+	fi
+}
+
 # Sample xinitrc for user (WM can be specified with F1 at slim login).
 xinitrc_sample()
 {
 	cat >  $FILE << "EOF"
 # ~/.xinitrc: Executed by slim login manager to startx X session.
+# You can use 'tazx' to configure your default WM: tazx e17
 #
+if [ -z $1 ]; then
+	1=jwm
+fi
+
 case $1 in
 	e17|enlightenment_start)
 		exec enlightenment_start
 		;;
-	*)
+	openbox|openbox-session)
+		exec openbox-session
+		;;
+	jwm|*)
+		lxpanel &
 		exec jwm
 		;;
 esac
@@ -148,6 +179,8 @@ creat_xinitrc()
 {
 	FILE=$HOME/.xinitrc
 	xinitrc_sample
+	# Set default WM.
+	sed -i s/'1=jwm'/"1=$WM"/ $FILE
 	# In Live mode hacker needs a xinitrc, since tazx 
 	# is executed only by root.
 	if [ ! -f /home/hacker/.xinitrc ]; then
@@ -160,16 +193,16 @@ creat_xinitrc()
 # Copy a JWM system config if any present in user home.
 jwm_config()
 {
-	if [ ! -f "$HOME/.jwmrc" ]; then
-		cp /etc/jwm/system.jwmrc $HOME/.jwmrc
-		JWM_CONFIG=$HOME/.jwmrc
-		change_jwm_background
+	JWM_CONFIG=$HOME/.jwmrc
+	if [ ! -f "$JWM_CONFIG" ]; then
+		cp /etc/jwm/system.jwmrc $JWM_CONFIG
 	fi
+	change_jwm_background
 	# In Live mode hacker JWM config dose not exist, this is
 	# because tazx is executed at boot time by root.
 	if [ ! -f "/home/hacker/.jwmrc" ]; then
-		cp /etc/jwm/system.jwmrc /home/hacker/.jwmrc
 		JWM_CONFIG=/home/hacker/.jwmrc
+		cp /etc/jwm/system.jwmrc $JWM_CONFIG
 		change_jwm_background
 		chown hacker.hacker $JWM_CONFIG
 	fi
@@ -185,6 +218,7 @@ creat_xsession()
 $XSERVER -ac -shadow $XSEVER_OPTS -screen $NEW_SCREEN -mouse $MOUSE &
 #xterm &
 #xpad &
+#lxpanel &
 exec $WM
 _EOF_
 	chmod 700 $HOME/.xsession
@@ -197,6 +231,7 @@ _EOF_
 [ -n "$NEW_SECREEN" ] || screen_config_dialog
 slim_config
 e17_stuff
+openbox_stuff
 creat_xinitrc
 jwm_config
 creat_xsession
