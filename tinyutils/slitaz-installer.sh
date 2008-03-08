@@ -187,7 +187,14 @@ copy_extract_rootfs()
 		echo -en "\nDécompression de /usr... "
 		rmdir usr
 		sbin/unsquashfs -d usr $sqfs
-		rm -f $sqfs 2> /dev/null
+		[ "$sqfs" = ".usr.sqfs" ] && rm -f $sqfs
+	fi
+	cromfs="/media/cdrom/usr.cromfs"
+	[ -f $cromfs ] || cromfs=".usr.cromfs"
+	if [ -f $cromfs ]; then
+		rmdir usr
+		bin/unmkcromfs $cromfs usr
+		[ "$cromfs" = ".usr.cromfs" ] && rm -f $cromfs
 	fi
 	if [ -d usr/.moved ]; then
 		echo -en "\nRestoration des fichiers déplacés dans /usr... "

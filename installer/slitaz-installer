@@ -346,6 +346,13 @@ extract_rootfs()
 		sbin/unsquashfs -d usr $sqfs
 		[ "$sqfs" = ".usr.sqfs" ] && rm -f $sqfs
 	fi
+	cromfs="/media/cdrom/usr.cromfs"
+	[ -f $cromfs ] || cromfs=".usr.cromfs"
+	if [ -f $cromfs ]; then
+		rmdir usr
+		bin/unmkcromfs $cromfs usr
+		[ "$cromfs" = ".usr.cromfs" ] && rm -f $cromfs
+	fi
 	if [ -d usr/.moved ]; then
 		( cd usr/.moved ; find * -print ) | \
 		while read file; do
