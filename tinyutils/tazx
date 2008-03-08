@@ -144,6 +144,7 @@ openbox_stuff()
 		if [ ! -f "/home/hacker/.config/openbox/autostart.sh" ]; then
 			mkdir -p /home/hacker/.config/openbox
 			cp /etc/xdg/openbox/autostart.sh /home/hacker/.config/openbox
+			chown -R hacker.hacker /home/hacker/.config
 		fi
 	fi
 }
