@@ -332,36 +332,10 @@ extract_rootfs()
 	(zcat rootfs.gz 2>/dev/null || lzma d rootfs.gz -so 2>/dev/null || \
 	 cat rootfs.gz) 2>>$LOG | cpio -id 2>>$LOG
 	rm -f rootfs.gz
-	# remove link to cdrom
-	[ -d cdrom ] && rmdir cdrom
-	if [ -L usr ]; then
-		rm usr
-		cp -a /media/cdrom/usr .
-	fi
 	# unpack /usr
-	sqfs="/media/cdrom/usr.sqfs"
-	[ -f $sqfs ] || sqfs=".usr.sqfs"
-	if [ -f $sqfs ]; then
-		rmdir usr
-		sbin/unsquashfs -d usr $sqfs
-		[ "$sqfs" = ".usr.sqfs" ] && rm -f $sqfs
-	fi
-	cromfs="/media/cdrom/usr.cromfs"
-	[ -f $cromfs ] || cromfs=".usr.cromfs"
-	if [ -f $cromfs ]; then
-		rmdir usr
-		bin/unmkcromfs $cromfs usr
-		[ "$cromfs" = ".usr.cromfs" ] && rm -f $cromfs
-	fi
-	if [ -d usr/.moved ]; then
-		( cd usr/.moved ; find * -print ) | \
-		while read file; do
-			[ -L "$file" ] || continue
-			rm -f "$file"
-			mv "usr/.moved/$file" "$file"
-		done
-		rm -rf usr/.moved
-	fi
+	for i in etc/tazlito/*.extract; do
+		. $i /media/cdrom
+	done
 }
 
 # /etc/skel (60%)

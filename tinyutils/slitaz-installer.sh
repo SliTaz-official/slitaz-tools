@@ -174,13 +174,10 @@ copy_extract_rootfs()
 	cd $TARGET_ROOT
 	( zcat rootfs.gz 2>/dev/null || lzma d rootfs.gz -so 2>/dev/null || \
 	  cat rootfs.gz ) | cpio -id
-	# remove link to cdrom
-	[ -d cdrom ] && rmdir cdrom
-	if [ -L usr ]; then
-		rm usr
-		cp -a /cdrom/usr .
-	fi
 	# unpack /usr
+	for i in etc/tazlito/*.extract; do
+		. $i /media/cdrom
+	done
 	sqfs="/cdrom/usr.sqfs"
 	[ -f $sqfs ] || sqfs=".usr.sqfs"
 	if [ -f $sqfs ]; then
