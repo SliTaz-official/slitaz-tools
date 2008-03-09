@@ -229,7 +229,7 @@ _EOF_
 #  Tazx sequence  #
 ###################
 
-[ -n "$NEW_SECREEN" ] || screen_config_dialog
+[ -n "$NEW_SCREEN" ] || screen_config_dialog
 slim_config
 e17_stuff
 openbox_stuff
