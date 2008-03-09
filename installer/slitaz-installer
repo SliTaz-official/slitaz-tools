@@ -334,7 +334,7 @@ extract_rootfs()
 	rm -f rootfs.gz
 	# unpack /usr
 	for i in etc/tazlito/*.extract; do
-		. $i /media/cdrom
+		[ -f "$i" ] && . $i /media/cdrom
 	done
 }
 

@@ -176,7 +176,7 @@ copy_extract_rootfs()
 	  cat rootfs.gz ) | cpio -id
 	# unpack /usr
 	for i in etc/tazlito/*.extract; do
-		. $i /media/cdrom
+		[ -f "$i" ] && . $i /media/cdrom
 	done
 	sqfs="/cdrom/usr.sqfs"
 	[ -f $sqfs ] || sqfs=".usr.sqfs"
