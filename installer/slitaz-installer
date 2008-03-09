@@ -32,13 +32,13 @@ START_INSTALL_MSG="\n
 Bienvenue dans l'installateur de SliTaz GNU/Linux. Vous pouvez utiliser \
 les flèches du clavier et la touche ENTER ou la souris pour valider. Il vous \
 suffira de répondre à quelques questions lors des différentes étapes \
-d'installation. L'installateur va commencer par monter le cdrom, vous \
-demander la partition à utiliser comme racine du système et vous proposer \
-de la formater. Ensuite il va copier les fichiers depuis le cdrom, les \
-décompresser, les installer et va préconfigurer le système. Pour finir,
-vous aurez aussi la possibilité d'installer le gestionnaire de démarrage 
-GRUB, si besoin est.\n\n
-\Z2Commencer l'installation ?\Zn"
+d'installation ou de mise à jour. Dans le cas d'une nouvelle installation, \
+l'installateur va vous demander la partition à utiliser comme racine du \
+système et vous proposer de la formater. Ensuite il va copier les fichiers \
+depuis le cdrom, les décompresser, les installer et va préconfigurer le \
+système. Pour finir, vous aurez aussi la possibilité d'installer le \
+gestionnaire de démarrage GRUB, si besoin est.\n\n
+\Z2Commencer une installation ou une mise à jour ?\Zn"
 
 #######################
 # Installer functions #
@@ -70,27 +70,39 @@ use 'su' to get a root SHell and restart installation."
 # This function is used after each screen to contine or abort install.
 check_retval()
 {
-case $retval in
-	0)
-		continue ;;
-	1)
-		echo -e "\nArrêt volontaire.\n" && exit 0 ;;
-	3)
-		continue ;;
-	255)
-		echo -e "ESC pressed.\n" && exit 0 ;;
-esac
+	case $retval in
+		0)
+			continue ;;
+		1)
+			echo -e "\nArrêt volontaire.\n" && exit 0 ;;
+		3)
+			continue ;;
+		255)
+			echo -e "ESC pressed.\n" && exit 0 ;;
+	esac
 }
 
 # Start install with basic informations.
-start_install()
+start_installer()
 {
-	$DIALOG --title " Débuter l'installation " \
+	$DIALOG --title " Installation ou mise à jour " \
 		--backtitle "$BACKLIST" \
+		--extra-button --extra-label "Upgrade" \
+		--yes-label "Install" \
+		--no-label "Quit" \
 		--clear --colors --yesno "$START_INSTALL_MSG" 18 70
 	retval=$?
-	check_retval
-	echo "start_infos: `date`" > $LOG
+		case $retval in
+		0)
+			ACTION=install ;;
+		1)
+			echo -e "\nArrêt volontaire.\n" && exit 0 ;;
+		3)
+			ACTION=upgrade ;;
+		255)
+			echo -e "ESC pressed.\n" && exit 0 ;;
+	esac
+	echo "start_installer: `date`" > $LOG
 }
 
 # Mount cdrom and verify if it's realy SliTaz CD.
@@ -255,11 +267,11 @@ ask_for_hostname()
 		--backtitle "$BACKLIST" --clear \
 		--colors --inputbox "\n
 Veuillez indiquer le nom de machine à utiliser pour votre système SliTaz.\
-Le nom de machine ou 'hostname' est utilisé pour identifier votre machine sur
-le réseau et en local par le système (defaut: slitaz). A noter que cette\
+Le nom de machine ou 'hostname' est utilisé pour identifier votre machine sur \
+le réseau et en local par le système (defaut: slitaz). A noter que cette \
 valeur peut aussi être modifiée une fois le système installé en utilisant
 'netbox' graphiquement ou en ligne de commande.\n\n
-\Z2Nom de machine:\Zn" 18 70  "slitaz" 2>&1 1>&3`
+\Z2Nom de machine:\Zn" 18 70 "slitaz" 2>&1 1>&3`
 	retval=$?
 	exec 3>&-
 	check_retval
@@ -276,24 +288,22 @@ clean_target()
 		echo "XXX" && echo 15
 		echo -e "\nNettoyage de la partition racine ($TARGET_DEV)..."
 		echo "XXX"
-		cd $TARGET_ROOT
 		# Keep /home in case of reinstall.
-		for dir in $TARGET_ROOT/*
+		cd $TARGET_ROOT
+		for dir in *
 		do
-			dirname=`basename $dir`
-			case "$dirname" in
+			case "$dir" in
 				home)
 					mv $TARGET_ROOT/home $TARGET_ROOT/home.bak
 					echo "keeping /home found on: $TARGET_DEV" >>$LOG ;;
 				lost+found)
-					break ;;
+					continue ;;
 				*)
-					echo "Deleting: $dir" >> $LOG
+					echo "removing target: $dir" >>$LOG
 					rm -rf $dir 2>>$LOG ;;
 			esac
 		done
 		if [ -d $TARGET_ROOT/mklost+found ]; then
-			echo "Execute mklost+found" >> $LOG
 			mklost+found 2>>$LOG
 		fi
 	fi
@@ -305,7 +315,7 @@ install_kernel()
 {
 	mkdir -p $TARGET_ROOT/boot
 	cp /media/cdrom/boot/bzImage $TARGET_ROOT/boot/$KERNEL
-	echo "install_kernel: $KERNEL" >>$LOG
+	echo "install_kernel: $KERNEL" >> $LOG
 	sleep 2
 }
 
@@ -327,15 +337,16 @@ copy_bootloaders()
 # Extract lzma'ed or gziped rootfs.
 extract_rootfs()
 {
-	echo "Extract lzma'ed or geziped rootfs" >> $LOG
 	cd $TARGET_ROOT
-	(zcat rootfs.gz 2>/dev/null || lzma d rootfs.gz -so 2>/dev/null || \
+	(zcat rootfs.gz 2>/dev/null || lzma d rootfs.gz -so || \
 	 cat rootfs.gz) 2>>$LOG | cpio -id 2>>$LOG
 	rm -f rootfs.gz
-	# unpack /usr
-	for i in etc/tazlito/*.extract; do
-		[ -f "$i" ] && . $i /media/cdrom
-	done
+	# unpack /usr (double check...)
+	if ls etc/tazlito | grep -q ".extract"; then
+		for i in etc/tazlito/*.extract; do
+			[ -f "$i" ] && . $i /media/cdrom.
+		done
+	fi
 }
 
 # /etc/skel (60%)
@@ -566,8 +577,6 @@ umount_devices()
 end_of_install()
 {
 	echo "end_of_install: `date`" >>$LOG
-	# Save log file right place
-	cp $LOG $TARGET_ROOT/var/log
 	$DIALOG --title " Installation terminée " \
 		--backtitle "$BACKLIST" \
 		--yes-label "Exit" \
@@ -598,40 +607,277 @@ esac
 # Upgrade functions #
 #####################
 
-# Start upgrade with basic informations (TODO).
-start_upgrade()
+# We need a partition to upgrade SliTaz.
+ask_for_upgrade_dev()
 {
-	$DIALOG --title " Mise à jour du système " \
-		--backtitle "$BACKLIST" \
-		--clear --colors --yesno "\n
-La fonction de mise à jour complète du système n'est pas encore implémentée.
-\n\n
-* Montage de la partition.\n
-* Sauvegarde des fichiers de configuration.\n
-* Créer un diff entre les paquets du cdrom et ceux installés.\n
-* Nettoyer la partition.\n
-* Installer la version du cdrom.\n
-* Restauration des fichiers de config.\n
-* Réinstaller les paquets manquants depuis le miroir." 18 70
+	exec 3>&1
+	UPGRADE_DEV=`$DIALOG --title " Cible à mettre jour " \
+		--backtitle "$BACKLIST" --clear \
+		--extra-label "List" --extra-button \
+		--colors --inputbox "\n
+L'installateur va mettre à jour le système cible en commançant par sauver tous \
+les fichiers de configuration et la liste des paquets installés. Ensuite, il va \
+nettoyer la partition et installer la version de SliTaz contenue sur le cdrom, \
+restaurer les fichiers de configuration et réinstaller l'ensemble des paquets \
+qui ne sont pas présents sur le LiveCD. Il vous font donc une connection internet \
+active avant de mettre à jour.\n\n
+\Z2Partition contenant le système à mettre à jour:\Zn" 18 70 2>&1 1>&3`
 	retval=$?
-	#check_retval
-	#echo "start_upgarde: `date`" > $LOG
-	exit 0
+	exec 3>&-
+	check_retval
+	# Display list and comme back.
+	if [ "$retval" = "3" ]; then
+		fdisk_list
+		ask_for_upgrade_dev
+	fi
+	# Empty value.
+	if [ -z $UPGRADE_DEV ]; then
+		ask_for_upgrade_dev
+	fi
+	# Check if specified device exist in /proc/partitions.
+	DEV_NAME=${UPGRADE_DEV#/dev/}
+	if cat /proc/partitions | grep -q $DEV_NAME; then
+		echo "ask_for_target_dev: $TARGET_DEV" >>$LOG
+	else
+		ERROR_MSG="La partition \Z2$UPGRADE_DEV\Zn ne semble pas exister."
+		error_message
+		ask_for_upgrade_dev
+	fi
+	echo "partition to upgrade: $UPGRADE_DEV" >>$LOG
+}
+
+# Prepare the part to upgrade, backup, install, restore configs 
+# and reinstall pkgs.
+upgrade_process()
+{
+	(
+	echo "XXX" && echo 5
+	echo -e "\nPréparation de la partition cible..."
+	echo "XXX"
+	# Mount point can be already used.
+	if mount | grep -q $TARGET_ROOT; then
+		umount $TARGET_ROOT 2>$LOG
+	fi
+	mkdir -p $TARGET_ROOT && sleep 2
+	# Mount target
+	mount $UPGRADE_DEV $TARGET_ROOT >>$LOG 2>>$LOG
+	cd $TARGET_ROOT
+	TARGET_DEV=$UPGRADE_DEV
+		
+	echo "XXX" && echo 10
+	echo -e "\nRecherch de /etc/slitaz-release"
+	echo "XXX"
+	if [ -f etc/slitaz-release ]; then
+		release=`cat etc/slitaz-release`
+		echo "XXX" && echo 15
+		echo -e "\nSliTaz release: $release"
+		echo "XXX"
+	else
+		ERROR_MSG="La partition \Z2$UPGRADE_DEV\Zn ne semble pas contenir de \
+système SliTaz, le fichier: /etc/slitaz-release n'existe pas."
+		error_message
+		exit 0
+	fi && sleep 2
+	
+	echo "XXX" && echo 20
+	echo -e "\nSauvegarde de /etc, /home et de la liste des paquets..."
+	echo "XXX"
+	# Backup target packages list
+	ls -1 var/lib/tazpkg/installed > home/packages-selection.list
+	for dir in *
+	do
+		case "$dir" in
+			boot)
+				# Upgrade dont prompt for grub install, so backup and creat a
+				# new grub menu.lst.
+				rm -rf $TARGET_ROOT/boot/vmlinuz-*
+				mv $TARGET_ROOT/boot/grub/menu.lst \
+					$TARGET_ROOT/boot/grub/menu.lst.bak 2>/dev/null
+				grub_config ;;
+			home)
+				mv $TARGET_ROOT/home $TARGET_ROOT/home.bak
+				echo "keeping /home found on: $UPGRADE_DEV" >>$LOG ;;
+			etc)
+				tar czf $TARGET_ROOT/etc.tar.gz etc
+				mv $TARGET_ROOT/etc $TARGET_ROOT/etc.bak
+				echo "keeping /etc found on: $UPGRADE_DEV" >>$LOG ;;
+			var)
+				if [ -d $TARGET_ROOT/var/www ]; then
+					mv $TARGET_ROOT/var/www $TARGET_ROOT/www.bak
+				fi
+				rm -rf $TARGET_ROOT/var ;;
+			lost+found)
+				continue ;;
+			*)
+				echo "removing target: $dir" >>$LOG
+				rm -rf $TARGET_ROOT/$dir 2>>$LOG ;;
+		esac
+	done
+	if [ -d $TARGET_ROOT/mklost+found ]; then
+		mklost+found 2>>$LOG
+	fi
+	sleep 2
+	
+	echo "XXX" && echo 25
+	echo -e "\nInstallation du noyau ($KERNEL)..."
+	echo "XXX"
+	install_kernel
+	
+	echo "XXX" && echo 30
+	echo -e "\nCopie des bootloaders syslinux/isolinux..."
+	echo "XXX"
+	copy_bootloaders
+	
+	echo "XXX" && echo 35
+	echo -e "\nCopie du système compressé (rootfs.gz)..."
+	echo "XXX"
+	cp /media/cdrom/boot/rootfs.gz $TARGET_ROOT
+	sleep 2
+	
+	echo "XXX" && echo 40
+	echo -e "\nExtraction du système racine..."
+	echo "XXX"
+	extract_rootfs
+	
+	# Restore backups.
+	echo "XXX" && echo 42
+	echo -e "\nRestauration des fichiers de configuration..."
+	echo "XXX"
+	rm -rf $TARGET_ROOT/home
+	mv $TARGET_ROOT/home.bak $TARGET_ROOT/home
+	rm -rf $TARGET_ROOT/etc
+	mv $TARGET_ROOT/etc.bak $TARGET_ROOT/etc
+	if [ -d $TARGET_ROOT/www.bak ]; then
+		rm -rf $TARGET_ROOT/var/www
+		mv $TARGET_ROOT/www.bak $TARGET_ROOT/var/www
+	fi
+	echo "backups restored: `date`" >> $LOG
+	
+	# /var/lib/slitaz-installer
+	mkdir $TARGET_ROOT/var/lib/slitaz-installer
+	mv $TARGET_ROOT/etc.tar.gz $TARGET_ROOT/var/lib/slitaz-installer
+	mv $TARGET_ROOT/home/packages-selection.list $TARGET_ROOT/var/lib/slitaz-installer
+	cd $TARGET_ROOT/var/lib/slitaz-installer
+	
+	# LiveCD packages list.
+	echo "XXX" && echo 46
+	echo -e "\nCréation des listes de paquets..."
+	echo "XXX"
+	ls -1 $TARGET_ROOT/var/lib/tazpkg/installed > packages-cdrom.list || exit 1
+	echo "packages-cdrom.list: done" >> $LOG
+	# Diff
+	diff packages-cdrom.list packages-selection.list | \
+		grep ^+[a-z] | sed s/^+// > packages-selection.diff
+	echo "packages-selection.diff: done" >> $LOG
+	# Get mirror list.
+	tazpkg recharge >>$LOG 2>>$LOG
+	if [ ! -f /var/lib/tazpkg/packages.list ]; then
+		ERROR_MSG="La liste des paquets disponibles sur le miroir n'a pas pu \
+être téléchargée. Aucun paquets manquants ne sera réintallés maintenant, mais
+vous pourrez le faire plus tard en vous aidant de la liste: \n\n
+
+/var/lib/slitaz-installer/packages-selection.diff"
+		error_message
+	fi
+	sleep 2
+	
+	# Check if the pkg is on the mirror
+	echo "XXX" && echo 48
+	echo -e "\nVérification de la disponibilité des paquets..."
+	echo "XXX"
+	touch packages-to-install.list
+	packages=0
+	diff=`cat packages-selection.diff | sort`
+	for pkg in $diff
+	do
+		if grep -q ^$pkg-[0-9] /var/lib/tazpkg/packages.list; then
+			packages=$(($packages+1))
+			echo "$pkg" >> packages-to-install.list
+		fi
+	done
+	
+	# Calculate the pourcent for one package and install.
+	echo "XXX" && echo 50
+	echo -e "\nInstallation des éventuels paquets..."
+	echo "XXX"
+	sleep 2
+	if [ "$packages" == "0" ]; then	
+		echo "packages to install: 0" >> $LOG
+	else
+		onepkg=$((48/$packages))
+		pct=50
+		# Get-install all missing pkgs.
+		for pkg in `cat packages-to-install.list`
+		do
+			pct=$(($pct+$onepkg))
+			echo "XXX" && echo $pct
+			echo -e "\nInstallation de: $pkg..."
+			echo "XXX"
+			# Log please.
+			echo "get-install: $pkg" >>$LOG
+			# Get install package and anser yes in case of dependencies.
+			pkgname=`grep ^$pkg /var/lib/tazpkg/packages.list`
+			tazpkg get $pkg >/dev/null 2>/dev/null
+			yes "" | tazpkg install $pkgname.tazpkg --root=$TARGET_ROOT >/dev/null 2>/dev/null
+			rm -f $pkgname.tazpkg
+		done
+	fi
+	echo "XXX" && echo 100
+	echo -e "\nInstallation des paquets terminée..."
+	echo "XXX"
+	sleep 2
+	) |
+	$DIALOG --title " Préparation de la cible " \
+		--backtitle "$BACKLIST" \
+		--gauge "Target in preparation..." 18 70 0
+}
+
+# End of system upgrade
+end_of_upgrade()
+{
+	TARGET_DEV=$UPGRADE_DEV
+	pkgscd=`cat $TARGET_ROOT/var/lib/slitaz-installer/packages-cdrom.list | wc -l`
+	pkginst=`cat $TARGET_ROOT/var/lib/slitaz-installer/packages-to-install.list | wc -l`
+	echo "end_of_upgrade: `date`" >>$LOG
+	$DIALOG --title " Mise à jour terminée " \
+		--backtitle "$BACKLIST" \
+		--yes-label "Exit" \
+		--no-label "Reboot" \
+		--clear --colors --yesno "\n
+Mise à jour terminée. Vous pouvez dès maintenant redémarrer (reboot) \
+sur votre système SliTaz GNU/Linux à jour.\n\n
+Paquets présents sur le cdrom      : $pkgscd\n
+Paquets installés depuis le miroir : $pkginst\n" 18 70
+	retval=$?
+	case $retval in
+	0)
+		TITLE="Exiting"
+		umount_devices ;;
+	1)
+		TITLE="Rebooting"
+		umount_devices
+		reboot || reboot -f ;;
+	255)
+		echo -e "ESC pressed.\n" && exit 0 ;;
+esac
 }
 
 ######################
 # Installer sequence #
 ######################
 
+check_root
+start_installer
+
 case $ACTION in
 	upgrade)
-		check_root
-		start_upgrade
-		#mount_cdrom
+		BACKLIST="$BACKLIST (Mise à jour)"
+		mount_cdrom
+		ask_for_upgrade_dev
+		upgrade_process
+		end_of_upgrade
 		;;
 	install|*)
-		check_root
-		start_install
 		mount_cdrom
 		ask_for_target_dev
 		ask_for_mkfs_target_dev
