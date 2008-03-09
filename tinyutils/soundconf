@@ -548,7 +548,7 @@ BEGIN {
 			printf "%s %s\n", id2, driver >>"'"$FOUND"'"
 	}
 }' < $CARDID_DB |\
-    $DIALOG --gauge "$msg" 6 40 0
+    $DIALOG --gauge "$msg" 15 70 5
 
     #
     # PowerMac
@@ -1037,14 +1037,14 @@ ac_config_legacy () {
     msg=$(gettext "           Probing legacy ISA cards
 
         Please select the drivers to probe:")
-    eval $DIALOG --title \"$title\" --checklist \"$msg\" 17 64 8 $menu_args 2> $FOUND || acex 0
+    eval $DIALOG --title \"$title\" --checklist \"$msg\" 15 70 5 $menu_args 2> $FOUND || acex 0
 
     if [ $try_all_combination != 1 ]; then
 	msg=$(gettext "
  Shall I try all possible DMA and IRQ combinations?
  With this option, some unconventional configuration
  might be found, but it will take much longer time.")
-	if $DIALOG --yesno "$msg" 10 60
+	if $DIALOG --yesno "$msg" 15 70 5
 	    then
 	    try_all_combination=1
 	fi
@@ -1065,7 +1065,7 @@ ac_config_legacy () {
     echo
     title=$(gettext "Result")
     msg=$(gettext "No legacy cards found")
-    $DIALOG --title "$title" --msgbox "$msg" 5 50
+    $DIALOG --title "$title" --msgbox "$msg" 15 70 5
     return 1
 }
 
@@ -1158,7 +1158,7 @@ if [ "$devs_found" != "" ]; then
          Following card(s) are found on your system.
          Please skip or choose a soundcard to configure :
 ")
-    eval $DIALOG --title \"$title\" --menu \"$msg\" 17 76 8 $devs_found 2> $FOUND || acex 0
+    eval $DIALOG --title \"$title\" --menu \"$msg\" 15 70 5 $devs_found 2> $FOUND || acex 0
     card=`head -n 1 $FOUND`
     if [ "$card" = "legacy" ]; then
 	ac_config_legacy
@@ -1173,7 +1173,7 @@ else
  Would you like to probe legacy ISA sound cards/chips?
 
 ")
-    if $DIALOG --yesno "$msg" 9 60 ; then
+    if $DIALOG --yesno "$msg" 15 70 5 ; then
 	ac_config_legacy
 	exit 0
     fi
