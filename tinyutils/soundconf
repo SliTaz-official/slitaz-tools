@@ -672,9 +672,7 @@ ac_config_card () {
 	# Keep card driver name in /var/lib to be used by boot scripts.
 	echo $CARD_DRIVER > /var/lib/sound-card-driver
 
-	echo "Loading drivers : $CARD_DRIVER"
-	modprobe $CARD_DRIVER
-	sleep 1
+	modprobe $CARD_DRIVER >/dev/null 2>&1
 	
 	# Sed /etc/rcS.conf to add driver in LOAD_MODULES
 	. /etc/rcS.conf
@@ -684,17 +682,10 @@ ac_config_card () {
 		/etc/rcS.conf
 	
 	# Set default mixer volumes
-	echo -n "Setting default mixers volumes..."
 	set_mixers
-	status
 
 	# Store
 	alsactl store
-	
-    echo -e "
-* Now ALSA is ready to use.
-* For adjustment of volumes, use your favorite mixer.
-* Have a lot of fun!\n"
 }
 
 # check playback

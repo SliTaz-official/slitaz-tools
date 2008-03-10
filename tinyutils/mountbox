@@ -156,6 +156,6 @@ flash key, USB disk or local HD partitions.
 
 # Only root can mount.
 check_root
-gtkdialog --program=MOUNT_DIALOG
+gtkdialog --center --program=MOUNT_DIALOG
 
 exit 0

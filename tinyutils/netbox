@@ -252,6 +252,6 @@ if lease cannot be immediatly negociated."
 
 # Only root can configure network.
 check_root
-gtkdialog --program=NET_BOX
+gtkdialog --center --program=NET_BOX
 
 exit 0
