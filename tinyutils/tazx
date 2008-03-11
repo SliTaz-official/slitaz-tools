@@ -154,13 +154,16 @@ xinitrc_sample()
 {
 	cat >  $FILE << "EOF"
 # ~/.xinitrc: Executed by slim login manager to startx X session.
-# You can use 'tazx' to configure your default WM: tazx e17
+# You can use F1 with Slim or 'tazx' to configure permanantly 
+# your default WM: tazx e17
 #
-if [ -z $1 ]; then
-	1=jwm
+WM=jwm
+
+if [ -n $1 ]; then
+	WM=$1
 fi
 
-case $1 in
+case $WM in
 	e17|enlightenment_start)
 		exec enlightenment_start
 		;;
@@ -180,8 +183,8 @@ creat_xinitrc()
 {
 	FILE=$HOME/.xinitrc
 	xinitrc_sample
-	# Set default WM.
-	sed -i s/'1=jwm'/"1=$WM"/ $FILE
+	
+	
 	# In Live mode hacker needs a xinitrc, since tazx 
 	# is executed only by root.
 	if [ ! -f /home/hacker/.xinitrc ]; then
@@ -189,6 +192,9 @@ creat_xinitrc()
 		xinitrc_sample
 		chown hacker.hacker $FILE
 	fi
+	# Set default WM.
+	RES=`grep ^WM=[e-o] $HOME/.xinitrc`
+	sed -i s/"$RES"/"WM=$WM"/ $HOME/.xinitrc
 }
 
 # Copy a JWM system config if any present in user home.
@@ -219,9 +225,12 @@ creat_xsession()
 $XSERVER -ac -shadow $XSEVER_OPTS -screen $NEW_SCREEN -mouse $MOUSE &
 #xterm &
 #xpad &
-#lxpanel &
-exec $WM
 _EOF_
+	# LXpanel by default with JWM.
+	if [ "$WM" = "jwm" ];then
+		echo 'lxpanel &' >> $HOME/.xsession
+	fi
+	echo 'exec $WM' >> $HOME/.xsession
 	chmod 700 $HOME/.xsession
 }
 
