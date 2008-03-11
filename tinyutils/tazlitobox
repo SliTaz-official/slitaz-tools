@@ -244,6 +244,6 @@ Before editing files you must have a flavor description.
 # Tazlitobox action
 check_root
 cd_flavors
-gtkdialog --program=MAIN_DIALOG
+gtkdialog --center --program=MAIN_DIALOG
 
 exit 0

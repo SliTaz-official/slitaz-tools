@@ -827,7 +827,7 @@ vous pourrez le faire plus tard en vous aidant de la liste: \n\n
 	echo "XXX"
 	sleep 2
 	) |
-	$DIALOG --title " Préparation de la cible " \
+	$DIALOG --title " Processus de mise à jour " \
 		--backtitle "$BACKLIST" \
 		--gauge "Target in preparation..." 18 70 0
 }
