@@ -230,7 +230,7 @@ _EOF_
 	if [ "$WM" = "jwm" ];then
 		echo 'lxpanel &' >> $HOME/.xsession
 	fi
-	echo 'exec $WM' >> $HOME/.xsession
+	echo "exec $WM" >> $HOME/.xsession
 	chmod 700 $HOME/.xsession
 }
 
