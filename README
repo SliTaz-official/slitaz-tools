@@ -23,12 +23,6 @@ Contient des fichiers de configuration et des Makefiles tels que ceux utilisée
 pour compiler Busybox ou le noyau Linux.
 
 
-doc/ - La documentation
------------------------
-Le répertoire doc/ contient toutes la documentation fournie avec les outils.
-Il y a des manuels, des texte d'aide et diverses notes qui peuvent être utiles.
-
-
 hacker/ - Hacker User
 ---------------------
 Des fichiers et répertoires destinés à l'utilisateur hacker (/home/hacker).
