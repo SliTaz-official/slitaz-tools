@@ -96,7 +96,6 @@ slim_config()
 			sed -i "s/\(xserver_arguments.*-screen\).*/\1 $NEW_SCREEN/" /etc/slim.conf
 		fi
 		JWM_CONFIG=/etc/jwm/system.jwmrc
-		change_jwm_background
 	fi
 }
 
