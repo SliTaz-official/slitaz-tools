@@ -3,7 +3,7 @@
 # Tazx - Ncurses X configuration for SliTaz GNU/Linux using Dialog boxes.
 # This tinyutils is part of slitaz-tools.
 #
-# 20080306 <pankso@slitaz.org> - GNU gpl v3.
+# 20080313 <pankso@slitaz.org> - GNU gpl v3.
 #
 : ${DIALOG=dialog}
 
@@ -22,23 +22,6 @@ fi
 ####################
 #  Tazx functions  #
 ####################
-
-# Change backgroud image if the 3/4 is not respected.
-change_jwm_background()
-{
-	if echo $NEW_SCREEN | grep -q '1280x1024'; then
-		sed -i s/'1024x768.png'/'1280x1024.png'/ $JWM_CONFIG
-		sed -i s/'1280x800.png'/'1280x1024.png'/ $JWM_CONFIG
-	fi
-	if echo $NEW_SCREEN | grep -q '1024x768'; then
-		sed -i s/'1280x1024.png'/'1024x768.png'/ $JWM_CONFIG
-		sed -i s/'1280x800.png'/'1024x768.png'/ $JWM_CONFIG
-	fi
-	if echo $NEW_SCREEN | grep -q '1280x800'; then
-	    sed -i s/'1024x768.png'/'1280x800.png'/ $JWM_CONFIG
-		sed -i s/'1280x1024.png'/'1280x800.png'/ $JWM_CONFIG
-	fi
-}
 
 # Screen configuration dialog.
 screen_config_dialog()
@@ -204,14 +187,16 @@ jwm_config()
 	if [ ! -f "$JWM_CONFIG" ]; then
 		cp /etc/jwm/system.jwmrc $JWM_CONFIG
 	fi
-	change_jwm_background
-	# In Live mode hacker JWM config dose not exist, this is
-	# because tazx is executed at boot time by root.
+	# In Live mode hacker/root JWM config dose not exist ans $HOME is 
+	# ot set, this is because tazx is executed by boot scripts.
 	if [ ! -f "/home/hacker/.jwmrc" ]; then
 		JWM_CONFIG=/home/hacker/.jwmrc
 		cp /etc/jwm/system.jwmrc $JWM_CONFIG
-		change_jwm_background
 		chown hacker.hacker $JWM_CONFIG
+	fi
+	if [ ! -f "/root/.jwmrc" ]; then
+		JWM_CONFIG=/root/.jwmrc
+		cp /etc/jwm/system.jwmrc $JWM_CONFIG
 	fi
 }
 
