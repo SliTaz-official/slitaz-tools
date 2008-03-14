@@ -1035,7 +1035,7 @@ ac_config_legacy () {
  Shall I try all possible DMA and IRQ combinations?
  With this option, some unconventional configuration
  might be found, but it will take much longer time.")
-	if $DIALOG --yesno "$msg" 15 70 5
+	if $DIALOG --yesno "$msg" 15 70
 	    then
 	    try_all_combination=1
 	fi
@@ -1164,7 +1164,7 @@ else
  Would you like to probe legacy ISA sound cards/chips?
 
 ")
-    if $DIALOG --yesno "$msg" 15 70 5 ; then
+    if $DIALOG --yesno "$msg" 15 70 ; then
 	ac_config_legacy
 	exit 0
     fi
