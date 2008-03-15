@@ -33,21 +33,7 @@ screen_config_dialog()
 		--menu \
 	"L'application 'tazx' permet de configurer une session X.\n\
 	Gestionnaire de fenêtres : \Z2$WM\Zn" 16 70 5 \
-	"640x400x16" "TrueColor" \
-	"640x400x24" "TrueColor" \
-	"640x480x16" "TrueColor" \
-	"640x480x24" "TrueColor" \
-	"800x600x16" "TrueColor" \
-	"800x600x24" "TrueColor" \
-	"1024x768x16" "TrueColor" \
-	"1024x768x24" "TrueColor" \
-	"1280x800x16" "TrueColor" \
-	"1280x800x24" "TrueColor" \
-	"1280x1024x16" "TrueColor" \
-	"1280x1024x24" "TrueColor" \
-	"1600x1200x16" "TrueColor" \
-	"1600x1200x24" "TrueColor" \
-	"1920x1440x16" "TrueColor" \
+	$(Xvesa -listmodes 2>&1 | grep ^0x | awk '{ printf "%s %s\n",$2,$3 }' | sort -nr) \
 	"xterm" "800x600x16" \
 	"quit" "Quitter" \
 	2>&1 1>&3`
