@@ -1,3 +1,13 @@
+2008-03-15  Christophe Lincoln  <pankso@slitaz.org>
+
+ * Release - SliTaz tools 1.9.6
+ 
+   Quelques version on été publiées sans notes dans ce ChangeLog, alors: tazx
+   génére la liste des screen size en utilisanr Xvesa -listmodes (Pascal),
+   quelques fix dans soundconf et dans les *box. Cette version des outils va
+   être utilisé pour la version stable 1.0 de SliTaz.
+  
+
 2008-03-06  Christophe Lincoln  <pankso@slitaz.org>
 
  * Release - SliTaz tools 1.9
