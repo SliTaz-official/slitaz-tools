@@ -23,6 +23,46 @@ fi
 #  Tazx functions  #
 ####################
 
+# Install xorg server
+install_xorg()
+{
+	tazpkg recharge
+	exec 3>&1
+	value=`$DIALOG --clear --colors --title " Install Xorg " \
+		--menu \
+	"L'application 'tazx' permet de configurer le driver X." 16 70 5 \
+	$(grep xorg-xf86-video /var/lib/tazpkg/packages.list | cut -d- -f4 | while read x; do echo $x; echo driver; done) \
+	"quit" "Quitter" \
+	2>&1 1>&3`
+	retval=$?
+	exec 3>&-
+	# Continue, exit...
+	case $retval in
+		1)
+			echo "Cancel pressed..."
+			exit 0 ;;
+		255)
+			if test -z "$value"; then
+				echo "ESC pressed..."
+				exit 0
+			fi ;;
+	esac
+	# Set selected value.
+	case $value in
+		quit)
+			echo "Quit..."
+			exit 0 ;;
+		*)
+			tazpkg get-install xorg-server
+			tazpkg get-install xorg-xf86-video-$value
+			xorg -configure
+			mv /root/xorg.conf.new /etc/X11/xorg.conf
+			sed -i 's|/usr/bin/Xvesa|/usr/bin/Xorg|' /etc/slim.conf
+			sed -i s/"^xserver_arguments"/'\#xserver_arguments'/ /etc/slim.conf
+			XSERVER=Xorg;;
+	esac
+}
+
 # Screen configuration dialog.
 screen_config_dialog()
 {
@@ -35,6 +75,7 @@ screen_config_dialog()
 	Gestionnaire de fenêtres : \Z2$WM\Zn" 16 70 5 \
 	$(Xvesa -listmodes 2>&1 | grep ^0x | awk '{ printf "%s %s\n",$2,$3 }' | sort -nr) \
 	"xterm" "800x600x16" \
+	"xorg" "Installer Xorg" \
 	"quit" "Quitter" \
 	2>&1 1>&3`
 	retval=$?
@@ -60,6 +101,8 @@ screen_config_dialog()
 	esac
 	# Set selected value.
 	case $value in
+		xorg)
+			install_xorg;;
 		xterm)
 			Xvesa -ac -shadow -screen 800x600x16 -br &
 			exec xterm -cr orange -geometry 80x35+0-0 ;;
@@ -127,20 +170,24 @@ xinitrc_sample()
 #
 WM=jwm
 
-if [ -n $1 ]; then
-	WM=$1
-fi
-
-case $WM in
+case $1 in
 	e17|enlightenment_start)
 		exec enlightenment_start
 		;;
 	openbox|openbox-session)
 		exec openbox-session
 		;;
-	jwm|*)
+	jwm)
 		lxpanel &
 		exec jwm
+		;;
+	*)
+		# LXpanel by default with JWM (use less memory started from here rater
+		# than from StartupCommand).
+		if [ "$WM" = "jwm" ]; then
+			lxpanel &
+		fi
+		exec $WM
 		;;
 esac
 EOF
@@ -151,7 +198,6 @@ creat_xinitrc()
 {
 	FILE=$HOME/.xinitrc
 	xinitrc_sample
-	
 	
 	# In Live mode hacker needs a xinitrc, since tazx 
 	# is executed only by root.
@@ -179,7 +225,7 @@ jwm_config()
 		cp /etc/jwm/system.jwmrc $JWM_CONFIG
 		chown hacker.hacker $JWM_CONFIG
 	fi
-	if [ ! -f "/root/.jwmrc" ]; then
+	if [ ! -f "/root/.jwmrc" -a `id -u` = 0 ]; then
 		JWM_CONFIG=/root/.jwmrc
 		cp /etc/jwm/system.jwmrc $JWM_CONFIG
 	fi
@@ -192,12 +238,17 @@ creat_xsession()
 	cat > $HOME/.xsession << _EOF_
 # ~/.xsession: Start X window session manually on your system (startx).
 #
-$XSERVER -ac -shadow $XSEVER_OPTS -screen $NEW_SCREEN -mouse $MOUSE &
-#xterm &
-#xpad &
 _EOF_
+	if [ "$XSERVER " == "Xorg" ]; then
+		echo 'Xorg &' >> $HOME/.xsession
+	else
+		echo "$XSERVER -ac -shadow $XSEVER_OPTS -screen $NEW_SCREEN -mouse $MOUSE &" \
+			>> $HOME/.xsession
+	fi
+	echo '#xterm &' >> $HOME/.xsession
+	echo '#xpad &' >> $HOME/.xsession
 	# LXpanel by default with JWM.
-	if [ "$WM" = "jwm" ];then
+	if [ "$WM" = "jwm" ]; then
 		echo 'lxpanel &' >> $HOME/.xsession
 	fi
 	echo "exec $WM" >> $HOME/.xsession
