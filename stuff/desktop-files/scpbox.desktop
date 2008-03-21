@@ -1,8 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
-Name=Scpbox
-GenericName=Secure copy
-GenericName[fr]=Transfer sécurisé
+Name=Scpbox Secure copy
+Name[fr]=Scpbox Copie sécurisé
 Comment=Upload or download files with scp
 Exec=scpbox
 Icon=/usr/share/icons/Tango/jwm/folder-remote.png

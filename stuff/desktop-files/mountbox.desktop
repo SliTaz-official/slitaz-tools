@@ -1,8 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
-Name=Mountbox
-GenericName=Mount devices
-GenericName[fr]=Monter un media
+Name=Mount devices
+Name[fr]=Monter un périphérique
 Comment=Mount devices on mount points
 Exec=subox mountbox
 Icon=/usr/share/icons/Tango/jwm/media-flash.png
