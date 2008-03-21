@@ -26,14 +26,6 @@ fi
 # Install xorg server
 install_xorg()
 {
-	if [ -e /tmp/.X11-unix/X0 ]; then
-		cat <<EOF
-Vous devez sortir du serveur X pour installer Xorg
-Puis relancer tazx et enfin relancer le serveur X
-'startx' ou '/etc/init.d/slim start'
-EOF
-		exit 1
-	fi
 	tazpkg recharge
 	exec 3>&1
 	value=`$DIALOG --clear --colors --title " Install Xorg " \
@@ -63,7 +55,7 @@ EOF
 		*)
 			tazpkg get-install xorg-server
 			tazpkg get-install xorg-xf86-video-$value
-			Xorg -configure
+			Xorg -configure :1
 			mv /root/xorg.conf.new /etc/X11/xorg.conf
 			. /etc/kmap.conf
 			patch -p0 <<EOF
