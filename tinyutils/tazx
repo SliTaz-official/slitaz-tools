@@ -199,8 +199,8 @@ case $1 in
 		exec jwm
 		;;
 	*)
-		# LXpanel by default with JWM (use less memory started from here rater
-		# than from StartupCommand).
+		# LXpanel by default with JWM (use less memory started 
+		# from here rater than from StartupCommand).
 		if [ "$WM" = "jwm" ]; then
 			lxpanel &
 		fi
@@ -208,6 +208,9 @@ case $1 in
 		;;
 esac
 EOF
+	# Set default WM.
+	RES=`grep ^WM=[e-o] $FILE`
+	sed -i s/"$RES"/"WM=$WM"/ $FILE
 }
 
 # ~/.xinitrc for slim login.
@@ -223,9 +226,6 @@ creat_xinitrc()
 		xinitrc_sample
 		chown hacker.hacker $FILE
 	fi
-	# Set default WM.
-	RES=`grep ^WM=[e-o] $HOME/.xinitrc`
-	sed -i s/"$RES"/"WM=$WM"/ $HOME/.xinitrc
 }
 
 # Copy a JWM system config if any present in user home.
