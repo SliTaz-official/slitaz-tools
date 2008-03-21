@@ -26,11 +26,11 @@ fi
 # Install xorg server
 install_xorg()
 {
-	if [ -e /tmp/.X11-unix/.X0 ]; then
+	if [ -e /tmp/.X11-unix/X0 ]; then
 		cat <<EOF
 Vous devez sortir du serveur X pour installer Xorg
 Puis relancer tazx et enfin relancer le serveur X
-"'startx' ou '/etc/init.d/slim start'
+'startx' ou '/etc/init.d/slim start'
 EOF
 		exit 1
 	fi
