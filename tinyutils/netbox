@@ -20,7 +20,7 @@ root password to become super-user.\n"
 # active connections.
 #
 export IFCONFIG='
-<window title="Ifconfig" icon-name="network-wired">
+<window title="Network status" icon-name="network-wired">
   <vbox>
     <text use-markup="true">
       <label>"
@@ -33,6 +33,16 @@ export IFCONFIG='
     <frame Ifconfig>
       <text wrap="false" width-chars="58">
         <input>ifconfig</input>
+      </text>
+    </frame>
+    <text use-markup="true">
+      <label>"
+<b>Active network servers</b>"
+      </label>
+    </text>
+    <frame Servers>
+      <text wrap="false" width-chars="58">
+        <input>for i in dropbear tftpd udhcpd dnsd rsync lighttpd ; do ps w | grep $i | grep -v grep; done</input>
       </text>
     </frame>
     <hbox>
@@ -582,8 +592,7 @@ NET_BOX="${NET_BOX}${tmp}"
 export NET_BOX
 
 # TODO: Servers/VNC(X11vnc) Servers/SMB(Samba)
-# Modules(Network kernel module) Firewall(Iptables) VPN(OpenVPN)
-# TODO: Status: running servers
+# Modules(Network kernel modules) Firewall(Iptables) VPN(OpenVPN)
 
 # Only root can configure network.
 check_root
