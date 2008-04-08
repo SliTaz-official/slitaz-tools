@@ -106,13 +106,13 @@ Gen distro will creat a LiveCD with all installed packages.
           <label>Gen running distro</label>
           <input file icon="forward"></input>
           <action>cd /home/slitaz</action>
-          <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x16 -e "tazlito gen-distro && echo -e \"----\nENTER to continue...\" && read close"</action>
+          <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x16 -title "gen-distro" -e "tazlito gen-distro && echo -e \"----\nENTER to continue...\" && read close"</action>
         </button>
         <button>
           <label>Clean distro</label>
           <input file icon="edit-clear"></input>
           <action>cd /home/slitaz</action>
-          <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x16 -e "tazlito clean-distro && sleep 1"</action>
+          <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x16 -title "clean-distro" -e "tazlito clean-distro && sleep 1"</action>
         </button>
       </hbox>
 
@@ -129,7 +129,7 @@ Gen distro will creat a LiveCD with all installed packages.
       <button>
           <label>Gen flavor</label>
           <input file icon="forward"></input>
-          <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x16 -e "tazlito gen-flavor $GEN_FLAVOR_NAME && echo -e \"----\nENTER to continue...\" && read close"</action>
+          <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x16 -title "gen-flavor $GEN_FLAVOR_NAME" -e "tazlito gen-flavor $GEN_FLAVOR_NAME && echo -e \"----\nENTER to continue...\" && read close"</action>
         </button>
       </hbox>
     </frame>
@@ -157,12 +157,12 @@ Flavors list can be recharged from SliTaz mirror.
         <button>
 		  <label>List flavors</label>
 		  <input file icon="media-cdrom"></input>
-		  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x16 -e "tazlito list-flavors && echo -e \"----\nENTER to continue...\" && read close"</action>
+		  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x16 -title "list-flavors" -e "tazlito list-flavors && echo -e \"----\nENTER to continue...\" && read close"</action>
 	    </button>
 	    <button>
 	      <label>Recharge list</label>
 		  <input file icon="reload"></input>
-		  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x16 -e "tazlito list-flavors --recharge && echo -e \"----\nENTER to continue...\" && read close"</action>
+		  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x16 -title "list-flavors --recharge" -e "tazlito list-flavors --recharge && echo -e \"----\nENTER to continue...\" && read close"</action>
 	    </button>
       </hbox>
       
@@ -170,17 +170,17 @@ Flavors list can be recharged from SliTaz mirror.
         <button>
           <label>Get flavor</label>
           <input file icon="forward"></input>
-          <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x16 -e "tazlito get-flavor $COMMUNITY_FLAVOR && echo -e \"----\nENTER to continue...\" && read close"</action>
+          <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x16 -title "get-flavor $COMMUNITY_FLAVOR" -e "tazlito get-flavor $COMMUNITY_FLAVOR && echo -e \"----\nENTER to continue...\" && read close"</action>
         </button>
         <button>
           <label>Gen flavor distro</label>
           <input file icon="forward"></input>
-          <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x16 -e "tazlito gen-distro && echo -e \"----\nENTER to continue...\" && read close"</action>
+          <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x16 -title "gen-distro" -e "tazlito gen-distro && echo -e \"----\nENTER to continue...\" && read close"</action>
         </button>
         <button>
           <label>Clean distro</label>
           <input file icon="edit-clear"></input>
-          <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x16 -e "tazlito clean-distro && sleep 1"</action>
+          <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x16 -title "clean-distro" -e "tazlito clean-distro && sleep 1"</action>
         </button>
       </hbox>
     </frame>
