@@ -48,7 +48,7 @@ export IFCONFIG='
 # The main dialog with notebook, start/stop buttons and all options.
 # Note than /etc/network.conf is seded wehwn an interafce is activate
 #
-export NET_BOX='
+NET_BOX='
 <window title="Netbox" icon-name="network-wired">
   <vbox>
     <text use-markup="true">
@@ -60,9 +60,10 @@ export NET_BOX='
     <text wrap="true" width-chars="44">
       <label>
 "
-Manage network connections getting dynamic IP by
-DHCP or static IP. Netbox can start or stop networking,
-configure network interfaces or directly edit files.
+Manage network connections getting dynamic IP
+by DHCP or static IP, and setup servers.
+Netbox can start or stop networking, configure 
+network interfaces or directly edit files.
 "
       </label>
     </text>
@@ -79,25 +80,21 @@ configure network interfaces or directly edit files.
       </hbox>
     </frame>
   
-    <notebook labels="DHCP|Static IP|System wide">
+    <notebook labels="DHCP|Static IP|System wide|Servers">
   
     <frame Udhcpc>
-            <hbox>
-        <text wrap="true">
-          <label>
-"The -b options make DHCP client run in background 
-if lease cannot be immediatly negociated."
-          </label>
-        </text>
-      </hbox>
       <hbox>
         <text use-markup="true">
-          <label>"<b>Options     :</b>"</label>
+          <label>"<b>Options :</b>"</label>
         </text>
         <entry>
           <default>-b</default>
           <variable>UDHCPC_OPTS</variable>
         </entry>
+        <button>
+          <input file icon="help"></input>
+	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x27 -title "udhcpc help" -e "udhcpc --help ; echo -e \"----\nENTER to continue...\" && read close"</action>
+        </button>
       </hbox>
       <hbox>
         <button>
@@ -231,6 +228,337 @@ if lease cannot be immediatly negociated."
         </button>
       </hbox>
     </frame>
+    <notebook labels="'
+tmp=''
+[ -x /usr/sbin/dropbear ] && NET_BOX="${NET_BOX}${tmp}SSH"   && tmp='|'
+[ -x /usr/bin/tftpd     ] && NET_BOX="${NET_BOX}${tmp}TFTP"  && tmp='|' 
+[ -x /usr/sbin/udhcpd   ] && NET_BOX="${NET_BOX}${tmp}DHCP"  && tmp='|' 
+[ -f /usr/share/boot/pxelinux.0.lzma -a -x /usr/bin/tftpd -a \
+  -x /usr/sbin/udhcpd   ] && NET_BOX="${NET_BOX}${tmp}PXE"   && tmp='|'
+[ -x /usr/sbin/dnsd     ] && NET_BOX="${NET_BOX}${tmp}DNS"   && tmp='|' 
+[ -x /usr/bin/rsync     ] && NET_BOX="${NET_BOX}${tmp}RSYNC" && tmp='|' 
+[ -x /usr/sbin/lighttpd ] && NET_BOX="${NET_BOX}${tmp}HTTP"  && tmp='|' 
+. /etc/daemons.conf
+set -- $DROPBEAR_OPTIONS
+while [ -n "$2" ]; do
+  [ "$1" = "-b" ] && DROPBEAR_BANNER="$2" && break
+  shift
+done
+NET_BOX="${NET_BOX}\">"
+tmp='<frame Dropbear>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>DROPBEAR_OPTIONS</b>"</label>
+        </text>
+        <entry editable="false">'
+[ -n "$DROPBEAR_OPTIONS" ] && tmp="$tmp<default>$DROPBEAR_OPTIONS</default>"
+tmp2='
+          <variable>DROPBEAR_OPTS</variable>
+        </entry>
+        <button>
+          <input file icon="help"></input>
+	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x30 -title "dropbear help" -e "dropbear --help ; echo -e \"----\nENTER to continue...\" && read close"</action>
+        </button>
+        <button>
+          <input file icon="accessories-text-editor"></input>
+          <action type="lauch">leafpad /etc/daemons.conf</action>
+        </button>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Banner   :</b>"</label>
+        </text>
+        <entry editable="false">'
+[ -n "$DROPBEAR_BANNER" ] && tmp="$tmp$tmp2<default>$DROPBEAR_BANNER</default>"
+tmp2='
+          <variable>DROPBEAR_BANNER</variable>
+        </entry>
+        <button>
+          <input file icon="accessories-text-editor"></input>
+          <action type="lauch">leafpad $DROPBEAR_BANNER</action>
+        </button>
+      </hbox>
+      <hbox>
+        <button>
+          <label>Start</label>
+          <input file icon="forward"></input>
+          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)dropbear \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
+          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)\"/RUN_DAEMONS=\"dropbear \1\"/" /etc/rcS.conf</action>
+          <action>/etc/init.d/dropbear start</action>
+        </button>
+        <button>
+          <label>Stop</label>
+          <input file icon="stop"></input>
+          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)dropbear \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
+          <action>/etc/init.d/dropbear stop</action>
+        </button>
+      </hbox>
+     </frame>
+'
+[ -x /usr/sbin/dropbear ] && NET_BOX="${NET_BOX}${tmp}${tmp2}"
+set -- $TFTPD_OPTIONS
+TFTPD_OPTS=""
+while [ -n "$2" ]; do
+  TFTPD_OPTS="$TFTPD_OPTS $1"
+  shift
+done
+TFTPD_ROOT="$1"
+tmp='<frame Tftpd>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>TFTPD_OPTIONS</b>"</label>
+        </text>
+        <entry editable="false">'
+[ -n "$TFTPD_OPTS" ] && tmp="$tmp<default>$TFTPD_OPTS</default>"
+tmp2='
+          <variable>TFTPD_OPTS</variable>
+        </entry>
+        <button>
+          <input file icon="help"></input>
+	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x13 -title "tftpd help" -e "tftpd --help ; echo -e \"----\nENTER to continue...\" && read close"</action>
+        </button>
+        <button>
+          <input file icon="accessories-text-editor"></input>
+          <action type="lauch">leafpad /etc/daemons.conf</action>
+        </button>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Root path :</b>"</label>
+        </text>
+        <entry editable="false">'
+tmp="$tmp$tmp2"
+[ -n "$TFTPD_ROOT" ] && tmp="$tmp<default>$TFTPD_ROOT</default>"
+tmp2='
+          <variable>TFTPD_ROOT</variable>
+        </entry>
+      </hbox>
+      <hbox>
+        <button>
+          <label>Start</label>
+          <input file icon="forward"></input>
+          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)tftpd \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
+          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)\"/RUN_DAEMONS=\"tftpd \1\"/" /etc/rcS.conf</action>
+          <action>/etc/init.d/tftpd start</action>
+        </button>
+        <button>
+          <label>Stop</label>
+          <input file icon="stop"></input>
+          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)tftpd \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
+          <action>/etc/init.d/tftpd start</action>
+        </button>
+      </hbox>
+     </frame>
+'
+[ -x /usr/bin/tftpd ] && NET_BOX="${NET_BOX}${tmp}${tmp2}" 
+tmp='<frame Dhcpd>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Configuration :</b>"</label>
+        </text>
+        <entry editable="false">
+          <default>/etc/udhcpd.conf</default>
+          <variable>UDHCPD_CONF</variable>
+        </entry>
+        <button>
+          <input file icon="accessories-text-editor"></input>
+          <action type="lauch">leafpad $UDHCPD_CONF</action>
+        </button>
+      </hbox>
+      <hbox>
+        <button>
+          <label>Start</label>
+          <input file icon="forward"></input>
+          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)udhcpd \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
+          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)\"/RUN_DAEMONS=\"udhcpd \1\"/" /etc/rcS.conf</action>
+          <action>/etc/init.d/udhcpd start</action>
+        </button>
+        <button>
+          <label>Stop</label>
+          <input file icon="stop"></input>
+          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)udhcpd \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
+          <action>/etc/init.d/udhcpd stop</action>
+        </button>
+      </hbox>
+     </frame>
+'
+[ -x /usr/sbin/udhcpd   ] && NET_BOX="${NET_BOX}${tmp}" 
+tmp='<frame Pxelinux>
+      <hbox>
+        <text wrap="true">
+          <label>
+"Tftpd and Dhcpd must be lauched to start the PXE service."
+          </label>
+        </text>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Configuration :</b>"</label>
+        </text>
+        <entry editable="false">
+          <default>pxelinux.cfg/default</default>
+          <variable>PXE_CONF</variable>
+        </entry>
+        <button>
+          <input file icon="accessories-text-editor"></input>
+	  <action>dir=$(dirname $TFTPD_ROOT/$PXE_CONF); [ -d $dir ] || mkdir -p $dir</action>
+	  <action>lzma d /usr/share/boot/pxelinux.0.lzma $TFTPD_ROOT/pxelinux.0</action>
+	  <action>grep "^option bootfile=pxelinux.0" $UDHCPD_CONF || echo "option bootfile=pxelinux.0" >> $UDHCPD_CONF</action>
+	  <action>[ -f $TFTPD_ROOT/$PXE_CONF ] || echo -e "label slitaz\n\tkernel bzImage\n\tappend initrd=rootfs.gz rw root=/dev/null vga=normal" > $TFTPD_ROOT/$PXE_CONF</action>
+          <action type="lauch">leafpad $TFTPD_ROOT/$PXE_CONF</action>
+        </button>
+      </hbox>
+     </frame>
+'
+[ -f /usr/share/syslinux/pxelinux.0 -a -x /usr/bin/tftpd -a \
+  -x /usr/sbin/udhcpd   ] && NET_BOX="${NET_BOX}${tmp}"
+tmp='<frame Dnsd>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>DNSD_OPTIONS</b>"</label>
+        </text>
+        <entry editable="false">'
+[ -n "$DNSD_OPTIONS" ] && tmp="$tmp<default>$DNSD_OPTIONS</default>"
+tmp2='
+          <variable>DNSD_OPTS</variable>
+        </entry>
+        <button>
+          <input file icon="help"></input>
+	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x15 -title "dnsd help" -e "dnsd --help ; echo -e \"----\nENTER to continue...\" && read close"</action>
+        </button>
+        <button>
+          <input file icon="accessories-text-editor"></input>
+          <action type="lauch">leafpad /etc/daemons.conf</action>
+        </button>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Configuration :</b>"</label>
+        </text>
+        <entry editable="false">
+          <default>/etc/dnsd.conf</default>
+          <variable>DNSD_CONF</variable>
+        </entry>
+        <button>
+          <input file icon="accessories-text-editor"></input>
+          <action type="lauch">leafpad $DNSD_CONF</action>
+        </button>
+      </hbox>
+      <hbox>
+        <button>
+          <label>Start</label>
+          <input file icon="forward"></input>
+          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)dnsd \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
+          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)\"/RUN_DAEMONS=\"dnsd \1\"/" /etc/rcS.conf</action>
+          <action>/etc/init.d/dnsd start</action>
+        </button>
+        <button>
+          <label>Stop</label>
+          <input file icon="stop"></input>
+          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)dnsd \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
+          <action>/etc/init.d/dnsd stop</action>
+        </button>
+      </hbox>
+     </frame>
+'
+[ -x /usr/sbin/dnsd     ] && NET_BOX="${NET_BOX}${tmp}${tmp2}" 
+tmp='<frame Rsync>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>RSYNCD_OPTIONS</b>"</label>
+        </text>
+        <entry editable="false">'
+[ -n "${RSYNCD_OPTIONS#* }" ] && tmp="$tmp<default>${RSYNCD_OPTIONS#* }</default>"
+tmp2='
+          <variable>RSYNC_OPTS</variable>
+        </entry>
+        <button>
+          <input file icon="help"></input>
+	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x30 -title "rsync daemon help" -e "rsync --daemon --help ; echo -e \"----\nENTER to continue...\" && read close"</action>
+        </button>
+        <button>
+          <input file icon="accessories-text-editor"></input>
+          <action type="lauch">leafpad /etc/daemons.conf</action>
+        </button>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Configuration :</b>"</label>
+        </text>
+        <entry editable="false">
+          <default>/etc/rsyncd.conf</default>
+          <variable>RSYNCD_CONF</variable>
+        </entry>
+        <button>
+          <input file icon="accessories-text-editor"></input>
+          <action type="lauch">leafpad $RSYNCD_CONF</action>
+        </button>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Secrets file     :</b>"</label>
+        </text>
+        <entry editable="true">
+          <default>/etc/rsyncd.secrets</default>
+          <variable>RSYNCD_SECRETS</variable>
+        </entry>
+        <button>
+          <input file icon="accessories-text-editor"></input>
+          <action type="lauch">leafpad $RSYNCD_SECRETS</action>
+        </button>
+      </hbox>
+      <hbox>
+        <button>
+          <label>Start</label>
+          <input file icon="forward"></input>
+          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)rsyncd \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
+          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)\"/RUN_DAEMONS=\"rsyncd \1\"/" /etc/rcS.conf</action>
+          <action>/etc/init.d/rsyncd start</action>
+        </button>
+        <button>
+          <label>Stop</label>
+          <input file icon="stop"></input>
+          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)rsyncd \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
+          <action>/etc/init.d/rsyncd stop</action>
+        </button>
+      </hbox>
+     </frame>
+'
+[ -x /usr/bin/rsync    ] && NET_BOX="${NET_BOX}${tmp}${tmp2}" 
+tmp='<frame Lighttpd>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Configuration :</b>"</label>
+        </text>
+        <entry editable="false">
+          <default>/etc/lighttpd/lighttpd.conf</default>
+          <variable>LIGHTTPD_CONF</variable>
+        </entry>
+        <button>
+          <input file icon="accessories-text-editor"></input>
+          <action type="lauch">leafpad $LIGHTTPD_CONF</action>
+        </button>
+      </hbox>
+      <hbox>
+        <button>
+          <label>Start</label>
+          <input file icon="forward"></input>
+          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)lighttpd \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
+          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)\"/RUN_DAEMONS=\"lighttpd \1\"/" /etc/rcS.conf</action>
+          <action>/etc/init.d/lighttpd start</action>
+        </button>
+        <button>
+          <label>Stop</label>
+          <input file icon="stop"></input>
+          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)lighttpd \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
+          <action>/etc/init.d/lighttpd stop</action>
+        </button>
+      </hbox>
+     </frame>
+'
+[ -x /usr/sbin/lighttpd ] && NET_BOX="${NET_BOX}${tmp}" 
+tmp='
+    </notebook>
     
     </notebook>
 
@@ -249,6 +577,13 @@ if lease cannot be immediatly negociated."
   </vbox>
 </window>
 '
+NET_BOX="${NET_BOX}${tmp}" 
+
+export NET_BOX
+
+# TODO: Servers/VNC(X11vnc) Servers/SMB(Samba)
+# Modules(Network kernel module) Firewall(Iptables) VPN(OpenVPN)
+# TODO: Status: running servers
 
 # Only root can configure network.
 check_root
