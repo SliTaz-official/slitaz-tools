@@ -410,7 +410,7 @@ tmp='<frame Pxelinux>
       </hbox>
      </frame>
 '
-[ -f /usr/share/syslinux/pxelinux.0 -a -x /usr/bin/tftpd -a \
+[ -f /usr/share/boot/pxelinux.0.lzma -a -x /usr/bin/tftpd -a \
   -x /usr/sbin/udhcpd   ] && NET_BOX="${NET_BOX}${tmp}"
 tmp='<frame Dnsd>
       <hbox>
