@@ -39,12 +39,17 @@ Need a floppy disk in drive. Erase the whole floppy disk.
     <frame Floppy disk drive>
       <hbox>
         <text use-markup="true">
-          <label>"<b>Device             : </b>"</label>
+          <label>"<b>Device : </b>"</label>
         </text>
         <entry>
           <default>/dev/fd0</default>
           <variable>DEVICE</variable>
         </entry>
+        <button>
+          <label>Format floppy</label>
+          <input file icon="forward"></input>
+	  <action>fdformat -n $DEVICE</action>
+        </button>
       </hbox>
     </frame>
 '  
