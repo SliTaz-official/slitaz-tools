@@ -62,7 +62,7 @@ $(echo -e $desc)
 "
   if [ -f $file ]; then
     case "$file" in
-    *.lzma) action="unlzma";;
+    *.lzma) action="unlzma -c";;
     *.gz)   action="zcat";;
     *)      action="cat";;
     esac
