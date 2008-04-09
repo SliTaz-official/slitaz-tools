@@ -30,7 +30,7 @@ BOOT_DIALOG='
     <text wrap="false" width-chars="44" use-markup="true">
       <label>
 "
-Create a floppy to boot LiveCD, PXE or Memtest tool. 
+Create a floppy to boot a LiveCD, in a PXE network...
 Need a floppy disk in drive. Erase the whole floppy disk.
 "
       </label>
@@ -52,7 +52,7 @@ Need a floppy disk in drive. Erase the whole floppy disk.
         </button>
       </hbox>
     </frame>
-    <notebook labels="LiveCD|PXE Network|Memory Test">
+    <notebook labels="LiveCD|PXE Network|Memory Test|Expert">
 '  
 while read name file pkg desc; do
     tmp="<frame $name>
@@ -72,7 +72,24 @@ $(echo -e $desc)
     *.gz)   action="zcat";;
     *)      action="cat";;
     esac
-    tmp="$tmp
+    if [ "$pkg" = "grub" ]; then
+      tmp="$tmp
+      <hbox>
+      <button>
+        <label>Write floppy</label>
+        <input file icon=\"forward\"></input>
+	<action>mke2fs \$DEVICE</action>
+	<action>mkdir /media/floppy ; mount \$DEVICE /media/floppy</action>
+	<action>mkdir -p /media/floppy/boot/grub</action>
+	<action>cp /usr/lib/grub/i386-pc/stage? /media/floppy/boot/grub</action>
+	<action>umount \$DEVICE</action>
+	<action>echo -e \"root (\${DEVICE#/dev/})\\nsetup (\${DEVICE#/dev/})\\nquit\" | grub --batch </action>
+      </button>
+      </hbox>
+    </frame>
+"
+    else
+      tmp="$tmp
       <hbox>
       <button>
         <label>Write floppy</label>
@@ -82,6 +99,7 @@ $(echo -e $desc)
       </hbox>
     </frame>
 "
+    fi
   else
     tmp="$tmp
       <hbox>
@@ -99,6 +117,7 @@ done <<EOT
 SmartBtmgr /usr/share/boot/btmgr btmgr This OS independent Smart Boot Manager can boot any          partition or ATAPI CD-ROM.
 Etherboot /usr/share/boot/etherboot etherboot This network bootloader provides a replacement for proprietary PXE or NBI ROMs.
 Memtest86+ /usr/share/boot/memtest.lzma memtest Memory failures detection tool.
+Grub /usr/sbin/grub grub General purpose boot loader with command shell
 EOT
 tmp='
     </notebook>
