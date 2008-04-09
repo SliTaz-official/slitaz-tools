@@ -1,0 +1,117 @@
+#! /bin/sh
+# 
+# Gtkdialog box for the mount command. Part of SliTaz tools.
+#
+VERSION=20080409
+
+# Check if user is root.
+check_root()
+{
+	if test $(id -u) != 0 ; then
+		echo -e "
+You must be root to run `basename $0`. Please type 'su' and 
+root password to become super-user.\n"
+		exit 0
+	fi
+}
+
+# Write bootfloppy image to floppy device.
+#
+BOOT_DIALOG='
+<window title="bootfloppybox" icon-name="media-flash">
+  <vbox>
+ 
+    <text use-markup="true">
+      <label>
+"
+<b>SliTaz - Bootfloppybox</b>"
+      </label>
+    </text>
+    <text wrap="true" width-chars="44" use-markup="true">
+      <label>
+"
+Create a floppy to boot LiveCD, PXE or Memtest tool. 
+Need a floppy disk in drive. Erase the whole floppy disk.
+"
+      </label>
+    </text>
+  
+    <frame Floppy disk drive>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Device             : </b>"</label>
+        </text>
+        <entry>
+          <default>/dev/fd0</default>
+          <variable>DEVICE</variable>
+        </entry>
+      </hbox>
+    </frame>
+'  
+while read name file pkg desc; do
+    tmp="<frame $name>
+      <hbox>
+    <text wrap=\"true\" width-chars=\"44\" use-markup=\"true\">
+      <label>
+\"
+$(echo -e $desc)
+\"
+      </label>
+    </text>
+      </hbox>
+"
+  if [ -f $file ]; then
+    case "$file" in
+    *.lzma) action="unlzma";;
+    *.gz)   action="zcat";;
+    *)      action="cat";;
+    esac
+    tmp="$tmp
+      <hbox>
+      <button>
+        <label>Write floppy</label>
+        <input file icon=\"forward\"></input>
+	<action>$action $file > \$DEVICE</action>
+      </button>
+      </hbox>
+    </frame>
+"
+  else
+    tmp="$tmp
+      <hbox>
+      <text wrap=\"true\" width-chars=\"44\" use-markup=\"true\">
+        <label>
+\"<i>The package <b>$pkg</b> is not yet installed</i>\"
+        </label>
+      </text>
+      </hbox>
+    </frame>
+"
+  fi
+  BOOT_DIALOG="$BOOT_DIALOG$tmp"
+done <<EOT
+SmartBtmgr /usr/share/boot/btmgr btmgr This OS independent Smart Boot Manager can boot any          partition or ATAPI CD-ROM.
+Etherboot /usr/share/boot/etherboot etherboot This network bootloader provides a replacement for proprietary PXE or NBI ROMs.
+Memtest86+ /usr/share/boot/memtest.lzma memtest Memory failures detection tool.
+EOT
+tmp='
+    
+    <hbox>
+      <button>
+        <input file icon="exit"></input>
+	<label>Exit</label>
+        <action type="exit">Exit</action>
+      </button>
+    </hbox>
+  
+  </vbox>
+</window>
+'
+BOOT_DIALOG="$BOOT_DIALOG$tmp"
+export BOOT_DIALOG
+
+# Only root can create floppy.
+check_root
+gtkdialog --program=BOOT_DIALOG
+
+exit 0
