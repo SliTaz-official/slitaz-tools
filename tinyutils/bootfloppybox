@@ -82,6 +82,8 @@ $(echo -e $desc)
 	<action>mkdir /media/floppy ; mount \$DEVICE /media/floppy</action>
 	<action>mkdir -p /media/floppy/boot/grub</action>
 	<action>cp /usr/lib/grub/i386-pc/stage? /media/floppy/boot/grub</action>
+	<action>[ -f /usr/share/boot/etherboot ] && cp /usr/share/boot/etherboot /media/floppy/boot</action>
+	<action>[ -f /usr/share/boot/memtest.lzma ] && unlzma -c /usr/share/boot/memtest.lzma > /media/floppy/boot/memtest</action>
 	<action>umount \$DEVICE</action>
 	<action>echo -e \"root (\${DEVICE#/dev/})\\nsetup (\${DEVICE#/dev/})\\nquit\" | grub --batch </action>
       </button>
