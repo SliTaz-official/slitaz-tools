@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Boot floppy creation tool
+GenericName=Gen a boot floppy
+GenericName[fr]=Créer une disquette de démarrage
+Comment=Generate a boot floppy
+Exec=subox bootfloppybox
+Icon=/usr/share/icons/Tango/jwm/applications-system.png
+Type=Application
+Categories=System;
