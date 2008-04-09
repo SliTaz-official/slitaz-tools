@@ -27,7 +27,7 @@ BOOT_DIALOG='
 <b>SliTaz - Bootfloppybox</b>"
       </label>
     </text>
-    <text wrap="true" width-chars="44" use-markup="true">
+    <text wrap="false" width-chars="44" use-markup="true">
       <label>
 "
 Create a floppy to boot LiveCD, PXE or Memtest tool. 
@@ -52,6 +52,7 @@ Need a floppy disk in drive. Erase the whole floppy disk.
         </button>
       </hbox>
     </frame>
+    <notebook labels="LiveCD|PXE Network|Memory Test">
 '  
 while read name file pkg desc; do
     tmp="<frame $name>
@@ -100,7 +101,7 @@ Etherboot /usr/share/boot/etherboot etherboot This network bootloader provides a
 Memtest86+ /usr/share/boot/memtest.lzma memtest Memory failures detection tool.
 EOT
 tmp='
-    
+    </notebook>
     <hbox>
       <button>
         <input file icon="exit"></input>
