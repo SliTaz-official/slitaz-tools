@@ -5,6 +5,6 @@ GenericName=Gen a boot floppy
 GenericName[fr]=Créer une disquette de démarrage
 Comment=Generate a boot floppy
 Exec=subox bootfloppybox
-Icon=/usr/share/icons/Tango/jwm/applications-system.png
+Icon=/usr/share/icons/Tango/16x16/devices/gtk-floppy.png
 Type=Application
 Categories=System;
