@@ -90,7 +90,9 @@ network interfaces or directly edit files.
       </hbox>
     </frame>
   
-    <notebook labels="DHCP|Static IP|System wide|Servers">
+    <notebook labels="DHCP|Static IP|System wide|Servers'
+[ -x /sbin/iptables ] && NET_BOX="$NET_BOX|Firewall"
+tmp='">
   
     <frame Udhcpc>
       <hbox>
@@ -239,6 +241,7 @@ network interfaces or directly edit files.
       </hbox>
     </frame>
     <notebook labels="'
+NET_BOX="$NET_BOX$tmp"
 tmp=''
 [ -x /usr/sbin/dropbear ] && NET_BOX="${NET_BOX}${tmp}SSH"   && tmp='|'
 [ -x /usr/bin/tftpd     ] && NET_BOX="${NET_BOX}${tmp}TFTP"  && tmp='|' 
@@ -248,6 +251,7 @@ tmp=''
 [ -x /usr/sbin/dnsd     ] && NET_BOX="${NET_BOX}${tmp}DNS"   && tmp='|' 
 [ -x /usr/bin/rsync     ] && NET_BOX="${NET_BOX}${tmp}RSYNC" && tmp='|' 
 [ -x /usr/sbin/lighttpd ] && NET_BOX="${NET_BOX}${tmp}HTTP"  && tmp='|' 
+[ -x /usr/sbin/smbd     ] && NET_BOX="${NET_BOX}${tmp}WINS" && tmp='|' 
 . /etc/daemons.conf
 set -- $DROPBEAR_OPTIONS
 while [ -n "$2" ]; do
@@ -484,7 +488,7 @@ tmp2='
         </entry>
         <button>
           <input file icon="help"></input>
-	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x30 -title "rsync daemon help" -e "rsync --daemon --help ; echo -e \"----\nENTER to continue...\" && read close"</action>
+	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x31 -title "rsync daemon help" -e "rsync --daemon --help ; echo -e \"----\nENTER to continue...\" && read close"</action>
         </button>
         <button>
           <input file icon="accessories-text-editor"></input>
@@ -567,9 +571,76 @@ tmp='<frame Lighttpd>
      </frame>
 '
 [ -x /usr/sbin/lighttpd ] && NET_BOX="${NET_BOX}${tmp}" 
-tmp='
+tmp='<frame Samba: smbd & nmbd>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Configuration :</b>"</label>
+        </text>
+        <entry editable="false">
+          <default>/etc/samba/smb.conf</default>
+          <variable>SMBD_CONF</variable>
+        </entry>
+        <button>
+          <input file icon="accessories-text-editor"></input>
+          <action type="lauch">leafpad $SMBD_CONF</action>
+        </button>
+      </hbox>
+      <hbox>
+        <button>
+          <label>Reload</label>
+          <input file icon="reload"></input>
+          <action>/etc/init.d/samba reload</action>
+        </button>
+        <button>
+          <label>Start</label>
+          <input file icon="forward"></input>
+          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)samba \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
+          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)\"/RUN_DAEMONS=\"samba \1\"/" /etc/rcS.conf</action>
+          <action>/etc/init.d/lighttpd start</action>
+        </button>
+        <button>
+          <label>Stop</label>
+          <input file icon="stop"></input>
+          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)samba \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
+          <action>/etc/init.d/lighttpd stop</action>
+        </button>
+      </hbox>
+     </frame>
+'
+[ -x /usr/sbin/smbd     ] && NET_BOX="${NET_BOX}${tmp}"
+NET_BOX="${NET_BOX}
     </notebook>
-    
+"
+tmp='<frame Iptables>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Configuration :</b>"</label>
+        </text>
+        <entry editable="false">
+          <default>/etc/iptables.conf</default>
+          <variable>IPTABLES_CONF</variable>
+        </entry>
+        <button>
+          <input file icon="accessories-text-editor"></input>
+          <action type="lauch">leafpad $IPTABLES_CONF</action>
+        </button>
+      </hbox>
+      <hbox>
+        <button>
+          <label>Load</label>
+          <input file icon="reload"></input>
+          <action>/sbin/iptables-restore \< $IPTABLES_CONF</action>
+        </button>
+        <button>
+          <label>Save</label>
+          <input file icon="go-jump"></input>
+          <action>/sbin/iptables-save \> $IPTABLES_CONF</action>
+        </button>
+      </hbox>
+     </frame>
+'
+[ -x /sbin/iptables ] && NET_BOX="$NET_BOX${tmp}"
+tmp='
     </notebook>
 
     <hbox>
@@ -591,8 +662,8 @@ NET_BOX="${NET_BOX}${tmp}"
 
 export NET_BOX
 
-# TODO: Servers/VNC(X11vnc) Servers/SMB(Samba)
-# Modules(Network kernel modules) Firewall(Iptables) VPN(OpenVPN)
+# TODO: Servers/VNC(X11vnc)
+# Modules(Network kernel modules) VPN(OpenVPN)
 
 # Only root can configure network.
 check_root
