@@ -18,7 +18,7 @@ root password to become super-user.\n"
 # Write bootfloppy image to floppy device.
 #
 BOOT_DIALOG='
-<window title="bootfloppybox" icon-name="media-flash">
+<window title="bootfloppybox" icon-name="gtk-floppy">
   <vbox>
  
     <text use-markup="true">
