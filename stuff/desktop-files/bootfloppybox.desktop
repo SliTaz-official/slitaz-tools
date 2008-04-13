@@ -1,6 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=Boot floppy creation tool
+Name[fr]=Disquette de démarrage
 GenericName=Gen a boot floppy
 GenericName[fr]=Créer une disquette de démarrage
 Comment=Generate a boot floppy
