@@ -92,7 +92,7 @@ network interfaces or directly edit files.
   
     <notebook labels="DHCP|Static IP|System wide|Servers'
 [ -x /sbin/iptables ] && NET_BOX="$NET_BOX|Firewall"
-tmp='">
+tmp='|Etherwake">
   
     <frame Udhcpc>
       <hbox>
@@ -641,6 +641,25 @@ tmp='<frame Iptables>
 '
 [ -x /sbin/iptables ] && NET_BOX="$NET_BOX${tmp}"
 tmp='
+    <frame Ether-wake>
+    <hbox>
+      <text use-markup="true">
+        <label>"<b>Options : </b>"</label>
+      </text>
+      <entry editable="false">
+        <variable>ETHERWAKE_OPTS</variable>
+      </entry>
+      <button>
+        <input file icon="help"></input>
+	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x15 -title "dnsd help" -e "ether-wake --help ; echo -e \"----\nENTER to continue...\" && read close"</action>
+      </button>
+      <button>
+        <label>Start</label>
+        <input file icon="forward"></input>
+        <action>ether-wake $ETHERWAKE_OPTS</action>
+      </button>
+    </hbox>
+    </frame>
     </notebook>
 
     <hbox>
