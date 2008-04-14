@@ -67,13 +67,13 @@ NET_BOX='
 <b>SliTaz - Netbox</b>"
       </label>
     </text>
-    <text wrap="true" width-chars="44">
+    <text wrap="true" width-chars="48">
       <label>
 "
-Manage network connections getting dynamic IP
-by DHCP or static IP, and setup servers.
-Netbox can start or stop networking, configure 
-network interfaces or directly edit files.
+Manage network connections getting dynamic IP by DHCP 
+or static IP, and setup servers. Netbox can start or stop 
+networking, configure network interfaces or directly edit 
+configuration files.
 "
       </label>
     </text>
