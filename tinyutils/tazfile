@@ -1,0 +1,141 @@
+#!/bin/sh
+# Tazfile - Tiny autonomus zone files locator.
+#
+# This is a lightwight files locator for *.tazpkg files, all written in
+# SHell script. It works well with Busybox ash shell and bash. Tazfile let you
+# create and explore a files list database.
+#
+# (C) 2008 SliTaz - GNU General Public License v3.
+#
+# Author : Pascal Bellard <pascal.bellard@slitaz.org>
+#
+VERSION=1.0
+
+####################
+# Script variables #
+####################
+
+# Initialize some variables to use words
+# rater than numbers for functions and actions.
+COMMAND=$1
+TOP_DIR=`pwd`
+TMP_DIR=/tmp/tazfile-$$-$RANDOM
+
+# Path to tazpkg used dir and configuration files
+LOCALSTATE=/var/lib/tazpkg
+INSTALLED=$LOCALSTATE/installed
+MIRROR=$LOCALSTATE/mirror
+FILES_LIST=$LOCALSTATE/files.list.lzma
+DEFAULT_MIRROR="http://download.tuxfamily.org/slitaz/packages/`cat /etc/slitaz-release`/"
+
+# Check if the directories and files used by Tazfile
+# exists. If not and user is root we creat them.
+if test $(id -u) = 0 ; then
+	if [ ! -d "$INSTALLED" ]; then
+		mkdir -p $INSTALLED
+	fi
+	if [ ! -f "$LOCALSTATE/mirror" ]; then
+		echo "$DEFAULT_MIRROR" > $LOCALSTATE/mirror
+	fi
+fi
+
+####################
+# Script functions #
+####################
+
+# Print the usage.
+usage ()
+{
+	echo -e "SliTaz files locator - Version: $VERSION\n
+\033[1mUsage:\033[0m tazfile [command] [file...]\n
+\033[1mCommands: \033[0m
+  usage            Print this short usage.
+  build            Build a files list to stdout from a list of packages.  
+  recharge         Recharge your $(basename $FILES_LIST) from the mirror.
+  search	   Search for file(s) in all (installed or not) packages.
+
+\033[1mExample: \033[0m
+  $ find . -name '*.tazpkg' | tazfile build > $(basename $FILES_LIST)
+  $ find . -name '*.tazpkg' -newer $(basename $FILES_LIST) | tazfile $(basename $FILES_LIST)
+  $ tazfile recharge
+  $ tazfile search awk cpio "  
+}
+
+# Check for packages.list to download and install packages.
+check_for_files_list_lzma()
+{
+	if [ ! -f "$FILES_LIST" ]; then
+		echo -e "
+Unable to find the list : $FILES_LIST\n
+You must probably run 'tazfile recharge' as root to get the last list of 
+files avalaible on the mirror.\n"
+		exit 0
+	fi
+}
+
+# Download a file trying all mirrors
+download()
+{
+	for i in $(cat $MIRROR); do
+		wget $i$@ && break
+	done
+}
+
+build_database()
+{
+        while read pkg; do
+                cat $pkg | ( cd $TMP_DIR
+                        cpio -iu > /dev/null 2>&1
+                        . ./receipt
+                        echo "$PACKAGE"
+                        cat ./files.list ) | awk '
+                            BEGIN { name="" }
+                            {
+                                if (name == "") name=$0;
+                                else printf("%s: %s\n",name,$0);
+                            }'
+        done
+}
+
+###################
+# Tazpkg commands #
+###################
+
+case "$COMMAND" in
+	build)
+		# Create files.list.lzma to stdout.
+		#
+		mkdir $TMP_DIR
+		build_database | lzma e -si -so
+		rm -rf $TMP_DIR
+		;;
+	recharge)
+		# Recharge files.list.lzma from a mirror.
+		#
+		cd $LOCALSTATE
+		echo ""
+		mv -f $FILES_LIST $FILES_LIST.old 2> /dev/null
+		download $(basename $FILES_LIST)
+		;;
+	search)
+		# Search for a file by pattern or name in files.list.lzma.
+		#
+		check_for_files_list_lzma
+		while [ -n "$2" ]; do
+			unlzma -c $FILES_LIST | \
+				grep -i -- "$2$" | while read line; do
+					pkg=${line%:*}
+					if [ -d $INSTALLED/$pkg ]; then
+						echo -n "[already installed]  "
+					fi
+					echo "$line"
+				done
+			shift
+		done
+		;;
+	usage|*)
+		# Print a short help or give usage for an unknow or empty command.
+		#
+		usage
+		;;
+esac
