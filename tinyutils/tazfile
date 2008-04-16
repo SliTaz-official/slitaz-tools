@@ -56,7 +56,6 @@ usage ()
 
 \033[1mExample: \033[0m
   $ find . -name '*.tazpkg' | tazfile build > $(basename $FILES_LIST)
-  $ find . -name '*.tazpkg' -newer $(basename $FILES_LIST) | tazfile $(basename $FILES_LIST)
   $ tazfile recharge
   $ tazfile search awk cpio "  
 }
