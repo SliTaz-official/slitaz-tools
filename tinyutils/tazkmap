@@ -3,7 +3,7 @@
 # Tazkmap - SliTaz GNU/Linux BusyBox keymap config using dialog boxes.
 # Configuration file is : /etc/kmap.conf
 # 
-# 2007/11/04 <pankso@slitaz.org> - GNU gpl.
+# 20080412 <pankso@slitaz.org> - GNU gpl.
 #
 : ${DIALOG=dialog}
 
@@ -38,15 +38,16 @@ value=`$DIALOG  --clear \
     --menu \
 "Séléctionnez votre clavier - Select your keymap." 15 70 5 \
 "fr_CH" "Suisse français." \
-"fr" "Français." \
-"be" "Belge." \
-"ca" "Canadian." \
-"de" "Deutch." \
-"en" "English UK." \
-"es" "Spanish." \
-"it" "Italiano." \
-"jp" "Japanese." \
-"us" "USA." \
+"fr" "Français" \
+"be" "Belge" \
+"ca" "Canadian" \
+"cz" "Czech" \
+"de" "Deutch" \
+"en" "English UK" \
+"es" "Spanish" \
+"it" "Italiano" \
+"jp" "Japanese" \
+"us" "USA" \
 2>&1 1>&3`
 retval=$?
 exec 3>&-
