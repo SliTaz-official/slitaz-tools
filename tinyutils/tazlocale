@@ -35,7 +35,8 @@ value=`$DIALOG  --clear \
 	--title " SliTaz locale configuration " \
 	--menu \
 "Select your language - Séléctionnez votre langue" 15 70 5 \
-$(cd /usr/share/i18n/locales/; ls -1 [a-z][a-z]_* | awk '{ printf "%s Locale\n",$1,$2 }') \
+"en" "Locale" \
+$(locale -a | grep ^[a-z] | awk '{ printf "%s Locale\n",$1,$2 }') \
 2>&1 1>&3`
 retval=$?
 exec 3>&-
@@ -55,37 +56,15 @@ case $retval in
 	fi ;;
 esac
 
-LOCALE=$value
-
-# Set charmaps, used files are in: /usr/share/i18n/charmaps
-#
-case $LOCALE in
-	# ISO-8859-1
-	de_*|en_*|es_*|fr_*|it_IT)
-		CHARMAP='ISO-8859-1' ;;
-	# ISO-8859-2
-	cs_*)
-		CHARMAP='ISO-8859-2' ;;
-	ru_*)
-		CHARMAP='KOI8-RU' ;;
- 	*)
-		echo "Locale: $value specifications not yet implemeted... Sorry."
-		CHARMAP='ISO-8859-1'
-		LOCALE='en_US' ;;
-esac
+# Default: C = English
+if [ "$value" = "en" ]; then
+	value='C'
+fi
 
 # System configuration
-echo -n "Setting system locale to: $value "
-localedef -i $LOCALE -c -f ISO-8859-1 $fs/usr/lib/locale/$LOCALE
-status
-echo -n "Creating configuration file: /etc/locale.conf"
-echo "LANG=$LOCALE" > /etc/locale.conf
-echo "LC_ALL=$LOCALE" >> /etc/locale.conf
-status
+echo "LANG=$value" > /etc/locale.conf
+echo "LC_ALL=$value" >> /etc/locale.conf
 
-if [ -f "/etc/locale.conf" ]; then
-	. /etc/locale.conf
-	export LANG LC_ALL
-fi
+. /etc/locale.conf && export LANG LC_ALL
 
 exit 0
