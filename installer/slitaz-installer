@@ -27,18 +27,12 @@ TARGET_ROOT=/mnt/target
 LOG=/var/log/slitaz-installer.log
 BACKLIST="SliTaz GNU/Linux installer"
 
-# start_install messages (to translate)
-START_INSTALL_MSG="\n
-Bienvenue dans l'installateur de SliTaz GNU/Linux. Vous pouvez utiliser \
-les flèches du clavier et la touche ENTER ou la souris pour valider. Il vous \
-suffira de répondre à quelques questions lors des différentes étapes \
-d'installation ou de mise à jour. Dans le cas d'une nouvelle installation, \
-l'installateur va vous demander la partition à utiliser comme racine du \
-système et vous proposer de la formater. Ensuite il va copier les fichiers \
-depuis le cdrom, les décompresser, les installer et va préconfigurer le \
-système. Pour finir, vous aurez aussi la possibilité d'installer le \
-gestionnaire de démarrage GRUB, si besoin est.\n\n
-\Z2Commencer une installation ou une mise à jour ?\Zn"
+# Messages language setting
+if echo $LANG | grep fr; then
+	. /usr/share/slitaz-tools/installer/fr.msg
+else
+	. /usr/share/slitaz-tools/installer/en.msg
+fi
 
 #######################
 # Installer functions #
@@ -57,11 +51,11 @@ check_root()
 {
 	if test $(id -u) != 0 ; then
 	ERROR_MSG="\
+[\Z6en\Zn] You must be root administrator to start SliTaz installer, please \
+use 'su' to get a root SHell and restart installation.\n\n
 [\Z6fr\Zn] Vous devez être root pour installer SLiTaz GNU/Linux. Vous pouvez \
 utiliser 'su' suivi du mot de passe administrateur pour devenir root \
-et relancer l'installation.\n\n
-[\Z6en\Zn] You must be root administrator to start SliTaz installer, please \
-use 'su' to get a root SHell and restart installation."
+et relancer l'installation."
 		error_message
 		exit 0
 	fi
@@ -74,7 +68,7 @@ check_retval()
 		0)
 			continue ;;
 		1)
-			echo -e "\nArrêt volontaire.\n" && exit 0 ;;
+			echo -e "\nVolontary exit.\n" && exit 0 ;;
 		3)
 			continue ;;
 		255)
@@ -85,7 +79,7 @@ check_retval()
 # Start install with basic informations.
 start_installer()
 {
-	$DIALOG --title " Installation ou mise à jour " \
+	$DIALOG --title " Install or Upgrade " \
 		--backtitle "$BACKLIST" \
 		--extra-button --extra-label "Upgrade" \
 		--yes-label "Install" \
@@ -96,7 +90,7 @@ start_installer()
 		0)
 			ACTION=install ;;
 		1)
-			echo -e "\nArrêt volontaire.\n" && exit 0 ;;
+			echo -e "\nVolontary exit.\n" && exit 0 ;;
 		3)
 			ACTION=upgrade ;;
 		255)
@@ -112,30 +106,25 @@ mount_cdrom()
 	umount /media/cdrom 2>/dev/null
 	(
 	echo "XXX" && echo 30
-	echo -e "\nCréation du point de montage (/media/cdrom)..."
+	echo -e "\nCreating mount point (/media/cdrom)..."
 	echo "XXX"		
 	mkdir -p /media/cdrom
 	sleep 1
 	echo "XXX" && echo 60
-	echo -e "\nMontage du cdrom ($CDROM)..."
+	echo -e "\nMonting cdrom ($CDROM)..."
 	echo "XXX"
 	mount -t iso9660 $CDROM /media/cdrom 2>>$LOG
 	echo "XXX" && echo 90
-	echo -e "\nVérification du media d'installation..."
+	echo -e "\nChecking installation media..."
 	echo "XXX"
 	sleep 2
 	) |
-	$DIALOG --title " Montage du cdrom " \
+	$DIALOG --title " Monting cdrom " \
 		--backtitle "$BACKLIST" \
-		--gauge "Préparation du media d'installation..." 18 70 0
+		--gauge "Preparing the installation media..." 18 70 0
 	# Exit with error msg if no rootfs.gz found
 	if [ ! -f /media/cdrom/boot/rootfs.gz ]; then
-		ERROR_MSG="\
-Impossible de trouver : rootfs.gz\n\n
-L'archive du système de fichiers racine n'est pas présente sur le cdrom. \
-Il se peut que cette erreur soit due au fait que le LiveCD de SliTaz ne soit \
-pas inséré dans le premier lecteur CD/DVD et que le media n'as pas pu être \
-correctement monté. Arrêt."
+		ERROR_MSG="$MOUNT_CDROM_ERROR_MSG"
 		error_message
 		echo "missing: /media/cdrom/boot/rootfs.gz" >>$LOG
 		exit 1
@@ -149,7 +138,7 @@ fdisk_list()
 	$DIALOG --title " Partitions tables " \
 		--backtitle "$BACKLIST" \
 		--clear --msgbox "\n
-Liste des partitions disponibles :\n\n
+Avalaibble partitions :\n\n
 $LIST_PARTITIONS" 18 70
 }
 
