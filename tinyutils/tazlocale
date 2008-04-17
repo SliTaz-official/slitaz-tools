@@ -3,7 +3,7 @@
 # Tazlocale: SliTaz GNU/Linux locale setting using dialog boxes.
 # Configuration file is : /etc/locale.conf
 #
-# 2007/11/04 <pankso@slitaz.org> - GNU gpl.
+# 20080417 <pankso@slitaz.org> - GNU gpl.
 #
 : ${DIALOG=dialog}
 
@@ -23,65 +23,65 @@ status()
 # Check if user is root.
 #
 if test $(id -u) != 0; then
-  echo ""
-  echo "You must be root to run `basename $0`!"
-  echo "Type su and root password to become super-user."
-  echo ""
-  exit 1
+	echo -e "\nYou must be root to run `basename $0`!"
+	echo -e "Type su and root password to become super-user.\n"
+	exit 1
 fi
 
 # Dialog menu.
 #
 exec 3>&1
 value=`$DIALOG  --clear \
-    --title " SliTaz locale configuration " \
-    --menu \
-"Séléctionnez votre langue - Select your language." 15 70 5 \
-"fr_CH" "Français Suisse." \
-"fr_FR" "Français France." \
-"en" "English (POSIX)." \
+	--title " SliTaz locale configuration " \
+	--menu \
+"Select your language - Séléctionnez votre langue" 15 70 5 \
+$(cd /usr/share/i18n/locales/; ls -1 [a-z][a-z]_* | awk '{ printf "%s Locale\n",$1,$2 }') \
 2>&1 1>&3`
 retval=$?
 exec 3>&-
 
 case $retval in
-  0)
-    echo -n "$value selected... " 
-    status ;;
-  1)
-    echo "Cancel pressed."
-    exit 0 ;;
-  255)
-    if test -n "$value"; then
-      echo "$value"
-    else
-      echo "ESC pressed."
-      exit 0
-    fi ;;
+	0)
+		continue ;;
+	1)
+		echo "Cancel pressed."
+		exit 0 ;;
+	255)
+	if test -n "$value"; then
+		echo "$value"
+	else
+		echo "ESC pressed."
+		exit 0
+	fi ;;
 esac
 
-# Now we can creat /etc/locale.conf.
+LOCALE=$value
+
+# Set charmaps, used files are in: /usr/share/i18n/charmaps
 #
-case $value in
-  fr_CH)
-    echo "Paramétrage de la langue pour le français Suisse..."
-    echo -n "Création du fichier de configuration : /etc/locale.conf"
-    echo "LANG=fr_CH" > /etc/locale.conf
-    echo "LC_ALL=fr_CH" >> /etc/locale.conf
-    status ;;
-  fr_FR)
-    echo "Paramétrage de la langue pour le français France..."
-    echo -n "Création du fichier de configuration : /etc/locale.conf"
-    echo "LANG=fr_FR" > /etc/locale.conf
-    echo "LC_ALL=fr_FR" >> /etc/locale.conf
-    status ;;
-  en)
-    echo "Setting language to English (POSIX)... "
-    echo -n "Creating configuration file : /etc/locale.conf"
-    echo "LANG=POSIX" > /etc/locale.conf
-    echo "LC_ALL=POSIX" >> /etc/locale.conf
-    status ;;
+case $LOCALE in
+	# ISO-8859-1
+	de_*|en_*|es_*|fr_*|it_IT)
+		CHARMAP='ISO-8859-1' ;;
+	# ISO-8859-2
+	cs_*)
+		CHARMAP='ISO-8859-2' ;;
+	ru_*)
+		CHARMAP='KOI8-RU' ;;
+ 	*)
+		echo "Locale: $value specifications not yet implemeted... Sorry."
+		CHARMAP='ISO-8859-1'
+		LOCALE='en_US' ;;
 esac
+
+# System configuration
+echo -n "Setting system locale to: $value "
+localedef -i $LOCALE -c -f ISO-8859-1 $fs/usr/lib/locale/$LOCALE
+status
+echo -n "Creating configuration file: /etc/locale.conf"
+echo "LANG=$LOCALE" > /etc/locale.conf
+echo "LC_ALL=$LOCALE" >> /etc/locale.conf
+status
 
 if [ -f "/etc/locale.conf" ]; then
 	. /etc/locale.conf
