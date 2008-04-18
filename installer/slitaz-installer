@@ -149,14 +149,7 @@ ask_for_target_dev()
 	TARGET_DEV=`$DIALOG --title " Partition racine " \
 		--backtitle "$BACKLIST" --clear \
 		--extra-label "List" --extra-button \
-		--colors --inputbox "\n
-Veuillez indiquer la partition à utiliser pour installer SliTaz GNU/Linux, \
-exemple: '/dev/hda1'. Vous pouvez utiliser le bouton 'List' pour afficher \
-une liste des partitions disponibles sur le ou les disques durs et revenir \
-ensuite à cet écran. A noter qu'il faut au minimum 100 Mb pour le coeur du \
-système et que si vous prévoyez d'installer de nouveaux paquets, vous serez \
-plus à l'aise avec environ 400 Mb.\n\n
-\Z2Partition à utiliser:\Zn" 18 70 2>&1 1>&3`
+		--colors --inputbox "$ASK_FOR_TARGET_DEV_MSG" 18 70 2>&1 1>&3`
 	retval=$?
 	exec 3>&-
 	check_retval
@@ -174,7 +167,7 @@ plus à l'aise avec environ 400 Mb.\n\n
 	if cat /proc/partitions | grep -q $DEV_NAME; then
 		echo "ask_for_target_dev: $TARGET_DEV" >>$LOG
 	else
-		ERROR_MSG="La partition \Z2$TARGET_DEV\Zn ne semble pas exister."
+		ERROR_MSG="Partition \Z2$TARGET_DEV\Zn seems inexistant."
 		error_message
 		ask_for_target_dev
 	fi
@@ -183,18 +176,9 @@ plus à l'aise avec environ 400 Mb.\n\n
 # Mkfs if needed/wanted.
 ask_for_mkfs_target_dev()
 {
-	$DIALOG --title " Formater " \
+	$DIALOG --title " Format " \
 		--backtitle "$BACKLIST" \
-		--clear --colors --yesno "\n
-SliTaz va être installé sur la partition : $TARGET_DEV\n\n
-Vous avez la possibilité de formater la partition en ext3 ou d'utiliser \
-le système de fichiers déjà présent sur la partition. Le format ext3 est \
-un système de fichiers propre à Linux, robuste, stable et jounalisé, c'est \
-le format conseillé. Faites attention, si vous formatez toutes les données \
-de cette partition seront définitivement détruites. Si vous conservez le \
-système de fichiers actuel, la partition sera nettoyée et les données 
-utilisateurs conservées (/home).\n\n
-\Z2Faut t'il formater la partition en ext3 ?\Zn" 18 70
+		--clear --colors --yesno "$ASK_FOR_MKFS_TARGET_DEV_MSG" 18 70
 	retval=$?
 	case $retval in
 		0)
@@ -214,7 +198,7 @@ prepare_target_dev()
 {
 	(
 	echo "XXX" && echo 30
-	echo -e "\nPréparation de la partition cible..."
+	echo -e "\nPreparing target partition..."
 	echo "XXX"
 	# Mount point can be already used.
 	if mount | grep -q $TARGET_ROOT; then
@@ -224,18 +208,18 @@ prepare_target_dev()
 		
 	if [ "$MKFS_TARGET_DEV" == "ext3" ]; then
 		echo "XXX" && echo 60
-		echo -e "\nExécution de mkfs.ext3 sur $TARGET_DEV"
+		echo -e "\nExecuting mkfs.ext3 on $TARGET_DEV"
 		echo "XXX"		
 		mkfs.ext3 $TARGET_DEV >>$LOG 2>>$LOG
 	else
 		echo "XXX" && echo 60
-		echo -e "\nLa partition ($TARGET_DEV) sera nettoyée..."
+		echo -e "\nThe partition ($TARGET_DEV) will be cleaned..."
 		echo "XXX"
 		sleep 2
 	fi
 	
 	echo "XXX" && echo 90
-	echo -e "\nCréation du point de montage: $TARGET_ROOT"
+	echo -e "\nCreating mount point: $TARGET_ROOT"
 	echo "XXX"	
 	mkdir -p $TARGET_ROOT
 	sleep 2
@@ -254,13 +238,7 @@ ask_for_hostname()
 	exec 3>&1
 	HOSTNAME=`$DIALOG --title " Hostname " \
 		--backtitle "$BACKLIST" --clear \
-		--colors --inputbox "\n
-Veuillez indiquer le nom de machine à utiliser pour votre système SliTaz.\
-Le nom de machine ou 'hostname' est utilisé pour identifier votre machine sur \
-le réseau et en local par le système (defaut: slitaz). A noter que cette \
-valeur peut aussi être modifiée une fois le système installé en utilisant
-'netbox' graphiquement ou en ligne de commande.\n\n
-\Z2Nom de machine:\Zn" 18 70 "slitaz" 2>&1 1>&3`
+		--colors --inputbox "$ASK_FOR_HOSTNAME_MSG" 18 70 "slitaz" 2>&1 1>&3`
 	retval=$?
 	exec 3>&-
 	check_retval
@@ -496,15 +474,7 @@ grub_install()
 	TARGET_DISK=`echo $TARGET_DEV | sed s/"[0-9]"/''/`
 	$DIALOG --title " GRUB install " \
 		--backtitle "$BACKLIST" \
-		--clear --colors --yesno "\n
-Avant de redémarrer sur votre nouveau système SliTaz GNU/Linux, veuillez \
-vous assurer qu'un gestionnaire de démarrage est bien installé. Si ce n'est \
-pas le cas vous pouvez répondre oui et installer GRUB. Si vous n'installez \
-pas GRUB, un fichier de configuration (menu.lst) a été généré pendant \
-l'installation, il contient les lignes qui permettent de démarrer SliTaz.\n\n
-Une fois installé, GRUB peut facilement être reconfiguré et propose un SHell \
-interactif au boot.\n\n
-\Z2Faut t'il installer GRUB sur: $TARGET_DISK ?\Zn" 18 70
+		--clear --colors --yesno "$GRUB_INSTALL_MSG" 18 70
 	retval=$?
 	case $retval in
 		0)
@@ -570,14 +540,7 @@ end_of_install()
 		--backtitle "$BACKLIST" \
 		--yes-label "Exit" \
 		--no-label "Reboot" \
-		--clear --colors --yesno "\n
-L'installation est terminée. Vous pouvez dès maintenant redémarrer (reboot) \
-sur votre nouveau système SliTaz GNU/Linux et commencer à finement le \
-configurer en fonction de vos besoins et préférences. Vous trouverez de l'aide \
-ou un support technique gratuit via la liste de discussion et/ou le forum \
-officiel du projet. Pour bien commencer à utiliser le système, vous pouvez \
-vous référer aux documents du Handbook de SliTaz et utiliser le gestionnaire \
-de paquets Tazpkg pour installer de nouveaux logiciels prêts à savourer." 18 70
+		--clear --colors --yesno "$END_OF_INSTALL_MSG" 18 70
 	retval=$?
 	case $retval in
 	0)
