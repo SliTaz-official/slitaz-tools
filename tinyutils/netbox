@@ -420,22 +420,24 @@ tmp='<frame Pxelinux>
           <label>"<b>Configuration :</b>"</label>
         </text>
         <entry editable="false">
-          <default>pxelinux.cfg/default</default>
+          <default>'
+tmp="$tmp$(grep bin/tftpd /etc/inetd.conf | awk '{ print $NF }')"
+tmp2='/pxelinux.cfg/default</default>
           <variable>PXE_CONF</variable>
         </entry>
         <button>
           <input file icon="accessories-text-editor"></input>
-	  <action>dir=$(dirname /boot/$PXE_CONF); [ -d $dir ] || mkdir -p $dir</action>
-	  <action>lzma d /usr/share/boot/pxelinux.0.lzma /boot/pxelinux.0</action>
-	  <action>grep "^option bootfile=pxelinux.0" $UDHCPD_CONF || echo "option bootfile=pxelinux.0" >> $UDHCPD_CONF</action>
-	  <action>[ -f /boot/$PXE_CONF ] || echo -e "label slitaz\n\tkernel bzImage\n\tappend initrd=rootfs.gz rw root=/dev/null vga=normal" > /boot/$PXE_CONF</action>
-          <action type="lauch">leafpad /boot/$PXE_CONF</action>
+	  <action>dir=$(dirname $PXE_CONF); [ -d $dir ] || mkdir -p $dir</action>
+	  <action>lzma d /usr/share/boot/pxelinux.0.lzma $(dirname $PXE_CONF)/../pxelinux.0</action>
+	  <action>grep "^option bootfile pxelinux.0" $UDHCPD_CONF || echo "option bootfile pxelinux.0" >> $UDHCPD_CONF</action>
+	  <action>[ -f $PXE_CONF ] || echo -e "label slitaz\n\tkernel bzImage\n\tappend initrd=rootfs.gz rw root=/dev/null vga=normal" > $PXE_CONF</action>
+          <action type="lauch">leafpad $PXE_CONF</action>
         </button>
       </hbox>
      </frame>
 '
 [ -f /usr/share/boot/pxelinux.0.lzma -a -x /usr/bin/tftpd -a \
-  -x /usr/sbin/inetd -a -x /usr/sbin/udhcpd ] && NET_BOX="${NET_BOX}${tmp}"
+  -x /usr/sbin/inetd -a -x /usr/sbin/udhcpd ] && NET_BOX="$NET_BOX$tmp$tmp2"
 tmp='<frame Dnsd>
       <hbox>
         <text use-markup="true">
