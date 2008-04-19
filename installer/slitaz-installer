@@ -41,7 +41,7 @@ fi
 # Display error message.
 error_message()
 {
-	$DIALOG --title " Erreur " \
+	$DIALOG --title " Error " \
 		--colors --backtitle "$BACKLIST" \
 		--clear --msgbox "\n$ERROR_MSG" 18 70
 }
@@ -68,7 +68,7 @@ check_retval()
 		0)
 			continue ;;
 		1)
-			echo -e "\nVolontary exit.\n" && exit 0 ;;
+			echo -e "\nVoluntary exit.\n" && exit 0 ;;
 		3)
 			continue ;;
 		255)
@@ -90,7 +90,7 @@ start_installer()
 		0)
 			ACTION=install ;;
 		1)
-			echo -e "\nVolontary exit.\n" && exit 0 ;;
+			echo -e "\nVoluntary exit.\n" && exit 0 ;;
 		3)
 			ACTION=upgrade ;;
 		255)
@@ -111,7 +111,7 @@ mount_cdrom()
 	mkdir -p /media/cdrom
 	sleep 1
 	echo "XXX" && echo 60
-	echo -e "\nMonting cdrom ($CDROM)..."
+	echo -e "\nMounting cdrom ($CDROM)..."
 	echo "XXX"
 	mount -t iso9660 $CDROM /media/cdrom 2>>$LOG
 	echo "XXX" && echo 90
@@ -119,7 +119,7 @@ mount_cdrom()
 	echo "XXX"
 	sleep 2
 	) |
-	$DIALOG --title " Monting cdrom " \
+	$DIALOG --title " Mounting cdrom " \
 		--backtitle "$BACKLIST" \
 		--gauge "Preparing the installation media..." 18 70 0
 	# Exit with error msg if no rootfs.gz found
@@ -135,10 +135,10 @@ mount_cdrom()
 fdisk_list()
 {
 	LIST_PARTITIONS=`fdisk -l | grep ^/dev | sed s/'e Win95'/'e'/g`
-	$DIALOG --title " Partitions tables " \
+	$DIALOG --title " Partition tables " \
 		--backtitle "$BACKLIST" \
 		--clear --msgbox "\n
-Avalaibble partitions :\n\n
+Available partitions :\n\n
 $LIST_PARTITIONS" 18 70
 }
 
@@ -167,7 +167,7 @@ ask_for_target_dev()
 	if cat /proc/partitions | grep -q $DEV_NAME; then
 		echo "ask_for_target_dev: $TARGET_DEV" >>$LOG
 	else
-		ERROR_MSG="Partition \Z2$TARGET_DEV\Zn seems inexistant."
+		ERROR_MSG="Partition \Z2$TARGET_DEV\Zn doesn't exist."
 		error_message
 		ask_for_target_dev
 	fi
