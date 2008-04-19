@@ -42,7 +42,7 @@ export IFCONFIG='
     </text>
     <frame Servers>
       <text wrap="false" width-chars="58">
-        <input>for i in dropbear tftpd udhcpd dnsd rsync lighttpd ; do ps w | grep $i | grep -v grep; done</input>
+        <input>for i in dropbear inetd udhcpd dnsd rsync lighttpd ; do ps w | grep $i | grep -v grep; done</input>
       </text>
     </frame>
     <hbox>
@@ -67,13 +67,13 @@ NET_BOX='
 <b>SliTaz - Netbox</b>"
       </label>
     </text>
-    <text wrap="true" width-chars="48">
+    <text wrap="true" width-chars="44">
       <label>
 "
-Manage network connections getting dynamic IP by DHCP 
-or static IP, and setup servers. Netbox can start or stop 
-networking, configure network interfaces or directly edit 
-configuration files.
+Manage network connections getting dynamic IP
+by DHCP or static IP, and setup servers.
+Netbox can start or stop networking, configure 
+network interfaces or directly edit files.
 "
       </label>
     </text>
@@ -244,10 +244,11 @@ tmp='|Etherwake">
 NET_BOX="$NET_BOX$tmp"
 tmp=''
 [ -x /usr/sbin/dropbear ] && NET_BOX="${NET_BOX}${tmp}SSH"   && tmp='|'
-[ -x /usr/bin/tftpd     ] && NET_BOX="${NET_BOX}${tmp}TFTP"  && tmp='|' 
+[ -x /usr/sbin/inetd    ] && NET_BOX="${NET_BOX}${tmp}INETD" && tmp='|' 
 [ -x /usr/sbin/udhcpd   ] && NET_BOX="${NET_BOX}${tmp}DHCP"  && tmp='|' 
 [ -f /usr/share/boot/pxelinux.0.lzma -a -x /usr/bin/tftpd -a \
-  -x /usr/sbin/udhcpd   ] && NET_BOX="${NET_BOX}${tmp}PXE"   && tmp='|'
+  -x /usr/sbin/inetd -a -x /usr/sbin/udhcpd ] \
+                          && NET_BOX="${NET_BOX}${tmp}PXE"   && tmp='|'
 [ -x /usr/sbin/dnsd     ] && NET_BOX="${NET_BOX}${tmp}DNS"   && tmp='|' 
 [ -x /usr/bin/rsync     ] && NET_BOX="${NET_BOX}${tmp}RSYNC" && tmp='|' 
 [ -x /usr/sbin/lighttpd ] && NET_BOX="${NET_BOX}${tmp}HTTP"  && tmp='|' 
@@ -310,26 +311,19 @@ tmp2='
      </frame>
 '
 [ -x /usr/sbin/dropbear ] && NET_BOX="${NET_BOX}${tmp}${tmp2}"
-set -- $TFTPD_OPTIONS
-TFTPD_OPTS=""
-while [ -n "$2" ]; do
-  TFTPD_OPTS="$TFTPD_OPTS $1"
-  shift
-done
-TFTPD_ROOT="$1"
-tmp='<frame Tftpd>
+tmp='<frame Inetd>
       <hbox>
         <text use-markup="true">
-          <label>"<b>TFTPD_OPTIONS</b>"</label>
+          <label>"<b>INETD_OPTIONS</b>"</label>
         </text>
         <entry editable="false">'
-[ -n "$TFTPD_OPTS" ] && tmp="$tmp<default>$TFTPD_OPTS</default>"
+[ -n "$INETD_OPTS" ] && tmp="$tmp<default>$INETD_OPTS</default>"
 tmp2='
-          <variable>TFTPD_OPTS</variable>
+          <variable>INETD_OPTS</variable>
         </entry>
         <button>
           <input file icon="help"></input>
-	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x13 -title "tftpd help" -e "tftpd --help ; echo -e \"----\nENTER to continue...\" && read close"</action>
+	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 60x14 -title "inetd help" -e "inetd --help ; echo -e \"----\nENTER to continue...\" && read close"</action>
         </button>
         <button>
           <input file icon="accessories-text-editor"></input>
@@ -338,33 +332,49 @@ tmp2='
       </hbox>
       <hbox>
         <text use-markup="true">
-          <label>"<b>Root path :</b>"</label>
+          <label>"<b>Configuration :</b>"</label>
         </text>
-        <entry editable="false">'
-tmp="$tmp$tmp2"
-[ -n "$TFTPD_ROOT" ] && tmp="$tmp<default>$TFTPD_ROOT</default>"
-tmp2='
-          <variable>TFTPD_ROOT</variable>
+        <entry editable="false">
+          <default>/etc/inetd.conf</default>
+          <variable>INETD_CONF</variable>
         </entry>
+        <button>
+          <input file icon="accessories-text-editor"></input>
+          <action type="lauch">leafpad $INETD_CONF</action>
+        </button>
       </hbox>
       <hbox>
+'
+tmp="$tmp$tmp2"
+for i in $(grep bin /etc/inetd.conf | awk '{ print $6}'); do
+  i=$(basename $i)
+tmp2="
+        <button>
+          <input file icon=\"help\"></input>
+          <label>$i</label>
+	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 60x19 -title \"$i help\" -e \"$i --help ; echo -e \\\"----\nENTER to continue...\\\" && read close\"</action>
+        </button>
+"
+  tmp="$tmp$tmp2"
+done
+tmp2='
         <button>
           <label>Start</label>
           <input file icon="forward"></input>
-          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)tftpd \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
-          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)\"/RUN_DAEMONS=\"tftpd \1\"/" /etc/rcS.conf</action>
-          <action>/etc/init.d/tftpd start</action>
+          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)inetd \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
+          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)\"/RUN_DAEMONS=\"inetd \1\"/" /etc/rcS.conf</action>
+          <action>/etc/init.d/inetd start</action>
         </button>
         <button>
           <label>Stop</label>
           <input file icon="stop"></input>
-          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)tftpd \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
-          <action>/etc/init.d/tftpd start</action>
+          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)inetd \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
+          <action>/etc/init.d/inetd stop</action>
         </button>
       </hbox>
      </frame>
 '
-[ -x /usr/bin/tftpd ] && NET_BOX="${NET_BOX}${tmp}${tmp2}" 
+[ -x /usr/sbin/inetd ] && NET_BOX="${NET_BOX}${tmp}${tmp2}" 
 tmp='<frame Dhcpd>
       <hbox>
         <text use-markup="true">
@@ -401,7 +411,7 @@ tmp='<frame Pxelinux>
       <hbox>
         <text wrap="true">
           <label>
-"Tftpd and Dhcpd must be lauched to start the PXE service."
+"Launch Dhcpd and Inetd with Tftpd to start the PXE service."
           </label>
         </text>
       </hbox>
@@ -415,17 +425,17 @@ tmp='<frame Pxelinux>
         </entry>
         <button>
           <input file icon="accessories-text-editor"></input>
-	  <action>dir=$(dirname $TFTPD_ROOT/$PXE_CONF); [ -d $dir ] || mkdir -p $dir</action>
-	  <action>lzma d /usr/share/boot/pxelinux.0.lzma $TFTPD_ROOT/pxelinux.0</action>
+	  <action>dir=$(dirname /boot/$PXE_CONF); [ -d $dir ] || mkdir -p $dir</action>
+	  <action>lzma d /usr/share/boot/pxelinux.0.lzma /boot/pxelinux.0</action>
 	  <action>grep "^option bootfile=pxelinux.0" $UDHCPD_CONF || echo "option bootfile=pxelinux.0" >> $UDHCPD_CONF</action>
-	  <action>[ -f $TFTPD_ROOT/$PXE_CONF ] || echo -e "label slitaz\n\tkernel bzImage\n\tappend initrd=rootfs.gz rw root=/dev/null vga=normal" > $TFTPD_ROOT/$PXE_CONF</action>
-          <action type="lauch">leafpad $TFTPD_ROOT/$PXE_CONF</action>
+	  <action>[ -f /boot/$PXE_CONF ] || echo -e "label slitaz\n\tkernel bzImage\n\tappend initrd=rootfs.gz rw root=/dev/null vga=normal" > /boot/$PXE_CONF</action>
+          <action type="lauch">leafpad /boot/$PXE_CONF</action>
         </button>
       </hbox>
      </frame>
 '
 [ -f /usr/share/boot/pxelinux.0.lzma -a -x /usr/bin/tftpd -a \
-  -x /usr/sbin/udhcpd   ] && NET_BOX="${NET_BOX}${tmp}"
+  -x /usr/sbin/inetd -a -x /usr/sbin/udhcpd ] && NET_BOX="${NET_BOX}${tmp}"
 tmp='<frame Dnsd>
       <hbox>
         <text use-markup="true">
@@ -642,6 +652,20 @@ tmp='<frame Iptables>
 [ -x /sbin/iptables ] && NET_BOX="$NET_BOX${tmp}"
 tmp='
     <frame Ether-wake>
+    <hbox>
+      <text use-markup="true">
+        <label>"<b>Machines :</b>"</label>
+      </text>
+      <entry editable="false">
+        <default>/etc/ethers</default>
+        <variable>ETHERS</variable>
+      </entry>
+      <button>
+        <input file icon="accessories-text-editor"></input>
+        <action>[ -s $ETHERS ] || echo "#00:01:02:03:04:05 mystation" >$ETHERS</action>
+        <action type="lauch">leafpad $ETHERS</action>
+      </button>
+    </hbox>
     <hbox>
       <text use-markup="true">
         <label>"<b>Options : </b>"</label>
