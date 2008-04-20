@@ -378,6 +378,24 @@ tmp2='
 tmp='<frame Dhcpd>
       <hbox>
         <text use-markup="true">
+          <label>"<b>UDHCPD_OPTIONS</b>"</label>
+        </text>
+        <entry editable="false">'
+[ -n "$UDHCPD_OPTS" ] && tmp="$tmp<default>$UDHCPD_OPTS</default>"
+tmp2='
+          <variable>UDHCPD_OPTS</variable>
+        </entry>
+        <button>
+          <input file icon="help"></input>
+	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 60x14 -title "udhcpd help" -e "udhcpd --help ; echo -e \"----\nENTER to continue...\" && read close"</action>
+        </button>
+        <button>
+          <input file icon="accessories-text-editor"></input>
+          <action type="lauch">leafpad /etc/daemons.conf</action>
+        </button>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
           <label>"<b>Configuration :</b>"</label>
         </text>
         <entry editable="false">
@@ -406,7 +424,7 @@ tmp='<frame Dhcpd>
       </hbox>
      </frame>
 '
-[ -x /usr/sbin/udhcpd   ] && NET_BOX="${NET_BOX}${tmp}" 
+[ -x /usr/sbin/udhcpd   ] && NET_BOX="${NET_BOX}$tmp$tmp2" 
 tmp='<frame Pxelinux>
       <hbox>
         <text wrap="true">
