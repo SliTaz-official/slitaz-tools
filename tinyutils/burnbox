@@ -97,6 +97,10 @@ ISO images with ISO Master utility.
     
     <hbox>
       <button>
+        <input file icon="help"></input>
+	<action>xterm -sb -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 95x25 -title "wodim help" -e "wodim --help ; echo -e \"----\nENTER to continue...\" && read close"</action>
+      </button>
+      <button>
         <label>Burn</label>
         <input file icon="forward"></input>
         <action>echo "Burning $ISO_IMAGE..."</action>
