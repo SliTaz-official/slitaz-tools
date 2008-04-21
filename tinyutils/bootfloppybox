@@ -105,11 +105,18 @@ $(echo -e $desc)
   else
     tmp="$tmp
       <hbox>
-      <text wrap=\"true\" width-chars=\"44\" use-markup=\"true\">
+      <text wrap=\"true\" width-chars=\"34\" use-markup=\"true\">
         <label>
 \"<i>The package <b>$pkg</b> is not yet installed</i>\"
         </label>
       </text>
+      <button>
+        <input file icon=\"go-jump\"></input>
+	<label>Install</label>
+        <action>[ -f /var/lib/tazpkg/packages.list ] || tazpkg recharge</action>
+	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x17 -title \"$pkg install\" -e \"tazpkg get-install $pkg ; echo -e \\\"----\\n\\nENTER to continue...\\\" && read close\"</action>
+        <action type=\"exit\">Exit</action>
+      </button>
       </hbox>
     </frame>
 "
