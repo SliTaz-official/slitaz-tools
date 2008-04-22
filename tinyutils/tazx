@@ -16,7 +16,7 @@ MOUSE=/dev/input/mice,5
 if [ -n "$1" ]; then
 	WM=$1
 else
-	WM=jwm
+	WM=openbox
 fi
 
 ####################
@@ -151,7 +151,7 @@ openbox_stuff()
 {
 	if [ "$WM" == "openbox" -o "$WM" == "ob" ]; then
 		 WM=openbox-session
-		 XSEVER_OPTS="dpms -terminate"
+		 XSEVER_OPTS="dpms +extension Composite"
 	fi
 	# Check if a personnal autostart script exist if OB is installed.
 	if [ -d "/var/lib/tazpkg/installed/openbox" ]; then
@@ -159,13 +159,16 @@ openbox_stuff()
 			mkdir -p $HOME/.config/openbox
 			cp /etc/xdg/openbox/autostart.sh $HOME/.config/openbox
 		fi
-		# Script for hacker, Openbox can be used with a LiveCD flavor or
-		# LiveUSB.
+		# Script for hacker.
 		if [ ! -f "/home/hacker/.config/openbox/autostart.sh" ]; then
 			mkdir -p /home/hacker/.config/openbox
 			cp /etc/xdg/openbox/autostart.sh /home/hacker/.config/openbox
-			chown -R hacker.hacker /home/hacker/.config
 		fi
+		if [ ! -f "/home/hacker/.config/openbox/menu.xml" ]; then
+			mkdir -p /home/hacker/.config/openbox
+			cp /etc/xdg/openbox/menu.xml /home/hacker/.config/openbox
+		fi
+		chown -R hacker.hacker /home/hacker/.config
 	fi
 }
 
@@ -177,7 +180,7 @@ xinitrc_sample()
 # You can use F1 with Slim or 'tazx' to configure permanantly 
 # your default WM: tazx e17
 #
-WM=jwm
+WM=openbox
 
 case $1 in
 	e17|enlightenment_start)
@@ -193,7 +196,7 @@ case $1 in
 	*)
 		# LXpanel by default with JWM (use less memory started 
 		# from here rater than from StartupCommand).
-		if [ "$WM" = "jwm" ]; then
+		if [ "$WM" = "openbox" ]; then
 			lxpanel &
 		fi
 		exec $WM

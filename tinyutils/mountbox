@@ -138,7 +138,7 @@ flash key, USB disk or local HD partitions.
       <button>
         <label>Browse</label>
         <input file icon="folder"></input>
-        <action>emelfm2 --one=$MOUNT_POINT</action>
+        <action>pcmanfm $MOUNT_POINT</action>
       </button>
       <button>
         <label>Eject</label>
