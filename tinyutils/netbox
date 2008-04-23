@@ -449,7 +449,7 @@ tmp2='/pxelinux.cfg/default</default>
 	  <action>lzma d /usr/share/boot/pxelinux.0.lzma $(dirname $PXE_CONF)/../pxelinux.0</action>
 	  <action>grep -q "^boot_file" $UDHCPD_CONF || echo "boot_file pxelinux.0" >> $UDHCPD_CONF</action>
 	  <action>grep -q "^siaddr" $UDHCPD_CONF || echo "siaddr $(ifconfig $INTERFACE | grep inet.ad | cut -d: -f2 | cut -d\  -f1)" >> $UDHCPD_CONF</action>
-	  <action>[ -f $PXE_CONF ] || echo -e "label slitaz\n\tkernel bzImage\n\tappend initrd=rootfs.gz rw root=/dev/null vga=normal" > $PXE_CONF</action>
+	  <action>[ -f $PXE_CONF ] || echo -e "label linux\n\tkernel bzImage\n\tappend initrd=rootfs.gz rw root=/dev/null vga=normal" > $PXE_CONF</action>
           <action type="lauch">leafpad $PXE_CONF</action>
         </button>
       </hbox>
