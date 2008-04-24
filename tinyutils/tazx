@@ -180,13 +180,13 @@ xinitrc_sample()
 # You can use F1 with Slim or 'tazx' to configure permanantly 
 # your default WM: tazx e17
 #
-WM=openbox
+WM=openbox-session
 
 case $1 in
 	e17|enlightenment_start)
 		exec enlightenment_start
 		;;
-	openbox|openbox-session)
+	openbox|openbox-session|ob)
 		exec openbox-session
 		;;
 	jwm)
@@ -194,11 +194,6 @@ case $1 in
 		exec jwm
 		;;
 	*)
-		# LXpanel by default with JWM (use less memory started 
-		# from here rater than from StartupCommand).
-		if [ "$WM" = "openbox" ]; then
-			lxpanel &
-		fi
 		exec $WM
 		;;
 esac
@@ -226,20 +221,22 @@ creat_xinitrc()
 # Copy a JWM system config if any present in user home.
 jwm_config()
 {
-	JWM_CONFIG=$HOME/.jwmrc
-	if [ ! -f "$JWM_CONFIG" ]; then
-		cp /etc/jwm/system.jwmrc $JWM_CONFIG
-	fi
-	# In Live mode hacker/root JWM config dose not exist ans $HOME is 
-	# ot set, this is because tazx is executed by boot scripts.
-	if [ ! -f "/home/hacker/.jwmrc" ]; then
-		JWM_CONFIG=/home/hacker/.jwmrc
-		cp /etc/jwm/system.jwmrc $JWM_CONFIG
-		chown hacker.hacker $JWM_CONFIG
-	fi
-	if [ ! -f "/root/.jwmrc" -a `id -u` = 0 ]; then
-		JWM_CONFIG=/root/.jwmrc
-		cp /etc/jwm/system.jwmrc $JWM_CONFIG
+	if [ -d "/var/lib/tazpkg/installed/jwm" ]; then
+		JWM_CONFIG=$HOME/.jwmrc
+		if [ ! -f "$JWM_CONFIG" ]; then
+			cp /etc/jwm/system.jwmrc $JWM_CONFIG
+		fi
+		# In Live mode hacker/root JWM config dose not exist ans $HOME is 
+		# ot set, this is because tazx is executed by boot scripts.
+		if [ ! -f "/home/hacker/.jwmrc" ]; then
+			JWM_CONFIG=/home/hacker/.jwmrc
+			cp /etc/jwm/system.jwmrc $JWM_CONFIG
+			chown hacker.hacker $JWM_CONFIG
+		fi
+		if [ ! -f "/root/.jwmrc" -a `id -u` = 0 ]; then
+			JWM_CONFIG=/root/.jwmrc
+			cp /etc/jwm/system.jwmrc $JWM_CONFIG
+		fi
 	fi
 }
 
