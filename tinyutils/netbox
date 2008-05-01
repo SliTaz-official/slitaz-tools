@@ -42,7 +42,7 @@ export IFCONFIG='
     </text>
     <frame Servers>
       <text wrap="false" width-chars="58">
-        <input>for i in dropbear inetd udhcpd dnsd rsync lighttpd ; do ps w | grep $i | grep -v grep; done</input>
+        <input>for i in dropbear inetd udhcpd dnsd rsync lighttpd smbd nmbd x11vnc; do ps w | grep $i | grep -v grep; done</input>
       </text>
     </frame>
     <hbox>
@@ -252,7 +252,8 @@ tmp=''
 [ -x /usr/sbin/dnsd     ] && NET_BOX="${NET_BOX}${tmp}DNS"   && tmp='|' 
 [ -x /usr/bin/rsync     ] && NET_BOX="${NET_BOX}${tmp}RSYNC" && tmp='|' 
 [ -x /usr/sbin/lighttpd ] && NET_BOX="${NET_BOX}${tmp}HTTP"  && tmp='|' 
-[ -x /usr/sbin/smbd     ] && NET_BOX="${NET_BOX}${tmp}WINS" && tmp='|' 
+[ -x /usr/sbin/smbd     ] && NET_BOX="${NET_BOX}${tmp}WINS"  && tmp='|' 
+[ -x /usr/bin/x11vnc    ] && NET_BOX="${NET_BOX}${tmp}VNC"   && tmp='|' 
 . /etc/daemons.conf
 set -- $DROPBEAR_OPTIONS
 while [ -n "$2" ]; do
@@ -448,8 +449,8 @@ tmp2='/pxelinux.cfg/default</default>
 	  <action>dir=$(dirname $PXE_CONF); [ -d $dir ] || mkdir -p $dir</action>
 	  <action>lzma d /usr/share/boot/pxelinux.0.lzma $(dirname $PXE_CONF)/../pxelinux.0</action>
 	  <action>grep -q "^boot_file" $UDHCPD_CONF || echo "boot_file pxelinux.0" >> $UDHCPD_CONF</action>
-	  <action>grep -q "^siaddr" $UDHCPD_CONF || echo "siaddr $(ifconfig $INTERFACE | grep inet.ad | cut -d: -f2 | cut -d\  -f1)" >> $UDHCPD_CONF</action>
-	  <action>[ -f $PXE_CONF ] || echo -e "label linux\n\tkernel bzImage\n\tappend initrd=rootfs.gz rw root=/dev/null vga=normal" > $PXE_CONF</action>
+	  <action>grep -q "^siaddr" $UDHCPD_CONF || echo "siaddr $(ifconfig $INTERFACE | grep inet.ad | cut -d: -f2 | cut -c -15)" >> $UDHCPD_CONF</action>
+	  <action>[ -f $PXE_CONF ] || echo -e "label slitaz\n\tkernel bzImage\n\tappend initrd=rootfs.gz rw root=/dev/null vga=normal" > $PXE_CONF</action>
           <action type="lauch">leafpad $PXE_CONF</action>
         </button>
       </hbox>
@@ -627,18 +628,68 @@ tmp='<frame Samba: smbd & nmbd>
           <input file icon="forward"></input>
           <action>sed -i "s/RUN_DAEMONS=\"\(.*\)samba \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
           <action>sed -i "s/RUN_DAEMONS=\"\(.*\)\"/RUN_DAEMONS=\"samba \1\"/" /etc/rcS.conf</action>
-          <action>/etc/init.d/lighttpd start</action>
+          <action>/etc/init.d/samba start</action>
         </button>
         <button>
           <label>Stop</label>
           <input file icon="stop"></input>
           <action>sed -i "s/RUN_DAEMONS=\"\(.*\)samba \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
-          <action>/etc/init.d/lighttpd stop</action>
+          <action>/etc/init.d/samba stop</action>
         </button>
       </hbox>
      </frame>
 '
 [ -x /usr/sbin/smbd     ] && NET_BOX="${NET_BOX}${tmp}"
+tmp='<frame x11vnc>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>X11VNC_OPTIONS</b>"</label>
+        </text>
+        <entry editable="false">'
+[ -n "$X11VNC_OPTIONS" ] && tmp="$tmp<default>$X11VNC_OPTIONS</default>"
+tmp2='
+          <variable>X11VNC_OPTS</variable>
+        </entry>
+        <button>
+          <input file icon="help"></input>
+	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x30 -title "x11vnc daemon help (q to quit)" -e "x11vnc --help | less"</action>
+        </button>
+        <button>
+          <input file icon="accessories-text-editor"></input>
+          <action type="lauch">leafpad /etc/daemons.conf</action>
+        </button>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>New password</b>"</label>
+        </text>
+        <entry>
+          <variable>X11VNC_PASSWD</variable>
+        </entry>
+        <button>
+          <input file icon="reload"></input>
+          <label>Update</label>
+          <action>x11vnc -storepasswd $X11VNC_PASSWD /etc/vnc.secret</action>
+        </button>
+      </hbox>
+      <hbox>
+        <button>
+          <label>Start</label>
+          <input file icon="forward"></input>
+          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)x11vnc \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
+          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)\"/RUN_DAEMONS=\"x11vnc \1\"/" /etc/rcS.conf</action>
+          <action>/etc/init.d/x11vnc start</action>
+        </button>
+        <button>
+          <label>Stop</label>
+          <input file icon="stop"></input>
+          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)x11vnc \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
+          <action>/etc/init.d/x11vnc stop</action>
+        </button>
+      </hbox>
+     </frame>
+'
+[ -x /usr/bin/x11vnc    ] && NET_BOX="${NET_BOX}${tmp}${tmp2}"
 NET_BOX="${NET_BOX}
     </notebook>
 "
@@ -726,8 +777,7 @@ NET_BOX="${NET_BOX}${tmp}"
 
 export NET_BOX
 
-# TODO: Servers/VNC(X11vnc)
-# Modules(Network kernel modules) VPN(OpenVPN)
+# TODO:  Modules(Network kernel modules) VPN(OpenVPN)
 
 # Only root can configure network.
 check_root
