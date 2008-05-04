@@ -571,8 +571,25 @@ tmp2='
      </frame>
 '
 [ -x /usr/bin/rsync    ] && NET_BOX="${NET_BOX}${tmp}${tmp2}" 
-tmp='<frame Lighttpd>
-      <hbox>
+tmp='<frame Lighttpd>'
+tmp2='<frame PHP>
+       <hbox>
+        <text use-markup="true">
+          <label>"<b>Configuration :</b>"</label>
+        </text>
+        <entry editable="false">
+          <default>/etc/php.ini</default>
+          <variable>PHP_CONF</variable>
+        </entry>
+        <button>
+          <input file icon="accessories-text-editor"></input>
+          <action type="lauch">leafpad $PHP_CONF</action>
+        </button>
+       </hbox>
+      </frame>
+'
+[ -f /etc/php.ini ] && tmp="${tmp}${tmp2}" 
+tmp2='<hbox>
         <text use-markup="true">
           <label>"<b>Configuration :</b>"</label>
         </text>
@@ -602,7 +619,7 @@ tmp='<frame Lighttpd>
       </hbox>
      </frame>
 '
-[ -x /usr/sbin/lighttpd ] && NET_BOX="${NET_BOX}${tmp}" 
+[ -x /usr/sbin/lighttpd ] && NET_BOX="${NET_BOX}${tmp}${tmp2}" 
 tmp='<frame Samba: smbd & nmbd>
       <hbox>
         <text use-markup="true">
