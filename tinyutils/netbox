@@ -454,6 +454,13 @@ tmp2='/pxelinux.cfg/default</default>
           <action type="lauch">leafpad $PXE_CONF</action>
         </button>
       </hbox>
+      <hbox>
+        <button>
+          <input file icon="system-file-manager"></input>
+	  <label>Network boot files</label>
+	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 100x25 -title "Network boot files (q to quit)" -e "find $(dirname $(dirname $PXE_CONF)) -exec ls -ld {} \; | less"</action>
+        </button>
+      </hbox>
      </frame>
 '
 [ -f /usr/share/boot/pxelinux.0.lzma -a -x /usr/bin/tftpd -a \
