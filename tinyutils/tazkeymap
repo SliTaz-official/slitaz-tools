@@ -96,6 +96,10 @@ export KEYMAP=$value
 # Now we can load the selected kmap file from /usr/share/kbd/keymaps.
 #
 echo "$KEYMAP" > /etc/keymap.conf
-loadkeys $KEYMAP
+if [ -x /bin/loadkeys ]; then
+	loadkeys $KEYMAP
+else
+	loadkmap < /usr/share/kmap/$KEYMAP.kmap
+fi
 
 exit 0
