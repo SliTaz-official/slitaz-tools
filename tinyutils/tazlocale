@@ -72,6 +72,15 @@ if [ "$value" = "en" ]; then
 	value='C'
 fi
 
+# If it's a reconfiguration give an info message.
+if [ -f /etc/locale.conf ]; then
+	$DIALOG --clear \
+		--title " Locale setting information " \
+		--msgbox "\n
+Please logout you current session and login again to use $value 
+locale.\n" 16 70
+fi
+
 # System configuration
 echo "LANG=$value" > /etc/locale.conf
 echo "LC_ALL=$value" >> /etc/locale.conf
