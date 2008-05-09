@@ -954,12 +954,12 @@ tmp='<frame Iptables>
         <button>
           <label>Load</label>
           <input file icon="reload"></input>
-          <action>/sbin/iptables-restore \< $IPTABLES_CONF</action>
+          <action>/sbin/iptables-restore < $IPTABLES_CONF</action>
         </button>
         <button>
           <label>Save</label>
           <input file icon="go-jump"></input>
-          <action>/sbin/iptables-save \> $IPTABLES_CONF</action>
+          <action>/sbin/iptables-save > $IPTABLES_CONF</action>
         </button>
       </hbox>
      </frame>
