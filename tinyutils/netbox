@@ -16,35 +16,122 @@ root password to become super-user.\n"
 	fi
 }
 
+set_ipup()
+{
+	[ -f /etc/ppp/ip-up ] && return
+	cat > /etc/ppp/ip-up <<EOT
+#!/bin/sh
+exec $0 call ipup \$@
+EOT
+	chmod +x /etc/ppp/ip-up
+}
+
+if [ "$1" = "call" ]; then
+	ppp="pppd local lock notty"
+	pppup=""
+	sub=$2
+	shift 2
+	case "$sub" in
+	sendsshkey)
+		check_root
+		dropbearkey -y -f /etc/dropbear/dropbear_rsa_host_key | \
+		grep ^ssh | ssh $1 "mkdir .ssh 2> /dev/null ; while read key; do for i in authorized_keys authorized_keys2; do grep -q \$key .ssh/\$i || echo \$key >> .ssh/\$i; done; done; chmod 700 .ssh ; chmod 600 .ssh/authorized_keys*"
+		exit 0;;
+	vpnssh)	check_root
+		set_ipup
+		ps ww | grep -q "$ppp $2:$3" && exit 1
+		pipe="/tmp/ssh$$"
+		mkfifo $pipe
+		[ -n "$4" ] && pppup="ipparam 'addroutes,$(echo $4 | sed 's/ /,/g')'"
+		cat $pipe | dbclient -i /etc/dropbear/dropbear_rsa_host_key \
+		$1 "$ppp" | $ppp $2:$3 $pppup > $pipe
+		rm -f $pipe
+		exit 0;;
+	killvpnssh)
+		check_root
+		kill $(ps x | grep dbclient | grep "$ppp" | awk '{ print $1 }')
+		exit 0;;
+	ipup)
+#    Arg  Name                          Example
+#    $1   Interface name                ppp0
+#    $2   The tty                       ttyS1
+#    $3   The link speed                38400
+#    $4   Local IP number               12.34.56.78
+#    $5   Peer  IP number               12.34.56.99
+#    $6   Optional ``ipparam'' value    foo
+		iface=$1
+		# skip tty if present
+		case "$2" in [0-9]*);; *) shift; esac
+		peer=$4
+		IFS=","; set -- $(eval echo $5); unset IFS
+		set -- $1
+		if [ "$1" = "addroutes" ]; then
+			while [ -n "$2" ]; do
+				eval $(ipcalc -n $2)
+				eval $(ipcalc -m $2)
+				route add -net $NETWORK netmask $NETMASK \
+					gw $peer $iface
+				shift
+			done
+		fi
+		exit 0;;
+	esac
+	echo "call $sub unsupported."
+	exit 1
+fi
+
 # Interafce status with ifconfig without arguments to show all
 # active connections.
 #
 export IFCONFIG='
 <window title="Network status" icon-name="network-wired">
   <vbox>
-    <text use-markup="true">
-      <label>"
-<b>Active network interfaces</b>"
-      </label>
-    </text>
     <text wrap="false">
       <input>date</input>
     </text>
+    <notebook labels="Network interfaces'
+[ -x /usr/sbin/iwlist ] && IFCONFIG="$IFCONFIG|Wireless interfaces|Wireless networks"
+tmp='|Routing|Servers">
     <frame Ifconfig>
       <text wrap="false" width-chars="58">
         <input>ifconfig</input>
       </text>
-    </frame>
-    <text use-markup="true">
-      <label>"
-<b>Active network servers</b>"
-      </label>
-    </text>
-    <frame Servers>
+    </frame>'
+IFCONFIG="$IFCONFIG$tmp"
+tmp='<frame Iwconfig>
       <text wrap="false" width-chars="58">
-        <input>for i in dropbear inetd udhcpd dnsd rsync lighttpd smbd nmbd x11vnc; do ps w | grep $i | grep -v grep; done</input>
+        <input>iwconfig</input>
       </text>
     </frame>
+    <frame Wireless networks>
+      <text wrap="false" width-chars="58">
+        <input>iwlist scan</input>
+      </text>
+    </frame>'
+[ -x /usr/sbin/iwlist ] && IFCONFIG="$IFCONFIG$tmp"
+tmp='<frame Routing>
+    <frame Nameservers>
+      <text wrap="false" width-chars="58">
+        <input>cat /etc/resolv.conf</input>
+      </text>
+    </frame>
+    <frame Routing table>
+      <text wrap="false" width-chars="58">
+        <input>route</input>
+      </text>
+    </frame>
+    <frame Arp table>
+      <text wrap="false" width-chars="58">
+        <input>arp</input>
+      </text>
+    </frame>
+    </frame>
+    <frame Servers>
+      <text wrap="false" width-chars="58">
+        <input>for i in dropbear inetd udhcpd dnsd rsync lighttpd smbd nmbd x11vnc pppd; do ps ww | grep $i | grep -v grep | fold -s; done</input>
+      </text>
+    </frame>
+    </notebook>
     <hbox>
       <button>
         <input file icon="exit"></input>
@@ -54,6 +141,7 @@ export IFCONFIG='
   </vbox>
 </window>
 '
+IFCONFIG="$IFCONFIG$tmp"
 
 # The main dialog with notebook, start/stop buttons and all options.
 # Note than /etc/network.conf is seded wehwn an interafce is activate
@@ -74,6 +162,7 @@ Manage network connections getting dynamic IP
 by DHCP or static IP, and setup servers.
 Netbox can start or stop networking, configure 
 network interfaces or directly edit files.
+Wifi users may configure System wide / Network.
 "
       </label>
     </text>
@@ -90,7 +179,7 @@ network interfaces or directly edit files.
       </hbox>
     </frame>
   
-    <notebook labels="DHCP|Static IP|System wide|Servers'
+    <notebook labels="DHCP|PPPoE|Static IP|System wide|VPN|Servers'
 [ -x /sbin/iptables ] && NET_BOX="$NET_BOX|Firewall"
 tmp='|Etherwake">
   
@@ -123,6 +212,61 @@ tmp='|Etherwake">
           <action>echo -n "Stopping interface : $INTERFACE... "</action>
           <action>ifconfig $INTERFACE down</action>
           <action>killall -q udhcpc; echo "done"</action>
+        </button>
+      </hbox>
+    </frame>
+    
+    <frame PPPoE>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Name        :</b>"</label>
+        </text>
+        <entry>
+          <input>NAME=$(grep -s ^name /etc/ppp/options); echo "${NAME#* }"</input>
+          <variable>NAME</variable>
+        </entry>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Username :</b>"</label>
+        </text>
+        <entry>
+          <variable>USER</variable>
+        </entry>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Password :</b>"</label>
+        </text>
+        <entry>
+          <variable>USER</variable>
+        </entry>
+      </hbox>
+      <hbox>
+        <button>
+          <input file icon="accessories-text-editor"></input>
+          <label>Tune</label>
+	  <action>[ -n "$NAME" ] && sed -i "s/^name .*/name $NAME/" /etc/ppp/options</action>
+          <action type="lauch">leafpad /etc/ppp/options</action>
+        </button>
+        <button>
+          <label>Start</label>
+          <input file icon="forward"></input>
+	  <action>[ -n "$USER" ] && grep -qs "^\"$USER\"" /etc/ppp/pap-secrets
+	  && echo "\"$USER\"	*	\"$PASS\"" >> /etc/ppp/pap-secrets</action>
+	  <action>[ -n "$USER" ] && grep -qs "^\"$USER\"" /etc/ppp/chap-secrets
+	  && echo "\"$USER\"	*	\"$PASS\"" >> /etc/ppp/chap-secrets</action>
+	  <action>[ -n "$NAME" ] && sed -i "s/^name .*/name $NAME/" /etc/ppp/options</action>
+          <action>killall udhcpc</action>
+	  <action>sed -i "s/DHCP=\"yes\"/DHCP=\"no\"/" /etc/network.conf</action>
+	  <action>sed -i "s/PPPOE=\"no\"/PPPOE=\"yes\"/" /etc/network.conf</action>
+          <action>pppd $INTERFACE &</action>
+        </button>
+        <button>
+          <label>Stop</label>
+          <input file icon="stop"></input>
+	  <action>sed -i "s/PPPOE=\"yes\"/PPPOE=\"no\"/" /etc/network.conf</action>
+          <action>killall pppd</action>
         </button>
       </hbox>
     </frame>
@@ -240,6 +384,62 @@ tmp='|Etherwake">
         </button>
       </hbox>
     </frame>
+    
+    <frame Virtual Private Network with PPP/SSH>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Peer          :</b>"</label>
+        </text>
+        <entry>
+          <variable>DROPBEAR_PEERVPN</variable>
+	  <default>user@elsewhere</default>
+        </entry>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Local IP     :</b>"</label>
+        </text>
+        <entry>
+          <variable>DROPBEAR_LOCAL</variable>
+	  <default>192.168.254.1</default>
+        </entry>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Remote IP :</b>"</label>
+        </text>
+        <entry>
+          <variable>DROPBEAR_REMOTE</variable>
+	  <default>192.168.254.2</default>
+        </entry>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Route(s)    :</b>"</label>
+        </text>
+        <entry>
+          <variable>DROPBEAR_ROUTE</variable>
+	  <default>192.168.10.0/24 192.168.20.0/28</default>
+        </entry>
+      </hbox>
+      <hbox>
+        <button>
+          <input file icon="forward"></input>
+	  <label>Connect</label>
+	  <action>netbox call vpnssh $DROPBEAR_PEERVPN $DROPBEAR_LOCAL $DROPBEAR_REMOTE "$DROPBEAR_ROUTE" &</action>
+        </button>
+        <button>
+          <input file icon="stop"></input>
+	  <label>Disconnect</label>
+	  <action>netbox call killvpnssh</action>
+        </button>
+        <button>
+          <input file icon="go-up"></input>
+	  <label>Send key</label>
+	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x10 -title "dropbear help" -e "netbox call sendsshkey $DROPBEAR_PEERVPN; echo -e \"----\nENTER to continue...\" && read close"</action>
+        </button>
+      </hbox>
+    </frame>
     <notebook labels="'
 NET_BOX="$NET_BOX$tmp"
 tmp=''
@@ -292,6 +492,25 @@ tmp2='
         <button>
           <input file icon="accessories-text-editor"></input>
           <action type="lauch">leafpad $DROPBEAR_BANNER</action>
+        </button>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Remote  :</b>"</label>
+        </text>
+        <entry>
+          <variable>DROPBEAR_PEER</variable>
+	  <default>user@elsewhere</default>
+        </entry>
+        <button>
+          <input file icon="utilities-terminal"></input>
+	  <label>Connect</label>
+	  <action>xterm -fa MiscFixed -fs 11 -bg black -fg white -geometry 80x25 -title "$DROPBEAR_PEER" -e "dbclient -i /etc/dropbear/dropbear_rsa_host_key $DROPBEAR_PEER ; echo -e \"----\nENTER to continue...\" && read close" &</action>
+        </button>
+        <button>
+          <input file icon="go-up"></input>
+	  <label>Send key</label>
+	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x10 -title "dropbear help" -e "netbox call sendsshkey $DROPBEAR_PEER; echo -e \"----\nENTER to continue...\" && read close"</action>
         </button>
       </hbox>
       <hbox>
@@ -805,6 +1024,29 @@ export NET_BOX
 
 # Only root can configure network.
 check_root
+# Configure and connect if button Connect was pressed.
+if ! grep -qs ^name /etc/ppp/options ; then
+	# Generate /etc/ppp/options
+	cat > /etc/ppp/options << _EOT_
+plugin rp-pppoe.so
+name provider-ID
+noipdefault
+defaultroute
+mtu 1492
+mru 1492
+lock
+_EOT_
+	# Generate /etc/ppp/pap-secrets
+	cat > /etc/ppp/pap-secrets << _EOT_
+# Secrets for authentication using PAP
+# client	server	secret			IP addresses
+_EOT_
+	# Generate /etc/ppp/chap-secrets
+	cat > /etc/ppp/chap-secrets << _EOT_
+# Secrets for authentication using CHAP
+# client	server	secret			IP addresses
+_EOT_
+fi
 gtkdialog --center --program=NET_BOX
 
 exit 0
