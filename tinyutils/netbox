@@ -954,7 +954,7 @@ tmp='<frame Iptables>
         <button>
           <label>Load</label>
           <input file icon="reload"></input>
-          <action>/sbin/iptables-restore < $IPTABLES_CONF</action>
+          <action>cat $IPTABLES_CONF | /sbin/iptables-restore</action>
         </button>
         <button>
           <label>Save</label>
