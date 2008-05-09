@@ -1,0 +1,7 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Desktop icons
+Icon=document-new
+Exec=desktopbox add-icons
+Type=Application
+Categories=Settings;DesktopSettings;GTK;

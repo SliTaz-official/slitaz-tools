@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Keyboard mapping
+Name[fr]=Mappage du clavier
+Exec=subox 'xterm -e tazkeymap'
+Icon=/usr/share/icons/Tango/16x16/apps/accessories-character-map.png
+Terminal=true
+Type=Application
+Categories=Settings;DesktopSettings;

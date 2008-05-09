@@ -1,0 +1,184 @@
+#! /bin/sh
+# 
+# Multi-call script provinding GTK boxes to manage a desktop following
+# Freedesktop standars.
+#
+# (C) GNU gpl v3 - SliTaz GNU/Linux 2008.
+#
+VERSION=20080509
+
+# Standards directories.
+mkdir -p $HOME/Desktop $HOME/.local/share/applications
+
+# Get the active locale (default to English).
+case $LANG in
+	es*)
+		lang="es"
+		NEW_FOLDER_LABEL="Creat a new folder on the desktop:"
+		FOLDER_ENTRY_MSG="dirname"
+		NEW_FILE_LABEL="Creat a new file on the desktop:"
+		FILE_ENTRY_MSG="filename"
+		ADD_ICON_LABEL="Add some desktop icons" ;;
+	fr*)
+		lang="fr"
+		NEW_FOLDER_LABEL="Créer un nouveau dossier sur le bureau:"
+		FOLDER_ENTRY_MSG="dossier"
+		NEW_FILE_LABEL="Créer un nouveau fichier sur le bureau:"
+		FILE_ENTRY_MSG="fichier"
+		ADD_ICON_LABEL="Ajouter des icons de bureau" ;;
+	*)
+		lang=""
+		NEW_FOLDER_LABEL="Creat a new folder on the desktop:"
+		FOLDER_ENTRY_MSG="dirname"
+		NEW_FILE_LABEL="Creat a new file on the desktop:"
+		FILE_ENTRY_MSG="filename"
+		ADD_ICON_LABEL="Add some desktop icons" ;;
+esac
+
+# Command line usage.
+usage()
+{
+	echo -e "\nSliTaz Freedesktop Box - Version: $VERSION\n
+\033[1mUsage: \033[0m `basename $0` command
+\033[1mCommands: \033[0m\n
+  new-folder   Creat a new folder on the desktop with mkdir.
+  new-file     Creat a new empty file or SHell script on the desktop.
+  add-icons     Add a system icon on the desktop.\n"
+}
+
+# Box commands.
+case $1 in
+	new-folder)
+		# Creat a directory on the ~/desktop.
+		#
+		DESKTOP_DIALOG="
+<window title=\"Desktopbox - mkdir\" icon-name=\"folder-new\">
+<vbox>
+
+	<text use-markup=\"true\" width-chars=\"40\">
+		<label>\"
+<b>$NEW_FOLDER_LABEL</b>\"
+		</label>
+	</text>
+		
+	<hbox>
+		<entry>
+			<default>$FOLDER_ENTRY_MSG</default>
+			<variable>DIR</variable>
+		</entry>
+	</hbox>"
+		ACTIONS='
+	<hbox>
+		<button>
+			<label>Mkdir</label>
+			<input file icon="folder-new"></input>
+			<action>mkdir -p "$HOME/Desktop/$DIR"</action>
+			<action type="exit">Exit</action>
+		</button>
+		<button cancel>
+			<action type="exit">Exit</action>
+		</button>
+	</hbox>
+
+</vbox>
+</window>'
+		export DESKTOP_DIALOG="${DESKTOP_DIALOG}${ACTIONS}" ;;
+	new-file)
+		# Creat a file on the ~/desktop.
+		#
+		DESKTOP_DIALOG="
+<window title=\"Desktopbox - touch/cat\" icon-name=\"document-new\">
+<vbox>
+	<text use-markup=\"true\" width-chars=\"40\">
+		<label>\"
+<b>$NEW_FILE_LABEL</b>\"
+		</label>
+	</text>
+		
+	<hbox>
+		<entry>
+			<default>$FILE_ENTRY_MSG</default>
+			<variable>FILE</variable>
+		</entry>
+	</hbox>"
+		ACTIONS='
+	<hbox>
+		<button>
+			<label>SH script</label>
+			<input file icon="document-new"></input>
+			<action>echo "#!/bin/sh" > "$HOME/Desktop/$FILE"</action>
+			<action>echo "#" >> "$HOME/Desktop/$FILE"</action>
+			<action>chmod +x "$HOME/Desktop/$FILE"</action>
+			<action type="exit">Exit</action>
+		</button>
+		<button>
+			<label>Empty</label>
+			<input file icon="document-new"></input>
+			<action>touch "$HOME/Desktop/$FILE"</action>
+			<action type="exit">Exit</action>
+		</button>
+		<button cancel>
+			<action type="exit">Exit</action>
+		</button>
+	</hbox>
+</vbox>
+</window>'
+		export DESKTOP_DIALOG="${DESKTOP_DIALOG}${ACTIONS}" ;;
+	add-icons)
+		# Add a new icons on the ~/desktop from /usr/share/applications.
+		#
+		DESKTOP_DIALOG="
+<window title=\"$ADD_ICON_LABEL\" icon-name=\"document-new\">
+<vbox>
+	<text use-markup=\"true\" width-chars=\"40\">
+		<label>\"
+<b>$ADD_ICON_LABEL</b>
+\"
+		</label>
+	</text>
+	<tree headers_visible=\"false\">
+		<width>420</width><height>200</height>
+		<variable>ICON</variable>
+		<label>Filename|Application</label>"
+		# Get application name and icon.
+		cd /usr/share/applications
+		for file in *.desktop
+		do
+			# Try to get the name in the right locale.
+			NAME=`grep ^Name $file | grep $lang || grep ^Name= $file`
+			NAME=`echo $NAME | cut -d "=" -f 2`
+			ICON=`grep ^Icon= $file | cut -d "=" -f 2`
+			ICON=`basename $ICON`
+			ICON=${ICON%.*}
+			FILE=${file%.desktop}
+			ITEM="<item icon=\"$ICON\">$FILE | $NAME</item>"
+			DESKTOP_DIALOG="${DESKTOP_DIALOG}${ITEM}"
+		done
+		ACTIONS='<action>cp /usr/share/applications/$ICON.desktop ~/Desktop</action>
+	</tree>
+	<hbox>
+		<button>
+			<label>Add</label>
+			<input file icon="gtk-add"></input>
+			<action>cp /usr/share/applications/$ICON.desktop ~/Desktop</action>
+		</button>
+		<button>
+			<label>Exit</label>
+			<input file icon="exit"></input>
+			<action type="exit">Exit</action>
+		</button>
+	</hbox>
+</vbox>
+</window>
+'
+		export DESKTOP_DIALOG="${DESKTOP_DIALOG}${ACTIONS}" ;;
+	*)
+		# Usage if executet from cmdline.
+		#
+		usage
+		exit 0 ;;
+esac
+
+gtkdialog --center --program=DESKTOP_DIALOG >/dev/null
+
+exit 0
