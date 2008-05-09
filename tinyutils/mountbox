@@ -89,11 +89,12 @@ flash key, USB disk or local HD partitions.
         </text>     
         <combobox>
           <variable>DEVICE</variable>
-          <item>/dev/sda1</item>
-          <item>/dev/sdb2</item>
-          <item>/dev/cdrom</item>
-          <item>/dev/hda1</item>
-        </combobox>
+          <item>/dev/cdrom</item>'
+for i in $(awk '{ if ($4 != "name" && $4 != "") print $4 }' < /proc/partitions);
+do
+	MOUNT_DIALOG="$MOUNT_DIALOG<item>/dev/$i</item>"
+done
+tmp='</combobox>
         <button>
           <label>List</label>
           <input file icon="drive-harddisk"></input>
@@ -106,12 +107,12 @@ flash key, USB disk or local HD partitions.
           <label>"<b>Mount point   : </b>"</label>
         </text>
         <combobox>
-          <variable>MOUNT_POINT</variable>
-          <item>/media/flash</item>
-          <item>/media/usbdisk</item>
-          <item>/media/cdrom</item>
-          <item>/mnt/harddisk</item>
-        </combobox>
+          <variable>MOUNT_POINT</variable>'
+MOUNT_DIALOG="$MOUNT_DIALOG$tmp"
+for i in $(ls -d /media/* /mnt/*); do
+	MOUNT_DIALOG="$MOUNT_DIALOG<item>$i</item>"
+done
+tmp='</combobox>
         <button>
           <label>List</label>
           <input file icon="drive-harddisk"></input>
@@ -153,6 +154,7 @@ flash key, USB disk or local HD partitions.
   </vbox>
 </window>
 '
+MOUNT_DIALOG="$MOUNT_DIALOG$tmp"
 
 # Only root can mount.
 check_root
