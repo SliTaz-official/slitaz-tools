@@ -1,163 +1,167 @@
-#! /bin/sh
+#!/bin/sh
 # 
-# Gtkdialog box for the mount command. Part of SliTaz tools.
+# Gtkdialog box for the mount/umount commands. Part of SliTaz tools.
+# libmountbox: /usr/lib/slitaz/libmountbox
 #
-VERSION=20080113
+# (C) 2008 - SliTaz GNU/Linux project.
+#
+VERSION=20080510
 
-# Check if user is root.
-check_root()
-{
-	if test $(id -u) != 0 ; then
-		echo -e "
-You must be root to run `basename $0`. Please type 'su' and 
-root password to become super-user.\n"
-		exit 0
-	fi
-}
+# Mountbox is only for root.
+if test $(id -u) != 0 ; then
+	exec subox mountbox
+	exit 0
+fi
 
-export FDISK_LIST='
-<window title="Fdisk -l" icon-name="media-flash">
-  <vbox>
-    <text use-markup="true">
-      <label>"
-<b>Harddisk devices list</b>"
-      </label>
-    </text>
-    <frame Partitions table>
-      <text wrap="false" width-chars="58">
-        <input>fdisk -l | grep ^/dev</input>
-      </text>
-    </frame>
-    <hbox>
-      <button>
-        <input file icon="exit"></input>
-        <action type="closewindow">FDISK_LIST</action>
-      </button>
-    </hbox>
-  </vbox>
-</window>
-'
+# Commom mount point in /mnt
+mkdir -p /mnt/harddisk
 
-export MOUNTED='
-<window title="Mounted devices" icon-name="media-flash">
-  <vbox>
-    <text use-markup="true">
-      <label>"
-<b>Mounted devices list</b>"
-      </label>
-    </text>
-    <frame Devices and mount points>
-      <text wrap="false" width-chars="58">
-        <input>mount | grep ^/dev/[c-s]d</input>
-      </text>
-    </frame>
-    <hbox>
-      <button>
-        <input file icon="exit"></input>
-        <action type="closewindow">MOUNTED</action>
-      </button>
-    </hbox>
-  </vbox>
-</window>
-'
+# Just basic help.
+export HELP='
+<window title="Mountbox - Help" icon-name="help">
+<vbox>
+	<text use-markup="true" width-chars="56">
+		<label>"
+<b>SliTaz Mountbox - Help</b>"
+		</label>
+	</text>
+	
+	<frame English>
+		<text wrap="true" use-markup="true">
+			<label>
+"Mountbox let you mount devices on mount points. Device 
+can be cdrom, flash key, USB disk or local HD partitions.
+Mount points are generated from /media and /mnt.
+"
+			</label>
+		</text>
+	</frame>
+	<frame Français>
+		<text wrap="true" use-markup="true">
+			<label>
+"Mountbox permet de monter des périphériques (devices)
+sur des points de montage. Un device peut être un cdrom,
+une clé USB ou un disque dur local. La liste des points
+de montage est généré depuis /media te /mnt.
+"
+			</label>
+		</text>
+	</frame>
+	
+	<hbox>
+		<button ok>
+			<action type="closewindow">HELP</action>
+		</button>
+	</hbox>
+</vbox>
+</window>'
 
 # Mount and umount buttons with fiel for devive and mount point.
-#
-export MOUNT_DIALOG='
+MAIN_DIALOG='
 <window title="Mountbox" icon-name="media-flash">
-  <vbox>
- 
-    <text use-markup="true">
-      <label>
-"
-<b>SliTaz - Mountbox</b>"
-      </label>
-    </text>
-    <text wrap="true" width-chars="44" use-markup="true">
-      <label>
-"
-Mount device on a mount point. Device can be cdrom, 
-flash key, USB disk or local HD partitions.
-"
-      </label>
-    </text>
-  
-    <frame Configuration>
-      <hbox>
-        <text use-markup="true">
-          <label>"<b>Device             : </b>"</label>
-        </text>     
-        <combobox>
-          <variable>DEVICE</variable>
-          <item>/dev/cdrom</item>'
-for i in $(awk '{ if ($4 != "name" && $4 != "") print $4 }' < /proc/partitions);
-do
-	MOUNT_DIALOG="$MOUNT_DIALOG<item>/dev/$i</item>"
-done
-tmp='</combobox>
-        <button>
-          <label>List</label>
-          <input file icon="drive-harddisk"></input>
-	      <action type="launch">FDISK_LIST</action>
-        </button>
-      </hbox>
-  
-      <hbox>
-        <text use-markup="true">
-          <label>"<b>Mount point   : </b>"</label>
-        </text>
-        <combobox>
-          <variable>MOUNT_POINT</variable>'
-MOUNT_DIALOG="$MOUNT_DIALOG$tmp"
-for i in $(ls -d /media/* /mnt/*); do
-	MOUNT_DIALOG="$MOUNT_DIALOG<item>$i</item>"
-done
-tmp='</combobox>
-        <button>
-          <label>List</label>
-          <input file icon="drive-harddisk"></input>
-	      <action type="launch">MOUNTED</action>
-        </button>
-      </hbox>
-    </frame>
-    
-    <hbox>
-      <button>
-        <label>Mount</label>
-        <input file icon="forward"></input>
-        <action>echo "Mounting $DEVICE..."</action>
-        <action>mkdir -p $MOUNT_POINT; mount $DEVICE $MOUNT_POINT; sleep 1</action>
-        <action>mount | grep $DEVICE; echo "Done."</action>
-      </button>
-      <button>
-        <label>Umount</label>
-        <input file icon="undo"></input>
-        <action>echo "Unmounting $MOUNT_POINT..."</action>
-        <action>umount $MOUNT_POINT; sleep 1</action>
-        <action>mount | grep $DEVICE; echo "Done."</action>
-      </button>
-      <button>
-        <label>Browse</label>
-        <input file icon="folder"></input>
-        <action>pcmanfm $MOUNT_POINT</action>
-      </button>
-      <button>
-        <label>Eject</label>
-        <input file icon="media-cdrom"></input>
-        <action>eject</action>
-      </button>
-      <button>
-        <input file icon="exit"></input>
-        <action type="exit">Exit</action>
-      </button>
-    </hbox>
-  </vbox>
-</window>
-'
-MOUNT_DIALOG="$MOUNT_DIALOG$tmp"
+<vbox>
+	
+	<tree>
+		<width>520</width><height>120</height>
+		<variable>MOUNTED</variable>
+		<label>Mounted fs|Size|Used|Available|Use%|Mounted on</label>'
 
-# Only root can mount.
-check_root
-gtkdialog --center --program=MOUNT_DIALOG
+# /dev/root
+RES=`df -h / | grep rootfs`
+dev="/dev/root"
+SIZE=`echo $RES | cut -d " " -f 2`
+USED=`echo $RES | cut -d " " -f 3`
+AVAILABLE=`echo $RES | cut -d " " -f 4`
+PCT=`echo $RES | cut -d " " -f 5`
+MOUNTED_ON=`echo $RES | cut -d " " -f 6`
+ROOT_ITEM="
+		<item icon=\"drive-harddisk\">$dev | $SIZE | $USED | $AVAILABLE | $PCT | $MOUNTED_ON</item>"	
+MAIN_DIALOG=${MAIN_DIALOG}${ROOT_ITEM}
+
+# Now we have rootfs and icons, list all mounted fs.
+DEVICE='<input>/usr/lib/slitaz/libmountbox list-mounted</input>
+		<action>/usr/lib/slitaz/libmountbox mounted-fs-infos</action>
+		<action>refresh:MOUNTED</action>
+		<action>refresh:DEVICE</action>
+	</tree>
+	
+	<tree>
+		<width>500</width><height>120</height>
+		<variable>DEVICE</variable>
+		<label>Umounted dev|Boot|Start|End|Blocks|Id|System</label>
+		<item icon="drive-harddisk">/dev/cdrom | - | - | - | CD/DVD | - | iso9660</item>
+		<input>/usr/lib/slitaz/libmountbox list-umounted</input>
+		<action>/usr/lib/slitaz/libmountbox umounted-fs-infos</action>
+		<action>refresh:MOUNTED</action>
+		<action>refresh:DEVICE</action>
+	</tree>
+		<text use-markup="true">
+			<label>"<b>Mount selected device on:</b>"</label>
+		</text>
+		<hbox>
+			<combobox>
+			<variable>MOUNT_POINT</variable>'
+			
+# Get the mount points list.
+MAIN_DIALOG=${MAIN_DIALOG}${DEVICE}
+for dir in $(ls -d /media/* /mnt/*)
+do
+	MOUNT_POINTS_ITEMS="<item>$dir</item>"
+	MAIN_DIALOG=${MAIN_DIALOG}${MOUNT_POINTS_ITEMS}
+done
+
+# Actions buttons (moun, umount, eject, etc).
+ACTIONS='
+			</combobox>
+		<button>
+			<label>Browse</label>
+			<input file icon="folder-open"></input>
+			<action>pcmanfm $MOUNT_POINT &</action>
+		</button>
+	</hbox>
+
+	<hbox>
+		<button>
+			<label>Mount</label>
+			<input file icon="edit-redo"></input>
+			<action>mkdir -p $MOUNT_POINT</action>
+			<action>mount $DEVICE $MOUNT_POINT</action>
+			<action>refresh:MOUNTED</action>
+			<action>refresh:DEVICE</action>
+		</button>
+		<button>
+			<label>Umount</label>
+			<input file icon="undo"></input>
+			<action>umount $MOUNT_POINT; sleep 1</action>
+			<action>refresh:MOUNTED</action>
+			<action>refresh:DEVICE</action>
+		</button>
+		<button>
+			<label>Device list</label>
+			<input file icon="reload"></input>
+			<action>refresh:DEVICE</action>
+		</button>
+		<button>
+			<label>Eject</label>
+			<input file icon="media-cdrom"></input>
+			<action>eject</action>
+		</button>
+		<button help>
+			<input file icon="help"></input>
+			<action type="launch">HELP</action>
+		</button>
+		<button>
+			<label>Quit</label>
+			<input file icon="exit"></input>
+			<action type="exit">Exit</action>
+		</button>
+		
+	</hbox>
+	
+</vbox>
+</window>'
+
+export MAIN_DIALOG=${MAIN_DIALOG}${ACTIONS}
+gtkdialog --center --program=MAIN_DIALOG >/dev/null
 
 exit 0

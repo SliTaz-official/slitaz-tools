@@ -1,0 +1,188 @@
+#!/bin/sh
+#
+# Libmountbox provide devices list in suitable format for GTK tree
+# and varius dialog boxes to mount, umount, etc.
+#
+# (C) 2008 - SliTaz GNU/Linux project.
+#
+
+# Short usage.
+usage()
+{
+	echo -e "\nUsage: $0 command\n
+Outpout commads:
+  list-mounted      List all mounted devices in suitable GTK tree format.
+  list-umounted     List all umounted in suitable GTK tree format.
+  
+GTKdialog boxes
+  mounted-fs-infos  Display a mounted devices infos with actions.
+  umounted-fs-infos  Display a umounted devices infos with actions.\n"
+}
+
+# Format df -h output fot GTK tree.
+mounted_fs_data()
+{
+	SIZE=`echo $RES | cut -d " " -f 2`
+	USED=`echo $RES | cut -d " " -f 3`
+	AVAILABLE=`echo $RES | cut -d " " -f 4`
+	PCT=`echo $RES | cut -d " " -f 5`
+	MOUNTED_ON=`echo $RES | cut -d " " -f 6`
+}
+
+case $1 in
+	list-mounted)
+		# List all fs found by: df -h
+		#
+		for dev in `df -h | grep ^/dev/[c-s]d | cut -d " " -f 1`
+		do
+			RES=`df -h $dev | grep ^$dev`
+			mounted_fs_data
+			echo "$dev | $SIZE | $USED | $AVAILABLE | $PCT | $MOUNTED_ON"
+		done ;;
+	list-umounted)
+		# List all umounted fs found by: fdisk -l
+		#
+		for dev in `fdisk -l | grep ^/dev | cut -d " " -f 1`
+		do
+			RES=`fdisk -l | grep $dev | sed s/*//g`
+			START=`echo $RES | cut -d " " -f 2`
+			END=`echo $RES | cut -d " " -f 3`
+			BLOCKS=`echo $RES | cut -d " " -f 4`
+			ID=`echo $RES | cut -d " " -f 5`
+			SYSTEM=`echo $RES | cut -d " " -f 6`
+			# Bootable...
+			if fdisk -l | grep $dev | grep -q "*"; then
+				BOOT="*"
+			else
+				BOOT="-"
+			fi
+			# Skip swap, extended part and mounted.
+			if echo $RES | grep -q "swap" || echo $RES | grep -q "Extended" ; then
+				continue
+			elif mount | grep -q "^$dev"; then
+				continue
+			else
+				echo "$dev | $BOOT | $START | $END | $BLOCKS | $ID | $SYSTEM"
+			fi
+		done ;;
+	mounted-fs-infos)
+		# Mounted fs infos and actions, rootfs or other fs.
+		#
+		if [ "$MOUNTED" == "/dev/root" ]; then
+			export MOUNTED_DEVICE="
+<window title=\"Device: rootfs\" icon-name=\"media-flash\">
+<vbox>
+	<text use-markup=\"true\" width-chars=\"56\">
+		<label>\"
+<b>/dev/root</b>
+\"
+		</label>
+	</text>
+	<text use-markup=\"true\" width-chars=\"56\">
+		<input>df -h / | grep ^rootfs</input>
+	</text>
+	<hbox>
+		<button>
+			<label>Browse</label>
+			<input file icon=\"folder-open\"></input>
+			<action>pcmanfm / &</action>
+			<action type=\"closewindow\">MOUNTED_DEVICE</action>
+		</button>
+		<button>
+			<input file icon=\"gtk-close\"></input>
+			<action type=\"closewindow\">MOUNTED_DEVICE</action>
+		</button>
+	</hbox>
+</vbox>
+</window>"
+		gtkdialog --center --program=MOUNTED_DEVICE
+		else
+			UUID=`blkid | grep ^$MOUNTED | sed 's/.*UUID=\"\([^ ]*\)\".*/\1/'`
+			TYPE=`blkid | grep ^$MOUNTED | sed 's/.*TYPE=\"\([^ ]*\)\".*/\1/'`
+			RES=`df -h $MOUNTED | grep ^$MOUNTED`
+			mounted_fs_data
+			export MOUNTED_DEVICE="
+<window title=\"Device: $MOUNTED\" icon-name=\"media-flash\">
+<vbox>
+	<text use-markup=\"true\" width-chars=\"56\">
+		<label>\"
+Device <b>$MOUNTED</b> is mounted on <b>$MOUNTED_ON</b>
+
+UUID: $UUID
+Type: $TYPE
+\"
+		</label>
+	</text>
+	<hbox>
+		<button>
+			<label>Browse</label>
+			<input file icon=\"folder-open\"></input>
+			<action>pcmanfm $MOUNTED_ON &</action>
+			<action type=\"closewindow\">MOUNTED_DEVICE</action>
+		</button>
+		<button>
+			<label>Umount</label>
+			<input file icon=\"undo\"></input>
+			<action>umount $MOUNTED_ON</action>
+			<action type=\"closewindow\">MOUNTED_DEVICE</action>
+		</button>
+		<button>
+			<input file icon=\"gtk-close\"></input>
+			<action type=\"closewindow\">MOUNTED_DEVICE</action>
+		</button>
+	</hbox>
+</vbox>
+</window>"
+		gtkdialog --center --program=MOUNTED_DEVICE
+		fi ;;
+	umounted-fs-infos)
+		# Mounted fs infos and actions, rootfs or other fs.
+		#
+		UUID=`blkid | grep ^$DEVICE | sed 's/.*UUID=\"\([^ ]*\)\".*/\1/'`
+		TYPE=`blkid | grep ^$DEVICE | sed 's/.*TYPE=\"\([^ ]*\)\".*/\1/'`
+		export UMOUNTED_DEVICE="
+<window title=\"Device: $DEVICE\" icon-name=\"media-flash\">
+<vbox>
+	<text use-markup=\"true\" width-chars=\"56\">
+		<label>\"
+Mount <b>$DEVICE</b> on <b>$MOUNT_POINT</b>
+
+UUID: $UUID
+Type: $TYPE
+\"
+		</label>
+	</text>
+	
+	<hbox>
+		<button>
+			<label>Mount</label>
+			<input file icon=\"edit-redo\"></input>
+			<action>mkdir -p $MOUNT_POINT</action>
+			<action>mount $DEVICE $MOUNT_POINT</action>
+			<action type=\"closewindow\">MOUNTED_DEVICE</action>
+		</button>
+		
+		<button>
+			<label>e2fsck check</label>
+			<input file icon=\"drive-harddisk\"></input>
+			<action>xterm -T \"e2fsck -p $DEVICE\" \
+				--geomery 80x12 \
+				-e \"echo; e2fsck -p $DEVICE; \
+				echo -e '----\nENTER to close Termianl'; \
+				read i\" &</action>
+			<action type=\"closewindow\">MOUNTED_DEVICE</action>
+		</button>
+		
+		<button>
+			<input file icon=\"gtk-close\"></input>
+			<action type=\"closewindow\">UMOUNTED_DEVICE</action>
+		</button>
+	</hbox>
+</vbox>
+</window>"
+		gtkdialog --center --program=UMOUNTED_DEVICE ;;
+	*)
+		usage ;;
+esac
+
+exit 0
