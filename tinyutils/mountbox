@@ -74,8 +74,10 @@ USED=`echo $RES | cut -d " " -f 3`
 AVAILABLE=`echo $RES | cut -d " " -f 4`
 PCT=`echo $RES | cut -d " " -f 5`
 MOUNTED_ON=`echo $RES | cut -d " " -f 6`
-ROOT_ITEM="
-		<item icon=\"drive-harddisk\">$dev | $SIZE | $USED | $AVAILABLE | $PCT | $MOUNTED_ON</item>"	
+if [ $SIZE != 0 ]; then
+	ROOT_ITEM="
+		<item icon=\"drive-harddisk\">$dev | $SIZE | $USED | $AVAILABLE | $PCT | $MOUNTED_ON</item>"
+fi
 MAIN_DIALOG=${MAIN_DIALOG}${ROOT_ITEM}
 
 # Now we have rootfs and icons, list all mounted fs.
@@ -95,11 +97,11 @@ DEVICE='<input>/usr/lib/slitaz/libmountbox list-mounted</input>
 		<action>refresh:MOUNTED</action>
 		<action>refresh:DEVICE</action>
 	</tree>
+	<hbox>
 		<text use-markup="true">
 			<label>"<b>Mount selected device on:</b>"</label>
 		</text>
-		<hbox>
-			<combobox>
+		<combobox>
 			<variable>MOUNT_POINT</variable>'
 			
 # Get the mount points list.
@@ -112,7 +114,7 @@ done
 
 # Actions buttons (moun, umount, eject, etc).
 ACTIONS='
-			</combobox>
+		</combobox>
 		<button>
 			<label>Browse</label>
 			<input file icon="folder-open"></input>
