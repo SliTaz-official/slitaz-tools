@@ -134,7 +134,7 @@ tmp='<frame Routing>
     </notebook>
     <hbox>
       <button>
-        <input file icon="exit"></input>
+        <input file icon="gtk-close"></input>
         <action type="closewindow">IFCONFIG</action>
       </button>
     </hbox>
@@ -155,14 +155,12 @@ NET_BOX='
 <b>SliTaz - Netbox</b>"
       </label>
     </text>
-    <text wrap="true" width-chars="44">
+    <text wrap="true" width-chars="60">
       <label>
-"
-Manage network connections getting dynamic IP
-by DHCP or static IP, and setup servers.
-Netbox can start or stop networking, configure 
-network interfaces or directly edit files.
-Wifi users may configure System wide / Network.
+"Manage network connections getting dynamic IP by DHCP or static IP,
+and setup servers. Netbox can start or stop networking, configure 
+network interfaces or directly edit files. Wifi users may configure
+System wide / Network.
 "
       </label>
     </text>
@@ -1008,6 +1006,7 @@ tmp='
 	    <action type="launch">IFCONFIG</action>
       </button>
       <button>
+        <label>Quit</label>
         <input file icon="exit"></input>
         <action type="exit">Exit</action>
       </button>
