@@ -306,12 +306,12 @@ extract_rootfs()
 {
 	cd $TARGET_ROOT
 	(zcat rootfs.gz 2>/dev/null || lzma d rootfs.gz -so || \
-	 cat rootfs.gz) 2>>$LOG | cpio -id 2>>$LOG
+	 cat rootfs.gz) 2>>$LOG | cpio -id 2>>$LOG > /dev/null
 	rm -f rootfs.gz
 	# unpack /usr (double check...)
 	if ls etc/tazlito | grep -q ".extract"; then
 		for i in etc/tazlito/*.extract; do
-			[ -f "$i" ] && . $i /media/cdrom.
+			[ -f "$i" ] && . $i /media/cdrom
 		done
 	fi
 }
@@ -519,7 +519,7 @@ umount_devices()
 	echo "XXX"
 	if mount | grep -q /media/cdrom; then
 		umount /media/cdrom
-		eject
+		grep -q slitaz-loram-cdrom /etc/init.d/rcS || eject
 	fi
 	sleep 2
 	echo "XXX" && echo 100
