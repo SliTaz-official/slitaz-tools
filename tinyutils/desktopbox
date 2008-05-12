@@ -1,11 +1,14 @@
 #! /bin/sh
-# 
+#
 # Multi-call script provinding GTK boxes to manage a desktop following
 # Freedesktop standars.
 #
 # (C) GNU gpl v3 - SliTaz GNU/Linux 2008.
 #
 VERSION=20080512
+
+# Glade XML file path.
+GLADE_XML=/usr/share/slitaz-tools/glade
 
 # Standards directories.
 mkdir -p $HOME/Desktop $HOME/.local/share/applications
@@ -47,6 +50,7 @@ usage()
   new-folder   Creat a new folder on the desktop with mkdir.
   new-file     Creat a new empty file or SHell script on the desktop.
   add-icons    Add a system icon on the desktop.
+  calendar     Display a calendard under mouse pointer.
   logout       Prompt for X session exit or system halt/reboot.\n"
 }
 
@@ -64,7 +68,7 @@ case $1 in
 <b>$NEW_FOLDER_LABEL</b>\"
 		</label>
 	</text>
-		
+
 	<hbox>
 		<entry>
 			<default>$FOLDER_ENTRY_MSG</default>
@@ -98,7 +102,7 @@ case $1 in
 <b>$NEW_FILE_LABEL</b>\"
 		</label>
 	</text>
-		
+
 	<hbox>
 		<entry>
 			<default>$FILE_ENTRY_MSG</default>
@@ -175,6 +179,11 @@ case $1 in
 </vbox>
 </window>'
 		export DESKTOP_DIALOG=${DESKTOP_DIALOG}${ACTIONS} ;;
+	calendar)
+		# Calendar using glade file.
+		#
+		gtkdialog --glade-xml=$GLADE_XML/calendar.glade \
+        	--program=MAIN_WINDOW ;;
 	logout)
 		# X session/system logout.
 		#
