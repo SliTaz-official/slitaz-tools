@@ -2,7 +2,7 @@
 Encoding=UTF-8
 Name=SliTaz Installer
 Name[fr]=SliTaz Installateur
-Exec=subox 'xterm -T "SliTaz Installer" -cr white -e slitaz-installer'
+Exec=subox slitaz-installer
 Icon=/usr/share/icons/Tango/jwm/system-installer.png
 Type=Application
 Categories=System;

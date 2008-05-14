@@ -2,7 +2,7 @@
 Encoding=UTF-8
 Name=System Language
 Name[fr]=Langue du système
-Exec=subox 'xterm -e tazlocale'
+Exec=subox tazlocale
 Icon=/usr/share/icons/Tango/16x16/apps/preferences-desktop-locale.png
 Terminal=true
 Type=Application
