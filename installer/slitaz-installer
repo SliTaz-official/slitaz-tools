@@ -10,7 +10,7 @@
 # Author : Christophe Lincoln <pankso@slitaz.org>
 #
 VERSION=1.0
-: ${DIALOG=dialog}
+: ${DIALOG=tazdialog}
 
 # Installer actions can be specified on cmdline (install or upgrade).
 if [ -n "$1" ]; then

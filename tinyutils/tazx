@@ -5,7 +5,7 @@
 #
 # 20080313 <pankso@slitaz.org> - GNU gpl v3.
 #
-: ${DIALOG=dialog}
+: ${DIALOG=tazdialog}
 
 # Variables.
 #

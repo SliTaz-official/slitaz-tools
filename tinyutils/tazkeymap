@@ -5,7 +5,7 @@
 # 
 # (C) SliTaz GNU/Linux - 20080427 <pankso@slitaz.org> - GNU gpl.
 #
-: ${DIALOG=dialog}
+: ${DIALOG=tazdialog}
 
 # Script functions.
 status()

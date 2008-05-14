@@ -5,7 +5,7 @@
 #
 # 20080417 <pankso@slitaz.org> - GNU gpl.
 #
-: ${DIALOG=dialog}
+: ${DIALOG=tazdialog}
 
 # Script functions.
 status()

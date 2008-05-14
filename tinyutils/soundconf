@@ -274,7 +274,9 @@ esac
 cfgfile="/etc/modprobe.conf"
 
 # Check for dialog
-if which dialog > /dev/null; then
+if which tazdialog > /dev/null; then
+    DIALOG=tazdialog
+elif which dialog > /dev/null; then
     DIALOG=dialog
 else
 	xecho "Error, dialog or whiptail not found."
