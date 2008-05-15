@@ -1,5 +1,5 @@
 #!/bin/sh
-# 
+#
 # Gtkdialog box to manage network connexion.
 # - SliTaz GNU/Linux 2008.
 #
@@ -10,7 +10,7 @@ check_root()
 {
 	if test $(id -u) != 0 ; then
 		echo -e "
-You must be root to run `basename $0`. Please type 'su' and 
+You must be root to run `basename $0`. Please type 'su' and
 root password to become super-user.\n"
 		exit 0
 	fi
@@ -80,11 +80,34 @@ if [ "$1" = "call" ]; then
 	exit 1
 fi
 
+# English/French help dialod.
+export HELP='
+<window title="Network status" icon-name="network-wire">
+<vbox>
+    <text use-markup="true">
+    <label>"
+<b>SliTaz - Netbox</b>"
+    </label>
+  </text>
+  <frame English>
+    <text wrap="true" width-chars="58">
+      <label>
+"Netbox let you manage network connections getting dynamic IP by DHCP
+or static IP, and setup servers. Netbox can start or stop networking,
+configure network interfaces or directly edit files. Wifi users may
+configure System wide / Network."
+      </label>
+      </text>
+    </frame>
+</vbox>
+</window>
+'
+
 # Interafce status with ifconfig without arguments to show all
 # active connections.
 #
 export IFCONFIG='
-<window title="Network status" icon-name="network-wired">
+<window title="Network status" icon-name="network-wire">
   <vbox>
     <text wrap="false">
       <input>date</input>
@@ -147,24 +170,18 @@ IFCONFIG="$IFCONFIG$tmp"
 # Note than /etc/network.conf is seded wehwn an interafce is activate
 #
 NET_BOX='
-<window title="Netbox" icon-name="network-wired">
+<window title="SliTaz Netbox Manager" icon-name="network-wired">
   <vbox>
-    <text use-markup="true">
-      <label>
-"
-<b>SliTaz - Netbox</b>"
-      </label>
-    </text>
-    <text wrap="true" width-chars="60">
-      <label>
-"Manage network connections getting dynamic IP by DHCP or static IP,
-and setup servers. Netbox can start or stop networking, configure 
-network interfaces or directly edit files. Wifi users may configure
-System wide / Network.
-"
-      </label>
-    </text>
-    
+
+    <hbox>
+		<text use-markup="true">
+			<label>"<b>Network/Server Manager</b>"</label>
+		</text>
+		<pixmap>
+			<input file>/usr/share/pixmaps/netbox.png</input>
+		</pixmap>
+	</hbox>
+
     <frame General>
       <hbox>
         <text use-markup="true">
@@ -176,11 +193,11 @@ System wide / Network.
         </entry>
       </hbox>
     </frame>
-  
+
     <notebook labels="DHCP|PPPoE|Static IP|System wide|VPN|Servers'
 [ -x /sbin/iptables ] && NET_BOX="$NET_BOX|Firewall"
 tmp='|Etherwake">
-  
+
     <frame Udhcpc>
       <hbox>
         <text use-markup="true">
@@ -213,7 +230,7 @@ tmp='|Etherwake">
         </button>
       </hbox>
     </frame>
-    
+
     <frame PPPoE>
       <hbox>
         <text use-markup="true">
@@ -268,7 +285,7 @@ tmp='|Etherwake">
         </button>
       </hbox>
     </frame>
-    
+
     <frame Configuration>
       <hbox>
         <text use-markup="true">
@@ -329,7 +346,7 @@ tmp='|Etherwake">
         </button>
       </hbox>
     </frame>
-    
+
     <frame Configuration files>
       <hbox>
         <text use-markup="true">
@@ -382,7 +399,7 @@ tmp='|Etherwake">
         </button>
       </hbox>
     </frame>
-    
+
     <frame Virtual Private Network with PPP/SSH>
       <hbox>
         <text use-markup="true">
@@ -442,16 +459,16 @@ tmp='|Etherwake">
 NET_BOX="$NET_BOX$tmp"
 tmp=''
 [ -x /usr/sbin/dropbear ] && NET_BOX="${NET_BOX}${tmp}SSH"   && tmp='|'
-[ -x /usr/sbin/inetd    ] && NET_BOX="${NET_BOX}${tmp}INETD" && tmp='|' 
-[ -x /usr/sbin/udhcpd   ] && NET_BOX="${NET_BOX}${tmp}DHCP"  && tmp='|' 
+[ -x /usr/sbin/inetd    ] && NET_BOX="${NET_BOX}${tmp}INETD" && tmp='|'
+[ -x /usr/sbin/udhcpd   ] && NET_BOX="${NET_BOX}${tmp}DHCP"  && tmp='|'
 [ -f /usr/share/boot/pxelinux.0.lzma -a -x /usr/bin/tftpd -a \
   -x /usr/sbin/inetd -a -x /usr/sbin/udhcpd ] \
                           && NET_BOX="${NET_BOX}${tmp}PXE"   && tmp='|'
-[ -x /usr/sbin/dnsd     ] && NET_BOX="${NET_BOX}${tmp}DNS"   && tmp='|' 
-[ -x /usr/bin/rsync     ] && NET_BOX="${NET_BOX}${tmp}RSYNC" && tmp='|' 
-[ -x /usr/sbin/lighttpd ] && NET_BOX="${NET_BOX}${tmp}HTTP"  && tmp='|' 
-[ -x /usr/sbin/smbd     ] && NET_BOX="${NET_BOX}${tmp}WINS"  && tmp='|' 
-[ -x /usr/bin/x11vnc    ] && NET_BOX="${NET_BOX}${tmp}VNC"   && tmp='|' 
+[ -x /usr/sbin/dnsd     ] && NET_BOX="${NET_BOX}${tmp}DNS"   && tmp='|'
+[ -x /usr/bin/rsync     ] && NET_BOX="${NET_BOX}${tmp}RSYNC" && tmp='|'
+[ -x /usr/sbin/lighttpd ] && NET_BOX="${NET_BOX}${tmp}HTTP"  && tmp='|'
+[ -x /usr/sbin/smbd     ] && NET_BOX="${NET_BOX}${tmp}WINS"  && tmp='|'
+[ -x /usr/bin/x11vnc    ] && NET_BOX="${NET_BOX}${tmp}VNC"   && tmp='|'
 . /etc/daemons.conf
 set -- $DROPBEAR_OPTIONS
 while [ -n "$2" ]; do
@@ -592,7 +609,7 @@ tmp2='
       </hbox>
      </frame>
 '
-[ -x /usr/sbin/inetd ] && NET_BOX="${NET_BOX}${tmp}${tmp2}" 
+[ -x /usr/sbin/inetd ] && NET_BOX="${NET_BOX}${tmp}${tmp2}"
 tmp='<frame Dhcpd>
       <hbox>
         <text use-markup="true">
@@ -642,7 +659,7 @@ tmp2='
       </hbox>
      </frame>
 '
-[ -x /usr/sbin/udhcpd   ] && NET_BOX="${NET_BOX}$tmp$tmp2" 
+[ -x /usr/sbin/udhcpd   ] && NET_BOX="${NET_BOX}$tmp$tmp2"
 tmp='<frame Pxelinux>
       <hbox>
         <text wrap="true">
@@ -731,7 +748,7 @@ tmp2='
       </hbox>
      </frame>
 '
-[ -x /usr/sbin/dnsd     ] && NET_BOX="${NET_BOX}${tmp}${tmp2}" 
+[ -x /usr/sbin/dnsd     ] && NET_BOX="${NET_BOX}${tmp}${tmp2}"
 tmp='<frame Rsync>
       <hbox>
         <text use-markup="true">
@@ -794,7 +811,7 @@ tmp2='
       </hbox>
      </frame>
 '
-[ -x /usr/bin/rsync    ] && NET_BOX="${NET_BOX}${tmp}${tmp2}" 
+[ -x /usr/bin/rsync    ] && NET_BOX="${NET_BOX}${tmp}${tmp2}"
 tmp='<frame Lighttpd>'
 tmp2='<frame PHP>
        <hbox>
@@ -812,7 +829,7 @@ tmp2='<frame PHP>
        </hbox>
       </frame>
 '
-[ -f /etc/php.ini ] && tmp="${tmp}${tmp2}" 
+[ -f /etc/php.ini ] && tmp="${tmp}${tmp2}"
 tmp2='<hbox>
         <text use-markup="true">
           <label>"<b>Configuration :</b>"</label>
@@ -843,7 +860,7 @@ tmp2='<hbox>
       </hbox>
      </frame>
 '
-[ -x /usr/sbin/lighttpd ] && NET_BOX="${NET_BOX}${tmp}${tmp2}" 
+[ -x /usr/sbin/lighttpd ] && NET_BOX="${NET_BOX}${tmp}${tmp2}"
 tmp='<frame Samba: smbd & nmbd>
       <hbox>
         <text use-markup="true">
@@ -1002,20 +1019,24 @@ tmp='
     <hbox>
       <button>
         <label>Status</label>
-        <input file icon="network-wired"></input>
+        <input file icon="dialog-information"></input>
 	    <action type="launch">IFCONFIG</action>
       </button>
+      <button help>
+			<label>Help</label>
+			<action type="launch">HELP</action>
+		</button>
       <button>
         <label>Quit</label>
         <input file icon="exit"></input>
         <action type="exit">Exit</action>
       </button>
     </hbox>
-  
+
   </vbox>
 </window>
 '
-NET_BOX="${NET_BOX}${tmp}" 
+NET_BOX="${NET_BOX}${tmp}"
 
 export NET_BOX
 
