@@ -4,6 +4,6 @@ Name=Netbox Configure networking
 Name[fr]=Netbox Configurer le réseau
 Comment=Configure network interface anf host values
 Exec=subox netbox
-Icon=/usr/share/icons/Tango/jwm/network-wired.png
+Icon=netbox.png
 Type=Application
 Categories=System;Application;

@@ -4,6 +4,6 @@ Name=Burn ISO images
 Name[fr]=Graver des images ISO
 Comment=Burn ISO images to CD or DVD
 Exec=burnbox
-Icon=/usr/share/icons/Tango/jwm/drive-optical.png
+Icon=/usr/share/icons/Tango/16x16/devices/drive-optical.png
 Type=Application
 Categories=GTK;Utility;
