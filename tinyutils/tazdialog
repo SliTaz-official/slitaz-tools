@@ -21,7 +21,7 @@ else
 	backtitle=""
 	lines="10"
 	cols="10"
-	[ -n "$ICON" ] || ICON="media-flash"
+	[ -n "$ICON" ] || ICON="applications-other"
 	buttonok=""
 	buttoncancel=""
 	buttonextra=""
@@ -45,7 +45,7 @@ else
 		--yes-label) yeslabel="$2"; shift 2;;
 		--no-label) nolabel="$2"; shift 2;;
 		--extra-label) extralabel="$2"; shift 2;;
-		--extra-button) buttonextra="1"; shift;; 
+		--extra-button) buttonextra="1"; shift;;
 		--help-button) buttonhelp="1"; shift;;
 		--msgbox) msgbox="$2"; lines="$3"; cols="$4"
 			buttonok="1"; break;;
@@ -57,7 +57,7 @@ else
 			default="$5"
 			buttonok="1"; buttoncancel="1"
 			inputbox="1"; break;;
-				
+
 		--checklist) msgbox="$2"; lines="$3"; cols="$4"; inlines="$5"
 			buttonok="1"; checklist="1"; shift 5; args="$@"; break;;
 		--menu) msgbox="$2"; lines="$3"; cols="$4"; inlines="$5"
@@ -75,8 +75,8 @@ BOX="<window"
 [ -n "$backtitle" ] && BOX="$BOX title=\"$backtitle\""
 [ -n "$ICON" ] && BOX="$BOX icon-name=\"$ICON\""
 BOX="$BOX> <vbox>"
-[ -n "$title" ] && BOX="$BOX  <text use-markup=\"true\"> \
-<label> \"<b>$title</b>\" </label> </text>"
+[ -n "$title" ] && BOX="$BOX  <text use-markup=\"true\" width-chars=\"44\"> \
+<label>\"<b>$title</b>\" </label> </text>"
 #[ -n "$msgbox" ] && BOX="$BOX  <text wrap=\"true\" \
 #width-chars=\"$cols\" use-markup=\"true\"><label> \"$msgbox\" </label></text>"
 [ -n "$msgbox" ] && BOX="$BOX  <text wrap=\"true\" \

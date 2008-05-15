@@ -6,6 +6,7 @@
 # 20080417 <pankso@slitaz.org> - GNU gpl.
 #
 : ${DIALOG=tazdialog}
+export ICON="preferences-desktop-locale"
 
 # Script functions.
 status()
@@ -77,7 +78,7 @@ if [ -f /etc/locale.conf ]; then
 	$DIALOG --clear \
 		--title " Locale setting information " \
 		--msgbox "\n
-Please logout you current session and login again to use $value 
+Please logout you current session and login again to use $value
 locale.\n" 16 70
 fi
 

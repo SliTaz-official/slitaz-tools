@@ -2,10 +2,11 @@
 #
 # Tazkeymap - SliTaz GNU/Linux keymap config using loadkeys and dialog boxes.
 # Configuration file is : /etc/kbd.conf
-# 
+#
 # (C) SliTaz GNU/Linux - 20080427 <pankso@slitaz.org> - GNU gpl.
 #
 : ${DIALOG=tazdialog}
+export ICON="accessories-character-map"
 
 # Script functions.
 status()
@@ -96,7 +97,7 @@ if [ -f /etc/keymap.conf ]; then
 	$DIALOG --clear \
 		--title " Keyboard mapping information " \
 		--msgbox "\n
-Please logout you current session and login again to use $value 
+Please logout you current session and login again to use $value
 keyboard.\n" 16 70
 fi
 
