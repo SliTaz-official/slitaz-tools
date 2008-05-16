@@ -94,8 +94,7 @@ export HELP='
       <label>
 "Netbox let you manage network connections getting dynamic IP by DHCP
 or static IP, and setup servers. Netbox can start or stop networking,
-configure network interfaces or directly edit files. Wifi users may
-configure System wide / Network."
+configure network interfaces or directly edit files.
       </label>
       </text>
     </frame>
@@ -194,7 +193,9 @@ NET_BOX='
       </hbox>
     </frame>
 
-    <notebook labels="DHCP|PPPoE|Static IP|System wide|VPN|Servers'
+    <notebook labels="DHCP|PPPoE|Static IP'
+[ -x /usr/sbin/iwconfig ] && NET_BOX="$NET_BOX|Wifi"
+NET_BOX="$NET_BOX|System wide|VPN|Servers"
 [ -x /sbin/iptables ] && NET_BOX="$NET_BOX|Firewall"
 tmp='|Etherwake">
 
@@ -345,9 +346,135 @@ tmp='|Etherwake">
           <action>ifconfig $INTERFACE down; echo "done"</action>
         </button>
       </hbox>
-    </frame>
-
-    <frame Configuration files>
+    </frame>'
+NET_BOX="$NET_BOX$tmp"
+tmp='<frame Wireless>
+    <notebook labels="Interface|Extra parameters'
+[ -d /lib/modules/`uname -r`/kernel/drivers/net/wireless ] && tmp="$tmp|Kernel Modules"
+[ -x /usr/sbin/ndiswrapper ] && tmp="$tmp|Ndiswrapper"
+tmp2='">
+      <vbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Interface :</b>"</label>
+        </text>
+        <entry>
+          <input>. /etc/network.conf; echo "$WIFI_INTERFACE"</input>
+          <variable>WIFI_INTERFACE</variable>
+        </entry>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>ESSID       :</b>"</label>
+        </text>
+        <entry>
+          <input>. /etc/network.conf; echo "$WIFI_ESSID"</input>
+          <variable>WIFI_ESSID</variable>
+        </entry>
+      </hbox>
+      </vbox>
+      <vbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Channel :</b>"</label>
+        </text>
+        <entry>
+          <input>. /etc/network.conf; echo "$WIFI_CHANNEL"</input>
+          <variable>WIFI_CHANNEL</variable>
+        </entry>
+        <text use-markup="true">
+          <label>"<b>Mode :</b>"</label>
+        </text>
+        <combobox>
+          <variable>WIFI_MODE</variable>'
+. /etc/network.conf
+tmp2="$tmp2<item>$WIFI_MODE</item>"
+for i in managed ad-hoc master repeater secondary monitor; do
+  [ "$i" = "$WIFI_MODE" ] || tmp2="$tmp2<item>$i</item>"
+done
+tmp3='</combobox>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Key        :</b>"</label>
+        </text>
+        <entry>
+          <input>. /etc/network.conf; echo "$WIFI_KEY"</input>
+          <variable>WIFI_KEY</variable>
+        </entry>
+      </hbox>
+      </vbox>'
+tmp="$tmp$tmp2$tmp3"
+tmp2='<vbox>
+      <hbox>
+        <button>
+          <label>Load</label>
+          <input file icon="forward"></input>
+          <action>modprobe $MODULE</action>
+        </button>
+        <button>
+          <label>Unload</label>
+          <input file icon="forward"></input>
+	  <action>modprobe -r $MODULE</action>
+        </button>
+        <text use-markup="true">
+          <label>"<b>Wifi Module :</b>"</label>
+        </text>     
+        <combobox>
+          <variable>MODULE</variable>'
+tmp2="$tmp2$(find /lib/modules/$(uname -r)/kernel/drivers/net/wireless -type f |  sed 's,/.*/\(.*\).ko.gz,<item>\1</item>,')"
+tmp3='</combobox>
+        <button>
+        <label>Lsmod</label>
+        <input file icon="computer"></input>
+	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x25 -title "Modules (q to quit)" -e "lsmod | less"</action>
+        </button>
+      </hbox>
+      </vbox>'
+[ -d /lib/modules/`uname -r`/kernel/drivers/net/wireless ] && tmp="$tmp$tmp2$tmp3"
+tmp2='<vbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Drivers :</b>"</label>
+        </text>
+        <entry>
+          <input>. /etc/network.conf; echo "$NDISWRAPPER_DRIVERS"</input>
+          <variable>NDISWRAPPER_DRIVERS</variable>
+        </entry>
+        <button>
+          <label>Restart</label>
+          <input file icon="reload"></input>
+	  <action>rmmod ndiswrapper</action>
+	  <action>for i in $NDISWRAPPER_DRIVERS; do ndiswrapper -i $i; done</action>
+	  <action>modprobe ndiswrapper</action>
+        </button>
+      </hbox>
+      </vbox>'
+[ -x /usr/sbin/ndiswrapper ] && tmp="$tmp$tmp2"
+tmp2='</notebook>
+      <hbox>
+        <button>
+          <label>Start</label>
+          <input file icon="forward"></input>
+          <action>sed -i s/`cat /etc/network.conf | grep ^WIFI_INTERFACE=`/WIFI_INTERFACE=\"$WIFI_INTERFACE\"/ /etc/network.conf</action>
+          <action>sed -i s/`cat /etc/network.conf | grep ^WIFI_ESSID=`/WIFI_ESSID=\"$WIFI_ESSID\"/ /etc/network.conf</action>
+          <action>sed -i s/`cat /etc/network.conf | grep ^WIFI_KEY=`/WIFI_KEY=\"$WIFI_KEY\"/ /etc/network.conf</action>
+          <action>sed -i s/`cat /etc/network.conf | grep ^WIFI_MODE=`/WIFI_MODE=\"$WIFI_MODE\"/ /etc/network.conf</action>
+          <action>sed -i s/`cat /etc/network.conf | grep ^WIFI_CHANNEL=`/WIFI_CHANNEL=\"$WIFI_CHANNEL\"/ /etc/network.conf</action>
+          <action>[ -s /var/run/udhcpc.$WIFI_INTERFACE.pid ] && kill `cat /var/run/udhcpc.$WIFI_INTERFACE.pid`</action>
+          <action>ifconfig $WIFI_INTERFACE down</action>
+          <action>/etc/init.d/network.sh</action>
+        </button>
+        <button>
+          <label>Stop</label>
+          <input file icon="stop"></input>
+          <action>ifconfig $WIFI_INTERFACE down</action>
+          <action>[ -s /var/run/udhcpc.$WIFI_INTERFACE.pid ] && kill `cat /var/run/udhcpc.$WIFI_INTERFACE.pid`</action>
+        </button>
+      </hbox>
+    </frame>'
+[ -x /usr/sbin/iwconfig ] && NET_BOX="$NET_BOX$tmp$tmp2"
+tmp='<frame Configuration files>
       <hbox>
         <text use-markup="true">
           <label>"<b>Hosts            :</b>"</label>
