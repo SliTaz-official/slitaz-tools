@@ -94,7 +94,7 @@ export HELP='
       <label>
 "Netbox let you manage network connections getting dynamic IP by DHCP
 or static IP, and setup servers. Netbox can start or stop networking,
-configure network interfaces or directly edit files.
+configure network interfaces or directly edit files."
       </label>
       </text>
     </frame>
@@ -419,7 +419,7 @@ tmp2='<vbox>
         </button>
         <text use-markup="true">
           <label>"<b>Wifi Module :</b>"</label>
-        </text>     
+        </text>
         <combobox>
           <variable>MODULE</variable>'
 tmp2="$tmp2$(find /lib/modules/$(uname -r)/kernel/drivers/net/wireless -type f |  sed 's,/.*/\(.*\).ko.gz,<item>\1</item>,')"
