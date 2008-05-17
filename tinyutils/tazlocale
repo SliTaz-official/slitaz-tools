@@ -46,7 +46,7 @@ exec 3>&1
 value=`$DIALOG  --clear \
 	--title " SliTaz locale configuration " \
 	--menu \
-"Select your language - Séléctionnez votre langue" 15 70 5 \
+"\nSelect your language - Séléctionnez votre langue" 15 70 5 \
 "en" "English" \
 $(get_locale_name) \
 2>&1 1>&3`

@@ -2,7 +2,7 @@
 # slitaz-installer - SliTaz GNU/Linux installer.
 #
 # So this is SliTaz installer using dialog boxes. All the comments are in
-# English but displayed messages are in French. The scrip starts with a 
+# English but displayed messages are in French. The scrip starts with a
 # few main variables, then all the functions and then a sequece of functions.
 #
 # (C) 2007-2008 SliTaz - GNU General Public License v3.
@@ -103,11 +103,10 @@ start_installer()
 mount_cdrom()
 {
 	ERROR_MSG=""
-	umount /media/cdrom 2>/dev/null
 	(
 	echo "XXX" && echo 30
 	echo -e "\nCreating mount point (/media/cdrom)..."
-	echo "XXX"		
+	echo "XXX"
 	mkdir -p /media/cdrom
 	sleep 1
 	echo "XXX" && echo 60
@@ -190,7 +189,7 @@ ask_for_mkfs_target_dev()
 		255)
 			echo -e "ESC pressed.\n" && exit 0 ;;
 	esac
-	
+
 }
 
 # Mount and mkfs with progress.
@@ -205,11 +204,11 @@ prepare_target_dev()
 		umount $TARGET_ROOT 2>$LOG
 	fi
 	sleep 2
-		
+
 	if [ "$MKFS_TARGET_DEV" == "ext3" ]; then
 		echo "XXX" && echo 60
 		echo -e "\nExecuting mkfs.ext3 on $TARGET_DEV"
-		echo "XXX"		
+		echo "XXX"
 		mkfs.ext3 $TARGET_DEV >>$LOG 2>>$LOG
 	else
 		echo "XXX" && echo 60
@@ -217,13 +216,13 @@ prepare_target_dev()
 		echo "XXX"
 		sleep 2
 	fi
-	
+
 	echo "XXX" && echo 90
 	echo -e "\nCreating mount point: $TARGET_ROOT"
-	echo "XXX"	
+	echo "XXX"
 	mkdir -p $TARGET_ROOT
 	sleep 2
-	
+
 	) |
 	$DIALOG --title " Préparation de la cible " \
 		--backtitle "$BACKLIST" \
@@ -352,7 +351,7 @@ pre_config_system()
 		mv home.bak home
 		sleep 2
 	fi
-	# Add root device to CHECK_FS in rcS.conf to check filesystem 
+	# Add root device to CHECK_FS in rcS.conf to check filesystem
 	# on each boot.
 	echo "XXX" && echo 80
 	echo -e "\nAjout de $TARGET_DEV à CHECK_FS du fichier /etc/rcS.conf..."
@@ -413,55 +412,55 @@ _EOF_
 install_files()
 {
 	(
-	
+
 	echo "XXX" && echo 10
 	echo -e "\nNettoyage de la partition racine si nécessaire..."
 	echo "XXX"
 	clean_target
-	
+
 	echo "XXX" && echo 20
 	echo -e "\nInstallation du noyau ($KERNEL)..."
 	echo "XXX"
 	install_kernel
-	
+
 	echo "XXX" && echo 30
 	echo -e "\nCopie des bootloaders syslinux/isolinux..."
 	echo "XXX"
 	copy_bootloaders
-	
+
 	echo "XXX" && echo 40
 	echo -e "\nCopie du système compressé (rootfs.gz)..."
 	echo "XXX"
 	cp /media/cdrom/boot/rootfs.gz $TARGET_ROOT
 	sleep 2
-	
+
 	echo "XXX" && echo 50
 	echo -e "\nExtraction du système racine..."
 	echo "XXX"
 	extract_rootfs
-	
+
 	echo "XXX" && echo 60
 	echo -e "\nCopie des fichiers utilisateurs par défaut (/etc/skel)..."
 	echo "XXX"
 	gen_etc_skel
 	sleep 2
-	
+
 	echo "XXX" && echo 70
 	echo -e "\nPreconfiguration du système..."
 	echo "XXX"
 	pre_config_system
-	
+
 	echo "XXX" && echo 90
 	echo -e "\nCréation du fichier de configuration de GRUB (menu.lst)..."
 	echo "XXX"
 	grub_config
-	
+
 	echo "XXX" && echo 100
 	echo -e "\nFin de l'installation des fichiers..."
 	echo "XXX"
 	echo "install_files: OK" >>$LOG
 	sleep 4
-	
+
 	) |
 	$DIALOG --title " Installation des fichiers " \
 		--backtitle "$BACKLIST" \
@@ -481,7 +480,7 @@ grub_install()
 			(
 			echo "XXX" && echo 50
 			echo -e "\nExécution de grub-install sur : $TARGET_DISK..."
-			echo "XXX"		
+			echo "XXX"
 			grub-install --no-floppy \
 				--root-directory=$TARGET_ROOT $TARGET_DISK 2>>$LOG
 			echo "XXX" && echo 100
@@ -510,7 +509,7 @@ umount_devices()
 	sleep 2
 	echo "XXX" && echo 50
 	echo -e "\nDémontage de la cible ($TARGET_DEV)..."
-	echo "XXX"		
+	echo "XXX"
 	if mount | grep -q $TARGET_ROOT; then
 		umount $TARGET_ROOT 2>/dev/null
 	fi
@@ -598,7 +597,7 @@ active avant de mettre à jour.\n\n
 	echo "partition to upgrade: $UPGRADE_DEV" >>$LOG
 }
 
-# Prepare the part to upgrade, backup, install, restore configs 
+# Prepare the part to upgrade, backup, install, restore configs
 # and reinstall pkgs.
 upgrade_process()
 {
@@ -615,7 +614,7 @@ upgrade_process()
 	mount $UPGRADE_DEV $TARGET_ROOT >>$LOG 2>>$LOG
 	cd $TARGET_ROOT
 	TARGET_DEV=$UPGRADE_DEV
-		
+
 	echo "XXX" && echo 10
 	echo -e "\nRecherch de /etc/slitaz-release"
 	echo "XXX"
@@ -630,7 +629,7 @@ système SliTaz, le fichier: /etc/slitaz-release n'existe pas."
 		error_message
 		exit 0
 	fi && sleep 2
-	
+
 	echo "XXX" && echo 20
 	echo -e "\nSauvegarde de /etc, /home et de la liste des paquets..."
 	echo "XXX"
@@ -669,28 +668,28 @@ système SliTaz, le fichier: /etc/slitaz-release n'existe pas."
 		mklost+found 2>>$LOG
 	fi
 	sleep 2
-	
+
 	echo "XXX" && echo 25
 	echo -e "\nInstallation du noyau ($KERNEL)..."
 	echo "XXX"
 	install_kernel
-	
+
 	echo "XXX" && echo 30
 	echo -e "\nCopie des bootloaders syslinux/isolinux..."
 	echo "XXX"
 	copy_bootloaders
-	
+
 	echo "XXX" && echo 35
 	echo -e "\nCopie du système compressé (rootfs.gz)..."
 	echo "XXX"
 	cp /media/cdrom/boot/rootfs.gz $TARGET_ROOT
 	sleep 2
-	
+
 	echo "XXX" && echo 40
 	echo -e "\nExtraction du système racine..."
 	echo "XXX"
 	extract_rootfs
-	
+
 	# Restore backups.
 	echo "XXX" && echo 42
 	echo -e "\nRestauration des fichiers de configuration..."
@@ -704,13 +703,13 @@ système SliTaz, le fichier: /etc/slitaz-release n'existe pas."
 		mv $TARGET_ROOT/www.bak $TARGET_ROOT/var/www
 	fi
 	echo "backups restored: `date`" >> $LOG
-	
+
 	# /var/lib/slitaz-installer
 	mkdir $TARGET_ROOT/var/lib/slitaz-installer
 	mv $TARGET_ROOT/etc.tar.gz $TARGET_ROOT/var/lib/slitaz-installer
 	mv $TARGET_ROOT/home/packages-selection.list $TARGET_ROOT/var/lib/slitaz-installer
 	cd $TARGET_ROOT/var/lib/slitaz-installer
-	
+
 	# LiveCD packages list.
 	echo "XXX" && echo 46
 	echo -e "\nCréation des listes de paquets..."
@@ -732,7 +731,7 @@ vous pourrez le faire plus tard en vous aidant de la liste: \n\n
 		error_message
 	fi
 	sleep 2
-	
+
 	# Check if the pkg is on the mirror
 	echo "XXX" && echo 48
 	echo -e "\nVérification de la disponibilité des paquets..."
@@ -747,13 +746,13 @@ vous pourrez le faire plus tard en vous aidant de la liste: \n\n
 			echo "$pkg" >> packages-to-install.list
 		fi
 	done
-	
+
 	# Calculate the pourcent for one package and install.
 	echo "XXX" && echo 50
 	echo -e "\nInstallation des éventuels paquets..."
 	echo "XXX"
 	sleep 2
-	if [ "$packages" == "0" ]; then	
+	if [ "$packages" == "0" ]; then
 		echo "packages to install: 0" >> $LOG
 	else
 		onepkg=$((48/$packages))
