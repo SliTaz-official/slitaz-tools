@@ -36,7 +36,8 @@ else
 	checklist=""
 	menu=""
 	textbox=""
-	args=""
+	radiolist=""
+	fselect=""
 	while [ -n "$1" ]; do
 		case "$1" in
 		--title) title="$2"; shift 2;;
@@ -59,12 +60,17 @@ else
 			inputbox="1"; break;;
 
 		--checklist) msgbox="$2"; lines="$3"; cols="$4"; inlines="$5"
-			buttonok="1"; checklist="1"; shift 5; args="$@"; break;;
+			buttonok="1"; checklist="1"; shift 5; break;;
 		--menu) msgbox="$2"; lines="$3"; cols="$4"; inlines="$5"
 			buttonok="1"; buttoncancel="1"
-			menu="1"; shift 5; args="$@"; break;;
+			menu="1"; shift 5; break;;
 		--textbox) textbox="$2"; lines="$3"; cols="$4"
 			buttonok="1"; break;;
+		--radiolist) textbox="$2"; lines="$3"; cols="$4"; inlines="$5"
+			buttonok="1"; buttoncancel="1"
+			radiolist="1"; shift 5; break;;
+		--fselect) fselect="$2"; lines="$3"; cols="$4"
+			buttonok="1"; buttoncancel="1"; break;;
 		*) echo "Unknown arg $1"; return 255;;
 		esac
 	done
@@ -74,48 +80,103 @@ textbox="$(toutf8 "$textbox")"
 BOX="<window"
 [ -n "$backtitle" ] && BOX="$BOX title=\"$backtitle\""
 [ -n "$ICON" ] && BOX="$BOX icon-name=\"$ICON\""
-BOX="$BOX> <vbox>"
-[ -n "$title" ] && BOX="$BOX  <text use-markup=\"true\" width-chars=\"44\"> \
-<label>\"<b>$title</b>\" </label> </text>"
-#[ -n "$msgbox" ] && BOX="$BOX  <text wrap=\"true\" \
-#width-chars=\"$cols\" use-markup=\"true\"><label> \"$msgbox\" </label></text>"
-[ -n "$msgbox" ] && BOX="$BOX  <text wrap=\"true\" \
-use-markup=\"true\"><label> \"$msgbox\" </label></text>"
-[ -n "$gauge" ] && BOX="$BOX  <progressbar><input>while read data; do \
-echo \$data; done</input><action type=\"exit\">0</action></progressbar>"
-[ -n "$default" ] && default="<default>$default</default>"
-[ -n "$inputbox" ] && BOX="$BOX  <entry>$default<variable>OUTPUT</variable> \
-</entry>"
+BOX="$BOX>
+ <vbox>
+"
+[ -n "$title" ] && BOX="$BOX  <text use-markup=\"true\" width-chars=\"44\">
+   <label>\"<b>$title</b>\" </label>
+  </text>
+"
+[ -n "$msgbox" ] && BOX="$BOX  <text wrap=\"true\" use-markup=\"true\">
+   <label> \"$msgbox\" </label>
+  </text>
+"
+[ -n "$gauge" ] && BOX="$BOX  <progressbar>
+   <input>while read data; do echo \$data; done</input>
+   <action type=\"exit\">0</action>
+  </progressbar>
+"
+[ -n "$default" ] && default="<default>$default</default>
+  "
+[ -n "$inputbox" ] && BOX="$BOX  <entry>
+  $default<variable>OUTPUT</variable>
+  </entry>
+"
 #[ -n "$textbox" ] && BOX="$BOX  <text><input file width-chars=\"$cols\" \
 #height=\"$lines\" wrap=\"true\">$textbox</input></text>"
-[ -n "$textbox" ] && BOX="$BOX  <text><input file \
-wrap=\"true\">$textbox</input></text>"
-[ -n "$menu" ] && BOX="$BOX  <list>$(
-  set -- $args | while [ -n "$1" ]; do
-    echo "<item>$1 $2</item>"
+[ -n "$textbox" ] && BOX="$BOX  <text>
+   <input file wrap=\"true\">$textbox</input>
+  </text>
+"
+[ -n "$menu" ] && BOX="$BOX  <list>
+$(while [ -n "$1" ]; do
+    echo "   <item>$1 $2</item>
+"
     shift 2
-  done) <variable>LIST</variable> </list>"
-[ -n "$checklist" ] && BOX="$BOX  $(
-  i=0; set -- $args | while [ -n "$1" ]; do
+  done)   <variable>LIST</variable>
+  </list>
+"
+[ -n "$radiolist" ] && BOX="$BOX$(
+  i=0; while [ -n "$1" ]; do
     [ "$3" = "on" ] && c=" active=\"true\"" || c=""
-    echo "<checkbox$c><label>$1 $2</label><variable>CHECK$i</variable></checkbox>"
+    echo "  <radiobutton$c>
+   <label>$1 $2</label>
+   <variable>CHECK$i</variable>
+  </radiobutton>
+"
     i=$(($i+1))
     shift 3
   done)"
-[ "$yeslabel" = "ok" ] && yeslabel="" || yeslabel="<label>$yeslabel</label>"
-[ "$nolabel" = "cancel" ] && nolabel="" || nolabel="<label>$nolabel</label>"
+[ -n "$checklist" ] && BOX="$BOX  $(
+  i=0; while [ -n "$1" ]; do
+    [ "$3" = "on" ] && c=" active=\"true\"" || c=""
+    echo "  <checkbox$c>
+   <label>$1 $2</label>
+   <variable>CHECK$i</variable>
+  </checkbox>
+"
+    i=$(($i+1))
+    shift 3
+  done)"
+[ -n "$fselect" ] && BOX="$BOX  <hbox>
+   <entry>
+    <variable>OUTPUT</variable>
+   </entry>
+   <button>
+    <input file stock=\"gtk-open\"></input>
+    <variable>FILE_BROWSE</variable>
+    <action type=\"fileselect\">OUTPUT</action>
+   </button>
+  </hbox>
+"
+[ "$yeslabel" = "ok" ] && yeslabel="" || yeslabel="
+    <label>$yeslabel</label>"
+[ "$nolabel" = "cancel" ] && nolabel="" || nolabel="
+    <label>$nolabel</label>"
 [ -n "$buttonok$buttonextra$buttoncancel" ] && BOX="$BOX  <hbox>"
-[ -n "$buttonok" ] && BOX="$BOX <button ok>$yeslabel \
-<action type=\"exit\">0</action> </button>"
-[ -n "$buttonextra" ] && BOX="$BOX <button><label>$extralabel</label> \
-<input file icon=\"forward\"> </input> <action type=\"exit\">3</action> \
-</button>"
-[ -n "$buttoncancel" ] && BOX="$BOX <button cancel>$nolabel \
-<action type=\"exit\">1</action> </button>"
-[ -n "$buttonhelp" ] && BOX="$BOX <button help> <action type=\"exit\">2\
-</action> </button>"
-[ -n "$buttonok$buttonextra$buttoncancel" ] && BOX="$BOX  </hbox>"
-BOX="$BOX </vbox></window>"
+[ -n "$buttonok" ] && BOX="$BOX   <button ok>$yeslabel
+    <action type=\"exit\">0</action>
+   </button>
+"
+[ -n "$buttonextra" ] && BOX="$BOX   <button>
+    <label>$extralabel</label>
+    <input file icon=\"forward\"> </input>
+    <action type=\"exit\">3</action>
+   </button>
+"
+[ -n "$buttoncancel" ] && BOX="$BOX   <button cancel>$nolabel
+    <action type=\"exit\">1</action>
+   </button>
+"
+[ -n "$buttonhelp" ] && BOX="$BOX   <button help>
+    <action type=\"exit\">2</action> 
+   </button>
+"
+[ -n "$buttonok$buttonextra$buttoncancel" ] && BOX="$BOX  </hbox>
+"
+BOX="$BOX </vbox>
+</window>
+"
 export BOX
 status=$(if [ -n "$gauge" ]; then
 	( while read line; do
@@ -131,9 +192,8 @@ fi 2> /dev/null | while read line; do
 	*OUTPUT*) eval $line
 		echo "$OUTPUT" 1>&2 ;;
 	*CHECK*true*) line=${line%=*}; line=${line#CHECK}
-		set -- $args
-		[ $line -eq 0 ] || shift $(($line * 3))
-		echo -n "\"$1\" " 1>&2 ;;
+		[ $line -eq 0 ] || shift $((3 * $line))
+		echo -n "\"$1\" " 1>&2;;
 	*LIST=*) eval $line; set -- $LIST
 		echo "$1" 1>&2 ;;
 	*EXIT*abort*) echo 255;;
