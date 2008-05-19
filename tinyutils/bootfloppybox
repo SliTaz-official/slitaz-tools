@@ -166,7 +166,7 @@ title Windows (example on /dev/hda1)
 title Slitaz (example on /dev/hda1)
 	root (hd0,0)
 	kernel /boot/bzImage root=/dev/null
-	initrd /boot/rootfs
+	initrd /boot/rootfs.gz
 	save default
 
 EOT
