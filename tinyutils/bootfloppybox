@@ -73,8 +73,14 @@ $(echo -e $desc)
     *)      action="cat";;
     esac
     if [ "$pkg" = "grub" ]; then
+      menu=/tmp/floppybox.grub.menu.$$
       tmp="$tmp
       <hbox>
+      <button>
+        <label>Grub menu</label>
+        <input file icon=\"accessories-text-editor\"></input>
+        <action type=\"lauch\">leafpad $menu</action>
+      </button>
       <button>
         <label>Write floppy</label>
         <input file icon=\"forward\"></input>
@@ -82,8 +88,10 @@ $(echo -e $desc)
 	<action>mkdir /media/floppy ; mount \$DEVICE /media/floppy</action>
 	<action>mkdir -p /media/floppy/boot/grub</action>
 	<action>cp /usr/lib/grub/i386-pc/stage? /media/floppy/boot/grub</action>
+	<action>cp $menu /media/floppy/boot/grub/menu.lst</action>
 	<action>[ -f /usr/share/boot/etherboot ] && cp /usr/share/boot/etherboot /media/floppy/boot</action>
 	<action>[ -f /usr/share/boot/memtest.lzma ] && unlzma -c /usr/share/boot/memtest.lzma > /media/floppy/boot/memtest</action>
+	<action>grub-set-default --root-directory=/media/floppy 0</action>
 	<action>umount \$DEVICE</action>
 	<action>echo -e \"root (\${DEVICE#/dev/})\\nsetup (\${DEVICE#/dev/})\\nquit\" | grub --batch </action>
       </button>
@@ -146,6 +154,33 @@ export BOOT_DIALOG
 
 # Only root can create floppy.
 check_root
+cat > /tmp/floppybox.grub.menu.$$ <<EOT
+default saved
+timeout 10
+
+title Windows (example on /dev/hda1)
+	rootnoverify (hd0,0)
+	chainloader +1
+	save default
+
+title Slitaz (example on /dev/hda1)
+	root (hd0,0)
+	kernel /boot/bzImage root=/dev/null
+	initrd /boot/rootfs
+	save default
+
+EOT
+[ -f /usr/share/boot/etherboot ] && cat >> /tmp/floppybox.grub.menu.$$ <<EOT
+title Etherboot
+	kernel etherboot
+
+EOT
+[ -f /usr/share/boot/memtest.lzma ] && cat >> /tmp/floppybox.grub.menu.$$ <<EOT
+title Memtest86+
+	kernel memtest
+
+EOT
 gtkdialog --program=BOOT_DIALOG
+rm -rf /tmp/floppybox.grub.menu.$$
 
 exit 0
