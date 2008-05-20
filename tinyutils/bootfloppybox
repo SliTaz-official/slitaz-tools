@@ -172,12 +172,12 @@ title Slitaz (example on /dev/hda1)
 EOT
 [ -f /usr/share/boot/etherboot ] && cat >> /tmp/floppybox.grub.menu.$$ <<EOT
 title Etherboot
-	kernel etherboot
+	kernel /boot/etherboot
 
 EOT
 [ -f /usr/share/boot/memtest.lzma ] && cat >> /tmp/floppybox.grub.menu.$$ <<EOT
 title Memtest86+
-	kernel memtest
+	kernel /boot/memtest
 
 EOT
 gtkdialog --program=BOOT_DIALOG
