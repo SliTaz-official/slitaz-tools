@@ -57,7 +57,7 @@ install_xorg()
 			tazpkg get-install xorg-xf86-video-$value
 			Xorg -configure :1
 			mv /root/xorg.conf.new /etc/X11/xorg.conf
-			. /etc/kmap.conf
+			. /etc/keymap.conf
 			patch -p0 <<EOF
 --- /etc/X11/xorg.conf
 +++ /etc/X11/xorg.conf
@@ -177,7 +177,7 @@ xinitrc_sample()
 {
 	cat >  $FILE << "EOF"
 # ~/.xinitrc: Executed by slim login manager to startx X session.
-# You can use F1 with Slim or 'tazx' to configure permanantly 
+# You can use F1 with Slim or 'tazx' to configure permanantly
 # your default WM: tazx e17
 #
 WM=openbox-session
@@ -208,8 +208,8 @@ creat_xinitrc()
 {
 	FILE=$HOME/.xinitrc
 	xinitrc_sample
-	
-	# In Live mode hacker needs a xinitrc, since tazx 
+
+	# In Live mode hacker needs a xinitrc, since tazx
 	# is executed only by root.
 	if [ ! -f /home/hacker/.xinitrc ]; then
 		FILE=/home/hacker/.xinitrc
@@ -226,7 +226,7 @@ jwm_config()
 		if [ ! -f "$JWM_CONFIG" ]; then
 			cp /etc/jwm/system.jwmrc $JWM_CONFIG
 		fi
-		# In Live mode hacker/root JWM config dose not exist ans $HOME is 
+		# In Live mode hacker/root JWM config dose not exist ans $HOME is
 		# ot set, this is because tazx is executed by boot scripts.
 		if [ ! -f "/home/hacker/.jwmrc" ]; then
 			JWM_CONFIG=/home/hacker/.jwmrc
@@ -240,7 +240,7 @@ jwm_config()
 	fi
 }
 
-# Creat ~/.xsession to keep the configuration selected (used 
+# Creat ~/.xsession to keep the configuration selected (used
 # only by startx, Slim login manager use .xinitrc).
 creat_xsession()
 {
