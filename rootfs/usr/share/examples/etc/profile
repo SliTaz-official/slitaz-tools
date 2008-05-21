@@ -15,7 +15,7 @@ export PATH LD_LIBRARY_PATH PS1 DISPLAY ignoreeof
 umask 022
 
 # Locale setting.
-if [ -f "/etc/locale.conf" ]; then
+if [ -s "/etc/locale.conf" ]; then
   . /etc/locale.conf
   export LANG LC_ALL
 fi

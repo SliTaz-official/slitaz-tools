@@ -32,7 +32,7 @@ if test $(id -u) != 0; then
 fi
 
 # Get current keymap if it exist.
-if [ -f /etc/keymap.conf ]; then
+if [ -s /etc/keymap.conf ]; then
 	CUR=`cat /etc/keymap.conf`
 else
 	CUR="none"
@@ -93,7 +93,7 @@ case $retval in
 esac
 
 # If it's a reconfiguration give an info message.
-if [ -f /etc/keymap.conf ]; then
+if [ -s /etc/keymap.conf ]; then
 	$DIALOG --clear \
 		--title " Keyboard mapping information " \
 		--msgbox "\n

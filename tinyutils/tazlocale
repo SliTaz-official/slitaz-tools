@@ -74,7 +74,7 @@ if [ "$value" = "en" ]; then
 fi
 
 # If it's a reconfiguration give an info message.
-if [ -f /etc/locale.conf ]; then
+if [ -s /etc/locale.conf ]; then
 	$DIALOG --clear \
 		--title " Locale setting information " \
 		--msgbox "\n
