@@ -2,7 +2,7 @@
 # slitaz-installer - SliTaz GNU/Linux installer.
 #
 # So this is SliTaz installer using dialog boxes. All the comments are in
-# English but displayed messages are in French. The scrip starts with a
+# English but displayed messages are in French. The script starts with a
 # few main variables, then all the functions and then a sequece of functions.
 #
 # (C) 2007-2008 SliTaz - GNU General Public License v3.
@@ -27,16 +27,19 @@ TARGET_ROOT=/mnt/target
 LOG=/var/log/slitaz-installer.log
 BACKLIST="SliTaz GNU/Linux installer"
 
-# Messages language setting
-if echo $LANG | grep fr; then
-	. /usr/share/slitaz-tools/installer/fr.msg
-else
-	. /usr/share/slitaz-tools/installer/en.msg
-fi
-
 #######################
 # Installer functions #
 #######################
+
+# Messages language setting
+set_messages()
+{
+	if echo $LANG | grep fr; then
+		. /usr/share/slitaz-tools/installer/fr.msg
+	else
+		. /usr/share/slitaz-tools/installer/en.msg
+	fi
+}
 
 # Display error message.
 error_message()
@@ -161,6 +164,7 @@ ask_for_target_dev()
 	if [ -z $TARGET_DEV ]; then
 		ask_for_target_dev
 	fi
+	set_messages
 	# Check if specified device exist in /proc/partitions.
 	DEV_NAME=${TARGET_DEV#/dev/}
 	if cat /proc/partitions | grep -q $DEV_NAME; then
@@ -471,6 +475,7 @@ install_files()
 grub_install()
 {
 	TARGET_DISK=`echo $TARGET_DEV | sed s/"[0-9]"/''/`
+	set_messages
 	$DIALOG --title " GRUB install " \
 		--backtitle "$BACKLIST" \
 		--clear --colors --yesno "$GRUB_INSTALL_MSG" 18 70
@@ -614,6 +619,7 @@ upgrade_process()
 	mount $UPGRADE_DEV $TARGET_ROOT >>$LOG 2>>$LOG
 	cd $TARGET_ROOT
 	TARGET_DEV=$UPGRADE_DEV
+	set_messages
 
 	echo "XXX" && echo 10
 	echo -e "\nRecherch de /etc/slitaz-release"
@@ -787,6 +793,7 @@ vous pourrez le faire plus tard en vous aidant de la liste: \n\n
 end_of_upgrade()
 {
 	TARGET_DEV=$UPGRADE_DEV
+	set_messages
 	pkgscd=`cat $TARGET_ROOT/var/lib/slitaz-installer/packages-cdrom.list | wc -l`
 	pkginst=`cat $TARGET_ROOT/var/lib/slitaz-installer/packages-to-install.list | wc -l`
 	echo "end_of_upgrade: `date`" >>$LOG
@@ -817,6 +824,7 @@ esac
 # Installer sequence #
 ######################
 
+set_messages
 check_root
 start_installer
 
