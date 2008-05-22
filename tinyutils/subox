@@ -12,6 +12,9 @@ if [ -z "$1" ]; then
     exit 0
 fi
 
+# Nothing to do if we are root
+test $(id -u) = 0 && exec $1
+
 # Keep binary name in a tmp file to be used by SU_DIALOG.
 echo "$1" > /tmp/subox-exec
 
