@@ -31,7 +31,6 @@ else
 	gauge=""
 	inputbox=""
 	default=""
-
 	buttonhelp=""
 	checklist=""
 	menu=""
@@ -54,11 +53,8 @@ else
 			buttonok="1"; buttoncancel="1"; break;;
 		--gauge) msgbox="$2"; lines="$3"; cols="$4"
 			percent="$5"; gauge="1"; break;;
-		--inputbox) msgbox="$2"; lines="$3"; cols="$4"
-			default="$5"
-			buttonok="1"; buttoncancel="1"
-			inputbox="1"; break;;
-
+		--inputbox) msgbox="$2"; lines="$3"; cols="$4"; default="$5"
+			buttonok="1"; buttoncancel="1"; inputbox="1"; break;;
 		--checklist) msgbox="$2"; lines="$3"; cols="$4"; inlines="$5"
 			buttonok="1"; checklist="1"; shift 5; break;;
 		--menu) msgbox="$2"; lines="$3"; cols="$4"; inlines="$5"
@@ -77,6 +73,12 @@ else
 fi
 msgbox="$(toutf8 "$msgbox")"
 textbox="$(toutf8 "$textbox")"
+title="$(toutf8 "$title")"
+backtitle="$(toutf8 "$backtitle")"
+yeslabel="$(toutf8 "$yeslabel")"
+nolabel="$(toutf8 "$nolabel")"
+extralabel="$(toutf8 "$extralabel")"
+default="$(toutf8 "$default")"
 BOX="<window"
 [ -n "$backtitle" ] && BOX="$BOX title=\"$backtitle\""
 [ -n "$ICON" ] && BOX="$BOX icon-name=\"$ICON\""
@@ -179,7 +181,8 @@ BOX="$BOX </vbox>
 "
 export BOX
 status=$(if [ -n "$gauge" ]; then
-	( while read line; do
+	([ -n "$percent" ] && echo $percent
+	while read line; do
 		case "$line" in
 		[0-9]*) echo $line;;
 		*);;
