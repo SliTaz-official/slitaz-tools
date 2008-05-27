@@ -13,9 +13,6 @@
           <widget class="GtkCalendar" id="calendar1">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="year">2008</property>
-            <property name="month">4</property>
-            <property name="day">11</property>
           </widget>
         </child>
         <child>
