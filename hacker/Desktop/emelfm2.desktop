@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=emelFM2
-Comment=File manager.
-TryExec=emelfm2 --trash=$HOME/.Trash
-Exec=emelfm2 --trash=$HOME/.Trash %F
-Icon=/usr/share/pixmaps/emelfm2/emelfm2_48.png
-

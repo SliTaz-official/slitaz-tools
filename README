@@ -23,11 +23,6 @@ Contient des fichiers de configuration et des Makefiles tels que ceux utilisée
 pour compiler Busybox ou le noyau Linux.
 
 
-hacker/ - Hacker User
----------------------
-Des fichiers et répertoires destinés à l'utilisateur hacker (/home/hacker).
-
-
 rootcd/ - La racine du LiveCD
 -----------------------------
 Contient les fichiers, messages, et configs utilisés pour la création de

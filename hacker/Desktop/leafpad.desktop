@@ -1,7 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Leafpad
-Comment=Text edito
-TryExec=leafpad
-Exec=leafpad %F
-Icon=/usr/share/pixmaps/leafpad.png
