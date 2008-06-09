@@ -3,7 +3,9 @@
 # Tazx - Ncurses X configuration for SliTaz GNU/Linux using Dialog boxes.
 # This tinyutils is part of slitaz-tools.
 #
-# 20080313 <pankso@slitaz.org> - GNU gpl v3.
+# (c) 20080609 SliTaz GNU/Linux - GNU gpl v3.
+# Authors: Christophe Lincoln <pankso@slitaz.org>
+#          Pascal Bellard <pascal.bellard@slitaz.org>
 #
 : ${DIALOG=tazdialog}
 
@@ -18,6 +20,8 @@ if [ -n "$1" ]; then
 else
 	WM=openbox
 fi
+# Default user for config files
+USER=`cat /etc/passwd | grep 1000 | cut -d ":" -f 1`
 
 ####################
 #  Tazx functions  #
@@ -159,16 +163,16 @@ openbox_stuff()
 			mkdir -p $HOME/.config/openbox
 			cp /etc/xdg/openbox/autostart.sh $HOME/.config/openbox
 		fi
-		# Script for hacker.
-		if [ ! -f "/home/hacker/.config/openbox/autostart.sh" ]; then
-			mkdir -p /home/hacker/.config/openbox
-			cp /etc/xdg/openbox/autostart.sh /home/hacker/.config/openbox
+		# Script for default user (uid=1000).
+		if [ ! -f "/home/$USER/.config/openbox/autostart.sh" ]; then
+			mkdir -p /home/$USER/.config/openbox
+			cp /etc/xdg/openbox/autostart.sh /home/$USER/.config/openbox
 		fi
-		if [ ! -f "/home/hacker/.config/openbox/menu.xml" ]; then
-			mkdir -p /home/hacker/.config/openbox
-			cp /etc/xdg/openbox/menu.xml /home/hacker/.config/openbox
+		if [ ! -f "/home/$USER/.config/openbox/menu.xml" ]; then
+			mkdir -p /home/$USER/.config/openbox
+			cp /etc/xdg/openbox/menu.xml /home/$USER/.config/openbox
 		fi
-		chown -R hacker.hacker /home/hacker/.config
+		chown -R $USER.$USER /home/$USER/.config
 	fi
 }
 
@@ -209,12 +213,12 @@ creat_xinitrc()
 	FILE=$HOME/.xinitrc
 	xinitrc_sample
 
-	# In Live mode hacker needs a xinitrc, since tazx
+	# In Live mode default user needs a xinitrc, since tazx
 	# is executed only by root.
-	if [ ! -f /home/hacker/.xinitrc ]; then
-		FILE=/home/hacker/.xinitrc
+	if [ ! -f /home/$USER/.xinitrc ]; then
+		FILE=/home/$USER/.xinitrc
 		xinitrc_sample
-		chown hacker.hacker $FILE
+		chown $USER.$USER $FILE
 	fi
 }
 
@@ -226,12 +230,13 @@ jwm_config()
 		if [ ! -f "$JWM_CONFIG" ]; then
 			cp /etc/jwm/system.jwmrc $JWM_CONFIG
 		fi
-		# In Live mode hacker/root JWM config dose not exist ans $HOME is
-		# ot set, this is because tazx is executed by boot scripts.
-		if [ ! -f "/home/hacker/.jwmrc" ]; then
-			JWM_CONFIG=/home/hacker/.jwmrc
+		# In Live mode default user/root JWM config dose not exist and
+		# $HOME is ot set, this is because tazx is executed by boot 
+		# scripts.
+		if [ ! -f "/home/$USER/.jwmrc" ]; then
+			JWM_CONFIG=/home/$USER/.jwmrc
 			cp /etc/jwm/system.jwmrc $JWM_CONFIG
-			chown hacker.hacker $JWM_CONFIG
+			chown $USER.$USER $JWM_CONFIG
 		fi
 		if [ ! -f "/root/.jwmrc" -a `id -u` = 0 ]; then
 			JWM_CONFIG=/root/.jwmrc
