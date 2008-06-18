@@ -15,6 +15,172 @@ root password to become super-user.\n"
 	fi
 }
 
+# This function is used after each screen to contine or abort install.
+check_retval()
+{
+	case $retval in
+		1)
+			echo -e "\nVoluntary exit.\n" && exit 0 ;;
+		255)
+			echo -e "ESC pressed.\n" && exit 0 ;;
+	esac
+}
+
+select_floppy()
+{
+	exec 3>&1
+	DEVICE=`$DIALOG --title " Floppy device " \
+    		--backtitle "Boot Floppy Creation" --clear \
+		--extra-button --extra-label "Format" \
+		--colors --inputbox "
+Enter floppy device (default /dev/fd0)
+		" 18 70 2>&1 1>&3`
+	retval=$?
+	exec 3>&-
+	check_retval
+	case "$DEVICE" in
+	/dev/fd*);;
+	*) DEVICE=/dev/fd0;;
+	esac
+	if [ "$retval" = "3" ]; then
+		fdformat -n $DEVICE
+    	fi
+}
+
+if [ "$1" == "call" ]; then
+	case "$2" in
+	setup-grub)
+		DEVICE=$3
+		mke2fs $DEVICE
+		mkdir /media/floppy
+		mount $DEVICE /media/floppy
+		mkdir -p /media/floppy/boot/grub
+		cp /usr/lib/grub/i386-pc/stage? /media/floppy/boot/grub
+		cat > /media/floppy/boot/grub/menu.lst <<EOT
+default saved
+timeout 10
+
+title Windows (example on /dev/hda1)
+	rootnoverify (hd0,0)
+	chainloader +1
+	save default
+
+title Slitaz Live (example on /dev/hda1)
+	root (hd0,0)
+	kernel /boot/bzImage rw root=/dev/null vga=normal
+	initrd /boot/rootfs.gz
+	save default
+
+title Slitaz Installed (example on /dev/hda2)
+	root (hd0,1)
+	kernel /boot/bzImage ro root=/dev/hda2 vga=normal
+	save default
+
+EOT
+		[ -f /usr/share/boot/btmgr -a -f /usr/share/boot/memdisk.lzma ]\
+			&& cp /usr/share/boot/btmgr /media/floppy/boot \
+			&& unlzma -c /usr/share/boot/memdisk.lzma > \
+				/media/floppy/boot/memdisk \
+			&& cat >> /media/floppy/boot/grub/menu.lst <<EOT
+title Smart Boot Manager
+	kernel /boot/memtest
+	initrd /boot/btmgr
+
+EOT
+		[ -f /usr/share/boot/etherboot ]\
+			&& cp /usr/share/boot/etherboot /media/floppy/boot \
+			&& cat >> /media/floppy/boot/grub/menu.lst <<EOT
+title Etherboot
+	kernel /boot/etherboot
+
+EOT
+		[ -f /usr/share/boot/memtest.lzma ]\
+			&& unlzma -c /usr/share/boot/memtest.lzma > \
+				/media/floppy/boot/memtest \
+			&& cat >> /media/floppy/boot/grub/menu.lst <<EOT
+title Memtest86+
+	kernel /boot/memtest
+
+EOT
+		[ -f /usr/share/boot/grub.exe.lzma ]\
+			&& unlzma -c /usr/share/boot/grub.exe.lzma > \
+				/media/floppy/boot/grub.exe \
+			&& cat >> /media/floppy/boot/grub/menu.lst <<EOT
+title Grub4Dos
+	kernel /boot/grub/grub.exe --config-file="configfile (fd0)/boot/grub/menu4dos.lst"
+
+EOT
+		grub-set-default --root-directory=/media/floppy 0
+		umount $DEVICE
+		grub --batch <<EOT
+root (${DEVICE#/dev/})
+setup (${DEVICE#/dev/})
+quit
+EOT
+		;;
+	*)	echo "Invalid command $0 $@" 1>&2
+		exit 1;;
+	esac
+	exit 0
+fi
+
+if [ -z "$XAUTHORITY" ]; then
+
+    : ${DIALOG=dialog}
+    
+    DEVICE=/dev/fd0
+    while true; do
+	exec 3>&1
+	ID_SOURCE=`$DIALOG --title " Choose a boot floppy " \
+		--backtitle "Boot Floppy Creation on $DEVICE" --clear \
+		--extra-button --extra-label "Change floppy" \
+		--yes-label "Install" \
+		--no-label "Quit" \
+		--colors --radiolist "
+Create a floppy to boot a LiveCD, in a PXE network...
+Need a floppy disk in drive. Erase the whole floppy disk.
+		" 18 70 50\
+		SmartBtmgr "	Boot any partition or ATAPI CD-ROM." on \
+		Etherboot "	Replacement for proprietary PXE ROMs." off \
+		Memtest86+ "	Memory failures detection tool." off \
+		Grub	"	Boot loader with command shell." off  2>&1 1>&3`
+	retval=$?
+	exec 3>&-
+	check_retval
+	if [ "$retval" = "3" ]; then
+		select_floppy
+		continue;
+	fi
+	while read key file pkg; do
+		[ "$key" = "$ID_SOURCE" ] || continue
+		if [ ! -f "$file" ]; then
+			$DIALOG --title " Install package " --colors \
+				--backtitle "Boot Floppy Creation" --clear \
+				--yes-label "Install" \
+				--no-label "Quit" \
+				--yesno "The package $pkg is not yet installed. Install it ?" 18 70
+			retval=$?
+			tazpkg get-install $pkg
+		fi
+		if [ "$pkg" = "grub" ]; then
+			bootfloppybox call setup-grub $DEVICE
+		else
+    			case "$file" in
+    			*.lzma) action="unlzma -c";;
+    			*.gz)   action="zcat";;
+    			*)      action="cat";;
+    			esac
+			$action $file > $DEVICE
+		fi
+		exit 0
+	done <<EOT
+SmartBtmgr /usr/share/boot/btmgr btmgr
+Etherboot /usr/share/boot/etherboot etherboot
+Memtest86+ /usr/share/boot/memtest.lzma memtest
+Grub /usr/sbin/grub grub
+EOT
+    done
+fi
 # Write bootfloppy image to floppy device.
 #
 BOOT_DIALOG='
@@ -73,27 +239,20 @@ $(echo -e $desc)
     *)      action="cat";;
     esac
     if [ "$pkg" = "grub" ]; then
-      menu=/tmp/floppybox.grub.menu.$$
       tmp="$tmp
       <hbox>
       <button>
         <label>Grub menu</label>
         <input file icon=\"accessories-text-editor\"></input>
-        <action type=\"lauch\">leafpad $menu</action>
+	<action>bootfloppybox call setup-grub \$DEVICE</action>
+	<action>mount \$DEVICE /media/floppy</action>
+        <action type=\"lauch\">leafpad /media/floppy/boot/grub/menu.lst</action>
+	<action>umount \$DEVICE</action>
       </button>
       <button>
         <label>Write floppy</label>
         <input file icon=\"forward\"></input>
-	<action>mke2fs \$DEVICE</action>
-	<action>mkdir /media/floppy ; mount \$DEVICE /media/floppy</action>
-	<action>mkdir -p /media/floppy/boot/grub</action>
-	<action>cp /usr/lib/grub/i386-pc/stage? /media/floppy/boot/grub</action>
-	<action>cp $menu /media/floppy/boot/grub/menu.lst</action>
-	<action>[ -f /usr/share/boot/etherboot ] && cp /usr/share/boot/etherboot /media/floppy/boot</action>
-	<action>[ -f /usr/share/boot/memtest.lzma ] && unlzma -c /usr/share/boot/memtest.lzma > /media/floppy/boot/memtest</action>
-	<action>grub-set-default --root-directory=/media/floppy 0</action>
-	<action>umount \$DEVICE</action>
-	<action>echo -e \"root (\${DEVICE#/dev/})\\nsetup (\${DEVICE#/dev/})\\nquit\" | grub --batch </action>
+	<action>bootfloppybox call setup-grub \$DEVICE</action>
       </button>
       </hbox>
     </frame>
@@ -154,33 +313,6 @@ export BOOT_DIALOG
 
 # Only root can create floppy.
 check_root
-cat > /tmp/floppybox.grub.menu.$$ <<EOT
-default saved
-timeout 10
-
-title Windows (example on /dev/hda1)
-	rootnoverify (hd0,0)
-	chainloader +1
-	save default
-
-title Slitaz (example on /dev/hda1)
-	root (hd0,0)
-	kernel /boot/bzImage root=/dev/null
-	initrd /boot/rootfs.gz
-	save default
-
-EOT
-[ -f /usr/share/boot/etherboot ] && cat >> /tmp/floppybox.grub.menu.$$ <<EOT
-title Etherboot
-	kernel /boot/etherboot
-
-EOT
-[ -f /usr/share/boot/memtest.lzma ] && cat >> /tmp/floppybox.grub.menu.$$ <<EOT
-title Memtest86+
-	kernel /boot/memtest
-
-EOT
 gtkdialog --program=BOOT_DIALOG
-rm -rf /tmp/floppybox.grub.menu.$$
 
 exit 0
