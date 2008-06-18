@@ -2,7 +2,7 @@
 # 
 # Gtkdialog box for the mount command. Part of SliTaz tools.
 #
-VERSION=20080409
+VERSION=20080618
 
 # Check if user is root.
 check_root()
@@ -20,8 +20,10 @@ check_retval()
 {
 	case $retval in
 		1)
+			rm -f /tmp/floppybox.grub.menu
 			echo -e "\nVoluntary exit.\n" && exit 0 ;;
 		255)
+			rm -f /tmp/floppybox.grub.menu
 			echo -e "ESC pressed.\n" && exit 0 ;;
 	esac
 }
@@ -56,7 +58,34 @@ if [ "$1" == "call" ]; then
 		mount $DEVICE /media/floppy
 		mkdir -p /media/floppy/boot/grub
 		cp /usr/lib/grub/i386-pc/stage? /media/floppy/boot/grub
-		cat > /media/floppy/boot/grub/menu.lst <<EOT
+		cp /tmp/floppybox.grub.menu /media/floppy/boot/grub/menu.lst
+		[ -f /usr/share/boot/btmgr -a -f /usr/share/boot/memdisk.lzma ]\
+			&& cp /usr/share/boot/btmgr /media/floppy/boot \
+			&& unlzma -c /usr/share/boot/memdisk.lzma > \
+				/media/floppy/boot/memdisk
+		[ -f /usr/share/boot/etherboot ]\
+			&& cp /usr/share/boot/etherboot /media/floppy/boot
+		[ -f /usr/share/boot/memtest.lzma ]\
+			&& unlzma -c /usr/share/boot/memtest.lzma > \
+				/media/floppy/boot/memtest
+		[ -f /usr/share/boot/grub.exe.lzma ]\
+			&& unlzma -c /usr/share/boot/grub.exe.lzma > \
+				/media/floppy/boot/grub.exe
+		grub-set-default --root-directory=/media/floppy 0
+		umount $DEVICE
+		grub --batch <<EOT
+root (${DEVICE#/dev/})
+setup (${DEVICE#/dev/})
+quit
+EOT
+		;;
+	*)	echo "Invalid command $0 $@" 1>&2
+		exit 1;;
+	esac
+	exit 0
+fi
+
+cat > /tmp/floppybox.grub.menu <<EOT
 default saved
 timeout 10
 
@@ -77,52 +106,28 @@ title Slitaz Installed (example on /dev/hda2)
 	save default
 
 EOT
-		[ -f /usr/share/boot/btmgr -a -f /usr/share/boot/memdisk.lzma ]\
-			&& cp /usr/share/boot/btmgr /media/floppy/boot \
-			&& unlzma -c /usr/share/boot/memdisk.lzma > \
-				/media/floppy/boot/memdisk \
-			&& cat >> /media/floppy/boot/grub/menu.lst <<EOT
+[ -f /usr/share/boot/btmgr -a -f /usr/share/boot/memdisk.lzma ]\
+	&& cat >> /tmp/floppybox.grub.menu <<EOT
 title Smart Boot Manager
 	kernel /boot/memtest
 	initrd /boot/btmgr
 
 EOT
-		[ -f /usr/share/boot/etherboot ]\
-			&& cp /usr/share/boot/etherboot /media/floppy/boot \
-			&& cat >> /media/floppy/boot/grub/menu.lst <<EOT
+[ -f /usr/share/boot/etherboot ] && cat >> /tmp/floppybox.grub.menu <<EOT
 title Etherboot
 	kernel /boot/etherboot
 
 EOT
-		[ -f /usr/share/boot/memtest.lzma ]\
-			&& unlzma -c /usr/share/boot/memtest.lzma > \
-				/media/floppy/boot/memtest \
-			&& cat >> /media/floppy/boot/grub/menu.lst <<EOT
+[ -f /usr/share/boot/memtest.lzma ] && cat >> /tmp/floppybox.grub.menu <<EOT
 title Memtest86+
 	kernel /boot/memtest
 
 EOT
-		[ -f /usr/share/boot/grub.exe.lzma ]\
-			&& unlzma -c /usr/share/boot/grub.exe.lzma > \
-				/media/floppy/boot/grub.exe \
-			&& cat >> /media/floppy/boot/grub/menu.lst <<EOT
+[ -f /usr/share/boot/grub.exe.lzma ] && cat >> /tmp/floppybox.grub.menu <<EOT
 title Grub4Dos
 	kernel /boot/grub/grub.exe --config-file="configfile (fd0)/boot/grub/menu4dos.lst"
 
 EOT
-		grub-set-default --root-directory=/media/floppy 0
-		umount $DEVICE
-		grub --batch <<EOT
-root (${DEVICE#/dev/})
-setup (${DEVICE#/dev/})
-quit
-EOT
-		;;
-	*)	echo "Invalid command $0 $@" 1>&2
-		exit 1;;
-	esac
-	exit 0
-fi
 
 if [ -z "$XAUTHORITY" ]; then
 
@@ -244,10 +249,7 @@ $(echo -e $desc)
       <button>
         <label>Grub menu</label>
         <input file icon=\"accessories-text-editor\"></input>
-	<action>bootfloppybox call setup-grub \$DEVICE</action>
-	<action>mount \$DEVICE /media/floppy</action>
-        <action type=\"lauch\">leafpad /media/floppy/boot/grub/menu.lst</action>
-	<action>umount \$DEVICE</action>
+        <action type=\"lauch\">leafpad /tmp/floppybox.grub.menu</action>
       </button>
       <button>
         <label>Write floppy</label>
@@ -314,5 +316,6 @@ export BOOT_DIALOG
 # Only root can create floppy.
 check_root
 gtkdialog --program=BOOT_DIALOG
+rm -f /tmp/floppybox.grub.menu
 
 exit 0
