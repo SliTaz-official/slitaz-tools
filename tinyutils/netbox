@@ -587,6 +587,7 @@ NET_BOX="$NET_BOX$tmp"
 tmp=''
 [ -x /usr/sbin/dropbear ] && NET_BOX="${NET_BOX}${tmp}SSH"   && tmp='|'
 [ -x /usr/sbin/inetd    ] && NET_BOX="${NET_BOX}${tmp}INETD" && tmp='|'
+[ -x /sbin/zcip         ] && NET_BOX="${NET_BOX}${tmp}ZEROCONF" && tmp='|'
 [ -x /usr/sbin/udhcpd   ] && NET_BOX="${NET_BOX}${tmp}DHCP"  && tmp='|'
 [ -f /usr/share/boot/pxelinux.0.lzma -a -x /usr/bin/tftpd -a \
   -x /usr/sbin/inetd -a -x /usr/sbin/udhcpd ] \
@@ -737,6 +738,64 @@ tmp2='
      </frame>
 '
 [ -x /usr/sbin/inetd ] && NET_BOX="${NET_BOX}${tmp}${tmp2}"
+if [ -x /sbin/zcip -a -z "$ZCIP_OPTS" ]; then
+	ZCIP_OPTS="eth0 /etc/zcip.script"
+	cat >> /etc/daemons.conf <<EOT
+# ZeroConf options
+ZCIP_OPTS="$ZCIP_OPTS"
+
+EOT
+fi
+tmp='<frame Zcip>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>ZCIP_OPTIONS</b>"</label>
+        </text>
+        <entry editable="false">'
+[ -n "$ZCIP_OPTS" ] && tmp="$tmp<default>$ZCIP_OPTS</default>"
+tmp2='
+          <variable>CZIP_OPTS</variable>
+        </entry>
+        <button>
+          <input file icon="help"></input>
+	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 60x14 -title "zcip help" -e "zcip --help ; echo -e \"----\nENTER to continue...\" && read close"</action>
+        </button>
+        <button>
+          <input file icon="accessories-text-editor"></input>
+          <action type="lauch">leafpad /etc/daemons.conf</action>
+        </button>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Script :</b>"</label>
+        </text>
+        <entry editable="false">
+          <default>/etc/zcip.script</default>
+          <variable>CZIP_SCRIPT</variable>
+        </entry>
+        <button>
+          <input file icon="accessories-text-editor"></input>
+          <action type="lauch">leafpad $CZIP_SCRIPT</action>
+        </button>
+      </hbox>
+      <hbox>
+        <button>
+          <label>Start</label>
+          <input file icon="forward"></input>
+          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)zcip \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
+          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)\"/RUN_DAEMONS=\"zcip \1\"/" /etc/rcS.conf</action>
+          <action>/etc/init.d/zcip start</action>
+        </button>
+        <button>
+          <label>Stop</label>
+          <input file icon="stop"></input>
+          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)zcip \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
+          <action>/etc/init.d/zcip stop</action>
+        </button>
+      </hbox>
+     </frame>
+'
+[ -x /sbin/zcip ] && NET_BOX="${NET_BOX}$tmp$tmp2"
 tmp='<frame Dhcpd>
       <hbox>
         <text use-markup="true">
@@ -767,6 +826,19 @@ tmp2='
         <button>
           <input file icon="accessories-text-editor"></input>
           <action type="lauch">leafpad $UDHCPD_CONF</action>
+        </button>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Script :</b>"</label>
+        </text>
+        <entry editable="false">
+          <default>/usr/share/udhcpc/default.script</default>
+          <variable>UDHCPD_SCRIPT</variable>
+        </entry>
+        <button>
+          <input file icon="accessories-text-editor"></input>
+          <action type="lauch">leafpad $UDHCPD_SCRIPT</action>
         </button>
       </hbox>
       <hbox>
