@@ -203,7 +203,7 @@ NET_BOX='
       </hbox>
     </frame>
 
-    <notebook labels="DHCP|PPPoE|Static IP'
+    <notebook labels="DHCP|PPPoE|PPP|Static IP'
 [ -x /usr/sbin/iwconfig ] && NET_BOX="$NET_BOX|Wifi"
 NET_BOX="$NET_BOX|System wide|VPN|Servers"
 [ -x /sbin/iptables ] && NET_BOX="$NET_BOX|Firewall"
@@ -265,7 +265,7 @@ tmp='|Etherwake">
           <label>"<b>Password :</b>"</label>
         </text>
         <entry>
-          <variable>USER</variable>
+          <variable>PASS</variable>
         </entry>
       </hbox>
       <hbox>
@@ -293,6 +293,62 @@ tmp='|Etherwake">
           <input file icon="stop"></input>
 	  <action>sed -i "s/PPPOE=\"yes\"/PPPOE=\"no\"/" /etc/network.conf</action>
           <action>killall pppd</action>
+        </button>
+      </hbox>
+    </frame>
+
+    <frame PPP>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Username :</b>"</label>
+        </text>
+        <entry>
+	  <input>USER=$(grep -s ^ACCOUNT= /etc/ppp/scripts/ppp-on | cut -f1); echo "${USER#*=}"</input>
+          <variable>USER</variable>
+        </entry>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Password :</b>"</label>
+        </text>
+        <entry>
+	  <input>PASS=$(grep -s ^PASSWORD= /etc/ppp/scripts/ppp-on | cut -f1); echo "${PASS#*=}"</input>
+          <variable>PASS</variable>
+        </entry>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Telephone:</b>"</label>
+        </text>
+        <entry>
+	  <input>PHONE=$(grep -s ^TELEPHONE= /etc/ppp/scripts/ppp-on | cut -f1); echo "${PHONE#*=}"</input>
+          <variable>PHONE</variable>
+        </entry>
+      </hbox>
+      <hbox>
+        <button>
+          <input file icon="accessories-text-editor"></input>
+          <label>Tune</label>
+	  <action>[ -n "$NAME" ] && sed -i "s/^ACCOUNT=.* /ACCOUNT=$NAME /" /etc/ppp/scripts/ppp-on</action>
+	  <action>[ -n "$PASS" ] && sed -i "s/^PASSWORD=.* /PASSWORD=$PASS /" /etc/ppp/scripts/ppp-on</action>
+	  <action>[ -n "$PHONE" ] && sed -i "s/^TELEPHONE=.* /TELEPHONE=$PHONE /" /etc/ppp/scripts/ppp-on</action>
+          <action type="lauch">leafpad /etc/ppp/scripts/ppp-on</action>
+        </button>
+        <button>
+          <label>Start</label>
+          <input file icon="forward"></input>
+	  <action>[ -n "$USER" ] && grep -qs "^\"$USER\"" /etc/ppp/pap-secrets
+	  && echo "\"$USER\"	*	\"$PASS\"" >> /etc/ppp/pap-secrets</action>
+	  <action>[ -n "$USER" ] && grep -qs "^\"$USER\"" /etc/ppp/chap-secrets
+	  && echo "\"$USER\"	*	\"$PASS\"" >> /etc/ppp/chap-secrets</action>
+	  <action>[ -n "$NAME" ] && sed -i "s/^name .*/name $NAME/" /etc/ppp/options</action>
+          <action>/etc/ppp/scripts/ppp-off</action>
+          <action>/etc/ppp/scripts/ppp-on &</action>
+        </button>
+        <button>
+          <label>Stop</label>
+          <input file icon="stop"></input>
+          <action>/etc/ppp/scripts/ppp-off</action>
         </button>
       </hbox>
     </frame>
