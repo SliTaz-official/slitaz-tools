@@ -96,8 +96,18 @@ export HELP='
 or static IP, and setup servers. Netbox can start or stop networking,
 configure network interfaces or directly edit files."
       </label>
-      </text>
-    </frame>
+    </text>
+  </frame>
+  <frame Francais>
+    <text wrap="true" width-chars="58">
+      <label>
+"Netbox vous permet de gerer les connexions reseau avec une IP
+statique ou en obtenant une IP dynamique par DHCP, et de parametrer
+les serveurs. Netbox peut demarrer ou arreter le reseau, configurer
+les interfaces reseau ou editer directement les fichiers."
+      </label>
+    </text>
+  </frame>
 </vbox>
 </window>
 '
@@ -349,7 +359,7 @@ tmp='|Etherwake">
     </frame>'
 NET_BOX="$NET_BOX$tmp"
 tmp='<frame Wireless>
-    <notebook labels="Interface|Extra parameters'
+    <notebook labels="Interface|Extra parameters|WPA'
 [ -d /lib/modules/`uname -r`/kernel/drivers/net/wireless ] && tmp="$tmp|Kernel Modules"
 [ -x /usr/sbin/ndiswrapper ] && tmp="$tmp|Ndiswrapper"
 tmp2='">
@@ -405,6 +415,72 @@ tmp3='</combobox>
       </hbox>
       </vbox>'
 tmp="$tmp$tmp2$tmp3"
+tmp2='<vbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>WPA_OPTIONS</b>"</label>
+        </text>
+        <entry editable="false">'
+[ -n "$WPA_OPTIONS" ] && tmp2="$tmp2<default>$WPA_OPTIONS</default>"
+tmp3='
+          <variable>WPA_OPTS</variable>
+        </entry>
+        <button>
+          <input file icon="help"></input>
+	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x30 -title "wpa_supplicant help (q to quit)" -e "wpa_supplicant --help | less"</action>
+        </button>
+        <button>
+          <input file icon="accessories-text-editor"></input>
+          <action type="lauch">leafpad /etc/daemons.conf</action>
+        </button>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Configuration:</b>"</label>
+        </text>
+        <entry editable="false">
+          <default>/etc/wpa_supplicant.conf</default>
+          <variable>WPA_CONF</variable>
+        </entry>
+        <button>
+          <input file icon="accessories-text-editor"></input>
+          <action type="lauch">leafpad $WPA_CONF</action>
+        </button>
+      </hbox>
+      <hbox>
+        <button>
+          <label>Start WPA</label>
+          <input file icon="forward"></input>
+          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)wpa_supplicant \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
+          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)\"/RUN_DAEMONS=\"wpa_supplicant \1\"/" /etc/rcS.conf</action>
+          <action>/etc/init.d/wpa_supplicant start</action>
+        </button>
+        <button>
+          <label>Stop WPA</label>
+          <input file icon="stop"></input>
+          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)wpa_supplicant \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
+          <action>/etc/init.d/wpa_supplicant stop</action>
+        </button>
+      </hbox>
+      </vbox>'
+[ -x /usr/bin/wpa_supplicant ] && tmp="$tmp$tmp2$tmp3"
+tmp2='<vbox>
+      <hbox>
+      <text wrap="true" width-chars="64" use-markup="true">
+        <label>
+"<i>The package <b>wpa_supplicant</b> is not yet installed</i>"
+        </label>
+      </text>
+      <button>
+        <input file icon="go-jump"></input>
+	<label>Install</label>
+        <action>[ -f /var/lib/tazpkg/packages.list ] || tazpkg recharge</action>
+	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x17 -title "wpa_supplicant install" -e "tazpkg get-install wpa_supplicant ; echo -e "----\n\nENTER to continue..." && read close"</action>
+        <action type="exit">Exit</action>
+      </button>
+      </hbox>
+      </vbox>'
+[ -x /usr/bin/wpa_supplicant ] || tmp="$tmp$tmp2"
 tmp2='<vbox>
       <hbox>
         <button>
