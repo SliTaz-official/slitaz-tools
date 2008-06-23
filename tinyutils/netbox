@@ -270,6 +270,11 @@ tmp='|Etherwake">
       </hbox>
       <hbox>
         <button>
+          <input file icon="help"></input>
+          <label>Help</label>
+	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x30 -title "pppd help (q to quit)" -e "pppd --help 2>&1 | less"</action>
+        </button>
+        <button>
           <input file icon="accessories-text-editor"></input>
           <label>Tune</label>
 	  <action>[ -n "$NAME" ] && sed -i "s/^name .*/name $NAME/" /etc/ppp/options</action>
@@ -327,11 +332,16 @@ tmp='|Etherwake">
       </hbox>
       <hbox>
         <button>
+          <input file icon="help"></input>
+          <label>Help</label>
+	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x30 -title "pppd help (q to quit)" -e "pppd --help 2>&1 | less"</action>
+        </button>
+        <button>
           <input file icon="accessories-text-editor"></input>
           <label>Tune</label>
-	  <action>[ -n "$NAME" ] && sed -i "s/^ACCOUNT=.* /ACCOUNT=$NAME /" /etc/ppp/scripts/ppp-on</action>
-	  <action>[ -n "$PASS" ] && sed -i "s/^PASSWORD=.* /PASSWORD=$PASS /" /etc/ppp/scripts/ppp-on</action>
-	  <action>[ -n "$PHONE" ] && sed -i "s/^TELEPHONE=.* /TELEPHONE=$PHONE /" /etc/ppp/scripts/ppp-on</action>
+	  <action>[ -n "$NAME" ] && sed -i "s/^ACCOUNT=.*/ACCOUNT=$NAME/" /etc/ppp/scripts/ppp-on</action>
+	  <action>[ -n "$PASS" ] && sed -i "s/^PASSWORD=.*/PASSWORD=$PASS/" /etc/ppp/scripts/ppp-on</action>
+	  <action>[ -n "$PHONE" ] && sed -i "s/^TELEPHONE=.*/TELEPHONE=$PHONE/" /etc/ppp/scripts/ppp-on</action>
           <action type="lauch">leafpad /etc/ppp/scripts/ppp-on</action>
         </button>
         <button>
