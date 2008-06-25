@@ -50,6 +50,8 @@ Enter floppy device (default /dev/fd0)
     	fi
 }
 
+while true; do
+
 if [ "$1" == "call" ]; then
 	case "$2" in
 	setup-grub)
@@ -61,13 +63,16 @@ if [ "$1" == "call" ]; then
 		cp /usr/lib/grub/i386-pc/stage? /media/floppy/boot/grub
 		cp /tmp/floppybox.grub.menu /media/floppy/boot/grub/menu.lst
 		[ -f /usr/share/boot/btmgr -a -f /usr/share/boot/memdisk.lzma ]\
-			&& cp /usr/share/boot/btmgr /media/floppy/boot \
+			&& cat /usr/share/boot/btmgr /dev/zero | \
+			   dd bs=18k count=80 | gzip -9 > \
+			   /media/floppy/boot/btmgr.gz \
 			&& unlzma -c /usr/share/boot/memdisk.lzma > \
 				/media/floppy/boot/memdisk
 		[ -f /usr/share/boot/plop.gz -a \
 		  -f /usr/share/boot/memdisk.lzma ]\
-			&& zcat /usr/share/boot/plop.gz > \
-				/media/floppy/boot/plop \
+			&& zcat /usr/share/boot/plop.gz | cat - /dev/zero | \
+			   dd bs=18k count=80 | gzip -9 > \
+			   /media/floppy/boot/plop.gz \
 			&& unlzma -c /usr/share/boot/memdisk.lzma > \
 				/media/floppy/boot/memdisk
 		[ -f /usr/share/boot/etherboot ]\
@@ -140,15 +145,15 @@ EOT
 [ -f /usr/share/boot/btmgr -a -f /usr/share/boot/memdisk.lzma ]\
 	&& cat >> /tmp/floppybox.grub.menu <<EOT
 title Smart Boot Manager (boot floppy, hard disk or CD/DVD)
-	kernel /boot/memtest
-	initrd /boot/btmgr
+	kernel /boot/memdisk floppy c=80 h=2 s=18
+	initrd /boot/btmgr.gz
 
 EOT
 [ -f /usr/share/boot/plop.gz -a -f /usr/share/boot/memdisk.lzma ]\
 	&& cat >> /tmp/floppybox.grub.menu <<EOT
 title Plop Boot Manager (boot floppy, hard disk, CD/DVD or USB)
-	kernel /boot/memtest
-	initrd /boot/plop
+	kernel /boot/memdisk floppy c=80 h=2 s=18
+	initrd /boot/plop.gz
 
 EOT
 [ -f /usr/share/boot/etherboot ] && cat >> /tmp/floppybox.grub.menu <<EOT
@@ -330,7 +335,7 @@ $(echo -e $desc)
         <input file icon=\"go-jump\"></input>
 	<label>Install</label>
         <action>$tmp2</action>
-        <action type=\"exit\">Exit</action>
+        <action type=\"exit\">restart</action>
       </button>
       </hbox>
     </frame>
@@ -362,7 +367,7 @@ export BOOT_DIALOG
 
 # Only root can create floppy.
 check_root
-gtkdialog --program=BOOT_DIALOG
+gtkdialog --program=BOOT_DIALOG | grep -q 'EXIT="restart"' && continue
 rm -f /tmp/floppybox.grub.menu
-
 exit 0
+done
