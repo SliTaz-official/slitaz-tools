@@ -2,7 +2,8 @@
 # 
 # Gtkdialog box for the mount command. Part of SliTaz tools.
 #
-VERSION=20080618
+VERSION=20080625
+PLOP_URL=http://download.plop.at/plop/bootmngr/plpbt50rc12flp.zip
 
 # Check if user is root.
 check_root()
@@ -63,6 +64,12 @@ if [ "$1" == "call" ]; then
 			&& cp /usr/share/boot/btmgr /media/floppy/boot \
 			&& unlzma -c /usr/share/boot/memdisk.lzma > \
 				/media/floppy/boot/memdisk
+		[ -f /usr/share/boot/plop.gz -a \
+		  -f /usr/share/boot/memdisk.lzma ]\
+			&& zcat /usr/share/boot/plop.gz > \
+				/media/floppy/boot/plop \
+			&& unlzma -c /usr/share/boot/memdisk.lzma > \
+				/media/floppy/boot/memdisk
 		[ -f /usr/share/boot/etherboot ]\
 			&& cp /usr/share/boot/etherboot /media/floppy/boot
 		[ -f /usr/share/boot/memtest.lzma ]\
@@ -78,6 +85,30 @@ root (${DEVICE#/dev/})
 setup (${DEVICE#/dev/})
 quit
 EOT
+		;;
+	get-plop)
+		wget -O - $PLOP_URL | unzip -p /dev/stdin | \
+			dd bs=18k count=6 | gzip -9 > $3
+		[ -s $3 ] || exit 1
+		mkdir /tmp/get-plop$$
+		cd /tmp/get-plop$$
+		echo $3 > files.list
+		cpio -o -H newc < files.list | gzip -9 > fs.cpio.gz
+		cat > receipt <<EOT
+PACKAGE="plop"
+VERSION="1.0"
+CATEGORY="non-free"
+SHORT_DESC="Plop boot manager."
+WEB_SITE="http://www.plop.at/en/bootmanager.html"
+EOT
+		cpio -o -H newc > plop-1.0.tazpkg <<EOT
+receipt
+files.list
+fs.cpio.gz
+EOT
+		tazpkg install plop-1.0.tazpkg
+		cd ..
+		rm -rf /tmp/get-plop$$
 		;;
 	*)	echo "Invalid command $0 $@" 1>&2
 		exit 1;;
@@ -108,9 +139,16 @@ title Slitaz Installed (example on /dev/hda2)
 EOT
 [ -f /usr/share/boot/btmgr -a -f /usr/share/boot/memdisk.lzma ]\
 	&& cat >> /tmp/floppybox.grub.menu <<EOT
-title Smart Boot Manager
+title Smart Boot Manager (boot floppy, hard disk or CD/DVD)
 	kernel /boot/memtest
 	initrd /boot/btmgr
+
+EOT
+[ -f /usr/share/boot/plop.gz -a -f /usr/share/boot/memdisk.lzma ]\
+	&& cat >> /tmp/floppybox.grub.menu <<EOT
+title Plop Boot Manager (boot floppy, hard disk, CD/DVD or USB)
+	kernel /boot/memtest
+	initrd /boot/plop
 
 EOT
 [ -f /usr/share/boot/etherboot ] && cat >> /tmp/floppybox.grub.menu <<EOT
@@ -145,10 +183,11 @@ if [ -z "$XAUTHORITY" ]; then
 Create a floppy to boot a LiveCD, in a PXE network...
 Need a floppy disk in drive. Erase the whole floppy disk.
 		" 18 70 50\
-		SmartBtmgr "	Boot any partition or ATAPI CD-ROM." on \
-		Etherboot "	Replacement for proprietary PXE ROMs." off \
-		Memtest86+ "	Memory failures detection tool." off \
-		Grub	"	Boot loader with command shell." off  2>&1 1>&3`
+		SmartBtmgr	"Boot any partition or ATAPI CD-ROM." on \
+		Plop		"Boot harddisk floppy CD/DVD or USB." off \
+		Etherboot	"Replacement for proprietary PXE ROMs." off \
+		Memtest86+	"Memory failures detection tool." off \
+		Grub		"Boot loader with command shell." off  2>&1 1>&3`
 	retval=$?
 	exec 3>&-
 	check_retval
@@ -165,7 +204,11 @@ Need a floppy disk in drive. Erase the whole floppy disk.
 				--no-label "Quit" \
 				--yesno "The package $pkg is not yet installed. Install it ?" 18 70
 			retval=$?
-			tazpkg get-install $pkg
+			if [ "$pkg" = "plop" ]; then
+				bootfloppybox call get-plop $file
+			else
+				tazpkg get-install $pkg
+			fi
 		fi
 		if [ "$pkg" = "grub" ]; then
 			bootfloppybox call setup-grub $DEVICE
@@ -180,6 +223,7 @@ Need a floppy disk in drive. Erase the whole floppy disk.
 		exit 0
 	done <<EOT
 SmartBtmgr /usr/share/boot/btmgr btmgr
+Plop /usr/share/boot/plop.gz plop
 Etherboot /usr/share/boot/etherboot etherboot
 Memtest86+ /usr/share/boot/memtest.lzma memtest
 Grub /usr/sbin/grub grub
@@ -223,7 +267,7 @@ Need a floppy disk in drive. Erase the whole floppy disk.
         </button>
       </hbox>
     </frame>
-    <notebook labels="LiveCD|PXE Network|Memory Test|Expert">
+    <notebook labels="LiveCD|USB|PXE Network|Memory Test|Expert">
 '  
 while read name file pkg desc; do
     tmp="<frame $name>
@@ -272,6 +316,9 @@ $(echo -e $desc)
 "
     fi
   else
+    tmp2="[ -f /var/lib/tazpkg/packages.list ] || tazpkg recharge</action>
+	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x17 -title \"$pkg install\" -e \"tazpkg get-install $pkg ; echo -e \\\"----\\n\\nENTER to continue...\\\" && read close\""
+    [ "$pkg" = "plop" ] && tmp2="bootfloppybox call get-plop $file"
     tmp="$tmp
       <hbox>
       <text wrap=\"true\" width-chars=\"34\" use-markup=\"true\">
@@ -282,8 +329,7 @@ $(echo -e $desc)
       <button>
         <input file icon=\"go-jump\"></input>
 	<label>Install</label>
-        <action>[ -f /var/lib/tazpkg/packages.list ] || tazpkg recharge</action>
-	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x17 -title \"$pkg install\" -e \"tazpkg get-install $pkg ; echo -e \\\"----\\n\\nENTER to continue...\\\" && read close\"</action>
+        <action>$tmp2</action>
         <action type=\"exit\">Exit</action>
       </button>
       </hbox>
@@ -293,6 +339,7 @@ $(echo -e $desc)
   BOOT_DIALOG="$BOOT_DIALOG$tmp"
 done <<EOT
 SmartBtmgr /usr/share/boot/btmgr btmgr This OS independent Smart Boot Manager can boot any          partition or ATAPI CD-ROM.
+Plop /usr/share/boot/plop.gz plop This non free Boot Manager can boot floppy,         hardisk, CD/DVD or USB.
 Etherboot /usr/share/boot/etherboot etherboot This network bootloader provides a replacement for proprietary PXE or NBI ROMs.
 Memtest86+ /usr/share/boot/memtest.lzma memtest Memory failures detection tool.
 Grub /usr/sbin/grub grub General purpose boot loader with command shell
