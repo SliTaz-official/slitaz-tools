@@ -77,6 +77,8 @@ if [ "$1" == "call" ]; then
 				/media/floppy/boot/memdisk
 		[ -f /usr/share/boot/etherboot ]\
 			&& cp /usr/share/boot/etherboot /media/floppy/boot
+		[ -f /boot/gpxe ]\
+			&& cp /boot/gpxe /media/floppy/boot
 		[ -f /usr/share/boot/memtest.lzma ]\
 			&& unlzma -c /usr/share/boot/memtest.lzma > \
 				/media/floppy/boot/memtest
@@ -157,8 +159,13 @@ title Plop Boot Manager (boot floppy, hard disk, CD/DVD or USB)
 
 EOT
 [ -f /usr/share/boot/etherboot ] && cat >> /tmp/floppybox.grub.menu <<EOT
-title Etherboot
+title Etherboot (LAN boot, PXE or NBI)
 	kernel /boot/etherboot
+
+EOT
+[ -f /boot/gpxe ] && cat >> /tmp/floppybox.grub.menu <<EOT
+title gPXE (LAN boot, PXE/iSCSI/AoE, else boot on http://boot.slitaz.org/)
+	kernel /boot/gpxe
 
 EOT
 [ -f /usr/share/boot/memtest.lzma ] && cat >> /tmp/floppybox.grub.menu <<EOT
@@ -191,6 +198,7 @@ Need a floppy disk in drive. Erase the whole floppy disk.
 		SmartBtmgr	"Boot any partition or ATAPI CD-ROM." on \
 		Plop		"Boot harddisk floppy CD/DVD or USB." off \
 		Etherboot	"Replacement for proprietary PXE ROMs." off \
+		gPXE		"PXE boot with web boot failback." off \
 		Memtest86+	"Memory failures detection tool." off \
 		Grub		"Boot loader with command shell." off  2>&1 1>&3`
 	retval=$?
@@ -230,6 +238,7 @@ Need a floppy disk in drive. Erase the whole floppy disk.
 SmartBtmgr /usr/share/boot/btmgr btmgr
 Plop /usr/share/boot/plop.gz plop
 Etherboot /usr/share/boot/etherboot etherboot
+gPXE /boot/gpxe gpxe
 Memtest86+ /usr/share/boot/memtest.lzma memtest
 Grub /usr/sbin/grub grub
 EOT
@@ -250,7 +259,7 @@ BOOT_DIALOG='
     <text wrap="false" width-chars="44" use-markup="true">
       <label>
 "
-Create a floppy to boot a LiveCD, in a PXE network...
+Create a floppy to boot a LiveCD, in a PXE network or WEB...
 Need a floppy disk in drive. Erase the whole floppy disk.
 "
       </label>
@@ -272,7 +281,7 @@ Need a floppy disk in drive. Erase the whole floppy disk.
         </button>
       </hbox>
     </frame>
-    <notebook labels="LiveCD|USB|PXE Network|Memory Test|Expert">
+    <notebook labels="LiveCD|USB|PXE Network|WEB Network|Memory Test|Expert">
 '  
 while read name file pkg desc; do
     tmp="<frame $name>
@@ -344,8 +353,9 @@ $(echo -e $desc)
   BOOT_DIALOG="$BOOT_DIALOG$tmp"
 done <<EOT
 SmartBtmgr /usr/share/boot/btmgr btmgr This OS independent Smart Boot Manager can boot any          partition or ATAPI CD-ROM.
-Plop /usr/share/boot/plop.gz plop This non free Boot Manager can boot floppy,         hardisk, CD/DVD or USB.
+Plop /usr/share/boot/plop.gz plop This non free Boot Manager can boot floppy, hardisk, USB or CD/DVD. Hit Ctrl-ESC for text mode.
 Etherboot /usr/share/boot/etherboot etherboot This network bootloader provides a replacement for proprietary PXE or NBI ROMs.
+gPXE /boot/gpxe gpxe This PXE / iSCSI / AoE network bootloader falls back to the http://boot.slitaz.org/ WEB boot.
 Memtest86+ /usr/share/boot/memtest.lzma memtest Memory failures detection tool.
 Grub /usr/sbin/grub grub General purpose boot loader with command shell
 EOT
