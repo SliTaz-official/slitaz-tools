@@ -164,7 +164,7 @@ title Etherboot (LAN boot, PXE or NBI)
 
 EOT
 [ -f /boot/gpxe ] && cat >> /tmp/floppybox.grub.menu <<EOT
-title gPXE (LAN boot, PXE/iSCSI/AoE, else boot on http://boot.slitaz.org/)
+title gPXE (default boot form http://boot.slitaz.org/, PXE/iSCSI/AoE support)
 	kernel /boot/gpxe
 
 EOT
@@ -198,7 +198,7 @@ Need a floppy disk in drive. Erase the whole floppy disk.
 		SmartBtmgr	"Boot any partition or ATAPI CD-ROM." on \
 		Plop		"Boot harddisk floppy CD/DVD or USB." off \
 		Etherboot	"Replacement for proprietary PXE ROMs." off \
-		gPXE		"PXE boot with web boot failback." off \
+		gPXE		"Boot from http://boot.slitaz.org/" off \
 		Memtest86+	"Memory failures detection tool." off \
 		Grub		"Boot loader with command shell." off  2>&1 1>&3`
 	retval=$?
@@ -355,7 +355,7 @@ done <<EOT
 SmartBtmgr /usr/share/boot/btmgr btmgr This OS independent Smart Boot Manager can boot any          partition or ATAPI CD-ROM.
 Plop /usr/share/boot/plop.gz plop This non free Boot Manager can boot floppy, hardisk, USB or CD/DVD. Hit Ctrl-ESC for text mode.
 Etherboot /usr/share/boot/etherboot etherboot This network bootloader provides a replacement for proprietary PXE or NBI ROMs.
-gPXE /boot/gpxe gpxe This PXE / iSCSI / AoE network bootloader falls back to the http://boot.slitaz.org/ WEB boot.
+gPXE /boot/gpxe gpxe This PXE / iSCSI / AoE network bootloader boots from http://boot.slitaz.org/ by default.
 Memtest86+ /usr/share/boot/memtest.lzma memtest Memory failures detection tool.
 Grub /usr/sbin/grub grub General purpose boot loader with command shell
 EOT
