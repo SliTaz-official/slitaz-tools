@@ -26,6 +26,16 @@ EOT
 	chmod +x /etc/ppp/ip-up
 }
 
+# Update WIFI_INTERFACE in /etc/network.conf
+. /etc/network.conf
+if ! iwconfig $WIFI_INTERFACE | grep -iq "essid"; then
+	WIFI_INTERFACE=$(grep : /proc/net/dev | cut -d: -f1 | \
+			 while read dev; do iwconfig $dev 2>&1 | \
+			 	grep -iq "essid" && { echo $dev ; break; }; \
+			 done)
+	[ -n "$WIFI_INTERFACE" ] && sed -i "s/^WIFI_INTERFACE=.*/WIFI_INTERFACE=\"$WIFI_INTERFACE\"/" /etc/network.conf
+fi
+
 if [ "$1" = "call" ]; then
 	ppp="pppd local lock notty"
 	pppup=""
