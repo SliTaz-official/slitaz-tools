@@ -26,14 +26,23 @@ EOT
 	chmod +x /etc/ppp/ip-up
 }
 
-# Update WIFI_INTERFACE in /etc/network.conf
+# Detect WIFI_INTERFACE and update /etc/network.conf
 . /etc/network.conf
-if ! iwconfig $WIFI_INTERFACE | grep -iq "essid"; then
+if ! iwconfig $WIFI_INTERFACE 2>&1 | grep -iq "essid"; then
 	WIFI_INTERFACE=$(grep : /proc/net/dev | cut -d: -f1 | \
 			 while read dev; do iwconfig $dev 2>&1 | \
 			 	grep -iq "essid" && { echo $dev ; break; }; \
 			 done)
 	[ -n "$WIFI_INTERFACE" ] && sed -i "s/^WIFI_INTERFACE=.*/WIFI_INTERFACE=\"$WIFI_INTERFACE\"/" /etc/network.conf
+fi
+
+ESSIDS=""
+# Detect ESSID list
+if ! iwconfig $WIFI_INTERFACE 2>&1 | grep -iq "essid"; then
+	for i in $(iwlist $WIFI_INTERFACE scanning | grep "ESSID" | \
+		grep -v "<hidden>" | sed -n 's/ESSID:"//p' | sed -n 's/"//p'); do
+		ESSIDS="$ESSIDS<item>$linessid</item>"
+	done
 fi
 
 if [ "$1" = "call" ]; then
@@ -206,14 +215,20 @@ NET_BOX='
         <text use-markup="true">
           <label>"<b>Interface   :</b>"</label>
         </text>
-        <entry>
-          <input>. /etc/network.conf; echo $INTERFACE</input>
-          <variable>INTERFACE</variable>
-        </entry>
+	<combobox>
+          <variable>INTERFACE</variable>'
+. /etc/network.conf
+NET_BOX="$NET_BOX<item>$INTERFACE</item>$(
+grep : /proc/net/dev | cut -d: -f1 | while read dev; do
+	[ "$(echo $dev)" = "$INTERFACE" ] && continue
+	echo "<item>$dev</item>"
+done)"
+tmp='   </combobox>
       </hbox>
     </frame>
 
     <notebook labels="DHCP|PPPoE|PPP|Static IP'
+NET_BOX="$NET_BOX$tmp"
 [ -x /usr/sbin/iwconfig ] && NET_BOX="$NET_BOX|Wifi"
 NET_BOX="$NET_BOX|System wide|VPN|Servers"
 [ -x /sbin/iptables ] && NET_BOX="$NET_BOX|Firewall"
@@ -448,15 +463,13 @@ tmp2='">
           <input>. /etc/network.conf; echo "$WIFI_INTERFACE"</input>
           <variable>WIFI_INTERFACE</variable>
         </entry>
-      </hbox>
-      <hbox>
         <text use-markup="true">
           <label>"<b>ESSID       :</b>"</label>
         </text>
-        <entry>
-          <input>. /etc/network.conf; echo "$WIFI_ESSID"</input>
-          <variable>WIFI_ESSID</variable>
-        </entry>
+	<combobox>'
+. /etc/network.conf
+tmp2="$tmp2<item>$WIFI_ESSID</item>$ESSIDS"
+tmp3='</combobox>
       </hbox>
       </vbox>
       <vbox>
@@ -473,8 +486,7 @@ tmp2='">
         </text>
         <combobox>
           <variable>WIFI_MODE</variable>'
-. /etc/network.conf
-tmp2="$tmp2<item>$WIFI_MODE</item>"
+tmp2="$tmp2$tmp3<item>$WIFI_MODE</item>"
 for i in managed ad-hoc master repeater secondary monitor; do
   [ "$i" = "$WIFI_MODE" ] || tmp2="$tmp2<item>$i</item>"
 done
