@@ -450,9 +450,8 @@ tmp='|Etherwake">
     </frame>'
 NET_BOX="$NET_BOX$tmp"
 tmp='<frame Wireless>
-    <notebook labels="Interface|Extra parameters|WPA'
+    <notebook labels="Interface|Extra parameters'
 [ -d /lib/modules/`uname -r`/kernel/drivers/net/wireless ] && tmp="$tmp|Kernel Modules"
-[ -x /usr/sbin/ndiswrapper ] && tmp="$tmp|Ndiswrapper"
 tmp2='">
       <vbox>
       <hbox>
@@ -464,12 +463,28 @@ tmp2='">
           <variable>WIFI_INTERFACE</variable>
         </entry>
         <text use-markup="true">
-          <label>"<b>ESSID       :</b>"</label>
+          <label>"<b>ESSID :</b>"</label>
         </text>
 	<combobox>'
 . /etc/network.conf
 tmp2="$tmp2<item>$WIFI_ESSID</item>$ESSIDS"
 tmp3='</combobox>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Key :</b>"</label>
+        </text>
+        <entry>
+          <input>. /etc/network.conf; echo "$WIFI_KEY"</input>
+          <variable>WIFI_KEY</variable>
+        </entry>
+	<combobox>
+	  <item>none</item>
+	  <item>WEP</item>
+	  <item>WPA</item>
+	  <item>any</item>
+          <variable>WIFI_KEY_TYPE</variable>
+	</combobox>
       </hbox>
       </vbox>
       <vbox>
@@ -492,83 +507,8 @@ for i in managed ad-hoc master repeater secondary monitor; do
 done
 tmp3='</combobox>
       </hbox>
-      <hbox>
-        <text use-markup="true">
-          <label>"<b>Key        :</b>"</label>
-        </text>
-        <entry>
-          <input>. /etc/network.conf; echo "$WIFI_KEY"</input>
-          <variable>WIFI_KEY</variable>
-        </entry>
-      </hbox>
       </vbox>'
 tmp="$tmp$tmp2$tmp3"
-tmp2='<vbox>
-      <hbox>
-        <text use-markup="true">
-          <label>"<b>WPA_OPTIONS</b>"</label>
-        </text>
-        <entry editable="false">'
-[ -n "$WPA_OPTIONS" ] && tmp2="$tmp2<default>$WPA_OPTIONS</default>"
-tmp3='
-          <variable>WPA_OPTS</variable>
-        </entry>
-        <button>
-          <input file icon="help"></input>
-	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x30 -title "wpa_supplicant help (q to quit)" -e "wpa_supplicant --help | less"</action>
-        </button>
-        <button>
-          <input file icon="accessories-text-editor"></input>
-          <action type="lauch">leafpad /etc/daemons.conf</action>
-        </button>
-      </hbox>
-      <hbox>
-        <text use-markup="true">
-          <label>"<b>Configuration:</b>"</label>
-        </text>
-        <entry editable="false">
-          <default>/etc/wpa_supplicant.conf</default>
-          <variable>WPA_CONF</variable>
-        </entry>
-        <button>
-          <input file icon="accessories-text-editor"></input>
-          <action type="lauch">leafpad $WPA_CONF</action>
-        </button>
-      </hbox>
-      <hbox>
-        <button>
-          <label>Start WPA</label>
-          <input file icon="forward"></input>
-          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)wpa_supplicant \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
-          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)\"/RUN_DAEMONS=\"wpa_supplicant \1\"/" /etc/rcS.conf</action>
-          <action>/etc/init.d/wpa_supplicant start</action>
-        </button>
-        <button>
-          <label>Stop WPA</label>
-          <input file icon="stop"></input>
-          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)wpa_supplicant \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
-          <action>/etc/init.d/wpa_supplicant stop</action>
-        </button>
-      </hbox>
-      </vbox>'
-[ -x /usr/bin/wpa_supplicant ] && tmp="$tmp$tmp2$tmp3"
-tmp2='<vbox>
-      <hbox>
-      <text wrap="true" width-chars="64" use-markup="true">
-        <label>
-"<i>The package <b>wpa_supplicant</b> is not yet installed</i>"
-        </label>
-      </text>
-      <button>
-        <input file icon="go-jump"></input>
-	<label>Install</label>
-        <action>[ -f /var/lib/tazpkg/packages.list ] || tazpkg recharge</action>
-	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x17 -title "wpa_supplicant install" -e "tazpkg get-install wpa_supplicant ; echo -e "----\n\nENTER to continue..." && read close"</action>
-        <action type="exit">Exit</action>
-      </button>
-      </hbox>
-      </vbox>'
-[ -x /usr/bin/wpa_supplicant ] || tmp="$tmp$tmp2"
 tmp2='<vbox>
       <hbox>
         <button>
@@ -593,13 +533,28 @@ tmp3='</combobox>
         <input file icon="computer"></input>
 	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x25 -title "Modules (q to quit)" -e "lsmod | less"</action>
         </button>
+      </hbox>'
+tmp2="$tmp2$tmp3"
+tmp3=$(for i in /usr/bin/get*firmware; do [ -x $i ] || continue; [ -d /var/lib/tazpkg/installed/${i#/usr/bin/get-} ] && continue; echo "<item>${i#/usr/bin/get-}</item>"; done)
+[ -n "$tmp3" ] && tmp3="
+      <hbox>
+        <text use-markup=\"true\">
+          <label>\"<b>Firmware :</b>\"</label>
+        </text>
+        <combobox><variable>FIRMWARE</variable>$tmp3</combobox>
+      <button>
+        <label>Install</label>
+        <input file icon=\"go-jump\"></input>
+	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x25 -title \"Install \$FIRMWARE\" -e \"get-\$FIRMWARE\"</action>
+      </button>
       </hbox>
-      </vbox>'
-[ -d /lib/modules/`uname -r`/kernel/drivers/net/wireless ] && tmp="$tmp$tmp2$tmp3"
-tmp2='<vbox>
+"
+tmp2="$tmp2$tmp3"
+tmp3=""
+[ -x /usr/sbin/ndiswrapper ] && tmp3='
       <hbox>
         <text use-markup="true">
-          <label>"<b>Drivers :</b>"</label>
+          <label>"<b>Ndiswrapper drivers :</b>"</label>
         </text>
         <entry>
           <input>. /etc/network.conf; echo "$NDISWRAPPER_DRIVERS"</input>
@@ -613,26 +568,32 @@ tmp2='<vbox>
 	  <action>modprobe ndiswrapper</action>
         </button>
       </hbox>
-      </vbox>'
-[ -x /usr/sbin/ndiswrapper ] && tmp="$tmp$tmp2"
+'
+tmp3="$tmp3</vbox>"
+[ -d /lib/modules/`uname -r`/kernel/drivers/net/wireless ] && tmp="$tmp$tmp2$tmp3"
 tmp2='</notebook>
       <hbox>
         <button>
           <label>Start</label>
           <input file icon="forward"></input>
+	  <action>[ "$WIFI_KEY_TYPE" = "WPA" -a ! -x /usr/bin/wpa_supplicant ] && xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x17 -title "wpa_supplicant install" -e "tazpkg get-install wpa_supplicant ; echo -e "----\n\nENTER to continue..." && read close"</action>
           <action>sed -i s/`cat /etc/network.conf | grep ^WIFI_INTERFACE=`/WIFI_INTERFACE=\"$WIFI_INTERFACE\"/ /etc/network.conf</action>
           <action>sed -i s/`cat /etc/network.conf | grep ^WIFI_ESSID=`/WIFI_ESSID=\"$WIFI_ESSID\"/ /etc/network.conf</action>
           <action>sed -i s/`cat /etc/network.conf | grep ^WIFI_KEY=`/WIFI_KEY=\"$WIFI_KEY\"/ /etc/network.conf</action>
+          <action>sed -i s/`cat /etc/network.conf | grep ^WIFI_KEY_TYPE=`/WIFI_KEY_TYPE=\"$WIFI_KEY_TYPE\"/ /etc/network.conf</action>
           <action>sed -i s/`cat /etc/network.conf | grep ^WIFI_MODE=`/WIFI_MODE=\"$WIFI_MODE\"/ /etc/network.conf</action>
           <action>sed -i s/`cat /etc/network.conf | grep ^WIFI_CHANNEL=`/WIFI_CHANNEL=\"$WIFI_CHANNEL\"/ /etc/network.conf</action>
           <action>[ -s /var/run/udhcpc.$WIFI_INTERFACE.pid ] && kill `cat /var/run/udhcpc.$WIFI_INTERFACE.pid`</action>
           <action>ifconfig $WIFI_INTERFACE down</action>
+          <action>iwconfig $WIFI_INTERFACE txpower on</action>
           <action>/etc/init.d/network.sh</action>
         </button>
         <button>
           <label>Stop</label>
           <input file icon="stop"></input>
+          <action>[ -x /etc/init.d/wpa_supplicant ] && /etc/init.d/wpa_supplicant stop</action>
           <action>ifconfig $WIFI_INTERFACE down</action>
+          <action>iwconfig $WIFI_INTERFACE txpower off</action>
           <action>[ -s /var/run/udhcpc.$WIFI_INTERFACE.pid ] && kill `cat /var/run/udhcpc.$WIFI_INTERFACE.pid`</action>
         </button>
       </hbox>
