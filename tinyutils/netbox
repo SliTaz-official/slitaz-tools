@@ -566,7 +566,11 @@ tmp3='</combobox>
         </button>
       </hbox>'
 tmp2="$tmp2$tmp3"
-tmp3=$(for i in /usr/bin/get*firmware; do [ -x $i ] || continue; [ -d /var/lib/tazpkg/installed/${i#/usr/bin/get-} ] && continue; echo "<item>${i#/usr/bin/get-}</item>"; done)
+tmp3=$(for i in /usr/bin/get*firmware; do
+  [ -x $i ] || continue
+  [ "$i" = "/usr/bin/get-wifi-firmware" ] && continue
+  [ -d /var/lib/tazpkg/installed/${i#/usr/bin/get-} ] && continue
+  echo "<item>${i#/usr/bin/get-}</item>"; done)
 [ -n "$tmp3" ] && tmp3="
       <hbox>
         <text use-markup=\"true\">
