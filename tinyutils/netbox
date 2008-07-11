@@ -534,8 +534,8 @@ tmp3='</combobox>
         </button>
         <button>
           <input file icon="help"></input>
-	  <label>Web</label>
-	  <action>firefox http://www.linuxmanpages.com/man8/iwconfig.8.php</action>
+	  <label>man</label>
+	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x24 -title "iwconfig man (q to quit)" -e "man 8 iwconfig"</action>
         </button>
       </hbox>
       </vbox>'
