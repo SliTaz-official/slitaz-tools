@@ -1,4 +1,12 @@
 #!/bin/sh
+
+case "$1" in
+''|-*)
+	cat <<EOT
+Usage: man [section] command
+EOT
+	exit 1;;
+esac
 SECTION=all
 if [ -n "$2" ]; then
 	SECTION=$1
@@ -7,4 +15,4 @@ fi
 TOPIC=$1
 wget -O - "http://man.he.net/?topic=$TOPIC&section=$SECTION" 2> /dev/null | \
 awk 'BEGIN { s=0 } /<PRE>/ { s=1 } { if (s) print } /<\/PRE>/ { s=0 }' | \
-sed -e 's/<[^>]*>//g' -e 's/&lt;/</g' -e 's/&gt;/>/g' -e 's/&amp;/\&/g' | less
+sed -e 's/<[^>]*>//g' -e 's/&lt;/</g' -e 's/&gt;/>/g' -e 's/&amp;/\&/g' | less -M
