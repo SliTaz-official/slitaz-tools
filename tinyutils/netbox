@@ -249,6 +249,19 @@ tmp='|Etherwake">
         </button>
       </hbox>
       <hbox>
+        <text use-markup="true">
+          <label>"<b>Script :</b>"</label>
+        </text>
+        <entry editable="false">
+          <default>/usr/share/udhcpc/default.script</default>
+          <variable>UDHCPC_SCRIPT</variable>
+        </entry>
+        <button>
+          <input file icon="accessories-text-editor"></input>
+          <action type="lauch">leafpad $UDHCPC_SCRIPT</action>
+        </button>
+      </hbox>
+      <hbox>
         <button>
           <label>Start</label>
           <input file icon="forward"></input>
@@ -507,6 +520,24 @@ for i in managed ad-hoc master repeater secondary monitor; do
 done
 tmp3='</combobox>
       </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Other iwconfig args :</b>"</label>
+        </text>
+        <entry>
+          <input>. /etc/network.conf; echo "$WIFI_IWCONFIG_ARGS"</input>
+          <variable>WIFI_IWCONFIG_ARGS</variable>
+        </entry>
+        <button>
+          <input file icon="help"></input>
+	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x24 -title "iwconfig help" -e "iwconfig --help ; echo -e \"----\nENTER to continue...\" && read close"</action>
+        </button>
+        <button>
+          <input file icon="help"></input>
+	  <label>Web</label>
+	  <action>firefox http://www.linuxmanpages.com/man8/iwconfig.8.php</action>
+        </button>
+      </hbox>
       </vbox>'
 tmp="$tmp$tmp2$tmp3"
 tmp2='<vbox>
@@ -547,6 +578,11 @@ tmp3=$(for i in /usr/bin/get*firmware; do [ -x $i ] || continue; [ -d /var/lib/t
         <input file icon=\"go-jump\"></input>
 	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x25 -title \"Install \$FIRMWARE\" -e \"get-\$FIRMWARE\"</action>
       </button>
+      <button>
+        <input file icon=\"system-file-manager\"></input>
+	<label>Firmware files</label>
+	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 100x25 -title \"Firmware files (q to quit)\" -e \"find /lib/firmware -exec ls -ld {} \; | less\"</action>
+      </button>
       </hbox>
 "
 tmp2="$tmp2$tmp3"
@@ -585,7 +621,7 @@ tmp2='</notebook>
           <action>sed -i s/`cat /etc/network.conf | grep ^WIFI_CHANNEL=`/WIFI_CHANNEL=\"$WIFI_CHANNEL\"/ /etc/network.conf</action>
           <action>[ -s /var/run/udhcpc.$WIFI_INTERFACE.pid ] && kill `cat /var/run/udhcpc.$WIFI_INTERFACE.pid`</action>
           <action>ifconfig $WIFI_INTERFACE down</action>
-          <action>iwconfig $WIFI_INTERFACE txpower on</action>
+          <action>iwconfig $WIFI_INTERFACE txpower auto</action>
           <action>/etc/init.d/network.sh</action>
         </button>
         <button>
@@ -951,19 +987,6 @@ tmp2='
         <button>
           <input file icon="accessories-text-editor"></input>
           <action type="lauch">leafpad $UDHCPD_CONF</action>
-        </button>
-      </hbox>
-      <hbox>
-        <text use-markup="true">
-          <label>"<b>Script :</b>"</label>
-        </text>
-        <entry editable="false">
-          <default>/usr/share/udhcpc/default.script</default>
-          <variable>UDHCPD_SCRIPT</variable>
-        </entry>
-        <button>
-          <input file icon="accessories-text-editor"></input>
-          <action type="lauch">leafpad $UDHCPD_SCRIPT</action>
         </button>
       </hbox>
       <hbox>
