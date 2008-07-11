@@ -317,6 +317,31 @@ $(echo -e $desc)
       </hbox>
     </frame>
 "
+    elif [ "$pkg" = "gpxe" ]; then
+      tmp="$tmp
+      <hbox>
+      <text wrap=\"true\" use-markup=\"true\">
+        <label> \"<b>Boot URL:</b>\" </label>
+      </text>
+      <entry>
+	<default>$(dd if=$file bs=1 skip=519 count=255 2>/dev/null | strings)</default>
+        <variable>URL</variable>
+      </entry>
+      <button>
+        <label>Update</label>
+        <input file icon=\"reload\"></input>
+	<action>echo -n \"\$URL\" | cat - /dev/zero | dd conv=notrunc bs=1 count=255 seek=519 of=$file 2>/dev/null</action>
+      </button>
+      </hbox>
+      <hbox>
+      <button>
+        <label>Write floppy</label>
+        <input file icon=\"forward\"></input>
+	<action>$action $file > \$DEVICE</action>
+      </button>
+      </hbox>
+    </frame>
+"
     else
       tmp="$tmp
       <hbox>
@@ -355,7 +380,7 @@ done <<EOT
 SmartBtmgr /usr/share/boot/btmgr btmgr This OS independent Smart Boot Manager can boot any          partition or ATAPI CD-ROM.
 Plop /usr/share/boot/plop.gz plop This non free Boot Manager can boot floppy, hardisk, USB or CD/DVD. Hit Ctrl-ESC for text mode.
 Etherboot /usr/share/boot/etherboot etherboot This network bootloader provides a replacement for proprietary PXE or NBI ROMs.
-gPXE /boot/gpxe gpxe This PXE / iSCSI / AoE network bootloader boots from http://boot.slitaz.org/ by default.
+gPXE /boot/gpxe gpxe PXE / iSCSI / AoE network bootloader.
 Memtest86+ /usr/share/boot/memtest.lzma memtest Memory failures detection tool.
 Grub /usr/sbin/grub grub General purpose boot loader with command shell
 EOT
