@@ -8,11 +8,18 @@ EOT
 	exit 1;;
 esac
 SECTION=all
+MSG=""
 if [ -n "$2" ]; then
 	SECTION=$1
+	MSG=" in section $SECTION"
 	shift
 fi
 TOPIC=$1
+#http://www.penguin-soft.com/penguin/man?q=$TOPIC&section=ALL&action=man
+#http://linuxreviews.org/man/$TOPIC/index.html.en
+#http://www.mediacollege.com/cgi-bin/man/page.cgi?topic=$TOPIC
+#http://www.linuxcertif.com/man/$SECTION/$TOPIC/
+#http://casper.ict.hen.nl/cgi-bin/man2html?+$TOPIC+$SECTION
 wget -O - "http://man.he.net/?topic=$TOPIC&section=$SECTION" 2> /dev/null | \
-awk 'BEGIN { s=0 } /<PRE>/ { s=1 } { if (s) print } /<\/PRE>/ { s=0 }' | \
+awk "BEGIN { s=0; n=0 } /<PRE>/ { s=1 } { if (s) { print; n++} } /<\/PRE>/ { s=0 } END { if (n == 0) print \"No manual entry for $TOPIC$MSG\" }" | \
 sed -e 's/<[^>]*>//g' -e 's/&lt;/</g' -e 's/&gt;/>/g' -e 's/&amp;/\&/g' | less -M
