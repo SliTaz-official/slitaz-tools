@@ -914,12 +914,12 @@ fi
 tmp='<frame Zcip>
       <hbox>
         <text use-markup="true">
-          <label>"<b>ZCIP_OPTIONS</b>"</label>
+          <label>"<b>ZCIP_OPTS</b>"</label>
         </text>
         <entry editable="false">'
 [ -n "$ZCIP_OPTS" ] && tmp="$tmp<default>$ZCIP_OPTS</default>"
 tmp2='
-          <variable>CZIP_OPTS</variable>
+          <variable>ZCIP_OPTS</variable>
         </entry>
         <button>
           <input file icon="help"></input>
