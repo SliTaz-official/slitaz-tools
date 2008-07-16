@@ -220,7 +220,7 @@ Need a floppy disk in drive. Erase the whole floppy disk.
 			if [ "$pkg" = "plop" ]; then
 				bootfloppybox call get-plop $file
 			else
-				tazpkg get-install $pkg
+				tazpkg get-install $pkg --forced
 			fi
 		fi
 		if [ "$pkg" = "grub" ]; then
