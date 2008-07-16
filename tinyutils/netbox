@@ -533,7 +533,7 @@ tmp3='</combobox>
         <button>
           <input file icon="help"></input>
 	  <label>man</label>
-	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x24 -title "iwconfig man (q to quit)" -e "man 8 iwconfig"</action>
+	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x24 -title "iwconfig man (q to quit)" -e ". /etc/profile; man 8 iwconfig"</action>
         </button>
       </hbox>
       </vbox>'
