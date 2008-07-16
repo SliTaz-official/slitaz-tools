@@ -15,6 +15,10 @@ if [ -n "$2" ]; then
 	shift
 fi
 TOPIC=$1
+if [ -f /usr/share/doc/$TOPIC/$TOPIC.html ]; then
+	retawq --dump=file:///usr/share/doc/$TOPIC/$TOPIC.html | less -M
+	exit 0
+fi
 #http://www.penguin-soft.com/penguin/man?q=$TOPIC&section=ALL&action=man
 #http://linuxreviews.org/man/$TOPIC/index.html.en
 #http://www.mediacollege.com/cgi-bin/man/page.cgi?topic=$TOPIC
