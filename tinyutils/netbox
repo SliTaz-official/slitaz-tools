@@ -227,10 +227,8 @@ tmp='   </combobox>
       </hbox>
     </frame>
 
-    <notebook labels="DHCP|PPPoE|PPP|Static IP'
+    <notebook labels="DHCP|PPPoE|PPP|Static IP|Wifi|System wide|VPN|Servers'
 NET_BOX="$NET_BOX$tmp"
-[ -x /usr/sbin/iwconfig ] && NET_BOX="$NET_BOX|Wifi"
-NET_BOX="$NET_BOX|System wide|VPN|Servers"
 [ -x /sbin/iptables ] && NET_BOX="$NET_BOX|Firewall"
 tmp='|Etherwake">
 
@@ -616,7 +614,7 @@ tmp2='</notebook>
         <button>
           <label>Start</label>
           <input file icon="forward"></input>
-	  <action>[ "$WIFI_KEY_TYPE" = "WPA" -a ! -x /usr/bin/wpa_supplicant ] && xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x17 -title "wpa_supplicant install" -e "tazpkg get-install wpa_supplicant ; echo -e "----\n\nENTER to continue..." && read close"</action>
+	  <action>[ "$WIFI_KEY_TYPE" = "WPA" -a ! -x /usr/bin/wpa_supplicant ] && xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x17 -title "wpa_supplicant install" -e "tazpkg get-install wpa_supplicant ; echo -e \"----\n\nENTER to continue...\" && read close"</action>
           <action>sed -i s/`cat /etc/network.conf | grep ^WIFI_INTERFACE=`/WIFI_INTERFACE=\"$WIFI_INTERFACE\"/ /etc/network.conf</action>
           <action>sed -i s/`cat /etc/network.conf | grep ^WIFI_ESSID=`/WIFI_ESSID=\"$WIFI_ESSID\"/ /etc/network.conf</action>
           <action>sed -i s/`cat /etc/network.conf | grep ^WIFI_KEY=`/WIFI_KEY=\"$WIFI_KEY\"/ /etc/network.conf</action>
@@ -639,6 +637,22 @@ tmp2='</notebook>
       </hbox>
     </frame>'
 [ -x /usr/sbin/iwconfig ] && NET_BOX="$NET_BOX$tmp$tmp2"
+tmp='<frame Wireless>
+      <hbox>
+      <text wrap="true" use-markup="true">
+        <label>
+"<i>The package <b>wireless_tools</b> is not yet installed</i>"
+        </label>
+      </text>
+      <button>
+        <input file icon="go-jump"></input>
+	<label>Install</label>
+	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x17 -title "wireless_tools install" -e "tazpkg get-install wireless_tools ; echo -e \"----\n\nENTER to continue...\" && read close"</action>
+        <action type="exit">restart</action>
+      </button>
+      </hbox>
+    </frame>'
+[ -x /usr/sbin/iwconfig ] || NET_BOX="$NET_BOX$tmp"
 tmp='<frame Configuration files>
       <hbox>
         <text use-markup="true">
