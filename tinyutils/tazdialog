@@ -14,8 +14,7 @@ echo -e $1 | sed -e 's/\\Z.//g' | tr 'אגהחיטךכמןûü' 'aaaceeeeiiuu'
 if [ -z "$XAUTHORITY" ]; then
 	[ -n "$TEXTDIALOG" ] || TEXTDIALOG="dialog"
 	export DIALOG=$TEXTDIALOG
-	$TEXTDIALOG "$@"
-	return $?
+	exec $TEXTDIALOG "$@"
 else
 	title=""
 	backtitle=""
