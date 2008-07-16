@@ -356,7 +356,7 @@ $(echo -e $desc)
     fi
   else
     tmp2="[ -f /var/lib/tazpkg/packages.list ] || tazpkg recharge</action>
-	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x17 -title \"$pkg install\" -e \"tazpkg get-install $pkg ; echo -e \\\"----\\n\\nENTER to continue...\\\" && read close\""
+	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x17 -title \"$pkg install\" -e \"tazpkg get-install $pkg --forced; echo -e \\\"----\\n\\nENTER to continue...\\\" && read close\""
     [ "$pkg" = "plop" ] && tmp2="bootfloppybox call get-plop $file"
     tmp="$tmp
       <hbox>
