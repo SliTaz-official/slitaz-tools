@@ -759,6 +759,11 @@ tmp='<frame Configuration files>
       </hbox>
       <hbox>
         <button>
+          <input file icon="browser"></input>
+	  <label>Wiki</label>
+	  <action>firefox http://wiki.slitaz.org/doku.php?id=quickstart:vpn &</action>
+        </button>
+        <button>
           <input file icon="forward"></input>
 	  <label>Connect</label>
 	  <action>netbox call vpnssh $DROPBEAR_PEERVPN $DROPBEAR_LOCAL $DROPBEAR_REMOTE "$DROPBEAR_ROUTE" &</action>
@@ -1068,6 +1073,11 @@ tmp2='/pxelinux.cfg/default</default>
         </button>
       </hbox>
       <hbox>
+        <button>
+          <input file icon="browser"></input>
+	  <label>Wiki</label>
+	  <action>firefox http://wiki.slitaz.org/doku.php?id=quickstart:pxe &</action>
+        </button>
         <button>
           <input file icon="system-file-manager"></input>
 	  <label>Network boot files</label>
