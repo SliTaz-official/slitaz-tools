@@ -11,6 +11,40 @@ toutf8()
 echo -e $1 | sed -e 's/\\Z.//g' | tr 'אגהחיטךכמןûü' 'aaaceeeeiiuu'
 }
 
+fake_gauge()
+{
+[ -n "$percent" ] && echo $percent
+while read line; do
+	case "$line" in
+	[0-9]*) echo $line;;
+	*);;
+	esac
+done
+echo 100
+}
+
+fake_dialog()
+{
+if [ -n "$gauge" ]; then
+	fake_gauge | gtkdialog --center --program=BOX
+else
+	gtkdialog --center --program=BOX
+fi 2> /dev/null | while read line; do
+	case "$line" in
+	*OUTPUT*) eval $line
+		echo "$OUTPUT" 1>&2 ;;
+	*CHECK*true*) line=${line%=*}; line=${line#CHECK}
+		[ $line -eq 0 ] || shift $((3 * $line))
+		echo -n "\"$1\" " 1>&2;;
+	*LIST=*) eval $line; set -- $LIST
+		echo "$1" 1>&2 ;;
+	*EXIT*abort*) echo 255;;
+	*EXIT*) eval $line
+		echo $EXIT ;;
+	esac
+done
+}
+
 if [ -z "$XAUTHORITY" ]; then
 	[ -n "$TEXTDIALOG" ] || TEXTDIALOG="dialog"
 	export DIALOG=$TEXTDIALOG
@@ -179,28 +213,4 @@ BOX="$BOX </vbox>
 </window>
 "
 export BOX
-status=$(if [ -n "$gauge" ]; then
-	([ -n "$percent" ] && echo $percent
-	while read line; do
-		case "$line" in
-		[0-9]*) echo $line;;
-		*);;
-		esac
-	done ; echo 100) | gtkdialog --center --program=BOX
-else
-	gtkdialog --center --program=BOX
-fi 2> /dev/null | while read line; do
-	case "$line" in
-	*OUTPUT*) eval $line
-		echo "$OUTPUT" 1>&2 ;;
-	*CHECK*true*) line=${line%=*}; line=${line#CHECK}
-		[ $line -eq 0 ] || shift $((3 * $line))
-		echo -n "\"$1\" " 1>&2;;
-	*LIST=*) eval $line; set -- $LIST
-		echo "$1" 1>&2 ;;
-	*EXIT*abort*) echo 255;;
-	*EXIT*) eval $line
-		echo $EXIT ;;
-	esac
-done)
-exit $status
+exit $(fake_dialog)
