@@ -100,7 +100,7 @@ else
 			radiolist="1"; shift 5; break;;
 		--fselect) fselect="$2"; lines="$3"; cols="$4"
 			buttonok="1"; buttoncancel="1"; break;;
-		*) echo "Unknown arg $1"; return 255;;
+		*) echo "Unknown arg $1"; exit 255;;
 		esac
 	done
 fi
