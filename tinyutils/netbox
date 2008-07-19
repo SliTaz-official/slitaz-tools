@@ -3,7 +3,7 @@
 # Gtkdialog box to manage network connection.
 # - SliTaz GNU/Linux 2008.
 #
-VERSION=20080113
+VERSION=20080719
 
 # Check if user is root.
 check_root()
@@ -195,7 +195,7 @@ tmp='<frame Routing>
 IFCONFIG="$IFCONFIG$tmp"
 
 # The main dialog with notebook, start/stop buttons and all options.
-# Note that /etc/network.conf is seded when an interafce is active.
+# Note that /etc/network.conf is seded when an interface is activate
 #
 NET_BOX='
 <window title="SliTaz Netbox Manager" icon-name="network-wired">
@@ -478,7 +478,7 @@ tmp2='">
         </text>
 	<combobox>'
 . /etc/network.conf
-tmp2="$tmp2<item>$WIFI_ESSID</item>$ESSIDS"
+tmp2="$tmp2<item>$WIFI_ESSID</item>$ESSIDS<variable>WIFI_ESSID</variable>"
 tmp3='</combobox>
       </hbox>
       <hbox>
@@ -489,12 +489,12 @@ tmp3='</combobox>
           <input>. /etc/network.conf; echo "$WIFI_KEY"</input>
           <variable>WIFI_KEY</variable>
         </entry>
-	<combobox>
-	  <item>none</item>
-	  <item>WEP</item>
-	  <item>WPA</item>
-	  <item>any</item>
-          <variable>WIFI_KEY_TYPE</variable>
+	<combobox>'
+tmp2="$tmp2$tmp3<item>$WIFI_KEY_TYPE</item>"
+for i in none WEP WPA any; do
+  [ "$i" = "$WIFI_KEY_TYPE" ] || tmp2="$tmp2<item>$i</item>"
+done
+tmp3='  <variable>WIFI_KEY_TYPE</variable>
 	</combobox>
       </hbox>
       </vbox>
@@ -629,12 +629,14 @@ tmp2='</notebook>
           <label>Start</label>
           <input file icon="forward"></input>
 	  <action>[ "$WIFI_KEY_TYPE" = "WPA" -a ! -x /usr/bin/wpa_supplicant ] && xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x17 -title "wpa_supplicant install" -e "tazpkg get-install wpa_supplicant ; echo -e \"----\n\nENTER to continue...\" && read close"</action>
-          <action>sed -i s/`cat /etc/network.conf | grep ^WIFI_INTERFACE=`/WIFI_INTERFACE=\"$WIFI_INTERFACE\"/ /etc/network.conf</action>
-          <action>sed -i s/`cat /etc/network.conf | grep ^WIFI_ESSID=`/WIFI_ESSID=\"$WIFI_ESSID\"/ /etc/network.conf</action>
-          <action>sed -i s/`cat /etc/network.conf | grep ^WIFI_KEY=`/WIFI_KEY=\"$WIFI_KEY\"/ /etc/network.conf</action>
-          <action>sed -i s/`cat /etc/network.conf | grep ^WIFI_KEY_TYPE=`/WIFI_KEY_TYPE=\"$WIFI_KEY_TYPE\"/ /etc/network.conf</action>
-          <action>sed -i s/`cat /etc/network.conf | grep ^WIFI_MODE=`/WIFI_MODE=\"$WIFI_MODE\"/ /etc/network.conf</action>
-          <action>sed -i s/`cat /etc/network.conf | grep ^WIFI_CHANNEL=`/WIFI_CHANNEL=\"$WIFI_CHANNEL\"/ /etc/network.conf</action>
+          <action>sed -i s/`grep ^WIFI= /etc/network.conf`/WIFI=\"yes\"/ /etc/network.conf</action>
+          <action>sed -i s/`grep ^WIFI_INTERFACE= /etc/network.conf`/WIFI_INTERFACE=\"$WIFI_INTERFACE\"/ /etc/network.conf</action>
+          <action>sed -i s/`grep ^WIFI_ESSID= /etc/network.conf`/WIFI_ESSID=\"$WIFI_ESSID\"/ /etc/network.conf</action>
+          <action>sed -i s/`grep ^WIFI_KEY= /etc/network.conf`/WIFI_KEY=\"$WIFI_KEY\"/ /etc/network.conf</action>
+          <action>sed -i s/`grep ^WIFI_MODE= /etc/network.conf`/WIFI_MODE=\"$WIFI_MODE\"/ /etc/network.conf</action>
+          <action>sed -i "s/`grep ^WIFI_IWCONFIG_ARGS= /etc/network.conf`/WIFI_IWCONFIG_ARGS=\"$WIFI_IWCONFIG_ARGS\"/" /etc/network.conf</action>
+          <action>sed -i s/`grep ^WIFI_KEY_TYPE= /etc/network.conf`/WIFI_KEY_TYPE=\"$WIFI_KEY_TYPE\"/ /etc/network.conf</action>
+          <action>sed -i s/`grep ^WIFI_CHANNEL= /etc/network.conf`/WIFI_CHANNEL=\"$WIFI_CHANNEL\"/ /etc/network.conf</action>
           <action>[ -s /var/run/udhcpc.$WIFI_INTERFACE.pid ] && kill `cat /var/run/udhcpc.$WIFI_INTERFACE.pid`</action>
           <action>ifconfig $WIFI_INTERFACE down</action>
           <action>iwconfig $WIFI_INTERFACE txpower auto</action>
@@ -643,6 +645,7 @@ tmp2='</notebook>
         <button>
           <label>Stop</label>
           <input file icon="stop"></input>
+          <action>sed -i s/`grep ^WIFI= /etc/network.conf`/WIFI=\"no\"/ /etc/network.conf</action>
           <action>[ -x /etc/init.d/wpa_supplicant ] && /etc/init.d/wpa_supplicant stop</action>
           <action>ifconfig $WIFI_INTERFACE down</action>
           <action>iwconfig $WIFI_INTERFACE txpower off</action>
