@@ -38,10 +38,10 @@ fi
 
 ESSIDS=""
 # Detect ESSID list
-if ! iwconfig $WIFI_INTERFACE 2>&1 | grep -iq "essid"; then
+if iwconfig $WIFI_INTERFACE 2>&1 | grep -iq "essid"; then
 	for i in $(iwlist $WIFI_INTERFACE scanning | grep "ESSID" | \
 		grep -v "<hidden>" | sed -n 's/ESSID:"//p' | sed -n 's/"//p'); do
-		ESSIDS="$ESSIDS<item>$linessid</item>"
+		ESSIDS="$ESSIDS<item>$i</item>"
 	done
 fi
 
