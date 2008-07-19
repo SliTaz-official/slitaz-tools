@@ -28,17 +28,17 @@ EOT
 
 # Detect WIFI_INTERFACE and update /etc/network.conf
 . /etc/network.conf
-if ! iwconfig $WIFI_INTERFACE 2>&1 | grep -iq "essid"; then
-	WIFI_INTERFACE=$(grep : /proc/net/dev | cut -d: -f1 | \
-			 while read dev; do iwconfig $dev 2>&1 | \
-			 	grep -iq "essid" && { echo $dev ; break; }; \
-			 done)
+if [ ! -d /sys/class/net/$WIFI_INTERFACE/wireless ]; then
+	WIFI_INTERFACE=$(for i in /sys/class/net/*/wireless; do \
+		[ -d $i ] && echo $(basename $(dirname $i)) || echo wlan0; \
+		break; done)
 	[ -n "$WIFI_INTERFACE" ] && sed -i "s/^WIFI_INTERFACE=.*/WIFI_INTERFACE=\"$WIFI_INTERFACE\"/" /etc/network.conf
 fi
 
 ESSIDS=""
 # Detect ESSID list
-if iwconfig $WIFI_INTERFACE 2>&1 | grep -iq "essid"; then
+if [ -d /sys/class/net/$WIFI_INTERFACE/wireless ]; then
+	ifconfig $WIFI up
 	for i in $(iwlist $WIFI_INTERFACE scanning | grep "ESSID" | \
 		grep -v "<hidden>" | sed -n 's/ESSID:"//p' | sed -n 's/"//p'); do
 		ESSIDS="$ESSIDS<item>$i</item>"
@@ -218,11 +218,8 @@ NET_BOX='
 	<combobox>
           <variable>INTERFACE</variable>'
 . /etc/network.conf
-NET_BOX="$NET_BOX<item>$INTERFACE</item>$(
-grep : /proc/net/dev | cut -d: -f1 | while read dev; do
-	[ "$(echo $dev)" = "$INTERFACE" ] && continue
-	echo "<item>$dev</item>"
-done)"
+NET_BOX="$NET_BOX<item>$INTERFACE</item>$(for dev in $(ls /sys/class/net); do
+	echo "<item>$dev</item>"; done)"
 tmp='   </combobox>
       </hbox>
     </frame>
