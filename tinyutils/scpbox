@@ -18,7 +18,7 @@ export SCP_DIALOG='
     <text wrap="true" width-chars="52" use-markup="true">
       <label>
 "
-Secure file copy with scp from Dropbear SSH client/server.
+Copy files securely with scp from Dropbear SSH client/server.
 "
       </label>
     </text>

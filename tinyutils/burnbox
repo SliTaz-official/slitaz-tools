@@ -43,8 +43,8 @@ export MOUNT_DIALOG='
       <label>
 "
 Burn ISO images to CD or DVD writer using Wodim from cdrkit.
-Please verify device writer setting, add options if wanted or
-needed and select an ISO image file. You can erase CD-RW with
+Please verify device write settings, add options if needed 
+and select an ISO image file. You can erase CD-RW with
 'blank=all' option. Note : You can manipulate  ISO images with
 ISO Master utility.
 "

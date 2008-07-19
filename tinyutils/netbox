@@ -111,8 +111,8 @@ export HELP='
   <frame English>
     <text wrap="true" width-chars="58">
       <label>
-"Netbox let you manage network connections getting dynamic IP by DHCP
-or static IP, and setup servers. Netbox can start or stop networking,
+"Netbox lets you manage network connections by getting dynamic IP by DHCP
+or static IP and setup servers. Netbox can start or stop networking,
 configure network interfaces or directly edit files."
       </label>
     </text>

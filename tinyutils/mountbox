@@ -29,8 +29,8 @@ export HELP='
 	<frame English>
 		<text wrap="true" use-markup="true">
 			<label>
-"Mountbox let you mount devices on mount points. Device 
-can be cdrom, flash key, USB disk or local HD partitions.
+"Mountbox lets you mount devices on mount points. A device 
+can be a cdrom, flash key, USB disk or local HD partitions.
 Mount points are generated from /media and /mnt.
 "
 			</label>

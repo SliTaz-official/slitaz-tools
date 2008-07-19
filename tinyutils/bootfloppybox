@@ -193,7 +193,7 @@ if [ -z "$XAUTHORITY" ]; then
 		--no-label "Quit" \
 		--colors --radiolist "
 Create a floppy to boot a LiveCD, in a PXE network...
-Need a floppy disk in drive. Erase the whole floppy disk.
+Needs a floppy disk in drive. Erase the whole floppy disk.
 		" 18 70 50\
 		SmartBtmgr	"Boot any partition or ATAPI CD-ROM." on \
 		Plop		"Boot harddisk floppy CD/DVD or USB." off \
