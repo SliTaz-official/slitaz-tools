@@ -637,6 +637,7 @@ tmp2='</notebook>
           <action>sed -i "s/`grep ^WIFI_IWCONFIG_ARGS= /etc/network.conf`/WIFI_IWCONFIG_ARGS=\"$WIFI_IWCONFIG_ARGS\"/" /etc/network.conf</action>
           <action>sed -i s/`grep ^WIFI_KEY_TYPE= /etc/network.conf`/WIFI_KEY_TYPE=\"$WIFI_KEY_TYPE\"/ /etc/network.conf</action>
           <action>sed -i s/`grep ^WIFI_CHANNEL= /etc/network.conf`/WIFI_CHANNEL=\"$WIFI_CHANNEL\"/ /etc/network.conf</action>
+          <action>sed -i "s/`grep ^NDISWRAPPER_DRIVERS= /etc/network.conf`/NDISWRAPPER_DRIVERS=\"$NDISWRAPPER_DRIVERS\"/" /etc/network.conf</action>
           <action>[ -s /var/run/udhcpc.$WIFI_INTERFACE.pid ] && kill `cat /var/run/udhcpc.$WIFI_INTERFACE.pid`</action>
           <action>ifconfig $WIFI_INTERFACE down</action>
           <action>iwconfig $WIFI_INTERFACE txpower auto</action>
