@@ -1,5 +1,5 @@
 #!/bin/sh
-# /etc/init.d/firewall - SliTaz firewall demon script using iptables.
+# /etc/init.d/firewall - SliTaz firewall daemon script using iptables.
 # Config file is: /etc/firewall.conf
 #
 . /etc/init.d/rc.functions

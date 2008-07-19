@@ -1,6 +1,6 @@
 #!/bin/sh
 # Set and store default mixer volumes for SliTaz. Used at boot time
-# if a sound card has been detected automaticaly and can be used
+# if a sound card has been detected automatically and can be used
 # directly.
 #
 

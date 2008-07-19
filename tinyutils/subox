@@ -18,7 +18,7 @@ test $(id -u) = 0 && exec $1
 # Keep binary name in a tmp file to be used by SU_DIALOG.
 echo "$1" > /tmp/subox-exec
 
-# Main window and root passord default entry set to 'root'.
+# Main window and root password default entry set to 'root'.
 export SU_DIALOG='
 <window title="Subox">
   <vbox>

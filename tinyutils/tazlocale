@@ -78,7 +78,7 @@ if [ -s /etc/locale.conf ]; then
 	$DIALOG --clear \
 		--title " Locale setting information " \
 		--msgbox "\n
-Please logout you current session and login again to use $value
+Please logout of your current session and login again to use $value
 locale.\n" 16 70
 fi
 

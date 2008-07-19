@@ -157,7 +157,7 @@ openbox_stuff()
 		 WM=openbox-session
 		 XSEVER_OPTS="dpms +extension Composite"
 	fi
-	# Check if a personnal autostart script exist if OB is installed.
+	# Check if a personal autostart script exists if OB is installed.
 	if [ -d "/var/lib/tazpkg/installed/openbox" ]; then
 		if [ ! -f "$HOME/.config/openbox/autostart.sh" ]; then
 			mkdir -p $HOME/.config/openbox
@@ -245,8 +245,8 @@ jwm_config()
 	fi
 }
 
-# Creat ~/.xsession to keep the configuration selected (used
-# only by startx, Slim login manager use .xinitrc).
+# Create ~/.xsession to keep the configuration selected (used
+# only by startx, Slim login manager uses .xinitrc).
 creat_xsession()
 {
 	cat > $HOME/.xsession << _EOF_

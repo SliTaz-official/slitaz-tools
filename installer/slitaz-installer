@@ -3,7 +3,7 @@
 #
 # So this is SliTaz installer using dialog boxes. All the comments are in
 # English but displayed messages are in French. The script starts with a
-# few main variables, then all the functions and then a sequece of functions.
+# few main variables, then all the functions and then a sequence of functions.
 #
 # (C) 2007-2008 SliTaz - GNU General Public License v3.
 #
@@ -84,7 +84,7 @@ check_retval()
 	esac
 }
 
-# Start install with basic informations.
+# Start install with basic information.
 start_installer()
 {
 	$DIALOG --title " Install or Upgrade " \
@@ -138,7 +138,7 @@ mount_cdrom()
 	fi
 }
 
-# Display a list of available partition.
+# Display a list of available partitions.
 fdisk_list()
 {
 	LIST_PARTITIONS=`fdisk -l | grep ^/dev | sed s/'e Win95'/'e'/g`
@@ -149,7 +149,7 @@ Available partitions :\n\n
 $LIST_PARTITIONS" 18 70
 }
 
-# We need a partition to install (inputbox).
+# We need a partition to install to (inputbox).
 ask_for_target_dev()
 {
 	exec 3>&1
@@ -160,7 +160,7 @@ ask_for_target_dev()
 	retval=$?
 	exec 3>&-
 	check_retval
-	# Display list and comme back.
+	# Display list and come back.
 	if [ "$retval" = "3" ]; then
 		fdisk_list
 		ask_for_target_dev
@@ -170,7 +170,7 @@ ask_for_target_dev()
 		ask_for_target_dev
 	fi
 	set_messages
-	# Check if specified device exist in /proc/partitions.
+	# Check if specified device exists in /proc/partitions.
 	DEV_NAME=${TARGET_DEV#/dev/}
 	if cat /proc/partitions | grep -q $DEV_NAME; then
 		echo "ask_for_target_dev: $TARGET_DEV" >>$LOG
@@ -240,7 +240,7 @@ prepare_target_dev()
 	mount $TARGET_DEV $TARGET_ROOT >>$LOG 2>>$LOG
 }
 
-# Ask for hostanme before installing files.
+# Ask for hostname before installing files.
 ask_for_hostname()
 {
 	exec 3>&1
@@ -285,7 +285,7 @@ clean_target()
 	sleep 2
 }
 
-# Kernel is rename to standard vmlinuz-$VERSION.
+# Kernel is renamed to standard vmlinuz-$VERSION.
 install_kernel()
 {
 	mkdir -p $TARGET_ROOT/boot
@@ -327,7 +327,7 @@ extract_rootfs()
 # /etc/skel (60%)
 gen_etc_skel()
 {
-	#Maybe we don't have /home/hacker directory
+	# Maybe we don't have /home/hacker directory
 	if [ -d $TARGET_ROOT/home/hacker ]; then
 		echo "XXX" && echo 60
 		echo -e "\nCopie des fichiers utilisateurs par défaut (/etc/skel)..."
@@ -350,7 +350,7 @@ gen_etc_skel()
 pre_config_system()
 {
 	cd $TARGET_ROOT
-	# Restore backup of existing /home if exist.
+	# Restore backup of existing /home if exists.
 	# (created by prepare_target_dev)
 	if [ -d home.bak ]; then
 		echo "XXX" && echo 75
@@ -375,7 +375,7 @@ pre_config_system()
 	sleep 2
 }
 
-# Determin GRUB partition number and GRUB disk number.
+# Determine GRUB partition number and GRUB disk number.
 grub_config()
 {
 	DISK_LETTER=${TARGET_DEV#/dev/[h-s]d}
@@ -390,7 +390,7 @@ grub_config()
 		fi
 	done
 	GRUB_ROOT="(hd${GRUB_DISK},${GRUB_PARTITION})"
-	# Creat the target GRUB configuration.
+	# Create the target GRUB configuration.
 	mkdir -p $TARGET_ROOT/boot/grub
 	cat > $TARGET_ROOT/boot/grub/menu.lst << _EOF_
 # /boot/grub/menu.lst: GRUB boot loader configuration.
@@ -586,7 +586,7 @@ active avant de mettre à jour.\n\n
 	retval=$?
 	exec 3>&-
 	check_retval
-	# Display list and comme back.
+	# Display list and come back.
 	if [ "$retval" = "3" ]; then
 		fdisk_list
 		ask_for_upgrade_dev
@@ -595,7 +595,7 @@ active avant de mettre à jour.\n\n
 	if [ -z $UPGRADE_DEV ]; then
 		ask_for_upgrade_dev
 	fi
-	# Check if specified device exist in /proc/partitions.
+	# Check if specified device exists in /proc/partitions.
 	DEV_NAME=${UPGRADE_DEV#/dev/}
 	if cat /proc/partitions | grep -q $DEV_NAME; then
 		echo "ask_for_target_dev: $TARGET_DEV" >>$LOG
@@ -650,8 +650,8 @@ système SliTaz, le fichier: /etc/slitaz-release n'existe pas."
 	do
 		case "$dir" in
 			boot)
-				# Upgrade dont prompt for grub install, so backup and creat a
-				# new grub menu.lst.
+				# Upgrade doesn't prompt for grub install, so backup and
+				# create a new grub menu.lst.
 				rm -rf $TARGET_ROOT/boot/vmlinuz-*
 				mv $TARGET_ROOT/boot/grub/menu.lst \
 					$TARGET_ROOT/boot/grub/menu.lst.bak 2>/dev/null
@@ -758,7 +758,7 @@ vous pourrez le faire plus tard en vous aidant de la liste: \n\n
 		fi
 	done
 
-	# Calculate the pourcent for one package and install.
+	# Calculate the percent for one package and install.
 	echo "XXX" && echo 50
 	echo -e "\nInstallation des éventuels paquets..."
 	echo "XXX"
@@ -777,7 +777,7 @@ vous pourrez le faire plus tard en vous aidant de la liste: \n\n
 			echo "XXX"
 			# Log please.
 			echo "get-install: $pkg" >>$LOG
-			# Get install package and anser yes in case of dependencies.
+			# Get install package and answer yes in case of dependencies.
 			pkgname=`grep ^$pkg /var/lib/tazpkg/packages.list`
 			tazpkg get $pkg >/dev/null 2>/dev/null
 			yes "" | tazpkg install $pkgname.tazpkg --root=$TARGET_ROOT >/dev/null 2>/dev/null

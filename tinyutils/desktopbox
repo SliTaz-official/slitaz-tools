@@ -1,25 +1,25 @@
 #! /bin/sh
 #
-# Multi-call script provinding GTK boxes to manage a desktop following
-# Freedesktop standars.
+# Multi-call script providing GTK boxes to manage a desktop following
+# Freedesktop standards.
 #
 # (C) GNU gpl v3 - SliTaz GNU/Linux 2008.
 #
-VERSION=20080512
+VERSION=20080719
 
 # Glade XML file path.
 GLADE_XML=/usr/share/slitaz-tools/glade
 
-# Standards directories.
+# Standard directories.
 mkdir -p $HOME/Desktop $HOME/.local/share/applications
 
 # Get the active locale (default to English).
 case $LANG in
 	es*)
 		lang="es"
-		NEW_FOLDER_LABEL="Creat a new folder on the desktop:"
+		NEW_FOLDER_LABEL="Create a new folder on the desktop:"
 		FOLDER_ENTRY_MSG="dirname"
-		NEW_FILE_LABEL="Creat a new file on the desktop:"
+		NEW_FILE_LABEL="Create a new file on the desktop:"
 		FILE_ENTRY_MSG="filename"
 		ADD_ICON_LABEL="Add some desktop icons"
 		DESKTOP_DIALOG_LABEL="Session logout, system shutdown or reboot"  ;;
@@ -33,9 +33,9 @@ case $LANG in
 		DESKTOP_DIALOG_LABEL="Déconnexion, arrêt ou redémarrage du système" ;;
 	*)
 		lang=""
-		NEW_FOLDER_LABEL="Creat a new folder on the desktop:"
+		NEW_FOLDER_LABEL="Create a new folder on the desktop:"
 		FOLDER_ENTRY_MSG="dirname"
-		NEW_FILE_LABEL="Creat a new file on the desktop:"
+		NEW_FILE_LABEL="Create a new file on the desktop:"
 		FILE_ENTRY_MSG="filename"
 		ADD_ICON_LABEL="Add some desktop icons"
 		DESKTOP_DIALOG_LABEL="Session logout, system shutdown or reboot" ;;
@@ -47,17 +47,17 @@ usage()
 	echo -e "\nSliTaz Freedesktop Box - Version: $VERSION\n
 \033[1mUsage: \033[0m `basename $0` command
 \033[1mCommands: \033[0m\n
-  new-folder   Creat a new folder on the desktop with mkdir.
-  new-file     Creat a new empty file or SHell script on the desktop.
+  new-folder   Create a new folder on the desktop with mkdir.
+  new-file     Create a new empty file or SHell script on the desktop.
   add-icons    Add a system icon on the desktop.
-  calendar     Display a calendard under mouse pointer.
+  calendar     Display a calendar under mouse pointer.
   logout       Prompt for X session exit or system halt/reboot.\n"
 }
 
 # Box commands.
 case $1 in
 	new-folder)
-		# Creat a directory on the ~/desktop.
+		# Create a directory on the ~/Desktop.
 		#
 		DESKTOP_DIALOG="
 <window title=\"Desktopbox - mkdir\" icon-name=\"folder-new\">
@@ -92,7 +92,7 @@ case $1 in
 </window>'
 		export DESKTOP_DIALOG="${DESKTOP_DIALOG}${ACTIONS}" ;;
 	new-file)
-		# Creat a file on the ~/desktop.
+		# Create a file on the ~/Desktop.
 		#
 		DESKTOP_DIALOG="
 <window title=\"Desktopbox - touch/cat\" icon-name=\"document-new\">
@@ -133,7 +133,7 @@ case $1 in
 </window>'
 		export DESKTOP_DIALOG="${DESKTOP_DIALOG}${ACTIONS}" ;;
 	add-icons)
-		# Add a new icons on the ~/desktop from /usr/share/applications.
+		# Add new icons on the ~/Desktop from /usr/share/applications.
 		#
 		DESKTOP_DIALOG="
 <window title=\"$ADD_ICON_LABEL\" icon-name=\"document-new\">
@@ -231,7 +231,7 @@ case $1 in
 </window>'
 		export DESKTOP_DIALOG=${DESKTOP_DIALOG}${ACTIONS} ;;
 	*)
-		# Usage if executet from cmdline.
+		# Usage if executed from cmdline.
 		#
 		usage
 		exit 0 ;;

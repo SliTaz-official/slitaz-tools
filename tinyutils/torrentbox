@@ -8,7 +8,7 @@ VERSION=2008041
 mkdir -p ~/Downloads
 cd ~/Downloads
 
-# We need at least devive, speed and ISO image path.
+# We need at least a torrent filename.
 #
 export MOUNT_DIALOG='
 <window title="Torrentbox" icon-name="drive-optical">

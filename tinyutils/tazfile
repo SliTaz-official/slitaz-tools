@@ -16,7 +16,7 @@ VERSION=1.0
 ####################
 
 # Initialize some variables to use words
-# rater than numbers for functions and actions.
+# rather than numbers for functions and actions.
 COMMAND=$1
 TOP_DIR=`pwd`
 TMP_DIR=/tmp/tazfile-$$-$RANDOM
@@ -29,7 +29,7 @@ FILES_LIST=$LOCALSTATE/files.list.lzma
 DEFAULT_MIRROR="http://download.tuxfamily.org/slitaz/packages/`cat /etc/slitaz-release`/"
 
 # Check if the directories and files used by Tazfile
-# exists. If not and user is root we creat them.
+# exist. If not and user is root we create them.
 if test $(id -u) = 0 ; then
 	if [ ! -d "$INSTALLED" ]; then
 		mkdir -p $INSTALLED

@@ -31,7 +31,7 @@ if test $(id -u) != 0; then
   exit 1
 fi
 
-# Get current keymap if it exist.
+# Get current keymap if it exists.
 if [ -s /etc/keymap.conf ]; then
 	CUR=`cat /etc/keymap.conf`
 else
@@ -97,7 +97,7 @@ if [ -s /etc/keymap.conf ]; then
 	$DIALOG --clear \
 		--title " Keyboard mapping information " \
 		--msgbox "\n
-Please logout you current session and login again to use $value
+Please logout of your current session and login again to use $value
 keyboard.\n" 16 70
 fi
 

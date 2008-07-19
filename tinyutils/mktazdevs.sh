@@ -27,7 +27,7 @@ echo -n "Moving to $1... "
 cd $1
 status
 
-# mMake usfull directories.
+# Make useful directories.
 echo -n "Starting to build directories... "
 mkdir pts input net usb shm
 status
@@ -99,7 +99,7 @@ mknod usb/hiddev5 c 180 101
 mknod usb/hiddev6 c 180 102
 
 # IDE HD devs.
-# With a fiew concievable partitions, you can do
+# With a few conceivable partitions, you can do
 # more of them yourself as you need 'em.
 #
 
@@ -208,7 +208,7 @@ ln -snf /proc/self/fd/0 stdin
 ln -snf /proc/self/fd/1 stdout
 ln -snf /proc/self/fd/2 stderr
 
-# Changes permissions.
+# Change permissions.
 #
 echo -n "Changing permissions on devices... "
 chmod 0666 ptmx

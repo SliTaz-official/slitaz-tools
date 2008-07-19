@@ -2,7 +2,7 @@
 Encoding=UTF-8
 Name=Netbox Configure networking
 Name[fr]=Netbox Configurer le réseau
-Comment=Configure network interface anf host values
+Comment=Configure network interface and host values
 Exec=subox netbox
 Icon=netbox.png
 Type=Application

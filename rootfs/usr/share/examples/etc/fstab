@@ -1,4 +1,4 @@
-# /etc/fstab: informations on static file system.
+# /etc/fstab: information about static file systems.
 #
 proc            /proc        proc    defaults          0       0
 sysfs           /sys         sysfs   defaults          0       0

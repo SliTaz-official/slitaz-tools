@@ -5,7 +5,7 @@
 #
 # (C) 2008 - SliTaz GNU/Linux project.
 #
-VERSION=20080510
+VERSION=20080719
 
 # Mountbox is only for root.
 if test $(id -u) != 0 ; then
@@ -30,7 +30,7 @@ export HELP='
 		<text wrap="true" use-markup="true">
 			<label>
 "Mountbox lets you mount devices on mount points. A device 
-can be a cdrom, flash key, USB disk or local HD partitions.
+can be a cdrom, flash key, USB disk or local HD partition.
 Mount points are generated from /media and /mnt.
 "
 			</label>
@@ -112,7 +112,7 @@ do
 	MAIN_DIALOG=${MAIN_DIALOG}${MOUNT_POINTS_ITEMS}
 done
 
-# Actions buttons (moun, umount, eject, etc).
+# Actions buttons (mount, umount, eject, etc).
 ACTIONS='
 		</combobox>
 		<button>

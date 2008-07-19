@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Gtkdialog box to manage network connexion.
+# Gtkdialog box to manage network connection.
 # - SliTaz GNU/Linux 2008.
 #
 VERSION=20080113
@@ -99,7 +99,7 @@ if [ "$1" = "call" ]; then
 	exit 1
 fi
 
-# English/French help dialod.
+# English/French help dialog.
 export HELP='
 <window title="Network status" icon-name="network-wire">
 <vbox>
@@ -195,7 +195,7 @@ tmp='<frame Routing>
 IFCONFIG="$IFCONFIG$tmp"
 
 # The main dialog with notebook, start/stop buttons and all options.
-# Note than /etc/network.conf is seded wehwn an interafce is activate
+# Note that /etc/network.conf is seded when an interafce is active.
 #
 NET_BOX='
 <window title="SliTaz Netbox Manager" icon-name="network-wired">

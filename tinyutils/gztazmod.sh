@@ -53,8 +53,8 @@ echo -n "Destroying modules.dep... "
 rm modules.dep
 status
 
-# Remove tmp.dep to modules.dep.
-echo -n "Removing tmp.dep to modules.dep... "
+# Move tmp.dep to modules.dep.
+echo -n "Moving tmp.dep to modules.dep... "
 mv tmp.dep modules.dep
 status
 

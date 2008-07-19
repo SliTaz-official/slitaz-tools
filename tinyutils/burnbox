@@ -27,7 +27,7 @@ export BURN_DIALOG='
 </window>
 '
 
-# We need at least devive, speed and ISO image path.
+# We need at least device, speed and ISO image path.
 #
 export MOUNT_DIALOG='
 <window title="Burnbox" icon-name="drive-optical">

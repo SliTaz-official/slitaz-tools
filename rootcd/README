@@ -33,9 +33,9 @@ Havefun!
 English
 -------
 SliTaz is a micro GNU/Linux distro using BusyBox, a Linux kernel, and GNU
-free software. SliTaz also use goodies from the Debian project. The goal of
-SliTaz is to have a GNU/Linux distro working all in memory (RAM). SliTaz boot
-with Syslinux, provide more than 200 Linux commands, LightTPD web serveur,
+free software. SliTaz also uses goodies from the Debian project. The goal of
+SliTaz is to have a GNU/Linux distro working all in memory (RAM). SliTaz boots
+with Syslinux, provides more than 200 Linux commands, LightTPD web server,
 SSH server/client powered by Dropbear, rescue tools, X system, and much more
 {...}.
 

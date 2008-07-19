@@ -1,4 +1,4 @@
-# slitaz-installer: French translation.
+# slitaz-installer: English translation.
 
 # start_install
 START_INSTALL_MSG="\n
@@ -18,7 +18,7 @@ Please specify the target partition.\n\n
 ASK_FOR_MKFS_TARGET_DEV_MSG="\n
 SliTaz will be installed on the partition : $TARGET_DEV\n\n
 The next step lets you format the target partition into ext3. Ext3 is a robust, \
-stable and journalised filesystem. If the partition is already formated you \
+stable and journaled filesystem. If the partition is already formated you \
 can skip this stage, if not just accept. Warning formating a partition will \
 destroy all current data.\n\n
 \Z2Do you wish to format the partition in ext3 ?\Zn" 
@@ -26,13 +26,13 @@ destroy all current data.\n\n
 # ask_for_hostname
 ASK_FOR_HOSTNAME_MSG="\n
 Hostname configuration allows you to specify the machine name. The hostname is used \
-internally to identify the host on the network. This value can be changed when \
+internally to identify the host on the network. This value can be changed after \
 the system is installed.\n\n
 \Z2Hostname:\Zn"
 
 # grub_install
 GRUB_INSTALL_MSG="\n
-You have now the option to install the GRUB bootloader which is capable of \
+You now have the option to install the GRUB bootloader which is capable of \
 booting any kind of operating system. If you want to use an existing \
 GRUB installation, skip this step and add the correct lines to your GRUB \
 configuration file (menu.lst). Note that the SliTaz Installer creates a \
