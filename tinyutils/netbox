@@ -38,7 +38,7 @@ fi
 ESSIDS=""
 # Detect ESSID list
 if [ -d /sys/class/net/$WIFI_INTERFACE/wireless ]; then
-	ifconfig $WIFI up
+	ifconfig $WIFI_INTERFACE up
 	for i in $(iwlist $WIFI_INTERFACE scanning | grep "ESSID" | \
 		grep -v "<hidden>" | sed -n 's/ESSID:"//p' | sed -n 's/"//p'); do
 		ESSIDS="$ESSIDS<item>$i</item>"
