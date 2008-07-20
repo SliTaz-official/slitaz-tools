@@ -195,7 +195,7 @@ tmp='<frame Routing>
 IFCONFIG="$IFCONFIG$tmp"
 
 # The main dialog with notebook, start/stop buttons and all options.
-# Note that /etc/network.conf is seded when an interface is activate
+# Note that /etc/network.conf is seded when an interface is activated.
 #
 NET_BOX='
 <window title="SliTaz Netbox Manager" icon-name="network-wired">
