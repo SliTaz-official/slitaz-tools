@@ -26,6 +26,8 @@ EOT
 	chmod +x /etc/ppp/ip-up
 }
 
+while true; do
+
 # Detect WIFI_INTERFACE and update /etc/network.conf
 . /etc/network.conf
 if [ ! -d /sys/class/net/$WIFI_INTERFACE/wireless ]; then
@@ -541,11 +543,13 @@ tmp2='<vbox>
           <label>Load</label>
           <input file icon="forward"></input>
           <action>modprobe $MODULE</action>
+	  <action type="exit">restart</action>
         </button>
         <button>
           <label>Unload</label>
           <input file icon="forward"></input>
 	  <action>modprobe -r $MODULE</action>
+	  <action type="exit">restart</action>
         </button>
         <text use-markup="true">
           <label>"<b>Wifi Module :</b>"</label>
@@ -576,6 +580,7 @@ tmp3=$(for i in /usr/bin/get*firmware; do
         <label>Install</label>
         <input file icon=\"go-jump\"></input>
 	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x25 -title \"Install \$FIRMWARE\" -e \"get-\$FIRMWARE\"</action>
+	<action type=\"exit\">restart</action>
       </button>
       <button>
         <input file icon=\"system-file-manager\"></input>
@@ -595,7 +600,7 @@ tmp3='
       <button>
         <input file icon="go-jump"></input>
 	<label>Install</label>
-	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x17 -title "ndiswrapper install" -e "tazpkg get-install ndiswrapper ; echo -e \"----\n\nENTER to continue...\" && read close"</action>
+	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x17 -title "ndiswrapper install" -e "yes y | tazpkg get-install ndiswrapper ; echo -e \"----\n\nENTER to continue...\" && read close"</action>
         <action type="exit">restart</action>
       </button>
       </hbox>
@@ -662,7 +667,7 @@ tmp='<frame Wireless>
       <button>
         <input file icon="go-jump"></input>
 	<label>Install</label>
-	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x17 -title "wireless_tools install" -e "tazpkg get-install wireless_tools ; echo -e \"----\n\nENTER to continue...\" && read close"</action>
+	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x17 -title "wireless_tools install" -e "yes y | tazpkg get-install wireless_tools ; echo -e \"----\n\nENTER to continue...\" && read close"</action>
         <action type="exit">restart</action>
       </button>
       </hbox>
@@ -1457,6 +1462,6 @@ _EOT_
 # client	server	secret			IP addresses
 _EOT_
 fi
-gtkdialog --center --program=NET_BOX
-
+gtkdialog --center --program=NET_BOX | grep -a 'EXIT="restart"' && continue
 exit 0
+done
