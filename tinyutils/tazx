@@ -27,6 +27,65 @@ USER=`cat /etc/passwd | grep 1000 | cut -d ":" -f 1`
 #  Tazx functions  #
 ####################
 
+# Patch xorg.conf to set keymap layout.
+patch_xorg_kbd()
+{
+	KEYMAP=`cat /etc/keymap.conf`
+	case $KEYMAP in
+		fr_CH-latin1)
+			# Swiss FrenCH
+			patch -p0 <<EOF
+--- /etc/X11/xorg.conf
++++ /etc/X11/xorg.conf
+@@ -30,2 +30,3 @@
+ 	Driver      "kbd"
++	Option      "XkbLayout"	 "ch"
++	Option      "XkbVariant" "fr"
+ EndSection
+EOF
+			;;
+		en)
+			# Englisk UK
+			patch -p0 <<EOF
+--- /etc/X11/xorg.conf
++++ /etc/X11/xorg.conf
+@@ -30,2 +30,3 @@
+ 	Driver      "kbd"
++	Option      "XkbLayout"	 "en"
++	Option      "XkbVariant" "en"
+ EndSection
+EOF
+			;;
+		ru)
+			# Russian
+			patch -p0 <<EOF
+--- /etc/X11/xorg.conf
++++ /etc/X11/xorg.conf
+@@ -30,2 +30,3 @@
+ 	Driver      "kbd"
++	Option      "XkbLayout"	 "us,ru(winkeys)"
++	Option      "XkbVariant" "grp:alt_shift_toggle"
+ EndSection
+EOF
+			;;
+		*)
+			# Use clean /etc/keymap.conf value.
+			KEYMAP=${KEYMAP%-latin1}
+			KEYMAP=${KEYMAP%-lat2}
+			KEYMAP=${KEYMAP%-lat6}
+			KEYMAP=${KEYMAP%-abnt2}
+			patch -p0 <<EOF
+--- /etc/X11/xorg.conf
++++ /etc/X11/xorg.conf
+@@ -30,2 +30,3 @@
+ 	Driver      "kbd"
++	Option      "XkbLayout"	"$KEYMAP"
+ EndSection
+EOF
+		;;
+	esac
+}
+
 # Install xorg server
 install_xorg()
 {
@@ -61,15 +120,7 @@ install_xorg()
 			tazpkg get-install xorg-xf86-video-$value
 			Xorg -configure :1
 			mv /root/xorg.conf.new /etc/X11/xorg.conf
-			. /etc/keymap.conf
-			patch -p0 <<EOF
---- /etc/X11/xorg.conf
-+++ /etc/X11/xorg.conf
-@@ -30,2 +30,3 @@
- 	Driver      "kbd"
-+	Option      "XkbLayout"	"${KMAP%.kmap}"
- EndSection
-EOF
+			patch_xorg_kbd
 			sed -i 's|/usr/bin/Xvesa|/usr/bin/Xorg|' /etc/slim.conf
 			sed -i s/"^xserver_arguments"/'\#xserver_arguments'/ /etc/slim.conf
 			XSERVER=Xorg;;
