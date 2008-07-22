@@ -643,7 +643,7 @@ tmp2='</notebook>
           <action>[ -s /var/run/udhcpc.$WIFI_INTERFACE.pid ] && kill `cat /var/run/udhcpc.$WIFI_INTERFACE.pid`</action>
           <action>ifconfig $WIFI_INTERFACE down</action>
           <action>iwconfig $WIFI_INTERFACE txpower auto</action>
-          <action>/etc/init.d/network.sh</action>
+          <action>/etc/init.d/network.sh restart</action>
         </button>
         <button>
           <label>Stop</label>
@@ -718,10 +718,9 @@ tmp='<frame Configuration files>
           <label>Restart</label>
           <input file icon="reload"></input>
           <action>echo -n "Stopping interface : $INTERFACE... "</action>
-          <action>ifconfig lo down</action>
           <action>ifconfig $INTERFACE down</action>
           <action>killall -q udhcpc; echo "done"</action>
-          <action>/etc/init.d/network.sh</action>
+          <action>/etc/init.d/network.sh restart</action>
         </button>
       </hbox>
     </frame>
