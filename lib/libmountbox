@@ -49,7 +49,7 @@ case $1 in
 			END=`echo $RES | cut -d " " -f 3`
 			BLOCKS=`echo $RES | cut -d " " -f 4`
 			ID=`echo $RES | cut -d " " -f 5`
-			SYSTEM=`echo $RES | cut -d " " -f 6`
+			SYSTEM=`echo $RES | cut -d " " -f 6-`
 			# Bootable...
 			if fdisk -l | grep $dev | grep -q "*"; then
 				BOOT="*"
@@ -59,12 +59,17 @@ case $1 in
 			# Skip swap, extended, and mounted partitions.
 			if echo $RES | grep -q "swap" || echo $RES | grep -q "Extended" ; then
 				continue
-			elif mount | grep -q "^$dev"; then
+			elif mount | grep -q "^$dev "; then
 				continue
 			else
 				echo "$dev | $BOOT | $START | $END | $BLOCKS | $ID | $SYSTEM"
 			fi
-		done ;;
+		done
+		echo "/dev/cdrom | - | - | - | CD/DVD | - | iso9660"
+		for i in /sys/devices/platform/floppy.*/block:*; do 
+			[ -e $i ] && echo "/dev/${i#*block:} | - | - | - | floppy | - | linux"
+		done
+		;;
 	mounted-fs-infos)
 		# Mounted fs info and actions, rootfs or other fs.
 		#

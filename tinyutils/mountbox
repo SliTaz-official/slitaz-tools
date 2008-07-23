@@ -91,7 +91,6 @@ DEVICE='<input>/usr/lib/slitaz/libmountbox list-mounted</input>
 		<width>500</width><height>120</height>
 		<variable>DEVICE</variable>
 		<label>Umounted dev|Boot|Start|End|Blocks|Id|System</label>
-		<item icon="drive-harddisk">/dev/cdrom | - | - | - | CD/DVD | - | iso9660</item>
 		<input>/usr/lib/slitaz/libmountbox list-umounted</input>
 		<action>/usr/lib/slitaz/libmountbox umounted-fs-infos</action>
 		<action>refresh:MOUNTED</action>
