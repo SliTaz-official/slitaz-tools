@@ -62,12 +62,15 @@ case $1 in
 			elif mount | grep -q "^$dev "; then
 				continue
 			else
-				echo "$dev | $BOOT | $START | $END | $BLOCKS | $ID | $SYSTEM"
+				UUID=`blkid | grep ^$dev | grep UUID= | sed 's/.*UUID=\"\([^\"]*\)\".*/\1/'`
+				TYPE=`blkid | grep ^$dev | grep TYPE= | sed 's/.*TYPE=\"\([^\"]*\)\".*/\1/'`
+				LABEL=`blkid | grep ^$dev | grep LABEL= | sed 's/.*LABEL=\"\([^\"]*\)\".*/\1/'`
+				echo "$dev | $BOOT | $START | $END | $BLOCKS | $ID | $SYSTEM | $TYPE | $LABEL | $UUID"
 			fi
 		done
-		echo "/dev/cdrom | - | - | - | CD/DVD | - | iso9660"
+		echo "/dev/cdrom | - | - | - | CD/DVD | - | iso9660 | - | - | -"
 		for i in /sys/devices/platform/floppy.*/block:*; do 
-			[ -e $i ] && echo "/dev/${i#*block:} | - | - | - | floppy | - | linux"
+			[ -e $i ] && echo "/dev/${i#*block:} | - | - | - | floppy | - | - | - | - | -"
 		done
 		;;
 	mounted-fs-infos)
@@ -102,8 +105,9 @@ case $1 in
 </window>"
 		gtkdialog --center --program=MOUNTED_DEVICE
 		else
-			UUID=`blkid | grep ^$MOUNTED | sed 's/.*UUID=\"\([^ ]*\)\".*/\1/'`
-			TYPE=`blkid | grep ^$MOUNTED | sed 's/.*TYPE=\"\([^ ]*\)\".*/\1/'`
+			UUID=`blkid | grep ^$MOUNTED | grep UUID= | sed 's/.*UUID=\"\([^\"]*\)\".*/\1/'`
+			TYPE=`blkid | grep ^$MOUNTED | grep TYPE= | sed 's/.*TYPE=\"\([^\"]*\)\".*/\1/'`
+			LABEL=`blkid | grep ^$MOUNTED | grep LABEL= | sed 's/.*LABEL=\"\([^\"]*\)\".*/\1/'`
 			RES=`df -h $MOUNTED | grep ^$MOUNTED`
 			mounted_fs_data
 			export MOUNTED_DEVICE="
@@ -115,6 +119,7 @@ Device <b>$MOUNTED</b> is mounted on <b>$MOUNTED_ON</b>
 
 UUID: $UUID
 Type: $TYPE
+Label: $LABEL
 \"
 		</label>
 	</text>
@@ -143,8 +148,9 @@ Type: $TYPE
 	umounted-fs-infos)
 		# Mounted fs info and actions, rootfs or other fs.
 		#
-		UUID=`blkid | grep ^$DEVICE | sed 's/.*UUID=\"\([^ ]*\)\".*/\1/'`
-		TYPE=`blkid | grep ^$DEVICE | sed 's/.*TYPE=\"\([^ ]*\)\".*/\1/'`
+		UUID=`blkid | grep ^$MOUNTED | grep UUID= | sed 's/.*UUID=\"\([^\"]*\)\".*/\1/'`
+		TYPE=`blkid | grep ^$MOUNTED | grep TYPE= | sed 's/.*TYPE=\"\([^\"]*\)\".*/\1/'`
+		LABEL=`blkid | grep ^$MOUNTED | grep LABEL= | sed 's/.*LABEL=\"\([^\"]*\)\".*/\1/'`
 		export UMOUNTED_DEVICE="
 <window title=\"Device: $DEVICE\" icon-name=\"media-flash\">
 <vbox>
@@ -154,6 +160,7 @@ Mount <b>$DEVICE</b> on <b>$MOUNT_POINT</b>
 
 UUID: $UUID
 Type: $TYPE
+Label: $LABEL
 \"
 		</label>
 	</text>

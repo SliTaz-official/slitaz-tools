@@ -90,7 +90,7 @@ DEVICE='<input>/usr/lib/slitaz/libmountbox list-mounted</input>
 	<tree>
 		<width>500</width><height>120</height>
 		<variable>DEVICE</variable>
-		<label>Umounted dev|Boot|Start|End|Blocks|Id|System</label>
+		<label>Umounted dev|Boot|Start|End|Blocks|Id|System|Type|Label|UUID</label>
 		<input>/usr/lib/slitaz/libmountbox list-umounted</input>
 		<action>/usr/lib/slitaz/libmountbox umounted-fs-infos</action>
 		<action>refresh:MOUNTED</action>
