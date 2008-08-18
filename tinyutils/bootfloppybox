@@ -60,6 +60,7 @@ install_grub()
 		mke2fs $DEVICE
 		mkdir /media/floppy
 		mount $DEVICE /media/floppy
+		mkdir -p /media/floppy/boot/grub
 		cp /usr/lib/grub/i386-pc/stage? /media/floppy/boot/grub
 		cp -a $1 /media/floppy
 		grub-set-default --root-directory=/media/floppy 0
@@ -71,6 +72,7 @@ quit
 EOT
 		;;
 	cdrom*)
+		mkdir -p $1/boot/grub 2> /dev/null
 		cp /usr/lib/grub/i386-pc/stage2_eltorito $1/boot/grub
 		genisoimage -R -o boot.iso -b boot/grub/stage2_eltorito \
 			-c boot/boot.cat -no-emul-boot -boot-load-size 4 \
