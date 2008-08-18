@@ -2,7 +2,7 @@
 # 
 # Gtkdialog box for the mount command. Part of SliTaz tools.
 #
-VERSION=20080625
+VERSION=20080818
 PLOP_URL=http://download.plop.at/plop/bootmngr/plpbt50rc12flp.zip
 
 # Check if user is root.
@@ -31,60 +31,37 @@ check_retval()
 
 select_floppy()
 {
+	DEVICE="$DIALOG --title \" Floppy device \" --backtitle \"Boot Floppy Creation\" --clear --extra-button --extra-label \"Format\" --colors --radiolist \"
+Select boot device
+\" 18 70 50"
+	on=on
+	for i in /sys/devices/platform/floppy.*/block:*; do
+		[ -d $i ] || continue
+		DEVICE="$DEVICE /dev/${i#*block:} 'Floppy in ${i#*block:}' $on"
+		on=off
+	done
+	DEVICE="$DEVICE cdrom \"cdrom image file boot.iso\" $on 2>&1 1>&3"
 	exec 3>&1
-	DEVICE=`$DIALOG --title " Floppy device " \
-    		--backtitle "Boot Floppy Creation" --clear \
-		--extra-button --extra-label "Format" \
-		--colors --inputbox "
-Enter floppy device (default /dev/fd0)
-		" 18 70 2>&1 1>&3`
+	DEVICE=`eval $DEVICE`
 	retval=$?
 	exec 3>&-
 	check_retval
-	case "$DEVICE" in
-	/dev/fd*);;
-	*) DEVICE=/dev/fd0;;
-	esac
 	if [ "$retval" = "3" ]; then
-		fdformat -n $DEVICE
+		case "$DEVICE" in
+		/dev/*) fdformat -n $DEVICE;;
+		esac
     	fi
 }
 
-while true; do
-
-if [ "$1" == "call" ]; then
-	case "$2" in
-	setup-grub)
-		DEVICE=$3
+install_grub()
+{
+	case "$DEVICE" in
+	/dev/*)
 		mke2fs $DEVICE
 		mkdir /media/floppy
 		mount $DEVICE /media/floppy
-		mkdir -p /media/floppy/boot/grub
 		cp /usr/lib/grub/i386-pc/stage? /media/floppy/boot/grub
-		cp /tmp/floppybox.grub.menu /media/floppy/boot/grub/menu.lst
-		[ -f /usr/share/boot/btmgr -a -f /usr/share/boot/memdisk.lzma ]\
-			&& cat /usr/share/boot/btmgr /dev/zero | \
-			   dd bs=18k count=80 | gzip -9 > \
-			   /media/floppy/boot/btmgr.gz \
-			&& unlzma -c /usr/share/boot/memdisk.lzma > \
-				/media/floppy/boot/memdisk
-		[ -f /usr/share/boot/plop.gz -a \
-		  -f /usr/share/boot/memdisk.lzma ]\
-			&& zcat /usr/share/boot/plop.gz | cat - /dev/zero | \
-			   dd bs=18k count=80 | gzip -9 > \
-			   /media/floppy/boot/plop.gz \
-			&& unlzma -c /usr/share/boot/memdisk.lzma > \
-				/media/floppy/boot/memdisk
-		[ -f /usr/share/boot/etherboot ]\
-			&& cp /usr/share/boot/etherboot /media/floppy/boot
-		[ -f /boot/gpxe ]\
-			&& cp /boot/gpxe /media/floppy/boot
-		[ -f /usr/share/boot/memtest.lzma ]\
-			&& unlzma -c /usr/share/boot/memtest.lzma > \
-				/media/floppy/boot/memtest
-		[ -f /usr/share/boot/grub.exe.lzma ]\
-			&& unlzma -c /usr/share/boot/grub.exe.lzma > \
-				/media/floppy/boot/grub.exe
+		cp -a $1 /media/floppy
 		grub-set-default --root-directory=/media/floppy 0
 		umount $DEVICE
 		grub --batch <<EOT
@@ -93,28 +70,107 @@ setup (${DEVICE#/dev/})
 quit
 EOT
 		;;
+	cdrom*)
+		cp /usr/lib/grub/i386-pc/stage2_eltorito $1/boot/grub
+		genisoimage -R -o boot.iso -b boot/grub/stage2_eltorito \
+			-c boot/boot.cat -no-emul-boot -boot-load-size 4 \
+			-input-charset iso8859-1 -boot-info-table $1
+		;;
+	esac
+}
+
+while true; do
+
+if [ "$1" == "call" ]; then
+	case "$2" in
+	install)
+		DIR=/tmp/mkbootfloppy$$
+		mkdir -p $DIR
+		DEVICE=$4
+		file=$5
+		case "$3" in
+		grub)
+			mkdir -p $DIR/boot/grub
+			cp /tmp/floppybox.grub.menu $DIR/boot/grub/menu.lst
+			[ -f /usr/share/boot/btmgr -a -f /usr/share/boot/memdisk.lzma ]\
+				&& cat /usr/share/boot/btmgr /dev/zero | \
+				   dd bs=18k count=80 | gzip -9 > \
+				   $DIR/boot/btmgr.gz \
+				&& unlzma -c /usr/share/boot/memdisk.lzma > \
+					$DIR/boot/memdisk
+			[ -f /usr/share/boot/plop.gz -a \
+			  -f /usr/share/boot/memdisk.lzma ]\
+				&& zcat /usr/share/boot/plop.gz | cat - /dev/zero | \
+				   dd bs=18k count=80 | gzip -9 > \
+				   $DIR/boot/plop.gz \
+				&& unlzma -c /usr/share/boot/memdisk.lzma > \
+					$DIR/boot/memdisk
+			[ -f /usr/share/boot/etherboot ]\
+				&& cp /usr/share/boot/etherboot $DIR/boot
+			[ -f /boot/gpxe ]\
+				&& cp /boot/gpxe $DIR/boot
+			[ -f /usr/share/boot/memtest.lzma ]\
+				&& unlzma -c /usr/share/boot/memtest.lzma > \
+				$DIR/boot/memtest
+			[ -f /usr/share/boot/grub.exe.lzma ]\
+				&& unlzma -c /usr/share/boot/grub.exe.lzma > \
+					$DIR/boot/grub.exe
+			install_grub $DIR
+			;;
+		*)
+    			case "$file" in
+    			*.lzma) action="unlzma -c";;
+    			*.gz)   action="zcat";;
+    			*)      action="cat";;
+    			esac
+			case "$DEVICE" in
+			/dev/*) $action $file > $DEVICE;;
+			cdrom*)
+				mkdir -p $DIR/boot/grub
+				case "$3" in
+				btmgr|plop)
+					$action $file | cat - /dev/zero | \
+						dd bs=18k count=80 | \
+						gzip -9 > $DIR/boot/$3.gz
+					unlzma -c /usr/share/boot/memdisk.lzma \
+						> $DIR/boot/memdisk
+					cat > $DIR/boot/grub/menu.lst << EOT
+timeout 0
+title $3
+kernel /boot/memdisk floppy c=80 h=2 s=18
+initrd /boot/$3.gz
+EOT
+					;;
+				*)	$action $file > $DIR/boot/$3
+					cat > $DIR/boot/grub/menu.lst << EOT
+timeout 0
+title $3
+kernel /boot/$3
+EOT
+					;;
+				esac
+				install_grub $DIR
+				;;
+			esac
+			;;
+		esac
+		rm -rf $DIR
+		;;
 	get-plop)
-		wget -O - $PLOP_URL | unzip -p /dev/stdin | \
-			dd bs=18k count=6 | gzip -9 > $3
-		[ -s $3 ] || exit 1
-		mkdir /tmp/get-plop$$
-		cd /tmp/get-plop$$
-		echo $3 > files.list
-		cpio -o -H newc < files.list | gzip -9 > fs.cpio.gz
-		cat > receipt <<EOT
+		mkdir -p /tmp/get-plop$$/plop-1.0/fs/$(dirname $3)
+		wget -O - $PLOP_URL | unzip -p /dev/stdin | dd bs=18k count=6 |\
+			gzip -9 > /tmp/get-plop$$/plop-1.0/fs/$3
+		if [ -s /tmp/get-plop$$/plop-1.0/fs/$3 ]; then 
+			cat > /tmp/get-plop$$/plop-1.0/receipt <<EOT
 PACKAGE="plop"
 VERSION="1.0"
 CATEGORY="non-free"
 SHORT_DESC="Plop boot manager."
 WEB_SITE="http://www.plop.at/en/bootmanager.html"
 EOT
-		cpio -o -H newc > plop-1.0.tazpkg <<EOT
-receipt
-files.list
-fs.cpio.gz
-EOT
-		tazpkg install plop-1.0.tazpkg
-		cd ..
+			( cd /tmp/get-plop$$ ; tazpkg pack plop-1.0 )
+			tazpkg install /tmp/get-plop$$/plop-1.0.tazpkg
+		fi
 		rm -rf /tmp/get-plop$$
 		;;
 	*)	echo "Invalid command $0 $@" 1>&2
@@ -125,8 +181,30 @@ fi
 
 cat > /tmp/floppybox.grub.menu <<EOT
 default saved
-timeout 10
+timeout 8
+color yellow/brown light-green/black
 
+EOT
+[ -f /boot/gpxe ] && cat >> /tmp/floppybox.grub.menu <<EOT
+title gPXE (Boot from the Web, PXE/iSCSI/AoE support)
+	kernel /boot/gpxe $(dd if=/boot/gpxe bs=1 skip=519 count=255 2>/dev/null | strings)
+
+EOT
+[ -f /usr/share/boot/btmgr -a -f /usr/share/boot/memdisk.lzma ]\
+	&& cat >> /tmp/floppybox.grub.menu <<EOT
+title Smart Boot Manager (text - boot floppy, hard disk or CD/DVD)
+	kernel /boot/memdisk floppy c=80 h=2 s=18
+	initrd /boot/btmgr.gz
+
+EOT
+[ -f /usr/share/boot/plop.gz -a -f /usr/share/boot/memdisk.lzma ]\
+	&& cat >> /tmp/floppybox.grub.menu <<EOT
+title Plop Boot Manager (graphic - boot floppy, hard disk, CD/DVD or USB)
+	kernel /boot/memdisk floppy c=80 h=2 s=18
+	initrd /boot/plop.gz
+
+EOT
+cat >> /tmp/floppybox.grub.menu <<EOT
 title Windows (example on /dev/hda1)
 	rootnoverify (hd0,0)
 	chainloader +1
@@ -144,32 +222,13 @@ title Slitaz Installed (example on /dev/hda2)
 	save default
 
 EOT
-[ -f /usr/share/boot/btmgr -a -f /usr/share/boot/memdisk.lzma ]\
-	&& cat >> /tmp/floppybox.grub.menu <<EOT
-title Smart Boot Manager (boot floppy, hard disk or CD/DVD)
-	kernel /boot/memdisk floppy c=80 h=2 s=18
-	initrd /boot/btmgr.gz
-
-EOT
-[ -f /usr/share/boot/plop.gz -a -f /usr/share/boot/memdisk.lzma ]\
-	&& cat >> /tmp/floppybox.grub.menu <<EOT
-title Plop Boot Manager (boot floppy, hard disk, CD/DVD or USB)
-	kernel /boot/memdisk floppy c=80 h=2 s=18
-	initrd /boot/plop.gz
-
-EOT
 [ -f /usr/share/boot/etherboot ] && cat >> /tmp/floppybox.grub.menu <<EOT
 title Etherboot (LAN boot, PXE or NBI)
 	kernel /boot/etherboot
 
 EOT
-[ -f /boot/gpxe ] && cat >> /tmp/floppybox.grub.menu <<EOT
-title gPXE (default boot form http://boot.slitaz.org/, PXE/iSCSI/AoE support)
-	kernel /boot/gpxe
-
-EOT
 [ -f /usr/share/boot/memtest.lzma ] && cat >> /tmp/floppybox.grub.menu <<EOT
-title Memtest86+
+title Memtest86+ (Test system memory)
 	kernel /boot/memtest
 
 EOT
@@ -192,8 +251,8 @@ if [ -z "$XAUTHORITY" ]; then
 		--yes-label "Install" \
 		--no-label "Quit" \
 		--colors --radiolist "
-Create a floppy to boot a LiveCD, in a PXE network...
-Needs a floppy disk in drive. Erase the whole floppy disk.
+Create a floppy or a cdrom to boot a LiveCD, in a PXE network...
+May need a floppy disk in drive. Erase the whole floppy disk.
 		" 18 70 50\
 		SmartBtmgr	"Boot any partition or ATAPI CD-ROM." on \
 		Plop		"Boot harddisk floppy CD/DVD or USB." off \
@@ -220,19 +279,10 @@ Needs a floppy disk in drive. Erase the whole floppy disk.
 			if [ "$pkg" = "plop" ]; then
 				bootfloppybox call get-plop $file
 			else
-				tazpkg get-install $pkg --forced
+				tazpkg get-install $pkg
 			fi
 		fi
-		if [ "$pkg" = "grub" ]; then
-			bootfloppybox call setup-grub $DEVICE
-		else
-    			case "$file" in
-    			*.lzma) action="unlzma -c";;
-    			*.gz)   action="zcat";;
-    			*)      action="cat";;
-    			esac
-			$action $file > $DEVICE
-		fi
+		bootfloppybox call install "$pkg" "$DEVICE" "$file"
 		exit 0
 	done <<EOT
 SmartBtmgr /usr/share/boot/btmgr btmgr
@@ -244,6 +294,41 @@ Grub /usr/sbin/grub grub
 EOT
     done
 fi
+#
+# Describe gPXE arguments.
+#
+export HELP='
+<window title="gPXE forced url" icon-name="gtk-floppy">
+<vbox>
+    <text use-markup="true">
+    <label>"
+<b>Web boot parameters</b>"
+    </label>
+  </text>
+  <frame>
+    <text wrap="true" width-chars="58" use-markup="true">
+      <label>
+"Without parameters (i.e. with an empty Boot URL) gPXE will perform a normal
+PXE boot: IP configuration with DHCP and download DHCP bootfile with TFTP.
+
+You can override the DHCP bootfile with an Boot URL such as
+<i>tftp://192.168.0.1/pxe/pxeloader</i>, <i>http://mirror.slitaz.org/pxe/pxelinux.0</i>,
+or <i>x-tftm://192.168.0.201//lts/vmlinuz.ltsp</i>.
+
+You can override IP  configuration too (usefull without DHCP server), example:
+<i>ip=192.168.0.10/24 gw=192.168.0.1 dns=192.168.0.1 nodhcp 
+url=http://mirror.slitaz.org/pxe/pxelinux.0</i>
+
+The <i>nodhcp</i> keyword avoids dhcp timeouts and the <i>url=</i> keyword is
+optionnal when the url is the only argument.
+"
+      </label>
+    </text>
+  </frame>
+</vbox>
+</window>
+'
+#
 # Write bootfloppy image to floppy device.
 #
 BOOT_DIALOG='
@@ -259,8 +344,8 @@ BOOT_DIALOG='
     <text wrap="false" width-chars="44" use-markup="true">
       <label>
 "
-Create a floppy to boot a LiveCD, in a PXE network or WEB...
-Need a floppy disk in drive. Erase the whole floppy disk.
+Create a floppy or a cdrom to boot a LiveCD, in a PXE network or WEB...
+May need a floppy disk in drive. Erase the whole floppy disk.
 "
       </label>
     </text>
@@ -270,19 +355,26 @@ Need a floppy disk in drive. Erase the whole floppy disk.
         <text use-markup="true">
           <label>"<b>Device : </b>"</label>
         </text>
-        <entry>
-          <default>/dev/fd0</default>
-          <variable>DEVICE</variable>
-        </entry>
+	<combobox>
+          <variable>DEVICE</variable>'
+for i in /sys/devices/platform/floppy.*/block:*; do
+	[ -d $i ] || continue
+	BOOT_DIALOG="$BOOT_DIALOG 
+	  <item>/dev/${i#*block:}</item>"
+	on=off
+done
+tmp='	  <item>cdrom image (boot.iso)</item>
+	</combobox>
         <button>
           <label>Format floppy</label>
           <input file icon="forward"></input>
-	  <action>fdformat -n $DEVICE</action>
+	  <action>case "$DEVICE" in /dev/*) fdformat -n $DEVICE;; esac</action>
         </button>
       </hbox>
     </frame>
     <notebook labels="LiveCD|USB|PXE Network|WEB Network|Memory Test|Expert">
 '  
+BOOT_DIALOG="$BOOT_DIALOG$tmp"
 while read name file pkg desc; do
     tmp="<frame $name>
       <hbox>
@@ -294,32 +386,19 @@ $(echo -e $desc)
       </label>
     </text>
       </hbox>
+      <hbox>
 "
   if [ -f $file ]; then
-    case "$file" in
-    *.lzma) action="unlzma -c";;
-    *.gz)   action="zcat";;
-    *)      action="cat";;
-    esac
     if [ "$pkg" = "grub" ]; then
       tmp="$tmp
-      <hbox>
       <button>
         <label>Grub menu</label>
         <input file icon=\"accessories-text-editor\"></input>
         <action type=\"lauch\">leafpad /tmp/floppybox.grub.menu</action>
       </button>
-      <button>
-        <label>Write floppy</label>
-        <input file icon=\"forward\"></input>
-	<action>bootfloppybox call setup-grub \$DEVICE</action>
-      </button>
-      </hbox>
-    </frame>
 "
     elif [ "$pkg" = "gpxe" ]; then
       tmp="$tmp
-      <hbox>
       <text wrap=\"true\" use-markup=\"true\">
         <label> \"<b>Boot URL:</b>\" </label>
       </text>
@@ -327,39 +406,31 @@ $(echo -e $desc)
 	<default>$(dd if=$file bs=1 skip=519 count=255 2>/dev/null | strings)</default>
         <variable>URL</variable>
       </entry>
+      </hbox>
+      <hbox>
+      <button help>
+	<action type=\"launch\">HELP</action>
+      </button>
       <button>
         <label>Update</label>
         <input file icon=\"reload\"></input>
 	<action>echo -n \"\$URL\" | cat - /dev/zero | dd conv=notrunc bs=1 count=255 seek=519 of=$file 2>/dev/null</action>
       </button>
-      </hbox>
-      <hbox>
-      <button>
-        <label>Write floppy</label>
-        <input file icon=\"forward\"></input>
-	<action>$action $file > \$DEVICE</action>
-      </button>
-      </hbox>
-    </frame>
-"
-    else
-      tmp="$tmp
-      <hbox>
-      <button>
-        <label>Write floppy</label>
-        <input file icon=\"forward\"></input>
-	<action>$action $file > \$DEVICE</action>
-      </button>
-      </hbox>
-    </frame>
 "
     fi
+    tmp="$tmp
+      <button>
+        <label>Write floppy</label>
+        <input file icon=\"forward\"></input>
+	<action>bootfloppybox call install \"$pkg\" \"\$DEVICE\" \"$file\"</action>
+      </button>
+      </hbox>
+    </frame>
+"
   else
-    tmp2="[ -f /var/lib/tazpkg/packages.list ] || tazpkg recharge</action>
-	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x17 -title \"$pkg install\" -e \"tazpkg get-install $pkg --forced; echo -e \\\"----\\n\\nENTER to continue...\\\" && read close\""
+    tmp2="tazpkg get-install $pkg --forced"
     [ "$pkg" = "plop" ] && tmp2="bootfloppybox call get-plop $file"
     tmp="$tmp
-      <hbox>
       <text wrap=\"true\" width-chars=\"34\" use-markup=\"true\">
         <label>
 \"<i>The package <b>$pkg</b> is not yet installed</i>\"
@@ -368,7 +439,8 @@ $(echo -e $desc)
       <button>
         <input file icon=\"go-jump\"></input>
 	<label>Install</label>
-        <action>$tmp2</action>
+	<action>[ -f /var/lib/tazpkg/packages.list ] || tazpkg recharge</action>
+	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x17 -title \"$pkg install\" -e \"$tmp2 ; sleep 2\"</action>
         <action type=\"exit\">restart</action>
       </button>
       </hbox>
