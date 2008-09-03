@@ -310,19 +310,14 @@ export HELP='
   <frame>
     <text wrap="true" width-chars="58" use-markup="true">
       <label>
-"Without parameters (i.e. with an empty Boot URL) gPXE will perform a normal
-PXE boot: IP configuration with DHCP and download DHCP bootfile with TFTP.
+"Without parameters (i.e. with an empty Boot URL) gPXE will perform a normal PXE boot: IP configuration with DHCP and download DHCP bootfile with TFTP.
 
-You can override the DHCP bootfile with an Boot URL such as
-<i>tftp://192.168.0.1/pxe/pxeloader</i>, <i>http://mirror.slitaz.org/pxe/pxelinux.0</i>,
-or <i>x-tftm://192.168.0.201//lts/vmlinuz.ltsp</i>.
+You can override the DHCP bootfile with an Boot URL such as <i>tftp://192.168.0.1/pxe/pxeloader</i>, <i>http://mirror.slitaz.org/pxe/pxelinux.0</i>, or <i>x-tftm://192.168.0.201//lts/vmlinuz.ltsp</i>.
 
-You can override IP  configuration too (usefull without DHCP server), example:
-<i>ip=192.168.0.10/24 gw=192.168.0.1 dns=192.168.0.1 nodhcp 
-url=http://mirror.slitaz.org/pxe/pxelinux.0</i>
+You can override IP  configuration too (usefull without DHCP server), example: 
+<i>ip=192.168.0.10/24 gw=192.168.0.1 dns=192.168.0.1 nodhcp url=http://mirror.slitaz.org/pxe/pxelinux.0</i>
 
-The <i>nodhcp</i> keyword avoids dhcp timeouts and the <i>url=</i> keyword is
-optionnal when the url is the only argument.
+The <i>nodhcp</i> keyword avoids dhcp timeouts and the <i>url=</i> keyword is optionnal when the url is the only one argument.
 "
       </label>
     </text>
@@ -399,6 +394,14 @@ $(echo -e $desc)
         <action type=\"lauch\">leafpad /tmp/floppybox.grub.menu</action>
       </button>
 "
+    elif [ "$pkg" = "etherboot" ]; then
+      tmp="$tmp
+      <button>
+        <input file icon=\"browser\"></input>
+	<label>Wiki</label>
+	<action>firefox http://wiki.slitaz.org/doku.php?id=quickstart:pxe &</action>
+      </button>
+"
     elif [ "$pkg" = "gpxe" ]; then
       tmp="$tmp
       <text wrap=\"true\" use-markup=\"true\">
@@ -410,6 +413,11 @@ $(echo -e $desc)
       </entry>
       </hbox>
       <hbox>
+      <button>
+        <input file icon=\"browser\"></input>
+	<label>Wiki</label>
+	<action>firefox http://wiki.slitaz.org/doku.php?id=quickstart:pxe &</action>
+      </button>
       <button help>
 	<action type=\"launch\">HELP</action>
       </button>
@@ -417,6 +425,17 @@ $(echo -e $desc)
         <label>Update</label>
         <input file icon=\"reload\"></input>
 	<action>echo -n \"\$URL\" | cat - /dev/zero | dd conv=notrunc bs=1 count=255 seek=519 of=$file 2>/dev/null</action>
+      </button>
+"
+    fi
+    receipt=/var/lib/tazpkg/installed/$pkg/receipt
+    if [ -f $receipt ]; then
+      . $receipt
+      tmp="$tmp
+      <button>
+        <input file icon=\"browser\"></input>
+	<label>Web</label>
+	<action>firefox $WEB_SITE &</action>
       </button>
 "
     fi
