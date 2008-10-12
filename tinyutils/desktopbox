@@ -224,27 +224,27 @@ case $1 in
 			<variable>NONE</variable>
 		</radiobutton>
 	</hbox>"
-		EXTRA="COMP=none; [ '\$LZMA' = 'true' ] && COMP=lzma; [ '\$GZIP' = 'true' ] && COMP=gzip; [ '\$TAZUSB_WRITE' = 'true' ] && subox 'xterm -e \"tazusb writefs \$COMP\"';"
-		#[ -f /home/boot/rootfs.gz ] || { TAZUSB_DIALOG=""; EXTRA=""; }
+		EXTRA="COMP=none; [ \$LZMA = true ] && COMP=lzma; [ \$GZIP = true ] && COMP=gzip; [ \$TAZUSB_WRITE = true ] && { subox \"xterm -e '/usr/bin/tazusb writefs \$COMP'\"; sleep 1; while ps x | grep -v grep | grep -q tazusb; do sleep 1; done; };"
+		[ -f /home/boot/rootfs.gz ] || { TAZUSB_DIALOG=""; EXTRA=""; }
 		# Logout for Openbox or JWM and system shutdown or reboot.
 		ACTIONS="
 	<hbox>
 		<button>
 			<label>Logout X session</label>
 			<input file icon=\"video-display\"></input>
-			<action>$EXTRA; openbox --exit || jwm -exit</action>
+			<action>$EXTRA openbox --exit || jwm -exit</action>
 			<action type=\"exit\">Exit</action>
 		</button>
 		<button>
 			<label>Shutdown computer</label>
 			<input file icon=\"system-shutdown\"></input>
-			<action>$EXTRA; poweroff</action>
+			<action>$EXTRA poweroff</action>
 			<action type=\"exit\">Exit</action>
 		</button>
 		<button>
 			<label>Reboot system</label>
 			<input file icon=\"reload\"></input>
-			<action>$EXTRA; reboot</action>
+			<action>$EXTRA reboot</action>
 			<action type=\"exit\">Exit</action>
 		</button>
 		<button cancel>
