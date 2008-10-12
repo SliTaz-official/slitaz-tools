@@ -22,6 +22,7 @@ case $LANG in
 		NEW_FILE_LABEL="Create a new file on the desktop:"
 		FILE_ENTRY_MSG="filename"
 		ADD_ICON_LABEL="Add some desktop icons"
+		DESKTOP_DIALOG_TAZUSB="Save filesystem using compression"
 		DESKTOP_DIALOG_LABEL="Session logout, system shutdown or reboot"  ;;
 	fr*)
 		lang="fr"
@@ -30,6 +31,7 @@ case $LANG in
 		NEW_FILE_LABEL="Créer un nouveau fichier sur le bureau:"
 		FILE_ENTRY_MSG="fichier"
 		ADD_ICON_LABEL="Ajouter des icons de bureau"
+		DESKTOP_DIALOG_TAZUSB="Enregistrer le système avec la compression"
 		DESKTOP_DIALOG_LABEL="Déconnexion, arrêt ou redémarrage du système" ;;
 	*)
 		lang=""
@@ -38,6 +40,7 @@ case $LANG in
 		NEW_FILE_LABEL="Create a new file on the desktop:"
 		FILE_ENTRY_MSG="filename"
 		ADD_ICON_LABEL="Add some desktop icons"
+		DESKTOP_DIALOG_TAZUSB="Save filesystem using compression"
 		DESKTOP_DIALOG_LABEL="Session logout, system shutdown or reboot" ;;
 esac
 
@@ -201,35 +204,57 @@ case $1 in
 			</label>
 		</text>
 	</hbox>"
+		TAZUSB_DIALOG="
+	<hbox>
+		<checkbox>
+			<label>$DESKTOP_DIALOG_TAZUSB</label>
+			<variable>TAZUSB_WRITE</variable>
+			<default>false</default>
+		</checkbox>
+		<radiobutton>
+			<label>lzma</label>
+			<variable>LZMA</variable>
+		</radiobutton>
+		<radiobutton active=\"true\">
+			<label>gzip</label>
+			<variable>GZIP</variable>
+		</radiobutton>
+		<radiobutton>
+			<label>none</label>
+			<variable>NONE</variable>
+		</radiobutton>
+	</hbox>"
+		EXTRA="COMP=none; [ '\$LZMA' = 'true' ] && COMP=lzma; [ '\$GZIP' = 'true' ] && COMP=gzip; [ '\$TAZUSB_WRITE' = 'true' ] && subox 'xterm -e \"tazusb writefs \$COMP\"';"
+		#[ -f /home/boot/rootfs.gz ] || { TAZUSB_DIALOG=""; EXTRA=""; }
 		# Logout for Openbox or JWM and system shutdown or reboot.
-		ACTIONS='
+		ACTIONS="
 	<hbox>
 		<button>
 			<label>Logout X session</label>
-			<input file icon="video-display"></input>
-			<action>openbox --exit || jwm -exit</action>
-			<action type="exit">Exit</action>
+			<input file icon=\"video-display\"></input>
+			<action>$EXTRA; openbox --exit || jwm -exit</action>
+			<action type=\"exit\">Exit</action>
 		</button>
 		<button>
 			<label>Shutdown computer</label>
-			<input file icon="system-shutdown"></input>
-			<action>poweroff</action>
-			<action type="exit">Exit</action>
+			<input file icon=\"system-shutdown\"></input>
+			<action>$EXTRA; poweroff</action>
+			<action type=\"exit\">Exit</action>
 		</button>
 		<button>
 			<label>Reboot system</label>
-			<input file icon="reload"></input>
-			<action>reboot</action>
-			<action type="exit">Exit</action>
+			<input file icon=\"reload\"></input>
+			<action>$EXTRA; reboot</action>
+			<action type=\"exit\">Exit</action>
 		</button>
 		<button cancel>
-			<action type="exit">Exit</action>
+			<action type=\"exit\">Exit</action>
 		</button>
 	</hbox>
 
 </vbox>
-</window>'
-		export DESKTOP_DIALOG=${DESKTOP_DIALOG}${ACTIONS} ;;
+</window>"
+		export DESKTOP_DIALOG=${DESKTOP_DIALOG}${TAZUSB_DIALOG}${ACTIONS} ;;
 	*)
 		# Usage if executed from cmdline.
 		#
