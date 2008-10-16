@@ -4,6 +4,7 @@
 # - SliTaz GNU/Linux 2008.
 #
 VERSION=20080719
+# +DHCP,OpenSSH,Bind
 
 # Check if user is root.
 check_root()
@@ -14,6 +15,79 @@ You must be root to run `basename $0`. Please type 'su' and
 root password to become super-user.\n"
 		exit 0
 	fi
+}
+
+helpbutton()
+{
+	local label;
+        label="<label>$3</label>"
+	[ -n "$3" ] || label=""
+	cat << EOT
+      <button>
+        <input file icon="help"></input>$label
+	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry $2 -title "$1 help" -e "$1 --help ; echo -e \\"----\\nENTER to continue...\\" && read close"</action>
+      </button>
+EOT
+}
+
+helpdaemon()
+{
+	cat << EOT
+$(helpbutton $1 $2)
+        <button>
+          <input file icon="accessories-text-editor"></input>
+          <action type="lauch">leafpad /etc/daemons.conf</action>
+        </button>
+EOT
+}
+
+manbutton()
+{
+	cat << EOT
+        <button>
+          <input file icon="browser"></input>
+	  <label>man</label>
+	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x24 -title "$2 man (q to quit)" -e ". /etc/profile; man $1 $2"</action>
+        </button>
+EOT
+}
+
+configfile()
+{
+	cat << EOT
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Configuration :</b>"</label>
+        </text>
+        <entry editable="false">
+          <default>$1</default>
+          <variable>$2</variable>
+        </entry>
+        <button>
+          <input file icon="accessories-text-editor"></input>
+          <action type="lauch">leafpad \$$2</action>
+        </button>
+      </hbox>
+EOT
+}
+
+startstopdaemon()
+{
+	cat << EOT
+        <button>
+          <label>Start</label>
+          <input file icon="forward"></input>
+          <action>sed -i "s/RUN_DAEMONS=\\"\\(.*\\)$1 \?\\(.*\\)\\"/RUN_DAEMONS=\\"\1\2\\"/" /etc/rcS.conf</action>
+          <action>sed -i "s/RUN_DAEMONS=\\"\\(.*\\)\\"/RUN_DAEMONS=\\"$1 \1\\"/" /etc/rcS.conf</action>
+          <action>/etc/init.d/$1 start</action>
+        </button>
+        <button>
+          <label>Stop</label>
+          <input file icon="stop"></input>
+          <action>sed -i "s/RUN_DAEMONS=\\"\\(.*\\)$2 \?\\(.*\\)\\"/RUN_DAEMONS=\\"\1\2\\"/" /etc/rcS.conf</action>
+          <action>/etc/init.d/$1 stop</action>
+        </button>
+EOT
 }
 
 set_ipup()
@@ -58,6 +132,16 @@ if [ "$1" = "call" ]; then
 		dropbearkey -y -f /etc/dropbear/dropbear_rsa_host_key | \
 		grep ^ssh | ssh $1 "mkdir .ssh 2> /dev/null ; while read key; do for i in authorized_keys authorized_keys2; do grep -q \$key .ssh/\$i || echo \$key >> .ssh/\$i; done; done; chmod 700 .ssh ; chmod 600 .ssh/authorized_keys*"
 		exit 0;;
+# OpenSSH VPN:
+#   PermitTunnel=point-to-point   (or yes, ethernet, no)
+#   Tunnel="4" => tun4
+#   Local Client:
+#     # ssh -f -w 0:1 $REMOTE true  => local tun0 [, remote tun1]
+#     # ifconfig $TUN $IP1 $IP2 netmask 255.255.255.252
+#     # route add $REMOTE_NETWORK $IP2
+#   Remote Server:
+#     # ifconfig $TUN $IP2 $IP1 netmask 255.255.255.252
+#     # route add $LOCAL_NETWORK $IP1
 	vpnssh)	check_root
 		set_ipup
 		ps ww | grep -q "$ppp $2:$3" && exit 1
@@ -229,9 +313,10 @@ tmp='   </combobox>
     <notebook labels="DHCP|PPPoE|PPP|Static IP|Wifi|System wide|VPN|Servers'
 NET_BOX="$NET_BOX$tmp"
 [ -x /sbin/iptables ] && NET_BOX="$NET_BOX|Firewall"
+[ -x /usr/bin/knock ] && NET_BOX="$NET_BOX|Knock"
 tmp='|Etherwake">
 
-    <frame Udhcpc>
+    <frame Udhcpc (busybox)>
       <hbox>
         <text use-markup="true">
           <label>"<b>Options :</b>"</label>
@@ -306,8 +391,12 @@ tmp='|Etherwake">
       <hbox>
         <button>
           <input file icon="help"></input>
-          <label>Help</label>
 	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x30 -title "pppd help (q to quit)" -e "pppd --help 2>&1 | less"</action>
+        </button>
+        <button>
+          <input file icon="browser"></input>
+	  <label>man</label>
+	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x24 -title "pppd man (q to quit)" -e ". /etc/profile; man 8 pppd"</action>
         </button>
         <button>
           <input file icon="accessories-text-editor"></input>
@@ -368,8 +457,12 @@ tmp='|Etherwake">
       <hbox>
         <button>
           <input file icon="help"></input>
-          <label>Help</label>
 	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x30 -title "pppd help (q to quit)" -e "pppd --help 2>&1 | less"</action>
+        </button>
+        <button>
+          <input file icon="browser"></input>
+	  <label>man</label>
+	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x24 -title "pppd man (q to quit)" -e ". /etc/profile; man 8 pppd"</action>
         </button>
         <button>
           <input file icon="accessories-text-editor"></input>
@@ -524,19 +617,12 @@ tmp3='</combobox>
         <entry>
           <input>. /etc/network.conf; echo "$WIFI_IWCONFIG_ARGS"</input>
           <variable>WIFI_IWCONFIG_ARGS</variable>
-        </entry>
-        <button>
-          <input file icon="help"></input>
-	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x24 -title "iwconfig help" -e "iwconfig --help ; echo -e \"----\nENTER to continue...\" && read close"</action>
-        </button>
-        <button>
-          <input file icon="help"></input>
-	  <label>man</label>
-	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x24 -title "iwconfig man (q to quit)" -e ". /etc/profile; man 8 iwconfig"</action>
-        </button>
+        </entry>'
+tmp="$tmp$tmp2$tmp3
+$(helpbutton iwconfig 80x24)
+$(manbutton 8 iwconfig)
       </hbox>
-      </vbox>'
-tmp="$tmp$tmp2$tmp3"
+      </vbox>"
 tmp2='<vbox>
       <hbox>
         <button>
@@ -556,7 +642,7 @@ tmp2='<vbox>
         </text>
         <combobox>
           <variable>MODULE</variable>'
-tmp2="$tmp2$(find /lib/modules/$(uname -r)/kernel/drivers/net/wireless -type f |  sed 's,/.*/\(.*\).ko.gz,<item>\1</item>,')"
+tmp2="$tmp2$(find /lib/modules/$(uname -r)/kernel/drivers/net/wireless -type f 2> /dev/null |  sed 's,/.*/\(.*\).ko.gz,<item>\1</item>,')"
 tmp3='</combobox>
         <button>
         <label>Lsmod</label>
@@ -789,17 +875,19 @@ tmp='<frame Configuration files>
 NET_BOX="$NET_BOX$tmp"
 tmp=''
 [ -x /usr/sbin/dropbear ] && NET_BOX="${NET_BOX}${tmp}SSH"   && tmp='|'
-[ -x /usr/sbin/inetd    ] && NET_BOX="${NET_BOX}${tmp}INETD" && tmp='|'
-[ -x /sbin/zcip         ] && NET_BOX="${NET_BOX}${tmp}ZEROCONF" && tmp='|'
+[ -x /usr/sbin/inetd    ] && NET_BOX="${NET_BOX}${tmp}Inetd" && tmp='|'
+[ -x /sbin/zcip         ] && NET_BOX="${NET_BOX}${tmp}ZeroConf" && tmp='|'
 [ -x /usr/sbin/udhcpd   ] && NET_BOX="${NET_BOX}${tmp}DHCP"  && tmp='|'
 [ -f /usr/share/boot/pxelinux.0.lzma -a -x /usr/bin/tftpd -a \
   -x /usr/sbin/inetd -a -x /usr/sbin/udhcpd ] \
                           && NET_BOX="${NET_BOX}${tmp}PXE"   && tmp='|'
 [ -x /usr/sbin/dnsd     ] && NET_BOX="${NET_BOX}${tmp}DNS"   && tmp='|'
-[ -x /usr/bin/rsync     ] && NET_BOX="${NET_BOX}${tmp}RSYNC" && tmp='|'
+[ -x /usr/bin/rsync     ] && NET_BOX="${NET_BOX}${tmp}Rsync" && tmp='|'
 [ -x /usr/sbin/lighttpd ] && NET_BOX="${NET_BOX}${tmp}HTTP"  && tmp='|'
+[ -x /usr/bin/httpd     ] && NET_BOX="${NET_BOX}${tmp}HTTP"  && tmp='|'
 [ -x /usr/sbin/smbd     ] && NET_BOX="${NET_BOX}${tmp}WINS"  && tmp='|'
 [ -x /usr/bin/x11vnc    ] && NET_BOX="${NET_BOX}${tmp}VNC"   && tmp='|'
+[ -x /usr/sbin/knockd   ] && NET_BOX="${NET_BOX}${tmp}Knock" && tmp='|'
 . /etc/daemons.conf
 set -- $DROPBEAR_OPTIONS
 while [ -n "$2" ]; do
@@ -814,23 +902,16 @@ tmp='<frame Dropbear>
         </text>
         <entry editable="false">'
 [ -n "$DROPBEAR_OPTIONS" ] && tmp="$tmp<default>$DROPBEAR_OPTIONS</default>"
-tmp2='
+tmp2="
           <variable>DROPBEAR_OPTS</variable>
         </entry>
-        <button>
-          <input file icon="help"></input>
-	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x30 -title "dropbear help" -e "dropbear --help ; echo -e \"----\nENTER to continue...\" && read close"</action>
-        </button>
-        <button>
-          <input file icon="accessories-text-editor"></input>
-          <action type="lauch">leafpad /etc/daemons.conf</action>
-        </button>
+$(helpdaemon dropbear 80x30)
       </hbox>
       <hbox>
-        <text use-markup="true">
-          <label>"<b>Banner   :</b>"</label>
+        <text use-markup=\"true\">
+          <label>\"<b>Banner   :</b>\"</label>
         </text>
-        <entry editable="false">'
+        <entry editable=\"false\">"
 [ -n "$DROPBEAR_BANNER" ] && tmp="$tmp$tmp2<default>$DROPBEAR_BANNER</default>"
 tmp2='
           <variable>DROPBEAR_BANNER</variable>
@@ -860,24 +941,13 @@ tmp2='
         </button>
       </hbox>
       <hbox>
-        <button>
-          <label>Start</label>
-          <input file icon="forward"></input>
-          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)dropbear \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
-          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)\"/RUN_DAEMONS=\"dropbear \1\"/" /etc/rcS.conf</action>
-          <action>/etc/init.d/dropbear start</action>
-        </button>
-        <button>
-          <label>Stop</label>
-          <input file icon="stop"></input>
-          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)dropbear \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
-          <action>/etc/init.d/dropbear stop</action>
-        </button>
+'
+[ -x /usr/sbin/dropbear ] && NET_BOX="${NET_BOX}${tmp}${tmp2}
+	$(startstopdaemon dropbear)
       </hbox>
      </frame>
-'
-[ -x /usr/sbin/dropbear ] && NET_BOX="${NET_BOX}${tmp}${tmp2}"
-tmp='<frame Inetd>
+"
+tmp='<frame Inetd (busybox)>
       <hbox>
         <text use-markup="true">
           <label>"<b>INETD_OPTIONS</b>"</label>
@@ -887,60 +957,22 @@ tmp='<frame Inetd>
 tmp2='
           <variable>INETD_OPTS</variable>
         </entry>
-        <button>
-          <input file icon="help"></input>
-	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 60x14 -title "inetd help" -e "inetd --help ; echo -e \"----\nENTER to continue...\" && read close"</action>
-        </button>
-        <button>
-          <input file icon="accessories-text-editor"></input>
-          <action type="lauch">leafpad /etc/daemons.conf</action>
-        </button>
-      </hbox>
-      <hbox>
-        <text use-markup="true">
-          <label>"<b>Configuration :</b>"</label>
-        </text>
-        <entry editable="false">
-          <default>/etc/inetd.conf</default>
-          <variable>INETD_CONF</variable>
-        </entry>
-        <button>
-          <input file icon="accessories-text-editor"></input>
-          <action type="lauch">leafpad $INETD_CONF</action>
-        </button>
-      </hbox>
-      <hbox>
 '
-tmp="$tmp$tmp2"
+tmp="$tmp$tmp2
+$(helpdaemon inetd 60x14)
+      </hbox>
+$(configfile /etc/inetd.conf INETD_CONF)
+      <hbox>
+"
 for i in $(grep bin /etc/inetd.conf | awk '{ print $6}'); do
   i=$(basename $i)
-tmp2="
-        <button>
-          <input file icon=\"help\"></input>
-          <label>$i</label>
-	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 60x19 -title \"$i help\" -e \"$i --help ; echo -e \\\"----\nENTER to continue...\\\" && read close\"</action>
-        </button>
-"
-  tmp="$tmp$tmp2"
+  tmp="$tmp$(helpbutton $i 60x19 $i)"
 done
-tmp2='
-        <button>
-          <label>Start</label>
-          <input file icon="forward"></input>
-          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)inetd \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
-          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)\"/RUN_DAEMONS=\"inetd \1\"/" /etc/rcS.conf</action>
-          <action>/etc/init.d/inetd start</action>
-        </button>
-        <button>
-          <label>Stop</label>
-          <input file icon="stop"></input>
-          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)inetd \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
-          <action>/etc/init.d/inetd stop</action>
-        </button>
+[ -x /usr/sbin/inetd ] && NET_BOX="${NET_BOX}${tmp}
+	$(startstopdaemon inetd)
       </hbox>
      </frame>
-'
-[ -x /usr/sbin/inetd ] && NET_BOX="${NET_BOX}${tmp}${tmp2}"
+"
 if [ -x /sbin/zcip -a -z "$ZCIP_OPTS" ]; then
 	ZCIP_OPTS="eth0 /etc/zcip.script"
 	cat >> /etc/daemons.conf <<EOT
@@ -949,7 +981,7 @@ ZCIP_OPTS="$ZCIP_OPTS"
 
 EOT
 fi
-tmp='<frame Zcip>
+tmp='<frame Zcip (busybox)>
       <hbox>
         <text use-markup="true">
           <label>"<b>ZCIP_OPTS</b>"</label>
@@ -981,74 +1013,30 @@ tmp2='
           <action type="lauch">leafpad $CZIP_SCRIPT</action>
         </button>
       </hbox>
-      <hbox>
-        <button>
-          <label>Start</label>
-          <input file icon="forward"></input>
-          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)zcip \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
-          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)\"/RUN_DAEMONS=\"zcip \1\"/" /etc/rcS.conf</action>
-          <action>/etc/init.d/zcip start</action>
-        </button>
-        <button>
-          <label>Stop</label>
-          <input file icon="stop"></input>
-          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)zcip \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
-          <action>/etc/init.d/zcip stop</action>
-        </button>
+      <hbox>'
+[ -x /sbin/zcip ] && NET_BOX="${NET_BOX}$tmp$tmp2
+	$(startstopdaemon zcip)
       </hbox>
      </frame>
-'
-[ -x /sbin/zcip ] && NET_BOX="${NET_BOX}$tmp$tmp2"
-tmp='<frame Dhcpd>
+"
+tmp='<frame Dhcpd (busybox)>
       <hbox>
         <text use-markup="true">
           <label>"<b>UDHCPD_OPTIONS</b>"</label>
         </text>
         <entry editable="false">'
 [ -n "$UDHCPD_OPTS" ] && tmp="$tmp<default>$UDHCPD_OPTS</default>"
-tmp2='
+[ -x /usr/sbin/udhcpd   ] && NET_BOX="${NET_BOX}$tmp
           <variable>UDHCPD_OPTS</variable>
         </entry>
-        <button>
-          <input file icon="help"></input>
-	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 60x14 -title "udhcpd help" -e "udhcpd --help ; echo -e \"----\nENTER to continue...\" && read close"</action>
-        </button>
-        <button>
-          <input file icon="accessories-text-editor"></input>
-          <action type="lauch">leafpad /etc/daemons.conf</action>
-        </button>
+$(helpdaemon udhcpd 60x14)
       </hbox>
+$(configfile /etc/udhcpd.conf UDHCPD_CONF)
       <hbox>
-        <text use-markup="true">
-          <label>"<b>Configuration :</b>"</label>
-        </text>
-        <entry editable="false">
-          <default>/etc/udhcpd.conf</default>
-          <variable>UDHCPD_CONF</variable>
-        </entry>
-        <button>
-          <input file icon="accessories-text-editor"></input>
-          <action type="lauch">leafpad $UDHCPD_CONF</action>
-        </button>
-      </hbox>
-      <hbox>
-        <button>
-          <label>Start</label>
-          <input file icon="forward"></input>
-          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)udhcpd \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
-          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)\"/RUN_DAEMONS=\"udhcpd \1\"/" /etc/rcS.conf</action>
-          <action>/etc/init.d/udhcpd start</action>
-        </button>
-        <button>
-          <label>Stop</label>
-          <input file icon="stop"></input>
-          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)udhcpd \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
-          <action>/etc/init.d/udhcpd stop</action>
-        </button>
+	$(startstopdaemon udhcpd)
       </hbox>
      </frame>
-'
-[ -x /usr/sbin/udhcpd   ] && NET_BOX="${NET_BOX}$tmp$tmp2"
+"
 tmp='<frame Pxelinux>
       <hbox>
         <text wrap="true">
@@ -1093,56 +1081,24 @@ tmp2='/pxelinux.cfg/default</default>
 '
 [ -f /usr/share/boot/pxelinux.0.lzma -a -x /usr/bin/tftpd -a \
   -x /usr/sbin/inetd -a -x /usr/sbin/udhcpd ] && NET_BOX="$NET_BOX$tmp$tmp2"
-tmp='<frame Dnsd>
+tmp='<frame Dnsd (busybox)>
       <hbox>
         <text use-markup="true">
           <label>"<b>DNSD_OPTIONS</b>"</label>
         </text>
         <entry editable="false">'
 [ -n "$DNSD_OPTIONS" ] && tmp="$tmp<default>$DNSD_OPTIONS</default>"
-tmp2='
+[ -x /usr/sbin/dnsd     ] && NET_BOX="${NET_BOX}${tmp}
           <variable>DNSD_OPTS</variable>
         </entry>
-        <button>
-          <input file icon="help"></input>
-	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x15 -title "dnsd help" -e "dnsd --help ; echo -e \"----\nENTER to continue...\" && read close"</action>
-        </button>
-        <button>
-          <input file icon="accessories-text-editor"></input>
-          <action type="lauch">leafpad /etc/daemons.conf</action>
-        </button>
+$(helpdaemon dnsd 80x15)
       </hbox>
+$(configfile /etc/dnsd.conf DNSD_CONF)
       <hbox>
-        <text use-markup="true">
-          <label>"<b>Configuration :</b>"</label>
-        </text>
-        <entry editable="false">
-          <default>/etc/dnsd.conf</default>
-          <variable>DNSD_CONF</variable>
-        </entry>
-        <button>
-          <input file icon="accessories-text-editor"></input>
-          <action type="lauch">leafpad $DNSD_CONF</action>
-        </button>
-      </hbox>
-      <hbox>
-        <button>
-          <label>Start</label>
-          <input file icon="forward"></input>
-          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)dnsd \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
-          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)\"/RUN_DAEMONS=\"dnsd \1\"/" /etc/rcS.conf</action>
-          <action>/etc/init.d/dnsd start</action>
-        </button>
-        <button>
-          <label>Stop</label>
-          <input file icon="stop"></input>
-          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)dnsd \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
-          <action>/etc/init.d/dnsd stop</action>
-        </button>
+	$(startstopdaemon dnsd)
       </hbox>
      </frame>
-'
-[ -x /usr/sbin/dnsd     ] && NET_BOX="${NET_BOX}${tmp}${tmp2}"
+"
 tmp='<frame Rsync>
       <hbox>
         <text use-markup="true">
@@ -1156,6 +1112,11 @@ tmp2='
         <button>
           <input file icon="help"></input>
 	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x31 -title "rsync daemon help" -e "rsync --daemon --help ; echo -e \"----\nENTER to continue...\" && read close"</action>
+        </button>
+        <button>
+          <input file icon="browser"></input>
+	  <label>man</label>
+	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x24 -title "rsync man (q to quit)" -e ". /etc/profile; man 1 rsync"</action>
         </button>
         <button>
           <input file icon="accessories-text-editor"></input>
@@ -1188,110 +1149,44 @@ tmp2='
           <action type="lauch">leafpad $RSYNCD_SECRETS</action>
         </button>
       </hbox>
-      <hbox>
-        <button>
-          <label>Start</label>
-          <input file icon="forward"></input>
-          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)rsyncd \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
-          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)\"/RUN_DAEMONS=\"rsyncd \1\"/" /etc/rcS.conf</action>
-          <action>/etc/init.d/rsyncd start</action>
-        </button>
-        <button>
-          <label>Stop</label>
-          <input file icon="stop"></input>
-          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)rsyncd \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
-          <action>/etc/init.d/rsyncd stop</action>
-        </button>
+      <hbox>'
+[ -x /usr/bin/rsync    ] && NET_BOX="${NET_BOX}${tmp}${tmp2}
+	$(startstopdaemon rsyncd)
       </hbox>
      </frame>
-'
-[ -x /usr/bin/rsync    ] && NET_BOX="${NET_BOX}${tmp}${tmp2}"
-tmp='<frame Lighttpd>'
-tmp2='<frame PHP>
-       <hbox>
-        <text use-markup="true">
-          <label>"<b>Configuration :</b>"</label>
-        </text>
-        <entry editable="false">
-          <default>/etc/php.ini</default>
-          <variable>PHP_CONF</variable>
-        </entry>
-        <button>
-          <input file icon="accessories-text-editor"></input>
-          <action type="lauch">leafpad $PHP_CONF</action>
-        </button>
-       </hbox>
+"
+tmp="<frame PHP>
+$(configfile /etc/php.ini PHP_CONF)
       </frame>
-'
-[ -f /etc/php.ini ] && tmp="${tmp}${tmp2}"
-tmp2='<hbox>
-        <text use-markup="true">
-          <label>"<b>Configuration :</b>"</label>
-        </text>
-        <entry editable="false">
-          <default>/etc/lighttpd/lighttpd.conf</default>
-          <variable>LIGHTTPD_CONF</variable>
-        </entry>
-        <button>
-          <input file icon="accessories-text-editor"></input>
-          <action type="lauch">leafpad $LIGHTTPD_CONF</action>
-        </button>
-      </hbox>
+"
+[ -f /etc/php.ini ] || tmp=""
+[ -x /usr/sbin/lighttpd ] && NET_BOX="${NET_BOX}<frame Lighttpd>${tmp}
+$(configfile /etc/lighttpd/lighttpd.conf LIGHTTPD_CONF)
       <hbox>
-        <button>
-          <label>Start</label>
-          <input file icon="forward"></input>
-          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)lighttpd \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
-          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)\"/RUN_DAEMONS=\"lighttpd \1\"/" /etc/rcS.conf</action>
-          <action>/etc/init.d/lighttpd start</action>
-        </button>
-        <button>
-          <label>Stop</label>
-          <input file icon="stop"></input>
-          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)lighttpd \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
-          <action>/etc/init.d/lighttpd stop</action>
-        </button>
+	$(startstopdaemon lighttpd)
       </hbox>
      </frame>
-'
-[ -x /usr/sbin/lighttpd ] && NET_BOX="${NET_BOX}${tmp}${tmp2}"
-tmp='<frame Samba: smbd & nmbd>
+"
+[ -x /usr/bin/httpd ] && NET_BOX="${NET_BOX}<frame Apache>${tmp}
+$(configfile /etc/apache/httpd.conf HTTPD_CONF)
       <hbox>
-        <text use-markup="true">
-          <label>"<b>Configuration :</b>"</label>
-        </text>
-        <entry editable="false">
-          <default>/etc/samba/smb.conf</default>
-          <variable>SMBD_CONF</variable>
-        </entry>
-        <button>
-          <input file icon="accessories-text-editor"></input>
-          <action type="lauch">leafpad $SMBD_CONF</action>
-        </button>
+	$(startstopdaemon apache)
       </hbox>
+     </frame>
+"
+tmp="<frame Samba: smbd & nmbd>
+$(configfile /etc/samba/smb.conf SMBD_CONF)
       <hbox>
         <button>
           <label>Reload</label>
-          <input file icon="reload"></input>
+          <input file icon=\"reload\"></input>
           <action>/etc/init.d/samba reload</action>
-        </button>
-        <button>
-          <label>Start</label>
-          <input file icon="forward"></input>
-          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)samba \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
-          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)\"/RUN_DAEMONS=\"samba \1\"/" /etc/rcS.conf</action>
-          <action>/etc/init.d/samba start</action>
-        </button>
-        <button>
-          <label>Stop</label>
-          <input file icon="stop"></input>
-          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)samba \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
-          <action>/etc/init.d/samba stop</action>
-        </button>
+        </button>"
+[ -x /usr/sbin/smbd     ] && NET_BOX="${NET_BOX}${tmp}
+	$(startstopdaemon samba)
       </hbox>
      </frame>
-'
-[ -x /usr/sbin/smbd     ] && NET_BOX="${NET_BOX}${tmp}"
+"
 tmp='<frame x11vnc>
       <hbox>
         <text use-markup="true">
@@ -1324,58 +1219,81 @@ tmp2='
           <action>x11vnc -storepasswd $X11VNC_PASSWD /etc/vnc.secret</action>
         </button>
       </hbox>
-      <hbox>
-        <button>
-          <label>Start</label>
-          <input file icon="forward"></input>
-          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)x11vnc \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
-          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)\"/RUN_DAEMONS=\"x11vnc \1\"/" /etc/rcS.conf</action>
-          <action>/etc/init.d/x11vnc start</action>
-        </button>
-        <button>
-          <label>Stop</label>
-          <input file icon="stop"></input>
-          <action>sed -i "s/RUN_DAEMONS=\"\(.*\)x11vnc \?\(.*\)\"/RUN_DAEMONS=\"\1\2\"/" /etc/rcS.conf</action>
-          <action>/etc/init.d/x11vnc stop</action>
-        </button>
+      <hbox>'
+[ -x /usr/bin/x11vnc    ] && NET_BOX="${NET_BOX}${tmp}${tmp2}
+	$(startstopdaemon x11vnc)
       </hbox>
      </frame>
-'
-[ -x /usr/bin/x11vnc    ] && NET_BOX="${NET_BOX}${tmp}${tmp2}"
+"
+tmp='<frame Knockd: trigger backdoors>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>KNOCK_OPTIONS</b>"</label>
+        </text>
+        <entry editable="false">'
+[ -n "$KNOCK_OPTIONS" ] && tmp="$tmp<default>$KNOCK_OPTIONS</default>"
+[ -x /usr/sbin/knockd    ] && NET_BOX="${NET_BOX}${tmp}
+          <variable>KNOCK_OPTIONS</variable>
+        </entry>
+$(helpdaemon knockd 80x15)
+      </hbox>
+$(configfile /etc/knockd.conf KNOCKD_CONF)
+      <hbox>
+	$(startstopdaemon knockd)
+      </hbox>
+     </frame>
+"
 NET_BOX="${NET_BOX}
     </notebook>
 "
-tmp='<frame Iptables>
+tmp="<frame Iptables>
+$(configfile /etc/iptables.conf IPTABLES_CONF)
       <hbox>
-        <text use-markup="true">
-          <label>"<b>Configuration :</b>"</label>
-        </text>
-        <entry editable="false">
-          <default>/etc/iptables.conf</default>
-          <variable>IPTABLES_CONF</variable>
-        </entry>
         <button>
-          <input file icon="accessories-text-editor"></input>
-          <action type="lauch">leafpad $IPTABLES_CONF</action>
+          <input file icon=\"browser\"></input>
+	  <label>man</label>
+	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x24 -title \"iptables man (q to quit)\" -e \". /etc/profile; man 8 iptables\"</action>
         </button>
-      </hbox>
-      <hbox>
         <button>
           <label>Load</label>
-          <input file icon="reload"></input>
-          <action>cat $IPTABLES_CONF | /sbin/iptables-restore</action>
+          <input file icon=\"reload\"></input>
+          <action>cat \$IPTABLES_CONF | /sbin/iptables-restore</action>
         </button>
         <button>
           <label>Save</label>
-          <input file icon="go-jump"></input>
-          <action>/sbin/iptables-save > $IPTABLES_CONF</action>
+          <input file icon=\"go-jump\"></input>
+          <action>/sbin/iptables-save > \$IPTABLES_CONF</action>
         </button>
       </hbox>
      </frame>
-'
+"
 [ -x /sbin/iptables ] && NET_BOX="$NET_BOX${tmp}"
+tmp='<frame Knock>
+    <hbox>
+      <text use-markup="true">
+        <label>"<b>Options : </b>"</label>
+      </text>
+      <entry editable="true">
+        <variable>KNOCK_OPTS</variable>
+	<default>myserver.example.com 123:tcp 456:udp 789:tcp</default>
+      </entry>
+    </hbox>
+    <hbox>
+      <button>
+        <input file icon="help"></input>
+	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x12 -title "knock help" -e "knock --help ; echo -e \"----\nENTER to continue...\" && read close"</action>
+      </button>
+      <button>
+        <label>Start</label>
+        <input file icon="forward"></input>
+        <action>knock $KNOCK_OPTS</action>
+      </button>
+    </hbox>
+    </frame>
+'
+[ -x /usr/bin/knock ] && NET_BOX="$NET_BOX${tmp}"
 tmp='
-    <frame Ether-wake>
+    <frame Ether-wake (busybox)>
     <hbox>
       <text use-markup="true">
         <label>"<b>Machines :</b>"</label>
@@ -1394,12 +1312,12 @@ tmp='
       <text use-markup="true">
         <label>"<b>Options : </b>"</label>
       </text>
-      <entry editable="false">
+      <entry editable="true">
         <variable>ETHERWAKE_OPTS</variable>
       </entry>
       <button>
         <input file icon="help"></input>
-	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x15 -title "dnsd help" -e "ether-wake --help ; echo -e \"----\nENTER to continue...\" && read close"</action>
+	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x15 -title "ether-wake help" -e "ether-wake --help ; echo -e \"----\nENTER to continue...\" && read close"</action>
       </button>
       <button>
         <label>Start</label>
