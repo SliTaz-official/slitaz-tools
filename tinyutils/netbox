@@ -3,8 +3,7 @@
 # Gtkdialog box to manage network connection.
 # - SliTaz GNU/Linux 2008.
 #
-VERSION=20080719
-# +DHCP,OpenSSH,Bind
+VERSION=20081019
 
 # Check if user is root.
 check_root()
@@ -25,18 +24,17 @@ helpbutton()
 	cat << EOT
       <button>
         <input file icon="help"></input>$label
-	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry $2 -title "$1 help" -e "$1 --help ; echo -e \\"----\\nENTER to continue...\\" && read close"</action>
+	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry $2 -title "$1 help" -e "$(which $1) --help ; echo -e \\"----\\nENTER to continue...\\" && read close"</action>
       </button>
 EOT
 }
 
-helpdaemon()
+editbutton()
 {
 	cat << EOT
-$(helpbutton $1 $2)
         <button>
           <input file icon="accessories-text-editor"></input>
-          <action type="lauch">leafpad /etc/daemons.conf</action>
+          <action type="lauch">leafpad $1</action>
         </button>
 EOT
 }
@@ -52,27 +50,82 @@ manbutton()
 EOT
 }
 
-configfile()
+helpdaemon()
 {
 	cat << EOT
       <hbox>
         <text use-markup="true">
-          <label>"<b>Configuration :</b>"</label>
+          <label>"<b>$3</b>"</label>
         </text>
         <entry editable="false">
-          <default>$1</default>
+EOT
+	eval tmp=\$$3
+	[ -n "$tmp" ] && cat << EOT
+	  <default>$tmp</default>
+EOT
+	cat << EOT
+          <variable>$4</variable>
+        </entry>
+EOT
+	[ -n "$6" ] || cat << EOT
+$(helpbutton $1 $2)
+EOT
+	[ -n "$5" ] && cat << EOT
+$(manbutton $5 $1)
+EOT
+	cat << EOT
+$(editbutton /etc/daemons.conf)
+      </hbox>
+EOT
+}
+
+datafile()
+{
+	cat << EOT
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>$3</b>"</label>
+        </text>
+        <entry editable="false">
+EOT
+	[ -n "$1" ] && cat << EOT
+	  <default>$1</default>
+EOT
+	cat << EOT
           <variable>$2</variable>
         </entry>
-        <button>
-          <input file icon="accessories-text-editor"></input>
-          <action type="lauch">leafpad \$$2</action>
-        </button>
+EOT
+	[ -n "$4" ] && cat << EOT
+$(manbutton $4)
+EOT
+	cat << EOT
+$(editbutton \$$2)
       </hbox>
+EOT
+}
+
+configfile()
+{
+	datafile "$1" $2 'Configuration :' "$3"
+}
+
+webbutton()
+{
+	[ -f "/var/lib/tazpkg/installed/$1/receipt" ] && cat << EOT
+        <button>
+          <input file icon="browser"></input>
+	  <label>web</label>
+	  <action>. /var/lib/tazpkg/installed/$1/receipt ; firefox \$WEB_SITE &</action>
+        </button>
 EOT
 }
 
 startstopdaemon()
 {
+	local pkg
+	pkg=$1
+	[ -n "$2" ] && pkg=$2
+	webbutton $pkg
 	cat << EOT
         <button>
           <label>Start</label>
@@ -84,9 +137,28 @@ startstopdaemon()
         <button>
           <label>Stop</label>
           <input file icon="stop"></input>
-          <action>sed -i "s/RUN_DAEMONS=\\"\\(.*\\)$2 \?\\(.*\\)\\"/RUN_DAEMONS=\\"\1\2\\"/" /etc/rcS.conf</action>
+          <action>sed -i "s/RUN_DAEMONS=\\"\\(.*\\)$1 \?\\(.*\\)\\"/RUN_DAEMONS=\\"\1\2\\"/" /etc/rcS.conf</action>
           <action>/etc/init.d/$1 stop</action>
         </button>
+EOT
+}
+
+installbox()
+{
+	cat << EOT
+      <hbox>
+      <text wrap="true" use-markup="true">
+        <label>
+"<i>The package <b>$1</b> is not yet installed</i>"
+        </label>
+      </text>
+      <button>
+        <input file icon="go-jump"></input>
+	<label>Install</label>
+	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x17 -title "$1 install" -e "yes y | tazpkg get-install $1 ; echo -e \"----\n\nENTER to continue...\" && read close"</action>
+        <action type="exit">restart</action>
+      </button>
+      </hbox>
 EOT
 }
 
@@ -129,7 +201,8 @@ if [ "$1" = "call" ]; then
 	case "$sub" in
 	sendsshkey)
 		check_root
-		dropbearkey -y -f /etc/dropbear/dropbear_rsa_host_key | \
+		(dropbearkey -y -f /etc/dropbear/dropbear_rsa_host_key ;
+		cat /etc/ssh/ssh_host_rsa_key.pub ) 2> /dev/null | \
 		grep ^ssh | ssh $1 "mkdir .ssh 2> /dev/null ; while read key; do for i in authorized_keys authorized_keys2; do grep -q \$key .ssh/\$i || echo \$key >> .ssh/\$i; done; done; chmod 700 .ssh ; chmod 600 .ssh/authorized_keys*"
 		exit 0;;
 # OpenSSH VPN:
@@ -265,7 +338,7 @@ tmp='<frame Routing>
     </frame>
     <frame Servers>
       <text wrap="false" width-chars="58">
-        <input>for i in dropbear inetd udhcpd dnsd rsync lighttpd smbd nmbd x11vnc pppd; do ps ww | grep $i | grep -v grep | fold -s; done</input>
+        <input>for i in dropbear sshd inetd dhcpd dnsd named rsync httpd smbd nmbd x11vnc pppd knock; do ps ww | grep $i | grep -v grep | fold -s; done</input>
       </text>
     </frame>
     </notebook>
@@ -676,21 +749,7 @@ tmp3=$(for i in /usr/bin/get*firmware; do
       </hbox>
 "
 tmp2="$tmp2$tmp3"
-tmp3='
-      <hbox>
-      <text wrap="true" use-markup="true">
-        <label>
-"<i>The package <b>ndiswrapper</b> is not yet installed</i>"
-        </label>
-      </text>
-      <button>
-        <input file icon="go-jump"></input>
-	<label>Install</label>
-	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x17 -title "ndiswrapper install" -e "yes y | tazpkg get-install ndiswrapper ; echo -e \"----\n\nENTER to continue...\" && read close"</action>
-        <action type="exit">restart</action>
-      </button>
-      </hbox>
-'
+tmp3="$(installbox ndiswrapper)"
 [ -x /usr/sbin/ndiswrapper ] && tmp3='
       <hbox>
         <text use-markup="true">
@@ -709,8 +768,8 @@ tmp3='
         </button>
       </hbox>
 '
-tmp3="$tmp3</vbox>"
-[ -d /lib/modules/`uname -r`/kernel/drivers/net/wireless ] && tmp="$tmp$tmp2$tmp3"
+[ -d /lib/modules/`uname -r`/kernel/drivers/net/wireless ] && tmp="$tmp$tmp2$tmp3
+     </vbox>"
 tmp2='</notebook>
       <hbox>
         <button>
@@ -743,22 +802,11 @@ tmp2='</notebook>
       </hbox>
     </frame>'
 [ -x /usr/sbin/iwconfig ] && NET_BOX="$NET_BOX$tmp$tmp2"
-tmp='<frame Wireless>
-      <hbox>
-      <text wrap="true" use-markup="true">
-        <label>
-"<i>The package <b>wireless_tools</b> is not yet installed</i>"
-        </label>
-      </text>
-      <button>
-        <input file icon="go-jump"></input>
-	<label>Install</label>
-	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x17 -title "wireless_tools install" -e "yes y | tazpkg get-install wireless_tools ; echo -e \"----\n\nENTER to continue...\" && read close"</action>
-        <action type="exit">restart</action>
-      </button>
-      </hbox>
-    </frame>'
-[ -x /usr/sbin/iwconfig ] || NET_BOX="$NET_BOX$tmp"
+[ -x /usr/sbin/iwconfig ] || NET_BOX="$NET_BOX
+    <frame Wireless>
+$(installbox wireless_tools)
+    </frame>
+"
 tmp='<frame Configuration files>
       <hbox>
         <text use-markup="true">
@@ -867,24 +915,27 @@ tmp='<frame Configuration files>
         <button>
           <input file icon="go-up"></input>
 	  <label>Send key</label>
-	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x10 -title "dropbear help" -e "netbox call sendsshkey $DROPBEAR_PEERVPN; echo -e \"----\nENTER to continue...\" && read close"</action>
+	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x10 -title "Send key" -e "netbox call sendsshkey $DROPBEAR_PEERVPN; echo -e \"----\nENTER to continue...\" && read close"</action>
         </button>
       </hbox>
     </frame>
     <notebook labels="'
 NET_BOX="$NET_BOX$tmp"
 tmp=''
-[ -x /usr/sbin/dropbear ] && NET_BOX="${NET_BOX}${tmp}SSH"   && tmp='|'
+[ -x /usr/sbin/dropbear -o \
+  -x /usr/sbin/sshd     ] && NET_BOX="${NET_BOX}${tmp}SSH"   && tmp='|'
 [ -x /usr/sbin/inetd    ] && NET_BOX="${NET_BOX}${tmp}Inetd" && tmp='|'
 [ -x /sbin/zcip         ] && NET_BOX="${NET_BOX}${tmp}ZeroConf" && tmp='|'
-[ -x /usr/sbin/udhcpd   ] && NET_BOX="${NET_BOX}${tmp}DHCP"  && tmp='|'
+[ -x /usr/sbin/udhcpd -o \
+  -x /usr/sbin/dhcpd    ] && NET_BOX="${NET_BOX}${tmp}DHCP"  && tmp='|'
 [ -f /usr/share/boot/pxelinux.0.lzma -a -x /usr/bin/tftpd -a \
   -x /usr/sbin/inetd -a -x /usr/sbin/udhcpd ] \
                           && NET_BOX="${NET_BOX}${tmp}PXE"   && tmp='|'
-[ -x /usr/sbin/dnsd     ] && NET_BOX="${NET_BOX}${tmp}DNS"   && tmp='|'
+[ -x /usr/sbin/dnsd -o \
+  -x /usr/sbin/named    ] && NET_BOX="${NET_BOX}${tmp}DNS"   && tmp='|'
 [ -x /usr/bin/rsync     ] && NET_BOX="${NET_BOX}${tmp}Rsync" && tmp='|'
-[ -x /usr/sbin/lighttpd ] && NET_BOX="${NET_BOX}${tmp}HTTP"  && tmp='|'
-[ -x /usr/bin/httpd     ] && NET_BOX="${NET_BOX}${tmp}HTTP"  && tmp='|'
+[ -x /usr/sbin/lighttpd -o \
+  -x /usr/bin/httpd     ] && NET_BOX="${NET_BOX}${tmp}HTTP"  && tmp='|'
 [ -x /usr/sbin/smbd     ] && NET_BOX="${NET_BOX}${tmp}WINS"  && tmp='|'
 [ -x /usr/bin/x11vnc    ] && NET_BOX="${NET_BOX}${tmp}VNC"   && tmp='|'
 [ -x /usr/sbin/knockd   ] && NET_BOX="${NET_BOX}${tmp}Knock" && tmp='|'
@@ -895,72 +946,60 @@ while [ -n "$2" ]; do
   shift
 done
 NET_BOX="${NET_BOX}\">"
-tmp='<frame Dropbear>
-      <hbox>
-        <text use-markup="true">
-          <label>"<b>DROPBEAR_OPTIONS</b>"</label>
-        </text>
-        <entry editable="false">'
-[ -n "$DROPBEAR_OPTIONS" ] && tmp="$tmp<default>$DROPBEAR_OPTIONS</default>"
-tmp2="
-          <variable>DROPBEAR_OPTS</variable>
-        </entry>
-$(helpdaemon dropbear 80x30)
-      </hbox>
-      <hbox>
-        <text use-markup=\"true\">
-          <label>\"<b>Banner   :</b>\"</label>
-        </text>
-        <entry editable=\"false\">"
-[ -n "$DROPBEAR_BANNER" ] && tmp="$tmp$tmp2<default>$DROPBEAR_BANNER</default>"
-tmp2='
-          <variable>DROPBEAR_BANNER</variable>
-        </entry>
-        <button>
-          <input file icon="accessories-text-editor"></input>
-          <action type="lauch">leafpad $DROPBEAR_BANNER</action>
-        </button>
-      </hbox>
+[ -x /usr/sbin/sshd -a -x /usr/sbin/dropbear ] && NET_BOX="${NET_BOX}
+   <notebook labels=\"Dropbear|OpenSSH\">
+"
+
+sshremote()
+{
+	cat << EOT
       <hbox>
         <text use-markup="true">
           <label>"<b>Remote  :</b>"</label>
         </text>
         <entry>
-          <variable>DROPBEAR_PEER</variable>
+          <variable>$2</variable>
 	  <default>user@elsewhere</default>
         </entry>
         <button>
           <input file icon="utilities-terminal"></input>
 	  <label>Connect</label>
-	  <action>xterm -fa MiscFixed -fs 11 -bg black -fg white -geometry 80x25 -title "$DROPBEAR_PEER" -e "dbclient -i /etc/dropbear/dropbear_rsa_host_key $DROPBEAR_PEER ; echo -e \"----\nENTER to continue...\" && read close" &</action>
+	  <action>xterm -fa MiscFixed -fs 11 -bg black -fg white -geometry 80x25 -title "$1" -e "$1 \$$2 ; echo -e \"----\nENTER to continue...\" && read close" &</action>
         </button>
         <button>
           <input file icon="go-up"></input>
 	  <label>Send key</label>
-	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x10 -title "dropbear help" -e "netbox call sendsshkey $DROPBEAR_PEER; echo -e \"----\nENTER to continue...\" && read close"</action>
+	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x10 -title "send ssh key" -e "netbox call sendsshkey \$$2; echo -e \"----\nENTER to continue...\" && read close"</action>
         </button>
       </hbox>
+EOT
+}
+
+[ -x /usr/sbin/dropbear ] && NET_BOX="${NET_BOX}
+     <frame Dropbear>
+$(helpdaemon dropbear 80x30 DROPBEAR_OPTIONS DROPBEAR_OPTS)
+$(datafile /etc/dropbear/banner DROPBEAR_BANNER 'Banner   :')
+$(sshremote DROPBEAR_PEER 'dbclient -i /etc/dropbear/dropbear_rsa_host_key')
       <hbox>
-'
-[ -x /usr/sbin/dropbear ] && NET_BOX="${NET_BOX}${tmp}${tmp2}
 	$(startstopdaemon dropbear)
       </hbox>
      </frame>
 "
-tmp='<frame Inetd (busybox)>
+[ -x /usr/sbin/sshd ] && NET_BOX="${NET_BOX}
+    <frame OpenSSH>
+$(helpdaemon sshd 80x30 OPENSSH_OPTIONS OPENSSH_OPTS 8 nohelp)
+$(configfile /etc/ssh/sshd_config OPENSSH_CONF '5 sshd_config')
+$(sshremote OPENSSH_PEER 'ssh -i /etc/ssh/ssh_host_rsa_key')
       <hbox>
-        <text use-markup="true">
-          <label>"<b>INETD_OPTIONS</b>"</label>
-        </text>
-        <entry editable="false">'
-[ -n "$INETD_OPTS" ] && tmp="$tmp<default>$INETD_OPTS</default>"
-tmp2='
-          <variable>INETD_OPTS</variable>
-        </entry>
-'
-tmp="$tmp$tmp2
-$(helpdaemon inetd 60x14)
+	$(startstopdaemon openssh)
       </hbox>
+     </frame>
+"
+[ -x /usr/sbin/sshd -a -x /usr/sbin/dropbear ] && NET_BOX="${NET_BOX}
+   </notebook>
+"
+tmp="<frame Inetd (busybox)>
+$(helpdaemon inetd 60x14 INETD_OPTIONS INETD_OPTS)
 $(configfile /etc/inetd.conf INETD_CONF)
       <hbox>
 "
@@ -973,69 +1012,46 @@ done
       </hbox>
      </frame>
 "
-if [ -x /sbin/zcip -a -z "$ZCIP_OPTS" ]; then
-	ZCIP_OPTS="eth0 /etc/zcip.script"
+if [ -x /sbin/zcip -a -z "$ZCIP_OPTIONS" ]; then
+	ZCIP_OPTIONS="eth0 /etc/zcip.script"
 	cat >> /etc/daemons.conf <<EOT
 # ZeroConf options
-ZCIP_OPTS="$ZCIP_OPTS"
+ZCIP_OPTIONS="$ZCIP_OPTIONS"
 
 EOT
 fi
-tmp='<frame Zcip (busybox)>
+[ -x /sbin/zcip ] && NET_BOX="${NET_BOX}
+     <frame Zcip (busybox)>
+$(helpdaemon zcip 60x14 ZCIP_OPTIONS ZCIP_OPTS)
+$(datafile /etc/zcip.script CZIP_SCRIPT 'Script :')
       <hbox>
-        <text use-markup="true">
-          <label>"<b>ZCIP_OPTS</b>"</label>
-        </text>
-        <entry editable="false">'
-[ -n "$ZCIP_OPTS" ] && tmp="$tmp<default>$ZCIP_OPTS</default>"
-tmp2='
-          <variable>ZCIP_OPTS</variable>
-        </entry>
-        <button>
-          <input file icon="help"></input>
-	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 60x14 -title "zcip help" -e "zcip --help ; echo -e \"----\nENTER to continue...\" && read close"</action>
-        </button>
-        <button>
-          <input file icon="accessories-text-editor"></input>
-          <action type="lauch">leafpad /etc/daemons.conf</action>
-        </button>
-      </hbox>
-      <hbox>
-        <text use-markup="true">
-          <label>"<b>Script :</b>"</label>
-        </text>
-        <entry editable="false">
-          <default>/etc/zcip.script</default>
-          <variable>CZIP_SCRIPT</variable>
-        </entry>
-        <button>
-          <input file icon="accessories-text-editor"></input>
-          <action type="lauch">leafpad $CZIP_SCRIPT</action>
-        </button>
-      </hbox>
-      <hbox>'
-[ -x /sbin/zcip ] && NET_BOX="${NET_BOX}$tmp$tmp2
 	$(startstopdaemon zcip)
       </hbox>
      </frame>
 "
-tmp='<frame Dhcpd (busybox)>
+[ -x /usr/sbin/dhcpd -a -x /usr/sbin/udhcpd ] && NET_BOX="${NET_BOX}
+   <notebook labels=\"Dhcpd|Udhcpd\">
+"
+[ -x /usr/sbin/dhcpd   ] && NET_BOX="${NET_BOX}
+    <frame Dhcpd (ISC)>
+$(helpdaemon dhcpd 60x14 DHCPD_OPTIONS DHCPD_OPTS)
+$(configfile /etc/dhcpd.conf DHCPD_CONF)
       <hbox>
-        <text use-markup="true">
-          <label>"<b>UDHCPD_OPTIONS</b>"</label>
-        </text>
-        <entry editable="false">'
-[ -n "$UDHCPD_OPTS" ] && tmp="$tmp<default>$UDHCPD_OPTS</default>"
-[ -x /usr/sbin/udhcpd   ] && NET_BOX="${NET_BOX}$tmp
-          <variable>UDHCPD_OPTS</variable>
-        </entry>
-$(helpdaemon udhcpd 60x14)
+	$(startstopdaemon dhcpd dhcp)
       </hbox>
+     </frame>
+"
+[ -x /usr/sbin/udhcpd   ] && NET_BOX="${NET_BOX}
+    <frame Udhcpd (busybox)>
+$(helpdaemon udhcpd 60x14 UDHCPD_OPTIONS UDHCPD_OPTS)
 $(configfile /etc/udhcpd.conf UDHCPD_CONF)
       <hbox>
 	$(startstopdaemon udhcpd)
       </hbox>
      </frame>
+"
+[ -x /usr/sbin/dhcpd -a -x /usr/sbin/udhcpd ] && NET_BOX="${NET_BOX}
+   </notebook>
 "
 tmp='<frame Pxelinux>
       <hbox>
@@ -1081,85 +1097,55 @@ tmp2='/pxelinux.cfg/default</default>
 '
 [ -f /usr/share/boot/pxelinux.0.lzma -a -x /usr/bin/tftpd -a \
   -x /usr/sbin/inetd -a -x /usr/sbin/udhcpd ] && NET_BOX="$NET_BOX$tmp$tmp2"
-tmp='<frame Dnsd (busybox)>
+[ -x /usr/sbin/dnsd -a -x /usr/sbin/named ] && NET_BOX="${NET_BOX}
+   <notebook labels=\"Named|Dnsd\">
+"
+[ -x /usr/sbin/named     ] && NET_BOX="${NET_BOX}
+    <frame Named (ISC bind)>
+$(helpdaemon named 80x10 NAMED_OPTIONS NAMED_OPTS)
+$(configfile /etc/bind/named.conf.local NAMED_CONF)
       <hbox>
-        <text use-markup="true">
-          <label>"<b>DNSD_OPTIONS</b>"</label>
-        </text>
-        <entry editable="false">'
-[ -n "$DNSD_OPTIONS" ] && tmp="$tmp<default>$DNSD_OPTIONS</default>"
-[ -x /usr/sbin/dnsd     ] && NET_BOX="${NET_BOX}${tmp}
-          <variable>DNSD_OPTS</variable>
-        </entry>
-$(helpdaemon dnsd 80x15)
+	$(startstopdaemon named bind)
       </hbox>
+     </frame>
+"
+[ -x /usr/sbin/dnsd     ] && NET_BOX="${NET_BOX}
+    <frame Dnsd (busybox)>
+$(helpdaemon dnsd 80x15 DNSD_OPTIONS DNSD_OPTS)
 $(configfile /etc/dnsd.conf DNSD_CONF)
       <hbox>
 	$(startstopdaemon dnsd)
       </hbox>
      </frame>
 "
-tmp='<frame Rsync>
+[ -x /usr/sbin/dnsd -a -x /usr/sbin/named ] && NET_BOX="${NET_BOX}
+   </notebook>
+"
+[ -x /usr/bin/rsync    ] && NET_BOX="${NET_BOX}
+     <frame Rsync>
+$(helpdaemon rsync 80x30 RSYNCD_OPTIONS RSYNCD_OPTS 1)
+$(configfile /etc/rsyncd.conf RSYNCD_CONF)
+$(datafile /etc/rsyncd.secrets RSYNCD_SECRETS 'Secrets file     :')
       <hbox>
-        <text use-markup="true">
-          <label>"<b>RSYNCD_OPTIONS</b>"</label>
-        </text>
-        <entry editable="false">'
-[ -n "${RSYNCD_OPTIONS#* }" ] && tmp="$tmp<default>${RSYNCD_OPTIONS#* }</default>"
-tmp2='
-          <variable>RSYNC_OPTS</variable>
-        </entry>
-        <button>
-          <input file icon="help"></input>
-	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x31 -title "rsync daemon help" -e "rsync --daemon --help ; echo -e \"----\nENTER to continue...\" && read close"</action>
-        </button>
-        <button>
-          <input file icon="browser"></input>
-	  <label>man</label>
-	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x24 -title "rsync man (q to quit)" -e ". /etc/profile; man 1 rsync"</action>
-        </button>
-        <button>
-          <input file icon="accessories-text-editor"></input>
-          <action type="lauch">leafpad /etc/daemons.conf</action>
-        </button>
-      </hbox>
-      <hbox>
-        <text use-markup="true">
-          <label>"<b>Configuration :</b>"</label>
-        </text>
-        <entry editable="false">
-          <default>/etc/rsyncd.conf</default>
-          <variable>RSYNCD_CONF</variable>
-        </entry>
-        <button>
-          <input file icon="accessories-text-editor"></input>
-          <action type="lauch">leafpad $RSYNCD_CONF</action>
-        </button>
-      </hbox>
-      <hbox>
-        <text use-markup="true">
-          <label>"<b>Secrets file     :</b>"</label>
-        </text>
-        <entry editable="true">
-          <default>/etc/rsyncd.secrets</default>
-          <variable>RSYNCD_SECRETS</variable>
-        </entry>
-        <button>
-          <input file icon="accessories-text-editor"></input>
-          <action type="lauch">leafpad $RSYNCD_SECRETS</action>
-        </button>
-      </hbox>
-      <hbox>'
-[ -x /usr/bin/rsync    ] && NET_BOX="${NET_BOX}${tmp}${tmp2}
-	$(startstopdaemon rsyncd)
+	$(startstopdaemon rsyncd rsync)
       </hbox>
      </frame>
+"
+[ -x /usr/sbin/lighttpd -a -x /usr/bin/httpd ] && NET_BOX="${NET_BOX}
+   <notebook labels=\"Apache|Lighttpd\">
 "
 tmp="<frame PHP>
 $(configfile /etc/php.ini PHP_CONF)
       </frame>
 "
 [ -f /etc/php.ini ] || tmp=""
+[ -x /usr/bin/httpd ] && NET_BOX="${NET_BOX}<frame Apache>${tmp}
+$(configfile /etc/apache/httpd.conf HTTPD_CONF)
+      <hbox>
+	$(startstopdaemon apache)
+      </hbox>
+     </frame>
+"
 [ -x /usr/sbin/lighttpd ] && NET_BOX="${NET_BOX}<frame Lighttpd>${tmp}
 $(configfile /etc/lighttpd/lighttpd.conf LIGHTTPD_CONF)
       <hbox>
@@ -1167,12 +1153,8 @@ $(configfile /etc/lighttpd/lighttpd.conf LIGHTTPD_CONF)
       </hbox>
      </frame>
 "
-[ -x /usr/bin/httpd ] && NET_BOX="${NET_BOX}<frame Apache>${tmp}
-$(configfile /etc/apache/httpd.conf HTTPD_CONF)
-      <hbox>
-	$(startstopdaemon apache)
-      </hbox>
-     </frame>
+[ -x /usr/sbin/lighttpd -a -x /usr/bin/httpd ] && NET_BOX="${NET_BOX}
+   </notebook>
 "
 tmp="<frame Samba: smbd & nmbd>
 $(configfile /etc/samba/smb.conf SMBD_CONF)
@@ -1187,59 +1169,33 @@ $(configfile /etc/samba/smb.conf SMBD_CONF)
       </hbox>
      </frame>
 "
-tmp='<frame x11vnc>
+[ -x /usr/bin/x11vnc    ] && NET_BOX="${NET_BOX}
+     <frame x11vnc>
+$(helpdaemon x11vnc 80x30 X11VNC_OPTIONS X11VNC_OPTS)
       <hbox>
-        <text use-markup="true">
-          <label>"<b>X11VNC_OPTIONS</b>"</label>
-        </text>
-        <entry editable="false">'
-[ -n "$X11VNC_OPTIONS" ] && tmp="$tmp<default>$X11VNC_OPTIONS</default>"
-tmp2='
-          <variable>X11VNC_OPTS</variable>
-        </entry>
-        <button>
-          <input file icon="help"></input>
-	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x30 -title "x11vnc daemon help (q to quit)" -e "x11vnc --help | less"</action>
-        </button>
-        <button>
-          <input file icon="accessories-text-editor"></input>
-          <action type="lauch">leafpad /etc/daemons.conf</action>
-        </button>
-      </hbox>
-      <hbox>
-        <text use-markup="true">
-          <label>"<b>New password</b>"</label>
+        <text use-markup=\"true\">
+          <label>\"<b>New password</b>\"</label>
         </text>
         <entry>
           <variable>X11VNC_PASSWD</variable>
         </entry>
         <button>
-          <input file icon="reload"></input>
+          <input file icon=\"reload\"></input>
           <label>Update</label>
-          <action>x11vnc -storepasswd $X11VNC_PASSWD /etc/vnc.secret</action>
+          <action>x11vnc -storepasswd \$X11VNC_PASSWD /etc/vnc.secret</action>
         </button>
       </hbox>
-      <hbox>'
-[ -x /usr/bin/x11vnc    ] && NET_BOX="${NET_BOX}${tmp}${tmp2}
+      <hbox>
 	$(startstopdaemon x11vnc)
       </hbox>
      </frame>
 "
-tmp='<frame Knockd: trigger backdoors>
-      <hbox>
-        <text use-markup="true">
-          <label>"<b>KNOCK_OPTIONS</b>"</label>
-        </text>
-        <entry editable="false">'
-[ -n "$KNOCK_OPTIONS" ] && tmp="$tmp<default>$KNOCK_OPTIONS</default>"
-[ -x /usr/sbin/knockd    ] && NET_BOX="${NET_BOX}${tmp}
-          <variable>KNOCK_OPTIONS</variable>
-        </entry>
-$(helpdaemon knockd 80x15)
-      </hbox>
+[ -x /usr/sbin/knockd    ] && NET_BOX="${NET_BOX}
+    <frame Knockd: trigger backdoors>
+$(helpdaemon knockd 80x15 KNOCK_OPTIONS KNOCK_OPTS)
 $(configfile /etc/knockd.conf KNOCKD_CONF)
       <hbox>
-	$(startstopdaemon knockd)
+	$(startstopdaemon knockd knock)
       </hbox>
      </frame>
 "
@@ -1278,20 +1234,17 @@ tmp='<frame Knock>
 	<default>myserver.example.com 123:tcp 456:udp 789:tcp</default>
       </entry>
     </hbox>
-    <hbox>
-      <button>
-        <input file icon="help"></input>
-	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x12 -title "knock help" -e "knock --help ; echo -e \"----\nENTER to continue...\" && read close"</action>
-      </button>
+    <hbox>'
+[ -x /usr/bin/knock ] && NET_BOX="$NET_BOX${tmp}
+$(helpbutton knock 80x12)
       <button>
         <label>Start</label>
-        <input file icon="forward"></input>
-        <action>knock $KNOCK_OPTS</action>
+        <input file icon=\"forward\"></input>
+        <action>knock \$KNOCK_OPTS</action>
       </button>
     </hbox>
     </frame>
-'
-[ -x /usr/bin/knock ] && NET_BOX="$NET_BOX${tmp}"
+"
 tmp='
     <frame Ether-wake (busybox)>
     <hbox>
@@ -1314,11 +1267,9 @@ tmp='
       </text>
       <entry editable="true">
         <variable>ETHERWAKE_OPTS</variable>
-      </entry>
-      <button>
-        <input file icon="help"></input>
-	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x15 -title "ether-wake help" -e "ether-wake --help ; echo -e \"----\nENTER to continue...\" && read close"</action>
-      </button>
+      </entry>'
+NET_BOX="${NET_BOX}${tmp}$(helpbutton ether-wake 80x15)"
+tmp='
       <button>
         <label>Start</label>
         <input file icon="forward"></input>
