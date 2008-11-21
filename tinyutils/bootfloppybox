@@ -2,7 +2,7 @@
 # 
 # Gtkdialog box for the mount command. Part of SliTaz tools.
 #
-VERSION=20080818
+VERSION=20081121
 PLOP_URL=http://download.plop.at/plop/bootmngr/plpbt50rc12flp.zip
 
 # Check if user is root.
@@ -40,7 +40,8 @@ Select boot device
 		DEVICE="$DEVICE /dev/${i#*block:} 'Floppy in ${i#*block:}' $on"
 		on=off
 	done
-	DEVICE="$DEVICE cdrom \"cdrom image file boot.iso\" $on 2>&1 1>&3"
+	DEVICE="$DEVICE floppy \"cdrom image file boot.iso\" $on"
+	DEVICE="$DEVICE cdrom \"floppy image file boot.fd\" off 2>&1 1>&3"
 	exec 3>&1
 	DEVICE=`eval $DEVICE`
 	retval=$?
@@ -53,31 +54,168 @@ Select boot device
     	fi
 }
 
+mkmenu()
+{
+if [ "$1" = "grub4dos" ]; then
+	SAVEDEFAULT="save default"
+	cat > /tmp/floppybox.grub.menu <<EOT
+# grub4dos menu
+default /default
+EOT
+else
+	SAVEDEFAULT="savedefault"
+	cat > /tmp/floppybox.grub.menu <<EOT
+# grub menu
+default saved
+EOT
+fi
+cat >> /tmp/floppybox.grub.menu <<EOT
+timeout 8
+color yellow/brown light-green/black
+
+EOT
+entry=0
+[ -f /boot/gpxe ] && entry=$(($entry + 1)) && cat >> /tmp/floppybox.grub.menu <<EOT
+title gPXE (Boot from the Web, PXE/iSCSI/AoE support)
+	kernel /boot/gpxe $(dd if=/boot/gpxe bs=1 skip=519 count=255 2>/dev/null | strings)
+
+EOT
+[ -f /usr/share/boot/btmgr -a -f /usr/share/boot/memdisk.lzma ] \
+	&& entry=$(($entry + 1)) && cat >> /tmp/floppybox.grub.menu <<EOT
+title Smart Boot Manager (text - boot floppy, hard disk or CD/DVD)
+	kernel /boot/memdisk floppy c=80 h=2 s=18
+	initrd /boot/btmgr.gz
+
+EOT
+[ -f /usr/share/boot/plop.gz -a -f /usr/share/boot/memdisk.lzma ] \
+	&& entry=$(($entry + 1)) && cat >> /tmp/floppybox.grub.menu <<EOT
+title Plop Boot Manager (graphic - boot floppy, hard disk, CD/DVD or USB)
+	kernel /boot/memdisk floppy c=80 h=2 s=18
+	initrd /boot/plop.gz
+
+EOT
+[ -f /usr/share/boot/etherboot ] && entry=$(($entry + 1)) && cat >> /tmp/floppybox.grub.menu <<EOT
+title Etherboot (LAN boot, PXE or NBI)
+	kernel /boot/etherboot
+
+EOT
+[ -f /usr/share/boot/memtest.lzma -a -f /usr/share/boot/memdisk.lzma ] \
+&& entry=$(($entry + 1)) && cat >> /tmp/floppybox.grub.menu <<EOT
+title Memtest86+ (Test system memory)
+	kernel /boot/memdisk floppy c=80 h=2 s=18
+	initrd /boot/memtest.gz
+
+EOT
+[ "$1" = "grub4dos" ] && entry=$(($entry + 3)) && cat >> /tmp/floppybox.grub.menu <<EOT
+title Windows (scan ntldr)
+	fallback $(($entry -3 + 1))
+        find --set-root /ntldr
+	chainloader /ntldr
+	$SAVEDEFAULT --wait=2
+
+title Windows (scan cmldr)
+	fallback $(($entry -3 + 2))
+        find --set-root /cmldr
+        chainloader /cmldr
+	$SAVEDEFAULT --wait=2
+
+title Windows (scan io.sys)
+	fallback $(($entry -3 + 3))
+        find --set-root /io.sys
+        chainloader /io.sys
+	$SAVEDEFAULT --wait=2
+
+EOT
+entry=$(($entry + 3)) && cat >> /tmp/floppybox.grub.menu <<EOT
+title Windows (example on /dev/hda1)
+	rootnoverify (hd0,0)
+	chainloader +1
+	$SAVEDEFAULT
+
+title Slitaz Frugal (example on /dev/hda1)
+	root (hd0,0)
+	kernel /boot/bzImage rw root=/dev/null vga=normal
+	initrd /boot/rootfs.gz
+	$SAVEDEFAULT
+
+title Slitaz Installed (example on /dev/hda2)
+	root (hd0,1)
+	kernel /boot/bzImage ro root=/dev/hda2 vga=normal
+	$SAVEDEFAULT
+
+EOT
+[ "$1" = "grub4dos" ] && entry=$(($entry + 1)) && cat >> /tmp/floppybox.grub.menu <<EOT
+title Slitaz cdrom image (example on /dev/hda1, DEFRAGMENTED)
+        map (hd0,0)/boot/slitaz-cooking.iso (hd1)
+        map --hook
+        kernel (hd1)/boot/bzImage rw root=/dev/null vga=normal
+        initrd (hd1)/boot/rootfs.gz
+	$SAVEDEFAULT
+
+EOT
+false && [ -f /usr/share/boot/grub.exe.lzma ] && entry=$(($entry + 1)) && cat >> /tmp/floppybox.grub.menu <<EOT
+title Grub4Dos
+	kernel /boot/grub/grub.exe --config-file="configfile (fd0)/boot/grub/menu4dos.lst"
+
+EOT
+}
+
 install_grub()
 {
+	LOOP=""
+	GRUB_DEV=${DEVICE#/dev/}
+	GRUB_DEV=${GRUB_DEV%% *}
 	case "$DEVICE" in
-	/dev/*)
-		mke2fs $DEVICE
+	floppy*)
+		LOOP="-o loop"
+		GRUB_DEV=fd0
+		DEVICE=boot.fd
+		dd if=/dev/zero of=$DEVICE bs=18k count=80;;
+	esac
+	grep -qs "^# $2 menu" /tmp/floppybox.grub.menu || mkmenu $2
+	case "$DEVICE" in
+	/dev/*|boot.fd)
+		yes y | mke2fs $DEVICE
 		mkdir /media/floppy
-		mount $DEVICE /media/floppy
-		mkdir -p /media/floppy/boot/grub
-		cp /usr/lib/grub/i386-pc/stage? /media/floppy/boot/grub
-		cp -a $1 /media/floppy
-		grub-set-default --root-directory=/media/floppy 0
-		umount $DEVICE
-		grub --batch <<EOT
-root (${DEVICE#/dev/})
-setup (${DEVICE#/dev/})
+		mount $LOOP $DEVICE /media/floppy
+		if [ "$2" = "grub4dos" ]; then
+			mkdir -p /media/floppy/boot
+			unlzma -c /usr/share/boot/grldr.lzma > /media/floppy/grldr
+			cp $1/boot/* /media/floppy/boot 2> /dev/null
+			cp /tmp/floppybox.grub.menu /media/floppy/menu.lst
+			umount -d /media/floppy
+			bootlace --floppy --sectors-per-track=18 --heads=2 \
+				 --chs --ext2 $DEVICE
+		else
+			mkdir -p /media/floppy/boot/grub
+			cp /usr/lib/grub/i386-pc/stage? /media/floppy/boot/grub
+			cp -a $1/boot /media/floppy
+			cp /tmp/floppybox.grub.menu /media/floppy/boot/grub/menu.lst
+			grub-set-default --root-directory=/media/floppy 0
+			echo "($GRUB_DEV) $(losetup | grep $DEVICE | cut -d: -f1)" > $1/device.map
+			[ -n "$LOOP" ] && LOOP="--device-map=$1/device.map"
+			grub $LOOP --batch <<EOT
+root ($GRUB_DEV)
+setup ($GRUB_DEV)
 quit
 EOT
-		;;
+			umount -d /media/floppy
+		fi ;;
 	cdrom*)
 		mkdir -p $1/boot/grub 2> /dev/null
-		cp /usr/lib/grub/i386-pc/stage2_eltorito $1/boot/grub
-		genisoimage -R -o boot.iso -b boot/grub/stage2_eltorito \
-			-c boot/boot.cat -no-emul-boot -boot-load-size 4 \
-			-input-charset iso8859-1 -boot-info-table $1
-		;;
+		cp /tmp/floppybox.grub.menu $1/boot/grub/menu.lst
+		if [ "$2" = "grub4dos" ]; then
+			unlzma -c /usr/share/boot/grldr.lzma > $1/boot/grub/grldr
+			genisoimage -R -o boot.iso -b boot/grub/grldr \
+				-c boot/boot.cat -no-emul-boot -boot-load-seg 0x1000 \
+				-hide boot/boot.cat -input-charset iso8859-1 $1
+		else
+			cp /usr/lib/grub/i386-pc/stage2_eltorito $1/boot/grub
+			genisoimage -R -o boot.iso -b boot/grub/stage2_eltorito \
+				-c boot/boot.cat -no-emul-boot -boot-load-size 4 \
+				-hide boot/boot.cat -input-charset iso8859-1 \
+				-boot-info-table $1
+		fi ;;
 	esac
 }
 
@@ -85,39 +223,40 @@ while true; do
 
 if [ "$1" == "call" ]; then
 	case "$2" in
+	mkmenu) mkmenu $3;;
 	install)
 		DIR=/tmp/mkbootfloppy$$
 		mkdir -p $DIR
 		DEVICE=$4
 		file=$5
 		case "$3" in
-		grub)
+		grub*)
 			mkdir -p $DIR/boot/grub
-			cp /tmp/floppybox.grub.menu $DIR/boot/grub/menu.lst
-			[ -f /usr/share/boot/btmgr -a -f /usr/share/boot/memdisk.lzma ]\
+			[ -f /usr/share/boot/btmgr -a -f /usr/share/boot/memdisk.lzma ] \
 				&& cat /usr/share/boot/btmgr /dev/zero | \
 				   dd bs=18k count=80 | gzip -9 > \
 				   $DIR/boot/btmgr.gz \
 				&& unlzma -c /usr/share/boot/memdisk.lzma > \
 					$DIR/boot/memdisk
 			[ -f /usr/share/boot/plop.gz -a \
-			  -f /usr/share/boot/memdisk.lzma ]\
-				&& zcat /usr/share/boot/plop.gz | cat - /dev/zero | \
-				   dd bs=18k count=80 | gzip -9 > \
-				   $DIR/boot/plop.gz \
+			  -f /usr/share/boot/memdisk.lzma ] \
+				&& zcat /usr/share/boot/plop.gz | \
+				   cat - /dev/zero | dd bs=18k count=80 | \
+				   gzip -9 > $DIR/boot/plop.gz \
 				&& unlzma -c /usr/share/boot/memdisk.lzma > \
 					$DIR/boot/memdisk
-			[ -f /usr/share/boot/etherboot ]\
+			[ -f /usr/share/boot/etherboot ] \
 				&& cp /usr/share/boot/etherboot $DIR/boot
 			[ -f /boot/gpxe ]\
 				&& cp /boot/gpxe $DIR/boot
-			[ -f /usr/share/boot/memtest.lzma ]\
-				&& unlzma -c /usr/share/boot/memtest.lzma > \
-				$DIR/boot/memtest
-			[ -f /usr/share/boot/grub.exe.lzma ]\
-				&& unlzma -c /usr/share/boot/grub.exe.lzma > \
-					$DIR/boot/grub.exe
-			install_grub $DIR
+			[ -f /usr/share/boot/memtest.lzma -a \
+			  -f /usr/share/boot/memdisk.lzma ] \
+				&& unlzma -c /usr/share/boot/memtest.lzma | \
+				   cat - /dev/zero | dd bs=18k count=80 | \
+				   gzip -9 > $DIR/boot/memtest.gz \
+				&& unlzma -c /usr/share/boot/memdisk.lzma > \
+					$DIR/boot/memdisk
+			install_grub $DIR $3
 			;;
 		*)
     			case "$file" in
@@ -127,16 +266,19 @@ if [ "$1" == "call" ]; then
     			esac
 			case "$DEVICE" in
 			/dev/*) $action $file > $DEVICE;;
+			flopp*) $action $file | cat - /dev/zero | \
+						dd bs=18k count=80 > boot.fd;;
 			cdrom*)
 				mkdir -p $DIR/boot/grub
 				case "$3" in
-				btmgr|plop)
+				btmgr|plop|memtest)
 					$action $file | cat - /dev/zero | \
 						dd bs=18k count=80 | \
 						gzip -9 > $DIR/boot/$3.gz
 					unlzma -c /usr/share/boot/memdisk.lzma \
 						> $DIR/boot/memdisk
-					cat > $DIR/boot/grub/menu.lst << EOT
+					cat > /tmp/floppybox.grub.menu << EOT
+# grub menu
 timeout 0
 title $3
 kernel /boot/memdisk floppy c=80 h=2 s=18
@@ -144,14 +286,15 @@ initrd /boot/$3.gz
 EOT
 					;;
 				*)	$action $file > $DIR/boot/$3
-					cat > $DIR/boot/grub/menu.lst << EOT
+					cat > /tmp/floppybox.grub.menu << EOT
+# grub menu
 timeout 0
 title $3
 kernel /boot/$3
 EOT
 					;;
 				esac
-				install_grub $DIR
+				install_grub $DIR grub
 				;;
 			esac
 			;;
@@ -181,65 +324,6 @@ EOT
 	exit 0
 fi
 
-cat > /tmp/floppybox.grub.menu <<EOT
-default saved
-timeout 8
-color yellow/brown light-green/black
-
-EOT
-[ -f /boot/gpxe ] && cat >> /tmp/floppybox.grub.menu <<EOT
-title gPXE (Boot from the Web, PXE/iSCSI/AoE support)
-	kernel /boot/gpxe $(dd if=/boot/gpxe bs=1 skip=519 count=255 2>/dev/null | strings)
-
-EOT
-[ -f /usr/share/boot/btmgr -a -f /usr/share/boot/memdisk.lzma ]\
-	&& cat >> /tmp/floppybox.grub.menu <<EOT
-title Smart Boot Manager (text - boot floppy, hard disk or CD/DVD)
-	kernel /boot/memdisk floppy c=80 h=2 s=18
-	initrd /boot/btmgr.gz
-
-EOT
-[ -f /usr/share/boot/plop.gz -a -f /usr/share/boot/memdisk.lzma ]\
-	&& cat >> /tmp/floppybox.grub.menu <<EOT
-title Plop Boot Manager (graphic - boot floppy, hard disk, CD/DVD or USB)
-	kernel /boot/memdisk floppy c=80 h=2 s=18
-	initrd /boot/plop.gz
-
-EOT
-cat >> /tmp/floppybox.grub.menu <<EOT
-title Windows (example on /dev/hda1)
-	rootnoverify (hd0,0)
-	chainloader +1
-	save default
-
-title Slitaz Live (example on /dev/hda1)
-	root (hd0,0)
-	kernel /boot/bzImage rw root=/dev/null vga=normal
-	initrd /boot/rootfs.gz
-	save default
-
-title Slitaz Installed (example on /dev/hda2)
-	root (hd0,1)
-	kernel /boot/bzImage ro root=/dev/hda2 vga=normal
-	save default
-
-EOT
-[ -f /usr/share/boot/etherboot ] && cat >> /tmp/floppybox.grub.menu <<EOT
-title Etherboot (LAN boot, PXE or NBI)
-	kernel /boot/etherboot
-
-EOT
-[ -f /usr/share/boot/memtest.lzma ] && cat >> /tmp/floppybox.grub.menu <<EOT
-title Memtest86+ (Test system memory)
-	kernel /boot/memtest
-
-EOT
-[ -f /usr/share/boot/grub.exe.lzma ] && cat >> /tmp/floppybox.grub.menu <<EOT
-title Grub4Dos
-	kernel /boot/grub/grub.exe --config-file="configfile (fd0)/boot/grub/menu4dos.lst"
-
-EOT
-
 if [ -z "$XAUTHORITY" ]; then
 
     : ${DIALOG=dialog}
@@ -261,6 +345,7 @@ May need a floppy disk in drive. Erase the whole floppy disk.
 		Etherboot	"Replacement for proprietary PXE ROMs." off \
 		gPXE		"Boot from http://boot.slitaz.org/" off \
 		Memtest86+	"Memory failures detection tool." off \
+		Grub4DOS	"Enhanced grub version supporting NTFS" off \
 		Grub		"Boot loader with command shell." off  2>&1 1>&3`
 	retval=$?
 	exec 3>&-
@@ -292,6 +377,7 @@ Plop /usr/share/boot/plop.gz plop
 Etherboot /usr/share/boot/etherboot etherboot
 gPXE /boot/gpxe gpxe
 Memtest86+ /usr/share/boot/memtest.lzma memtest
+Grub4DOS /usr/share/boot/grldr.lzma grub4dos
 Grub /usr/sbin/grub grub
 EOT
     done
@@ -358,9 +444,9 @@ for i in /sys/devices/platform/floppy.*/block:*; do
 	[ -d $i ] || continue
 	BOOT_DIALOG="$BOOT_DIALOG 
 	  <item>/dev/${i#*block:}</item>"
-	on=off
 done
 tmp='	  <item>cdrom image (boot.iso)</item>
+	  <item>floppy image (boot.fd)</item>
 	</combobox>
         <button>
           <label>Format floppy</label>
@@ -369,7 +455,7 @@ tmp='	  <item>cdrom image (boot.iso)</item>
         </button>
       </hbox>
     </frame>
-    <notebook labels="LiveCD|USB|PXE Network|WEB Network|Memory Test|Expert">
+    <notebook labels="LiveCD|USB|PXE Network|WEB Network|Memory Test|Windows|Expert">
 '  
 BOOT_DIALOG="$BOOT_DIALOG$tmp"
 while read name file pkg desc; do
@@ -386,11 +472,12 @@ $(echo -e $desc)
       <hbox>
 "
   if [ -f $file ]; then
-    if [ "$pkg" = "grub" ]; then
+    if [ "$pkg" = "grub" -o "$pkg" = "grub4dos" ]; then
       tmp="$tmp
       <button>
         <label>Grub menu</label>
         <input file icon=\"accessories-text-editor\"></input>
+	<action>bootfloppybox call mkmenu $pkg</action>
         <action type=\"lauch\">leafpad /tmp/floppybox.grub.menu</action>
       </button>
 "
@@ -475,6 +562,7 @@ Plop /usr/share/boot/plop.gz plop This non free Boot Manager can boot floppy, ha
 Etherboot /usr/share/boot/etherboot etherboot This network bootloader provides a replacement for proprietary PXE or NBI ROMs.
 gPXE /boot/gpxe gpxe PXE / iSCSI / AoE network bootloader.
 Memtest86+ /usr/share/boot/memtest.lzma memtest Memory failures detection tool.
+Grub4DOS /usr/share/boot/grldr.lzma grub4dos Enhanced grub version supporting NTFS
 Grub /usr/sbin/grub grub General purpose boot loader with command shell
 EOT
 tmp='
