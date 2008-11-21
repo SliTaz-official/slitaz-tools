@@ -173,6 +173,9 @@ ask_for_target_dev()
 	# Check if specified device exists in /proc/partitions.
 	DEV_NAME=${TARGET_DEV#/dev/}
 	if cat /proc/partitions | grep -q $DEV_NAME; then
+		if [ "$DEV_NAME" = "$TARGET_DEV" ]; then
+			TARGET_DEV="/dev/$DEV_NAME"
+		fi
 		echo "ask_for_target_dev: $TARGET_DEV" >>$LOG
 	else
 		ERROR_MSG="Partition \Z2$TARGET_DEV\Zn doesn't exist."
