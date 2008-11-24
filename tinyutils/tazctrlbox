@@ -1,0 +1,452 @@
+#!/bin/sh
+#
+# SliTaz Control Box is a tool to configure and manage a SliTaz system.
+# The script use GTKdialog for the UI interface, some shell functions
+# are called by argument. Individual window dialog are put into 
+# functions.
+#
+# (C) GNU gpl v3 - SliTaz GNU/Linux 2008.
+# Author: Christophe Lincoln <pankso@slitaz.org>
+#
+VERSION=1.0
+
+# Get init configuration.
+. /etc/rcS.conf
+
+# Tazctrlbox is only for root.
+if test $(id -u) != 0 ; then
+	exec subox $0
+	exit 0
+fi
+
+# Change Grub menu.lst timeout.
+sed_grub_timeout()
+{
+	CURRENT=`cat /boot/grub/menu.lst | grep ^timeout | cut -d " " -f2`
+	sed -i s/"timeout $CURRENT"/"timeout $GRUB_TIMEOUT"/ /boot/grub/menu.lst
+}
+
+# Change Grub menu.lst timeout.
+sed_grub_color()
+{
+	CURRENT=`cat /boot/grub/menu.lst | grep ^color | cut -d " " -f2-3`
+	sed -i s#"color $CURRENT"#"color $GRUB_COLOR"# /boot/grub/menu.lst
+}
+
+# Set checked fs on boot.
+sed_check_fs()
+{
+	sed -i s#"CHECK_FS=\"$CHECK_FS\""#"CHECK_FS=\"$NEW_CHECK_FS\""# \
+		/etc/rcS.conf
+}
+
+# Set loaded modules on boot.
+sed_load_modules()
+{
+	sed -i s/"LOAD_MODULES=\"$LOAD_MODULES\""/"LOAD_MODULES=\"$NEW_MODULES\""/ \
+		/etc/rcS.conf
+}
+
+# Set daemons to run on boot.
+sed_run_daemons()
+{
+	sed -i s/"RUN_DAEMONS=\"$RUN_DAEMONS\""/"RUN_DAEMONS=\"$NEW_DAEMONS\""/ \
+		/etc/rcS.conf
+}
+
+# Get user list
+get_users()
+{
+	for i in `cat /etc/passwd | cut -d ":" -f 1`
+	do
+		if [ -d /home/$i ]; then
+			login=$i
+			uid=`cat /etc/passwd | grep $i | cut -d ":" -f 3`
+			gid=`cat /etc/passwd | grep $i | cut -d ":" -f 4`
+			name=`cat /etc/passwd | grep $i | cut -d ":" -f 5 | sed s/,,,//`
+			home=`cat /etc/passwd | grep $i | cut -d ":" -f 6`
+			shell=`cat /etc/passwd | grep $i | cut -d ":" -f 7`
+			echo "$login | $uid:$gid | $name | $home | $shell"
+		fi
+	done
+}
+
+# Remove a user or change passwd.
+manage_user()
+{
+	export MANAGE_DIALOG="
+<window title=\"Manage user: $USER\" icon-name=\"computer\">
+	<vbox>
+		<hbox>
+			<text wrap=\"false\" width-chars=\"34\">
+				<label>\"
+Login name: $USER
+				\"</label>
+			</text>
+		</hbox>
+		<hbox>
+			<text wrap=\"false\">
+				<label>\"New password:\"</label>
+			</text>
+			<entry invisible_char=\"*\" visibility=\"false\">
+				<variable>PASSWD</variable>
+			</entry>
+			<button>
+				<label>Change</label>
+				<input file icon=\"forward\"></input>
+				<action>echo \"$USER:$PASSWD\" | chpasswd</action>
+				<action type=\"closewindow\">MANAGE_USER</action>
+			</button>
+		</hbox>
+		<hbox>
+			<button>
+				<label>Delete user</label>
+				<input file icon=\"gtk-delete\"></input>
+				<action>deluser $USER</action>
+				<action type=\"closewindow\">MANAGE_USER</action>
+			</button>
+			<button cancel>
+				<action type=\"closewindow\">MANAGE_USER</action>
+			</button>
+		</hbox>
+	</vbox>
+</window>
+"
+	gtkdialog --center --program=MANAGE_DIALOG >/dev/null
+}
+
+# Add a new user.
+add_user()
+{
+	export ADD_USER_DIALOG='
+<window title="New user" icon-name="gtk-add">
+	<vbox>
+		<hbox>
+			<text wrap="false" width-chars="34">
+				<label>"
+New account information
+				"</label>
+			</text>
+		</hbox>
+		<hbox>
+			<text wrap="false">
+				<label>"Login:      "</label>
+			</text>
+			<entry>
+				<variable>NEW_USER</variable>
+			</entry>
+		</hbox>
+		<hbox>
+			<text wrap="false">
+				<label>"Password:"</label>
+			</text>
+			<entry invisible_char="*" visibility="false">
+				<variable>PASSWD</variable>
+			</entry>
+		</hbox>
+		<hbox>
+			<button ok>
+				<action>adduser -D $NEW_USER</action>
+				<action>echo "$NEW_USER:$PASSWD" | chpasswd</action>
+				<action>adduser -G audio $NEW_USER</action>
+				<action>rmdir /home/$NEW_USER</action>
+				<action>cp -a /etc/skel /home/$NEW_USER</action>
+				<action>cp /root/.xinitrc /home/$NEW_USER</action>
+				<action>chown -R $NEW_USER:$NEW_USER /home/$NEW_USER</action>
+				<action type="closewindow">MANAGE_USER</action>
+			</button>
+			<button cancel>
+				<action type="closewindow">MANAGE_USER</action>
+			</button>
+		</hbox>
+	</vbox>
+</window>
+'
+	gtkdialog --center --program=ADD_USER_DIALOG >/dev/null	
+}
+
+# Main dialog with notebook.
+#
+export MAIN_DIALOG='
+<window title="SliTaz Control Box" icon-name="computer">
+<vbox>
+
+	<hbox>
+		<text use-markup="true">
+			<label>"<b>SliTaz Control Box</b>"</label>
+		</text>
+		<pixmap>
+			<input file>/usr/share/pixmaps/tazctrlbox.png</input>
+		</pixmap>
+	</hbox>
+
+	<notebook labels="System|Boot|Login|Users">
+	
+	<vbox>
+		<frame Boxes panel>
+			<hbox>
+				<button>
+					<label>Devices Manager</label>
+					<input file icon="media-flash"></input>
+					<action>mountbox &</action>
+				</button>
+				<button>
+					<label>Network configuration</label>
+					<input file icon="netbox"></input>
+					<action>netbox &</action>
+				</button>
+				<button>
+					<label>Packages Manager</label>
+					<input file icon="tazpkg"></input>
+					<action>tazpkgbox &</action>
+				</button>
+			</hbox>
+		</frame>
+		<frame Date and time>
+			<hbox>
+				<text wrap="false">
+					<label>"Date:        "</label>
+				</text>
+				<entry editable="false" has_frame="false">
+					<input>date</input>
+					<variable>DATE</variable>
+				</entry>
+				<button>
+					<label>Sync online</label>
+					<input file icon="reload"></input>
+					<action>rdate -s tick.greyware.com</action>
+					<action>refresh:DATE</action>
+				</button>
+			</hbox>
+			<hbox>
+				<text wrap="true">
+					<label>"Timezone:"</label>
+				</text>
+				<entry>
+					<input>cat /etc/TZ</input>
+					<variable>NEW_TZ</variable>
+				</entry>
+				<button>
+					<label>Change</label>
+					<input file icon="forward"></input>
+					<action>echo "$NEW_TZ" > /etc/TZ</action>
+				</button>
+			</hbox>
+		</frame>
+	</vbox>'
+# Boot
+MAIN_DIALOG=${MAIN_DIALOG}"
+	<vbox>
+		<frame Grub boot loader>
+			<hbox>
+				<text wrap=\"false\">
+					<label>\"Timeout:\"</label>
+				</text>
+				<entry>
+					<input>cat /boot/grub/menu.lst | grep ^timeout | cut -d \" \" -f2</input>
+					<variable>GRUB_TIMEOUT</variable>
+				</entry>
+				<button>
+					<label>Change</label>
+					<input file icon=\"forward\"></input>
+					<action>$0 sed_grub_timeout</action>
+				</button>
+			</hbox>
+			<hbox>
+				<text wrap=\"false\">
+					<label>\"Color:    \"</label>
+				</text>
+				<entry>
+					<input>cat /boot/grub/menu.lst | grep ^color | cut -d \" \" -f2-3</input>
+					<variable>GRUB_COLOR</variable>
+				</entry>
+				<button>
+					<label>Change</label>
+					<input file icon=\"forward\"></input>
+					<action>$0 sed_grub_color</action>
+				</button>
+			</hbox>
+			<hbox>
+				<text wrap=\"false\">
+					<label>\"Configuration file:\"</label>
+				</text>
+				<button>
+					<label>/boot/grub/menu.lst</label>
+					<input file icon=\"accessories-text-editor\"></input>
+					<action>leafpad /boot/grub/menu.lst</action>
+					<action>refresh:GRUB_COLOR</action>
+					<action>refresh:GRUB_TIMEOUT</action>
+				</button>
+			</hbox>
+		</frame>
+		<frame rcS init scripts>
+			<hbox>
+				<text wrap=\"false\">
+					<label>\"Check filesystems:\"</label>
+				</text>
+				<entry>
+					<input>echo $CHECK_FS</input>
+					<variable>NEW_CHECK_FS</variable>
+				</entry>
+				<button>
+					<label>Change</label>
+					<input file icon=\"forward\"></input>
+					<action>$0 sed_check_fs</action>
+				</button>
+			</hbox>
+			<hbox>
+				<text wrap=\"false\">
+					<label>\"Load modules:      \"</label>
+				</text>
+				<entry>
+					<input>echo $LOAD_MODULES</input>
+					<variable>NEW_MODULES</variable>
+				</entry>
+				<button>
+					<label>Change</label>
+					<input file icon=\"forward\"></input>
+					<action>$0 sed_load_modules</action>
+				</button>
+			</hbox>
+			<hbox>
+				<text wrap=\"false\">
+					<label>\"Run daemons:       \"</label>
+				</text>
+				<entry>
+					<input>echo $RUN_DAEMONS</input>
+					<variable>NEW_DAEMONS</variable>
+				</entry>
+				<button>
+					<label>Change</label>
+					<input file icon=\"forward\"></input>
+					<action>$0 sed_run_daemons</action>
+				</button>
+			</hbox>
+			<hbox>
+				<text wrap=\"false\">
+					<label>\"Add local comands:\"</label>
+				</text>
+				<button>
+					<label>/etc/init.d/local.sh</label>
+					<input file icon=\"accessories-text-editor\"></input>
+					<action>leafpad /etc/init.d/local.sh</action>
+				</button>
+			</hbox>
+		</frame>
+	</vbox>"
+# Login
+MAIN_DIALOG=${MAIN_DIALOG}'
+	<vbox>
+		<frame Slim settings>
+			<hbox>
+				<text wrap="false">
+					<label>"Sessions:     "</label>
+				</text>
+				<entry>
+					<input>cat /etc/slim.conf | grep ^session | sed s/"sessions            "//</input>
+					<variable>SLIM_SESSIONS</variable>
+				</entry>
+				<button>
+					<label>Change</label>
+					<input file icon="forward"></input>
+					<action>sed -i "s/^sessions.*/sessions            $SLIM_SESSIONS/" /etc/slim.conf</action>
+				</button>
+			</hbox>
+			<hbox>
+				<text wrap="false">
+					<label>"Default user: "</label>
+				</text>
+				<entry>
+					<input>cat /etc/slim.conf | grep ^default_user | sed s/"default_user        "//</input>
+					<variable>SLIM_DEF_USER</variable>
+				</entry>
+				<button>
+					<label>Change</label>
+					<input file icon="forward"></input>
+					<action>sed -i "s/^default_user.*/default_user        $SLIM_DEF_USER/" /etc/slim.conf</action>
+				</button>
+			</hbox>
+			<hbox>
+				<text wrap="false">
+					<label>"Theme:"</label>
+				</text>
+				<combobox>
+					<variable>NEW_SLIM_THEME</variable>'
+# List all installed Slim themes.
+for dir in $(ls /usr/share/slim/themes)
+do
+	THEME_ITEMS="<item>$dir</item>"
+	MAIN_DIALOG=${MAIN_DIALOG}${THEME_ITEMS}
+done		
+MAIN_DIALOG=${MAIN_DIALOG}'
+				</combobox>	
+				<button>
+					<label>Preview</label>
+					<input file icon="video-display"></input>
+					<action>slim -p /usr/share/slim/themes/$NEW_SLIM_THEME &</action>
+				</button>
+				<button>
+					<label>Change</label>
+					<input file icon="forward"></input>
+					<action>sed -i "s/^current_theme.*/current_theme       $NEW_SLIM_THEME/" /etc/slim.conf</action>
+					<action>refresh:SLIM_THEME</action>
+				</button>
+			</hbox>
+			<hbox>
+				<text wrap="false">
+					<label>"Configuration file:"</label>
+				</text>
+				<button>
+					<label>/etc/slim.conf</label>
+					<input file icon="accessories-text-editor"></input>
+					<action>leafpad /etc/slim.conf</action>
+					<action>refresh:SLIM_SESSIONS</action>
+					<action>refresh:SLIM_DEF_USER</action>
+				</button>
+			</hbox>
+		</frame>
+	</vbox>'
+# Display users list throught get_users.
+MAIN_DIALOG=${MAIN_DIALOG}"
+	<vbox>
+		<tree>
+			<width>650</width><height>300</height>
+			<variable>USER</variable>
+			<label>Login|uid:gid|Name|Home|SHell</label>
+			<input>$0 get_users</input>
+			<action>$0 manage_user</action>
+			<action>refresh:USER</action>
+		</tree>
+		<hbox>
+		<button>
+			<label>Add newuser</label>
+			<input file icon=\"gtk-add\"></input>
+			<action>$0 add_user</action>
+			<action>refresh:USER</action>
+		</button>
+	</hbox>
+	</vbox>"
+export MAIN_DIALOG=${MAIN_DIALOG}'	
+	</notebook>
+
+	<hbox>
+		<button>
+			<label>Exit</label>
+			<input file icon="exit"></input>
+			<action type="exit">Exit</action>
+		</button>
+	</hbox>
+
+</vbox>
+
+</window>
+'
+
+# Script can be called with an arg to exec a function.
+if [ -n "$1" ]; then
+	$1
+else
+	gtkdialog --center --program=MAIN_DIALOG >/dev/null
+fi
+
+exit 0
