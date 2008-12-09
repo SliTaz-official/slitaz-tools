@@ -418,6 +418,11 @@ MAIN_DIALOG=${MAIN_DIALOG}"
 			<action>refresh:USER</action>
 		</tree>
 		<hbox>
+		<text width-chars=\"60\">
+			<label>
+\"Note: To change passwords and delete users you can double-click on the user name.\"
+			</label>
+		</text>
 		<button>
 			<label>Add newuser</label>
 			<input file icon=\"gtk-add\"></input>
