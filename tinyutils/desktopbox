@@ -26,13 +26,13 @@ case $LANG in
 		DESKTOP_DIALOG_LABEL="Session logout, system shutdown or reboot"  ;;
 	fr*)
 		lang="fr"
-		NEW_FOLDER_LABEL="Créer un nouveau dossier sur le bureau:"
+		NEW_FOLDER_LABEL="CrÃ©er un nouveau dossier sur le bureau:"
 		FOLDER_ENTRY_MSG="dossier"
-		NEW_FILE_LABEL="Créer un nouveau fichier sur le bureau:"
+		NEW_FILE_LABEL="CrÃ©er un nouveau fichier sur le bureau:"
 		FILE_ENTRY_MSG="fichier"
-		ADD_ICON_LABEL="Ajouter des icônes de bureau"
-		DESKTOP_DIALOG_TAZUSB="Enregistrer le système avec la compression"
-		DESKTOP_DIALOG_LABEL="Déconnexion, arrêt ou redémarrage du système" ;;
+		ADD_ICON_LABEL="Ajouter des icÃ´nes de bureau"
+		DESKTOP_DIALOG_TAZUSB="Enregistrer le systÃ¨me avec la compression"
+		DESKTOP_DIALOG_LABEL="DÃ©connexion, arrÃªt ou redÃ©marrage du systÃ¨me" ;;
 	*)
 		lang=""
 		NEW_FOLDER_LABEL="Create a new folder on the desktop:"
