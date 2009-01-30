@@ -3,7 +3,6 @@
 # Gtkdialog box for the mount command. Part of SliTaz tools.
 #
 VERSION=20081121
-PLOP_URL=http://download.plop.at/plop/bootmngr/plpbt50rc12flp.zip
 
 # Check if user is root.
 check_root()
@@ -302,19 +301,23 @@ EOT
 		rm -rf $DIR
 		;;
 	get-plop)
-		mkdir -p /tmp/get-plop$$/plop-1.0/fs/$(dirname $3)
-		wget -O - $PLOP_URL | unzip -p /dev/stdin | dd bs=18k count=6 |\
-			gzip -9 > /tmp/get-plop$$/plop-1.0/fs/$3
-		if [ -s /tmp/get-plop$$/plop-1.0/fs/$3 ]; then 
-			cat > /tmp/get-plop$$/plop-1.0/receipt <<EOT
+		PLOP_URL="$(wget -O - http://www.plop.at/en/bootmanagerdl.html |\
+			    grep plpbt | head -1 |\
+			    sed 's|.*href=\(.*\) target.*|\1|')"
+		VERSION="$(basename $PLOP_URL| sed 's/[^0-9\.]*\(.*\).zip/\1/')"
+		mkdir -p /tmp/get-plop$$/plop-$VERSION/fs/$(dirname $3)
+		wget -O - $PLOP_URL | unzip -p /dev/stdin '*/plpbt.img' | \
+			gzip -9 > /tmp/get-plop$$/plop-$VERSION/fs/$3
+		if [ -s /tmp/get-plop$$/plop-$VERSION/fs/$3 ]; then 
+			cat > /tmp/get-plop$$/plop-$VERSION/receipt <<EOT
 PACKAGE="plop"
-VERSION="1.0"
+VERSION="$VERSION"
 CATEGORY="non-free"
 SHORT_DESC="Plop boot manager."
 WEB_SITE="http://www.plop.at/en/bootmanager.html"
 EOT
-			( cd /tmp/get-plop$$ ; tazpkg pack plop-1.0 )
-			tazpkg install /tmp/get-plop$$/plop-1.0.tazpkg
+			( cd /tmp/get-plop$$ ; tazpkg pack plop-$VERSION )
+			tazpkg install /tmp/get-plop$$/plop-$VERSION.tazpkg
 		fi
 		rm -rf /tmp/get-plop$$
 		;;
