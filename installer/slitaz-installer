@@ -5,7 +5,7 @@
 # English but displayed messages are in French. The script starts with a
 # few main variables, then all the functions and then a sequence of functions.
 #
-# (C) 2007-2008 SliTaz - GNU General Public License v3.
+# (C) 2007-2009 SliTaz - GNU General Public License v3.
 #
 # Author : Christophe Lincoln <pankso@slitaz.org>
 #
@@ -39,11 +39,14 @@ BACKLIST="SliTaz GNU/Linux installer"
 # Messages language setting
 set_messages()
 {
-	if echo $LANG | grep fr; then
-		. /usr/share/slitaz-tools/installer/fr.msg
-	else
-		. /usr/share/slitaz-tools/installer/en.msg
-	fi
+	case $LANG in
+		de*)
+			. /usr/share/slitaz-tools/installer/de.msg ;;
+		fr*)
+			. /usr/share/slitaz-tools/installer/fr.msg ;;
+		*)
+			. /usr/share/slitaz-tools/installer/en.msg ;;
+	esac
 }
 
 # Display error message.
