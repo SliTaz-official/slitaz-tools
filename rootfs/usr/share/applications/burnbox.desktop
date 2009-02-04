@@ -1,8 +1,8 @@
 [Desktop Entry]
 Encoding=UTF-8
-Name=Burn ISO images
-Name[fr]=Graver des images ISO
-Comment=Burn ISO images to CD or DVD
+Name=Burn CD/DVD
+Name[fr]=Graver des CD ou DVD
+Comment=Burn ISO images or audio tracks to CD or DVD
 Exec=burnbox
 Icon=/usr/share/icons/Tango/16x16/devices/drive-optical.png
 Type=Application
