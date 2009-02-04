@@ -62,3 +62,6 @@ Please enter root password to execute :"
 '
 
 gtkdialog --center --program=SU_DIALOG
+
+# Let other user lauch subox.
+rm /tmp/subox-exec
