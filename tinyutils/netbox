@@ -698,18 +698,6 @@ $(manbutton 8 iwconfig)
       </vbox>"
 tmp2='<vbox>
       <hbox>
-        <button>
-          <label>Load</label>
-          <input file icon="forward"></input>
-          <action>modprobe $MODULE</action>
-	  <action type="exit">restart</action>
-        </button>
-        <button>
-          <label>Unload</label>
-          <input file icon="forward"></input>
-	  <action>modprobe -r $MODULE</action>
-	  <action type="exit">restart</action>
-        </button>
         <text use-markup="true">
           <label>"<b>Wifi Module :</b>"</label>
         </text>
@@ -718,9 +706,21 @@ tmp2='<vbox>
 tmp2="$tmp2$(find /lib/modules/$(uname -r)/kernel/drivers/net/wireless -type f 2> /dev/null |  sed 's,/.*/\(.*\).ko.*,<item>\1</item>,')"
 tmp3='</combobox>
         <button>
-        <label>Lsmod</label>
-        <input file icon="computer"></input>
-	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x25 -title "Modules (q to quit)" -e "lsmod | less"</action>
+          <label>Load</label>
+          <input file icon="forward"></input>
+          <action>modprobe $MODULE</action>
+	      <action type="exit">restart</action>
+        </button>
+        <button>
+          <label>Unload</label>
+          <input file icon="undo"></input>
+	      <action>modprobe -r $MODULE</action>
+	      <action type="exit">restart</action>
+        </button>
+        <button>
+          <label>Lsmod</label>
+          <input file icon="computer"></input>
+	      <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x25 -title "Modules (q to quit)" -e "lsmod | less"</action>
         </button>
       </hbox>'
 tmp2="$tmp2$tmp3"
