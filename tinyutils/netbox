@@ -367,32 +367,33 @@ NET_BOX='
 		<pixmap>
 			<input file>/usr/share/pixmaps/netbox.png</input>
 		</pixmap>
-	</hbox>
+	</hbox>'
 
-    <frame General>
-      <hbox>
-        <text use-markup="true">
-          <label>"<b>Interface   :</b>"</label>
-        </text>
-	<combobox>
-          <variable>INTERFACE</variable>'
-. /etc/network.conf
-NET_BOX="$NET_BOX<item>$INTERFACE</item>$(for dev in $(ls /sys/class/net); do
-	echo "<item>$dev</item>"; done)"
-tmp='   </combobox>
-      </hbox>
-    </frame>
-
-    <notebook labels="DHCP|PPPoE|PPP|Static IP|Wifi|System wide|VPN|Servers'
+tmp='<notebook labels="DHCP|Static IP|PPPoE|PPP|Wifi|System wide|VPN|Servers'
 NET_BOX="$NET_BOX$tmp"
 [ -x /sbin/iptables ] && NET_BOX="$NET_BOX|Firewall"
 [ -x /usr/bin/knock ] && NET_BOX="$NET_BOX|Knock"
 tmp='|Etherwake">
 
     <frame Udhcpc (busybox)>
+      <text width-chars="58">
+          <label>
+"Ethernet (cable) default connexion.
+"
+          </label>
+       </text>
       <hbox>
         <text use-markup="true">
-          <label>"<b>Options :</b>"</label>
+          <label>"<b>Interface:</b>"</label>
+        </text>
+        <entry>
+          <input>. /etc/network.conf; echo "$INTERFACE"</input>
+          <variable>INTERFACE</variable>
+        </entry>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Options:  </b>"</label>
         </text>
         <entry>
           <default>-b</default>
@@ -405,7 +406,7 @@ tmp='|Etherwake">
       </hbox>
       <hbox>
         <text use-markup="true">
-          <label>"<b>Script :</b>"</label>
+          <label>"<b>Script:     </b>"</label>
         </text>
         <entry editable="false">
           <default>/usr/share/udhcpc/default.script</default>
@@ -431,6 +432,76 @@ tmp='|Etherwake">
           <action>echo -n "Stopping interface : $INTERFACE... "</action>
           <action>ifconfig $INTERFACE down</action>
           <action>killall -q udhcpc; echo "done"</action>
+        </button>
+      </hbox>
+    </frame>
+    
+    <frame Ethernet fixed IP>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Interface:   </b>"</label>
+        </text>
+        <entry>
+          <input>. /etc/network.conf; echo "$INTERFACE"</input>
+          <variable>INTERFACE</variable>
+        </entry>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>IP:                </b>"</label>
+        </text>
+        <entry>
+          <input>. /etc/network.conf; echo "$IP"</input>
+          <variable>IP</variable>
+        </entry>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Netmask:    </b>"</label>
+        </text>
+        <entry>
+          <input>. /etc/network.conf; echo "$NETMASK"</input>
+          <variable>NETMASK</variable>
+        </entry>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Gateway:    </b>"</label>
+        </text>
+        <entry>
+          <input>. /etc/network.conf; echo "$GATEWAY"</input>
+          <variable>GATEWAY</variable>
+        </entry>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>DNS server: </b>"</label>
+        </text>
+        <entry>
+          <input>. /etc/network.conf; echo "$DNS_SERVER"</input>
+          <variable>DNS_SERVER</variable>
+        </entry>
+      </hbox>
+      <hbox>
+        <button>
+          <label>Start</label>
+          <input file icon="forward"></input>
+          <action>ifconfig lo down</action>
+          <action>ifconfig $INTERFACE down</action>
+          <action>sed -i s/`cat /etc/network.conf | grep ^INTERFACE=`/INTERFACE=\"$INTERFACE\"/ /etc/network.conf</action>
+          <action>sed -i s/DHCP=\"yes\"/DHCP=\"no\"/ /etc/network.conf</action>
+          <action>sed -i s/STATIC=\"no\"/STATIC=\"yes\"/ /etc/network.conf</action>
+          <action>sed -i s/`cat /etc/network.conf | grep ^IP=`/IP=\"$IP\"/ /etc/network.conf</action>
+          <action>sed -i s/`cat /etc/network.conf | grep ^NETMASK=`/NETMASK=\"$NETMASK\"/ /etc/network.conf</action>
+          <action>sed -i s/`cat /etc/network.conf | grep ^GATEWAY=`/GATEWAY=\"$GATEWAY\"/ /etc/network.conf</action>
+          <action>sed -i s/`cat /etc/network.conf | grep ^DNS_SERVER=`/DNS_SERVER=\"$DNS_SERVER\"/ /etc/network.conf</action>
+          <action>/etc/init.d/network.sh</action>
+        </button>
+        <button>
+          <label>Stop</label>
+          <input file icon="stop"></input>
+          <action>echo -n "Stopping interface : $INTERFACE... "</action>
+          <action>ifconfig $INTERFACE down; echo "done"</action>
         </button>
       </hbox>
     </frame>
@@ -560,67 +631,6 @@ tmp='|Etherwake">
           <label>Stop</label>
           <input file icon="stop"></input>
           <action>/etc/ppp/scripts/ppp-off</action>
-        </button>
-      </hbox>
-    </frame>
-
-    <frame Configuration>
-      <hbox>
-        <text use-markup="true">
-          <label>"<b>IP                :</b>"</label>
-        </text>
-        <entry>
-          <input>. /etc/network.conf; echo "$IP"</input>
-          <variable>IP</variable>
-        </entry>
-      </hbox>
-      <hbox>
-        <text use-markup="true">
-          <label>"<b>Netmask    :</b>"</label>
-        </text>
-        <entry>
-          <input>. /etc/network.conf; echo "$NETMASK"</input>
-          <variable>NETMASK</variable>
-        </entry>
-      </hbox>
-      <hbox>
-        <text use-markup="true">
-          <label>"<b>Gateway    :</b>"</label>
-        </text>
-        <entry>
-          <input>. /etc/network.conf; echo "$GATEWAY"</input>
-          <variable>GATEWAY</variable>
-        </entry>
-      </hbox>
-      <hbox>
-        <text use-markup="true">
-          <label>"<b>DNS server :</b>"</label>
-        </text>
-        <entry>
-          <input>. /etc/network.conf; echo "$DNS_SERVER"</input>
-          <variable>DNS_SERVER</variable>
-        </entry>
-      </hbox>
-      <hbox>
-        <button>
-          <label>Start</label>
-          <input file icon="forward"></input>
-          <action>ifconfig lo down</action>
-          <action>ifconfig $INTERFACE down</action>
-          <action>sed -i s/`cat /etc/network.conf | grep ^INTERFACE=`/INTERFACE=\"$INTERFACE\"/ /etc/network.conf</action>
-          <action>sed -i s/DHCP=\"yes\"/DHCP=\"no\"/ /etc/network.conf</action>
-          <action>sed -i s/STATIC=\"no\"/STATIC=\"yes\"/ /etc/network.conf</action>
-          <action>sed -i s/`cat /etc/network.conf | grep ^IP=`/IP=\"$IP\"/ /etc/network.conf</action>
-          <action>sed -i s/`cat /etc/network.conf | grep ^NETMASK=`/NETMASK=\"$NETMASK\"/ /etc/network.conf</action>
-          <action>sed -i s/`cat /etc/network.conf | grep ^GATEWAY=`/GATEWAY=\"$GATEWAY\"/ /etc/network.conf</action>
-          <action>sed -i s/`cat /etc/network.conf | grep ^DNS_SERVER=`/DNS_SERVER=\"$DNS_SERVER\"/ /etc/network.conf</action>
-          <action>/etc/init.d/network.sh</action>
-        </button>
-        <button>
-          <label>Stop</label>
-          <input file icon="stop"></input>
-          <action>echo -n "Stopping interface : $INTERFACE... "</action>
-          <action>ifconfig $INTERFACE down; echo "done"</action>
         </button>
       </hbox>
     </frame>'
