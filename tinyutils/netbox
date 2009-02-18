@@ -297,9 +297,6 @@ les interfaces reseau ou editer directement les fichiers."
 export IFCONFIG='
 <window title="Network status" icon-name="network-wire">
 <vbox>
-	<text wrap="false">
-		<input>date</input>
-	</text>
 	<notebook labels="Network interfaces'
 		[ -x /usr/sbin/iwlist ] && IFCONFIG="$IFCONFIG|Wireless interfaces|Wireless networks"
 		tmp='|Routing|Servers">
@@ -372,7 +369,7 @@ NET_BOX='
 	</hbox>'
 
 # Notebook tabs.
-tmp='<notebook labels="DHCP|Static IP|PPPoE|PPP|Wifi|System wide|VPN|Servers'
+tmp='<notebook labels="DHCP|Static IP|PPPoE|PPP|Wireless (Wifi)|System wide|VPN|Servers'
 NET_BOX="$NET_BOX$tmp"
 [ -x /sbin/iptables ] && NET_BOX="$NET_BOX|Firewall"
 [ -x /usr/bin/knock ] && NET_BOX="$NET_BOX|Knock"
@@ -653,7 +650,7 @@ tmp=${tmp}'
 
 # Wireless tab
 NET_BOX="$NET_BOX$tmp"
-tmp='<frame Wireless>
+tmp='<frame Wifi manual configuration>
     <notebook labels="Interface|Extra parameters'
 [ -d /lib/modules/`uname -r`/kernel/drivers/net/wireless ] && tmp="$tmp|Kernel Modules"
 tmp2='">
@@ -777,26 +774,7 @@ tmp3=$(for i in /usr/bin/get*firmware; do
       </hbox>
 "
 tmp2="$tmp2$tmp3"
-tmp3="$(installbox ndiswrapper)"
-[ -x /usr/sbin/ndiswrapper ] && tmp3='
-      <hbox>
-        <text use-markup="true">
-          <label>"<b>Ndiswrapper drivers :</b>"</label>
-        </text>
-        <entry>
-          <input>. /etc/network.conf; echo "$NDISWRAPPER_DRIVERS"</input>
-          <variable>NDISWRAPPER_DRIVERS</variable>
-        </entry>
-        <button>
-          <label>Restart</label>
-          <input file icon="reload"></input>
-	  <action>rmmod ndiswrapper</action>
-	  <action>for i in $NDISWRAPPER_DRIVERS; do ndiswrapper -i $i; done</action>
-	  <action>modprobe ndiswrapper</action>
-        </button>
-      </hbox>
-'
-[ -d /lib/modules/`uname -r`/kernel/drivers/net/wireless ] && tmp="$tmp$tmp2$tmp3
+[ -d /lib/modules/`uname -r`/kernel/drivers/net/wireless ] && tmp="$tmp$tmp2
      </vbox>"
 tmp2='</notebook>
       <hbox>
@@ -833,8 +811,9 @@ tmp2='</notebook>
 [ -x /usr/sbin/iwconfig ] || NET_BOX="$NET_BOX
     <frame Wireless>
 $(installbox wireless_tools)
-    </frame>
-"
+    </frame>"
+
+# System Wide configuration.
 tmp='<frame Configuration files>
       <hbox>
         <text use-markup="true">
