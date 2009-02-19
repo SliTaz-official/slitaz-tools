@@ -66,6 +66,8 @@ usage()
   new-file     Create a new empty file or SHell script on the desktop.
   add-icons    Add a system icon on the desktop.
   calendar     Display a calendar under mouse pointer.
+  notify       Display a notification message (center/no decoration).
+               Ex: `basename $0` notify \"Message to display\" 4
   logout       Prompt for X session exit or system halt/reboot.\n"
 }
 
@@ -203,7 +205,7 @@ case $1 in
 		# X session/system logout.
 		#
 		DESKTOP_DIALOG="
-<window title=\"SliTaz Desktop logout\" icon-name=\"user-desktop\">
+<window title=\"SliTaz Desktop logout\" icon-name=\"user-desktop\" skip_taskbar_hint=\"true\">
 <vbox>
 	<pixmap>
 		<input file>/usr/share/icons/Tango/32x32/places/user-desktop.png</input>
@@ -266,6 +268,26 @@ case $1 in
 </vbox>
 </window>"
 		export DESKTOP_DIALOG=${DESKTOP_DIALOG}${TAZUSB_DIALOG}${ACTIONS} ;;
+	notify)
+		# Nofification message without window decoration.
+		MSG="$2"
+		SEC=$3
+		[ -z $SEC ] && SEC=2
+		export NOTIFY_BOX="
+<window decorated=\"false\" skip_taskbar_hint=\"true\">
+<vbox>
+	<text width-chars=\"64\" use-markup=\"true\">
+		<label>\"
+$MSG
+		\"</label>
+	</text>
+</vbox>
+</window>"
+		gtkdialog --center --program=NOTIFY_BOX >/dev/null &
+		sleep $SEC
+		pid=`ps | grep NOTIFY_BOX | awk '{ print $1 }'`
+		kill $pid 2>/dev/null
+		exit 0 ;;
 	*)
 		# Usage if executed from cmdline.
 		#
