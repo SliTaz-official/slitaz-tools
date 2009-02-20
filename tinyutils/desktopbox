@@ -272,13 +272,13 @@ case $1 in
 		# Nofification message without window decoration.
 		MSG="$2"
 		SEC=$3
-		[ -z $SEC ] && SEC=2
+		[ -z $SEC ] && SEC=4
 		export NOTIFY_BOX="
 <window decorated=\"false\" skip_taskbar_hint=\"true\">
 <vbox>
 	<text width-chars=\"64\" use-markup=\"true\">
 		<label>\"
-$MSG
+<b>$MSG</b>
 		\"</label>
 	</text>
 </vbox>
