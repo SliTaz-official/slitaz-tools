@@ -9,6 +9,9 @@ VERSION=20080719
 
 # Glade XML file path.
 GLADE_XML=/usr/share/slitaz-tools/glade
+# Export script path and other if needed so we can use them in 'quote'.
+export BIN=$0
+export AUTOSTART_SCRIPT=$HOME/.config/openbox/autostart.sh
 
 # Standard directories.
 mkdir -p $HOME/Desktop $HOME/.local/share/applications
@@ -68,10 +71,88 @@ usage()
   calendar     Display a calendar under mouse pointer.
   notify       Display a notification message (center/no decoration).
                Ex: `basename $0` notify \"Message to display\" 4
+  autostart    Manage autostarted applications with Openbox.
   logout       Prompt for X session exit or system halt/reboot.\n"
 }
 
+# Openbox autostart functions, first column is used for icon
+autostart_list()
+{
+	# Enabled
+	for app in `cat $AUTOSTART_SCRIPT | grep ^[a-z] | awk '{ print $1 }'`
+	do
+		comment=`grep -B 1 "^$app" $AUTOSTART_SCRIPT | grep '^# ' | sed s/'#'//`
+		[ -x /usr/bin/$app ] && echo "go-next | $app | $comment"
+	done
+	# Disabled
+	for app in `cat $AUTOSTART_SCRIPT | grep ^#[a-z] | awk '{ print $1 }'`
+	do
+		comment=`grep -B 1 "^$app" $AUTOSTART_SCRIPT | grep '^# ' | sed s/'#'//`
+		app=${app#\#}
+		[ -x /usr/bin/$app ] && echo "stop | $app | $comment"
+	done
+}
+
+# Enable or disbale autostarted applications.
+autostart_actions()
+{
+	if grep -q "^$APPLICATION" $AUTOSTART_SCRIPT; then
+		sed -i s/"^$APPLICATION"/"\#$APPLICATION"/ $AUTOSTART_SCRIPT
+	else
+		sed -i s/"^\#$APPLICATION"/"$APPLICATION"/ $AUTOSTART_SCRIPT
+	fi
+}
+
+add_autostarted_app()
+{
+	if ! grep -q "^$NEW_APP" $AUTOSTART_SCRIPT; then
+		NEW_APP=`echo $NEW_APP | sed s/'&'/''/`
+		echo "" >> $AUTOSTART_SCRIPT
+		echo "# $NEW_COMMENT" >> $AUTOSTART_SCRIPT
+		echo "$NEW_APP &" >> $AUTOSTART_SCRIPT
+	fi
+}
+
+add_autostarted_app_box()
+{
+	export ADD_AUTO_START_BOX='
+<window title="Add auto started applications" icon-name="preferences-system-session">
+<vbox>
+	<text width-chars="54">
+		<label>"
+Add a new application starting with your session
+		"</label>
+	</text>
+	<hbox>
+		<text>
+			<label>"Application:"</label>
+		</text>
+		<entry>
+			<variable>NEW_APP</variable>
+		</entry>
+	</hbox>
+	<hbox>
+		<text>
+			<label>"Comment:  "</label>
+		</text>
+		<entry>
+			<variable>NEW_COMMENT</variable>
+		</entry>
+	</hbox>
+	<hbox>
+		<button ok>
+			<action>$BIN add_autostarted_app</action>
+			<action type="exit">exit</action>
+		</button>
+		<button cancel></button>
+	</hbox>
+</vbox>
+</window>'
+	gtkdialog --center --program=ADD_AUTO_START_BOX
+}
+
 # Box commands.
+
 case $1 in
 	new-folder)
 		# Create a directory on the ~/Desktop.
@@ -287,6 +368,51 @@ case $1 in
 		sleep $SEC
 		pid=`ps | grep NOTIFY_BOX | awk '{ print $1 }'`
 		kill $pid 2>/dev/null
+		exit 0 ;;
+	autostart)
+		# Autostarted apps management. Functions are used for input 
+		# and actions
+		export DESKTOP_DIALOG='
+<window title="Auto start applications with Openbox" icon-name="preferences-system-session">
+<vbox>
+	<tree>
+		<width>540</width><height>200</height>
+		<variable>APPLICATION</variable>
+		<label>Application|Comment</label>
+		<input icon_column="0">$BIN autostart_list</input>
+		<action>$BIN autostart_actions</action>
+		<action>refresh:APPLICATION</action>
+	</tree>
+	<hbox>
+		<text width-chars="36">
+				<label>
+"Double clic to enable/disable an application"
+				</label>
+			</text>
+		<button>
+			<label>Add</label>
+			<input file icon="gtk-add"></input>
+			<action>$BIN add_autostarted_app_box</action>
+			<action>refresh:APPLICATION</action>
+		</button>
+		<button>
+			<label>Configuration</label>
+			<input file icon="accessories-text-editor"></input>
+			<action>leafpad $AUTOSTART_SCRIPT</action>
+			<action>refresh:APPLICATION</action>
+		</button>
+		<button>
+			<label>Exit</label>
+			<input file icon="exit"></input>	
+			<action type="exit">exit</action>
+		</button>
+	</hbox>
+</vbox>
+</window>'
+		;;
+	*_*)
+		# Exec all function called by args (must have an underscore).
+		$1
 		exit 0 ;;
 	*)
 		# Usage if executed from cmdline.
