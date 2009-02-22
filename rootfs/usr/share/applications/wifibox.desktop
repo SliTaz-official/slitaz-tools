@@ -1,0 +1,8 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Wireless networks connections
+Name[fr]=Connexions réseaux sans fil
+Exec=subox wifibox
+Icon=network-wireless
+Type=Application
+Categories=System;Application;

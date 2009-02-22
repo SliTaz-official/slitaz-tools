@@ -1,0 +1,618 @@
+#!/bin/sh
+#
+# GTKdialog interface to manage wireless connection in a simple way.
+# Use tabs to indent, split commands from the GUI and use functions.
+# Favotites networks are also supported
+#
+# (c) 2009 SliTaz GNU/Linux - GNU gpl v3
+#
+
+# Export script path and other if needed so we can use them in 'quote'.
+export BIN=$0
+export FAVORITES_WIFI=/etc/wireless
+. /etc/network.conf
+
+# Wifibox is only for root.
+if test $(id -u) != 0 ; then
+	exec subox wifibox
+	exit 0
+fi
+
+# Sanity check
+[ -x /usr/sbin/iwconfig ] || tazpkg get-install wireless_tools
+[ -d $FAVORITES_WIFI ] || mkdir -p $FAVORITES_WIFI
+rm -f $FAVORITES_WIFI/any.conf
+
+# Catch ESSIDs and format output for GTK tree. We get the list off 
+# network by Cell and without space.
+detect_wifi_networks()
+{
+	desktopbox notify "Scanning Wireless interface: $WIFI_INTERFACE" &
+	if [ -d /sys/class/net/$WIFI_INTERFACE/wireless ]; then
+		ifconfig $WIFI_INTERFACE up
+		for i in `iwlist $WIFI_INTERFACE scan | sed s/"Cell "/Cell-/ | grep "Cell-" | awk '{print $1}'`
+		do
+			SCAN=`iwlist $WIFI_INTERFACE scan | sed s/"Cell "/Cell-/ | grep -A 8 "$i"`
+			ESSID=`echo $SCAN | cut -d '"' -f 2`
+			if echo "$SCAN" | grep -q Quality; then
+				QUALITY=`echo $SCAN | sed 's/.*Quality=\([^ ]*\).*/\1/' | sed 's/.*Quality:\([^ ]*\).*/\1/'`
+			else
+				QUALITY="-"
+			fi
+			ENCRYPTION=`echo $SCAN | sed 's/.*key:\([^ ]*\).*/\1/'`
+			# Check encryption type
+			if echo "$SCAN" | grep -q WPA; then
+				ENCRYPTION="${ENCRYPTION} (WPA)"
+			fi
+			# Connected or not connected...
+			if ifconfig | grep -A 1 $WIFI_INTERFACE | \
+			grep -q inet && iwconfig $WIFI_INTERFACE | \
+			grep ESSID | grep -q -w "$ESSID"; then
+				STATUS=connected
+			else
+				STATUS="-"
+			fi
+			echo -n ""
+			echo "$ESSID | $QUALITY | $ENCRYPTION | $STATUS"
+		done
+	fi
+}
+
+# cmdline functions
+
+# Configure /etc/network.conf and restart connexion with init script.
+start_wifi_connection()
+{
+	# Get tmp config created by connect_to_essid() if exist and set 
+	# empty value to clean config file.
+	if [ -f /tmp/wifi.conf ]; then
+		. /tmp/wifi.conf
+		WIFI_MODE=""
+		WIFI_IWCONFIG_ARGS=""
+		WIFI_CHANNEL=""
+	fi
+	sed -i "s/`grep ^WIFI= /etc/network.conf`/WIFI=\"yes\"/" \
+		/etc/network.conf
+	sed -i "s/`grep ^WIFI_INTERFACE= /etc/network.conf`/WIFI_INTERFACE=\"$WIFI_INTERFACE\"/" \
+		/etc/network.conf
+	sed -i "s/`grep ^WIFI_ESSID= /etc/network.conf`/WIFI_ESSID=\"$WIFI_ESSID\"/" \
+		/etc/network.conf
+	sed -i "s/`grep ^WIFI_KEY= /etc/network.conf`/WIFI_KEY=\"$WIFI_KEY\"/" \
+		/etc/network.conf
+	sed -i "s/`grep ^WIFI_MODE= /etc/network.conf`/WIFI_MODE=\"$WIFI_MODE\"/" \
+		/etc/network.conf
+	sed -i "s/`grep ^WIFI_IWCONFIG_ARGS= /etc/network.conf`/WIFI_IWCONFIG_ARGS=\"$WIFI_IWCONFIG_ARGS\"/" \
+		/etc/network.conf
+	sed -i "s/`grep ^WIFI_KEY_TYPE= /etc/network.conf`/WIFI_KEY_TYPE=\"$WIFI_KEY_TYPE\"/" \
+		/etc/network.conf
+	sed -i "s/`grep ^WIFI_CHANNEL= /etc/network.conf`/WIFI_CHANNEL=\"$WIFI_CHANNEL\"/" \
+		/etc/network.conf	
+	[ -s /var/run/udhcpc.$WIFI_INTERFACE.pid ] && kill `cat /var/run/udhcpc.$WIFI_INTERFACE.pid`
+	ifconfig $WIFI_INTERFACE down
+	iwconfig $WIFI_INTERFACE txpower auto	
+	/etc/init.d/network.sh restart
+	# Remove tmp file (could be use to have wireless profiles)
+	rm -f /tmp/wifi.conf
+}
+
+# We must spleep 4 sec to refresh networks list.
+stop_wifi_connexion()
+{
+	sed -i s/`grep ^WIFI= /etc/network.conf`/WIFI=\"no\"/ \
+		/etc/network.conf
+	[ -x /etc/init.d/wpa_supplicant ] && /etc/init.d/wpa_supplicant stop
+	ifconfig $WIFI_INTERFACE down
+	iwconfig $WIFI_INTERFACE txpower off
+	[ -s /var/run/udhcpc.$WIFI_INTERFACE.pid ] && kill `cat /var/run/udhcpc.$WIFI_INTERFACE.pid`
+	sleep 4
+}
+
+# Favorites wireless networks use only 3 values: essid. key and type of
+# key
+FAVORITES_WIFI_list()
+{
+	for i in $FAVORITES_WIFI/*.conf
+	do
+		WIFI_ESSID=""
+		WIFI_KEY=""
+		WIFI_KEY_TYPE=""
+		. "$i"
+		[ -z "$WIFI_ESSID" ] && WIFI_ESSID="Bad config file: $i"
+		[ -z "$WIFI_KEY_TYPE" ] && WIFI_KEY_TYPE="-"
+		if [ -n "$WIFI_KEY" ]; then
+			WIFI_KEY="********"
+		else
+			WIFI_KEY="-"
+		fi
+		echo "$WIFI_ESSID | $WIFI_KEY_TYPE | $WIFI_KEY"
+	done
+}
+
+favorite_wifi_actions()
+{
+	cp -a $FAVORITES_WIFI/"$FAVORITE".conf /tmp/wifi.conf
+	. /tmp/wifi.conf
+	export CONNECT_FAVORITE="
+<window title=\"Connect to: $WIFI_ESSID\" icon-name=\"network-wireless\">
+<vbox>
+	
+	<text width-chars=\"54\">
+		<label>
+\"
+ESSID name: $WIFI_ESSID
+\"
+		</label>
+	</text>
+	
+	<hbox>
+		<button>
+			<label>Connect</label>
+			<input file icon=\"forward\"></input>	
+			<action>$0 start_wifi_connection</action>
+			<action type=\"exit\">exit</action>
+		</button>
+		<button>
+			<label>Edit settings</label>
+			<input file icon=\"accessories-text-editor\"></input>	
+			<action>leafpad $FAVORITES_WIFI/\"$FAVORITE\".conf</action>
+			<action>rm -f /tmp/wifi.conf</action>
+			<action type=\"exit\">exit</action>
+		</button>
+		<button>
+			<label>Delete</label>
+			<input file icon=\"gtk-delete\"></input>	
+			<action>rm -f $FAVORITES_WIFI/\"$FAVORITE\".conf</action>
+			<action type=\"exit\">exit</action>
+		</button>
+		<button cancel></button>
+	</hbox>
+	
+</vbox>
+</window>"
+	gtkdialog --center --program=CONNECT_FAVORITE >/dev/null
+}
+
+add_favorite_network_box()
+{
+	ADD_FAVORITE='
+<window title="Add new favorite Wireless" icon-name="network-wireless">
+<vbox>
+	<text width-chars="54">
+		<label>
+"
+Please configure your new favorite Wireless network
+"
+		</label>
+	</text>
+	<hbox>
+		<text use-markup="true">
+			<label>"<b>ESSID:</b>"</label>
+		</text>
+		<entry>
+			<variable>WIFI_ESSID</variable>
+		</entry>
+	</hbox>
+	<hbox>
+		<text use-markup="true">
+			<label>"<b>Key:   </b>"</label>
+		</text>
+		<entry>
+			<variable>WIFI_KEY</variable>
+		</entry>
+	</hbox>
+	<hbox>
+		<text use-markup="true">
+			<label>"<b>Key type:</b>"</label>
+		</text>
+		<combobox>'
+	tmp="${ADD_FAVORITE}<item>$WIFI_KEY_TYPE</item>"
+	for i in none WEP WPA any; do
+		tmp=${tmp}"<item>$i</item>"
+	done
+	export ADD_FAVORITE=${tmp}'
+			<variable>WIFI_KEY_TYPE</variable>
+		</combobox>
+	</hbox>
+	<hbox>
+		<button>
+			<label>Add to list</label>
+			<input file icon="forward"></input>
+			<action>echo "# Wireless connection configuration." > $FAVORITES_WIFI/"$WIFI_ESSID".conf</action>
+			<action>echo "#" >> /etc/wireless/"$WIFI_ESSID".conf</action>
+			<action>echo "WIFI_ESSID=\"$WIFI_ESSID\"" >> $FAVORITES_WIFI/"$WIFI_ESSID".conf</action>
+			<action>echo "WIFI_KEY=\"$WIFI_KEY\"" >> $FAVORITES_WIFI/"$WIFI_ESSID".conf</action>
+			<action>echo "WIFI_KEY_TYPE=\"$WIFI_KEY_TYPE\"" >> $FAVORITES_WIFI/"$WIFI_ESSID".conf</action>
+			<action type="exit">exit</action>
+		</button>
+		<button cancel></button>
+	</hbox>
+</vbox>
+</window>'
+	gtkdialog --center --program=ADD_FAVORITE #>/dev/null
+}
+
+# GUI functions
+
+helpbutton()
+{
+	local label;
+        label="<label>$3</label>"
+	[ -n "$3" ] || label=""
+	cat << EOT
+<button>
+	<input file icon="help"></input>$label
+	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry $2 -title "$1 help" -e "$(which $1) --help ; echo -e \\"----\\nENTER to continue...\\" && read close"</action>
+</button>
+EOT
+}
+
+manbutton()
+{
+	cat << EOT
+<button>
+	<input file icon="browser"></input>
+	<label>man</label>
+	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x24 -title "$2 man (q to quit)" -e ". /etc/profile; man $1 $2"</action>
+</button>
+EOT
+}
+
+# Independant dialog to connect on a wireless network. If encryption
+# is on we ask for the security key.
+connect_to_essid()
+{
+	SCAN=`iwlist $WIFI_INTERFACE scanning essid "$ESSID_LIST" | grep -A 6 "ESSID"`
+	WIFI_ESSID="$ESSID_LIST"
+	ENCRYPTION=`echo $SCAN | sed 's/.*key:\([^ ]*\).*/\1/'`
+	# Create tmp file used by active_wifi_connexion()
+	cat > /tmp/wifi.conf << _EOF_
+# Wireless connexion configuration file.
+WIFI_ESSID="$ESSID_LIST"
+_EOF_
+	CONNECT_ESSID="
+<window title=\"Connect to: $WIFI_ESSID\" icon-name=\"network-wireless\">
+<vbox>
+	<text width-chars=\"54\">
+		<label>
+\"
+Connect $WIFI_INTERFACE to: $WIFI_ESSID
+\"
+		</label>
+	</text>"
+	# We mybe need a key to connect
+	if [ "$ENCRYPTION" = "on" ] && [ "$ESSID_LIST" != "any" ]; then
+		# WPA
+		if echo "$SCAN" | grep -q WPA; then
+			echo 'WIFI_KEY_TYPE="WPA"' >> /tmp/wifi.conf
+			CONNECT_ESSID=${CONNECT_ESSID}'
+			<hbox>
+				<text use-markup="true">
+					<label>"<b>WPA Key:</b>"</label>
+				</text>
+				<entry>
+					<input>. /etc/network.conf; echo "$WIFI_KEY"</input>
+					<variable>WIFI_KEY</variable>
+				</entry>
+			</hbox>'
+		else
+			# WEP
+			echo 'WIFI_KEY_TYPE="WEP"' >> /tmp/wifi.conf
+			CONNECT_ESSID=${CONNECT_ESSID}'
+			<hbox>
+				<text use-markup="true">
+					<label>"<b>WEP Key:</b>"</label>
+				</text>
+				<entry>
+					<input>. /etc/network.conf; echo "$WIFI_KEY"</input>
+					<variable>WIFI_KEY</variable>
+				</entry>
+			</hbox>'
+		fi
+	else
+		# No encryption
+		echo 'WIFI_KEY=""' >> /tmp/wifi.conf
+		echo 'WIFI_KEY_TYPE=""' >> /tmp/wifi.conf
+		start_wifi_connection
+		exit 0
+	fi
+	# Add key to config file so active_wifi_connexion() can use it.
+	# WIFI_KEY is not exported if we quote with --> "
+	export CONNECT_ESSID=${CONNECT_ESSID}'
+	<hbox>
+		<button>
+			<label>Connect</label>
+			<input file icon="forward"></input>	
+			<action>echo "WIFI_KEY=\"$WIFI_KEY\"" >> /tmp/wifi.conf</action>
+			<action>$BIN start_wifi_connection</action>
+			<action type="exit">exit</action>
+		</button>
+		<button cancel></button>
+	</hbox>
+</vbox>
+</window>'
+	gtkdialog --center --program=CONNECT_ESSID #>/dev/null
+}
+
+# Wifibox start with Networks tab.
+box()
+{
+	WIFI_DIALOG="
+<window title=\"Wireless manager\" icon-name=\"network-wireless\">
+<vbox>
+	
+	<notebook labels=\"Networks|Favorites|Configuration|Drivers\">
+	
+	<vbox>
+		<tree icon=\"network-wireless\">
+			<width>500</width><height>160</height>
+			<variable>ESSID_LIST</variable>
+			<label>ESSID|Quality|Encryption|Status</label>
+			<input>$0 detect_wifi_networks</input>
+			<item icon=\"network-wireless\">any | * | off | (auto-connect)</item>
+			<action>$0 connect_to_essid</action>
+			<action>refresh:ESSID_LIST</action>
+			<action>refresh:WIFI_ESSID</action>
+			<action>refresh:WIFI_KEY</action>
+			<action>refresh:WIFI_KEY_TYPE</action>
+		</tree>
+		<hbox>
+			<text width-chars=\"50\">
+				<label>
+\"Please double clic on a network to connect or enter security key\"
+				</label>
+			</text>
+			<button>
+				<label>Refresh list</label>
+				<input file icon=\"reload\"></input>
+				<action>refresh:ESSID_LIST</action>
+			</button>
+		</hbox>
+	</vbox>"
+	
+	# Favorites networks
+	WIFI_DIALOG=${WIFI_DIALOG}"	
+	<vbox>
+		<tree icon=\"network-wireless\">
+			<width>500</width><height>160</height>
+			<variable>FAVORITE</variable>
+			<label>ESSID|Key Type|Key status</label>
+			<input>$0 FAVORITES_WIFI_list</input>
+			<item icon=\"network-wireless\">any | - | -</item>
+			<action>$0 favorite_wifi_actions</action>
+			<action>refresh:FAVORITE</action>
+			<action>refresh:ESSID_LIST</action>
+			<action>refresh:WIFI_ESSID</action>
+			<action>refresh:WIFI_KEY</action>
+			<action>refresh:WIFI_KEY_TYPE</action>
+		</tree>
+		<hbox>
+			<text width-chars=\"50\">
+				<label>
+\"Please double clic on a network to modify or remove it\"
+				</label>
+			</text>
+			<button>
+				<label>Add Network</label>
+				<input file icon=\"gtk-add\"></input>
+				<action>$0 add_favorite_network_box</action>
+				<action>refresh:FAVORITE</action>
+			</button>
+		</hbox>
+	</vbox>"
+
+	# Configuration tab
+	WIFI_DIALOG=${WIFI_DIALOG}'
+	<vbox>
+		<frame Base>
+			<hbox>
+				<text use-markup="true">
+					<label>"<b>Interface:</b>"</label>
+				</text>
+				<entry>
+					<input>. /etc/network.conf; echo "$WIFI_INTERFACE"</input>
+					<variable>WIFI_INTERFACE</variable>
+				</entry>
+			</hbox>
+			<hbox>
+				<text use-markup="true">
+					<label>"<b>ESSID:      </b>"</label>
+				</text>
+				<entry>
+					<input>. /etc/network.conf; echo "$WIFI_ESSID"</input>
+					<variable>WIFI_ESSID</variable>
+				</entry>
+			</hbox>
+			<hbox>
+				<text use-markup="true">
+					<label>"<b>Key:         </b>"</label>
+				</text>
+				<entry>
+					<input>. /etc/network.conf; echo "$WIFI_KEY"</input>
+					<variable>WIFI_KEY</variable>
+				</entry>
+				<combobox>'
+	tmp2="${WIFI_DIALOG}<item>$WIFI_KEY_TYPE</item>"
+	for i in none WEP WPA any; do
+		[ "$i" = "$WIFI_KEY_TYPE" ] || tmp2="$tmp2<item>$i</item>"
+	done
+	tmp3='		<variable>WIFI_KEY_TYPE</variable>
+				</combobox>
+			</hbox>
+		</frame>
+		<frame Advanced>
+			<hbox>
+				<text use-markup="true">
+					<label>"<b>Channel/Mode:</b>"</label>
+				</text>
+				<entry>
+					<input>. /etc/network.conf; echo "$WIFI_CHANNEL"</input>
+					<variable>WIFI_CHANNEL</variable>
+				</entry>
+				
+				<combobox>
+					<variable>WIFI_MODE</variable>'
+	tmp2="$tmp2$tmp3<item>$WIFI_MODE</item>"
+	for i in managed ad-hoc master repeater secondary monitor; do
+		[ "$i" = "$WIFI_MODE" ] || tmp2="$tmp2<item>$i</item>"
+	done
+	tmp3='		</combobox>
+			</hbox>
+			<hbox>
+				<text use-markup="true">
+					<label>"<b>Iwconfig args:</b>"</label>
+				</text>
+				<entry>
+					<input>. /etc/network.conf; echo "$WIFI_IWCONFIG_ARGS"</input>
+					<variable>WIFI_IWCONFIG_ARGS</variable>
+				</entry>'
+	WIFI_DIALOG="$tmp$tmp2$tmp3
+	$(helpbutton iwconfig 80x24)
+	$(manbutton 8 iwconfig)
+			</hbox>
+		</frame>"
+		
+	# Start Button for manual configuration.
+	WIFI_DIALOG=${WIFI_DIALOG}'
+		<hbox>
+			<button>
+				<label>Start connection</label>
+				<input file icon="forward"></input>
+				<action>[ "$WIFI_KEY_TYPE" = "WPA" -a ! -x /usr/bin/wpa_supplicant ] && xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x17 -title "wpa_supplicant install" -e "tazpkg get-install wpa_supplicant ; echo -e \"----\n\nENTER to continue...\" && read close"</action>
+				<action>sed -i s/`grep ^WIFI= /etc/network.conf`/WIFI=\"yes\"/ /etc/network.conf</action>
+				<action>sed -i s/`grep ^WIFI_INTERFACE= /etc/network.conf`/WIFI_INTERFACE=\"$WIFI_INTERFACE\"/ /etc/network.conf</action>
+				<action>sed -i s/`grep ^WIFI_ESSID= /etc/network.conf`/WIFI_ESSID=\"$WIFI_ESSID\"/ /etc/network.conf</action>
+				<action>sed -i s/`grep ^WIFI_KEY= /etc/network.conf`/WIFI_KEY=\"$WIFI_KEY\"/ /etc/network.conf</action>
+				<action>sed -i s/`grep ^WIFI_MODE= /etc/network.conf`/WIFI_MODE=\"$WIFI_MODE\"/ /etc/network.conf</action>
+				<action>sed -i "s/`grep ^WIFI_IWCONFIG_ARGS= /etc/network.conf`/WIFI_IWCONFIG_ARGS=\"$WIFI_IWCONFIG_ARGS\"/" /etc/network.conf</action>
+				<action>sed -i s/`grep ^WIFI_KEY_TYPE= /etc/network.conf`/WIFI_KEY_TYPE=\"$WIFI_KEY_TYPE\"/ /etc/network.conf</action>
+				<action>sed -i s/`grep ^WIFI_CHANNEL= /etc/network.conf`/WIFI_CHANNEL=\"$WIFI_CHANNEL\"/ /etc/network.conf</action>
+				<action>[ -s /var/run/udhcpc.$WIFI_INTERFACE.pid ] && kill `cat /var/run/udhcpc.$WIFI_INTERFACE.pid`</action>
+				<action>ifconfig $WIFI_INTERFACE down</action>
+				<action>iwconfig $WIFI_INTERFACE txpower auto</action>
+				<action>/etc/init.d/network.sh restart</action>
+				<action>refresh:ESSID_LIST</action>
+				<action>refresh:WIFI_ESSID</action>
+				<action>refresh:WIFI_KEY</action>
+				<action>refresh:WIFI_KEY_TYPE</action>
+			</button>
+		</hbox>
+	</vbox>'
+
+	# Kernel Modules, firmware and tazndisbox note + button.
+	WIFI_DIALOG=${WIFI_DIALOG}"
+	<vbox>
+		<hbox>
+			<text width-chars=\"64\">
+				<label>
+\"
+Some Wireless Adapters need non-free firmware, please install them
+before loading the corresponding module. Note: you can use Tazhw
+to automaticaly detect your PCI, PCMCIA or USB Wireless adapter.
+\"
+				</label>
+			</text>
+		</hbox>
+		<hbox>
+			<text use-markup=\"true\">
+				<label>\"<b>Tools:</b>\"</label>
+			</text>
+			<button>
+				<input file icon=\"computer\"></input>
+				<label>Auto detect devices</label>
+				<action>tazhw box</action>
+				<action>refresh:ESSID_LIST</action>
+			</button>"
+			# Display firmware stuff, tazndisbox button if installed and close 
+			# tab + notebook
+			if [ -x /usr/bin/tazndisbox ]; then
+				WIFI_DIALOG=${WIFI_DIALOG}"
+			<button>
+				<input file icon=\"system-installer\"></input>
+				<label>Install Windows driver</label>
+				<action>tazndisbox</action>
+				<action>refresh:ESSID_LIST</action>
+			</button>"
+			fi
+		WIFI_DIALOG=${WIFI_DIALOG}"
+		</hbox>
+		<hbox>
+			<text use-markup=\"true\">
+				<label>\"<b>Module:</b>\"</label>
+			</text>
+			<combobox>
+				<variable>MODULE</variable>"
+	WIFI_DIALOG="${WIFI_DIALOG}$(find /lib/modules/$(uname -r)/kernel/drivers/net/wireless -type f 2> /dev/null |  sed 's,/.*/\(.*\).ko.*,<item>\1</item>,')"
+	WIFI_DIALOG=${WIFI_DIALOG}'
+			</combobox>
+			<button>
+				<label>Load</label>
+				<input file icon="forward"></input>
+				<action>modprobe $MODULE</action>
+			</button>
+			<button>
+				<label>Unload</label>
+				<input file icon="undo"></input>
+				<action>modprobe -r $MODULE</action>
+			</button>
+			<button>
+				<label>Lsmod</label>
+				<input file icon="computer"></input>
+				<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x25 -title "Modules (q to quit)" -e "lsmod | less"</action>
+			</button>
+		</hbox>'
+	# Firmware stuff.
+	tmp=$(for i in /usr/bin/get*firmware; do
+		[ -x $i ] || continue
+		[ "$i" = "/usr/bin/get-wifi-firmware" ] && continue
+		[ -d /var/lib/tazpkg/installed/${i#/usr/bin/get-} ] && continue
+		echo "<item>${i#/usr/bin/get-}</item>"; done)
+		[ -n "$tmp" ] && tmp="
+		<hbox>
+			<text use-markup=\"true\">
+				<label>\"<b>Firmware:</b>\"</label>
+			</text>
+			<combobox><variable>FIRMWARE</variable>$tmp</combobox>
+			<button>
+				<label>Install</label>
+				<input file icon=\"go-jump\"></input>
+				<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x25 -title \"Install \$FIRMWARE\" -e \"get-\$FIRMWARE\"</action>
+				<action>refresh:ESSID_LIST</action>
+			</button>
+			<button>
+				<input file icon=\"system-file-manager\"></input>
+				<label>List files</label>
+				<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 100x25 -title \"Firmware files (q to quit)\" -e \"find /lib/firmware -exec ls -ld {} \; | less\"</action>
+				<action>refresh:ESSID_LIST</action>
+			</button>
+		</hbox>"
+
+# Bottom buttons
+export WIFI_DIALOG=${WIFI_DIALOG}${tmp}"
+		</vbox>
+	</notebook>
+	<hbox>
+		<button>
+			<label>Stop connection</label>
+			<input file icon=\"stop\"></input>
+			<action>$0 stop_wifi_connexion</action>
+			<action>refresh:ESSID_LIST</action>
+		</button>
+		<button>
+			<label>Exit</label>
+			<input file icon=\"exit\"></input>
+			<action type=\"exit\">Exit</action>
+		</button>
+	</hbox>
+	
+</vbox>
+</window>"
+	gtkdialog --center --program=WIFI_DIALOG >/dev/null 2>&1
+}
+
+if [ -n "$1" ]; then
+	$1
+else
+	box
+fi
+
+exit 0
