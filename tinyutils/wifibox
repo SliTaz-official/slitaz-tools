@@ -6,6 +6,7 @@
 #
 # (c) 2009 SliTaz GNU/Linux - GNU gpl v3
 #
+VERSION=20090222
 
 # Export script path and other if needed so we can use them in 'quote'.
 export BIN=$0
