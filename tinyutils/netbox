@@ -5,7 +5,7 @@
 #
 # (c) - SliTaz GNU/Linux 2009.
 #
-VERSION=20090214
+VERSION=20090219
 
 # Check if user is root.
 check_root()
@@ -18,6 +18,51 @@ root password to become super-user.\n"
 	fi
 }
 
+# Functions called by the connection tab to list interfaces.
+interface_status()
+{
+	if 	ifconfig | grep -A 1 $i | grep -q inet; then
+		ip=`ifconfig | grep -A 1 $i | grep inet | awk '{ print $2 }' | cut -d ":" -f 2`
+		echo "connected ($ip)"
+	else
+		echo "-"
+	fi
+}
+# First column is for icon name.
+detect_interfaces()
+{
+	for i in `ls /sys/class/net`
+	do
+		case $i in
+			eth*)
+				echo "network-wired | $i | Ethernet | `interface_status`" ;;
+			wlan*|ath*|ra*)
+				echo "network-wireless | $i | Wireless | `interface_status`" ;;
+			lo)
+				echo "gtk-network | $i | Loopback | `interface_status`" ;;
+			*)
+				continue ;;
+		esac
+		
+	done
+}
+
+# When users double click on a connection.
+interfaces_List_actions()
+{
+	echo "$INTERFACE_LIST"
+}
+
+# Netbox can be call with args.
+case "$1" in
+	detect_interfaces|interfaces_List_actions)
+		$1
+		exit 0 ;;
+	*)
+		continue ;;
+esac
+
+# GUI functions
 helpbutton()
 {
 	local label;
@@ -108,7 +153,7 @@ EOT
 
 configfile()
 {
-	datafile "$1" $2 'Configuration :' "$3"
+	datafile "$1" $2 'Configuration:' "$3"
 }
 
 webbutton()
@@ -181,16 +226,6 @@ if [ ! -d /sys/class/net/$WIFI_INTERFACE/wireless ]; then
 		[ -d $i ] && echo $(basename $(dirname $i)) || echo wlan0; \
 		break; done)
 	[ -n "$WIFI_INTERFACE" ] && sed -i "s/^WIFI_INTERFACE=.*/WIFI_INTERFACE=\"$WIFI_INTERFACE\"/" /etc/network.conf
-fi
-
-ESSIDS=""
-# Detect ESSID list
-if [ -d /sys/class/net/$WIFI_INTERFACE/wireless ]; then
-	ifconfig $WIFI_INTERFACE up
-	for i in $(iwlist $WIFI_INTERFACE scanning | grep "ESSID" | \
-		grep -v "<hidden>" | sed -n 's/ESSID:"//p' | sed -n 's/"//p'); do
-		ESSIDS="$ESSIDS<item>$i</item>"
-	done
 fi
 
 if [ "$1" = "call" ]; then
@@ -369,12 +404,26 @@ NET_BOX='
 	</hbox>'
 
 # Notebook tabs.
-tmp='<notebook labels="DHCP|Static IP|PPPoE|PPP|Wireless (Wifi)|System wide|VPN|Servers'
+tmp='<notebook labels="Connections|DHCP|Static IP|PPPoE|PPP|System wide|VPN|Servers'
 NET_BOX="$NET_BOX$tmp"
 [ -x /sbin/iptables ] && NET_BOX="$NET_BOX|Firewall"
 [ -x /usr/bin/knock ] && NET_BOX="$NET_BOX|Knock"
-tmp='|Etherwake">
+tmp='|Etherwake">'
 
+# Interfaces list from detect_interfaces()
+tmp=${tmp}"
+	<vbox>
+		<tree>
+			<width>520</width><height>120</height>
+			<variable>INTERFACE_LIST</variable>
+			<label>Interface|Type|Status</label>
+			<input icon_column=\"0\">$0 detect_interfaces</input>
+			<action>refresh:INTERFACE_LIST</action>
+		</tree>
+	</vbox>"
+
+# DHCP
+tmp=${tmp}'
 <frame Udhcpc (busybox)>
 	<text width-chars="58">
 		<label>
@@ -425,6 +474,7 @@ tmp='|Etherwake">
 			<action>sed -i s/DHCP=\"no\"/DHCP=\"yes\"/ /etc/network.conf</action>
 			<action>sed -i s/STATIC=\"yes\"/STATIC=\"no\"/ /etc/network.conf</action>
 			<action>udhcpc $UDHCPC_OPTS -i $INTERFACE -p /var/run/udhcpc.$INTERFACE.pid</action>
+			<action>refresh:INTERFACE_LIST</action>
 		</button>
 		<button>
 			<label>Stop</label>
@@ -432,6 +482,7 @@ tmp='|Etherwake">
 			<action>echo -n "Stopping interface : $INTERFACE... "</action>
 			<action>ifconfig $INTERFACE down</action>
 			<action>killall -q udhcpc; echo "done"</action>
+			<action>refresh:INTERFACE_LIST</action>
 		</button>
 	</hbox>
 </frame>'
@@ -495,18 +546,20 @@ tmp=${tmp}'
 			<action>ifconfig $INTERFACE down</action>
 			<action>sed -i s/`cat /etc/network.conf | grep ^INTERFACE=`/INTERFACE=\"$INTERFACE\"/ /etc/network.conf</action>
 			<action>sed -i s/DHCP=\"yes\"/DHCP=\"no\"/ /etc/network.conf</action>
+			<action>sed -i s/WIFI=\"yes\"/WIFI=\"no\"/ /etc/network.conf</action>
 			<action>sed -i s/STATIC=\"no\"/STATIC=\"yes\"/ /etc/network.conf</action>
 			<action>sed -i s/`cat /etc/network.conf | grep ^IP=`/IP=\"$IP\"/ /etc/network.conf</action>
 			<action>sed -i s/`cat /etc/network.conf | grep ^NETMASK=`/NETMASK=\"$NETMASK\"/ /etc/network.conf</action>
 			<action>sed -i s/`cat /etc/network.conf | grep ^GATEWAY=`/GATEWAY=\"$GATEWAY\"/ /etc/network.conf</action>
 			<action>sed -i s/`cat /etc/network.conf | grep ^DNS_SERVER=`/DNS_SERVER=\"$DNS_SERVER\"/ /etc/network.conf</action>
 			<action>/etc/init.d/network.sh</action>
+			<action>refresh:INTERFACE_LIST</action>
 		</button>
 		<button>
 			<label>Stop</label>
 			<input file icon="stop"></input>
-			<action>echo -n "Stopping interface : $INTERFACE... "</action>
-			<action>ifconfig $INTERFACE down; echo "done"</action>
+			<action>ifconfig $INTERFACE down</action>
+			<action>refresh:INTERFACE_LIST</action>
 		</button>
 	</hbox>
 </frame>'
@@ -648,172 +701,8 @@ tmp=${tmp}'
 # TODO: Indent with tabs from there
 #
 
-# Wireless tab
-NET_BOX="$NET_BOX$tmp"
-tmp='<frame Wifi manual configuration>
-    <notebook labels="Interface|Extra parameters'
-[ -d /lib/modules/`uname -r`/kernel/drivers/net/wireless ] && tmp="$tmp|Kernel Modules"
-tmp2='">
-      <vbox>
-      <hbox>
-        <text use-markup="true">
-          <label>"<b>Interface :</b>"</label>
-        </text>
-        <entry>
-          <input>. /etc/network.conf; echo "$WIFI_INTERFACE"</input>
-          <variable>WIFI_INTERFACE</variable>
-        </entry>
-        <text use-markup="true">
-          <label>"<b>ESSID :</b>"</label>
-        </text>
-	<combobox>'
-. /etc/network.conf
-tmp2="$tmp2<item>$WIFI_ESSID</item>$ESSIDS<variable>WIFI_ESSID</variable>"
-tmp3='</combobox>
-      </hbox>
-      <hbox>
-        <text use-markup="true">
-          <label>"<b>Key :</b>"</label>
-        </text>
-        <entry>
-          <input>. /etc/network.conf; echo "$WIFI_KEY"</input>
-          <variable>WIFI_KEY</variable>
-        </entry>
-	<combobox>'
-tmp2="$tmp2$tmp3<item>$WIFI_KEY_TYPE</item>"
-for i in none WEP WPA any; do
-  [ "$i" = "$WIFI_KEY_TYPE" ] || tmp2="$tmp2<item>$i</item>"
-done
-tmp3='  <variable>WIFI_KEY_TYPE</variable>
-	</combobox>
-      </hbox>
-      </vbox>
-      <vbox>
-      <hbox>
-        <text use-markup="true">
-          <label>"<b>Channel :</b>"</label>
-        </text>
-        <entry>
-          <input>. /etc/network.conf; echo "$WIFI_CHANNEL"</input>
-          <variable>WIFI_CHANNEL</variable>
-        </entry>
-        <text use-markup="true">
-          <label>"<b>Mode :</b>"</label>
-        </text>
-        <combobox>
-          <variable>WIFI_MODE</variable>'
-tmp2="$tmp2$tmp3<item>$WIFI_MODE</item>"
-for i in managed ad-hoc master repeater secondary monitor; do
-  [ "$i" = "$WIFI_MODE" ] || tmp2="$tmp2<item>$i</item>"
-done
-tmp3='</combobox>
-      </hbox>
-      <hbox>
-        <text use-markup="true">
-          <label>"<b>Other iwconfig args :</b>"</label>
-        </text>
-        <entry>
-          <input>. /etc/network.conf; echo "$WIFI_IWCONFIG_ARGS"</input>
-          <variable>WIFI_IWCONFIG_ARGS</variable>
-        </entry>'
-tmp="$tmp$tmp2$tmp3
-$(helpbutton iwconfig 80x24)
-$(manbutton 8 iwconfig)
-      </hbox>
-      </vbox>"
-tmp2='<vbox>
-      <hbox>
-        <text use-markup="true">
-          <label>"<b>Wifi Module :</b>"</label>
-        </text>
-        <combobox>
-          <variable>MODULE</variable>'
-tmp2="$tmp2$(find /lib/modules/$(uname -r)/kernel/drivers/net/wireless -type f 2> /dev/null |  sed 's,/.*/\(.*\).ko.*,<item>\1</item>,')"
-tmp3='</combobox>
-        <button>
-          <label>Load</label>
-          <input file icon="forward"></input>
-          <action>modprobe $MODULE</action>
-	      <action type="exit">restart</action>
-        </button>
-        <button>
-          <label>Unload</label>
-          <input file icon="undo"></input>
-	      <action>modprobe -r $MODULE</action>
-	      <action type="exit">restart</action>
-        </button>
-        <button>
-          <label>Lsmod</label>
-          <input file icon="computer"></input>
-	      <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x25 -title "Modules (q to quit)" -e "lsmod | less"</action>
-        </button>
-      </hbox>'
-tmp2="$tmp2$tmp3"
-tmp3=$(for i in /usr/bin/get*firmware; do
-  [ -x $i ] || continue
-  [ "$i" = "/usr/bin/get-wifi-firmware" ] && continue
-  [ -d /var/lib/tazpkg/installed/${i#/usr/bin/get-} ] && continue
-  echo "<item>${i#/usr/bin/get-}</item>"; done)
-[ -n "$tmp3" ] && tmp3="
-      <hbox>
-        <text use-markup=\"true\">
-          <label>\"<b>Firmware :</b>\"</label>
-        </text>
-        <combobox><variable>FIRMWARE</variable>$tmp3</combobox>
-      <button>
-        <label>Install</label>
-        <input file icon=\"go-jump\"></input>
-	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x25 -title \"Install \$FIRMWARE\" -e \"get-\$FIRMWARE\"</action>
-	<action type=\"exit\">restart</action>
-      </button>
-      <button>
-        <input file icon=\"system-file-manager\"></input>
-	<label>Firmware files</label>
-	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 100x25 -title \"Firmware files (q to quit)\" -e \"find /lib/firmware -exec ls -ld {} \; | less\"</action>
-      </button>
-      </hbox>
-"
-tmp2="$tmp2$tmp3"
-[ -d /lib/modules/`uname -r`/kernel/drivers/net/wireless ] && tmp="$tmp$tmp2
-     </vbox>"
-tmp2='</notebook>
-      <hbox>
-        <button>
-          <label>Start</label>
-          <input file icon="forward"></input>
-	  <action>[ "$WIFI_KEY_TYPE" = "WPA" -a ! -x /usr/bin/wpa_supplicant ] && xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x17 -title "wpa_supplicant install" -e "tazpkg get-install wpa_supplicant ; echo -e \"----\n\nENTER to continue...\" && read close"</action>
-          <action>sed -i s/`grep ^WIFI= /etc/network.conf`/WIFI=\"yes\"/ /etc/network.conf</action>
-          <action>sed -i s/`grep ^WIFI_INTERFACE= /etc/network.conf`/WIFI_INTERFACE=\"$WIFI_INTERFACE\"/ /etc/network.conf</action>
-          <action>sed -i s/`grep ^WIFI_ESSID= /etc/network.conf`/WIFI_ESSID=\"$WIFI_ESSID\"/ /etc/network.conf</action>
-          <action>sed -i s/`grep ^WIFI_KEY= /etc/network.conf`/WIFI_KEY=\"$WIFI_KEY\"/ /etc/network.conf</action>
-          <action>sed -i s/`grep ^WIFI_MODE= /etc/network.conf`/WIFI_MODE=\"$WIFI_MODE\"/ /etc/network.conf</action>
-          <action>sed -i "s/`grep ^WIFI_IWCONFIG_ARGS= /etc/network.conf`/WIFI_IWCONFIG_ARGS=\"$WIFI_IWCONFIG_ARGS\"/" /etc/network.conf</action>
-          <action>sed -i s/`grep ^WIFI_KEY_TYPE= /etc/network.conf`/WIFI_KEY_TYPE=\"$WIFI_KEY_TYPE\"/ /etc/network.conf</action>
-          <action>sed -i s/`grep ^WIFI_CHANNEL= /etc/network.conf`/WIFI_CHANNEL=\"$WIFI_CHANNEL\"/ /etc/network.conf</action>
-          <action>sed -i "s/`grep ^NDISWRAPPER_DRIVERS= /etc/network.conf`/NDISWRAPPER_DRIVERS=\"$NDISWRAPPER_DRIVERS\"/" /etc/network.conf</action>
-          <action>[ -s /var/run/udhcpc.$WIFI_INTERFACE.pid ] && kill `cat /var/run/udhcpc.$WIFI_INTERFACE.pid`</action>
-          <action>ifconfig $WIFI_INTERFACE down</action>
-          <action>iwconfig $WIFI_INTERFACE txpower auto</action>
-          <action>/etc/init.d/network.sh restart</action>
-        </button>
-        <button>
-          <label>Stop</label>
-          <input file icon="stop"></input>
-          <action>sed -i s/`grep ^WIFI= /etc/network.conf`/WIFI=\"no\"/ /etc/network.conf</action>
-          <action>[ -x /etc/init.d/wpa_supplicant ] && /etc/init.d/wpa_supplicant stop</action>
-          <action>ifconfig $WIFI_INTERFACE down</action>
-          <action>iwconfig $WIFI_INTERFACE txpower off</action>
-          <action>[ -s /var/run/udhcpc.$WIFI_INTERFACE.pid ] && kill `cat /var/run/udhcpc.$WIFI_INTERFACE.pid`</action>
-        </button>
-      </hbox>
-    </frame>'
-[ -x /usr/sbin/iwconfig ] && NET_BOX="$NET_BOX$tmp$tmp2"
-[ -x /usr/sbin/iwconfig ] || NET_BOX="$NET_BOX
-    <frame Wireless>
-$(installbox wireless_tools)
-    </frame>"
-
 # System Wide configuration.
+NET_BOX="$NET_BOX$tmp"
 tmp='<frame Configuration files>
       <hbox>
         <text use-markup="true">
@@ -1277,33 +1166,43 @@ tmp='
       </entry>'
 NET_BOX="${NET_BOX}${tmp}$(helpbutton ether-wake 80x15)"
 tmp='
-      <button>
-        <label>Start</label>
-        <input file icon="forward"></input>
-        <action>ether-wake $ETHERWAKE_OPTS</action>
-      </button>
-    </hbox>
-    </frame>
-    </notebook>
+					<button>
+						<label>Start</label>
+						<input file icon="forward"></input>
+						<action>ether-wake $ETHERWAKE_OPTS</action>
+					</button>
+				</hbox>
+			</frame>
+		</notebook>
 
-    <hbox>
-      <button>
-        <label>Status</label>
-        <input file icon="dialog-information"></input>
-	    <action type="launch">IFCONFIG</action>
-      </button>
-      <button help>
-			<label>Help</label>
-			<action type="launch">HELP</action>
-		</button>
-      <button>
-        <label>Quit</label>
-        <input file icon="exit"></input>
-        <action type="exit">Exit</action>
-      </button>
-    </hbox>
+		<hbox>
+			<button>
+				<label>Wireless manager</label>
+				<input file icon="network-wireless"></input>
+				<action>wifibox &</action>
+			</button>
+			<button>
+				<label>Refresh list</label>
+				<input file icon="reload"></input>
+				<action>refresh:INTERFACE_LIST</action>
+			</button>
+			<button>
+			<label>Full status</label>
+				<input file icon="dialog-information"></input>
+				<action type="launch">IFCONFIG</action>
+			</button>
+			<button help>
+				<label>Help</label>
+				<action type="launch">HELP</action>
+			</button>
+			<button>
+				<label>Quit</label>
+				<input file icon="exit"></input>
+				<action type="exit">Exit</action>
+			</button>
+		</hbox>
 
-  </vbox>
+	</vbox>
 </window>
 '
 NET_BOX="${NET_BOX}${tmp}"
@@ -1314,6 +1213,7 @@ export NET_BOX
 
 # Only root can configure network.
 check_root
+
 # Configure and connect if button Connect was pressed.
 if ! grep -qs ^name /etc/ppp/options ; then
 	# Generate /etc/ppp/options
