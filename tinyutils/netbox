@@ -306,9 +306,9 @@ export HELP='
 	<frame English>
 		<text wrap="true" width-chars="58">
 			<label>
-"Netbox lets you manage network connections by getting dynamic IP by DHCP
-or static IP and setup servers. Netbox can start or stop networking,
-configure network interfaces or directly edit files."
+"Netbox lets you manage network connections by getting a dynamic IP by 
+DHCP or a static IP and setup servers. Netbox can start or stop
+networking, configure network interfaces or directly edit files."
 			</label>
 		</text>
 	</frame>
@@ -427,7 +427,7 @@ tmp=${tmp}'
 <frame Udhcpc (busybox)>
 	<text width-chars="58">
 		<label>
-"Ethernet (cable) default connexion.
+"Ethernet (cable) default connection.
 "
 		</label>
 	</text>

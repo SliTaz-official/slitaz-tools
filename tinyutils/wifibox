@@ -359,7 +359,7 @@ box()
 		<hbox>
 			<text width-chars=\"50\">
 				<label>
-\"Please double clic on a network to connect or enter security key\"
+\"Please double click on a network to connect or enter security key\"
 				</label>
 			</text>
 			<button>
@@ -389,7 +389,7 @@ box()
 		<hbox>
 			<text width-chars=\"50\">
 				<label>
-\"Please double clic on a network to modify or remove it\"
+\"Please double click on a network to modify or remove it\"
 				</label>
 			</text>
 			<button>
@@ -404,7 +404,7 @@ box()
 	# Configuration tab
 	WIFI_DIALOG=${WIFI_DIALOG}'
 	<vbox>
-		<frame Base>
+		<frame Basic>
 			<hbox>
 				<text use-markup="true">
 					<label>"<b>Interface:</b>"</label>
@@ -506,9 +506,9 @@ box()
 			<text width-chars=\"64\">
 				<label>
 \"
-Some Wireless Adapters need non-free firmware, please install them
-before loading the corresponding module. Note: you can use Tazhw
-to automaticaly detect your PCI, PCMCIA or USB Wireless adapter.
+Some Wireless Adapters need non-free firmware. Please install the
+firmware before loading the corresponding module. Note: you can use 
+Tazhw to automatically detect your PCI, PCMCIA or USB Wireless adapter.
 \"
 				</label>
 			</text>
