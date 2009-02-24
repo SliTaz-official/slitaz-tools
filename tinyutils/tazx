@@ -68,6 +68,17 @@ EOF
  EndSection
 EOF
 			;;
+		slovene)
+			# Slovenian
+			patch -p0 <<EOF
+--- /etc/X11/xorg.conf
++++ /etc/X11/xorg.conf
+@@ -30,2 +30,3 @@
+ 	Driver      "kbd"
++	Option      "XkbLayout"  "si"
++	Option      "XkbOptions" "grp:alt_shift_toggle"
+ EndSection
+EOF
 		*)
 			# Use clean /etc/keymap.conf value.
 			KEYMAP=${KEYMAP%-latin1}
