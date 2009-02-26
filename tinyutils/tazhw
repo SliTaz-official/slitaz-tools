@@ -68,8 +68,10 @@ check_firmware()
 load_module()
 {
 	if ! lsmod | grep -q "^$mod"; then
+	# lsmod use ubderscore and modprobe list file with dash
+	mod=`echo $mod | sed s/_/-/g`
 		if [ -f "$(modprobe -l $mod)" ]; then
-			echo " Loading Kernel module:  $mod"
+			echo "* Loading Kernel module:  $mod"
 			/sbin/modprobe $mod
 		else
 			echo "! Missing module:  $mod"
