@@ -172,10 +172,11 @@ box_detect_devices()
 			echo -e \"----\nPress ENTER to close...\"; \
 			read i; exit 0"
 	else
-		xterm -T "Detect and install firmware" \
+		xterm -T "Detect and get firmware" \
 			-geometry 80x24 \
-			-e "$0 detect-pci --install-firmware; $0 detect-usb \
-			--install-firmware; echo -e \"----\nPress ENTER to close...\"; \
+			-e "$0 detect-pci --get-firmware; \
+			$0 detect-usb --get-firmware; \
+			echo -e \"----\nPress ENTER to close...\"; \
 			read i; exit 0"
 	fi
 }
@@ -254,7 +255,7 @@ case "$1" in
 	detected-modules)
 		echo -e "\nDetected PCI and USB modules" && display_line
 		cat /var/lib/detected-modules
-		cat /var/lib/detected-usb-modules 2>dev/null
+		cat /var/lib/detected-usb-modules 2>/dev/null
 		display_line && echo "" ;;
 	*)
 		usage ;;
