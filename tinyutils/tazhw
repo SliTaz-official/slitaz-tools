@@ -68,16 +68,13 @@ check_firmware()
 load_module()
 {
 	if ! lsmod | grep -q "^$mod"; then
-	# lsmod use ubderscore and modprobe list file with dash
-	mod=`echo $mod | sed s/_/-/g`
-		if [ -f "$(modprobe -l $mod)" ]; then
-			echo "* Loading Kernel module:  $mod"
-			/sbin/modprobe $mod
-		else
-			echo "! Missing module:  $mod"
-		fi
+	# lsmod and some modules use underscore, other use dash.
+	# The real modprobe can handle both but not busybox version
+	modprobe $mod 2>/dev/null && \
+	echo "* Loaded module:   $mod" || \
+	echo "! Missing module:  $mod"
 	else
-		echo "> Found module:    $mod"
+		echo "> Module in use:   $mod"
 	fi
 	# Add module to rcS.conf and avoid duplication.
 	. /etc/rcS.conf
