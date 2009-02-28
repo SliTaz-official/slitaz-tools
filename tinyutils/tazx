@@ -79,6 +79,7 @@ EOF
 +	Option      "XkbOptions" "grp:alt_shift_toggle"
  EndSection
 EOF
+			;;
 		*)
 			# Use clean /etc/keymap.conf value.
 			KEYMAP=${KEYMAP%-latin1}
