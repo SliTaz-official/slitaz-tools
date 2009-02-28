@@ -386,7 +386,7 @@ case $1 in
 	<hbox>
 		<text width-chars="36">
 				<label>
-"Double clic to enable/disable an application"
+"Double click to enable/disable an application"
 				</label>
 			</text>
 		<button>
