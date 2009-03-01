@@ -33,7 +33,7 @@ detect_wifi_networks()
 		ifconfig $WIFI_INTERFACE up
 		for i in `iwlist $WIFI_INTERFACE scan | sed s/"Cell "/Cell-/ | grep "Cell-" | awk '{print $1}'`
 		do
-			SCAN=`iwlist $WIFI_INTERFACE scan | sed s/"Cell "/Cell-/ | grep -A 8 "$i"`
+			SCAN=`iwlist $WIFI_INTERFACE scan last | sed s/"Cell "/Cell-/ | grep -A 8 "$i"`
 			ESSID=`echo $SCAN | cut -d '"' -f 2`
 			if echo "$SCAN" | grep -q Quality; then
 				QUALITY=`echo $SCAN | sed 's/.*Quality=\([^ ]*\).*/\1/' | sed 's/.*Quality:\([^ ]*\).*/\1/'`
