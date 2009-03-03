@@ -66,7 +66,7 @@ get_users()
 			name=`cat /etc/passwd | grep $i | cut -d ":" -f 5 | sed s/,,,//`
 			home=`cat /etc/passwd | grep $i | cut -d ":" -f 6`
 			shell=`cat /etc/passwd | grep $i | cut -d ":" -f 7`
-			echo "$login | $uid:$gid | $name | $home | $shell"
+			echo "system-users | $login | $uid:$gid | $name | $home | $shell"
 		fi
 	done
 }
@@ -205,10 +205,10 @@ export MAIN_DIALOG='
 		<frame Date and time>
 			<hbox>
 				<text wrap="false">
-					<label>"Date:        "</label>
+					<label>"System time:   "</label>
 				</text>
-				<entry editable="false" has_frame="false">
-					<input>date</input>
+				<entry editable="false">
+					<input>LC_ALL=C date</input>
 					<variable>DATE</variable>
 				</entry>
 				<button>
@@ -219,8 +219,23 @@ export MAIN_DIALOG='
 				</button>
 			</hbox>
 			<hbox>
+				<text wrap="false">
+					<label>"Hardware time:"</label>
+				</text>
+				<entry editable="false">
+					<input>LC_ALL=C hwclock</input>
+					<variable>HWTIME</variable>
+				</entry>
+				<button>
+					<label>System to HW</label>
+					<input file icon="reload"></input>
+					<action>hwclock -w</action>
+					<action>refresh:HWTIME</action>
+				</button>
+			</hbox>
+			<hbox>
 				<text wrap="true">
-					<label>"Timezone:"</label>
+					<label>"Timezone:       "</label>
 				</text>
 				<entry>
 					<input>cat /etc/TZ</input>
@@ -413,12 +428,12 @@ MAIN_DIALOG=${MAIN_DIALOG}"
 			<width>650</width><height>300</height>
 			<variable>USER</variable>
 			<label>Login|uid:gid|Name|Home|SHell</label>
-			<input>$0 get_users</input>
+			<input icon_column=\"0\">$0 get_users</input>
 			<action>$0 manage_user</action>
 			<action>refresh:USER</action>
 		</tree>
 		<hbox>
-		<text width-chars=\"60\">
+		<text width-chars=\"66\">
 			<label>
 \"Note: To change passwords and delete users you can double-click on the user name.\"
 			</label>
