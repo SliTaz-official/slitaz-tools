@@ -19,6 +19,12 @@ if test $(id -u) != 0 ; then
 	exit 0
 fi
 
+# By default autologin is not configured on installed system
+if ! grep -q 'auto_login' /etc/slim.conf; then
+	echo '# Auto login default user' >> /etc/slim.conf
+	echo 'auto_login          no' >> /etc/slim.conf
+fi
+
 # Change Grub menu.lst timeout.
 sed_grub_timeout()
 {
@@ -77,18 +83,18 @@ manage_user()
 	export MANAGE_DIALOG="
 <window title=\"Manage user: $USER\" icon-name=\"computer\">
 	<vbox>
-		<hbox>
+		<vbox>
 			<text wrap=\"false\" width-chars=\"34\">
 				<label>\"
 Login name: $USER
 				\"</label>
 			</text>
-		</hbox>
+		</vbox>
 		<hbox>
 			<text wrap=\"false\">
 				<label>\"New password:\"</label>
 			</text>
-			<entry invisible_char=\"*\" visibility=\"false\">
+			<entry invisible_char=\"*\" visibility=\"false\" max_length=\"8\">
 				<variable>PASSWD</variable>
 			</entry>
 			<button>
@@ -121,13 +127,13 @@ add_user()
 	export ADD_USER_DIALOG='
 <window title="New user" icon-name="gtk-add">
 	<vbox>
-		<hbox>
+		<vbox>
 			<text wrap="false" width-chars="34">
 				<label>"
 New account information
 				"</label>
 			</text>
-		</hbox>
+		</vbox>
 		<hbox>
 			<text wrap="false">
 				<label>"Login:      "</label>
@@ -140,7 +146,7 @@ New account information
 			<text wrap="false">
 				<label>"Password:"</label>
 			</text>
-			<entry invisible_char="*" visibility="false">
+			<entry invisible_char="*" visibility="false" max_length="8">
 				<variable>PASSWD</variable>
 			</entry>
 		</hbox>
@@ -180,28 +186,9 @@ export MAIN_DIALOG='
 		</pixmap>
 	</hbox>
 
-	<notebook labels="System|Boot|Login|Users">
+	<notebook labels="Time|Boot loader|Initialisation|Login manager|Users">
 	
 	<vbox>
-		<frame Boxes panel>
-			<hbox>
-				<button>
-					<label>Devices Manager</label>
-					<input file icon="media-flash"></input>
-					<action>mountbox &</action>
-				</button>
-				<button>
-					<label>Network configuration</label>
-					<input file icon="netbox"></input>
-					<action>netbox &</action>
-				</button>
-				<button>
-					<label>Packages Manager</label>
-					<input file icon="tazpkg"></input>
-					<action>tazpkgbox &</action>
-				</button>
-			</hbox>
-		</frame>
 		<frame Date and time>
 			<hbox>
 				<text wrap="false">
@@ -216,6 +203,7 @@ export MAIN_DIALOG='
 					<input file icon="reload"></input>
 					<action>rdate -s tick.greyware.com</action>
 					<action>refresh:DATE</action>
+					<action>refresh:HWTIME</action>
 				</button>
 			</hbox>
 			<hbox>
@@ -227,10 +215,11 @@ export MAIN_DIALOG='
 					<variable>HWTIME</variable>
 				</entry>
 				<button>
-					<label>System to HW</label>
+					<label>Set from system</label>
 					<input file icon="reload"></input>
 					<action>hwclock -w</action>
 					<action>refresh:HWTIME</action>
+					<action>refresh:DATE</action>
 				</button>
 			</hbox>
 			<hbox>
@@ -249,7 +238,7 @@ export MAIN_DIALOG='
 			</hbox>
 		</frame>
 	</vbox>'
-# Boot
+# GRUB
 MAIN_DIALOG=${MAIN_DIALOG}"
 	<vbox>
 		<frame Grub boot loader>
@@ -294,6 +283,10 @@ MAIN_DIALOG=${MAIN_DIALOG}"
 				</button>
 			</hbox>
 		</frame>
+	</vbox>"
+# Init script
+MAIN_DIALOG=${MAIN_DIALOG}"
+	<vbox>
 		<frame rcS init scripts>
 			<hbox>
 				<text wrap=\"false\">
@@ -339,7 +332,7 @@ MAIN_DIALOG=${MAIN_DIALOG}"
 			</hbox>
 			<hbox>
 				<text wrap=\"false\">
-					<label>\"Add local comands:\"</label>
+					<label>\"Add local commands:\"</label>
 				</text>
 				<button>
 					<label>/etc/init.d/local.sh</label>
@@ -349,16 +342,16 @@ MAIN_DIALOG=${MAIN_DIALOG}"
 			</hbox>
 		</frame>
 	</vbox>"
-# Login
+# Slim login
 MAIN_DIALOG=${MAIN_DIALOG}'
 	<vbox>
 		<frame Slim settings>
 			<hbox>
 				<text wrap="false">
-					<label>"Sessions:     "</label>
+					<label>"Sessions:                "</label>
 				</text>
 				<entry>
-					<input>cat /etc/slim.conf | grep ^session | sed s/"sessions            "//</input>
+					<input>cat /etc/slim.conf | grep ^session | sed s/"sessions. *"//</input>
 					<variable>SLIM_SESSIONS</variable>
 				</entry>
 				<button>
@@ -369,16 +362,30 @@ MAIN_DIALOG=${MAIN_DIALOG}'
 			</hbox>
 			<hbox>
 				<text wrap="false">
-					<label>"Default user: "</label>
+					<label>"Default user:           "</label>
 				</text>
 				<entry>
-					<input>cat /etc/slim.conf | grep ^default_user | sed s/"default_user        "//</input>
+					<input>cat /etc/slim.conf | grep ^default_user | sed s/"default_user. *"//</input>
 					<variable>SLIM_DEF_USER</variable>
 				</entry>
 				<button>
 					<label>Change</label>
 					<input file icon="forward"></input>
 					<action>sed -i "s/^default_user.*/default_user        $SLIM_DEF_USER/" /etc/slim.conf</action>
+				</button>
+			</hbox>
+			<hbox>
+				<text wrap="false">
+					<label>"Auto login (yes|no): "</label>
+				</text>
+				<entry max_length="3">
+					<input>cat /etc/slim.conf | grep ^auto_login | sed s/"auto_login. *"//</input>
+					<variable>SLIM_AUTO_LOGIN</variable>
+				</entry>
+				<button>
+					<label>Change</label>
+					<input file icon="forward"></input>
+					<action>sed -i "s/^auto_login.*/auto_login          $SLIM_AUTO_LOGIN/" /etc/slim.conf</action>
 				</button>
 			</hbox>
 			<hbox>
@@ -425,7 +432,7 @@ MAIN_DIALOG=${MAIN_DIALOG}'
 MAIN_DIALOG=${MAIN_DIALOG}"
 	<vbox>
 		<tree>
-			<width>650</width><height>300</height>
+			<width>600</width><height>210</height>
 			<variable>USER</variable>
 			<label>Login|uid:gid|Name|Home|SHell</label>
 			<input icon_column=\"0\">$0 get_users</input>
@@ -433,9 +440,9 @@ MAIN_DIALOG=${MAIN_DIALOG}"
 			<action>refresh:USER</action>
 		</tree>
 		<hbox>
-		<text width-chars=\"66\">
+		<text width-chars=\"60\">
 			<label>
-\"Note: To change passwords and delete users you can double-click on the user name.\"
+\"To change passwords or delete users you can double-click on the user name.\"
 			</label>
 		</text>
 		<button>
@@ -450,6 +457,32 @@ export MAIN_DIALOG=${MAIN_DIALOG}'
 	</notebook>
 
 	<hbox>
+		
+		<button>
+			<label>Network</label>
+			<input file icon="netbox"></input>
+			<action>netbox &</action>
+		</button>
+		<button>
+			<label>Wireless</label>
+			<input file icon="network-wireless"></input>
+			<action>wifibox &</action>
+		</button>
+		<button>
+			<label>Packages</label>
+			<input file icon="tazpkg"></input>
+			<action>tazpkgbox &</action>
+		</button>
+		<button>
+			<label>Hardware</label>
+			<input file icon="computer"></input>
+			<action>tazhw box &</action>
+		</button>
+		<button>
+			<label>Storage</label>
+			<input file icon="media-flash"></input>
+			<action>mountbox &</action>
+		</button>
 		<button>
 			<label>Exit</label>
 			<input file icon="exit"></input>
