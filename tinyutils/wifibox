@@ -61,6 +61,14 @@ detect_wifi_networks()
 
 # cmdline functions
 
+# Toggle Software RF Switch on some laptops
+set_rfswitch()
+{
+	for i in /proc/driver/acerhk/wirelessled /proc/acpi/asus/wled ; do
+		[ -e $i ] && echo $1 > $i
+	done
+}
+
 # Configure /etc/network.conf and restart connexion with init script.
 start_wifi_connection()
 {
@@ -90,6 +98,7 @@ start_wifi_connection()
 		/etc/network.conf	
 	[ -s /var/run/udhcpc.$WIFI_INTERFACE.pid ] && kill `cat /var/run/udhcpc.$WIFI_INTERFACE.pid`
 	ifconfig $WIFI_INTERFACE down
+	set_rfswitch 1 
 	iwconfig $WIFI_INTERFACE txpower auto	
 	/etc/init.d/network.sh restart
 	# Remove tmp file (could be use to have wireless profiles)
@@ -104,6 +113,7 @@ stop_wifi_connexion()
 	[ -x /etc/init.d/wpa_supplicant ] && /etc/init.d/wpa_supplicant stop
 	ifconfig $WIFI_INTERFACE down
 	iwconfig $WIFI_INTERFACE txpower off
+	set_rfswitch 0 
 	[ -s /var/run/udhcpc.$WIFI_INTERFACE.pid ] && kill `cat /var/run/udhcpc.$WIFI_INTERFACE.pid`
 	sleep 4
 }
