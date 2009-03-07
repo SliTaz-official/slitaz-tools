@@ -217,7 +217,7 @@ export MAIN_DIALOG='
 				<button>
 					<label>Set from system</label>
 					<input file icon="reload"></input>
-					<action>hwclock -w</action>
+					<action>hwclock -w -u</action>
 					<action>refresh:HWTIME</action>
 					<action>refresh:DATE</action>
 				</button>
