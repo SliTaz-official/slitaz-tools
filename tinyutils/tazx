@@ -213,6 +213,15 @@ e17_stuff()
 	fi
 }
 
+# dwm start with dwm-session.
+dwm_stuff()
+{
+	if [ "$WM" == "dwm" ]; then
+		 WM=dwm-session
+		 XSEVER_OPTS="dpms"
+	fi
+}
+
 # Openbox with openbox-session.
 openbox_stuff()
 {
@@ -251,18 +260,16 @@ WM=openbox-session
 
 case $1 in
 	e17|enlightenment_start)
-		exec enlightenment_start
-		;;
+		exec enlightenment_start ;;
 	openbox|openbox-session|ob)
-		exec openbox-session
-		;;
+		exec openbox-session ;;
+	dwm|dwm-session)
+		exec dwm-session ;;
 	jwm)
 		lxpanel &
-		exec jwm
-		;;
+		exec jwm ;;
 	*)
-		exec $WM
-		;;
+		exec $WM ;;
 esac
 EOF
 	# Set default WM.
@@ -339,6 +346,7 @@ _EOF_
 [ -n "$NEW_SCREEN" ] || screen_config_dialog
 slim_config
 e17_stuff
+dwm_stuff
 openbox_stuff
 creat_xinitrc
 jwm_config
