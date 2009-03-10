@@ -1,10 +1,10 @@
 #!/bin/sh
 #
 # SliTaz Hardware configuration tool. Auto-detect and configure in a
-# simple way all PCI, PCMCIA and USB devices. Some Wireless Adapaters 
-# need non-free firmware not installed by default, users must use the
-# option --get-firmware to force installation. GUI use GTKdialog, is
-# called by arg such as all box functions.
+# simple way all PCI, PCMCIA and USB devices. Some Wireless Adapters 
+# need non-free firmware not installed by default. Users must use the
+# option --get-firmware to force installation. GUI uses GTKdialog, and is
+# called by args such as all box functions.
 #
 # (c) 2009 SliTaz GNU/Linux - GNU gpl v3
 #

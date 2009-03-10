@@ -1,14 +1,14 @@
 #!/bin/sh
 #
-# GTKdialog interface to manage wireless connection in a simple way.
+# GTKdialog interface to manage wireless connections in a simple way.
 # Use tabs to indent, split commands from the GUI and use functions.
-# Favotites networks are also supported
+# Favorite networks are also supported
 #
 # (c) 2009 SliTaz GNU/Linux - GNU gpl v3
 #
 VERSION=20090222
 
-# Export script path and other if needed so we can use them in 'quote'.
+# Export script path and others if needed so we can use them in 'quote'.
 export BIN=$0
 export FAVORITES_WIFI=/etc/wireless
 . /etc/network.conf
@@ -24,8 +24,8 @@ fi
 [ -d $FAVORITES_WIFI ] || mkdir -p $FAVORITES_WIFI
 rm -f $FAVORITES_WIFI/any.conf
 
-# Catch ESSIDs and format output for GTK tree. We get the list off 
-# network by Cell and without space.
+# Catch ESSIDs and format output for GTK tree. We get the list of
+# networks by Cell and without spaces.
 detect_wifi_networks()
 {
 	desktopbox notify "Scanning Wireless interface: $WIFI_INTERFACE" &
@@ -69,10 +69,10 @@ set_rfswitch()
 	done
 }
 
-# Configure /etc/network.conf and restart connexion with init script.
+# Configure /etc/network.conf and restart connection with init script.
 start_wifi_connection()
 {
-	# Get tmp config created by connect_to_essid() if exist and set 
+	# Get tmp config created by connect_to_essid() if exists and set 
 	# empty value to clean config file.
 	if [ -f /tmp/wifi.conf ]; then
 		. /tmp/wifi.conf
@@ -101,11 +101,11 @@ start_wifi_connection()
 	set_rfswitch 1 
 	iwconfig $WIFI_INTERFACE txpower auto	
 	/etc/init.d/network.sh restart
-	# Remove tmp file (could be use to have wireless profiles)
+	# Remove tmp file (could be used to have wireless profiles)
 	rm -f /tmp/wifi.conf
 }
 
-# We must spleep 4 sec to refresh networks list.
+# We must sleep 4 sec to refresh networks list.
 stop_wifi_connexion()
 {
 	sed -i s/`grep ^WIFI= /etc/network.conf`/WIFI=\"no\"/ \
@@ -118,7 +118,7 @@ stop_wifi_connexion()
 	sleep 4
 }
 
-# Favorites wireless networks use only 3 values: essid. key and type of
+# Favorite wireless networks use only 3 values: essid. key and type of
 # key
 FAVORITES_WIFI_list()
 {
@@ -290,7 +290,7 @@ Connect $WIFI_INTERFACE to: $WIFI_ESSID
 \"
 		</label>
 	</text>"
-	# We mybe need a key to connect
+	# We maybe need a key to connect
 	if [ "$ENCRYPTION" = "on" ] && [ "$ESSID_LIST" != "any" ]; then
 		# WPA
 		if echo "$SCAN" | grep -q WPA; then
@@ -380,7 +380,7 @@ box()
 		</hbox>
 	</vbox>"
 	
-	# Favorites networks
+	# Favorite networks
 	WIFI_DIALOG=${WIFI_DIALOG}"	
 	<vbox>
 		<tree icon=\"network-wireless\">

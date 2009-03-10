@@ -67,7 +67,7 @@ usage()
 \033[1mCommands: \033[0m\n
   new-folder   Create a new folder on the desktop with mkdir.
   new-file     Create a new empty file or SHell script on the desktop.
-  add-icons    Add a system icon on the desktop.
+  add-icons    Add a system icon to the desktop.
   calendar     Display a calendar under mouse pointer.
   notify       Display a notification message (center/no decoration).
                Ex: `basename $0` notify \"Message to display\" 4

@@ -340,7 +340,7 @@ if [ -z "$XAUTHORITY" ]; then
 		--yes-label "Install" \
 		--no-label "Quit" \
 		--colors --radiolist "
-Create a floppy or a cdrom to boot a LiveCD, in a PXE network...
+Create a floppy or a cdrom to boot a LiveCD in a PXE network...
 May need a floppy disk in drive. Erase the whole floppy disk.
 		" 18 70 50\
 		SmartBtmgr	"Boot any partition or ATAPI CD-ROM." on \
@@ -401,12 +401,12 @@ export HELP='
       <label>
 "Without parameters (i.e. with an empty Boot URL) gPXE will perform a normal PXE boot: IP configuration with DHCP and download DHCP bootfile with TFTP.
 
-You can override the DHCP bootfile with an Boot URL such as <i>tftp://192.168.0.1/pxe/pxeloader</i>, <i>http://mirror.slitaz.org/pxe/pxelinux.0</i>, or <i>x-tftm://192.168.0.201//lts/vmlinuz.ltsp</i>.
+You can override the DHCP bootfile with a Boot URL such as <i>tftp://192.168.0.1/pxe/pxeloader</i>, <i>http://mirror.slitaz.org/pxe/pxelinux.0</i>, or <i>x-tftm://192.168.0.201//lts/vmlinuz.ltsp</i>.
 
-You can override IP  configuration too (usefull without DHCP server), example: 
+You can override IP  configuration too (useful without DHCP server), example: 
 <i>ip=192.168.0.10/24 gw=192.168.0.1 dns=192.168.0.1 nodhcp url=http://mirror.slitaz.org/pxe/pxelinux.0</i>
 
-The <i>nodhcp</i> keyword avoids dhcp timeouts and the <i>url=</i> keyword is optionnal when the url is the only one argument.
+The <i>nodhcp</i> keyword avoids dhcp timeouts and the <i>url=</i> keyword is optional when the url is the only one argument.
 "
       </label>
     </text>
@@ -430,7 +430,7 @@ BOOT_DIALOG='
     <text wrap="false" width-chars="44" use-markup="true">
       <label>
 "
-Create a floppy or a cdrom to boot a LiveCD, in a PXE network or WEB...
+Create a floppy or a cdrom to boot a LiveCD in a PXE network or WEB...
 May need a floppy disk in drive. Erase the whole floppy disk.
 "
       </label>
@@ -561,7 +561,7 @@ $(echo -e $desc)
   BOOT_DIALOG="$BOOT_DIALOG$tmp"
 done <<EOT
 SmartBtmgr /usr/share/boot/btmgr btmgr This OS independent Smart Boot Manager can boot any          partition or ATAPI CD-ROM.
-Plop /usr/share/boot/plop.gz plop This non free Boot Manager can boot floppy, hardisk, USB or CD/DVD. Hit Ctrl-ESC for text mode.
+Plop /usr/share/boot/plop.gz plop This non free Boot Manager can boot a floppy disk, hardisk, USB or CD/DVD. Hit Ctrl-ESC for text mode.
 Etherboot /usr/share/boot/etherboot etherboot This network bootloader provides a replacement for proprietary PXE or NBI ROMs.
 gPXE /boot/gpxe gpxe PXE / iSCSI / AoE network bootloader.
 Memtest86+ /usr/share/boot/memtest.lzma memtest Memory failures detection tool.

@@ -186,7 +186,7 @@ export MAIN_DIALOG='
 		</pixmap>
 	</hbox>
 
-	<notebook labels="Time|Boot loader|Initialisation|Login manager|Users">
+	<notebook labels="Time|Boot loader|Initialization|Login manager|Users">
 	
 	<vbox>
 		<frame Date and time>

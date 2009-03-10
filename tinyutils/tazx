@@ -191,7 +191,7 @@ screen_config_dialog()
 slim_config()
 {
 	if test $(id -u) = 0; then
-		# /etc/X11/screen.conf exist for Live mode, if this file dos not
+		# /etc/X11/screen.conf exists for Live mode, if this file does not
 		# exist tazx is executed at boot time.
 		mkdir -p /etc/X11
 		echo "SCREEN=$NEW_SCREEN" > /etc/X11/screen.conf
@@ -253,7 +253,7 @@ xinitrc_sample()
 {
 	cat >  $FILE << "EOF"
 # ~/.xinitrc: Executed by slim login manager to startx X session.
-# You can use F1 with Slim or 'tazx' to configure permanantly
+# You can use F1 with Slim or 'tazx' to configure permanently
 # your default WM: tazx e17
 #
 WM=openbox-session

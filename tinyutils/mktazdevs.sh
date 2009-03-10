@@ -218,6 +218,6 @@ chmod 0666 tty*
 status
 
 # Script end.
-echo -n "All devices are build..."
+echo -n "All devices are built..."
 status
 

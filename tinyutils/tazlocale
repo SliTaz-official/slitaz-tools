@@ -76,8 +76,8 @@ fi
 # If it's a reconfiguration give an info message.
 if [ -s /etc/locale.conf ]; then
 	$DIALOG --clear \
-		--title " Locale setting information " \
-		--msgbox "\n
+		--title " Locale setting information\n " \
+		--msgbox "
 Please logout of your current session and login again to use $value
 locale.\n" 16 70
 fi

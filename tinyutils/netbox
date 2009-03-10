@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Gtkdialog box to manage network connection and server.
+# Gtkdialog box to manage network connections and servers.
 # Please use tab to indent.
 #
 # (c) - SliTaz GNU/Linux 2009.
@@ -53,7 +53,7 @@ interfaces_List_actions()
 	echo "$INTERFACE_LIST"
 }
 
-# Netbox can be call with args.
+# Netbox can be called with args.
 case "$1" in
 	detect_interfaces|interfaces_List_actions)
 		$1
@@ -326,7 +326,7 @@ les interfaces reseau ou editer directement les fichiers."
 </window>
 '
 
-# Interafce status with ifconfig without arguments to show all
+# Interface status with ifconfig without arguments to show all
 # active connections.
 #
 export IFCONFIG='

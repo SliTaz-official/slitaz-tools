@@ -71,7 +71,7 @@ MAIN_DIALOG='
 				<label>
 "Burn CD or DVD using Wodim from cdrkit. Before burning,
 please verify device writer settings or add options if needed.
-Audio CD use uncompressed WAV (OGG are decoded)."
+Audio CD uses uncompressed WAV (OGG are decoded)."
 				</label>
 			</text>
 		</frame>
