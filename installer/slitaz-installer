@@ -5,7 +5,7 @@
 # English but displayed messages are in French. The script starts with a
 # few main variables, then all the functions and then a sequence of functions.
 #
-# (C) 2007-2009 SliTaz - GNU General Public License v3.
+# (C) 2007-2008 SliTaz - GNU General Public License v3.
 #
 # Author : Christophe Lincoln <pankso@slitaz.org>
 #
@@ -36,7 +36,7 @@ BACKLIST="SliTaz GNU/Linux installer"
 # Installer functions #
 #######################
 
-# Messages language setting
+# Messages language setting.
 set_messages()
 {
 	case $LANG in
@@ -110,7 +110,7 @@ start_installer()
 	echo "start_installer: `date`" > $LOG
 }
 
-# Mount cdrom and verify if it's realy SliTaz CD.
+# Mount cdrom and verify if it's really SliTaz CD.
 mount_cdrom()
 {
 	ERROR_MSG=""
@@ -132,7 +132,7 @@ mount_cdrom()
 	$DIALOG --title " Mounting cdrom " \
 		--backtitle "$BACKLIST" \
 		--gauge "Preparing the installation media..." 18 70 0
-	# Exit with error msg if no rootfs.gz found
+	# Exit with error msg if no rootfs.gz found.
 	if [ ! -f /media/cdrom/boot/rootfs.gz ]; then
 		ERROR_MSG="$MOUNT_CDROM_ERROR_MSG"
 		error_message
@@ -156,7 +156,7 @@ $LIST_PARTITIONS" 18 70
 ask_for_target_dev()
 {
 	exec 3>&1
-	TARGET_DEV=`$DIALOG --title " Partition racine " \
+	TARGET_DEV=`$DIALOG --title " Root Partition " \
 		--backtitle "$BACKLIST" --clear \
 		--extra-label "List" --extra-button \
 		--colors --inputbox "$ASK_FOR_TARGET_DEV_MSG" 18 70 2>&1 1>&3`
@@ -239,10 +239,10 @@ prepare_target_dev()
 	sleep 2
 
 	) |
-	$DIALOG --title " Préparation de la cible " \
+	$DIALOG --title " Prepare the target " \
 		--backtitle "$BACKLIST" \
 		--gauge "Target in preparation..." 18 70 0
-	# Mount target
+	# Mount target.
 	mount $TARGET_DEV $TARGET_ROOT >>$LOG 2>>$LOG
 }
 
@@ -267,7 +267,7 @@ clean_target()
 {
 	if [ "$CLEAN" == "clean" ]; then
 		echo "XXX" && echo 15
-		echo -e "\nNettoyage de la partition racine ($TARGET_DEV)..."
+		echo -e "\nCleaning the root partition ($TARGET_DEV)..."
 		echo "XXX"
 		# Keep /home in case of reinstall.
 		cd $TARGET_ROOT
@@ -333,15 +333,15 @@ extract_rootfs()
 # /etc/skel (60%)
 gen_etc_skel()
 {
-	# Maybe we don't have /home/hacker directory
+	# Maybe we don't have /home/hacker directory.
 	if [ -d $TARGET_ROOT/home/hacker ]; then
 		echo "XXX" && echo 60
-		echo -e "\nCopie des fichiers utilisateurs par défaut (/etc/skel)..."
+		echo -e "\nCopying default user files (/etc/skel)..."
 		echo "XXX"
 		cp -a $TARGET_ROOT/home/hacker $TARGET_ROOT/etc/skel
 	else
 		echo "XXX" && echo 60
-		echo -e "\nCréation du répertoire (/etc/skel)..."
+		echo -e "\nCreating directory (/etc/skel)..."
 		echo "XXX"
 		mkdir -p $TARGET_ROOT/etc/skel \
 			$TARGET_ROOT/etc/Documents \
@@ -360,7 +360,7 @@ pre_config_system()
 	# (created by prepare_target_dev)
 	if [ -d home.bak ]; then
 		echo "XXX" && echo 75
-		echo -e "\nRestauration du répertoire /home..."
+		echo -e "\nThe restore directory: /home..."
 		echo "XXX"
 		rm -rf home
 		mv home.bak home
@@ -369,13 +369,13 @@ pre_config_system()
 	# Add root device to CHECK_FS in rcS.conf to check filesystem
 	# on each boot.
 	echo "XXX" && echo 80
-	echo -e "\nAjout de $TARGET_DEV à CHECK_FS du fichier /etc/rcS.conf..."
+	echo -e "\nAdding $TARGET_DEV and CHECK_FS to file /etc/rcS.conf..."
 	echo "XXX"
 	sed -i s#'CHECK_FS=\"\"'#"CHECK_FS=\"$TARGET_DEV\""# etc/rcS.conf
 	sleep 2
 	# Set hostname.
 	echo "XXX" && echo 85
-	echo -e "\nConfiguration du nom de machine: $HOSTNAME"
+	echo -e "\nConfiguring host name: $HOSTNAME"
 	echo "XXX"
 	echo $HOSTNAME > etc/hostname
 	sleep 2
@@ -429,60 +429,60 @@ install_files()
 	(
 
 	echo "XXX" && echo 10
-	echo -e "\nNettoyage de la partition racine si nécessaire..."
+	echo -e "\nCleaning the root partition if necessary..."
 	echo "XXX"
 	clean_target
 
 	echo "XXX" && echo 20
-	echo -e "\nInstallation du noyau ($KERNEL)..."
+	echo -e "\nInstalling the kernel ($KERNEL)..."
 	echo "XXX"
 	install_kernel
 
 	echo "XXX" && echo 30
-	echo -e "\nCopie des bootloaders syslinux/isolinux..."
+	echo -e "\nCopying the bootloader syslinux/isolinux..."
 	echo "XXX"
 	copy_bootloaders
 
 	echo "XXX" && echo 40
-	echo -e "\nCopie du système compressé (rootfs.gz)..."
+	echo -e "\nCopying the compressed system (rootfs.gz)..."
 	echo "XXX"
 	cp /media/cdrom/boot/rootfs.gz $TARGET_ROOT
 	sleep 2
 
 	echo "XXX" && echo 50
-	echo -e "\nExtraction du système racine..."
+	echo -e "\nExtracting the root system..."
 	echo "XXX"
 	extract_rootfs
 
 	echo "XXX" && echo 60
-	echo -e "\nCopie des fichiers utilisateurs par défaut (/etc/skel)..."
+	echo -e "\nCopying the default user files (/etc/skel)..."
 	echo "XXX"
 	gen_etc_skel
 	sleep 2
 
 	echo "XXX" && echo 70
-	echo -e "\nPreconfiguration du système..."
+	echo -e "\nPreconfiguring the system..."
 	echo "XXX"
 	pre_config_system
 
 	echo "XXX" && echo 90
-	echo -e "\nCréation du fichier de configuration de GRUB (menu.lst)..."
+	echo -e "\nCreating the configuration file for GRUB (menu.lst)..."
 	echo "XXX"
 	grub_config
 
 	echo "XXX" && echo 100
-	echo -e "\nFin de l'installation des fichiers..."
+	echo -e "\nFinishing the files installation..."
 	echo "XXX"
 	echo "install_files: OK" >>$LOG
 	sleep 4
 
 	) |
-	$DIALOG --title " Installation des fichiers " \
+	$DIALOG --title " Install files " \
 		--backtitle "$BACKLIST" \
 		--gauge "Starting to install files..." 18 70 0
 }
 
-# GRUB info with disk name used for grub-install
+# GRUB info with disk name used for grub-install.
 grub_install()
 {
 	TARGET_DISK=`echo $TARGET_DEV | sed s/"[0-9]"/''/`
@@ -495,18 +495,18 @@ grub_install()
 		0)
 			(
 			echo "XXX" && echo 50
-			echo -e "\nExécution de grub-install sur : $TARGET_DISK..."
+			echo -e "\nRunning grub-install on : $TARGET_DISK..."
 			echo "XXX"
 			grub-install --no-floppy \
 				--root-directory=$TARGET_ROOT $TARGET_DISK 2>>$LOG
 			echo "XXX" && echo 100
-			echo -e "\nFin de l'installation..."
+			echo -e "\nFinished installation..."
 			echo "XXX"
 			sleep 2
 			) |
 			$DIALOG --title " GRUB install " \
 				--backtitle "$BACKLIST" \
-				--gauge "Installation de GRUB..." 18 70 0 ;;
+				--gauge "Installating GRUB..." 18 70 0 ;;
 		1)
 			echo "grub_install: NO" >>$LOG ;;
 		255)
@@ -514,23 +514,23 @@ grub_install()
 	esac
 }
 
-# Copy log file, umount target and eject cdrom
+# Copy log file, umount target and eject cdrom.
 umount_devices()
 {
 	(
 	echo "XXX" && echo 25
-	echo -e "\nCopie du fichier de log ($LOG)..."
+	echo -e "\nCopying the log files ($LOG)..."
 	echo "XXX"
 	cp -a $LOG $TARGET_ROOT/var/log
 	sleep 2
 	echo "XXX" && echo 50
-	echo -e "\nDémontage de la cible ($TARGET_DEV)..."
+	echo -e "\nUnmounting the target ($TARGET_DEV)..."
 	echo "XXX"
 	if mount | grep -q $TARGET_ROOT; then
 		umount $TARGET_ROOT 2>/dev/null
 	fi
 	echo "XXX" && echo 75
-	echo -e "\nDémontage et éjection du cdrom..."
+	echo -e "\nUnmounting and ejecting the cdrom..."
 	echo "XXX"
 	if mount | grep -q /media/cdrom; then
 		umount /media/cdrom
@@ -547,11 +547,11 @@ umount_devices()
 		--gauge "$TITLE starting..." 18 70 0
 }
 
-# End of installation
+# End of installation.
 end_of_install()
 {
 	echo "end_of_install: `date`" >>$LOG
-	$DIALOG --title " Installation terminée " \
+	$DIALOG --title " Installation complete " \
 		--backtitle "$BACKLIST" \
 		--yes-label "Exit" \
 		--no-label "Reboot" \
@@ -578,17 +578,16 @@ esac
 ask_for_upgrade_dev()
 {
 	exec 3>&1
-	UPGRADE_DEV=`$DIALOG --title " Cible à mettre jour " \
+	UPGRADE_DEV=`$DIALOG --title " Target to upgrade " \
 		--backtitle "$BACKLIST" --clear \
 		--extra-label "List" --extra-button \
 		--colors --inputbox "\n
-L'installateur va mettre à jour le système cible en commançant par sauver tous \
-les fichiers de configuration et la liste des paquets installés. Ensuite, il va \
-nettoyer la partition et installer la version de SliTaz contenue sur le cdrom, \
-restaurer les fichiers de configuration et réinstaller l'ensemble des paquets \
-qui ne sont pas présents sur le LiveCD. Il vous font donc une connection internet \
-active avant de mettre à jour.\n\n
-\Z2Partition contenant le système à mettre à jour:\Zn" 18 70 2>&1 1>&3`
+The installer will upgrade the target by saving all configuration files and \
+the list of installed packages. Then, it will clean the partition and install the \
+version of SliTaz contained on the cdrom, restore the configuration files and \
+reinstall all packages which are not present on the cdrom. You will need an active \
+internet connection before upgrading.\n\n
+\Z2Partition containing the system upgrade:\Zn" 18 70 2>&1 1>&3`
 	retval=$?
 	exec 3>&-
 	check_retval
@@ -606,34 +605,34 @@ active avant de mettre à jour.\n\n
 	if cat /proc/partitions | grep -q $DEV_NAME; then
 		echo "ask_for_target_dev: $TARGET_DEV" >>$LOG
 	else
-		ERROR_MSG="La partition \Z2$UPGRADE_DEV\Zn ne semble pas exister."
+		ERROR_MSG="The partition \Z2$UPGRADE_DEV\Zn doesn't seem to exist."
 		error_message
 		ask_for_upgrade_dev
 	fi
 	echo "partition to upgrade: $UPGRADE_DEV" >>$LOG
 }
 
-# Prepare the part to upgrade, backup, install, restore configs
+# Prepare the partition to upgrade, backup, install, restore configs
 # and reinstall pkgs.
 upgrade_process()
 {
 	(
 	echo "XXX" && echo 5
-	echo -e "\nPréparation de la partition cible..."
+	echo -e "\nPreparing the target partition..."
 	echo "XXX"
 	# Mount point can be already used.
 	if mount | grep -q $TARGET_ROOT; then
 		umount $TARGET_ROOT 2>$LOG
 	fi
 	mkdir -p $TARGET_ROOT && sleep 2
-	# Mount target
+	# Mount target.
 	mount $UPGRADE_DEV $TARGET_ROOT >>$LOG 2>>$LOG
 	cd $TARGET_ROOT
 	TARGET_DEV=$UPGRADE_DEV
 	set_messages
 
 	echo "XXX" && echo 10
-	echo -e "\nRecherch de /etc/slitaz-release"
+	echo -e "\nSearch for /etc/slitaz-release"
 	echo "XXX"
 	if [ -f etc/slitaz-release ]; then
 		release=`cat etc/slitaz-release`
@@ -641,16 +640,16 @@ upgrade_process()
 		echo -e "\nSliTaz release: $release"
 		echo "XXX"
 	else
-		ERROR_MSG="La partition \Z2$UPGRADE_DEV\Zn ne semble pas contenir de \
-système SliTaz, le fichier: /etc/slitaz-release n'existe pas."
+		ERROR_MSG="The partition \Z2$UPGRADE_DEV\Zn doesn't appear to contain \
+a SliTaz system, the file: /etc/slitaz-release doesn't exist."
 		error_message
 		exit 0
 	fi && sleep 2
 
 	echo "XXX" && echo 20
-	echo -e "\nSauvegarde de /etc, /home et de la liste des paquets..."
+	echo -e "\nBackup /etc, /home and the packages list..."
 	echo "XXX"
-	# Backup target packages list
+	# Backup target packages list.
 	ls -1 var/lib/tazpkg/installed > home/packages-selection.list
 	for dir in *
 	do
@@ -687,29 +686,29 @@ système SliTaz, le fichier: /etc/slitaz-release n'existe pas."
 	sleep 2
 
 	echo "XXX" && echo 25
-	echo -e "\nInstallation du noyau ($KERNEL)..."
+	echo -e "\nInstalling the kernel ($KERNEL)..."
 	echo "XXX"
 	install_kernel
 
 	echo "XXX" && echo 30
-	echo -e "\nCopie des bootloaders syslinux/isolinux..."
+	echo -e "\nCopying the bootloader syslinux/isolinux..."
 	echo "XXX"
 	copy_bootloaders
 
 	echo "XXX" && echo 35
-	echo -e "\nCopie du système compressé (rootfs.gz)..."
+	echo -e "\nCopying the compressed system (rootfs.gz)..."
 	echo "XXX"
 	cp /media/cdrom/boot/rootfs.gz $TARGET_ROOT
 	sleep 2
 
 	echo "XXX" && echo 40
-	echo -e "\nExtraction du système racine..."
+	echo -e "\nExtracting the root system..."
 	echo "XXX"
 	extract_rootfs
 
 	# Restore backups.
 	echo "XXX" && echo 42
-	echo -e "\nRestauration des fichiers de configuration..."
+	echo -e "\nRestoring configuration files..."
 	echo "XXX"
 	rm -rf $TARGET_ROOT/home
 	mv $TARGET_ROOT/home.bak $TARGET_ROOT/home
@@ -729,7 +728,7 @@ système SliTaz, le fichier: /etc/slitaz-release n'existe pas."
 
 	# LiveCD packages list.
 	echo "XXX" && echo 46
-	echo -e "\nCréation des listes de paquets..."
+	echo -e "\nCreating package lists..."
 	echo "XXX"
 	ls -1 $TARGET_ROOT/var/lib/tazpkg/installed > packages-cdrom.list || exit 1
 	echo "packages-cdrom.list: done" >> $LOG
@@ -740,18 +739,18 @@ système SliTaz, le fichier: /etc/slitaz-release n'existe pas."
 	# Get mirror list.
 	tazpkg recharge >>$LOG 2>>$LOG
 	if [ ! -f /var/lib/tazpkg/packages.list ]; then
-		ERROR_MSG="La liste des paquets disponibles sur le miroir n'a pas pu \
-être téléchargée. Aucun paquets manquants ne sera réintallés maintenant, mais
-vous pourrez le faire plus tard en vous aidant de la liste: \n\n
+		ERROR_MSG="The list of available packages on the mirror could not be \
+downloaded. No missing packages will be reinstalled now, but \
+you can do so later by looking at the following list: \n\n
 
 /var/lib/slitaz-installer/packages-selection.diff"
 		error_message
 	fi
 	sleep 2
 
-	# Check if the pkg is on the mirror
+	# Check if the pkg is on the mirror.
 	echo "XXX" && echo 48
-	echo -e "\nVérification de la disponibilité des paquets..."
+	echo -e "\nChecking the availability of packages..."
 	echo "XXX"
 	touch packages-to-install.list
 	packages=0
@@ -766,7 +765,7 @@ vous pourrez le faire plus tard en vous aidant de la liste: \n\n
 
 	# Calculate the percent for one package and install.
 	echo "XXX" && echo 50
-	echo -e "\nInstallation des éventuels paquets..."
+	echo -e "\nInstalling any packages..."
 	echo "XXX"
 	sleep 2
 	if [ "$packages" == "0" ]; then
@@ -779,7 +778,7 @@ vous pourrez le faire plus tard en vous aidant de la liste: \n\n
 		do
 			pct=$(($pct+$onepkg))
 			echo "XXX" && echo $pct
-			echo -e "\nInstallation de: $pkg..."
+			echo -e "\nInstallation of: $pkg..."
 			echo "XXX"
 			# Log please.
 			echo "get-install: $pkg" >>$LOG
@@ -791,16 +790,16 @@ vous pourrez le faire plus tard en vous aidant de la liste: \n\n
 		done
 	fi
 	echo "XXX" && echo 100
-	echo -e "\nInstallation des paquets terminée..."
+	echo -e "\nInstallation of packages complete..."
 	echo "XXX"
 	sleep 2
 	) |
-	$DIALOG --title " Processus de mise à jour " \
+	$DIALOG --title " Processing system upgrade " \
 		--backtitle "$BACKLIST" \
 		--gauge "Target in preparation..." 18 70 0
 }
 
-# End of system upgrade
+# End of system upgrade.
 end_of_upgrade()
 {
 	TARGET_DEV=$UPGRADE_DEV
@@ -808,15 +807,15 @@ end_of_upgrade()
 	pkgscd=`cat $TARGET_ROOT/var/lib/slitaz-installer/packages-cdrom.list | wc -l`
 	pkginst=`cat $TARGET_ROOT/var/lib/slitaz-installer/packages-to-install.list | wc -l`
 	echo "end_of_upgrade: `date`" >>$LOG
-	$DIALOG --title " Mise à jour terminée " \
+	$DIALOG --title " Upgrade completed " \
 		--backtitle "$BACKLIST" \
 		--yes-label "Exit" \
 		--no-label "Reboot" \
 		--clear --colors --yesno "\n
-Mise à jour terminée. Vous pouvez dès maintenant redémarrer (reboot) \
-sur votre système SliTaz GNU/Linux à jour.\n\n
-Paquets présents sur le cdrom      : $pkgscd\n
-Paquets installés depuis le miroir : $pkginst\n" 18 70
+Upgrade finished. You can know restart (reboot) \
+from your SliTaz GNU/Linux system.\n\n
+Packages on the cdrom      : $pkgscd\n
+Packages installed from the mirror : $pkginst\n" 18 70
 	retval=$?
 	case $retval in
 	0)
@@ -841,7 +840,7 @@ start_installer
 
 case $ACTION in
 	upgrade)
-		BACKLIST="$BACKLIST (Mise à jour)"
+		BACKLIST="$BACKLIST (Upgrade)"
 		mount_cdrom
 		ask_for_upgrade_dev
 		upgrade_process

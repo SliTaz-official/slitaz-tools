@@ -32,8 +32,8 @@ the system is installed.\n\n
 
 # grub_install
 GRUB_INSTALL_MSG="\n
-You now have the option to install the GRUB bootloader which is capable of \
-booting any kind of operating system. If you want to use an existing \
+You have now the option to install the GRUB bootloader which is capable of \
+booting almost any kind of operating system. If you want to use an existing \
 GRUB installation, skip this step and add the correct lines to your GRUB \
 configuration file (menu.lst). Note that the SliTaz Installer creates a \
 configuration file on the target which can be used as an example \
@@ -42,5 +42,5 @@ configuration file on the target which can be used as an example \
 
 # end_of_install
 END_OF_INSTALL_MSG="\n
-Installation is finished, you can now exit the installer or reboot on your new \
+Installation is now finished, you can exit the installer or reboot on your new \
 SliTaz GNU/Linux operating system." 
