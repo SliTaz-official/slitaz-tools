@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=Screen size
-Name[fr]=Dimension de l''écran
+Name[fr]=Dimension de l'écran
 Exec=subox tazx
 Icon=/usr/share/icons/Tango/16x16/actions/view-fullscreen.png
 Terminal=true
