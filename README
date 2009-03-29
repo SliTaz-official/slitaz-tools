@@ -8,8 +8,10 @@ et pleinement installable sur disque dur. Les outils SliTaz sont déstinés
 à la création de paquets et à accompagner le livre de cuisine (Cookbook)
 de Slitaz. Le Cookbook fournit beaucoup d'informations au sujet de la création
 de SliTaz et Tazwok est utilisé pour compiler et générer la distribution
-automatiquement. On the Web : http://www.slitaz.org/
+automatiquement.
 
+Website: http://labs.slitaz.org/wiki/slitaz-tools
+Documentation: http://www.slitaz.org/en/doc/cookbook/slitaz-tools.html
 
 AUTHORS    - Les auteurs et contributeurs des outils SliTaz.
 ChangeLog  - Notes au sujet des changements dans la boîte.
