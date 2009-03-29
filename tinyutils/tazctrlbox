@@ -389,6 +389,11 @@ MAIN_DIALOG=${MAIN_DIALOG}'
 				</button>
 			</hbox>
 			<hbox>
+				<button>
+					<label>Resize screen</label>
+					<input file icon="view-fullscreen"></input>
+					<action>tazx</action>
+				</button>
 				<text wrap="false">
 					<label>"Theme:"</label>
 				</text>
