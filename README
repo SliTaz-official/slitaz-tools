@@ -46,6 +46,8 @@ rootfs/ - Pseudo système racine
 tinyutils/ - Petits utilitaitres
 --------------------------------
 
+ * tazhw
+   Utilitaire permettant de détecter le matériel PCI et USB.
 
  * gztazmod.sh
    Script permettant de compresser les modules d'un noyau Linux.
@@ -53,7 +55,7 @@ tinyutils/ - Petits utilitaitres
  * mktazdevs.sh
    Script créant les devices pour SliTaz (s'install dans /sbin).
 
- * tazkmap & tazlocale
+ * tazkeymap & tazlocale
    Ces deux scripts configure le clavier et la locale utilisant dialog.
 
  * tazx & starx
