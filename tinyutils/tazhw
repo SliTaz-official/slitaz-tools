@@ -84,18 +84,6 @@ load_module()
 	fi
 }
 
-# Retry a Ethernet connection with DHCP after detection (used at boot).
-# TODO: try a wireless connection but stop eth0 to avoid conflict.
-start_network()
-{
-	if ifconfig -a | grep -q "eth0"; then
-		if [ ! -f /var/run/udhcpc.eth0.pid ]; then
-			echo "Starting udhcpc client on: eth0... "
-			/sbin/udhcpc -b -i eth0 -p /var/run/udhcpc.eth0.pid
-		fi
-	fi
-}
-
 # Detect PCI devices and load kernel module only at first boot,
 # in LiveCD mode or with the command 'detect-pci'.
 detect_pci_devices()
@@ -234,8 +222,7 @@ case "$1" in
 		echo "Detecting PCI devices Kernel modules..."
 		detect_pci_devices
 		echo "Detecting USB devices Kernel modules..."
-		detect_usb_devices 
-		start_network ;;
+		detect_usb_devices ;;
 	detect-pci)
 		check_root
 		echo -e "\nDetected PCI devices Kernel modules" && display_line
