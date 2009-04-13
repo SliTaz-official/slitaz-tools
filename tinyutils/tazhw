@@ -105,6 +105,7 @@ detect_pci_devices()
 				load_module
 				echo " $mod" >> /var/lib/detected-modules
 			done
+			grep -qs batt /etc/lxpanel/default/panels/panel || 
 			sed -i 's/= cpu/= batt\n}\n\nPlugin {\n    type = cpu/' \
 				/etc/lxpanel/default/panels/panel 2> /dev/null
 		fi
