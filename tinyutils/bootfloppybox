@@ -415,6 +415,67 @@ The <i>nodhcp</i> keyword avoids dhcp timeouts and the <i>url=</i> keyword is op
 </window>
 '
 #
+# Read/write floppy images
+#
+export FLOPPY_IMAGE='
+<window title="Floppy image manager" icon-name="gtk-floppy">
+  <vbox>
+    <frame Floppy disk drive>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Device : </b>"</label>
+        </text>
+	<combobox>
+          <variable>DEVICE</variable>'
+for i in /sys/devices/platform/floppy.*/block:*; do
+	[ -d $i ] || continue
+	FLOPPY_IMAGE="$FLOPPY_IMAGE
+	  <item>/dev/${i#*block:}</item>"
+done
+	FLOPPY_IMAGE="$FLOPPY_IMAGE
+	</combobox>
+        <button>
+          <label>Format floppy</label>
+          <input file icon=\"media-floppy\"></input>
+	  <action>fdformat -n $DEVICE</action>
+        </button>
+      </hbox>
+    </frame>
+    <frame Floppy image file>
+      <hbox>
+        <text use-markup=\"true\">
+          <label>\"<b>File : </b>\"</label>
+        </text>
+        <entry accept=\"filename\">
+          <label>Select a floppy image</label>
+          <variable>IMAGE</variable>
+        </entry>
+        <button>
+          <input file stock=\"gtk-open\"></input>
+          <action type=\"fileselect\">IMAGE</action>
+        </button>
+      </hbox>
+    </frame>
+    <hbox>
+      <button>
+        <input file icon=\"go-jump\"></input>
+        <label>Write image to floppy</label>
+        <action>dd if=\$IMAGE of=\$DEVICE</action>
+      </button>
+      <button>
+        <input file icon=\"undo\"></input>
+        <label>Get floppy image</label>
+        <action>dd if=\$DEVICE of=\$IMAGE</action>
+      </button>
+      <button>
+        <input file icon=\"gtk-close\"></input>
+        <action type=\"closewindow\">FLOPPY_IMAGE</action>
+      </button>
+    </hbox>
+  </vbox>
+</window>
+"
+#
 # Write bootfloppy image to floppy device.
 #
 BOOT_DIALOG='
@@ -453,7 +514,7 @@ tmp='	  <item>cdrom image (boot.iso)</item>
 	</combobox>
         <button>
           <label>Format floppy</label>
-          <input file icon="forward"></input>
+          <input file icon="media-floppy"></input>
 	  <action>case "$DEVICE" in /dev/*) fdformat -n $DEVICE;; esac</action>
         </button>
       </hbox>
@@ -571,6 +632,16 @@ EOT
 tmp='
     </notebook>
     <hbox>
+      <button>
+        <input file icon="media-cdrom"></input>
+	<label>Burn cdrom image</label>
+	<action>burnbox</action>
+      </button>
+      <button>
+        <input file icon="media-floppy"></input>
+	<label>Manage floppy image</label>
+	<action type="launch">FLOPPY_IMAGE</action>
+      </button>
       <button>
         <input file icon="exit"></input>
 	<label>Exit</label>
