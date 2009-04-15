@@ -1006,7 +1006,7 @@ $(configfile /etc/bind/named.conf.local NAMED_CONF)
      </frame>
 "
 [ -x /usr/sbin/dnsd     ] && NET_BOX="${NET_BOX}
-    <frame Dnsd (busybox)>
+    <frame Dnsd (busybox master dns)>
 $(helpdaemon dnsd 80x15 DNSD_OPTIONS DNSD_OPTS)
 $(configfile /etc/dnsd.conf DNSD_CONF)
       <hbox>
