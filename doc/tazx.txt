@@ -1,27 +1,9 @@
-
-
- (°- { Le petit utilitaire 'tazx' est l'outil de configuration
- //\   du système de fenêtres sur votre système SliTaz. Ce petit
- v_/_  programme est distribué sous licence libre GNU. }
-
-
-Les boîtes de dialogues sont propulsées par dialog, il vous
-suffit d'utiliser les flèches pour séléctionner une valeure, et
-ensuite de valider votre choix en pressant sur <ENTER>. Vous
-pouvez démarrer une session graphique en séléctionnant le mode
-video, qui convient le mieux à votre matériel.
-
-Après la première exécution de startx, la configuration est
-sauvegardée dans le fichier exécutable ~/.xsession et ~/.xinitrc.
-Ces fichiers sont respectivement utilisés pour lancer une session
-X avec 'statx' ou démarrer une session via le gestionnaire de 
-session Slim. A noter aussi que ces fichiers peuvent être
-modifier avec un éditeur de texte.
-
-Pour plus d'informations, vous trouverez la documentation de
-SliTaz dans: /usr/share/doc/slitaz. Un page du Handbook est
-dédiée à la configuration du système X. Sur le site Web de
-SliTaz : http://www.slitaz.org/doc/handbook/
-
-
-- SliTaz GNU/Linux
+Tazx is the configuration tool to manage your X window 
+sessions on a SliTaz box. Simply select a value and press 
+OK. You can also select a (Xorg) session by selecting a 
+video driver best suited to your hardware. After you first 
+run 'startx', the configuration is saved in the executable 
+files ~/.xsession and ~/.xinitrc. These files are then used 
+to start a X session with 'startx' or via the Slim login 
+manager. Note that these files can be edited with a 
+text editor.
