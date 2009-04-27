@@ -5,7 +5,7 @@
 #
 # (C) GNU gpl v3 - SliTaz GNU/Linux 2008.
 #
-VERSION=20080719
+VERSION=20090428
 
 # Glade XML file path.
 GLADE_XML=/usr/share/slitaz-tools/glade
@@ -410,6 +410,81 @@ case $1 in
 </vbox>
 </window>'
 		;;
+	tazapps)
+		# Default applications configuration script. System wide config file
+		# is /etc/slitaz/applications.conf and each user can have personnal
+		# settings. System wide for root and personnal config for user.
+		if test $(id -u) = 0; then
+			export CONFIG="/etc/slitaz/applications.conf"
+		else
+			export CONFIG="$HOME/.config/slitaz/applications.conf"
+			if [ ! -f $CONFIG ]; then
+				mkdir -p $HOME/.config/slitaz
+				cp /etc/slitaz/applications.conf $CONFIG
+			fi
+		fi
+
+		export DESKTOP_DIALOG='
+<window title="SliTaz default applications" icon-name="preferences-desktop">
+<vbox>
+	<vbox>
+		<text wrap="false" width-chars="50">
+			<label>"
+SliTaz default applications configuration
+			"</label>
+		</text>
+	</vbox>
+	<hbox>
+		<text wrap="false">
+			<label>"Web browser:"</label>
+		</text>
+		<entry>
+			<input>. $CONFIG; echo $BROWSER</input>
+			<variable>BROWSER</variable>
+		</entry>
+		<button>
+			<label>Change</label>
+			<input file icon="forward"></input>
+			<action>sed -i s/"BROWSER=.*"/"BROWSER=\"$BROWSER\""/ $CONFIG</action>
+		</button>
+	</hbox>
+	<hbox>
+		<text wrap="false">
+			<label>"Text editor:    "</label>
+		</text>
+		<entry>
+			<input>. $CONFIG; echo $EDITOR</input>
+			<variable>EDITOR</variable>
+		</entry>
+		<button>
+			<label>Change</label>
+			<input file icon="forward"></input>
+			<action>sed -i s/"EDITOR=.*"/"EDITOR=\"$EDITOR\""/ $CONFIG</action>
+		</button>
+	</hbox>
+	<hbox>
+		<text wrap="false">
+			<label>"X terminal:     "</label>
+		</text>
+		<entry>
+			<input>. $CONFIG; echo $TERMINAL</input>
+			<variable>TERMINAL</variable>
+		</entry>
+		<button>
+			<label>Change</label>
+			<input file icon="forward"></input>
+			<action>sed -i s/"TERMINAL=.*"/"TERMINAL=\"$TERMINAL\""/ $CONFIG</action>
+		</button>
+	</hbox>
+	<hbox>
+		<button>
+			<label>Exit</label>
+			<input file icon="exit"></input>	
+			<action type="exit">exit</action>
+		</button>
+	</hbox>
+</vbox>
+</window>' ;;
 	*_*)
 		# Exec all function called by args (must have an underscore).
 		$1
