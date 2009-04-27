@@ -1,0 +1,8 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Favorite applications
+Name[fr]=Applications favorites
+Icon=preferences-desktop
+Exec=desktopbox tazapps
+Type=Application
+Categories=Settings;DesktopSettings;
