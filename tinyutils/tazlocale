@@ -3,31 +3,59 @@
 # Tazlocale: SliTaz GNU/Linux locale setting using dialog boxes.
 # Configuration file is : /etc/locale.conf
 #
-# 20080417 <pankso@slitaz.org> - GNU gpl.
+# 20090428 <pankso@slitaz.org> - GNU gpl.
 #
-: ${DIALOG=tazdialog}
-export ICON="preferences-desktop-locale"
-
-# Script functions.
-status()
-{
-	local CHECK=$?
-	echo -en "\\033[70G[ "
-	if [ $CHECK = 0 ]; then
-		echo -en "\\033[1;33mOK"
-	else
-		echo -en "\\033[1;31mFailed"
-	fi
-	echo -e "\\033[0;39m ]"
-}
 
 # Check if user is root.
-#
 if test $(id -u) != 0; then
 	echo -e "\nYou must be root to run `basename $0`!"
 	echo -e "Type su and root password to become super-user.\n"
 	exit 1
 fi
+
+get_messages()
+{
+	. /etc/locale.conf
+	LANGUAGE=${LANG%_*}
+	[ "$LANG" = "C" ] && LANGUAGE="en"
+	case $LANGUAGE in
+		fr)
+			RECONFIG_MSG="
+Veuilliez fermer votre session et vous reloguer pour utiliser
+SliTaz avec la locale : fr." ;;
+		*)
+			RECONFIG_MSG="
+Please logout of your current session and login again to SliTaz
+and locale : $LANGUAGE" ;;
+	esac
+}
+
+# Create symlink to translated files provide by SliTaz language pack,
+# doc and config files.
+link_language_files()
+{
+	. /etc/locale.conf
+	LANGUAGE=${LANG%_*}
+	[ "$LANG" = "C" ] && LANGUAGE="en"
+	# Openbox menu in /usr/share/doc/slitaz
+	if [ -f /etc/xdg/openbox/menu.$LANGUAGE.xml ]; then
+		cd /etc/xdg/openbox && rm -f menu.xml
+		ln -s menu.$LANGUAGE.xml menu.xml
+	fi
+	# Documentation in /usr/share/doc/slitaz
+	if [ -f /usr/share/doc/slitaz/index.$LANGUAGE.html ]; then
+		cd /usr/share/doc/slitaz && rm -f index.html
+		ln -s index.$LANGUAGE.html index.html
+	fi
+	# SliTaz Software Manuals
+	for soft in tazpkg tazlito tazusb tazwok
+	do
+		if [ -f /usr/share/doc/$soft/$soft.$LANGUAGE.html ]; then
+			cd /usr/share/doc/$soft && rm -f $soft.html
+			ln -s $soft.$LANGUAGE.html $soft.html
+		fi
+	done
+}
 
 # Locale name displayed.
 get_locale_name()
@@ -41,52 +69,66 @@ get_locale_name()
 }
 
 # Dialog menu.
-#
-exec 3>&1
-value=`$DIALOG  --clear \
-	--title " SliTaz locale configuration " \
-	--menu \
-"\nSelect your language - Séléctionnez votre langue" 15 70 5 \
+dialog_menu()
+{
+	exec 3>&1
+	value=`$DIALOG  --clear \
+	--title " SliTaz language configuration " \
+	--menu "" 15 70 5 \
 "en" "English" \
 $(get_locale_name) \
 2>&1 1>&3`
-retval=$?
-exec 3>&-
+	retval=$?
+	exec 3>&-
+	case $retval in
+		0)
+			continue ;;
+		1)
+			echo "Cancel pressed."
+			exit 0 ;;
+		255)
+			if test -n "$value"; then
+				echo "$value"
+			else
+				echo "ESC pressed."
+				exit 0
+			fi ;;
+	esac
+	# Default: C = English
+	[ "$value" = "en" ] && value="C"
+	[ -s /etc/locale.conf ] && RECONFIG="yes"
+	# System configuration
+	echo "LANG=$value" > /etc/locale.conf
+	echo "LC_ALL=$value" >> /etc/locale.conf
+	export LANG=$value LC_ALL=$value
+	get_messages
+	# If it's a reconfiguration give an info message.
+	if [ -n "$RECONFIG" ]; then
+		$DIALOG --clear \
+			--title " Information " \
+			--msgbox "\n$RECONFIG_MSG\n" 16 70
+	fi
+}
 
-case $retval in
-	0)
-		continue ;;
-	1)
-		echo "Cancel pressed."
-		exit 0 ;;
-	255)
-	if test -n "$value"; then
-		echo "$value"
-	else
-		echo "ESC pressed."
-		exit 0
-	fi ;;
+case "$1" in
+	*_*)
+		# Execute functions (can be called from an other apps).
+		$1 ;;
+	link-files)
+		link_language_files ;;
+	dialog)
+		: ${DIALOG=dialog}
+		dialog_menu
+		link_language_files ;;
+	list)
+		echo ""
+		locale -a
+		echo "" ;;
+	*)
+		: ${DIALOG=tazdialog}
+		export ICON="preferences-desktop-locale"
+		dialog_menu
+		link_language_files ;;
 esac
-
-# Default: C = English
-if [ "$value" = "en" ]; then
-	value='C'
-fi
-
-# If it's a reconfiguration give an info message.
-if [ -s /etc/locale.conf ]; then
-	$DIALOG --clear \
-		--title " Locale setting information\n " \
-		--msgbox "
-Please logout of your current session and login again to use $value
-locale.\n" 16 70
-fi
-
-# System configuration
-echo "LANG=$value" > /etc/locale.conf
-echo "LC_ALL=$value" >> /etc/locale.conf
-
-. /etc/locale.conf
-export LANG LC_ALL
 
 exit 0
