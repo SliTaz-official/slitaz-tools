@@ -365,7 +365,7 @@ case $1 in
 		<button>
 			<label>Configuration</label>
 			<input file icon="accessories-text-editor"></input>
-			<action>leafpad $AUTOSTART_SCRIPT</action>
+			<action>editor $AUTOSTART_SCRIPT</action>
 			<action>refresh:APPLICATION</action>
 		</button>
 		<button>

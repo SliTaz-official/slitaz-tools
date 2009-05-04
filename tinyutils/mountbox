@@ -117,10 +117,9 @@ ACTIONS='
 		<button>
 			<label>Browse</label>
 			<input file icon="folder-open"></input>
-			<action>pcmanfm $MOUNT_POINT &</action>
+			<action>file-manager $MOUNT_POINT &</action>
 		</button>
 	</hbox>
-
 	<hbox>
 		<button>
 			<label>Mount</label>
