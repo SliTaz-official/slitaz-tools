@@ -414,21 +414,16 @@ case $1 in
 		# Default applications configuration script. System wide config file
 		# is /etc/slitaz/applications.conf and each user can have personnal
 		# settings. System wide for root and personnal config for user.
-		if test $(id -u) = 0; then
-			export CONFIG="/etc/slitaz/applications.conf"
-		else
-			export CONFIG="$HOME/.config/slitaz/applications.conf"
-			if [ ! -f $CONFIG ]; then
-				mkdir -p $HOME/.config/slitaz
-				cp /etc/slitaz/applications.conf $CONFIG
-			fi
+		export CONFIG="$HOME/.config/slitaz/applications.conf"
+		if [ ! -f $CONFIG ]; then
+			mkdir -p $HOME/.config/slitaz
+			cp /etc/slitaz/applications.conf $CONFIG
 		fi
-
 		export DESKTOP_DIALOG='
 <window title="SliTaz default applications" icon-name="preferences-desktop">
 <vbox>
 	<vbox>
-		<text wrap="false" width-chars="50">
+		<text wrap="false" width-chars="54">
 			<label>"
 SliTaz default applications configuration
 			"</label>
@@ -436,7 +431,7 @@ SliTaz default applications configuration
 	</vbox>
 	<hbox>
 		<text wrap="false">
-			<label>"Web browser:"</label>
+			<label>"Web browser:      "</label>
 		</text>
 		<entry>
 			<input>. $CONFIG; echo $BROWSER</input>
@@ -450,7 +445,7 @@ SliTaz default applications configuration
 	</hbox>
 	<hbox>
 		<text wrap="false">
-			<label>"Text editor:    "</label>
+			<label>"Text editor:          "</label>
 		</text>
 		<entry>
 			<input>. $CONFIG; echo $EDITOR</input>
@@ -464,7 +459,7 @@ SliTaz default applications configuration
 	</hbox>
 	<hbox>
 		<text wrap="false">
-			<label>"X terminal:     "</label>
+			<label>"X terminal:           "</label>
 		</text>
 		<entry>
 			<input>. $CONFIG; echo $TERMINAL</input>
@@ -474,6 +469,20 @@ SliTaz default applications configuration
 			<label>Change</label>
 			<input file icon="forward"></input>
 			<action>sed -i s/"TERMINAL=.*"/"TERMINAL=\"$TERMINAL\""/ $CONFIG</action>
+		</button>
+	</hbox>
+	<hbox>
+		<text wrap="false">
+			<label>"Window manager:"</label>
+		</text>
+		<entry>
+			<input>. $CONFIG; echo $WINDOW_MANAGER</input>
+			<variable>WINDOW_MANAGER</variable>
+		</entry>
+		<button>
+			<label>Change</label>
+			<input file icon="forward"></input>
+			<action>sed -i s/"WINDOW_MANAGER=.*"/"WINDOW_MANAGER=\"$WINDOW_MANAGER\""/ $CONFIG</action>
 		</button>
 	</hbox>
 	<hbox>

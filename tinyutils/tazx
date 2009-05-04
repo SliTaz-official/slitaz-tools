@@ -10,7 +10,6 @@
 : ${DIALOG=tazdialog}
 
 # Variables.
-#
 XSERVER=Xvesa
 DOC=/usr/share/doc/slitaz-tools/tazx.txt
 MOUSE=/dev/input/mice,5
@@ -20,7 +19,7 @@ if [ -n "$1" ]; then
 else
 	WM=openbox
 fi
-# Default user for config files
+# Default user for config files in Live mode.
 USER=`cat /etc/passwd | grep 1000 | cut -d ":" -f 1`
 
 ####################
@@ -178,7 +177,7 @@ screen_config_dialog()
 	# Set selected value.
 	case $value in
 		xorg)
-			install_xorg;;
+			install_xorg ;;
 		xterm)
 			Xvesa -ac -shadow -screen 800x600x16 -br &
 			exec xterm -cr orange -geometry 80x35+0-0 ;;
@@ -204,48 +203,80 @@ slim_config()
 	fi
 }
 
-# e17 start with enlightenment_start.
-e17_stuff()
+# Window manager specific configuration.
+wm_config()
 {
-	if [ "$WM" == "e17" ]; then
-		 WM=enlightenment_start
-		 XSEVER_OPTS="dpms -terminate"
-	fi
-}
-
-# dwm start with dwm-session.
-dwm_stuff()
-{
-	if [ "$WM" == "dwm" ]; then
-		 WM=dwm-session
-		 XSEVER_OPTS="dpms"
-	fi
-}
-
-# Openbox with openbox-session.
-openbox_stuff()
-{
-	if [ "$WM" == "openbox" -o "$WM" == "ob" ]; then
-		 WM=openbox-session
-		 XSEVER_OPTS="dpms +extension Composite"
-	fi
-	# Check if a personal autostart script exists if OB is installed.
-	if [ -d "/var/lib/tazpkg/installed/openbox" ]; then
-		if [ ! -f "$HOME/.config/openbox/autostart.sh" ]; then
-			mkdir -p $HOME/.config/openbox
-			cp /etc/xdg/openbox/autostart.sh $HOME/.config/openbox
-		fi
-		# Script for default user (uid=1000).
-		if [ ! -f "/home/$USER/.config/openbox/autostart.sh" ]; then
-			mkdir -p /home/$USER/.config/openbox
-			cp /etc/xdg/openbox/autostart.sh /home/$USER/.config/openbox
-		fi
-		if [ ! -f "/home/$USER/.config/openbox/menu.xml" ]; then
-			mkdir -p /home/$USER/.config/openbox
-			cp /etc/xdg/openbox/menu.xml /home/$USER/.config/openbox
-		fi
-		chown -R $USER.$USER /home/$USER/.config
-	fi
+	case $WM in
+		ob|openbox)
+			WM=openbox-session
+			XSEVER_OPTS="dpms +extension Composite"
+			# Check if a personal autostart script exists if OB is installed.
+			if [ -d "/var/lib/tazpkg/installed/openbox" ]; then
+				if [ ! -f "$HOME/.config/openbox/autostart.sh" ]; then
+					mkdir -p $HOME/.config/openbox
+					cp /etc/xdg/openbox/autostart.sh $HOME/.config/openbox
+				fi
+				# Script for default user (uid=1000).
+				if [ ! -f "/home/$USER/.config/openbox/autostart.sh" ]; then
+					mkdir -p /home/$USER/.config/openbox
+					cp /etc/xdg/openbox/autostart.sh /home/$USER/.config/openbox
+				fi
+				if [ ! -f "/home/$USER/.config/openbox/menu.xml" ]; then
+					mkdir -p /home/$USER/.config/openbox
+					cp /etc/xdg/openbox/menu.xml /home/$USER/.config/openbox
+				fi
+				chown -R $USER.$USER /home/$USER/.config
+			fi ;;
+		jwm)
+			WM=jwm
+			XSEVER_OPTS="dpms +extension Composite"
+			JWM_CONFIG=$HOME/.jwmrc
+			if [ -d "/var/lib/tazpkg/installed/jwm" ]; then
+				if [ ! -f "$JWM_CONFIG" ]; then
+					cp /etc/jwm/system.jwmrc $JWM_CONFIG
+				fi
+				# In Live mode default user/root JWM config does not exist and
+				# $HOME is not set, this is because tazx is executed by boot 
+				# scripts.
+				if [ ! -f "/home/$USER/.jwmrc" ]; then
+					cp /etc/jwm/system.jwmrc /home/$USER/.jwmrc
+					chown $USER.$USER /home/$USER/.jwmrc
+				fi
+				if [ ! -f "/root/.jwmrc" -a `id -u` = 0 ]; then
+					cp /etc/jwm/system.jwmrc /root/.jwmrc
+				fi
+			fi ;;
+		pekwm)
+			WM=pekwm
+			XSEVER_OPTS="dpms"
+			if [ -d "/var/lib/tazpkg/installed/pekwm" ]; then
+				if [ -d "$HOME/.pekwm" ]; then
+					cp -R /etc/pekwm $HOME/.pekwm
+				fi
+				# In Live mode we want config before starting pekwm the first time.
+				if [ ! -d "/home/$USER/.pekwm" ]; then
+					cp -R /etc/pekwm /home/$USER/.pekwm
+					chown -R $USER.$USER /home/$USER/.pekwm
+					chmod +x /home/$USER/.pekwm/start
+				fi
+				if [ ! -d "/root/.pekwm" -a `id -u` = 0 ]; then
+					cp -R /etc/pekwm /root/.pekwm
+					chmod +x /root/.pekwm/start
+				fi
+			fi ;;
+		e17|enlightenment)
+			WM=enlightenment_start
+			XSEVER_OPTS="dpms -terminate" ;;
+		fluxbox)
+			WM=startfluxbox
+			XSEVER_OPTS="dpms" ;;
+		dwm|karmen)
+			WM=$WM-session
+			XSEVER_OPTS="dpms" ;;
+		awesome)
+			WM=awesome
+			XSEVER_OPTS="dpms" ;;
+	esac
 }
 
 # Sample xinitrc for user (WM can be specified with F1 at slim login).
@@ -253,65 +284,62 @@ xinitrc_sample()
 {
 	cat >  $FILE << "EOF"
 # ~/.xinitrc: Executed by slim login manager to startx X session.
-# You can use F1 with Slim or 'tazx' to configure permanently
-# your default WM: tazx e17
+# You can use F1 with Slim to chage your window manager or configure
+# it permanently with your personnal applications.conf file.
 #
-WM=openbox-session
+. $HOME/.config/slitaz/applications.conf
 
 case $1 in
-	e17|enlightenment_start)
+	e17|enlightenment*)
 		exec enlightenment_start ;;
 	openbox|openbox-session|ob)
 		exec openbox-session ;;
 	dwm|dwm-session)
 		exec dwm-session ;;
+	fluxbox|startfluxbox)
+		exec startfluxbox ;;
+	awesome)
+		exec awesome ;;
+	pekwm)
+		exec pekwm ;;
+	karmen|karmen-session)
+		exec karmen-session ;;
 	jwm)
 		lxpanel &
 		exec jwm ;;
 	*)
-		exec $WM ;;
+		exec $WINDOW_MANAGER ;;
 esac
 EOF
-	# Set default WM.
-	RES=`grep ^WM=[e-o] $FILE`
-	sed -i s/"$RES"/"WM=$WM"/ $FILE
+	# Set default WM in applications.conf user file. Default WM can be
+	# configured graphicaly with 'desktopbox tazapps'
+	. $CONFIG
+	sed -i s/"WINDOW_MANAGER=.*"/"WINDOW_MANAGER=\"$WM\""/ \
+		$CONFIG
 }
 
 # ~/.xinitrc for slim login.
 creat_xinitrc()
 {
 	FILE=$HOME/.xinitrc
+	CONFIG=$HOME/.config/slitaz/applications.conf
+	if [ ! -f $CONFIG ]; then
+		mkdir -p $HOME/.config/slitaz
+		cp /etc/slitaz/applications.conf $CONFIG
+	fi
 	xinitrc_sample
-
 	# In Live mode default user needs a xinitrc, since tazx
 	# is executed only by root.
 	if [ ! -f /home/$USER/.xinitrc ]; then
 		FILE=/home/$USER/.xinitrc
+		CONFIG=/home/$USER/.config/slitaz/applications.conf
+		if [ ! -f $CONFIG ]; then
+			mkdir -p /home/$USER/.config/slitaz
+			cp /etc/slitaz/applications.conf $CONFIG
+		fi
 		xinitrc_sample
 		chown $USER.$USER $FILE
-	fi
-}
-
-# Copy a JWM system config if any present in user home.
-jwm_config()
-{
-	if [ -d "/var/lib/tazpkg/installed/jwm" ]; then
-		JWM_CONFIG=$HOME/.jwmrc
-		if [ ! -f "$JWM_CONFIG" ]; then
-			cp /etc/jwm/system.jwmrc $JWM_CONFIG
-		fi
-		# In Live mode default user/root JWM config does not exist and
-		# $HOME is not set, this is because tazx is executed by boot 
-		# scripts.
-		if [ ! -f "/home/$USER/.jwmrc" ]; then
-			JWM_CONFIG=/home/$USER/.jwmrc
-			cp /etc/jwm/system.jwmrc $JWM_CONFIG
-			chown $USER.$USER $JWM_CONFIG
-		fi
-		if [ ! -f "/root/.jwmrc" -a `id -u` = 0 ]; then
-			JWM_CONFIG=/root/.jwmrc
-			cp /etc/jwm/system.jwmrc $JWM_CONFIG
-		fi
+		chown -R $USER.$USER /home/$USER/.config/slitaz
 	fi
 }
 
@@ -345,11 +373,8 @@ _EOF_
 
 [ -n "$NEW_SCREEN" ] || screen_config_dialog
 slim_config
-e17_stuff
-dwm_stuff
-openbox_stuff
+wm_config
 creat_xinitrc
-jwm_config
 creat_xsession
 
 exit 0
