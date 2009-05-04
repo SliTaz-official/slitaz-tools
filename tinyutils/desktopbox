@@ -5,10 +5,10 @@
 #
 # (C) GNU gpl v3 - SliTaz GNU/Linux 2008.
 #
-VERSION=20090428
+VERSION=20090504
 
 # Glade XML file path.
-GLADE_XML=/usr/share/slitaz-tools/glade
+GLADE_XML=/usr/share/slitaz/glade
 # Export script path and other if needed so we can use them in 'quote'.
 export BIN=$0
 export AUTOSTART_SCRIPT=$HOME/.config/openbox/autostart.sh

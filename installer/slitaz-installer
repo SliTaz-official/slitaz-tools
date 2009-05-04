@@ -41,11 +41,11 @@ set_messages()
 {
 	case $LANG in
 		de*)
-			. /usr/share/slitaz-tools/installer/de.msg ;;
+			. /usr/share/slitaz/messages/de/installer.msg ;;
 		fr*)
-			. /usr/share/slitaz-tools/installer/fr.msg ;;
+			. /usr/share/slitaz/messages/fr/installer.msg ;;
 		*)
-			. /usr/share/slitaz-tools/installer/en.msg ;;
+			. /usr/share/slitaz/messages/en/installer.msg ;;
 	esac
 }
 
