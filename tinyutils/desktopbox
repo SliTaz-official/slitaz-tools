@@ -236,7 +236,7 @@ case $1 in
 		DESKTOP_DIALOG="
 <window title=\"$ADD_ICON_LABEL\" icon-name=\"document-new\">
 <vbox>
-	<text use-markup=\"true\" width-chars=\"40\">
+	<text  width-chars=\"40\">
 		<label>\"
 <b>$ADD_ICON_LABEL</b>
 \"
@@ -423,12 +423,26 @@ case $1 in
 <window title="SliTaz default applications" icon-name="preferences-desktop">
 <vbox>
 	<vbox>
-		<text wrap="false" width-chars="54">
+		<text use-markup="true" width-chars="54">
 			<label>"
-SliTaz default applications configuration
+<b>SliTaz default applications configuration</b>
 			"</label>
 		</text>
 	</vbox>
+	<hbox>
+		<text wrap="false">
+			<label>"File manager:       "</label>
+		</text>
+		<entry>
+			<input>. $CONFIG; echo $FILE_MANAGER</input>
+			<variable>FILE_MANAGER</variable>
+		</entry>
+		<button>
+			<label>Change</label>
+			<input file icon="forward"></input>
+			<action>sed -i s/"FILE_MANAGER=.*"/"FILE_MANAGER=\"$FILE_MANAGER\""/ $CONFIG</action>
+		</button>
+	</hbox>
 	<hbox>
 		<text wrap="false">
 			<label>"Web browser:      "</label>
