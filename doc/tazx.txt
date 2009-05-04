@@ -1,9 +1,0 @@
-Tazx is the configuration tool to manage your X window 
-sessions on a SliTaz box. Simply select a value and press 
-OK. You can also select a (Xorg) session by selecting a 
-video driver best suited to your hardware. After you first 
-run 'startx', the configuration is saved in the executable 
-files ~/.xsession and ~/.xinitrc. These files are then used 
-to start a X session with 'startx' or via the Slim login 
-manager. Note that these files can be edited with a 
-text editor.
