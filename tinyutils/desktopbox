@@ -236,7 +236,7 @@ case $1 in
 		DESKTOP_DIALOG="
 <window title=\"$ADD_ICON_LABEL\" icon-name=\"document-new\">
 <vbox>
-	<text  width-chars=\"40\">
+	<text use-markup=\"true\" width-chars=\"40\">
 		<label>\"
 <b>$ADD_ICON_LABEL</b>
 \"
