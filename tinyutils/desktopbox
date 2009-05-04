@@ -7,8 +7,10 @@
 #
 VERSION=20090504
 
-# Glade XML file path.
+# Glade XML file path and translated messages path.
 GLADE_XML=/usr/share/slitaz/glade
+MESSAGES=/usr/share/slitaz/messages
+
 # Export script path and other if needed so we can use them in 'quote'.
 export BIN=$0
 export AUTOSTART_SCRIPT=$HOME/.config/openbox/autostart.sh
@@ -18,45 +20,10 @@ mkdir -p $HOME/Desktop $HOME/.local/share/applications
 
 # Get the active locale (default to English).
 case $LANG in
-	es*)
-		lang="es"
-		NEW_FOLDER_LABEL="Create a new folder on the desktop:"
-		FOLDER_ENTRY_MSG="dirname"
-		NEW_FILE_LABEL="Create a new file on the desktop:"
-		FILE_ENTRY_MSG="filename"
-		ADD_ICON_LABEL="Add some desktop icons"
-		CHARS_SIZE="64"
-		DESKTOP_DIALOG_TAZUSB="Save filesystem using compression"
-		DESKTOP_DIALOG_LABEL="Session logout, system shutdown or reboot"
-		DESKTOP_LOGOUT_BUTTON="Logout X session"
-		DESKTOP_SHUTDOWN_BUTTON="Shutdown computer"
-		DESKTOP_REBOOT_BUTTON="Reboot system" ;;
 	fr*)
-		lang="fr"
-		NEW_FOLDER_LABEL="Créer un nouveau dossier sur le bureau:"
-		FOLDER_ENTRY_MSG="dossier"
-		NEW_FILE_LABEL="Créer un nouveau fichier sur le bureau:"
-		FILE_ENTRY_MSG="fichier"
-		ADD_ICON_LABEL="Ajouter des icônes de bureau"
-		CHARS_SIZE="72"
-		DESKTOP_DIALOG_TAZUSB="Enregistrer le système avec la compression"
-		DESKTOP_DIALOG_LABEL="Déconnexion, arrêt ou redémarrage du système"
-		DESKTOP_LOGOUT_BUTTON="Fermer la session X"
-		DESKTOP_SHUTDOWN_BUTTON="Eteindre le système"
-		DESKTOP_REBOOT_BUTTON="Redémarrer le système" ;;
+		. $MESSAGES/fr/desktopbox.msg ;;
 	*)
-		lang=""
-		NEW_FOLDER_LABEL="Create a new folder on the desktop:"
-		FOLDER_ENTRY_MSG="dirname"
-		NEW_FILE_LABEL="Create a new file on the desktop:"
-		FILE_ENTRY_MSG="filename"
-		ADD_ICON_LABEL="Add some desktop icons"
-		CHARS_SIZE="64"
-		DESKTOP_DIALOG_TAZUSB="Save filesystem using compression"
-		DESKTOP_DIALOG_LABEL="Session logout, system shutdown or reboot"
-		DESKTOP_LOGOUT_BUTTON="Logout X session"
-		DESKTOP_SHUTDOWN_BUTTON="Shutdown computer"
-		DESKTOP_REBOOT_BUTTON="Reboot system" ;;
+		. $MESSAGES/en/desktopbox.msg ;;
 esac
 
 # Command line usage.
