@@ -4,74 +4,349 @@
 # can burn ISO images, blank rewritable CD or create audio CD with WAV.
 # 
 # (c) - SliTaz GNU/Linux 2009 - GNU GPL v3
+
+# Authors : Christophe Lincoln <pankso@slitaz.org>
+#           Rohit Joshi <jozee@slitaz.org>
 #
-VERSION=20090204
+VERSION=20090504
+TMPDIR="/tmp/burn-cd"
+
+
+chk_install()
+{	
+	for pkg in $@
+	do
+		if [ ! -d /var/lib/tazpkg/installed/${pkg} ]; then
+			UNINSTALLED="$UNINSTALLED $pkg"
+		fi			
+	done 
+	if [ ! "$UNINSTALLED" = "" ] ; then
+		xterm -bg gray93 -fg black -geometry 80x16 -title "INSTALL PACKAGE" \
+				-e "echo -n \"this option depends on $UNINSTALLED Please install and try again\"; sleep 4;"
+	fi	
+}
 
 # Display audio cd size.
 audio_cd_stats()
 {
-	AUDIO_CD_SIZE=`du -m /tmp/audio-cd | awk '{print $1}'`
-	TRACK_NB=`ls -1 /tmp/audio-cd | wc -l`
+	AUDIO_CD_SIZE=`du -m $TMPDIR | awk '{print $1}'`
+	TRACK_NB=`ls -1 $TMPDIR | wc -l`
 	echo -n "Total tracks: $AUDIO_CD_SIZE Mb"
+}
+
+# Display cd/dvd size.
+disk_stats()
+{
+	DISK_SIZE=`du -m $TMPDIR | awk '{print $1}'`
+	TRACK_NB=`ls -1 $TMPDIR | wc -l`
+	echo -n "Total size: $DISK_SIZE Mb"
 }
 
 decode_ogg()
 {
-	if ls /tmp/audio-cd | grep -q .ogg; then
-		cd /tmp/audio-cd
+	if ls $TMPDIR | grep -q .ogg; then
+		cd $TMPDIR
 		xterm -bg gray93 -fg black -geometry 80x16 -title "Oggdec" \
 			-e 'for i in *.ogg; do oggdec "$i" && rm "$i"; done; sleep 2'
 	fi
 }
 
+decode_mp3()
+{
+	
+	if ls $TMPDIR | grep -q .mp3; then
+		cd $TMPDIR
+		UNINSTALLED=""
+		chk_install "mpg123"
+		if [ "$UNINSTALLED" = "" ] ; then
+			xterm -bg gray93 -fg black -geometry 80x16 -title "mpg123" \
+				-e 'for file in *.mp3; do 
+						mpg123 --rate 44100 --stereo --buffer 3072 --resync -w  `basename "$file" .mp3`.wav "$file" && rm "$file"; 
+				  done; sleep 2'
+				  
+		fi
+	fi
+}
+
+decode_video()
+{
+	# convert videos into a VCD/SVCD/DVD compatible mpg video format
+	if ls $TMPDIR | grep -q ".avi\|.mov\|.wmv\|.flv"  ; then
+		cd $TMPDIR
+		UNINSTALLED=""
+		chk_install "ffmpeg"
+				
+		if [ "$UNINSTALLED" = "" ] ; then
+			xterm -bg gray93 -fg black -geometry 80x16 -title "ffmpeg" \
+				-e ' echo -n "Select target type (pal-vcd ntsc-vcd pal-svcd ntsc-svcd pal-dvd ntsc-dvd) "; read TARGET_OPTIONS
+					 for file in *.avi *.wmv *.mov *.flv; do
+						 ext=`echo "${file##*.}"`
+						 output_file=`basename "$file" .$ext`.mpg
+					 	 ffmpeg -i "$file" -target "$TARGET_OPTIONS" "$output_file" && rm "$file";
+					 done; sleep 2;
+				   '
+		fi
+	fi
+	
+
+}
+
+# convert spaces in filename with _ and remove special characters "()'&" {}\! and translate uppercase to lowercase
+fix_filename()
+{
+	ls /tmp/burn-cd/* | while read file
+	do
+    	mv "$file" `echo $file | tr ' ' '_' | tr -d '[{}(),\!&]' | tr -d "\'" | tr '[A-Z]' '[a-z]' | sed 's/_-_/_/g' `
+	done 
+	
+}
+
 # We must think about " space " between directory/track and
 # filter directory copy to avoid copying other files than audio.
 # Only burning non-compressed wav format is supported directly.
+
 copy_audio_file()
 {
 	if ls "$NEW_TRACK" | grep -q .ogg; then
-		cp "${NEW_TRACK%.ogg}.ogg" /tmp/audio-cd
-		decode_ogg
+		cp "${NEW_TRACK%.ogg}.ogg" $TMPDIR
+		fix_filename	
+		decode_ogg 
+	elif ls "$NEW_TRACK" | grep -q ".[m\|M][p\|P]3"; then
+	  #	cp "${NEW_TRACK%.mp3}.mp3" $TMPDIR	
+		cp "$NEW_TRACK" "$TMPDIR"	
+		fix_filename
+		decode_mp3
 	else
-		cp "${NEW_TRACK%.wav}.wav" /tmp/audio-cd
+		cp "${NEW_TRACK%.wav}.wav" $TMPDIR
 	fi
 }
+
+
 copy_audio_dir()
 {
-	for i in .wav .ogg
+	
+	for i in .wav .ogg .mp3
 	do
-		cp "$NEW_DIR"/*$i /tmp/audio-cd 2>/dev/null
+		cp "$NEW_DIR"/*$i $TMPDIR 2>/dev/null
 	done
-	decode_ogg
+	fix_filename 
+	decode_ogg  
+	decode_mp3 
 }
 
+# Only burning mpg video format is supported directly. MPEG-1 video for vcd and MPEG-2 for svcd and dvd
+copy_video_file()
+{
+	if ls "$NEW_TRACK" | grep -q ".mpg\|.mpeg"; then
+		cp "${NEW_TRACK%.mp*}.mpg" $TMPDIR
+	elif ls "$NEW_TRACK" | grep -q ".avi\|.mov\|.wmv\|.flv"; then
+	 	ext=`echo "${NEW_TRACK##*.}"`
+		cp "${NEW_TRACK%.$ext}.$ext" $TMPDIR
+		fix_filename
+		if "$CHECKBOX_DECODE" ; then decode_video ; fi
+	else
+		echo "mpg format supported"
+	fi
+}
+
+copy_video_dir()
+{
+	for i in .mpg .avi .mov .wmv .mpeg .flv
+	do
+		cp "$NEW_DIR"/*$i $TMPDIR 2>/dev/null
+	done
+	fix_filename 	
+	if "$CHECKBOX_DECODE" ; then decode_video ; fi
+}
+
+copy_file()
+{
+	case "$BURN_MODE" in
+			audio-cd) 
+				copy_audio_file ;;
+			vcd|svcd|video-dvd)
+				copy_video_file ;;	
+			*)	
+				cp "$NEW_TRACK" $TMPDIR ; fix_filename ;;
+	esac
+	
+}
+
+copy_dir()
+{
+	case "$BURN_MODE" in
+			audio-cd) 
+				copy_audio_dir ;;
+			vcd|svcd|video-dvd)
+				copy_video_dir ;;	
+			*)	
+				cp "$NEW_DIR" $TMPDIR 2>/dev/null 
+				fix_filename ;;
+	esac		
+}
+# =====ISO=====
 burn_iso()
 {
 	xterm -bg gray93 -fg black -geometry 80x16 -title "Wodim" \
 		-e "wodim -v speed=$SPEED dev=$DEVICE $OPTIONS $ISO_IMAGE; sleep 4"
 }
-
+# =====AUDIO=====
 # Use -pad to avoid file size error.
 burn_audio()
 {
-	xterm -bg gray93 -fg black -geometry 80x16 -title "Wodim" \
-		-e "wodim -v speed=$SPEED dev=$DEVICE $OPTIONS -pad -dao -audio /tmp/audio-cd/*.wav; sleep 4"
+	UNINSTALLED=""
+	chk_install "cdrkit"
+	if [ "$UNINSTALLED" = "" ] ; then
+		xterm -bg gray93 -fg black -geometry 80x16 -title "Wodim:AUDIO" \
+			-e " echo \"BURN TYPE SELECTED = $BURN_MODE \"; sleep 1;				
+			 wodim -v speed=$SPEED dev=$DEVICE $OPTIONS -pad -dao -audio $TMPDIR/*.wav; sleep 4
+		"
+	fi
+}
+# =====DATA=====
+burn_cddata()
+{
+	UNINSTALLED=""
+	chk_install "cdrkit"
+	if [ "$UNINSTALLED" = "" ] ; then
+		xterm -bg gray93 -fg black -geometry 80x16 -title "Wodim:CD DATA" \
+			-e " echo \"BURN TYPE SELECTED = $BURN_MODE \"; sleep 1;
+				wodim -v speed=$SPEED dev=$DEVICE $OPTIONS -pad -dao -data $TMPDIR/*; sleep 4
+			"
+	fi					
 }
 
+burn_dvddata()
+{
+	UNINSTALLED=""
+	chk_install "dvd+rw-tools"
+	if [ "$UNINSTALLED" = "" ] ; then
+		xterm -bg gray93 -fg black -geometry 80x16 -title "growisofs:DVD DATA" \
+			-e " echo \"BURN TYPE SELECTED = $BURN_MODE \"; sleep 1;
+				# no iso-file available
+				growisofs -dvd-compat -speed=$SPEED -pad -J -r -f -Z  $DEVICE  $TMPDIR/*; sleep 4	
+				"
+	fi	
+}
+
+# ====VIDEO=====
+burn_dvdvideo()
+{
+	UNINSTALLED=""
+	chk_install "dvd+rw-tools"
+	
+	# current assumption: compatible dvd-video format
+	if [ "$UNINSTALLED" = "" ] ; then
+			xterm -bg gray93 -fg black -geometry 80x16 -title "growisofs:DVD VIDEO" \
+			-e " echo \"BURN TYPE SELECTED = $BURN_MODE\"; sleep 1;    
+			   	 growisofs -dvd-video -udf -pad -J -r -f -Z $DEVICE -speed=$SPEED  $TMPDIR/*; sleep 2
+				"	
+	fi		
+}
+burn_vcd()
+{
+	UNINSTALLED=""
+	chk_install "vcdimager"
+	if [ "$UNINSTALLED" = "" ] ; then
+		mkdir -p $TMPDIR/vcd
+		xterm -bg gray93 -fg black -geometry 80x16 -title "vcdimager:VCD" \
+			-e " echo \"BURN TYPE SELECTED = $BURN_MODE $UNINSTALLED \"; sleep 1;
+				 vcdimager -t vcd2 -l VCD -c $TMPDIR/vcd/vcd.cue -b $TMPDIR/vcd/vcd.bin $TMPDIR/*.mpg; sleep 2; 
+				# cdrdao write --device $DEVICE $TMPDIR/vcd/vcd.cue; sleep 2
+				  wodim -v speed=$SPEED dev=$DEVICE $OPTIONS -pad -dao cuefile=$TMPDIR/vcd/vcd.cue ; sleep 2				
+				"	
+	fi	
+		
+}
+
+burn_svcd()
+{
+	UNINSTALLED=""
+	chk_install "vcdimager"
+	if [ "$UNINSTALLED" = "" ] ; then
+		mkdir -p $TMPDIR/svcd
+		xterm -bg gray93 -fg black -geometry 80x16 -title "vcdimager:SVCD" \
+			-e " echo \"BURN TYPE SELECTED = $BURN_MODE\"
+				  vcdimager -t svcd -l SVCD -c $TMPDIR/svcd/svcd.cue -b $TMPDIR/svcd/svcd.bin $TMPDIR/*.mpg; sleep 2; 
+				 # cdrdao write --device $DEVICE $TMPDIR/svcd/svcd.cue; sleep 2;
+				 wodim -v speed=$SPEED dev=$DEVICE $OPTIONS -pad -dao cuefile=$TMPDIR/svcd/svcd.cue ; sleep 2
+				"	
+	fi	
+}
+
+# =====CLONE=====
+rip_disc()
+{
+	SUGGESTED="cdrkit-isoinfo"
+	if ! "$CHECKBOX_FOLDER" ; then SAVE_DISC="/tmp/burn-cd" ; fi	
+	if [ -d /var/lib/tazpkg/installed/${SUGGESTED} ]; then
+		xterm -bg gray93 -fg black -geometry 80x16 -title "dd" \
+			-e ' echo "RIPPING DISK AT $SAVE_DISC..."
+				 COUNT=`isoinfo -d -i $DEVICE | grep "^Volume size is:" | cut -d " " -f 4`
+				 BLOCK=`isoinfo -d -i $DEVICE | grep "^Logical block size is:" | cut -d " " -f 5`
+				 dd if=$DEVICE of=$SAVE_DISC/image.iso bs=$BLOCK count=$COUNT; sleep 4
+				 sleep 2;'
+	else 
+		xterm -bg gray93 -fg black -geometry 80x16 -title "dd" \
+			-e '   echo " Though you dont have the cdrkit-extras package installed, \
+				         you can still rip but it may be slower"
+					echo -n "would you like to continue (y/N)? : "; read ans
+					if [ "$ans" = "y" ]; then 
+						echo "RIPPING DISK AT $SAVE_DISC...."
+						dd if=$DEVICE of=$SAVE_DISC/image.iso; 
+						sleep 2;
+					fi
+					'
+	fi	
+	if ! "$CHECKBOX_FOLDER" ; then 
+				ISO_IMAGE="/tmp/burn-cd/image.iso"
+				xterm -bg gray93 -fg black -geometry 80x16 -title "dd" \
+			-e ' echo -e " ---Please insert EMPTY DISK at $DEVICE ---\n ---press ENTER to continue..." && read close;'
+				burn_iso
+	fi
+}
+
+blank_dvd()
+{
+	xterm -bg gray93 -fg black -geometry 80x16 -title "growisofs:DVD ERASE" \
+		-e "growisofs -Z $DEVICE=/dev/zero"
+}
+
+burn_disc()
+{
+  	case "$BURN_MODE" in
+			audio*)
+				burn_audio ;;
+			data-cd*)
+				burn_cddata ;;
+			data-dvd*)
+				burn_dvddata;;
+			video*)
+				burn_dvdvideo;;
+			vcd*)
+				burn_vcd;;
+			svcd*)
+				burn_svcd;;			
+	esac
+		
+}
 # Main GTK interface
 MAIN_DIALOG='
 <window title="SliTaz - Burnbox" icon-name="drive-optical">
 <vbox>
 
-	<notebook labels="General|ISO image|Audio CD">
+	<notebook labels="General|ISO image or rip| Burn CD/DVD (Audio,Video,Data)">
 	
 	<vbox>
 		<frame Information>
 			<text>
 				<label>
-"Burn CD or DVD using Wodim from cdrkit. Before burning,
-please verify device writer settings or add options if needed.
-Audio CD uses uncompressed WAV (OGG are decoded)."
+"Burn CD, Video CD and DVD using Wodim, Vcdimager and Growisofs.
+ 
+Audio CD use uncompressed WAV (OGG, MP3 are decoded).
+VCD/SVCD use MPG files (AVI, FLV, MOV, WMV are decoded).
+
+Before burning, please verify device writer settings or add options if needed."
 				</label>
 			</text>
 		</frame>
@@ -131,7 +406,7 @@ Audio CD uses uncompressed WAV (OGG are decoded)."
 	</vbox>
 	
 	<vbox>
-		<frame Select and burn>
+		<frame Select ISO and burn>
 		
 			<text>
 				<label>
@@ -163,6 +438,49 @@ MAIN_DIALOG=${MAIN_DIALOG}"
 					<action>$0 burn_iso</action>
 				</button>
 			</hbox>"
+# Backup CD
+MAIN_DIALOG=${MAIN_DIALOG}'
+	</frame>
+	<frame Select CD/DVD-RW and rip>
+			<text>
+				<label> 
+"You can also clone or rip a CD/DVD. Just specify the path and click burn disk or use dd from the command line. Input is taken from the DEVICE settings
+" 
+				</label>
+			</text>
+			<checkbox>
+				<label>Save output in folder (Unselect to backup on disc) </label>
+				<variable>CHECKBOX_FOLDER</variable>
+				<default>true</default>
+				<action>if true enable:SAVE_DISC</action>
+				<action>if true enable:OPENBUTTON</action>
+				<action>if false disable:SAVE_DISC</action>
+				<action>if false disable:OPENBUTTON</action>				
+			</checkbox>
+			<hbox>
+				<text use-markup="true">
+					<label>"<b>Output CD/DVD rip at:</b>"</label>
+				</text>
+				<entry accept="directory">
+				<label>Select a folder to save cloned disk to</label>
+					<variable>SAVE_DISC</variable>
+				</entry>
+				<button>
+					<input file stock="gtk-open"></input>
+					<variable>OPENBUTTON</variable>
+					<action type="fileselect">SAVE_DISC</action>
+				</button>
+			</hbox>
+'
+# Burn backup button.
+MAIN_DIALOG=${MAIN_DIALOG}"
+			<hbox>
+				<button>
+					<label>Burn disk</label>
+					<input file icon=\"forward\"></input>
+					<action>$0 rip_disc</action>
+				</button>
+			</hbox>"			
 MAIN_DIALOG=${MAIN_DIALOG}'
 		</frame>
 		
@@ -171,20 +489,43 @@ MAIN_DIALOG=${MAIN_DIALOG}'
 		<tree icon_name="audio-x-generic">
 			<width>500</width><height>200</height>
 			<variable>TRACKS_LIST</variable>
-			<label>Track name</label>
-			<input>ls -1 /tmp/audio-cd</input>
-			<action>rm "/tmp/audio-cd/$TRACKS_LIST"</action>
+			<label>Track name (Double-click to remove a track)</label>
+			<input>ls -1 /tmp/burn-cd</input>
+			<action>rm "/tmp/burn-cd/$TRACKS_LIST"</action>
 			<action>refresh:TRACKS_LIST</action>
 			<action>refresh:TRACKS_SIZE</action>
 		</tree>'
+# Select burn audio-cd, data-cd, dvd-video or vcd/svcd		
+MAIN_DIALOG=${MAIN_DIALOG}'
+   <frame>
+		  <hbox>
+		   <text>
+				<label> Burn type: </label>
+			</text>
+			<combobox>'
+			tmp2="${MAIN_DIALOG}"
+			for i in audio-cd data-cd data-dvd video-dvd vcd svcd; do
+					[ "$i" = "$BURN_MODE" ] || tmp2="$tmp2<item>$i</item>"
+			done
+			tmp3='
+			<variable>BURN_MODE</variable>						
+			</combobox>
+			<checkbox>
+				<label> Enable decoding video</label>
+				<variable>CHECKBOX_DECODE</variable>
+				<default>true</default>											
+			</checkbox>
+			</hbox>
+			'
+MAIN_DIALOG="$tmp2$tmp3"
 # Select, add and burn audio buttons.
 MAIN_DIALOG=${MAIN_DIALOG}"
 		<hbox>
 			<text>
-				<label>Title:   </label>
+				<label> File:     </label>
 			</text>
 			<entry accept=\"filename\">
-				<label>Select an Audio track</label>
+				<label>Select an Audio/Video/data track</label>
 				<variable>NEW_TRACK</variable>
 			</entry>
 			<button>
@@ -194,17 +535,17 @@ MAIN_DIALOG=${MAIN_DIALOG}"
 			<button>
 				<label>Add</label>
 				<input file stock=\"gtk-add\"></input>
-				<action>$0 copy_audio_file</action>
+				<action>$0 copy_file</action>
 				<action>refresh:TRACKS_LIST</action>
-				<action>refresh:TRACKS_SIZE</action>
+				<action>refresh:TRACKS_SIZE</action>				
 			</button>
 		</hbox>
 		<hbox>
 			<text>
-				<label>Album:</label>
+				<label> Folder:</label>
 			</text>
 			<entry accept=\"directory\">
-				<label>Select an Audio track</label>
+				<label>Select an Audio/Video/Data track</label>
 				<variable>NEW_DIR</variable>
 			</entry>
 			<button>
@@ -214,11 +555,14 @@ MAIN_DIALOG=${MAIN_DIALOG}"
 			<button>
 				<label>Add</label>
 				<input file stock=\"gtk-add\"></input>
-				<action>$0 copy_audio_dir</action>
+				<action>$0 copy_dir</action>
 				<action>refresh:TRACKS_LIST</action>
+				
 				<action>refresh:TRACKS_SIZE</action>
 			</button>
-		</hbox>
+		</hbox>"
+
+MAIN_DIALOG=${MAIN_DIALOG}"
 		<hbox>
 			<text>
 				<variable>TRACKS_SIZE</variable>
@@ -227,7 +571,7 @@ MAIN_DIALOG=${MAIN_DIALOG}"
 			<button>
 				<label>Clean</label>
 				<input file stock=\"gtk-clear\"></input>
-				<action>rm -rf /tmp/audio-cd/*</action>
+				<action>rm -rf $TMPDIR/*</action>
 				<action>refresh:TRACKS_LIST</action>
 				<action>refresh:TRACKS_SIZE</action>
 				<action>clear:NEW_TRACK</action>
@@ -236,10 +580,14 @@ MAIN_DIALOG=${MAIN_DIALOG}"
 			<button>
 				<label>Burn disk</label>
 				<input file icon=\"forward\"></input>
-				<action>$0 burn_audio</action>
+				<action>$0 burn_disc</action>
 			</button>
 		</hbox>
-	</vbox>"
+		</frame>
+	</vbox> "
+#
+#				
+# tmp3=	
 export MAIN_DIALOG=${MAIN_DIALOG}'
 	
 	</notebook>
@@ -260,9 +608,9 @@ export MAIN_DIALOG=${MAIN_DIALOG}'
 if [ -n "$1" ]; then
 	$1
 else
-	mkdir -p /tmp/audio-cd
+	mkdir -p $TMPDIR
 	gtkdialog --center --program=MAIN_DIALOG >/dev/null
-	rm -rf /tmp/audio-cd
+	rm -rf $TMPDIR
 fi
 
 exit 0
