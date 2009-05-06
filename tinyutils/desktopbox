@@ -440,7 +440,7 @@ case $1 in
 	</hbox>
 	<hbox>
 		<text wrap="false">
-			<label>"X terminal:           "</label>
+			<label>"Terminal:              "</label>
 		</text>
 		<entry>
 			<input>. $CONFIG; echo $TERMINAL</input>

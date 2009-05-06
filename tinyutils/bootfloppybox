@@ -407,7 +407,7 @@ You can override IP configuration too (useful without a DHCP server), example: <
 
 The <i>nodhcp</i> keyword avoids dhcp timeouts and the <i>url=</i> keyword is optional when the url is the only one argument.
 
-Comma separated URL list are supported. The PXE client will try to load the first URL. If the load fails, it will try the next URL, and so on. 
+Comma separated URL lists are supported. The PXE client will try to load the first URL. If the load fails, it will try the next URL, and so on. 
 "
       </label>
     </text>
