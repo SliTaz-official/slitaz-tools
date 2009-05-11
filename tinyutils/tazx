@@ -1,24 +1,21 @@
 #!/bin/sh
 #
 # Tazx - Ncurses X configuration for SliTaz GNU/Linux using Dialog boxes.
-# This tinyutils is part of slitaz-tools.
+# This tinyutils is part of slitaz-tools. Tazx can configure Xvesa kdrive
+# and Xorg with several Window Manager.
 #
-# (c) 20080609 SliTaz GNU/Linux - GNU gpl v3.
+# (c) 2009 SliTaz GNU/Linux - GNU gpl v3.
 # Authors: Christophe Lincoln <pankso@slitaz.org>
 #          Pascal Bellard <pascal.bellard@slitaz.org>
 #
 : ${DIALOG=tazdialog}
 
-# Variables.
+# Default value.
 XSERVER=Xvesa
-DOC=/usr/share/doc/slitaz-tools/tazx.txt
-MOUSE=/dev/input/mice,5
-# WM can be specified on cmdline.
-if [ -n "$1" ]; then
-	WM=$1
-else
-	WM=openbox
-fi
+KEYBD=keyboard
+MOUSE=mouse,5,/dev/input/mice
+WM=openbox
+
 # Default user for config files in Live mode.
 USER=`cat /etc/passwd | grep 1000 | cut -d ":" -f 1`
 
@@ -130,11 +127,11 @@ install_xorg()
 			tazpkg get-install xorg-server
 			tazpkg get-install xorg-xf86-video-$value
 			Xorg -configure :1
-			mv /root/xorg.conf.new /etc/X11/xorg.conf
+			mv -f /root/xorg.conf.new /etc/X11/xorg.conf
 			patch_xorg_kbd
 			sed -i 's|/usr/bin/Xvesa|/usr/bin/Xorg|' /etc/slim.conf
 			sed -i s/"^xserver_arguments"/'\#xserver_arguments'/ /etc/slim.conf
-			XSERVER=Xorg;;
+			XSERVER=Xorg ;;
 	esac
 }
 
@@ -192,10 +189,11 @@ slim_config()
 		echo "SCREEN=$NEW_SCREEN" > /etc/X11/screen.conf
 		# Get current screen size and sed config file with the new value.
 		if [ -f /etc/slim.conf ]; then
-			RES=$(grep ^xserver_arguments /etc/slim.conf | sed 's/xserver_arguments.*-screen *//')
-			sed -i "s/\(xserver_arguments.*-screen\).*/\1 $NEW_SCREEN/" /etc/slim.conf
+			RES=$(grep ^xserver_arguments /etc/slim.conf | \
+				sed 's/xserver_arguments.*-screen *//' | awk '{ print $1 }')
+			#sed -i "s/\(xserver_arguments.*-screen\).*/\1 $NEW_SCREEN/" /etc/slim.conf
+			sed -i s/"-screen $RES"/"-screen $NEW_SCREEN"/ /etc/slim.conf
 		fi
-		JWM_CONFIG=/etc/jwm/system.jwmrc
 	fi
 }
 
@@ -350,8 +348,12 @@ _EOF_
 	if [ "$XSERVER " == "Xorg" ]; then
 		echo 'Xorg &' >> $HOME/.xsession
 	else
-		echo "$XSERVER -ac -shadow $XSEVER_OPTS -screen $NEW_SCREEN -mouse $MOUSE &" \
-			>> $HOME/.xsession
+		cat >> $HOME/.xsession << _EOT_
+$XSERVER -ac -shadow $XSEVER_OPTS \\
+	-screen $NEW_SCREEN \\
+	-keybd $KEYBD \\
+	-mouse $MOUSE &
+_EOT_
 	fi
 	echo '#xterm &' >> $HOME/.xsession
 	echo '#xpad &' >> $HOME/.xsession
@@ -367,10 +369,36 @@ _EOF_
 #  Tazx sequence  #
 ###################
 
-[ -n "$NEW_SCREEN" ] || screen_config_dialog
-slim_config
-wm_config
-creat_xinitrc
-creat_xsession
+case "$1" in
+	show-config)
+		. /etc/X11/screen.conf
+		echo ""
+		echo "X11 screen resolution: $SCREEN"
+		echo ""
+		echo "Slim configuration for X server:"
+		cat /etc/slim.conf | grep ^default_xserver
+		cat /etc/slim.conf | grep ^xserver_arguments
+		echo "" ;;
+	install-xorg)
+		# WM can be specified on cmdline.
+		if [ -n "$2" ]; then
+			WM=$2	
+		fi
+		install_xorg
+		slim_config
+		wm_config
+		creat_xinitrc
+		creat_xsession ;;
+	*)
+		# WM can be specified on cmdline.
+		if [ -n "$1" ]; then
+			WM=$1	
+		fi
+		[ -n "$NEW_SCREEN" ] || screen_config_dialog
+		slim_config
+		wm_config
+		creat_xinitrc
+		creat_xsession ;;
+esac
 
 exit 0
