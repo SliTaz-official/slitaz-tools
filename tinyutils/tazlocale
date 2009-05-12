@@ -20,13 +20,11 @@ get_messages()
 	[ "$LANG" = "C" ] && LANGUAGE="en"
 	case $LANGUAGE in
 		fr)
-			RECONFIG_MSG="
-Veuilliez fermer votre session et vous reloguer pour utiliser
-SliTaz avec la locale : fr." ;;
+			RECONFIG_MSG="Veuilliez fermer votre session et vous 
+			reloguer pour utiliser SliTaz avec la locale : fr." ;;
 		*)
-			RECONFIG_MSG="
-Please logout of your current session and login again to SliTaz
-and locale : $LANGUAGE" ;;
+			RECONFIG_MSG="Please logout of your current session and 
+			login again to use SliTaz with $LANGUAGE locale." ;;
 	esac
 }
 
@@ -106,7 +104,7 @@ $(get_locale_name) \
 	if [ -n "$RECONFIG" ]; then
 		$DIALOG --clear \
 			--title " Information " \
-			--msgbox "\n$RECONFIG_MSG\n" 16 70
+			--msgbox "$RECONFIG_MSG" 16 70
 	fi
 }
 
