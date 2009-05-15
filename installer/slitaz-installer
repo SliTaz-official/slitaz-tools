@@ -44,6 +44,10 @@ set_messages()
 			. /usr/share/slitaz/messages/de/installer.msg ;;
 		fr*)
 			. /usr/share/slitaz/messages/fr/installer.msg ;;
+		hu*)
+			. /usr/share/slitaz/messages/hu/installer.msg ;;
+		pt*)
+			. /usr/share/slitaz/messages/pt/installer.msg ;;
 		*)
 			. /usr/share/slitaz/messages/en/installer.msg ;;
 	esac
