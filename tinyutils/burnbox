@@ -444,7 +444,7 @@ MAIN_DIALOG=${MAIN_DIALOG}'
 	<frame Select CD/DVD-RW and rip>
 			<text>
 				<label> 
-"You can also clone or rip a CD/DVD. Just specify the path and click burn disk or use dd from the command line. Input is taken from the DEVICE settings
+"You can also clone or rip a CD/DVD. Just specify the path and click rip disk or use dd from the command line. Input is taken from the DEVICE settings
 " 
 				</label>
 			</text>
@@ -476,7 +476,7 @@ MAIN_DIALOG=${MAIN_DIALOG}'
 MAIN_DIALOG=${MAIN_DIALOG}"
 			<hbox>
 				<button>
-					<label>Burn disk</label>
+					<label>Rip disk</label>
 					<input file icon=\"forward\"></input>
 					<action>$0 rip_disc</action>
 				</button>
