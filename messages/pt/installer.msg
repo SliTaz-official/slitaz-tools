@@ -3,7 +3,7 @@
 # start_install
 START_INSTALL_MSG="\n
 Bem-vindo ao instalador do SliTaz.\n\n
-\Z2Iniciar uma nova instalação ou atualizar?\Zn"
+\Z2Iniciar uma nova instalação ou fazer upgrade?\Zn"
 
 # mount_cdrom
 MOUNT_CDROM_ERROR_MSG="\
