@@ -2,6 +2,7 @@
 Encoding=UTF-8
 Name=Control Box
 Name[fr]=Boîte de contrôle
+Name[pt]=Painel de Controle
 Comment=Manage your SliTaz system
 Exec=subox tazctrlbox
 Icon=tazctrlbox.png

@@ -2,6 +2,7 @@
 Encoding=UTF-8
 Name=Screen size
 Name[fr]=Dimension de l'Ã©cran
+Name[pt]=Resolução da Tela
 Exec=subox tazx
 Icon=/usr/share/icons/Tango/16x16/actions/view-fullscreen.png
 Terminal=true

@@ -2,6 +2,7 @@
 Encoding=UTF-8
 Name=Mount devices
 Name[fr]=Monter un périphérique
+Name[pt]=Montagem de Dispositivos
 Comment=Mount devices on mount points
 Exec=subox mountbox
 Icon=/usr/share/icons/Tango/16x16/devices/media-flash.png

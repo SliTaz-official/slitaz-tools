@@ -2,6 +2,7 @@
 Encoding=UTF-8
 Name=Wireless networks connections
 Name[fr]=Connexions réseaux sans fil
+Name[pt]=Gerenciador de Redes Wireless
 Exec=subox wifibox
 Icon=network-wireless
 Type=Application

@@ -2,6 +2,7 @@
 Encoding=UTF-8
 Name=Scpbox Secure copy
 Name[fr]=Scpbox Copie sécurisé
+Name[pt]=Scpbox C�pia Segura de Arquivos
 Comment=Upload or download files with scp
 Exec=scpbox
 Icon=folder-remote
