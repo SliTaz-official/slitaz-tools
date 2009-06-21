@@ -1,8 +1,8 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=Netbox Configure networking
-Name[fr]=Netbox Configurer le réseau
-Name[pt]=Netbox Configura��o de Rede
+Name[fr]=Netbox Configurer le rÃ©seau
+Name[pt]=Netbox Configuração de Rede
 Comment=Configure network interface and host values
 Exec=subox netbox
 Icon=netbox.png

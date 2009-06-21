@@ -1,10 +1,10 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=Boot floppy/cdrom creation tool
-Name[pt]=Cria��o de disquete/cdrom de boot
-Name[fr]=Disquette/cdrom de démarrage
+Name[pt]=Criação de disquete/cdrom de boot
+Name[fr]=Disquette/cdrom de dÃ©marrage
 GenericName=Gen a boot floppy
-GenericName[fr]=Créer une disquette de démarrage
+GenericName[fr]=CrÃ©er une disquette de dÃ©marrage
 Comment=Generate a boot floppy
 Exec=subox bootfloppybox
 Icon=/usr/share/icons/Tango/16x16/devices/gtk-floppy.png
