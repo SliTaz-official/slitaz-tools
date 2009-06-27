@@ -1,0 +1,498 @@
+#! /bin/sh
+# 
+# Gtkdialog box interafce for SSH connexions.
+#
+# Manage profile in .prf files store in $HOME/.sshbox 
+# (c) 2009 SliTaz GNU/Linux - GNU gpl v3
+#
+
+
+# Create config directory and init default var
+export VERSION=0.2
+export PROGNAME="SSHBox"
+export PROG="$0"
+export CONFIG_DIR=$HOME/.config/sshbox
+export TEMP=/tmp/$(basename $PROG).out
+
+# Create $CONFIG_DIR if it doesn't exist.
+[ -d $HOME/$CONFIG_DIR/session ] || mkdir -p $CONFIG_DIR/session
+
+# Set locale message if message file exist and $LANG is set.
+# Default: English 
+if [ -f /usr/share/locale/${LANG%%_*}/LC_MESSAGES/sshbox.msg ]; then
+	. /usr/share/locale/${LANG%%_*}/LC_MESSAGES/sshbox.msg 
+fi
+
+##
+# Function
+##
+add_session(){
+	export GTK_ADD_PROFILE="
+		<window title=\"${TITLE_ADD_PROFILE:-Add new session}\" icon-name=\"sunny\">
+			<vbox>
+			<hbox>
+				<text>
+					<label>\"${LBL_SESSION:-Session}:\"</label>
+				</text>
+				<entry>
+					<variable>SESSION</variable>
+				</entry>
+				</hbox>
+				<hbox>
+				<text>
+					<label>\"${LBL_HOSTNAME:-Hostname}:\"</label>
+				</text>
+				<entry>
+					<variable>SSH_HOST</variable>
+				</entry>
+
+				</hbox>
+				<hbox>
+				<text>
+					<default>22</default>
+					<label>\"${LBL_PORT-Port}:\"</label>
+				</text>
+				<entry width_chars=\"5\" max-length=\"5\">
+				<default>22</default>
+					<variable>SSH_PORT</variable>
+				</entry>
+				</hbox>
+				<hbox>
+				<text>
+					<label>\"${LBL_USERNAME-Username}:\"</label>
+				</text>
+				<entry>
+					<variable>SSH_USER</variable>
+				</entry>
+				</hbox>
+			<hbox>
+			<button>
+				<label>${BTN_SAVE:-Save}</label>
+				<input file icon=\"gtk-floppy\"></input>
+				<action>$PROG save_session $SESSION</action>
+				<action>refresh:USER_HOST</action>
+				<action type=\"exit\">Exit</action>
+			</button>
+				<button cancel></button>
+			</hbox>
+				</vbox>
+		</window>
+	"
+	gtkdialog  --center --program=GTK_ADD_PROFILE
+}
+
+gtk_manage_session(){
+	
+	# Read th config file if exist
+	[ -f "$CONFIG_DIR/session/$SESSION.conf" ] && . "$CONFIG_DIR/session/$SESSION.conf"
+	
+	export GTK_MANAGE_SESSION="
+		<window title=\"${TITLE_GTK_MANAGE:-Session} $SESSION\" icon-name=\"gnome-control-center\">
+		<vbox>
+					<hbox>
+				<text>
+					<label>\"${LBL_HOSTNAME:-Hostname}:\"</label>
+				</text>
+				<entry>
+					<input>\"echo $HOSTNAME\"</input>
+					<variable>SSH_HOST</variable>
+				</entry>
+			</hbox>
+			<hbox>
+				<text>
+					<default>22</default>
+					<label>\"${LBL_PORT-Port}:\"</label>
+				</text>
+				<entry width_chars=\"5\" max-length=\"5\">
+					<input>\"echo $PORT\"</input>
+					<variable>SSH_PORT</variable>
+				</entry>
+			</hbox>
+			<hbox>
+					<text>
+						<label>\"${LBL_USERNAME-Username}:\"</label>
+					</text>
+					<entry>
+						<input>\"echo $USER\"</input>
+						<variable>SSH_USER</variable>
+					</entry>
+			</hbox>
+			
+		<hbox>
+			<button>
+				<label>${BTN_DELETE:-Delete}</label>
+				<input file icon=\"gtk-delete\"></input>
+				<action>$PROG delete_session $SESSION</action>
+			</button>
+			<button>
+				<label>${BTN_SAVE:-Modify}</label>
+				<input file icon=\"gtk-floppy\"></input>
+				<action>$PROG save_session</action>
+			</button>
+			<button>
+				<label>${BTN_CONNECT:-Connect}</label>
+				<input file icon=\"gtk-connect\"></input>
+				<action>$PROG ssh_connect</action>
+			</button>
+			<button cancel></button>
+		</hbox>
+		</vbox>
+		</window>
+	"
+	gtkdialog --center --program=GTK_MANAGE_SESSION
+}
+
+
+# Display SettingsBox.
+gtk_settings(){
+	read_settings
+	export GTK_SETTINGS="
+		<window title=\"${TITLE_GTK_SETTINGS:-Properties}\" icon-name=\"gnome-control-center\">
+			<vbox>
+				<hbox>
+					<text use-markup=\"true\">
+						<label>\"${TXT_TERM:-Terminal}: \"</label>
+					</text>
+					<entry>
+						<input>echo $XTERM</input>
+						<variable>XTERM</variable>
+					</entry>
+					</hbox>
+					<hbox>
+						<text use-markup=\"true\">
+							<label>\"${TXT_SSH_CLIENT:-SSH Client}: \"</label>
+						</text>
+						<entry>
+							<input>echo $SSH_CLIENT</input>
+							<variable>SSH_CLIENT</variable>
+						</entry>
+					</hbox>
+					<hbox>
+						<button ok></button>
+						<button cancel></button>
+					</hbox>
+				</vbox>
+				</window>
+		"
+		gtkdialog --center --program=GTK_SETTINGS > /tmp/_out_
+		
+		. /tmp/_out_
+		
+		if [ "$EXIT" == "OK" ]; then
+			save_settings
+		fi
+}
+
+gtk_gen_key(){
+		# Gen private key with dropbearkey
+		#
+		export GTK_GEN_KEY="
+		<window title=\"${TITLE_GTK_MANAGE:-Session} $SESSION\" icon-name=\"gnome-control-center\">
+		<vbox>
+			<hbox>
+				
+			</hbox>
+			<hbox>
+			<button>
+				<label>${BTN_CONNECT:-Connect}</label>
+				<input file icon=\"gtk-connect\"></input>
+				<action>$PROG ssh_connect</action>
+			</button>
+			<button cancel></button>
+			</hbox>
+		</vbox>
+		"
+}
+
+ssh_genkey(){
+	echo "nop"
+}
+
+list_ssh_key(){
+	
+	# dropbearkey -y -f foo_dss  | awk '/ssh-(dss|rsa)/ { print $3 "|" $1}'
+
+	for i in ${HOME}/.ssh/*.priv
+	do
+		[ -f $i ] && echo $(basename $i .priv)
+	done
+}
+
+list_host(){
+	if [ -f $HOME/.ssh/known_hosts ]; then
+		for i in "$(cat $HOME/.ssh/known_hosts)"; do echo "$i"| awk '{print $1}';done
+	fi
+}
+
+delete_host(){
+	cp $HOME/.ssh/known_hosts /tmp/f.tmp && \
+	awk -v host=$KNOWN_HOST 'match($0,host) == 0 {print $0}' /tmp/f.tmp > $HOME/.ssh/known_hosts
+}
+
+quick_add_session(){
+			export GTK_QUICK_ADD="
+				<window title=\"${TITLE_QUICK_ADD:-Enter session name}\" icon-name=\"gtk-dialog-question\">
+				<vbox>
+					<hbox>
+					<text>
+						<label>\"${TXT_SESSION_NAME:-Session}:\"</label>
+					</text>
+					<entry>
+						<variable>SESSION</variable>
+					</entry>
+					</hbox>
+					<hbox>
+					<button>
+						<label>${BTN_SAVE:-Save}</label>
+						<input file icon=\"gtk-apply\"></input>
+						<action type=\"exit\">OK</action>
+					</button>
+					<button cancel></button>
+					</hbox>
+				</vbox>
+				</window>
+		"
+		gtkdialog  --center --program=GTK_QUICK_ADD > ${TEMP} 
+		
+		if ( grep -q  'EXIT="OK"' $TEMP ); then
+				. $TEMP
+				echo "HOSTNAME=${SSH_HOST}" > ${CONFIG_DIR}/session/${SESSION}.conf
+				echo "USER=${SSH_USER}" >> ${CONFIG_DIR}/session/${SESSION}.conf
+				echo "PORT=${SSH_PORT}" >> ${CONFIG_DIR}/session/${SESSION}.conf
+		fi
+}
+
+edit_session(){
+	echo "nop"
+}
+
+save_session(){
+	echo "HOSTNAME=${SSH_HOST}" > ${CONFIG_DIR}/session/${SESSION}.conf
+	echo "USER=${SSH_USER}" >> ${CONFIG_DIR}/session/${SESSION}.conf
+	echo "PORT=${SSH_PORT}" >> ${CONFIG_DIR}/session/${SESSION}.conf
+}
+
+delete_session(){
+	rm -f ${CONFIG_DIR}/session/${SESSION}.conf
+}
+
+list_sessions(){
+	
+	for i in ${CONFIG_DIR}/session/*.conf
+	do
+		[ -f $i ] && echo "$(basename $i .conf)" | awk '{print"gtk-network|", $0}'
+	done
+}
+
+read_settings(){
+	# Read user settings.
+	# Init default settings if don't exist
+	if [ -f ${CONFIG_DIR}/sshbox.conf ]; then
+		. ${CONFIG_DIR}/sshbox.conf
+	else
+		echo "XTERM=xterm" > ${CONFIG_DIR}/sshbox.conf
+		echo "SSH_CLIENT=ssh" >> ${CONFIG_DIR}/sshbox.conf
+	fi
+	export XTERM SSH_CLIENT 
+}
+
+read_last_connection(){	
+	#Read last connexion
+	[ -f $CONFIG_DIR/last ] &&  . $CONFIG_DIR/last
+}	
+
+save_settings(){
+	# Save user settings in user.pref.
+	echo "XTERM=${XTERM:-xterm}" > $CONFIG_DIR/sshbox.conf
+	echo "SSH_CLIENT=${SSH_CLIENT:-/usr/bin/ssh}" >> $CONFIG_DIR/sshbox.conf
+}
+
+ssh_connect(){
+	
+	read_settings
+	
+	#TODO: Move this to another place
+	# Save last used profile and start ssh connection
+	echo "HOSTNAME=$SSH_HOST" > $CONFIG_DIR/last
+	echo "USERNAME=$SSH_USER" >> $CONFIG_DIR/last
+	echo "KEY=$SSH_KEY" >> $CONFIG_DIR/last
+	
+	$SSH_OPTIONS=""
+	
+	[ ! -z $SSH_PORT ] && SSH_OPTION="-p $SSH_PORT"
+	
+	#  set terminal options
+	if [ "$XTERM" ==  "sakura" ]; then
+		OPTION="--title $SSH_USER@$SSH_HOST"
+	else 
+		OPTION="-T $SSH_USER@$SSH_HOST"
+	fi
+	
+	exec $XTERM $OPTION -e "$SSH_CLIENT $SSH_OPTIONS $SSH_USER@$SSH_HOST" &
+}
+
+gtk_about(){
+		export GTK_ABOUT="
+				<window title=\"${TITLE_ABOUT:-About} de $PROGNAMENAME\" icon-name=\"sunny\">
+				<vbox>
+					<pixmap>
+						<input file stock=\"gtk-network\"></input>
+					</pixmap>
+					<text use-markup=\"true\">
+					<label>\"<b>SSHBox v$VERSION</b>\"</label>
+					</text>
+					<text wrap=\"true\" width-chars=\"40\" use-markup=\"true\">
+						<label>\"
+Gtkdialog box interface for SSH connexions.
+
+		SliTaz GNU/Linux - GPL v3
+						\"
+						</label>
+					</text>
+					<hbox><button ok></button></hbox>
+				</vbox>
+				</window>
+		"
+		gtkdialog  --center --program=GTK_ABOUT 
+}
+
+main_dialog(){
+	
+	read_settings
+	read_last_connection
+	
+export MAIN_DIALOG=" \
+<window title=\"SSHBox\" icon-name=\"gtk-network\" resizable=^\"false\">
+ <vbox>  
+	<hbox homogeneous=\"true\">
+	<text  width-chars=\"60\">
+		<label>\"\"</label>
+	</text>
+	</hbox>
+	<notebook labels=\"${TITLE_MAIN:-Main}|${TITLE_SESSION:-Sessions}|${TITLE_HOST:-Host key}\">
+	
+	<vbox>  
+		<hbox spacing=\"43\">
+			<text use-markup=\"true\" >
+				<label>\"${TXT_HOST:-Host}:\"</label>
+			</text>
+			<entry>
+				<default>\"$HOSTNAME\"</default>
+				<variable>SSH_HOST</variable>
+			</entry>
+		</hbox>
+		<hbox>
+			<text use-markup=\"true\">
+				<label>\"${TXT_USER:-Username}:\"</label>
+			</text>
+			<entry>
+				<default>\"$USERNAME\"</default>
+				<variable>SSH_USER</variable>
+			</entry>
+		</hbox>
+		<hbox  spacing=\"20\">
+			<text use-markup=\"true\">
+				<label>\"${TXT_KEY:-SSH Key}:\"</label>
+			</text>
+			<entry>
+				<default>\"\"</default>
+				<variable>SSH_KEY</variable>
+			</entry>
+		</hbox>
+		<hbox>
+		<button>
+			<label>${BTN_ADD:-Save session}</label>
+			<input file icon=\"gtk-save\"></input>
+			<action>$PROG quick_add_session</action>
+			<action>refresh:SESSION</action>
+		</button>
+		<button>
+			<label>${BTN_CONNECT:-Connect}</label>
+			<input file icon=\"gtk-connect\"></input>
+			<action>$PROG ssh_connect</action>
+		</button>
+		</hbox>
+	</vbox>
+	
+	<vbox>
+		<hbox>
+			<tree headers_visible=\"false\" exported_column=\"0\">
+				<width>200</width><height>150</height>
+				<label>\"\"</label>
+				<variable>SESSION</variable>
+				<input stock_column=\"0\">$PROG list_sessions</input>
+				<action>$PROG gtk_manage_session $SESSION</action>
+				<action>refresh:SESSION</action>
+			</tree>
+		</hbox>
+		<hbox>
+			<text width-chars=\"45\">
+				<label>
+\"
+Double click on session name to manage SSH session.
+\"
+				</label>
+			</text>
+		<button>
+			<label>${BTN_ADD_SESSION:-Add session}</label>
+			<input file icon=\"gtk-add\"></input>
+			<action>$PROG add_session</action>
+			<action>refresh:SESSION</action>
+		</button>
+		</hbox>
+	</vbox>
+	
+	<vbox>
+		<hbox>
+			<tree headers_visible=\"false\" exported_column=\"0\">
+				<width>200</width><height>150</height>
+				<label>\"\"</label>
+				<variable>KNOWN_HOST</variable>
+				<input>$PROG list_host</input>
+				<action>$PROG delete_host $KNOWN_HOST</action>
+				<action>refresh:KNOWN_HOST</action>
+			</tree>
+		</hbox>
+		<hbox>
+			<text width-chars=\"60\">
+				<label>
+\"Double click on host to remove it.\"
+				</label>
+			</text>
+		</hbox>
+	</vbox>
+	</notebook> 
+	 <hbox>
+		<button>
+			<label>${BTN_ABOUT:-About}</label>
+			<input file icon=\"gtk-about\"></input>
+			<action>$PROG gtk_about $PROGNAME</action>
+		</button>
+		<button>
+			<label>${BTN_SETTINGS:-Settings}</label>
+			<input file icon=\"gtk-preferences\"></input>
+			<action>$0 gtk_settings</action>
+		</button>
+	 	<button>
+			<label>${BTN_Exit:-Exit}</label>
+			<input file icon=\"exit\"></input>
+			<action type=\"exit\">Exit</action>
+		</button>
+	</hbox>
+ </vbox>
+</window>
+"
+	gtkdialog --center --program=MAIN_DIALOG
+}
+
+
+
+case $1 in 
+	*_*)
+		$1 ;;
+	*)
+		main_dialog	;;
+esac
+		
+
+

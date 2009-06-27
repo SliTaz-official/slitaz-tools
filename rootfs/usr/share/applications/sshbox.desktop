@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=SSHBox 
+Name[fr]=SSHBox
+Name=Scpbox Secure Shell
+Name[fr]=SSHBox Shell sécurisé
+Comment=Upload or download files with scp
+Comment[fr]=Connexion distante sécurisée
+Exec=sshbox
+Icon=gtk-network
+Type=Application
+Categories=Application;Network;

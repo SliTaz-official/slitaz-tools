@@ -148,7 +148,6 @@ screen_config_dialog()
 	$(Xvesa -listmodes 2>&1 | grep ^0x | awk '{ printf "%s %s\n",$2,$3 }' | sort -nr | grep x[1-2][4-6]) \
 	"xterm" "800x600x16" \
 	"xorg" "Installer Xorg" \
-	"wm" "Choose Window Manager" \
 	"quit" "Quitter" \
 	2>&1 1>&3`
 	retval=$?
