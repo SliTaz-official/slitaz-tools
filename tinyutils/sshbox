@@ -343,7 +343,7 @@ gtk_about(){
 					</text>
 					<text wrap=\"true\" width-chars=\"40\" use-markup=\"true\">
 						<label>\"
-Gtkdialog box interface for SSH connexions.
+Gtkdialog box interface for SSH connections.
 
 		SliTaz GNU/Linux - GPL v3
 						\"
