@@ -8,7 +8,7 @@
 # Authors : Christophe Lincoln <pankso@slitaz.org>
 #           Rohit Joshi <jozee@slitaz.org>
 #
-VERSION=20090529
+VERSION=20090722
 TMPDIR="/tmp/burn-cd"
 
 chk_install()
