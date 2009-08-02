@@ -99,24 +99,20 @@ DEVICE='<input>/usr/lib/slitaz/libmountbox list-mounted</input>
 		<text use-markup="true">
 			<label>"<b>Mount selected device on:</b>"</label>
 		</text>
-		<combobox>
+		<entry accept="directory">
+			<default>/media/cdrom</default>
 			<variable>MOUNT_POINT</variable>'
-			
+
 # Get the mount points list.
 MAIN_DIALOG=${MAIN_DIALOG}${DEVICE}
-for dir in $(ls -d /media/* /mnt/*)
-do
-	MOUNT_POINTS_ITEMS="<item>$dir</item>"
-	MAIN_DIALOG=${MAIN_DIALOG}${MOUNT_POINTS_ITEMS}
-done
 
 # Actions buttons (mount, umount, eject, etc).
 ACTIONS='
-		</combobox>
+		</entry>
 		<button>
 			<label>Browse</label>
 			<input file icon="folder-open"></input>
-			<action>file-manager $MOUNT_POINT &</action>
+			<action type="fileselect">MOUNT_POINT</action>
 		</button>
 	</hbox>
 	<hbox>
@@ -146,9 +142,11 @@ ACTIONS='
 			<action>eject</action>
 		</button>
 		<button>
-			<label>Crypt</label>
-			<input file icon="passwd"></input>
-			<action>cryptobox &</action>
+			<label>Loop</label>
+			<input file icon="go-jump"></input>
+			<action>/usr/lib/slitaz/libmountbox loopmgr</action>
+			<action>refresh:MOUNTED</action>
+			<action>refresh:DEVICE</action>
 		</button>
 		<button help>
 			<input file icon="help"></input>

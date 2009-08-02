@@ -29,23 +29,31 @@ mounted_fs_data()
 	MOUNTED_ON=`echo $RES | cut -d " " -f 6`
 }
 
-# Update SIZE UUID TYPE LABEL variables
+# Update BLOCKS SIZE UUID TYPE LABEL variables
 getdevinfo()
 {
+	local dev
+	dev=${1#/dev/}
+	BLOCKS=0
+	if [ -f /sys/block/$dev/size ]; then
+		BLOCKS=`cat /sys/block/$dev/size`
+	elif [ -f /sys/block/*/$dev/size ]; then
+		BLOCKS=`cat /sys/block/*/$dev/size`
+	fi
 	if [ $BLOCKS -gt 2097152 ]; then
 		unit=G
-		n=$(($1 * 10 / 2097152))
+		n=$(($BLOCKS * 10 / 2097152))
 	elif [ $BLOCKS -gt 2048 ]; then
 		unit=M
-		n=$(($1 * 10 / 2048))
+		n=$(($BLOCKS * 10 / 2048))
 	else
 		unit=K
-		n=$(($1 * 5))
+		n=$(($BLOCKS * 5))
 	fi
 	SIZE=$(($n/10)).$(($n%10))$unit
-	UUID=`blkid | grep ^$1 | grep UUID= | sed 's/.*UUID=\"\([^\"]*\)\".*/\1/'`
-	TYPE=`blkid | grep ^$1 | grep TYPE= | sed 's/.*TYPE=\"\([^\"]*\)\".*/\1/'`
-	LABEL=`blkid | grep ^$1 | grep LABEL= | sed 's/.*LABEL=\"\([^\"]*\)\".*/\1/'`
+	UUID=`blkid | grep ^/dev/$dev: | grep UUID= | sed 's/.*UUID=\"\([^\"]*\)\".*/\1/'`
+	TYPE=`blkid | grep ^/dev/$dev: | grep TYPE= | sed 's/.*TYPE=\"\([^\"]*\)\".*/\1/'`
+	LABEL=`blkid | grep ^/dev/$dev: | grep LABEL= | sed 's/.*LABEL=\"\([^\"]*\)\".*/\1/'`
 }
 
 case $1 in
@@ -81,7 +89,7 @@ case $1 in
 			elif mount | grep -q "^$dev "; then
 				continue
 			else
-				getdevinfo $BLOCKS $dev
+				getdevinfo $dev
 				echo "$dev | $SIZE | $SYSTEM | $TYPE | $LABEL | $BOOT | $START | $END | $BLOCKS | $ID | $UUID"
 			fi
 		done
@@ -90,15 +98,13 @@ case $1 in
 			mount | grep -q "^$dev " && continue
 			mdev=dm-$(ls -l $dev | awk '{ print $6 }')
 			mount | grep -q "^/dev/$mdev " && continue
-			BLOCKS=`cat /sys/block/$mdev/size`
-			getdevinfo $BLOCKS /dev/$mdev:
+			getdevinfo /dev/$mdev
 			echo "$dev | $SIZE | - | $TYPE | $LABEL | - | - | - | $BLOCKS | - | $UUID"
 		done
 		for dev in $(losetup | cut -d: -f1); do
 			[ -b $dev ] || continue
 			mount | grep -q "^$dev " && continue
-			BLOCKS=`cat /sys/block/${dev#/dev/}/size`
-			getdevinfo $BLOCKS $dev:
+			getdevinfo $dev
 			echo "$dev | $SIZE | - | $TYPE | $LABEL | - | - | - | $BLOCKS | - | $UUID"
 		done
 		[ -e /dev/cdrom ] &&
@@ -139,9 +145,7 @@ case $1 in
 </window>"
 		gtkdialog --center --program=MOUNTED_DEVICE
 		else
-			UUID=`blkid | grep ^$MOUNTED | grep UUID= | sed 's/.*UUID=\"\([^\"]*\)\".*/\1/'`
-			TYPE=`blkid | grep ^$MOUNTED | grep TYPE= | sed 's/.*TYPE=\"\([^\"]*\)\".*/\1/'`
-			LABEL=`blkid | grep ^$MOUNTED | grep LABEL= | sed 's/.*LABEL=\"\([^\"]*\)\".*/\1/'`
+			getdevinfo $MOUNTED
 			RES=`df -h $MOUNTED | grep ^$MOUNTED`
 			mounted_fs_data
 			export MOUNTED_DEVICE="
@@ -151,6 +155,7 @@ case $1 in
 		<label>\"
 Device <b>$MOUNTED</b> is mounted on <b>$MOUNTED_ON</b>
 
+Size: $SIZE
 UUID: $UUID
 Type: $TYPE
 Label: $LABEL
@@ -186,9 +191,7 @@ Label: $LABEL
 		/dev/mapper/*) mdev=/dev/dm-$(ls -l $DEVICE | awk '{ print $6 }');;
 		*) mdev=$DEVICE;;
 		esac
-		UUID=`blkid | grep ^$mdev | grep UUID= | sed 's/.*UUID=\"\([^\"]*\)\".*/\1/'`
-		TYPE=`blkid | grep ^$mdev | grep TYPE= | sed 's/.*TYPE=\"\([^\"]*\)\".*/\1/'`
-		LABEL=`blkid | grep ^$mdev | grep LABEL= | sed 's/.*LABEL=\"\([^\"]*\)\".*/\1/'`
+		getdevinfo $mdev
 		export UMOUNTED_DEVICE="
 <window title=\"Device: $DEVICE\" icon-name=\"media-flash\">
 <vbox>
@@ -196,6 +199,7 @@ Label: $LABEL
 		<label>\"
 Mount <b>$DEVICE</b> on <b>$MOUNT_POINT</b>
 
+Size: $SIZE
 UUID: $UUID
 Type: $TYPE
 Label: $LABEL
@@ -243,6 +247,98 @@ UMOUNTED_DEVICE="$UMOUNTED_DEVICE
 </vbox>
 </window>"
 		gtkdialog --center --program=UMOUNTED_DEVICE ;;
+	loopmgr)
+		export LOOP_MANAGER="
+<window title=\"Loop manager\" icon-name=\"media-flash\">
+<vbox>
+	<tree>
+		<width>420</width><height>120</height>
+		<variable>LOOP_DEV</variable>
+		<label>Device|File|Size|Type|Label|Mounted on|Offset|UUID</label>"
+		while read dev offset file; do
+			DEV=$(echo $dev | cut -d: -f1)
+			MOUNT=$(mount | grep ^$DEV | awk '{ print $3 }')
+			getdevinfo $DEV
+			LOOP_MANAGER="$LOOP_MANAGER
+		<item>$DEV | $file | $SIZE | $TYPE | $LABEL | $MOUNT | $offset | $UUID</item>
+		<action>/usr/lib/slitaz/libmountbox remove-loop</action>
+		<action>/usr/lib/slitaz/libmountbox loopmgr &</action>
+		<action type=\"closewindow\">LOOP_MANAGER</action>
+"
+		done <<EOT
+$(losetup)
+EOT
+		LOOP_MANAGER="$LOOP_MANAGER
+	</tree>
+	<hbox>
+		<text use-markup=\"true\">
+			<label>\"<b>File</b>\"</label>
+		</text>
+		<entry accept=\"filename\">
+			<variable>FILE</variable>
+		</entry>
+		<button>
+			<input file icon=\"folder-open\"></input>
+			<action type=\"fileselect\">FILE</action>
+		</button>
+	</hbox>
+	<hbox>
+		<text use-markup=\"true\" width=\"10\">
+			<label>\"<b>Offset</b>\"</label>
+		</text>
+		<entry>
+			<default>0</default>
+			<variable>OFFSET</variable>
+		</entry>
+		<button>
+			<label>Create</label>
+			<input file icon=\"add\"></input>
+			<action>/usr/lib/slitaz/libmountbox add-loop</action>
+			<action>/usr/lib/slitaz/libmountbox loopmgr &</action>
+			<action type=\"closewindow\">LOOP_MANAGER</action>
+		</button>
+		<button>
+			<input file icon=\"gtk-close\"></input>
+			<action type=\"closewindow\">LOOP_MANAGER</action>
+		</button>
+	</hbox>
+</vbox>
+</window>"
+		gtkdialog --center --program=LOOP_MANAGER ;;
+	remove-loop)
+		getdevinfo $LOOP_DEV
+		export REMOVE_DEVICE="
+<window title=\"Device: $LOOP_DEV\" icon-name=\"media-flash\">
+<vbox>
+	<text use-markup=\"true\" width-chars=\"56\">
+		<label>\"
+Disable <b>$LOOP_DEV</b> ?
+
+Size: $SIZE
+UUID: $UUID
+Type: $TYPE
+Label: $LABEL
+\"
+		</label>
+	</text>
+	<hbox>
+		<button yes>
+			<action>umount $LOOP_DEV</action>
+			<action>losetup -d $LOOP_DEV</action>
+			<action type=\"closewindow\">LOOP_MANAGER</action>
+			<action>/usr/lib/slitaz/libmountbox loopmgr &</action>
+			<action type=\"closewindow\">REMOVE_DEVICE</action>
+		</button>
+		<button no>
+			<action type=\"closewindow\">REMOVE_DEVICE</action>
+		</button>
+	</hbox>
+</vbox>
+</window>"
+		gtkdialog --center --program=REMOVE_DEVICE ;;
+	add-loop)
+		losetup -o $OFFSET $(losetup -f) $FILE
+		;;
 	*)
 		usage ;;
 esac
