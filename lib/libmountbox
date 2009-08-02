@@ -3,7 +3,7 @@
 # Libmountbox provides devices list in suitable format for GTK tree
 # and various dialog boxes to mount, umount, etc.
 #
-# (C) 2008 - SliTaz GNU/Linux project.
+# (C) 2009 - SliTaz GNU/Linux project.
 #
 
 # Short usage.
@@ -29,8 +29,8 @@ mounted_fs_data()
 	MOUNTED_ON=`echo $RES | cut -d " " -f 6`
 }
 
-# human readable size from 512 block count
-blocks2size()
+# Update SIZE UUID TYPE LABEL variables
+getdevinfo()
 {
 	if [ $BLOCKS -gt 2097152 ]; then
 		unit=G
@@ -42,7 +42,10 @@ blocks2size()
 		unit=K
 		n=$(($1 * 5))
 	fi
-	echo $(($n/10)).$(($n%10))$unit
+	SIZE=$(($n/10)).$(($n%10))$unit
+	UUID=`blkid | grep ^$1 | grep UUID= | sed 's/.*UUID=\"\([^\"]*\)\".*/\1/'`
+	TYPE=`blkid | grep ^$1 | grep TYPE= | sed 's/.*TYPE=\"\([^\"]*\)\".*/\1/'`
+	LABEL=`blkid | grep ^$1 | grep LABEL= | sed 's/.*LABEL=\"\([^\"]*\)\".*/\1/'`
 }
 
 case $1 in
@@ -66,7 +69,6 @@ case $1 in
 			BLOCKS=`echo $RES | cut -d " " -f 4`
 			ID=`echo $RES | cut -d " " -f 5`
 			SYSTEM=`echo $RES | cut -d " " -f 6-`
-			SIZE=$(blocks2size $BLOCKS)
 			# Bootable...
 			if fdisk -l | grep $dev | grep -q "*"; then
 				BOOT="yes"
@@ -79,9 +81,7 @@ case $1 in
 			elif mount | grep -q "^$dev "; then
 				continue
 			else
-				UUID=`blkid | grep ^$dev | grep UUID= | sed 's/.*UUID=\"\([^\"]*\)\".*/\1/'`
-				TYPE=`blkid | grep ^$dev | grep TYPE= | sed 's/.*TYPE=\"\([^\"]*\)\".*/\1/'`
-				LABEL=`blkid | grep ^$dev | grep LABEL= | sed 's/.*LABEL=\"\([^\"]*\)\".*/\1/'`
+				getdevinfo $BLOCKS $dev
 				echo "$dev | $SIZE | $SYSTEM | $TYPE | $LABEL | $BOOT | $START | $END | $BLOCKS | $ID | $UUID"
 			fi
 		done
@@ -91,10 +91,14 @@ case $1 in
 			mdev=dm-$(ls -l $dev | awk '{ print $6 }')
 			mount | grep -q "^/dev/$mdev " && continue
 			BLOCKS=`cat /sys/block/$mdev/size`
-			SIZE=$(blocks2size $BLOCKS)
-			UUID=`blkid | grep ^/dev/$mdev: | grep UUID= | sed 's/.*UUID=\"\([^\"]*\)\".*/\1/'`
-			TYPE=`blkid | grep ^/dev/$mdev: | grep TYPE= | sed 's/.*TYPE=\"\([^\"]*\)\".*/\1/'`
-			LABEL=`blkid | grep ^/dev/$mdev: | grep LABEL= | sed 's/.*LABEL=\"\([^\"]*\)\".*/\1/'`
+			getdevinfo $BLOCKS /dev/$mdev:
+			echo "$dev | $SIZE | - | $TYPE | $LABEL | - | - | - | $BLOCKS | - | $UUID"
+		done
+		for dev in $(losetup | cut -d: -f1); do
+			[ -b $dev ] || continue
+			mount | grep -q "^$dev " && continue
+			BLOCKS=`cat /sys/block/${dev#/dev/}/size`
+			getdevinfo $BLOCKS $dev:
 			echo "$dev | $SIZE | - | $TYPE | $LABEL | - | - | - | $BLOCKS | - | $UUID"
 		done
 		[ -e /dev/cdrom ] &&
@@ -215,9 +219,9 @@ UMOUNTED_DEVICE="$UMOUNTED_DEVICE
 			<label>$fsck check</label>
 			<input file icon=\"drive-harddisk\"></input>
 			<action>xterm -T \"$fsck $args $DEVICE\" \
-				--geomery 80x12 \
+				-geometry 80x12 \
 				-e \"echo; $fsck $args $DEVICE; \
-				echo -e '----\nENTER to close Termianl'; \
+				echo -e '----\\nENTER to close Terminal'; \
 				read i\" &</action>
 			<action type=\"closewindow\">MOUNTED_DEVICE</action>
 		</button>"
