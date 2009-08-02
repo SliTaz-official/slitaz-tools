@@ -3,10 +3,9 @@
 # Gtkdialog box for the mount/umount commands. Part of SliTaz tools.
 # libmountbox: /usr/lib/slitaz/libmountbox
 #
-# (C) 2008 - SliTaz GNU/Linux project.
+# (C) 2009 - SliTaz GNU/Linux project.
 #
-VERSION=20080719
-
+VERSION=20090802
 # Mountbox is only for root.
 if test $(id -u) != 0 ; then
 	exec subox mountbox
@@ -90,7 +89,7 @@ DEVICE='<input>/usr/lib/slitaz/libmountbox list-mounted</input>
 	<tree>
 		<width>500</width><height>120</height>
 		<variable>DEVICE</variable>
-		<label>Umounted dev|Boot|Start|End|Blocks|Id|System|Type|Label|UUID</label>
+		<label>Umounted dev|Size|System|Type|Label|Boot|Start|End|Blocks|Id|UUID</label>
 		<input>/usr/lib/slitaz/libmountbox list-umounted</input>
 		<action>/usr/lib/slitaz/libmountbox umounted-fs-infos</action>
 		<action>refresh:MOUNTED</action>
@@ -145,6 +144,11 @@ ACTIONS='
 			<label>Eject</label>
 			<input file icon="media-cdrom"></input>
 			<action>eject</action>
+		</button>
+		<button>
+			<label>Crypt</label>
+			<input file icon="passwd"></input>
+			<action>cryptobox &</action>
 		</button>
 		<button help>
 			<input file icon="help"></input>

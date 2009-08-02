@@ -29,11 +29,27 @@ mounted_fs_data()
 	MOUNTED_ON=`echo $RES | cut -d " " -f 6`
 }
 
+# human readable size from 512 block count
+blocks2size()
+{
+	if [ $BLOCKS -gt 2097152 ]; then
+		unit=G
+		n=$(($1 * 10 / 2097152))
+	elif [ $BLOCKS -gt 2048 ]; then
+		unit=M
+		n=$(($1 * 10 / 2048))
+	else
+		unit=K
+		n=$(($1 * 5))
+	fi
+	echo $(($n/10)).$(($n%10))$unit
+}
+
 case $1 in
 	list-mounted)
 		# List all fs found by: df -h
 		#
-		for dev in `df -h | grep ^/dev/[c-s]d | cut -d " " -f 1`
+		for dev in `df -h | grep ^/dev/ | cut -d " " -f 1`
 		do
 			RES=`df -h $dev | grep ^$dev`
 			mounted_fs_data
@@ -50,9 +66,10 @@ case $1 in
 			BLOCKS=`echo $RES | cut -d " " -f 4`
 			ID=`echo $RES | cut -d " " -f 5`
 			SYSTEM=`echo $RES | cut -d " " -f 6-`
+			SIZE=$(blocks2size $BLOCKS)
 			# Bootable...
 			if fdisk -l | grep $dev | grep -q "*"; then
-				BOOT="*"
+				BOOT="yes"
 			else
 				BOOT="-"
 			fi
@@ -65,10 +82,23 @@ case $1 in
 				UUID=`blkid | grep ^$dev | grep UUID= | sed 's/.*UUID=\"\([^\"]*\)\".*/\1/'`
 				TYPE=`blkid | grep ^$dev | grep TYPE= | sed 's/.*TYPE=\"\([^\"]*\)\".*/\1/'`
 				LABEL=`blkid | grep ^$dev | grep LABEL= | sed 's/.*LABEL=\"\([^\"]*\)\".*/\1/'`
-				echo "$dev | $BOOT | $START | $END | $BLOCKS | $ID | $SYSTEM | $TYPE | $LABEL | $UUID"
+				echo "$dev | $SIZE | $SYSTEM | $TYPE | $LABEL | $BOOT | $START | $END | $BLOCKS | $ID | $UUID"
 			fi
 		done
-		echo "/dev/cdrom | - | - | - | CD/DVD | - | iso9660 | - | - | -"
+		for dev in /dev/mapper/* ; do
+			[ -b $dev ] || continue
+			mount | grep -q "^$dev " && continue
+			mdev=dm-$(ls -l $dev | awk '{ print $6 }')
+			mount | grep -q "^/dev/$mdev " && continue
+			BLOCKS=`cat /sys/block/$mdev/size`
+			SIZE=$(blocks2size $BLOCKS)
+			UUID=`blkid | grep ^/dev/$mdev: | grep UUID= | sed 's/.*UUID=\"\([^\"]*\)\".*/\1/'`
+			TYPE=`blkid | grep ^/dev/$mdev: | grep TYPE= | sed 's/.*TYPE=\"\([^\"]*\)\".*/\1/'`
+			LABEL=`blkid | grep ^/dev/$mdev: | grep LABEL= | sed 's/.*LABEL=\"\([^\"]*\)\".*/\1/'`
+			echo "$dev | $SIZE | - | $TYPE | $LABEL | - | - | - | $BLOCKS | - | $UUID"
+		done
+		[ -e /dev/cdrom ] &&
+		echo "/dev/cdrom | - | CD/DVD | iso9660 | - | - | - | - | - | - | -"
 		for i in /sys/devices/platform/floppy.*/block:*; do 
 			[ -e $i ] && echo "/dev/${i#*block:} | - | - | - | floppy | - | - | - | - | -"
 		done
@@ -148,9 +178,13 @@ Label: $LABEL
 	umounted-fs-infos)
 		# Mounted fs info and actions, rootfs or other fs.
 		#
-		UUID=`blkid | grep ^$MOUNTED | grep UUID= | sed 's/.*UUID=\"\([^\"]*\)\".*/\1/'`
-		TYPE=`blkid | grep ^$MOUNTED | grep TYPE= | sed 's/.*TYPE=\"\([^\"]*\)\".*/\1/'`
-		LABEL=`blkid | grep ^$MOUNTED | grep LABEL= | sed 's/.*LABEL=\"\([^\"]*\)\".*/\1/'`
+		case "$DEVICE" in
+		/dev/mapper/*) mdev=/dev/dm-$(ls -l $DEVICE | awk '{ print $6 }');;
+		*) mdev=$DEVICE;;
+		esac
+		UUID=`blkid | grep ^$mdev | grep UUID= | sed 's/.*UUID=\"\([^\"]*\)\".*/\1/'`
+		TYPE=`blkid | grep ^$mdev | grep TYPE= | sed 's/.*TYPE=\"\([^\"]*\)\".*/\1/'`
+		LABEL=`blkid | grep ^$mdev | grep LABEL= | sed 's/.*LABEL=\"\([^\"]*\)\".*/\1/'`
 		export UMOUNTED_DEVICE="
 <window title=\"Device: $DEVICE\" icon-name=\"media-flash\">
 <vbox>
@@ -172,19 +206,31 @@ Label: $LABEL
 			<action>mkdir -p $MOUNT_POINT</action>
 			<action>mount $DEVICE $MOUNT_POINT</action>
 			<action type=\"closewindow\">MOUNTED_DEVICE</action>
-		</button>
-		
+		</button>"
+while read type fsck args; do
+	[ "$TYPE" == "$type" ] || continue
+	which $fsck > /dev/null || continue
+UMOUNTED_DEVICE="$UMOUNTED_DEVICE		
 		<button>
-			<label>e2fsck check</label>
+			<label>$fsck check</label>
 			<input file icon=\"drive-harddisk\"></input>
-			<action>xterm -T \"e2fsck -p $DEVICE\" \
+			<action>xterm -T \"$fsck $args $DEVICE\" \
 				--geomery 80x12 \
-				-e \"echo; e2fsck -p $DEVICE; \
+				-e \"echo; $fsck $args $DEVICE; \
 				echo -e '----\nENTER to close Termianl'; \
 				read i\" &</action>
 			<action type=\"closewindow\">MOUNTED_DEVICE</action>
-		</button>
-		
+		</button>"
+done <<EOT
+ext3 e2fsck -p
+ext2 e2fsck -p
+vfat dosfsck -a
+msdos dosfsck -a
+xfs fsck.xfs -s
+reiserfs reiserfsck --fix-fixable
+jfs jfs_fsck -a
+EOT
+UMOUNTED_DEVICE="$UMOUNTED_DEVICE		
 		<button>
 			<input file icon=\"gtk-close\"></input>
 			<action type=\"closewindow\">UMOUNTED_DEVICE</action>
