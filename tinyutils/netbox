@@ -71,6 +71,7 @@ esac
 #
 ############################################################
 
+xterm="xterm -fa MiscFixed -fs 11 -bg gray93 -fg black"
 helpbutton()
 {
 	local label;
@@ -79,7 +80,7 @@ helpbutton()
 	cat << EOT
 <button>
 	<input file icon="help"></input>$label
-	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry $2 -title "$1 help (q to quit)" -e "$(which $1) --help 2>&1 | less"</action>
+	<action>$xterm -geometry $2 -title "$1 help (q to quit)" -e "$(which $1) --help 2>&1 | less"</action>
 </button>
 EOT
 }
@@ -100,7 +101,7 @@ manbutton()
 <button>
 	<input file icon="browser"></input>
 	<label>man</label>
-	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x24 -title "$2 man (q to quit)" -e ". /etc/profile; man $1 $2"</action>
+	<action>$xterm -geometry 80x24 -title "$2 man (q to quit)" -e ". /etc/profile; man $1 $2"</action>
 </button>
 EOT
 }
@@ -164,14 +165,34 @@ configfile()
 	datafile "$1" $2 'Configuration:' "$3"
 }
 
+BROWSER=''
+for i in firefox opera dillo midori netsurf links ; do
+	while $i > /dev/null && BROWSER="$i" && break
+done
+case "$BROWSER" in
+links) BROWSER="links -g ";;
+esac
+
 webbutton()
 {
-	[ -f "/var/lib/tazpkg/installed/$1/receipt" ] && cat << EOT
+	[ -f "/var/lib/tazpkg/installed/$1/receipt" ] && 
+	[ -n "$BROWSER" ] && cat << EOT
 <button>
 	<input file icon="browser"></input>
 	<label>web</label>
-	<action>. /var/lib/tazpkg/installed/$1/receipt ; firefox \$WEB_SITE &</action>
+	<action>. /var/lib/tazpkg/installed/$1/receipt ; $BROWSER \$WEB_SITE &</action>
 </button>
+EOT
+}
+
+wikibutton()
+{
+[ -n "$BROWSER" ] && cat <<EOT
+        <button>
+          <input file icon="browser"></input>
+	  <label>Wiki</label>
+	  <action>$BROWSER $1 &</action>
+        </button>
 EOT
 }
 
@@ -208,7 +229,7 @@ installbox()
 	<button>
 		<input file icon="go-jump"></input>
 		<label>Install</label>
-		<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x17 -title "$1 install" -e "yes y | tazpkg get-install $1 ; echo -e \"----\n\nENTER to continue...\" && read close"</action>
+		<action>$xterm -geometry 80x17 -title "$1 install" -e "yes y | tazpkg get-install $1 ; echo -e \"----\n\nENTER to continue...\" && read close"</action>
 		<action type="exit">restart</action>
 	</button>
 </hbox>
@@ -249,9 +270,12 @@ if [ "$1" = "call" ]; then
 	case "$sub" in
 	sendsshkey)
 		check_root
-		(dropbearkey -y -f /etc/dropbear/dropbear_rsa_host_key ;
-		cat /etc/ssh/ssh_host_rsa_key.pub ) 2> /dev/null | \
-		grep ^ssh | ssh $1 "mkdir .ssh 2> /dev/null ; while read key; do for i in authorized_keys authorized_keys2; do grep -q \$key .ssh/\$i || echo \$key >> .ssh/\$i; done; done; chmod 700 .ssh ; chmod 600 .ssh/authorized_keys*"
+		( dropbearkey -y -f /etc/dropbear/dropbear_rsa_host_key ;
+		  cat /etc/ssh/ssh_host_rsa_key.pub ) 2> /dev/null | \
+		grep ^ssh | ssh $1 "mkdir .ssh 2> /dev/null ; \
+while read key; do for i in authorized_keys authorized_keys2; do \
+grep -q \$key .ssh/\$i || echo \$key >> .ssh/\$i ; done ; done ; \
+chmod 700 .ssh ; chmod 600 .ssh/authorized_keys*"
 		exit 0;;
 # OpenSSH VPN:
 #   PermitTunnel=point-to-point   (or yes, ethernet, no)
@@ -417,10 +441,12 @@ EOT
 #
 tab_status_servers()
 {
+local servers
+servers="dropbear sshd inetd dhcpd dnsd named rsync httpd mbd vnc pppd knock"
 cat <<EOT
 <frame Servers>
 	<text wrap="false" width-chars="58">
-		<input>for i in dropbear sshd inetd dhcpd dnsd named rsync httpd smbd nmbd x11vnc pppd knock; do ps ww | grep \$i | grep -v grep | fold -s; done</input>
+		<input>for i in $servers; do ps ww | grep \$i | grep -v grep | fold -s; done</input>
 	</text>
 </frame>
 EOT
@@ -490,10 +516,7 @@ cat <<EOT
 			<default>-b</default>
 			<variable>UDHCPC_OPTS</variable>
 		</entry>
-		<button>
-			<input file icon="help"></input>
-			<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x27 -title "udhcpc help" -e "udhcpc --help ; echo -e \"----\nENTER to continue...\" && read close"</action>
-		</button>
+$(helpbutton udhcpc 80x30)
 	</hbox>
 	<hbox>
 		<text use-markup="true">
@@ -846,11 +869,7 @@ cat <<EOT
         </entry>
       </hbox>
       <hbox>
-        <button>
-          <input file icon="browser"></input>
-	  <label>Wiki</label>
-	  <action>firefox http://wiki.slitaz.org/doku.php?id=quickstart:vpn &</action>
-        </button>
+$(wikibutton http://wiki.slitaz.org/doku.php?id=quickstart:vpn)
         <button>
           <input file icon="forward"></input>
 	  <label>Connect</label>
@@ -864,7 +883,7 @@ cat <<EOT
         <button>
           <input file icon="go-up"></input>
 	  <label>Send key</label>
-	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x10 -title "Send key" -e "$0 call sendsshkey \$DROPBEAR_PEERVPN; echo -e \"----\nENTER to continue...\" && read close"</action>
+	  <action>$xterm -geometry 80x10 -title "Send key" -e "$0 call sendsshkey \$DROPBEAR_PEERVPN; echo -e \"----\nENTER to continue...\" && read close"</action>
         </button>
       </hbox>
     </frame>
@@ -1012,7 +1031,7 @@ sshremote()
         <button>
           <input file icon="go-up"></input>
 	  <label>Send key</label>
-	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x10 -title "send ssh key" -e "$0 call sendsshkey \$$2; echo -e \"----\nENTER to continue...\" && read close"</action>
+	  <action>$xterm -geometry 80x10 -title "send ssh key" -e "$0 call sendsshkey \$$2; echo -e \"----\nENTER to continue...\" && read close"</action>
         </button>
       </hbox>
 EOT
@@ -1204,15 +1223,11 @@ $(grep bin/tftpd /etc/inetd.conf | awk '{ print $NF }')/pxelinux.cfg/default
         </button>
       </hbox>
       <hbox>
-        <button>
-          <input file icon="browser"></input>
-	  <label>Wiki</label>
-	  <action>firefox http://wiki.slitaz.org/doku.php?id=quickstart:pxe &</action>
-        </button>
+$(wikibutton http://wiki.slitaz.org/doku.php?id=quickstart:pxe)
         <button>
           <input file icon="system-file-manager"></input>
 	  <label>Network boot files</label>
-	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 100x25 -title "Network boot files (q to quit)" -e "find \$(dirname \$(dirname \$PXE_CONF)) -exec ls -ld {} \; | less"</action>
+	  <action>$xterm -geometry 100x25 -title "Network boot files (q to quit)" -e "find \$(dirname \$(dirname \$PXE_CONF)) -exec ls -ld {} \; | less"</action>
         </button>
       </hbox>
      </frame>
@@ -1512,7 +1527,7 @@ cat <<EOT
       </entry>
       <button>
         <input file icon="accessories-text-editor"></input>
-        <action>[ -s $ETHERS ] || echo "#00:01:02:03:04:05 mystation" >\$ETHERS</action>
+        <action>[ -s \$ETHERS ] || echo "#00:01:02:03:04:05 mystation" >\$ETHERS</action>
         <action type="lauch">leafpad \$ETHERS</action>
       </button>
     </hbox>
