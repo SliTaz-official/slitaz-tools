@@ -669,6 +669,7 @@ cat <<EOT
 	<hbox>
 $(helpbutton pppd 80x30)
 $(manbutton 8 pppd)
+$(webbutton ppp)
 		<button>
 			<input file icon="accessories-text-editor"></input>
 			<label>Tune</label>
@@ -736,6 +737,7 @@ cat <<EOT
 	<hbox>
 $(helpbutton pppd 80x30)
 $(manbutton 8 pppd)
+$(webbutton ppp)
 		<button>
 			<input file icon="accessories-text-editor"></input>
 			<label>Tune</label>
@@ -971,6 +973,7 @@ $(helpbutton pptp 80x35)
 	  <label>Options</label>
 	  <action type="lauch">leafpad /etc/ppp/options.pptp</action>
 	</button>
+$(webbutton pptpclient)
         <button>
           <input file icon="forward"></input>
 	  <label>Connect</label>
@@ -993,14 +996,50 @@ ENC=""; [ x\$PPTP_ENC == xtrue ] && ENC="require-mppe-128"; \
 EOT
 }
 
+#
+# Cisco EasyVPN
+#
+tab_easyvpn()
+{
+cat <<EOT
+    <frame Cisco EasyVPN>
+<hbox>
+	<text use-markup="true">
+		<label>"<b>VPNC_OPTIONS</b>"</label>
+	</text>
+	<entry editable="false">
+EOT
+[ -n "$VPNC_OPTIONS" ] && cat << EOT
+		<default>$tmp</default>
+EOT
+	cat << EOT
+		<variable>VPNC_OPTS</variable>
+	</entry>
+$(helpbutton vpnc 80x30)
+<button>
+	<input file icon="help"></input>
+	<label>more</label>
+	<action>$xterm -geometry 80x40 -title "vpnc help (q to quit)" -e "$(which vpnc) --long-help 2>&1 | less"</action>
+</button>
+$(editbutton /etc/daemons.conf)
+</hbox>
+$(configfile /etc/vpnc/default.conf VPNC_CONF)
+$(datafile "/etc/vpnc/vpnc-script" VPNC_SCRIPT 'Script:')
+      <hbox>
+	$(startstopdaemon vpnc)
+      </hbox>
+     </frame>
+EOT
+}
+
 data_vpn()
 {
 cat <<EOT
 $([ -x /usr/sbin/dropbear -o -x /usr/sbin/sshd ] && echo "pppd" ||
 echo "#")   PPP/SSH       tab_sshppp
 pptp        PPTP          tab_pptp
+vpnc        EasyVPN       tab_easyvpn
 #TODO openvpn     OpenVPN       tab_openvpn
-#TODO vpnc        EasyVPN       tab_easyvpn
 EOT
 }
 
@@ -1444,8 +1483,8 @@ data_servers()
 {
 local $pxe
 pxe="#"
-[ -x /usr/sbin/dnsmasq ] && pxe="inetd"
 [ -x /usr/bin/tftpd -a -x /usr/sbin/udhcpd ] && pxe="inetd"
+[ -x /usr/sbin/dnsmasq ] && pxe="true"
 [ -f /usr/share/boot/pxelinux.0.lzma ] || pxe="#"
 cat <<EOT
 $([ -x /usr/sbin/dropbear -o -x /usr/sbin/sshd ] && echo "true" ||
@@ -1488,6 +1527,7 @@ $(configfile /etc/iptables.conf IPTABLES_CONF)
       <hbox>
 $(helpbutton iptables 80x30)
 $(manbutton 8 iptables)
+$(webbutton iptables)
         <button>
           <label>Load</label>
           <input file icon="reload"></input>
@@ -1728,6 +1768,9 @@ _EOT_
 # client	server	secret			IP addresses
 _EOT_
 fi
+cat > toto <<EOT
+$NET_BOX
+EOT
 gtkdialog --center --program=NET_BOX | grep -a 'EXIT="restart"' && continue
 exit 0
 done
