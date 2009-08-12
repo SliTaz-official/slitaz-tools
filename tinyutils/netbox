@@ -5,7 +5,7 @@
 #
 # (c) - SliTaz GNU/Linux 2009.
 #
-VERSION=20090222
+VERSION=20090812
 
 # Check if user is root.
 check_root()
@@ -18,7 +18,11 @@ root password to become super-user.\n"
 	fi
 }
 
+#
 # Functions called by the connection tab to list interfaces.
+#
+############################################################
+
 interface_status()
 {
 	if 	ifconfig | grep -A 1 $i | grep -q inet; then
@@ -62,7 +66,11 @@ case "$1" in
 		continue ;;
 esac
 
+#
 # GUI functions
+#
+############################################################
+
 helpbutton()
 {
 	local label;
@@ -71,7 +79,7 @@ helpbutton()
 	cat << EOT
 <button>
 	<input file icon="help"></input>$label
-	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry $2 -title "$1 help" -e "$(which $1) --help ; echo -e \\"----\\nENTER to continue...\\" && read close"</action>
+	<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry $2 -title "$1 help (q to quit)" -e "$(which $1) --help 2>&1 | less"</action>
 </button>
 EOT
 }
@@ -228,6 +236,11 @@ if [ ! -d /sys/class/net/$WIFI_INTERFACE/wireless ]; then
 	[ -n "$WIFI_INTERFACE" ] && sed -i "s/^WIFI_INTERFACE=.*/WIFI_INTERFACE=\"$WIFI_INTERFACE\"/" /etc/network.conf
 fi
 
+#
+# Netbox internal calls
+#
+#########################################################
+
 if [ "$1" = "call" ]; then
 	ppp="pppd local lock notty"
 	pppup=""
@@ -293,150 +306,179 @@ if [ "$1" = "call" ]; then
 	exit 1
 fi
 
-# English/French help dialog.
-export HELP='
-<window title="Network status" icon-name="network-wire">
-<vbox>
-	<text use-markup="true">
-		<label>
-"
-<b>SliTaz - Netbox</b>"
-		</label>
+#
+# Tab display engine
+#
+######################################################
+
+use_tab()
+{
+local tmp=''
+case "$2" in
+header|body)
+	$1 | while read exe name call; do
+	  case "$exe" in
+	  \#*) continue;;
+	  esac
+	  which $exe > /dev/null || continue
+	  if [ "$2" == "header" ]; then
+	    echo -n "$tmp$name"
+	    tmp='|'
+	  else
+	    $call
+	  fi
+	done
+	;;
+*)
+	tmp=$(use_tab $1 header)
+	echo "$tmp" | grep -q \| && cat <<EOT
+<notebook labels="$tmp">
+EOT
+	[ -n "$tmp" ] && cat <<EOT
+$(use_tab $1 body)
+EOT
+	echo "$tmp" | grep -q \| && cat <<EOT
+</notebook>
+EOT
+	;;
+esac
+}
+
+#
+# Status wire interfaces
+#
+tab_status_iface()
+{
+cat <<EOT
+<frame Ifconfig>
+	<text wrap="false" width-chars="58">
+		<input>ifconfig</input>
 	</text>
-	<frame English>
-		<text wrap="true" width-chars="58">
-			<label>
-"Netbox lets you manage network connections by getting a dynamic IP by 
-DHCP or a static IP and setup servers. Netbox can start or stop
-networking, configure network interfaces or directly edit files."
-			</label>
+</frame>
+EOT
+}
+
+#
+# Status wifi interfaces
+#
+tab_status_wifi_iface()
+{
+cat <<EOT
+<frame Iwconfig>
+	<text wrap="false" width-chars="58">
+		<input>iwconfig</input>
+	</text>
+</frame>
+EOT
+}
+
+#
+# Status wifi network
+#
+tab_status_wifi_net()
+{
+cat <<EOT
+<frame Wireless networks>
+	<text wrap="false" width-chars="58">
+		<input>iwlist scan</input>
+	</text>
+</frame>
+EOT
+}
+
+#
+# Status routing
+#
+tab_status_route()
+{
+cat <<EOT
+<frame Routing>
+	<frame Nameservers>
+		<text wrap="false" width-chars="58">
+			<input>cat /etc/resolv.conf</input>
 		</text>
 	</frame>
-	<frame Francais>
-		<text wrap="true" width-chars="58">
-			<label>
-"Netbox vous permet de gerer les connexions reseau avec une IP
-statique ou en obtenant une IP dynamique par DHCP, et de parametrer
-les serveurs. Netbox peut demarrer ou arreter le reseau, configurer
-les interfaces reseau ou editer directement les fichiers."
-			</label>
+	<frame Routing table>
+		<text wrap="false" width-chars="58">
+			<input>route</input>
 		</text>
 	</frame>
-</vbox>
-</window>
-'
-
-# Interface status with ifconfig without arguments to show all
-# active connections.
-#
-export IFCONFIG='
-<window title="Network status" icon-name="network-wire">
-<vbox>
-	<notebook labels="Network interfaces'
-		[ -x /usr/sbin/iwlist ] && IFCONFIG="$IFCONFIG|Wireless interfaces|Wireless networks"
-		tmp='|Routing|Servers">
-		<frame Ifconfig>
-			<text wrap="false" width-chars="58">
-				<input>ifconfig</input>
-			</text>
-		</frame>'
-		IFCONFIG="$IFCONFIG$tmp"
-		tmp='
-		<frame Iwconfig>
-			<text wrap="false" width-chars="58">
-				<input>iwconfig</input>
-			</text>
-		</frame>
-		<frame Wireless networks>
-			<text wrap="false" width-chars="58">
-				<input>iwlist scan</input>
-			</text>
-		</frame>'
-		[ -x /usr/sbin/iwlist ] && IFCONFIG="$IFCONFIG$tmp"
-		tmp='
-		<frame Routing>
-			<frame Nameservers>
-				<text wrap="false" width-chars="58">
-					<input>cat /etc/resolv.conf</input>
-				</text>
-			</frame>
-			<frame Routing table>
-				<text wrap="false" width-chars="58">
-					<input>route</input>
-				</text>
-			</frame>
-			<frame Arp table>
-				<text wrap="false" width-chars="58">
-					<input>arp</input>
-				</text>
-			</frame>
-		</frame>
-		<frame Servers>
-			<text wrap="false" width-chars="58">
-				<input>for i in dropbear sshd inetd dhcpd dnsd named rsync httpd smbd nmbd x11vnc pppd knock; do ps ww | grep $i | grep -v grep | fold -s; done</input>
-			</text>
-		</frame>
-	</notebook>
-	<hbox>
-		<button>
-			<input file icon="gtk-close"></input>
-			<action type="closewindow">IFCONFIG</action>
-		</button>
-	</hbox>
-</vbox>
-</window>'
-IFCONFIG="$IFCONFIG$tmp"
-
-# The main dialog with notebook, start/stop buttons and all options.
-# Note that /etc/network.conf is seded when an interface is activated.
-#
-NET_BOX='
-<window title="SliTaz Netbox Manager" icon-name="network-wired">
-<vbox>
-
-	<hbox>
-		<text use-markup="true">
-			<label>"<b>Network/Server Manager</b>"</label>
+	<frame Arp table>
+		<text wrap="false" width-chars="58">
+			<input>arp</input>
 		</text>
-		<pixmap>
-			<input file>/usr/share/pixmaps/netbox.png</input>
-		</pixmap>
-	</hbox>'
+	</frame>
+</frame>
+EOT
+}
 
-# Notebook tabs.
-tmp='<notebook labels="Connections|DHCP|Static IP|PPPoE|PPP|System wide|VPN|Servers'
-NET_BOX="$NET_BOX$tmp"
-[ -x /sbin/iptables ] && NET_BOX="$NET_BOX|Firewall"
-[ -x /usr/bin/knock ] && NET_BOX="$NET_BOX|Knock"
-tmp='|Etherwake">'
+#
+# Status servers
+#
+tab_status_servers()
+{
+cat <<EOT
+<frame Servers>
+	<text wrap="false" width-chars="58">
+		<input>for i in dropbear sshd inetd dhcpd dnsd named rsync httpd smbd nmbd x11vnc pppd knock; do ps ww | grep \$i | grep -v grep | fold -s; done</input>
+	</text>
+</frame>
+EOT
+}
 
+data_status()
+{
+cat <<EOT
+ifconfig    Network\ interfaces   tab_status_iface
+iwconfig    Wireless\ interfaces  tab_status_wifi_iface
+iwlist      Wireless\ networks    tab_status_wifi_net
+route       Routing               tab_status_route
+ps          Servers               tab_status_servers
+EOT
+}
+
+#
+# Status
+#
+tab_status()
+{
+use_tab data_status
+}
+
+#
 # Interfaces list from detect_interfaces()
-tmp=${tmp}"
+#
+tab_connections()
+{
+cat <<EOT
 	<vbox>
 		<tree>
 			<width>520</width><height>120</height>
 			<variable>INTERFACE_LIST</variable>
 			<label>Interface|Type|Status</label>
-			<input icon_column=\"0\">$0 detect_interfaces</input>
+			<input icon_column="0">$0 detect_interfaces</input>
 			<action>refresh:INTERFACE_LIST</action>
 		</tree>
-	</vbox>"
+	</vbox>
+EOT
+}
 
+#
 # DHCP
-tmp=${tmp}'
+#
+tab_udhcpc()
+{
+cat <<EOT
 <frame Udhcpc (busybox)>
 	<text width-chars="58">
-		<label>
-"Ethernet (cable) default connection.
-"
-		</label>
+		<label> "Ethernet (cable) default connection." </label>
 	</text>
 	<hbox>
 		<text use-markup="true">
 			<label>"<b>Interface:</b>"</label>
 		</text>
 		<entry>
-			<input>. /etc/network.conf; echo "$INTERFACE"</input>
+			<input>. /etc/network.conf; echo "\$INTERFACE"</input>
 			<variable>INTERFACE</variable>
 		</entry>
 	</hbox>
@@ -463,39 +505,45 @@ tmp=${tmp}'
 		</entry>
 		<button>
 			<input file icon="accessories-text-editor"></input>
-			<action type="lauch">leafpad $UDHCPC_SCRIPT</action>
+			<action type="lauch">leafpad \$UDHCPC_SCRIPT</action>
 		</button>
 	</hbox>
 	<hbox>
 		<button>
 			<label>Start</label>
 			<input file icon="forward"></input>
-			<action>sed -i s/`cat /etc/network.conf | grep ^INTERFACE=`/INTERFACE=\"$INTERFACE\"/ /etc/network.conf</action>
-			<action>sed -i s/DHCP=\"no\"/DHCP=\"yes\"/ /etc/network.conf</action>
-			<action>sed -i s/STATIC=\"yes\"/STATIC=\"no\"/ /etc/network.conf</action>
-			<action>udhcpc $UDHCPC_OPTS -i $INTERFACE -p /var/run/udhcpc.$INTERFACE.pid</action>
+			<action>sed -i s/`cat /etc/network.conf | grep ^INTERFACE=`/INTERFACE="\$INTERFACE"/ /etc/network.conf</action>
+			<action>sed -i s/DHCP="no"/DHCP="yes"/ /etc/network.conf</action>
+			<action>sed -i s/STATIC="yes"/STATIC="no"/ /etc/network.conf</action>
+			<action>udhcpc \$UDHCPC_OPTS -i \$INTERFACE -p /var/run/udhcpc.\$INTERFACE.pid</action>
 			<action>refresh:INTERFACE_LIST</action>
 		</button>
 		<button>
 			<label>Stop</label>
 			<input file icon="stop"></input>
-			<action>echo -n "Stopping interface : $INTERFACE... "</action>
-			<action>ifconfig $INTERFACE down</action>
+			<action>echo -n "Stopping interface : \$INTERFACE... "</action>
+			<action>ifconfig \$INTERFACE down</action>
 			<action>killall -q udhcpc; echo "done"</action>
 			<action>refresh:INTERFACE_LIST</action>
 		</button>
 	</hbox>
-</frame>'
+</frame>
+EOT
+}
 
+#
 # Static/fixed IP settings.
-tmp=${tmp}'
+#
+tab_fixed_ip()
+{
+cat <<EOT
 <frame Ethernet fixed IP>
 	<hbox>
 		<text use-markup="true">
 			<label>"<b>Interface:   </b>"</label>
 		</text>
 		<entry>
-			<input>. /etc/network.conf; echo "$INTERFACE"</input>
+			<input>. /etc/network.conf; echo "\$INTERFACE"</input>
 			<variable>INTERFACE</variable>
 		</entry>
 	</hbox>
@@ -504,7 +552,7 @@ tmp=${tmp}'
 			<label>"<b>IP:                </b>"</label>
 		</text>
 		<entry>
-			<input>. /etc/network.conf; echo "$IP"</input>
+			<input>. /etc/network.conf; echo "\$IP"</input>
 			<variable>IP</variable>
 		</entry>
 	</hbox>
@@ -513,7 +561,7 @@ tmp=${tmp}'
 			<label>"<b>Netmask:    </b>"</label>
 		</text>
 		<entry>
-			<input>. /etc/network.conf; echo "$NETMASK"</input>
+			<input>. /etc/network.conf; echo "\$NETMASK"</input>
 			<variable>NETMASK</variable>
 		</entry>
 	</hbox>
@@ -522,7 +570,7 @@ tmp=${tmp}'
 			<label>"<b>Gateway:    </b>"</label>
 		</text>
 		<entry>
-			<input>. /etc/network.conf; echo "$GATEWAY"</input>
+			<input>. /etc/network.conf; echo "\$GATEWAY"</input>
 			<variable>GATEWAY</variable>
 		</entry>
 	</hbox>
@@ -531,48 +579,51 @@ tmp=${tmp}'
 			<label>"<b>DNS server: </b>"</label>
 		</text>
 		<entry>
-			<input>. /etc/network.conf; echo "$DNS_SERVER"</input>
+			<input>. /etc/network.conf; echo "\$DNS_SERVER"</input>
 			<variable>DNS_SERVER</variable>
 		</entry>
-	</hbox>'
-
-# Static/fixed IP actions (should go in a function).
-tmp=${tmp}'
+	</hbox>
 	<hbox>
 		<button>
 		<label>Start</label>
 			<input file icon="forward"></input>
 			<action>ifconfig lo down</action>
-			<action>ifconfig $INTERFACE down</action>
-			<action>sed -i s/`cat /etc/network.conf | grep ^INTERFACE=`/INTERFACE=\"$INTERFACE\"/ /etc/network.conf</action>
-			<action>sed -i s/DHCP=\"yes\"/DHCP=\"no\"/ /etc/network.conf</action>
-			<action>sed -i s/WIFI=\"yes\"/WIFI=\"no\"/ /etc/network.conf</action>
-			<action>sed -i s/STATIC=\"no\"/STATIC=\"yes\"/ /etc/network.conf</action>
-			<action>sed -i s/`cat /etc/network.conf | grep ^IP=`/IP=\"$IP\"/ /etc/network.conf</action>
-			<action>sed -i s/`cat /etc/network.conf | grep ^NETMASK=`/NETMASK=\"$NETMASK\"/ /etc/network.conf</action>
-			<action>sed -i s/`cat /etc/network.conf | grep ^GATEWAY=`/GATEWAY=\"$GATEWAY\"/ /etc/network.conf</action>
-			<action>sed -i s/`cat /etc/network.conf | grep ^DNS_SERVER=`/DNS_SERVER=\"$DNS_SERVER\"/ /etc/network.conf</action>
+			<action>ifconfig \$INTERFACE down</action>
+			<action>sed -i s/`cat /etc/network.conf | grep ^INTERFACE=`/INTERFACE="\$INTERFACE"/ /etc/network.conf</action>
+			<action>sed -i s/DHCP="yes"/DHCP="no"/ /etc/network.conf</action>
+			<action>sed -i s/WIFI="yes"/WIFI="no"/ /etc/network.conf</action>
+			<action>sed -i s/STATIC="no"/STATIC="yes"/ /etc/network.conf</action>
+			<action>sed -i s/`cat /etc/network.conf | grep ^IP=`/IP="\$IP"/ /etc/network.conf</action>
+			<action>sed -i s/`cat /etc/network.conf | grep ^NETMASK=`/NETMASK="\$NETMASK"/ /etc/network.conf</action>
+			<action>sed -i s/`cat /etc/network.conf | grep ^GATEWAY=`/GATEWAY="\$GATEWAY"/ /etc/network.conf</action>
+			<action>sed -i s/`cat /etc/network.conf | grep ^DNS_SERVER=`/DNS_SERVER="\$DNS_SERVER"/ /etc/network.conf</action>
 			<action>/etc/init.d/network.sh</action>
 			<action>refresh:INTERFACE_LIST</action>
 		</button>
 		<button>
 			<label>Stop</label>
 			<input file icon="stop"></input>
-			<action>ifconfig $INTERFACE down</action>
+			<action>ifconfig \$INTERFACE down</action>
 			<action>refresh:INTERFACE_LIST</action>
 		</button>
 	</hbox>
-</frame>'
+</frame>
+EOT
+}
 
+#
 # PPPoe settings.
-tmp=${tmp}'
+#
+tab_pppoe()
+{
+cat <<EOT
 <frame PPPoE>
 	<hbox>
 		<text use-markup="true">
 			<label>"<b>Name:       </b>"</label>
 		</text>
 		<entry>
-			<input>NAME=$(grep -s ^name /etc/ppp/options); echo "${NAME#* }"</input>
+			<input>NAME=\$(grep -s ^name /etc/ppp/options); echo "\${NAME#* }"</input>
 			<variable>NAME</variable>
 		</entry>
 	</hbox>
@@ -593,33 +644,26 @@ tmp=${tmp}'
 		</entry>
 	</hbox>
 	<hbox>
-		<button>
-			<input file icon="help"></input>
-			<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x30 -title "pppd help (q to quit)" -e "pppd --help 2>&1 | less"</action>
-		</button>
-		<button>
-			<input file icon="browser"></input>
-			<label>man</label>
-			<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x24 -title "pppd man (q to quit)" -e ". /etc/profile; man 8 pppd"</action>
-		</button>
+$(helpbutton pppd 80x30)
+$(manbutton 8 pppd)
 		<button>
 			<input file icon="accessories-text-editor"></input>
 			<label>Tune</label>
-			<action>[ -n "$NAME" ] && sed -i "s/^name .*/name $NAME/" /etc/ppp/options</action>
+			<action>[ -n "\$NAME" ] && sed -i "s/^name .*/name \$NAME/" /etc/ppp/options</action>
 			<action type="lauch">leafpad /etc/ppp/options</action>
 		</button>
 		<button>
 			<label>Start</label>
 			<input file icon="forward"></input>
-			<action>[ -n "$USER" ] && grep -qs "^\"$USER\"" /etc/ppp/pap-secrets
-			&& echo "\"$USER\"	*	\"$PASS\"" >> /etc/ppp/pap-secrets</action>
-			<action>[ -n "$USER" ] && grep -qs "^\"$USER\"" /etc/ppp/chap-secrets
-			&& echo "\"$USER\"	*	\"$PASS\"" >> /etc/ppp/chap-secrets</action>
-			<action>[ -n "$NAME" ] && sed -i "s/^name .*/name $NAME/" /etc/ppp/options</action>
+			<action>[ -n "\$USER" ] && grep -qs "^\"\$USER\"" /etc/ppp/pap-secrets
+			&& echo "\"\$USER\"	*	\"\$PASS\"" >> /etc/ppp/pap-secrets</action>
+			<action>[ -n "\$USER" ] && grep -qs "^\"\$USER\"" /etc/ppp/chap-secrets
+			&& echo "\"\$USER\"	*	\"\$PASS\"" >> /etc/ppp/chap-secrets</action>
+			<action>[ -n "\$NAME" ] && sed -i "s/^name .*/name \$NAME/" /etc/ppp/options</action>
 			<action>killall udhcpc</action>
 			<action>sed -i "s/DHCP=\"yes\"/DHCP=\"no\"/" /etc/network.conf</action>
 			<action>sed -i "s/PPPOE=\"no\"/PPPOE=\"yes\"/" /etc/network.conf</action>
-			<action>pppd $INTERFACE &</action>
+			<action>pppd \$INTERFACE &</action>
 		</button>
 		<button>
 			<label>Stop</label>
@@ -628,17 +672,23 @@ tmp=${tmp}'
 			<action>killall pppd</action>
 		</button>
 	</hbox>
-</frame>'
+</frame>
+EOT
+}
 
+#
 # PPP settings.
-tmp=${tmp}'
+#
+tab_ppp()
+{
+cat <<EOT
 <frame PPP>
 	<hbox>
 		<text use-markup="true">
 			<label>"<b>Username: </b>"</label>
 		</text>
 		<entry>
-			<input>USER=$(grep -s ^ACCOUNT= /etc/ppp/scripts/ppp-on | cut -f1); echo "${USER#*=}"</input>
+			<input>USER=\$(grep -s ^ACCOUNT= /etc/ppp/scripts/ppp-on | cut -f1); echo "\${USER#*=}"</input>
 			<variable>USER</variable>
 		</entry>
 	</hbox>
@@ -647,7 +697,7 @@ tmp=${tmp}'
 			<label>"<b>Password: </b>"</label>
 		</text>
 		<entry>
-			<input>PASS=$(grep -s ^PASSWORD= /etc/ppp/scripts/ppp-on | cut -f1); echo "${PASS#*=}"</input>
+			<input>PASS=\$(grep -s ^PASSWORD= /etc/ppp/scripts/ppp-on | cut -f1); echo "\${PASS#*=}"</input>
 			<variable>PASS</variable>
 		</entry>
 	</hbox>
@@ -656,36 +706,29 @@ tmp=${tmp}'
 			<label>"<b>Telephone:</b>"</label>
 		</text>
 		<entry>
-			<input>PHONE=$(grep -s ^TELEPHONE= /etc/ppp/scripts/ppp-on | cut -f1); echo "${PHONE#*=}"</input>
+			<input>PHONE=\$(grep -s ^TELEPHONE= /etc/ppp/scripts/ppp-on | cut -f1); echo "\${PHONE#*=}"</input>
 			<variable>PHONE</variable>
 		</entry>
 	</hbox>
 	<hbox>
-		<button>
-			<input file icon="help"></input>
-			<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x30 -title "pppd help (q to quit)" -e "pppd --help 2>&1 | less"</action>
-		</button>
-		<button>
-			<input file icon="browser"></input>
-			<label>man</label>
-			<action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x24 -title "pppd man (q to quit)" -e ". /etc/profile; man 8 pppd"</action>
-		</button>
+$(helpbutton pppd 80x30)
+$(manbutton 8 pppd)
 		<button>
 			<input file icon="accessories-text-editor"></input>
 			<label>Tune</label>
-			<action>[ -n "$NAME" ] && sed -i "s/^ACCOUNT=.*/ACCOUNT=$NAME/" /etc/ppp/scripts/ppp-on</action>
-			<action>[ -n "$PASS" ] && sed -i "s/^PASSWORD=.*/PASSWORD=$PASS/" /etc/ppp/scripts/ppp-on</action>
-			<action>[ -n "$PHONE" ] && sed -i "s/^TELEPHONE=.*/TELEPHONE=$PHONE/" /etc/ppp/scripts/ppp-on</action>
+			<action>[ -n "\$NAME" ] && sed -i "s/^ACCOUNT=.*/ACCOUNT=\$NAME/" /etc/ppp/scripts/ppp-on</action>
+			<action>[ -n "\$PASS" ] && sed -i "s/^PASSWORD=.*/PASSWORD=\$PASS/" /etc/ppp/scripts/ppp-on</action>
+			<action>[ -n "\$PHONE" ] && sed -i "s/^TELEPHONE=.*/TELEPHONE=\$PHONE/" /etc/ppp/scripts/ppp-on</action>
 			<action type="lauch">leafpad /etc/ppp/scripts/ppp-on</action>
 		</button>
 		<button>
 			<label>Start</label>
 			<input file icon="forward"></input>
-			<action>[ -n "$USER" ] && grep -qs "^\"$USER\"" /etc/ppp/pap-secrets
-			&& echo "\"$USER\"	*	\"$PASS\"" >> /etc/ppp/pap-secrets</action>
-			<action>[ -n "$USER" ] && grep -qs "^\"$USER\"" /etc/ppp/chap-secrets
-			&& echo "\"$USER\"	*	\"$PASS\"" >> /etc/ppp/chap-secrets</action>
-			<action>[ -n "$NAME" ] && sed -i "s/^name .*/name $NAME/" /etc/ppp/options</action>
+			<action>[ -n "\$USER" ] && grep -qs "^\"\$USER\"" /etc/ppp/pap-secrets
+			&& echo "\"\$USER\"	*	\"\$PASS\"" >> /etc/ppp/pap-secrets</action>
+			<action>[ -n "\$USER" ] && grep -qs "^\"\$USER\"" /etc/ppp/chap-secrets
+			&& echo "\"\$USER\"	*	\"\$PASS\"" >> /etc/ppp/chap-secrets</action>
+			<action>[ -n "\$NAME" ] && sed -i "s/^name .*/name \$NAME/" /etc/ppp/options</action>
 			<action>/etc/ppp/scripts/ppp-off</action>
 			<action>/etc/ppp/scripts/ppp-on &</action>
 		</button>
@@ -695,15 +738,17 @@ tmp=${tmp}'
 			<action>/etc/ppp/scripts/ppp-off</action>
 		</button>
 	</hbox>
-</frame>'
+</frame>
+EOT
+}
 
 #
-# TODO: Indent with tabs from there
-#
-
 # System Wide configuration.
-NET_BOX="$NET_BOX$tmp"
-tmp='<frame Configuration files>
+#
+tab_system()
+{
+cat <<EOT
+<frame Configuration files>
       <hbox>
         <text use-markup="true">
           <label>"<b>Hosts            :</b>"</label>
@@ -714,7 +759,7 @@ tmp='<frame Configuration files>
         </entry>
         <button>
           <input file icon="accessories-text-editor"></input>
-          <action type="lauch">leafpad $HOSTS</action>
+          <action type="lauch">leafpad \$HOSTS</action>
         </button>
       </hbox>
       <hbox>
@@ -727,7 +772,7 @@ tmp='<frame Configuration files>
         </entry>
         <button>
           <input file icon="accessories-text-editor"></input>
-          <action type="lauch">leafpad $HOSTNAME</action>
+          <action type="lauch">leafpad \$HOSTNAME</action>
         </button>
       </hbox>
       <hbox>
@@ -740,21 +785,29 @@ tmp='<frame Configuration files>
         </entry>
         <button>
           <input file icon="accessories-text-editor"></input>
-          <action type="lauch">leafpad $CONFIG_FILE</action>
+          <action type="lauch">leafpad \$CONFIG_FILE</action>
         </button>
       </hbox>
       <hbox>
         <button>
           <label>Restart</label>
           <input file icon="reload"></input>
-          <action>echo -n "Stopping interface : $INTERFACE... "</action>
-          <action>ifconfig $INTERFACE down</action>
+          <action>echo -n "Stopping interface : \$INTERFACE... "</action>
+          <action>ifconfig \$INTERFACE down</action>
           <action>killall -q udhcpc; echo "done"</action>
           <action>/etc/init.d/network.sh restart</action>
         </button>
       </hbox>
-    </frame>
+</frame>
+EOT
+}
 
+#
+# ssh/ppp
+#
+tab_sshppp()
+{
+cat <<EOT
     <frame Virtual Private Network with PPP/SSH>
       <hbox>
         <text use-markup="true">
@@ -801,50 +854,144 @@ tmp='<frame Configuration files>
         <button>
           <input file icon="forward"></input>
 	  <label>Connect</label>
-	  <action>netbox call vpnssh $DROPBEAR_PEERVPN $DROPBEAR_LOCAL $DROPBEAR_REMOTE "$DROPBEAR_ROUTE" &</action>
+	  <action>$0 call vpnssh \$DROPBEAR_PEERVPN \$DROPBEAR_LOCAL \$DROPBEAR_REMOTE "\$DROPBEAR_ROUTE" &</action>
         </button>
         <button>
           <input file icon="stop"></input>
 	  <label>Disconnect</label>
-	  <action>netbox call killvpnssh</action>
+	  <action>$0 call killvpnssh</action>
         </button>
         <button>
           <input file icon="go-up"></input>
 	  <label>Send key</label>
-	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x10 -title "Send key" -e "netbox call sendsshkey $DROPBEAR_PEERVPN; echo -e \"----\nENTER to continue...\" && read close"</action>
+	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x10 -title "Send key" -e "$0 call sendsshkey \$DROPBEAR_PEERVPN; echo -e \"----\nENTER to continue...\" && read close"</action>
         </button>
       </hbox>
     </frame>
-    <notebook labels="'
-NET_BOX="$NET_BOX$tmp"
-tmp=''
-[ -x /usr/sbin/dropbear -o \
-  -x /usr/sbin/sshd     ] && NET_BOX="${NET_BOX}${tmp}SSH"   && tmp='|'
-[ -x /usr/sbin/inetd    ] && NET_BOX="${NET_BOX}${tmp}Inetd" && tmp='|'
-[ -x /sbin/zcip         ] && NET_BOX="${NET_BOX}${tmp}ZeroConf" && tmp='|'
-[ -x /usr/sbin/udhcpd -o \
-  -x /usr/sbin/dhcpd    ] && NET_BOX="${NET_BOX}${tmp}DHCP"  && tmp='|'
-[ -f /usr/share/boot/pxelinux.0.lzma -a -x /usr/bin/tftpd -a \
-  -x /usr/sbin/inetd -a -x /usr/sbin/udhcpd ] \
-                          && NET_BOX="${NET_BOX}${tmp}PXE"   && tmp='|'
-[ -x /usr/sbin/dnsd -o \
-  -x /usr/sbin/named    ] && NET_BOX="${NET_BOX}${tmp}DNS"   && tmp='|'
-[ -x /usr/bin/rsync     ] && NET_BOX="${NET_BOX}${tmp}Rsync" && tmp='|'
-[ -x /usr/sbin/lighttpd -o \
-  -x /usr/bin/httpd     ] && NET_BOX="${NET_BOX}${tmp}HTTP"  && tmp='|'
-[ -x /usr/sbin/smbd     ] && NET_BOX="${NET_BOX}${tmp}WINS"  && tmp='|'
-[ -x /usr/bin/x11vnc    ] && NET_BOX="${NET_BOX}${tmp}VNC"   && tmp='|'
-[ -x /usr/sbin/knockd   ] && NET_BOX="${NET_BOX}${tmp}Knock" && tmp='|'
-. /etc/daemons.conf
-set -- $DROPBEAR_OPTIONS
-while [ -n "$2" ]; do
-  [ "$1" = "-b" ] && DROPBEAR_BANNER="$2" && break
-  shift
-done
-NET_BOX="${NET_BOX}\">"
-[ -x /usr/sbin/sshd -a -x /usr/sbin/dropbear ] && NET_BOX="${NET_BOX}
-   <notebook labels=\"Dropbear|OpenSSH\">
-"
+EOT
+}
+
+#
+# PPTP client
+#
+#FIXME
+#cat > /etc/ppp/peers/$TUNNEL <<EOT
+#pty "pptp $SERVER --nolaunchpppd"
+#lock
+#noauth
+#nobsdcomp
+#nodeflate
+#name $DOMAIN\\$USERNAME
+#remotename $TUNNEL
+#ipparam $TUNNEL
+#$(encryption && echo "require-mppe-128")
+#EOT
+#pppd call $TUNNEL updetach
+
+tab_pptp()
+{
+[ -f /etc/ppp/options.pptp ] || cat >> /etc/ppp/options.pptp <<EOT
+lock noauth nobsdcomp nodeflate remotename PPTP
+EOT
+[ -f /etc/ppp/pptp-servers ] || cat >> /etc/ppp/pptp-servers <<EOT
+# PPTP servers list
+EOT
+cat <<EOT
+    <frame Virtual Private Network with PPTP>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Server:</b>"</label>
+        </text>
+        <combobox>
+          <variable>PPTP_SERVER</variable>
+EOT
+grep -v ^\# /etc/ppp/pptp-servers | \
+awk '{ printf "          <item>%s</item>\n",$1 }'
+cat <<EOT
+          <item>SERVER</item>
+        </combobox>
+	<button>
+	  <input file icon="accessories-text-editor"></input>
+	  <action type="lauch">leafpad /etc/ppp/pptp-servers</action>
+	</button>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>   User:</b>"</label>
+        </text>
+        <combobox>
+          <variable>PPTP_USER</variable>
+EOT
+grep '\\' /etc/ppp/chap-secrets | grep -v ^\# | \
+awk '{ printf "          <item>%s</item>\n",$1 }'
+cat <<EOT
+          <item>DOMAIN\USERNAME</item>
+        </combobox>
+	<button>
+	  <input file icon="accessories-text-editor"></input>
+	  <action type="lauch">leafpad /etc/ppp/chap-secrets</action>
+	</button>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Password:</b>"</label>
+        </text>
+        <entry>
+          <variable>PPTP_PASS</variable>
+        </entry>
+      </hbox>
+      <hbox>
+      	<checkbox>
+	  <label>Encryption</label>
+	  <variable>PPTP_ENC</variable>
+	  <default>true</default>
+      	</checkbox>
+$(helpbutton pptp 80x35)
+	<button>
+	  <input file icon="accessories-text-editor"></input>
+	  <label>Options</label>
+	  <action type="lauch">leafpad /etc/ppp/options.pptp</action>
+	</button>
+        <button>
+          <input file icon="forward"></input>
+	  <label>Connect</label>
+	  <action>grep -qs ^\$PPTP_USER /etc/ppp/chap-secrets || \
+echo "\$PPTP_USER PPTP \"$PPTP_PASS\" *" >> /etc/ppp/chap-secrets</action>
+	  <action>grep -qs ^\$PPTP_SERVER /etc/ppp/pptp-servers || \
+echo "\$PPTP_SERVER" >> /etc/ppp/pptp-servers</action>
+	  <action>PASS=""; [ -n "\$PPTP_PASS" ] && PASS="password \$PASS"; \
+ENC=""; [ x\$PPTP_ENC == xtrue ] && ENC="require-mppe-128"; \
+/usr/sbin/pptp \$PPTP_SERVER file /etc/ppp/options.pptp \$ENC user \$PPTP_USER \$PASS &
+	  </action>
+        </button>
+        <button>
+          <input file icon="stop"></input>
+	  <label>Disconnect</label>
+	  <action>killall pptp</action>
+        </button>
+      </hbox>
+    </frame>
+EOT
+}
+
+data_vpn()
+{
+cat <<EOT
+$([ -x /usr/sbin/dropbear -o -x /usr/sbin/sshd ] && echo "pppd" ||
+echo "#")   PPP/SSH       tab_sshppp
+pptp        PPTP          tab_pptp
+#TODO openvpn     OpenVPN       tab_openvpn
+#TODO vpnc        EasyVPN       tab_easyvpn
+EOT
+}
+
+#
+# VPN
+#
+tab_vpn()
+{
+use_tab data_vpn
+}
 
 sshremote()
 {
@@ -865,13 +1012,25 @@ sshremote()
         <button>
           <input file icon="go-up"></input>
 	  <label>Send key</label>
-	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x10 -title "send ssh key" -e "netbox call sendsshkey \$$2; echo -e \"----\nENTER to continue...\" && read close"</action>
+	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x10 -title "send ssh key" -e "$0 call sendsshkey \$$2; echo -e \"----\nENTER to continue...\" && read close"</action>
         </button>
       </hbox>
 EOT
 }
 
-[ -x /usr/sbin/dropbear ] && NET_BOX="${NET_BOX}
+#
+# Dropbear client & server
+#
+tab_dropbear()
+{
+. /etc/daemons.conf
+set -- $DROPBEAR_OPTIONS
+while [ -n "$2" ]; do
+  [ "$1" = "-b" ] && DROPBEAR_BANNER="$2" && break
+  shift
+done
+
+cat <<EOT
      <frame Dropbear>
 $(helpdaemon dropbear 80x30 DROPBEAR_OPTIONS DROPBEAR_OPTS)
 $(datafile /etc/dropbear/banner DROPBEAR_BANNER 'Banner   :')
@@ -880,8 +1039,15 @@ $(sshremote DROPBEAR_PEER 'dbclient -i /etc/dropbear/dropbear_rsa_host_key')
 	$(startstopdaemon dropbear)
       </hbox>
      </frame>
-"
-[ -x /usr/sbin/sshd ] && NET_BOX="${NET_BOX}
+EOT
+}
+
+#
+# OpenSSH client & server
+#
+tab_openssh()
+{
+cat <<EOT
     <frame OpenSSH>
 $(helpdaemon sshd 80x30 OPENSSH_OPTIONS OPENSSH_OPTS 8 nohelp)
 $(configfile /etc/ssh/sshd_config OPENSSH_CONF '5 sshd_config')
@@ -890,24 +1056,52 @@ $(sshremote OPENSSH_PEER 'ssh -i /etc/ssh/ssh_host_rsa_key')
 	$(startstopdaemon openssh)
       </hbox>
      </frame>
-"
-[ -x /usr/sbin/sshd -a -x /usr/sbin/dropbear ] && NET_BOX="${NET_BOX}
-   </notebook>
-"
-tmp="<frame Inetd (busybox)>
+EOT
+}
+
+data_sshd()
+{
+cat <<EOT
+dropbear    Dropbear      tab_dropbear
+sshd        OpenSSH       tab_openssh
+EOT
+}
+
+#
+# SSH tab
+#
+tab_sshd()
+{
+use_tab data_sshd
+}
+
+#
+# Busybox Inetd
+#
+tab_inetd()
+{
+cat <<EOT
+<frame Inetd (busybox)>
 $(helpdaemon inetd 60x14 INETD_OPTIONS INETD_OPTS)
 $(configfile /etc/inetd.conf INETD_CONF)
       <hbox>
-"
+EOT
 for i in $(grep bin /etc/inetd.conf | awk '{ print $6}'); do
   i=$(basename $i)
-  tmp="$tmp$(helpbutton $i 60x19 $i)"
+  helpbutton $i 60x19 $i
 done
-[ -x /usr/sbin/inetd ] && NET_BOX="${NET_BOX}${tmp}
+cat <<EOT
 	$(startstopdaemon inetd)
       </hbox>
      </frame>
-"
+EOT
+}
+
+#
+# ZeroConf
+#
+tab_zcip()
+{
 if [ -x /sbin/zcip -a -z "$ZCIP_OPTIONS" ]; then
 	ZCIP_OPTIONS="eth0 /etc/zcip.script"
 	cat >> /etc/daemons.conf <<EOT
@@ -916,7 +1110,7 @@ ZCIP_OPTIONS="$ZCIP_OPTIONS"
 
 EOT
 fi
-[ -x /sbin/zcip ] && NET_BOX="${NET_BOX}
+cat <<EOT
      <frame Zcip (busybox)>
 $(helpdaemon zcip 60x14 ZCIP_OPTIONS ZCIP_OPTS)
 $(datafile /etc/zcip.script CZIP_SCRIPT 'Script :')
@@ -924,11 +1118,15 @@ $(datafile /etc/zcip.script CZIP_SCRIPT 'Script :')
 	$(startstopdaemon zcip)
       </hbox>
      </frame>
-"
-[ -x /usr/sbin/dhcpd -a -x /usr/sbin/udhcpd ] && NET_BOX="${NET_BOX}
-   <notebook labels=\"Dhcpd|Udhcpd\">
-"
-[ -x /usr/sbin/dhcpd   ] && NET_BOX="${NET_BOX}
+EOT
+}
+
+#
+# Dhcpd ISC
+#
+tab_isc_dhcpd()
+{
+cat <<EOT
     <frame Dhcpd (ISC)>
 $(helpdaemon dhcpd 60x14 DHCPD_OPTIONS DHCPD_OPTS)
 $(configfile /etc/dhcpd.conf DHCPD_CONF)
@@ -936,8 +1134,15 @@ $(configfile /etc/dhcpd.conf DHCPD_CONF)
 	$(startstopdaemon dhcpd dhcp)
       </hbox>
      </frame>
-"
-[ -x /usr/sbin/udhcpd   ] && NET_BOX="${NET_BOX}
+EOT
+}
+
+#
+# Dhcpd Busybox
+#
+tab_udhcpd()
+{
+cat <<EOT
     <frame Udhcpd (busybox)>
 $(helpdaemon udhcpd 60x14 UDHCPD_OPTIONS UDHCPD_OPTS)
 $(configfile /etc/udhcpd.conf UDHCPD_CONF)
@@ -945,11 +1150,32 @@ $(configfile /etc/udhcpd.conf UDHCPD_CONF)
 	$(startstopdaemon udhcpd)
       </hbox>
      </frame>
-"
-[ -x /usr/sbin/dhcpd -a -x /usr/sbin/udhcpd ] && NET_BOX="${NET_BOX}
-   </notebook>
-"
-tmp='<frame Pxelinux>
+EOT
+}
+
+data_dhcpd()
+{
+cat <<EOT
+udhcpd      Udhcpd        tab_udhcpd
+dhcpd       Dhcpd         tab_isc_dhcpd
+EOT
+}
+
+#
+# dhcpd tab
+#
+tab_dhcpd()
+{
+use_tab data_dhcpd
+}
+
+#
+# PXE
+#
+tab_pxe()
+{
+cat <<EOT
+<frame Pxelinux>
       <hbox>
         <text wrap="true">
           <label>
@@ -962,19 +1188,19 @@ tmp='<frame Pxelinux>
           <label>"<b>Configuration :</b>"</label>
         </text>
         <entry editable="false">
-          <default>'
-tmp="$tmp$(grep bin/tftpd /etc/inetd.conf | awk '{ print $NF }')"
-tmp2='/pxelinux.cfg/default</default>
+          <default>
+$(grep bin/tftpd /etc/inetd.conf | awk '{ print $NF }')/pxelinux.cfg/default
+          </default>
           <variable>PXE_CONF</variable>
         </entry>
         <button>
           <input file icon="accessories-text-editor"></input>
-	  <action>dir=$(dirname $PXE_CONF); [ -d $dir ] || mkdir -p $dir</action>
-	  <action>lzma d /usr/share/boot/pxelinux.0.lzma $(dirname $PXE_CONF)/../pxelinux.0</action>
-	  <action>grep -q "^boot_file" $UDHCPD_CONF || echo "boot_file pxelinux.0" >> $UDHCPD_CONF</action>
-	  <action>grep -q "^siaddr" $UDHCPD_CONF || echo "siaddr $(ifconfig $INTERFACE | grep inet.ad | cut -d: -f2 | cut -d\  -f1)" >> $UDHCPD_CONF</action>
-	  <action>[ -f $PXE_CONF ] || echo -e "label linux\n\tkernel bzImage\n\tappend initrd=rootfs.gz rw root=/dev/null vga=normal" > $PXE_CONF</action>
-          <action type="lauch">leafpad $PXE_CONF</action>
+	  <action>dir=\$(dirname \$PXE_CONF); [ -d \$dir ] || mkdir -p \$dir</action>
+	  <action>lzma d /usr/share/boot/pxelinux.0.lzma \$(dirname \$PXE_CONF)/../pxelinux.0</action>
+	  <action>grep -q "^boot_file" \$UDHCPD_CONF || echo "boot_file pxelinux.0" >> \$UDHCPD_CONF</action>
+	  <action>grep -q "^siaddr" \$UDHCPD_CONF || echo "siaddr \$(ifconfig \$INTERFACE | grep inet.ad | cut -d: -f2 | cut -d\  -f1)" >> \$UDHCPD_CONF</action>
+	  <action>[ -f \$PXE_CONF ] || echo -e "label linux\n\tkernel bzImage\n\tappend initrd=rootfs.gz rw root=/dev/null vga=normal" > \$PXE_CONF</action>
+          <action type="lauch">leafpad \$PXE_CONF</action>
         </button>
       </hbox>
       <hbox>
@@ -986,26 +1212,19 @@ tmp2='/pxelinux.cfg/default</default>
         <button>
           <input file icon="system-file-manager"></input>
 	  <label>Network boot files</label>
-	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 100x25 -title "Network boot files (q to quit)" -e "find $(dirname $(dirname $PXE_CONF)) -exec ls -ld {} \; | less"</action>
+	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 100x25 -title "Network boot files (q to quit)" -e "find \$(dirname \$(dirname \$PXE_CONF)) -exec ls -ld {} \; | less"</action>
         </button>
       </hbox>
      </frame>
-'
-[ -f /usr/share/boot/pxelinux.0.lzma -a -x /usr/bin/tftpd -a \
-  -x /usr/sbin/inetd -a -x /usr/sbin/udhcpd ] && NET_BOX="$NET_BOX$tmp$tmp2"
-[ -x /usr/sbin/dnsd -a -x /usr/sbin/named ] && NET_BOX="${NET_BOX}
-   <notebook labels=\"Named|Dnsd\">
-"
-[ -x /usr/sbin/named     ] && NET_BOX="${NET_BOX}
-    <frame Named (ISC bind)>
-$(helpdaemon named 80x10 NAMED_OPTIONS NAMED_OPTS)
-$(configfile /etc/bind/named.conf.local NAMED_CONF)
-      <hbox>
-	$(startstopdaemon named bind)
-      </hbox>
-     </frame>
-"
-[ -x /usr/sbin/dnsd     ] && NET_BOX="${NET_BOX}
+EOT
+}
+
+#
+# Busybox dnsd
+#
+tab_dnsd()
+{
+cat <<EOT
     <frame Dnsd (busybox master dns)>
 $(helpdaemon dnsd 80x15 DNSD_OPTIONS DNSD_OPTS)
 $(configfile /etc/dnsd.conf DNSD_CONF)
@@ -1013,11 +1232,49 @@ $(configfile /etc/dnsd.conf DNSD_CONF)
 	$(startstopdaemon dnsd)
       </hbox>
      </frame>
-"
-[ -x /usr/sbin/dnsd -a -x /usr/sbin/named ] && NET_BOX="${NET_BOX}
-   </notebook>
-"
-[ -x /usr/bin/rsync    ] && NET_BOX="${NET_BOX}
+EOT
+}
+
+#
+# ISC Bind
+#
+tab_named()
+{
+cat <<EOT
+    <frame Named (ISC bind)>
+$(helpdaemon named 80x10 NAMED_OPTIONS NAMED_OPTS)
+$(configfile /etc/bind/named.conf.local NAMED_CONF)
+      <hbox>
+	$(startstopdaemon named bind)
+      </hbox>
+     </frame>
+EOT
+}
+
+data_dns()
+{
+cat <<EOT
+dnsd        Dnsd          tab_dnsd
+named       Named         tab_named
+#TODO sheerdns    Sheerdns      tab_sheerdns
+#TODO dnsmasq     DNSmasq       tab_dnsmasq_dns
+EOT
+}
+
+#
+# dns tab
+#
+tab_dns()
+{
+use_tab data_dns
+}
+
+#
+# rsync server
+#
+tab_rsync()
+{
+cat <<EOT
      <frame Rsync>
 $(helpdaemon rsync 80x30 RSYNCD_OPTIONS RSYNCD_OPTS 1)
 $(configfile /etc/rsyncd.conf RSYNCD_CONF)
@@ -1026,57 +1283,104 @@ $(datafile /etc/rsyncd.secrets RSYNCD_SECRETS 'Secrets file     :')
 	$(startstopdaemon rsyncd rsync)
       </hbox>
      </frame>
-"
-[ -x /usr/sbin/lighttpd -a -x /usr/bin/httpd ] && NET_BOX="${NET_BOX}
-   <notebook labels=\"Apache|Lighttpd\">
-"
-tmp="<frame PHP>
+EOT
+}
+
+php_ini()
+{
+[ -f /etc/php.ini ] && cat <<EOT
+      <frame PHP>
 $(configfile /etc/php.ini PHP_CONF)
       </frame>
-"
-[ -f /etc/php.ini ] || tmp=""
-[ -x /usr/bin/httpd ] && NET_BOX="${NET_BOX}<frame Apache>${tmp}
+EOT
+}
+
+#
+# Apache server
+#
+tab_apache()
+{
+cat <<EOT
+     <frame Apache>
+$(php_ini)
 $(configfile /etc/apache/httpd.conf HTTPD_CONF)
       <hbox>
 	$(startstopdaemon apache)
       </hbox>
      </frame>
-"
-[ -x /usr/sbin/lighttpd ] && NET_BOX="${NET_BOX}<frame Lighttpd>${tmp}
+EOT
+}
+
+#
+# Lighttpd server
+#
+tab_lighttpd()
+{
+cat <<EOT
+     <frame Lighttpd>
+$(php_ini)
 $(configfile /etc/lighttpd/lighttpd.conf LIGHTTPD_CONF)
       <hbox>
 	$(startstopdaemon lighttpd)
       </hbox>
      </frame>
-"
-[ -x /usr/sbin/lighttpd -a -x /usr/bin/httpd ] && NET_BOX="${NET_BOX}
-   </notebook>
-"
-tmp="<frame Samba: smbd & nmbd>
+EOT
+}
+
+data_http()
+{
+cat <<EOT
+httpd       Dnsd          tab_apache
+lighttpd    Named         tab_lighttpd
+EOT
+#TODO busybox httpd
+}
+
+#
+# http tab
+#
+tab_http()
+{
+use_tab data_http
+}
+
+#
+# Samba servers
+#
+tab_wins()
+{
+cat <<EOT
+     <frame Samba: smbd & nmbd>
 $(configfile /etc/samba/smb.conf SMBD_CONF)
       <hbox>
         <button>
           <label>Reload</label>
-          <input file icon=\"reload\"></input>
+          <input file icon="reload"></input>
           <action>/etc/init.d/samba reload</action>
-        </button>"
-[ -x /usr/sbin/smbd     ] && NET_BOX="${NET_BOX}${tmp}
+        </button>
 	$(startstopdaemon samba)
       </hbox>
      </frame>
-"
-[ -x /usr/bin/x11vnc    ] && NET_BOX="${NET_BOX}
+EOT
+}
+
+#
+# x11vnc
+#
+tab_vnc()
+{
+cat <<EOT
      <frame x11vnc>
 $(helpdaemon x11vnc 80x30 X11VNC_OPTIONS X11VNC_OPTS)
       <hbox>
-        <text use-markup=\"true\">
-          <label>\"<b>New password</b>\"</label>
+        <text use-markup="true">
+          <label>"<b>New password</b>"</label>
         </text>
         <entry>
           <variable>X11VNC_PASSWD</variable>
         </entry>
         <button>
-          <input file icon=\"reload\"></input>
+          <input file icon="reload"></input>
           <label>Update</label>
           <action>x11vnc -storepasswd \$X11VNC_PASSWD /etc/vnc.secret</action>
         </button>
@@ -1085,8 +1389,15 @@ $(helpdaemon x11vnc 80x30 X11VNC_OPTIONS X11VNC_OPTS)
 	$(startstopdaemon x11vnc)
       </hbox>
      </frame>
-"
-[ -x /usr/sbin/knockd    ] && NET_BOX="${NET_BOX}
+EOT
+}
+
+#
+# knock server
+#
+tab_knockd()
+{
+cat <<EOT
     <frame Knockd: trigger backdoors>
 $(helpdaemon knockd 80x15 KNOCK_OPTIONS KNOCK_OPTS)
 $(configfile /etc/knockd.conf KNOCKD_CONF)
@@ -1094,33 +1405,75 @@ $(configfile /etc/knockd.conf KNOCKD_CONF)
 	$(startstopdaemon knockd knock)
       </hbox>
      </frame>
-"
-NET_BOX="${NET_BOX}
-    </notebook>
-"
-tmp="<frame Iptables>
+EOT
+}
+
+data_servers()
+{
+cat <<EOT
+$([ -x /usr/sbin/dropbear -o -x /usr/sbin/sshd ] && echo "true" ||
+echo "#")   SSH           tab_sshd
+inetd       Inetd         tab_inetd
+zcip        ZeroConf      tab_zcip
+$([ -x /usr/sbin/udhcpd -o -x /usr/sbin/dhcpd ] && echo "true" ||
+echo "#")   DHCP          tab_dhcpd
+#TODO dnsmasq     DNSmasq       tab_dnsmasq_dhcpd
+$([ -f /usr/share/boot/pxelinux.0.lzma -a -x /usr/bin/tftpd -a \
+  -x /usr/sbin/inetd -a -x /usr/sbin/udhcpd ] && echo "true" ||
+echo "#")   PXE           tab_pxe
+#TODO dnsmasq     DNSmasq       tab_dnsmasq_tftpd
+$([ -x /usr/sbin/dnsd -o -x /usr/sbin/named ] && echo "true" ||
+echo "#")   DNS           tab_dns
+rsync       Rsync         tab_rsync
+$([ -x /usr/sbin/lighttpd -o -x /usr/bin/httpd ] && echo "true" || 
+echo "#")   HTTP          tab_http
+smbd        WINS          tab_wins
+x11vnc      VNC           tab_vnc 
+knockd      Knock         tab_knockd
+EOT
+}
+
+#
+# Servers tab
+#
+tab_servers()
+{
+use_tab data_servers
+}
+
+#
+# Firewall tab
+#
+tab_firewall()
+{
+cat <<EOT
+    <frame Iptables>
 $(configfile /etc/iptables.conf IPTABLES_CONF)
       <hbox>
-        <button>
-          <input file icon=\"browser\"></input>
-	  <label>man</label>
-	  <action>xterm -fa MiscFixed -fs 11 -bg gray93 -fg black -geometry 80x24 -title \"iptables man (q to quit)\" -e \". /etc/profile; man 8 iptables\"</action>
-        </button>
+$(helpbutton iptables 80x30)
+$(manbutton 8 iptables)
         <button>
           <label>Load</label>
-          <input file icon=\"reload\"></input>
+          <input file icon="reload"></input>
           <action>cat \$IPTABLES_CONF | /sbin/iptables-restore</action>
         </button>
         <button>
           <label>Save</label>
-          <input file icon=\"go-jump\"></input>
+          <input file icon="go-jump"></input>
           <action>/sbin/iptables-save > \$IPTABLES_CONF</action>
         </button>
       </hbox>
      </frame>
-"
-[ -x /sbin/iptables ] && NET_BOX="$NET_BOX${tmp}"
-tmp='<frame Knock>
+EOT
+}
+
+#
+# knock client
+#
+tab_knock()
+{
+cat <<EOT
+    <frame Knock>
     <hbox>
       <text use-markup="true">
         <label>"<b>Options : </b>"</label>
@@ -1130,18 +1483,24 @@ tmp='<frame Knock>
 	<default>myserver.example.com 123:tcp 456:udp 789:tcp</default>
       </entry>
     </hbox>
-    <hbox>'
-[ -x /usr/bin/knock ] && NET_BOX="$NET_BOX${tmp}
+    <hbox>
 $(helpbutton knock 80x12)
       <button>
         <label>Start</label>
-        <input file icon=\"forward\"></input>
+        <input file icon="forward"></input>
         <action>knock \$KNOCK_OPTS</action>
       </button>
     </hbox>
     </frame>
-"
-tmp='
+EOT
+}
+
+#
+# ether-wake
+#
+tab_etherwake()
+{
+cat <<EOT
     <frame Ether-wake (busybox)>
     <hbox>
       <text use-markup="true">
@@ -1153,8 +1512,8 @@ tmp='
       </entry>
       <button>
         <input file icon="accessories-text-editor"></input>
-        <action>[ -s $ETHERS ] || echo "#00:01:02:03:04:05 mystation" >$ETHERS</action>
-        <action type="lauch">leafpad $ETHERS</action>
+        <action>[ -s $ETHERS ] || echo "#00:01:02:03:04:05 mystation" >\$ETHERS</action>
+        <action type="lauch">leafpad \$ETHERS</action>
       </button>
     </hbox>
     <hbox>
@@ -1163,18 +1522,113 @@ tmp='
       </text>
       <entry editable="true">
         <variable>ETHERWAKE_OPTS</variable>
-      </entry>'
-NET_BOX="${NET_BOX}${tmp}$(helpbutton ether-wake 80x15)"
-tmp='
-					<button>
-						<label>Start</label>
-						<input file icon="forward"></input>
-						<action>ether-wake $ETHERWAKE_OPTS</action>
-					</button>
-				</hbox>
-			</frame>
-		</notebook>
+      </entry>
+$(helpbutton ether-wake 80x15)
+	<button>
+		<label>Start</label>
+		<input file icon="forward"></input>
+		<action>ether-wake \$ETHERWAKE_OPTS</action>
+	</button>
+    </hbox>
+    </frame>
+EOT
+}
 
+data_main()
+{
+cat <<EOT
+#program    tab name      function
+ifconfig    Connections   tab_connections
+udhcpc      DHCP          tab_udhcpc
+ifconfig    Static\ IP    tab_fixed_ip
+pppoe       PPPoE         tab_pppoe
+pppd        PPP           tab_ppp
+true        System\ wide  tab_system
+true        VPN           tab_vpn
+true        Servers       tab_servers
+iptables    Firewall      tab_firewall
+knock       Knock         tab_knock
+ether-wake  Etherwake     tab_etherwake
+EOT
+}
+
+tab_main()
+{
+use_tab data_main
+}
+
+######################################################
+#
+# Netbox GUI
+#
+######################################################
+
+# English/French help dialog.
+export HELP='
+<window title="Network status" icon-name="network-wire">
+<vbox>
+	<text use-markup="true">
+		<label>
+"
+<b>SliTaz - Netbox</b>"
+		</label>
+	</text>
+	<frame English>
+		<text wrap="true" width-chars="58">
+			<label>
+"Netbox lets you manage network connections by getting a dynamic IP by 
+DHCP or a static IP and setup servers. Netbox can start or stop
+networking, configure network interfaces or directly edit files."
+			</label>
+		</text>
+	</frame>
+	<frame Francais>
+		<text wrap="true" width-chars="58">
+			<label>
+"Netbox vous permet de gerer les connexions reseau avec une IP
+statique ou en obtenant une IP dynamique par DHCP, et de parametrer
+les serveurs. Netbox peut demarrer ou arreter le reseau, configurer
+les interfaces reseau ou editer directement les fichiers."
+			</label>
+		</text>
+	</frame>
+</vbox>
+</window>
+'
+
+# Interface status with ifconfig without arguments to show all
+# active connections.
+#
+export IFCONFIG="
+<window title=\"Network status\" icon-name=\"network-wire\">
+<vbox>
+$(tab_status)
+	<hbox>
+		<button>
+			<input file icon=\"gtk-close\"></input>
+			<action type=\"closewindow\">IFCONFIG</action>
+		</button>
+	</hbox>
+</vbox>
+</window>"
+
+# The main dialog with notebook, start/stop buttons and all options.
+# Note that /etc/network.conf is seded when an interface is activated.
+#
+head='
+<window title="SliTaz Netbox Manager" icon-name="network-wired">
+	<vbox>
+
+		<hbox>
+			<text use-markup="true">
+				<label>"<b>Network/Server Manager</b>"</label>
+			</text>
+			<pixmap>
+				<input file>/usr/share/pixmaps/netbox.png</input>
+			</pixmap>
+		</hbox>
+'
+bottom='
 		<hbox>
 			<button>
 				<label>Wireless manager</label>
@@ -1205,11 +1659,12 @@ tmp='
 	</vbox>
 </window>
 '
-NET_BOX="${NET_BOX}${tmp}"
+
+NET_BOX="${head}$(tab_main)${bottom}"
 
 export NET_BOX
 
-# TODO:  Modules(Network kernel modules) VPN(OpenVPN)
+# TODO:  Modules(Network kernel modules)
 
 # Only root can configure network.
 check_root
