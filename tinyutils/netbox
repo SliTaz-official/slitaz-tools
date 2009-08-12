@@ -167,7 +167,7 @@ configfile()
 
 BROWSER=''
 for i in firefox opera dillo midori netsurf links ; do
-	while $i > /dev/null && BROWSER="$i" && break
+	which $i > /dev/null && BROWSER="$i" && break
 done
 case "$BROWSER" in
 links) BROWSER="links -g ";;
@@ -1177,6 +1177,7 @@ data_dhcpd()
 cat <<EOT
 udhcpd      Udhcpd        tab_udhcpd
 dhcpd       Dhcpd         tab_isc_dhcpd
+dnsmasq     DNSmasq       tab_dnsmasq
 EOT
 }
 
@@ -1266,13 +1267,29 @@ $(configfile /etc/bind/named.conf.local NAMED_CONF)
 EOT
 }
 
+#
+# DNSmasq 
+#
+tab_dnsmasq()
+{
+cat <<EOT
+    <frame DNSmasq (DNS/DHCP/TFTP)>
+$(helpdaemon dnsmasq 100x34 DNSMASQ_OPTIONS DNSMASQ_OPTS)
+$(configfile /etc/dnsmasq.conf DNSMASQ_CONF)
+      <hbox>
+	$(startstopdaemon dnsmasq)
+      </hbox>
+     </frame>
+EOT
+}
+
 data_dns()
 {
 cat <<EOT
 dnsd        Dnsd          tab_dnsd
 named       Named         tab_named
+dnsmasq     DNSmasq       tab_dnsmasq
 #TODO sheerdns    Sheerdns      tab_sheerdns
-#TODO dnsmasq     DNSmasq       tab_dnsmasq_dns
 EOT
 }
 
@@ -1425,19 +1442,23 @@ EOT
 
 data_servers()
 {
+local $pxe
+pxe="#"
+[ -x /usr/sbin/dnsmasq ] && pxe="inetd"
+[ -x /usr/bin/tftpd -a -x /usr/sbin/udhcpd ] && pxe="inetd"
+[ -f /usr/share/boot/pxelinux.0.lzma ] || pxe="#"
 cat <<EOT
 $([ -x /usr/sbin/dropbear -o -x /usr/sbin/sshd ] && echo "true" ||
 echo "#")   SSH           tab_sshd
 inetd       Inetd         tab_inetd
 zcip        ZeroConf      tab_zcip
-$([ -x /usr/sbin/udhcpd -o -x /usr/sbin/dhcpd ] && echo "true" ||
+$([ -x /usr/sbin/udhcpd -o -x /usr/sbin/dhcpd -o -x /usr/sbin/dnsmasq ] && 
+echo "true" ||
 echo "#")   DHCP          tab_dhcpd
-#TODO dnsmasq     DNSmasq       tab_dnsmasq_dhcpd
-$([ -f /usr/share/boot/pxelinux.0.lzma -a -x /usr/bin/tftpd -a \
-  -x /usr/sbin/inetd -a -x /usr/sbin/udhcpd ] && echo "true" ||
-echo "#")   PXE           tab_pxe
-#TODO dnsmasq     DNSmasq       tab_dnsmasq_tftpd
-$([ -x /usr/sbin/dnsd -o -x /usr/sbin/named ] && echo "true" ||
+$pxe        PXE           tab_pxe
+dnsmasq     tftpd         tab_dnsmasq
+$([ -x /usr/sbin/dnsd -o -x /usr/sbin/named -o -x /usr/sbin/dnsmasq ] && 
+echo "true" ||
 echo "#")   DNS           tab_dns
 rsync       Rsync         tab_rsync
 $([ -x /usr/sbin/lighttpd -o -x /usr/bin/httpd ] && echo "true" || 
