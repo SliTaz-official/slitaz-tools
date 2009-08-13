@@ -1450,7 +1450,7 @@ data_http()
 {
 cat <<EOT
 httpd       Apache        tab_apache
-lighttpd    Named         tab_lighttpd
+lighttpd    Lighttpd      tab_lighttpd
 EOT
 #TODO busybox httpd
 }
