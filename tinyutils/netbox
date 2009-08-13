@@ -549,10 +549,7 @@ $(helpbutton udhcpc 80x30)
 			<default>/usr/share/udhcpc/default.script</default>
 			<variable>UDHCPC_SCRIPT</variable>
 		</entry>
-		<button>
-			<input file icon="accessories-text-editor"></input>
-			<action type="lauch">leafpad \$UDHCPC_SCRIPT</action>
-		</button>
+$(editbutton \$UDHCPC_SCRIPT)
 	</hbox>
 	<hbox>
 		<button>
@@ -805,10 +802,7 @@ cat <<EOT
           <default>/etc/hosts</default>
           <variable>HOSTS</variable>
         </entry>
-        <button>
-          <input file icon="accessories-text-editor"></input>
-          <action type="lauch">leafpad \$HOSTS</action>
-        </button>
+$(editbutton \$HOSTS)
       </hbox>
       <hbox>
         <text use-markup="true">
@@ -818,10 +812,7 @@ cat <<EOT
           <default>/etc/hostname</default>
           <variable>HOSTNAME</variable>
         </entry>
-        <button>
-          <input file icon="accessories-text-editor"></input>
-          <action type="lauch">leafpad \$HOSTNAME</action>
-        </button>
+$(editbutton \$HOSTNAME)
       </hbox>
       <hbox>
         <text use-markup="true">
@@ -831,10 +822,7 @@ cat <<EOT
           <default>/etc/network.conf</default>
           <variable>CONFIG_FILE</variable>
         </entry>
-        <button>
-          <input file icon="accessories-text-editor"></input>
-          <action type="lauch">leafpad \$CONFIG_FILE</action>
-        </button>
+$(editbutton \$CONFIG_FILE)
       </hbox>
       <hbox>
         <button>
@@ -954,10 +942,7 @@ awk '{ printf "          <item>%s</item>\n",$1 }'
 cat <<EOT
           <item>SERVER</item>
         </combobox>
-	<button>
-	  <input file icon="accessories-text-editor"></input>
-	  <action type="lauch">leafpad /etc/ppp/pptp-servers</action>
-	</button>
+$(editbutton /etc/ppp/pptp-servers)
       </hbox>
       <hbox>
         <text use-markup="true">
@@ -971,10 +956,7 @@ awk '{ printf "          <item>%s</item>\n",$1 }'
 cat <<EOT
           <item>DOMAIN\USERNAME</item>
         </combobox>
-	<button>
-	  <input file icon="accessories-text-editor"></input>
-	  <action type="lauch">leafpad /etc/ppp/chap-secrets</action>
-	</button>
+$(editbutton /etc/ppp/chap-secrets)
       </hbox>
       <hbox>
         <text use-markup="true">
@@ -1277,12 +1259,57 @@ use_tab data_dhcpd
 }
 
 #
-# PXE
+# PXE forwarder
 #
-tab_pxe()
+tab_gpxe()
 {
 cat <<EOT
-<frame Pxelinux>
+<frame PXE forwarder>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>WEB boot URL(s) :</b>"</label>
+        </text>
+      </hbox>
+      <hbox>
+        <entry editable="true">
+          <default>
+"$(dd bs=1 skip=5 count=255 if=/usr/share/boot/gpxe.pxe 2> /dev/null | strings)"
+          </default>
+          <variable>WEB_PXE</variable>
+        </entry>
+      </hbox>
+      <hbox>
+$(wikibutton http://wiki.slitaz.org/doku.php?id=quickstart:pxe)
+        <button>
+          <input file icon="go-jump"></input>
+	  <label>Install</label>
+	  <action>
+	echo -n "\$WEB_PXE" | cat - /dev/zero | \
+	dd conv=notrunc bs=1 seek=5 count=255 of=/usr/share/boot/gpxe.pxe
+	  </action>
+	  <action>
+	sed -i "s|tftpd -r .*\$|tftpd -r /usr/share/boot|" /etc/inetd.conf
+	  </action>
+	  <action> sed -i "/^boot_file/d" \$UDHCPD_CONF </action>
+	  <action> echo "boot_file gpxe.pxe" >> \$UDHCPD_CONF </action>
+	  <action> /etc/init.d/inetd restart </action>
+	  <action> /etc/init.d/udhcpd restart </action>
+	<action>sed -i "s/RUN_DAEMONS=\\"\\(.*\\)inetd \?\\(.*\\)\\"/RUN_DAEMONS=\\"\1\2\\"/" /etc/rcS.conf</action>
+	<action>sed -i "s/RUN_DAEMONS=\\"\\(.*\\)udhcpd \?\\(.*\\)\\"/RUN_DAEMONS=\\"\1\2\\"/" /etc/rcS.conf</action>
+	<action>sed -i "s/RUN_DAEMONS=\\"\\(.*\\)\\"/RUN_DAEMONS=\\"udhcpd inetd \1\\"/" /etc/rcS.conf</action>
+        </button>
+      </hbox>
+</frame>
+EOT
+}
+
+#
+# PXE server
+#
+tab_pxelinux()
+{
+cat <<EOT
+<frame PXElinux>
       <hbox>
         <text wrap="true">
           <label>
@@ -1304,7 +1331,8 @@ $(grep bin/tftpd /etc/inetd.conf | awk '{ print $NF }')/pxelinux.cfg/default
           <input file icon="accessories-text-editor"></input>
 	  <action>dir=\$(dirname \$PXE_CONF); [ -d \$dir ] || mkdir -p \$dir</action>
 	  <action>lzma d /usr/share/boot/pxelinux.0.lzma \$(dirname \$PXE_CONF)/../pxelinux.0</action>
-	  <action>grep -q "^boot_file" \$UDHCPD_CONF || echo "boot_file pxelinux.0" >> \$UDHCPD_CONF</action>
+	  <action>sed -i "/^boot_file/d" \$UDHCPD_CONF</action>
+	  <action>echo "boot_file pxelinux.0" >> \$UDHCPD_CONF</action>
 	  <action>grep -q "^siaddr" \$UDHCPD_CONF || echo "siaddr \$(ifconfig \$INTERFACE | grep inet.ad | cut -d: -f2 | cut -d\  -f1)" >> \$UDHCPD_CONF</action>
 	  <action>[ -f \$PXE_CONF ] || echo -e "label linux\n\tkernel bzImage\n\tappend initrd=rootfs.gz rw root=/dev/null vga=normal" > \$PXE_CONF</action>
           <action type="lauch">leafpad \$PXE_CONF</action>
@@ -1320,6 +1348,24 @@ $(wikibutton http://wiki.slitaz.org/doku.php?id=quickstart:pxe)
       </hbox>
      </frame>
 EOT
+}
+
+data_pxe()
+{
+[ -f /usr/share/boot/pxelinux.0.lzma ] && cat <<EOT
+true        PXElinux          tab_pxelinux
+EOT
+[ -f /usr/share/boot/gpxe.pxe ] && cat <<EOT
+true        PXE\ forwarder    tab_gpxe
+EOT
+}
+
+#
+# PXE
+#
+tab_pxe()
+{
+use_tab data_pxe
 }
 
 #
@@ -1533,7 +1579,7 @@ local $pxe
 pxe="#"
 [ -x /usr/bin/tftpd -a -x /usr/sbin/udhcpd ] && pxe="inetd"
 [ -x /usr/sbin/dnsmasq ] && pxe="true"
-[ -f /usr/share/boot/pxelinux.0.lzma ] || pxe="#"
+[ -f /usr/share/boot/pxelinux.0.lzma -o /usr/share/boot/gpxe.pxe ] || pxe="#"
 cat <<EOT
 $([ -x /usr/sbin/dropbear -o -x /usr/sbin/sshd ] && echo "true" ||
 echo "#")   SSH           tab_sshd
@@ -1553,6 +1599,9 @@ echo "#")   HTTP          tab_http
 smbd        WINS          tab_wins
 x11vnc      VNC           tab_vnc 
 knockd      Knock         tab_knockd
+#TODO+callback pppd        Pppd          tab_pppd
+#TODO pptpd       PoPToP        tab_poptop
+#TODO squid *sql openldap 
 EOT
 }
 
