@@ -80,7 +80,7 @@ helpbutton()
 	cat << EOT
 <button>
 	<input file icon="help"></input>$label
-	<action>$xterm -geometry $2 -title "$1 help (q to quit)" -e "$(which $1) --help 2>&1 | less"</action>
+	<action>$xterm -geometry $2 -title "$1 help (q to quit)" -e "( echo ; $(which $1) --help 2>&1 ) | less"</action>
 </button>
 EOT
 }
@@ -373,6 +373,14 @@ esac
 #
 tab_status_iface()
 {
+local eth
+eth="$( (cd /sys/class/net ; [ -d eth0 ] && ls -d eth* ) )"
+which ethtool > /dev/null || eth=''
+if [ -n "$eth" ]; then
+    cat <<EOT
+<notebook labels="Ifconfig|$(echo $eth | sed 's/ /|/g')">
+EOT
+fi
 cat <<EOT
 <frame Ifconfig>
 	<text wrap="false" width-chars="58">
@@ -380,6 +388,21 @@ cat <<EOT
 	</text>
 </frame>
 EOT
+if [ -n "$eth" ]; then
+    local i
+    for i in $eth ; do
+        cat <<EOT
+<frame $i>
+	<text wrap="false" width-chars="58">
+		<input>ethtool $i</input>
+	</text>
+</frame>
+EOT
+    done
+    cat <<EOT
+</notebook>
+EOT
+fi
 }
 
 #
@@ -1032,6 +1055,31 @@ $(datafile "/etc/vpnc/vpnc-script" VPNC_SCRIPT 'Script:')
 EOT
 }
 
+#
+# OpenVPN
+#
+tab_openvpn()
+{
+local i
+local n
+cat <<EOT
+<frame OpenVPN>
+EOT
+n=1
+for i in /etc/openvpn/*.conf ; do
+	[ -f $i ] || continue
+	configfile $i OPENVPN_CONF$n
+	n=$(($n + 1))
+done
+cat <<EOT
+      <hbox>
+	$(helpbutton openvpn 80x40)
+	$(startstopdaemon openvpn)
+      </hbox>
+</frame>
+EOT
+}
+
 data_vpn()
 {
 cat <<EOT
@@ -1039,7 +1087,7 @@ $([ -x /usr/sbin/dropbear -o -x /usr/sbin/sshd ] && echo "pppd" ||
 echo "#")   PPP/SSH       tab_sshppp
 pptp        PPTP          tab_pptp
 vpnc        EasyVPN       tab_easyvpn
-#TODO openvpn     OpenVPN       tab_openvpn
+openvpn     OpenVPN       tab_openvpn
 EOT
 }
 
@@ -1401,7 +1449,7 @@ EOT
 data_http()
 {
 cat <<EOT
-httpd       Dnsd          tab_apache
+httpd       Apache        tab_apache
 lighttpd    Named         tab_lighttpd
 EOT
 #TODO busybox httpd
@@ -1606,6 +1654,44 @@ $(helpbutton ether-wake 80x15)
 		<action>ether-wake \$ETHERWAKE_OPTS</action>
 	</button>
     </hbox>
+    <frame>
+    <hbox>
+EOT
+if which ethtool > /dev/null; then
+cat <<EOT
+        <text use-markup="true">
+          <label>"<b>Interface:</b>"</label>
+        </text>
+        <combobox>
+          <variable>ETHERWAKE_ETH</variable>
+EOT
+(cd /sys/class/net ; [ -d eth0 ] && ls -d eth* ) | \
+awk '{ printf "          <item>%s</item>\n",$1 }'
+cat <<EOT
+        </combobox>
+	<button>
+		<label>Enable Wake On LAN</label>
+		<input file icon="forward"></input>
+		<action>ethtool -s \$ETHERWAKE_ETH wok g</action>
+	</button>
+EOT
+else
+cat <<EOT
+    <vbox>
+	<text wrap="true" width-chars="58">
+			<label>
+"Ethtool utility can enable Wake-on-lan 
+feature on many Ethernet card.
+"
+			</label>
+	</text>
+$(installbox ethtool)
+    </vbox>
+EOT
+fi
+cat <<EOT
+    </hbox>
+    </frame>
     </frame>
 EOT
 }
@@ -1768,9 +1854,6 @@ _EOT_
 # client	server	secret			IP addresses
 _EOT_
 fi
-cat > toto <<EOT
-$NET_BOX
-EOT
 gtkdialog --center --program=NET_BOX | grep -a 'EXIT="restart"' && continue
 exit 0
 done
