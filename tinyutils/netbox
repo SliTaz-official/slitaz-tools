@@ -224,7 +224,7 @@ installbox()
 	cat << EOT
 <hbox>
 	<text wrap="true" use-markup="true">
-		<label>"<i>The package <b>$1</b> is not yet installed</i>"</label>
+		<label>"<i>The package <b>$1</b> is not yet installed.</i>"</label>
 	</text>
 	<button>
 		<input file icon="go-jump"></input>
@@ -1730,7 +1730,7 @@ cat <<EOT
 	<text wrap="true" width-chars="58">
 			<label>
 "Ethtool utility can enable Wake-on-lan 
-feature on many Ethernet card.
+feature on many Ethernet cards.
 "
 			</label>
 	</text>
