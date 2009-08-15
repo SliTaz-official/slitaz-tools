@@ -582,14 +582,7 @@ $( (losetup ; blkid | grep -v /dev/loop ) | cut -d: -f1 | awk '{ printf "<item>%
 		*)	key="32 sha512";;
 		esac
 		getdevinfo $DEVICE
-cat > /root/titi <<EOT
-$PASS_PHRASE
-hashalot -x -n $key
-EOT
 		key=$(echo $PASS_PHRASE | hashalot -x -n $key)
-cat >> /root/titi <<EOT
-echo 0 $BLOCKS crypt aes-plain $key 0 $DEVICE 0 | dmsetup create $(dmlabel $DEVICE)
-EOT
 		echo 0 $BLOCKS crypt aes-plain $key 0 $DEVICE 0 | \
 				dmsetup create $(dmlabel $DEVICE)
 		;;
