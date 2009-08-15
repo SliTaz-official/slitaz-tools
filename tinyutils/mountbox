@@ -148,6 +148,13 @@ ACTIONS='
 			<action>refresh:MOUNTED</action>
 			<action>refresh:DEVICE</action>
 		</button>
+		<button>
+			<label>Crypto</label>
+			<input file icon="passwd"></input>
+			<action>/usr/lib/slitaz/libmountbox cryptomgr</action>
+			<action>refresh:MOUNTED</action>
+			<action>refresh:DEVICE</action>
+		</button>
 		<button help>
 			<input file icon="help"></input>
 			<action type="launch">HELP</action>

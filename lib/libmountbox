@@ -56,13 +56,30 @@ getdevinfo()
 	LABEL=`blkid | grep ^/dev/$dev: | grep LABEL= | sed 's/.*LABEL=\"\([^\"]*\)\".*/\1/'`
 }
 
+# Generate label for device manager
+dmlabel()
+{
+	echo crypto-$(basename $1)
+}
+
+unwrap()
+{
+awk '{
+  if ($2 == "") last=$1;
+  else {
+    print last $0
+    last=""
+  }
+}'
+}
+
 case $1 in
 	list-mounted)
 		# List all fs found by: df -h
 		#
 		for dev in `df -h | grep ^/dev/ | cut -d " " -f 1`
 		do
-			RES=`df -h $dev | grep ^$dev`
+			RES=`df -h $dev | unwrap | grep ^$dev`
 			mounted_fs_data
 			echo "$dev | $SIZE | $USED | $AVAILABLE | $PCT | $MOUNTED_ON"
 		done ;;
@@ -257,18 +274,19 @@ UMOUNTED_DEVICE="$UMOUNTED_DEVICE
 		<label>Device|File|Size|Type|Label|Mounted on|Offset|UUID</label>"
 		while read dev offset file; do
 			DEV=$(echo $dev | cut -d: -f1)
+			[ -b "$DEV" ] || continue
 			MOUNT=$(mount | grep ^$DEV | awk '{ print $3 }')
 			getdevinfo $DEV
 			LOOP_MANAGER="$LOOP_MANAGER
 		<item>$DEV | $file | $SIZE | $TYPE | $LABEL | $MOUNT | $offset | $UUID</item>
-		<action>/usr/lib/slitaz/libmountbox remove-loop</action>
-		<action>/usr/lib/slitaz/libmountbox loopmgr &</action>
-		<action type=\"closewindow\">LOOP_MANAGER</action>
 "
 		done <<EOT
 $(losetup)
 EOT
 		LOOP_MANAGER="$LOOP_MANAGER
+		<action>/usr/lib/slitaz/libmountbox remove-loop</action>
+		<action>/usr/lib/slitaz/libmountbox loopmgr &</action>
+		<action type=\"closewindow\">LOOP_MANAGER</action>
 	</tree>
 	<hbox>
 		<text use-markup=\"true\">
@@ -283,7 +301,7 @@ EOT
 		</button>
 	</hbox>
 	<hbox>
-		<text use-markup=\"true\" width=\"10\">
+		<text use-markup=\"true\">
 			<label>\"<b>Offset</b>\"</label>
 		</text>
 		<entry>
@@ -291,9 +309,23 @@ EOT
 			<variable>OFFSET</variable>
 		</entry>
 		<button>
-			<label>Create</label>
+			<label>Disable</label>
+			<input file icon=\"remove\"></input>
+			<action>/usr/lib/slitaz/libmountbox remove-loop</action>
+			<action>/usr/lib/slitaz/libmountbox loopmgr &</action>
+			<action type=\"closewindow\">LOOP_MANAGER</action>
+		</button>
+		<button>
+			<label>Enable</label>
 			<input file icon=\"add\"></input>
 			<action>/usr/lib/slitaz/libmountbox add-loop</action>
+			<action>/usr/lib/slitaz/libmountbox loopmgr &</action>
+			<action type=\"closewindow\">LOOP_MANAGER</action>
+		</button>
+		<button>
+			<label>Create</label>
+			<input file icon=\"filenew\"></input>
+			<action>/usr/lib/slitaz/libmountbox new-file</action>
 			<action>/usr/lib/slitaz/libmountbox loopmgr &</action>
 			<action type=\"closewindow\">LOOP_MANAGER</action>
 		</button>
@@ -338,6 +370,257 @@ Label: $LABEL
 		gtkdialog --center --program=REMOVE_DEVICE ;;
 	add-loop)
 		losetup -o $OFFSET $(losetup -f) $FILE
+		;;
+	create-file)
+		file=$2
+		size=$3
+		[ -n "$file" -a -n "$size" ] || exit
+		[ "$4" == "true" ] && bs="1K"
+		[ "$5" == "true" ] && bs="1M"
+		[ "$6" == "true" ] && bs="1024M"
+		if [ "$7" != "true" -a -e "$file" ]; then
+			export FILE_EXIST="
+<window title=\"File exist\" icon-name=\"media-flash\">
+<vbox>
+	<hbox>
+		<text use-markup=\"true\">
+			<label> \"The file <b>$file</b> already exists\" </label>
+		</text>
+	</hbox>
+	<hbox>
+		<button>
+			<input file icon=\"gtk-close\"></input>
+			<action type=\"closewindow\">FILE_EXIST</action>
+		</button>
+	</hbox>
+</vbox>
+</window>"
+			gtkdialog --center --program=FILE_EXIST
+			exit
+		fi
+		dd if=/dev/zero of=$file bs=$bs count=$size
+		;;
+	new-file)
+		export CREATE_FILE="
+<window title=\"Create file\" icon-name=\"media-flash\">
+<vbox>
+	<hbox>
+		<text use-markup=\"true\">
+			<label>\"<b>File:</b>\"</label>
+		</text>
+		<entry>
+			<variable>FILE</variable>
+$( [ -n "$FILE" ] && echo "<default>$FILE</default>" )
+		</entry>
+		<button>
+			<input file icon=\"folder-open\"></input>
+			<action type=\"fileselect\">FILE</action>
+		</button>
+	</hbox>
+	<hbox>
+		<text use-markup=\"true\">
+			<label>\"<b>Size:</b>\"</label>
+		</text>
+		<entry>
+			<variable>NEW_SIZE</variable>
+			<default>0</default>
+		</entry>
+		<radiobutton>
+			<label>Kb</label>
+			<variable>KB</variable>
+		</radiobutton>
+		<radiobutton>
+			<label>Mb</label>
+			<variable>MB</variable>
+		</radiobutton>
+		<radiobutton>
+			<label>Gb</label>
+			<variable>GB</variable>
+		</radiobutton>
+	</hbox>
+	<hbox>
+		<checkbox>
+			<label>Override</label>
+			<variable>OVERRIDE</variable>
+			<default>false</default>
+		</checkbox>
+		<button>
+			<label>Create</label>
+			<input file icon=\"filenew\"></input>
+			<action>/usr/lib/slitaz/libmountbox create-file \"\$FILE\" \"\$NEW_SIZE\" \$KB \$MB \$GB \$OVERRIDE</action>
+			<action type=\"closewindow\">CREATE_FILE</action>
+		</button>
+		<button>
+			<input file icon=\"gtk-close\"></input>
+			<action type=\"closewindow\">CREATE_FILE</action>
+		</button>
+	</hbox>
+</vbox>
+</window>"
+		gtkdialog --center --program=CREATE_FILE ;;
+	cryptomgr)
+		missing=""
+		for i in libdevmapper dmsetup linux-md hashalot cryptsetup ; do
+			[ -d /var/lib/tazpkg/installed/$i ] || missing="$missing $i"
+		done
+		if [ -n "$missing" ]; then
+			export CRYPTO_MANAGER="
+<window title=\"Crypto manager\" icon-name=\"media-flash\">
+<vbox>
+	<hbox>
+		<text use-markup=\"true\">
+		<label>\"
+<b>Need the packages :</b>
+
+$(for i in $missing ; do echo $i; done)
+\" </label>
+		</text>
+	</hbox>
+	<hbox>
+		<button>
+			<label>Install</label>
+			<input file icon=\"go-jump\"></input>
+			<action>xterm -T \"Install packages\" \
+			-geometry 80x16+120+120 -e \"for i in $missing ; do \
+			yes y | tazpkg get-install \\\$i ; done; sleep 2\" \
+			</action>
+			<action>/usr/lib/slitaz/libmountbox cryptomgr &</action>
+			<action type=\"closewindow\">CRYPTO_MANAGER</action>
+		</button>
+		<button>
+			<input file icon=\"gtk-close\"></input>
+			<action type=\"closewindow\">CRYPTO_MANAGER</action>
+		</button>
+	</hbox>
+</vbox>
+</window>"
+			gtkdialog --center --program=CRYPTO_MANAGER
+			exit
+		fi
+		for i in dm-mod dm-crypt aes-i586 ; do
+			lsmod | grep -q $i || modprobe $i
+		done
+		export CRYPTO_MANAGER="
+<window title=\"Crypto manager\" icon-name=\"media-flash\">
+<vbox>
+	<tree>
+		<width>420</width><height>120</height>
+		<variable>CRYTO_DEV</variable>
+		<label>Name|Device|Size|Type|Label|Mounted on|UUID</label>"
+		while read name ; do
+			[ -b /dev/mapper/$name ] || continue
+			DEV=/dev/dm-$(ls -l /dev/mapper/$name | awk '{ print $6 }')
+			MOUNT=$(mount | egrep "^$DEV|/dev/mapper/$name" | awk '{ print $3 }')
+			getdevinfo $DEV
+			CRYPTO_MANAGER="$CRYPTO_MANAGER
+		<item>$name|$DEV | $SIZE | $TYPE | $LABEL | $MOUNT | $UUID</item>
+"
+		done <<EOT
+$(ls /dev/mapper 2> /dev/null)
+EOT
+		CRYPTO_MANAGER="$CRYPTO_MANAGER
+	</tree>
+	<hbox>
+		<text use-markup=\"true\">
+			<label>\"<b>Device :</b>\"</label>
+		</text>
+		<combobox>
+			<label>Device</label>
+$( (losetup ; blkid | grep -v /dev/loop ) | cut -d: -f1 | awk '{ printf "<item>%s</item>\n",$1}')
+			<variable>DEVICE</variable>
+		</combobox>
+		<text use-markup=\"true\">
+			<label>\"<b>Cipher :</b>\"</label>
+		</text>
+		<combobox>
+			<variable>CRYPTO</variable>
+			<item>aes-256</item>
+			<item>aes-192</item>
+			<item>aes-128</item>
+		</combobox>
+	</hbox>
+	<hbox>
+		<button>
+			<label>Remove</label>
+			<input file icon=\"remove\"></input>
+			<action>/usr/lib/slitaz/libmountbox remove-crypto</action>
+			<action>/usr/lib/slitaz/libmountbox cryptomgr &</action>
+			<action type=\"closewindow\">CRYPTO_MANAGER</action>
+		</button>
+		<button>
+			<label>Create</label>
+			<input file icon=\"add\"></input>
+			<action>/usr/lib/slitaz/libmountbox add-crypto</action>
+			<action>/usr/lib/slitaz/libmountbox cryptomgr &</action>
+			<action type=\"closewindow\">CRYPTO_MANAGER</action>
+		</button>
+		<button>
+			<label>Format</label>
+			<input file icon=\"gtk-clear\"></input>
+			<action>/usr/lib/slitaz/libmountbox format-crypto</action>
+			<action>xterm -T \"Format LUKS\" \
+			-geometry 80x16+120+120 -e \"\
+			cryptsetup luksFormat -c aes -h sha\${CRYPTO#aes-} \$DEVICE \" \
+			</action>
+			<action>/usr/lib/slitaz/libmountbox cryptomgr &</action>
+			<action type=\"closewindow\">CRYPTO_MANAGER</action>
+		</button>
+		<button>
+			<input file icon=\"gtk-close\"></input>
+			<action type=\"closewindow\">CRYPTO_MANAGER</action>
+		</button>
+	</hbox>
+</vbox>
+</window>"
+		gtkdialog --center --program=CRYPTO_MANAGER ;;
+	add-old-crypto)
+		# Not luks format
+		# Try old loop-eas
+		case "$CRYPTO" in
+		*128)	key="16 sha256";;
+		*192)	key="24 sha384";;
+		*)	key="32 sha512";;
+		esac
+		getdevinfo $DEVICE
+cat > /root/titi <<EOT
+$PASS_PHRASE
+hashalot -x -n $key
+EOT
+		key=$(echo $PASS_PHRASE | hashalot -x -n $key)
+cat >> /root/titi <<EOT
+echo 0 $BLOCKS crypt aes-plain $key 0 $DEVICE 0 | dmsetup create $(dmlabel $DEVICE)
+EOT
+		echo 0 $BLOCKS crypt aes-plain $key 0 $DEVICE 0 | \
+				dmsetup create $(dmlabel $DEVICE)
+		;;
+	add-crypto)
+		if cryptsetup isLuks $DEVICE 2> /dev/null; then
+			xterm -T "Open LUKS" -e \
+			  "cryptsetup luksOpen $DEVICE $(dmlabel $DEVICE)"
+		else
+			export GET_PASS_PHRASE="
+<window title=\"Crypto manager\" icon-name=\"media-flash\">
+<vbox>
+	<hbox>
+		<text use-markup=\"true\">
+			<label>\"<b>Pass phrase :</b>\"</label>
+		</text>
+		<entry>
+			<variable>PASS_PHRASE</variable>
+		</entry>
+		<button ok>
+			<action>/usr/lib/slitaz/libmountbox add-old-crypto</action>
+			<action type=\"closewindow\">GET_PASS_PHRASE</action>
+		</button>
+	</hbox>
+</vbox>
+</window>"
+			gtkdialog --center --program=GET_PASS_PHRASE
+		fi
+		;;
+	remove-crypto)
+		cryptsetup luksClose $CRYTO_DEV
+		[ -e /dev/mapper/$CRYTO_DEV ] && dmsetup remove $CRYTO_DEV
 		;;
 	*)
 		usage ;;
