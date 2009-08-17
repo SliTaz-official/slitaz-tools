@@ -63,7 +63,7 @@ MAIN_DIALOG='
 	<tree>
 		<width>520</width><height>120</height>
 		<variable>MOUNTED</variable>
-		<label>Mounted fs|Size|Used|Available|Use%|Mounted on</label>'
+		<label>Mounted fs|Size|Used|Available|Use%|Mounted on|Option</label>'
 
 # /dev/root
 RES=`df -h / | grep rootfs`
@@ -152,7 +152,6 @@ ACTIONS='
 			<label>Crypto</label>
 			<input file icon="passwd"></input>
 			<action>/usr/lib/slitaz/libmountbox cryptomgr</action>
-			<action>refresh:MOUNTED</action>
 			<action>refresh:DEVICE</action>
 		</button>
 		<button help>

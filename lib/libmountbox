@@ -13,10 +13,17 @@ usage()
 Output commands:
   list-mounted      List all mounted devices in suitable GTK tree format.
   list-umounted     List all umounted in suitable GTK tree format.
+  create-file       Create an empty file with predefined size.
+  add-old-crypto    Create loop-eas device.
+  remove-crypto     Delete a crypto device.
   
 GTKdialog boxes
   mounted-fs-infos  Display a mounted devices infos with actions.
-  umounted-fs-infos  Display a umounted devices infos with actions.\n"
+  umounted-fs-infos Display a umounted devices infos with actions.
+  remove-loop       Confirmation box.
+  new-file          Parameter box for file creation.
+  cryptomgr         Manage crypto device with devmapper.
+  add-crypto        Pass phrase dialog.\n"
 }
 
 # Format df -h output for GTK tree.
@@ -79,9 +86,11 @@ case $1 in
 		#
 		for dev in `df -h | grep ^/dev/ | cut -d " " -f 1`
 		do
+			RO='read-only'
+			mount | grep $dev | grep -q '(rw' && RO=''
 			RES=`df -h $dev | unwrap | grep ^$dev`
 			mounted_fs_data
-			echo "$dev | $SIZE | $USED | $AVAILABLE | $PCT | $MOUNTED_ON"
+			echo "$dev | $SIZE | $USED | $AVAILABLE | $PCT | $MOUNTED_ON | $RO"
 		done ;;
 	list-umounted)
 		# List all umounted fs found by: fdisk -l
@@ -185,7 +194,25 @@ Label: $LABEL
 			<input file icon=\"folder-open\"></input>
 			<action>pcmanfm $MOUNTED_ON &</action>
 			<action type=\"closewindow\">MOUNTED_DEVICE</action>
-		</button>
+		</button>"
+if mount | grep $MOUNTED_ON | grep -q '(rw'; then
+	MOUNTED_DEVICE="$MOUNTED_DEVICE
+		<button>
+			<label>Remount read-only</label>
+			<input file icon=\"redo\"></input>
+			<action>mount -o remount,ro $MOUNTED_ON</action>
+			<action type=\"closewindow\">MOUNTED_DEVICE</action>
+		</button>"
+else
+	MOUNTED_DEVICE="$MOUNTED_DEVICE
+		<button>
+			<label>Remount read-write</label>
+			<input file icon=\"redo\"></input>
+			<action>mount -o remount,rw $MOUNTED_ON</action>
+			<action type=\"closewindow\">MOUNTED_DEVICE</action>
+		</button>"
+fi
+MOUNTED_DEVICE="$MOUNTED_DEVICE
 		<button>
 			<label>Umount</label>
 			<input file icon=\"undo\"></input>
@@ -226,7 +253,14 @@ Label: $LABEL
 	
 	<hbox>
 		<button>
-			<label>Mount</label>
+			<label>Mount read-only</label>
+			<input file icon=\"edit-redo\"></input>
+			<action>mkdir -p $MOUNT_POINT</action>
+			<action>mount -r $DEVICE $MOUNT_POINT</action>
+			<action type=\"closewindow\">MOUNTED_DEVICE</action>
+		</button>
+		<button>
+			<label>Mount read-write</label>
 			<input file icon=\"edit-redo\"></input>
 			<action>mkdir -p $MOUNT_POINT</action>
 			<action>mount $DEVICE $MOUNT_POINT</action>
@@ -318,7 +352,7 @@ EOT
 		<button>
 			<label>Enable</label>
 			<input file icon=\"add\"></input>
-			<action>/usr/lib/slitaz/libmountbox add-loop</action>
+			<action>losetup -o \$OFFSET \$(losetup -f) \$FILE</action>
 			<action>/usr/lib/slitaz/libmountbox loopmgr &</action>
 			<action type=\"closewindow\">LOOP_MANAGER</action>
 		</button>
@@ -368,9 +402,6 @@ Label: $LABEL
 </vbox>
 </window>"
 		gtkdialog --center --program=REMOVE_DEVICE ;;
-	add-loop)
-		losetup -o $OFFSET $(losetup -f) $FILE
-		;;
 	create-file)
 		file=$2
 		size=$3
@@ -512,8 +543,12 @@ $(for i in $missing ; do echo $i; done)
 			DEV=/dev/dm-$(ls -l /dev/mapper/$name | awk '{ print $6 }')
 			MOUNT=$(mount | egrep "^$DEV|/dev/mapper/$name" | awk '{ print $3 }')
 			getdevinfo $DEV
+			case "$name" in 
+			*crypto*) item="item icon=\"passwd\"";;
+			*)        item="item icon=\"drive-harddisk\"";;
+			esac
 			CRYPTO_MANAGER="$CRYPTO_MANAGER
-		<item>$name|$DEV | $SIZE | $TYPE | $LABEL | $MOUNT | $UUID</item>
+		<$item>$name|$DEV | $SIZE | $TYPE | $LABEL | $MOUNT | $UUID</item>
 "
 		done <<EOT
 $(ls /dev/mapper 2> /dev/null)
