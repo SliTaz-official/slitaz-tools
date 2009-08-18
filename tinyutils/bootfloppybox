@@ -86,11 +86,11 @@ title Smart Boot Manager (text - boot floppy, hard disk or CD/DVD)
 	initrd /boot/btmgr.gz
 
 EOT
-[ -f /usr/share/boot/plop.gz -a -f /usr/share/boot/memdisk.lzma ] \
+http://mirror.slitaz.org/boot/plpbt.bin
+[ -f /usr/share/boot/plpbt.bin ] \
 	&& entry=$(($entry + 1)) && cat >> /tmp/floppybox.grub.menu <<EOT
 title Plop Boot Manager (graphic - boot floppy, hard disk, CD/DVD or USB)
-	kernel /boot/memdisk floppy c=80 h=2 s=18
-	initrd /boot/plop.gz
+	kernel /boot/plpbt.bin
 
 EOT
 [ -f /usr/share/boot/etherboot ] && entry=$(($entry + 1)) && cat >> /tmp/floppybox.grub.menu <<EOT
@@ -237,13 +237,8 @@ if [ "$1" == "call" ]; then
 				   $DIR/boot/btmgr.gz \
 				&& unlzma -c /usr/share/boot/memdisk.lzma > \
 					$DIR/boot/memdisk
-			[ -f /usr/share/boot/plop.gz -a \
-			  -f /usr/share/boot/memdisk.lzma ] \
-				&& zcat /usr/share/boot/plop.gz | \
-				   cat - /dev/zero | dd bs=18k count=80 | \
-				   gzip -9 > $DIR/boot/plop.gz \
-				&& unlzma -c /usr/share/boot/memdisk.lzma > \
-					$DIR/boot/memdisk
+			[ -f /usr/share/boot/plpbt.bin ] \
+			  	&& cp /usr/share/boot/plpbt.bin $DIR/boot
 			[ -f /usr/share/boot/etherboot ] \
 				&& cp /usr/share/boot/etherboot $DIR/boot
 			[ -f /boot/gpxe ]\
@@ -270,7 +265,7 @@ if [ "$1" == "call" ]; then
 			cdrom*)
 				mkdir -p $DIR/boot/grub
 				case "$3" in
-				btmgr|plop|memtest)
+				btmgr|memtest)
 					$action $file | cat - /dev/zero | \
 						dd bs=18k count=80 | \
 						gzip -9 > $DIR/boot/$3.gz
@@ -301,13 +296,14 @@ EOT
 		rm -rf $DIR
 		;;
 	get-plop)
-		PLOP_URL="$(wget -O - http://www.plop.at/en/bootmanagerdl.html |\
-			    grep plpbt | head -1 |\
-			    sed 's|.*href=\(.*\) target.*|\1|')"
-		VERSION="$(basename $PLOP_URL| sed 's/[^0-9\.]*\(.*\).zip/\1/')"
-		mkdir -p /tmp/get-plop$$/plop-$VERSION/fs/$(dirname $3)
-		wget -O - $PLOP_URL | unzip -p /dev/stdin '*/plpbt.img' | \
-			gzip -9 > /tmp/get-plop$$/plop-$VERSION/fs/$3
+		mkdir -p /tmp/get-plop$$
+		PLOP_URL=http://mirror.slitaz.org/boot/plpbt.bin
+		wget -O - $PLOP_URL  > /tmp/get-plop$$/plpbt.bin
+		VERSION="$(strings /tmp/get-plop$$/plpbt.bin \
+		  | grep 'Boot Manager v' | sed 's/.* v\([0-9\.]*\) .*/\1/')"
+		mkdir -p $(dirname /tmp/get-plop$$/plop-$VERSION/fs/$3)
+		mv /tmp/get-plop$$/plpbt.bin \
+		   /tmp/get-plop$$/plop-$VERSION/fs/$3
 		if [ -s /tmp/get-plop$$/plop-$VERSION/fs/$3 ]; then 
 			cat > /tmp/get-plop$$/plop-$VERSION/receipt <<EOT
 PACKAGE="plop"
@@ -344,7 +340,7 @@ Create a floppy or a cdrom to boot a LiveCD in a PXE network...
 May need a floppy disk in drive. Erase the whole floppy disk.
 		" 18 70 50\
 		SmartBtmgr	"Boot any partition or ATAPI CD-ROM." on \
-		Plop		"Boot harddisk floppy CD/DVD or USB." off \
+		Plop		"Boot USB harddisk floppy or CD/DVD." off \
 		Etherboot	"Replacement for proprietary PXE ROMs." off \
 		gPXE		"Boot from http://boot.slitaz.org/" off \
 		Memtest86+	"Memory failures detection tool." off \
@@ -376,7 +372,7 @@ May need a floppy disk in drive. Erase the whole floppy disk.
 		exit 0
 	done <<EOT
 SmartBtmgr /usr/share/boot/btmgr btmgr
-Plop /usr/share/boot/plop.gz plop
+Plop /usr/share/boot/plpbt.bin plop
 Etherboot /usr/share/boot/etherboot etherboot
 gPXE /boot/gpxe gpxe
 Memtest86+ /usr/share/boot/memtest.lzma memtest
@@ -623,7 +619,7 @@ $(echo -e $desc)
   BOOT_DIALOG="$BOOT_DIALOG$tmp"
 done <<EOT
 SmartBtmgr /usr/share/boot/btmgr btmgr This OS independent Smart Boot Manager can boot any          partition or ATAPI CD-ROM.
-Plop /usr/share/boot/plop.gz plop This non free Boot Manager can boot a floppy disk, hardisk, USB or CD/DVD. Hit Ctrl-ESC for text mode.
+Plop /usr/share/boot/plpbt.bin plop This non free Boot Manager can boot a floppy disk, hardisk, USB or CD/DVD. Hit Ctrl-ESC for text mode.
 Etherboot /usr/share/boot/etherboot etherboot This network bootloader provides a replacement for proprietary PXE or NBI ROMs.
 gPXE /boot/gpxe gpxe PXE / iSCSI / AoE network bootloader.
 Memtest86+ /usr/share/boot/memtest.lzma memtest Memory failures detection tool.
