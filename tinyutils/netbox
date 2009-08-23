@@ -343,8 +343,9 @@ header|body)
 	$1 | while read exe name call; do
 	  case "$exe" in
 	  \#*) continue;;
+	  /*)  [ -e $exe ] || continue;;
+	  *)   which $exe > /dev/null || continue
 	  esac
-	  which $exe > /dev/null || continue
 	  if [ "$2" == "header" ]; then
 	    echo -n "$tmp$name"
 	    tmp='|'
@@ -1235,7 +1236,7 @@ cat <<EOT
 $(helpdaemon udhcpd 60x14 UDHCPD_OPTIONS UDHCPD_OPTS)
 $(configfile /etc/udhcpd.conf UDHCPD_CONF)
       <hbox>
-	$(startstopdaemon udhcpd)
+	$(startstopdaemon udhcpd busybox)
       </hbox>
      </frame>
 EOT
@@ -1378,7 +1379,7 @@ cat <<EOT
 $(helpdaemon dnsd 80x15 DNSD_OPTIONS DNSD_OPTS)
 $(configfile /etc/dnsd.conf DNSD_CONF)
       <hbox>
-	$(startstopdaemon dnsd)
+	$(startstopdaemon dnsd busybox)
       </hbox>
      </frame>
 EOT
@@ -1467,8 +1468,8 @@ tab_apache()
 {
 cat <<EOT
      <frame Apache>
-$(php_ini)
 $(configfile /etc/apache/httpd.conf HTTPD_CONF)
+$(php_ini)
       <hbox>
 	$(startstopdaemon apache)
       </hbox>
@@ -1483,10 +1484,28 @@ tab_lighttpd()
 {
 cat <<EOT
      <frame Lighttpd>
-$(php_ini)
+$(helpdaemon lighttpd 80x15 LIGHTTPD_OPTIONS LIGHTTPD_OPTS)
 $(configfile /etc/lighttpd/lighttpd.conf LIGHTTPD_CONF)
+$(php_ini)
       <hbox>
 	$(startstopdaemon lighttpd)
+      </hbox>
+     </frame>
+EOT
+}
+
+#
+# Busybox httpd server
+#
+tab_httpd()
+{
+cat <<EOT
+     <frame httpd (busybox)>
+$(helpdaemon httpd 80x30 HTTPD_OPTIONS HTTPD_OPTS)
+$(configfile /etc/httpd.conf HTTPD_CONF)
+$(php_ini)
+      <hbox>
+	$(startstopdaemon httpd busybox)
       </hbox>
      </frame>
 EOT
@@ -1497,8 +1516,8 @@ data_http()
 cat <<EOT
 httpd       Apache        tab_apache
 lighttpd    Lighttpd      tab_lighttpd
+/etc/httpd.conf   Busybox\ httpd  tab_httpd
 EOT
-#TODO busybox httpd
 }
 
 #
