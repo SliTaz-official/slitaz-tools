@@ -1514,9 +1514,9 @@ EOT
 data_http()
 {
 cat <<EOT
-httpd       Apache        tab_apache
-lighttpd    Lighttpd      tab_lighttpd
-/etc/httpd.conf   Busybox\ httpd  tab_httpd
+/etc/apache/httpd.conf  Apache          tab_apache
+lighttpd                Lighttpd        tab_lighttpd
+/etc/httpd.conf         Busybox\ httpd  tab_httpd
 EOT
 }
 
