@@ -147,7 +147,8 @@ screen_config_dialog()
 	Window Manager : \Z2$WM\Zn" 16 70 5 \
 	$(Xvesa -listmodes 2>&1 | grep ^0x | awk '{ printf "%s %s\n",$2,$3 }' | sort -nr | grep x[1-2][4-6]) \
 	"xterm" "800x600x16" \
-	"xorg" "Installer Xorg" \
+	"xorg" "Install Xorg" \
+	"text" "Disable X autostart" \
 	"quit" "Quitter" \
 	2>&1 1>&3`
 	retval=$?
@@ -174,6 +175,9 @@ screen_config_dialog()
 		xterm)
 			Xvesa -ac -shadow -screen 800x600x16 -br &
 			exec xterm -cr orange -geometry 80x35+0-0 ;;
+		text)
+			sed -i s/'slim'/''/ /etc/rcS.conf
+			exit 0 ;;
 		*)
 			NEW_SCREEN=$value ;;
 	esac
