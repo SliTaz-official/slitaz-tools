@@ -1,10 +1,9 @@
 [Desktop Entry]
 Encoding=UTF-8
-Name=Netbox Configure networking
-Name[fr]=Netbox Configurer le rÃ©seau
-Name[pt]=Netbox Configuração de Rede
-Comment=Configure network interface and host values
+Name=Configure networking
+Name[fr]=Configurer le réseau
+Name[pt]=Configuração de Rede
 Exec=subox netbox
-Icon=netbox.png
+Icon=netbox
 Type=Application
 Categories=System;Application;
