@@ -15,30 +15,28 @@ fi
 # Nothing to do if we are root
 test $(id -u) = 0 && exec $1
 
-# Keep binary name in a tmp file to be used by SU_DIALOG.
-echo "$1" > /tmp/subox-exec
+# Keep command in an exported variable to be used by SU_DIALOG.
+export SU_CMD=$@
 
 # Main window and root password default entry set to 'root'.
 export SU_DIALOG='
 <window title="Subox">
   <vbox>
-  
+
     <text use-markup="true">
-      <label>
-"
+      <label>"
 <b>SliTaz - Subox</b>"
       </label>
     </text>
-    <text wrap="true" width-chars="46">
-      <label>
-"
+    <text wrap="true" width-chars="48">
+      <label>"
 Please enter root password to execute :"
       </label>
     </text>
     <text>
-      <input file>/tmp/subox-exec</input>
+      <input>echo $SU_CMD</input>
     </text>
-    
+
     <hbox>
       <text use-markup="true">
         <label>"<b>Root password :</b>"</label>
@@ -48,20 +46,18 @@ Please enter root password to execute :"
         <variable>PASSWD</variable>
       </entry>
     </hbox>
-    
+
     <hbox>
       <button ok>
-        <action>echo $PASSWD | su -c "`cat /tmp/subox-exec`" &</action>
+        <action>echo $PASSWD | su -c "$SU_CMD" &</action>
         <action type="closewindow">SU_DIALOG</action>
       </button>
       <button cancel></button>
     </hbox>
-  
+
   </vbox>
 </window>
 '
 
 gtkdialog --center --program=SU_DIALOG
-
-# Let other user lauch subox.
-rm /tmp/subox-exec
+exit 0
