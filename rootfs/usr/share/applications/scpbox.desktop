@@ -1,9 +1,8 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=Scpbox Secure copy
-Name[fr]=Scpbox Copie sÃ©curisÃ©
+Name[fr]=Copie sécurisée Scpbox
 Name[pt]=Scpbox Cópia Segura de Arquivos
-Comment=Upload or download files with scp
 Exec=scpbox
 Icon=folder-remote
 Type=Application

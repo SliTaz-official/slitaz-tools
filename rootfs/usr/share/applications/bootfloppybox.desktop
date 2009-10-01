@@ -2,10 +2,7 @@
 Encoding=UTF-8
 Name=Boot floppy/cdrom creation tool
 Name[pt]=Criação de disquete/cdrom de boot
-Name[fr]=Disquette/cdrom de dÃ©marrage
-GenericName=Gen a boot floppy
-GenericName[fr]=CrÃ©er une disquette de dÃ©marrage
-Comment=Generate a boot floppy
+Name[fr]=Disquette/cdrom de démarrage
 Exec=subox bootfloppybox
 Icon=/usr/share/icons/SliTaz/16x16/devices/gtk-floppy.png
 Type=Application

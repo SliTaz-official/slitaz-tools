@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=Hardware detection and drivers
-Name[fr]=DÃ©tection du matÃ©riel et drivers
+Name[fr]=Détection du matériel et drivers
 Name[pt]=Detecção de Hardware e Drivers
 Icon=computer
 Exec=subox 'tazhw box'
