@@ -274,6 +274,9 @@ wm_config()
 		awesome)
 			WM=awesome
 			XSEVER_OPTS="dpms" ;;
+		xfce|xfce4)
+			WM=xfce4-session
+			XSEVER_OPTS="dpms -terminate" ;;
 	esac
 }
 
@@ -305,6 +308,8 @@ case $1 in
 	jwm)
 		lxpanel &
 		exec jwm ;;
+	xfce|xfce4|xfce4-session)
+		xfce4-session ;;
 	*)
 		exec $WINDOW_MANAGER ;;
 esac
