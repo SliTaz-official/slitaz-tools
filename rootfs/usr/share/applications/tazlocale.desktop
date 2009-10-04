@@ -5,6 +5,6 @@ Name[fr]=Langue du système
 Name[pt]=Linguagem do Sistema
 Exec=subox tazlocale
 Icon=/usr/share/icons/SliTaz/16x16/apps/preferences-desktop-locale.png
-Terminal=true
+Terminal=false
 Type=Application
 Categories=Settings;DesktopSettings;
