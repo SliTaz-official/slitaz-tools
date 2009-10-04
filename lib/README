@@ -1,7 +1,8 @@
+README
+===============================================================================
 
-
-SliTaz tools, tinyutils and GTKboxes libraries and functions. On the 
-system, all libs goes in: /usr/lib/slitaz. Some libs have a usage and
+SliTaz tools, tinyutils, GTKboxes, libraries and functions. On the 
+system, all libs go in /usr/lib/slitaz. Some libs have a usage and
 can be called directly from the command line, example:
 
  # /usr/lib/slitaz/libmountbox usage
