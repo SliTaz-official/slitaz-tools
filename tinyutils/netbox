@@ -1748,7 +1748,7 @@ cat <<EOT
     <vbox>
 	<text wrap="true" width-chars="58">
 			<label>
-"Ethtool utility can enable Wake-on-lan 
+"Ethtool can enable the Wake-on-lan 
 feature on many Ethernet cards.
 "
 			</label>
