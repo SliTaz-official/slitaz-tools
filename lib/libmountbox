@@ -501,7 +501,7 @@ $( [ -n "$FILE" ] && echo "<default>$FILE</default>" )
 	<hbox>
 		<text use-markup=\"true\">
 		<label>\"
-<b>Need the packages :</b>
+<b>Packages needed :</b>
 
 $(for i in $missing ; do echo $i; done)
 \" </label>
