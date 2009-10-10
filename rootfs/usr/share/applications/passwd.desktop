@@ -5,6 +5,6 @@ Name[fr]=Mot de passe du compte
 Name[pt]=Mudar Senha de Usuário
 Exec=xterm -T "Passwd" -geometry 60x10 -e 'echo; passwd; sleep 4'
 Icon=passwd.png
-Terminal=true
+Terminal=false
 Type=Application
 Categories=Settings;DesktopSettings;
