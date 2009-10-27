@@ -1,6 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=Burnbox manual
+Name[pt]=Manual do Burnbox
 Exec=/usr/bin/browser /usr/share/doc/slitaz-tools/burnbox.html
 Icon=text-html
 Type=Application
