@@ -17,7 +17,7 @@ MOUSE=mouse,5,/dev/input/mice
 WM=openbox
 
 # Default user for config files in Live mode.
-[ -z $USER ] && USER=`cat /etc/passwd | grep 1000 | cut -d ":" -f 1`
+[ "$USER" = "root"] && USER=`cat /etc/passwd | grep 1000 | cut -d ":" -f 1`
 
 ####################
 #  Tazx functions  #
@@ -234,7 +234,7 @@ wm_config()
 					cp /etc/jwm/system.jwmrc $JWM_CONFIG
 				fi
 				# In Live mode default user/root JWM config does not exist and
-				# $HOME is not set, this is because tazx is executed by boot 
+				# $HOME is not set, this is because tazx is executed by boot
 				# scripts.
 				if [ ! -f "/home/$USER/.jwmrc" ]; then
 					cp /etc/jwm/system.jwmrc /home/$USER/.jwmrc
@@ -391,7 +391,7 @@ case "$1" in
 	install-xorg)
 		# WM can be specified on cmdline.
 		if [ -n "$2" ]; then
-			WM=$2	
+			WM=$2
 		fi
 		install_xorg
 		slim_config
@@ -401,7 +401,7 @@ case "$1" in
 	*)
 		# WM can be specified on cmdline.
 		if [ -n "$1" ]; then
-			WM=$1	
+			WM=$1
 		fi
 		[ -n "$NEW_SCREEN" ] || screen_config_dialog
 		slim_config
