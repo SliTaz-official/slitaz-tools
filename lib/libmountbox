@@ -409,6 +409,9 @@ Label: $LABEL
 		[ "$4" == "true" ] && bs="1K"
 		[ "$5" == "true" ] && bs="1M"
 		[ "$6" == "true" ] && bs="1024M"
+		[ "$8" == "true" ] && dev="/dev/zero count=$size"
+		[ "$9" == "true" ] && dev="/dev/urandom count=$size"
+		[ "$10" == "true" ] && dev="/dev/zero seek=$size count=0"
 		if [ "$7" != "true" -a -e "$file" ]; then
 			export FILE_EXIST="
 <window title=\"File exist\" icon-name=\"media-flash\">
@@ -429,7 +432,7 @@ Label: $LABEL
 			gtkdialog --center --program=FILE_EXIST
 			exit
 		fi
-		dd if=/dev/zero of=$file bs=$bs count=$size
+		dd if=$dev of=$file bs=$bs
 		;;
 	new-file)
 		export CREATE_FILE="
@@ -470,6 +473,21 @@ $( [ -n "$FILE" ] && echo "<default>$FILE</default>" )
 		</radiobutton>
 	</hbox>
 	<hbox>
+		<text use-markup=\"true\">
+			<label>\"<b>Fill</b>\"</label>
+		</text>
+		<radiobutton>
+			<label>random</label>
+			<variable>RANDOM</variable>
+		</radiobutton>
+		<radiobutton>
+			<label>zero</label>
+			<variable>ZERO</variable>
+		</radiobutton>
+		<radiobutton>
+			<label>sparse</label>
+			<variable>SPARSE</variable>
+		</radiobutton>
 		<checkbox>
 			<label>Override</label>
 			<variable>OVERRIDE</variable>
@@ -478,7 +496,7 @@ $( [ -n "$FILE" ] && echo "<default>$FILE</default>" )
 		<button>
 			<label>Create</label>
 			<input file icon=\"filenew\"></input>
-			<action>/usr/lib/slitaz/libmountbox create-file \"\$FILE\" \"\$NEW_SIZE\" \$KB \$MB \$GB \$OVERRIDE</action>
+			<action>/usr/lib/slitaz/libmountbox create-file \"\$FILE\" \"\$NEW_SIZE\" \$KB \$MB \$GB \$OVERRIDE \$ZERO \$RANDOM \$SPARSE</action>
 			<action type=\"closewindow\">CREATE_FILE</action>
 		</button>
 		<button>
