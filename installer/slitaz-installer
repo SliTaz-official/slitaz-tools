@@ -180,7 +180,7 @@ ask_for_target_dev()
 	fi
 }
 
-# Mkfs if needed/wanted.
+# Mkfs if needed/wanted on /.
 ask_for_mkfs_target_dev()
 {
 	$DIALOG --title " Format " \
@@ -200,43 +200,66 @@ ask_for_mkfs_target_dev()
 
 }
 
-# Mount and mkfs with progress.
-prepare_target_dev()
+# We can have a separate partition for /home.
+ask_for_home()
 {
-	(
-	echo "XXX" && echo 30
-	echo -e "\nPreparing target partition..."
-	echo "XXX"
-	# Mount point can be already used.
-	if mount | grep -q $TARGET_ROOT; then
-		umount $TARGET_ROOT 2>$LOG
+	exec 3>&1
+	HOME_DEV=`$DIALOG --title " Root Partition " \
+		--backtitle "$BACKLIST" --clear \
+		--extra-label "List" --extra-button \
+		--colors --inputbox "
+On most GNU/Linux system users personnal files are stored in the directoty \
+/home. Home can be on a separate partition or another hard disk.
+
+\Z2Home partition to use (Option):\Zn" 18 70 2>&1 1>&3`
+	retval=$?
+	exec 3>&-
+	check_retval
+	# Display list and come back.
+	if [ "$retval" = "3" ]; then
+		fdisk_list
+		ask_for_home
 	fi
-	sleep 2
-
-	if [ "$MKFS_TARGET_DEV" == "ext3" ]; then
-		echo "XXX" && echo 60
-		echo -e "\nExecuting mkfs.ext3 on $TARGET_DEV"
-		echo "XXX"
-		mkfs.ext3 $TARGET_DEV >>$LOG 2>>$LOG
-	else
-		echo "XXX" && echo 60
-		echo -e "\nThe partition ($TARGET_DEV) will be cleaned..."
-		echo "XXX"
-		sleep 2
+	if [ -n "$HOME_DEV" ]; then
+		# Check if specified device exists in /proc/partitions.
+		DEV_NAME=${HOME_DEV#/dev/}
+		if cat /proc/partitions | grep -q $DEV_NAME; then
+			if [ "$DEV_NAME" = "$HOME_DEV" ]; then
+				HOME_DEV="/dev/$DEV_NAME"
+			fi
+			echo "ask_for_home: $HOME_DEV" >>$LOG
+		else
+			ERROR_MSG="Partition \Z2$HOME_DEV\Zn doesn't exist."
+			error_message
+			ask_for_home
+		fi
 	fi
+}
 
-	echo "XXX" && echo 90
-	echo -e "\nCreating mount point: $TARGET_ROOT"
-	echo "XXX"
-	mkdir -p $TARGET_ROOT
-	sleep 2
-
-	) |
-	$DIALOG --title " Prepare the target " \
+# Mkfs if needed/wanted on /.
+ask_for_mkfs_home()
+{
+	$DIALOG --title " Format " \
 		--backtitle "$BACKLIST" \
-		--gauge "Target in preparation..." 18 70 0
-	# Mount target.
-	mount $TARGET_DEV $TARGET_ROOT >>$LOG 2>>$LOG
+		--clear --colors --yesno "
+Here you can format the /home partition: $HOME_DEV
+
+SliTaz use ext3 by default but another filesystem can be used if wanted, \
+for this please adjust /etc/fstab afer installation.
+
+\Z2Do you want to format (Option): $HOME_DEV\Zn" 18 70
+	retval=$?
+	case $retval in
+		0)
+			MKFS_HOME="ext3"
+			echo "mkfs_home: ext3" >>$LOG ;;
+		1)
+			MKFS_HOME=""
+			echo "mkfs_home: no" >>$LOG ;;
+		255)
+			echo -e "ESC pressed.\n" && exit 0 ;;
+	esac
+
 }
 
 # Ask for hostname before installing files.
@@ -319,12 +342,64 @@ Installation settings summary and last chance to cancel or restart all \
 installator steps.
 
 Root partition: $TARGET_DEV
+Home partition: $HOME_DEV
 Hostname: $HOSTNAME
 Default user: $USER
 
 \Z2Go and install SliTaz or cancel?\Zn" 18 70
 	retval=$?
 	check_retval
+}
+
+# Mount and mkfs with progress.
+prepare_partitions()
+{
+	(
+	echo "XXX" && echo 30
+	echo -e "\nPreparing target partition..."
+	echo "XXX"
+	# Mount point can be already used.
+	if mount | grep -q $TARGET_ROOT; then
+		umount $TARGET_ROOT 2>$LOG
+	fi
+	sleep 2
+
+	if [ "$MKFS_TARGET_DEV" == "ext3" ]; then
+		echo "XXX" && echo 50
+		echo -e "\nExecuting mkfs.ext3 on $TARGET_DEV"
+		echo "XXX"
+		mkfs.ext3 $TARGET_DEV >>$LOG 2>>$LOG
+	else
+		echo "XXX" && echo 50
+		echo -e "\nThe partition ($TARGET_DEV) will be cleaned..."
+		echo "XXX"
+		sleep 2
+	fi
+
+	if [ "$MKFS_HOME" == "ext3" ]; then
+		echo "XXX" && echo 70
+		echo -e "\nExecuting mkfs.ext3 on $HOME_DEV"
+		echo "XXX"
+		mkfs.ext3 -L "Home" $HOME_DEV >>$LOG 2>>$LOG
+	else
+		echo "XXX" && echo 70
+		echo -e "\nThe partition ($HOME_DEV) will be keeped..."
+		echo "XXX"
+		sleep 2
+	fi
+
+	echo "XXX" && echo 90
+	echo -e "\nCreating mount point: $TARGET_ROOT"
+	echo "XXX"
+	mkdir -p $TARGET_ROOT
+	sleep 2
+
+	) |
+	$DIALOG --title " Prepare the target " \
+		--backtitle "$BACKLIST" \
+		--gauge "Target in preparation..." 18 70 0
+	# Mount target.
+	mount $TARGET_DEV $TARGET_ROOT >>$LOG 2>>$LOG
 }
 
 # Get a clean target device (15%).
@@ -452,6 +527,24 @@ _EOF_
 	rm $TARGET_ROOT/users.sh
 }
 
+# /home can be on a separate partition. If default user exist in /home
+# we remove default file crated by users_settings().
+home_config()
+{
+	echo "home_config: $HOME_DEV" >> $LOG
+	cd $TARGET_ROOT
+	mv home/$USER tmp
+	mount $HOME_DEV home
+	if [ -d $TARGET_ROOT/home/$USER ]; then
+		rm -rf tmp/$USER
+	else
+		mv tmp/$USER home
+	fi
+	echo "$HOME_DEV       /home        ext3    defaults          0       2" \
+		>> etc/fstab
+	umount home
+}
+
 # Determine GRUB partition number and GRUB disk number.
 grub_config()
 {
@@ -484,9 +577,9 @@ color yellow/brown light-green/black
 
 # For booting SliTaz from : $TARGET_DEV
 #
-title 	SliTaz GNU/Linux (cooking) (Kernel $KERNEL)
-		root $GRUB_ROOT
-		kernel /boot/$KERNEL root=$TARGET_DEV
+title SliTaz GNU/Linux (cooking) (Kernel $KERNEL)
+root $GRUB_ROOT
+kernel /boot/$KERNEL root=$TARGET_DEV
 
 _EOF_
 	# log
@@ -529,12 +622,20 @@ install_files()
 	echo -e "\nPreconfiguring the system..."
 	echo "XXX"
 	pre_config_system
-	
-	echo "XXX" && echo 80
+
+	echo "XXX" && echo 70
 	echo -e "\nConfiguring root and default $USER account..."
 	echo "XXX"
 	users_settings
 	sleep 2
+
+	if [ "$HOME_DEV" != "" ]; then
+		echo "XXX" && echo 80
+		echo -e "\nConfiguring $HOME_DEV to be used as /home..."
+		echo "XXX"
+		home_config
+		sleep 2
+	fi
 
 	echo "XXX" && echo 90
 	echo -e "\nCreating the configuration file for GRUB (menu.lst)..."
@@ -920,10 +1021,14 @@ case $ACTION in
 		mount_cdrom
 		ask_for_target_dev
 		ask_for_mkfs_target_dev
-		prepare_target_dev
+		ask_for_home
+		if [ -n "$HOME_DEV" ]; then
+			ask_for_mkfs_home
+		fi
 		ask_for_hostname
 		ask_for_users_settings
 		summary
+		prepare_partitions
 		install_files
 		grub_install
 		end_of_install ;;
