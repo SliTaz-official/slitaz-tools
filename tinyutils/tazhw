@@ -122,7 +122,7 @@ detect_usb_devices()
 				sed 's/Vendor=/0x/' | sed 's/ProdID=/0x/'`
 			if grep -q "$ID" /lib/modules/*-slitaz/modules.usbmap; then
 				mod=`grep "$ID" /lib/modules/*-slitaz/modules.usbmap | \
-					awk '{ print $1 }'`
+					awk '{ print $1 }'| cut -d: -f2`
 				prod=`grep -A 2 "$line" /proc/bus/usb/devices | grep Product | \
 					cut -d "=" -f 2`
 				echo "$prod"
