@@ -120,8 +120,8 @@ detect_usb_devices()
 		cat /proc/bus/usb/devices | grep "Vendor" | while read line ; do
 			ID=`echo "$line" | awk '{ print $2,$3 }' | sed 's/ /   /' | \
 				sed 's/Vendor=/0x/' | sed 's/ProdID=/0x/'`
-			if grep -q "$ID" /lib/modules/*-slitaz/modules.usbmap; then
-				mod=`grep "$ID" /lib/modules/*-slitaz/modules.usbmap | \
+			if grep -q "$ID" /lib/modules/`uname -r`/modules.usbmap; then
+				mod=`grep "$ID" /lib/modules/$(uname -r)/modules.usbmap | \
 					awk '{ print $1 }'`
 				prod=`grep -A 2 "$line" /proc/bus/usb/devices | grep Product | \
 					cut -d "=" -f 2`
