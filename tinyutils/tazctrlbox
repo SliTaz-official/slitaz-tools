@@ -157,7 +157,6 @@ New account information
 				<action>adduser -G audio $NEW_USER</action>
 				<action>rmdir /home/$NEW_USER</action>
 				<action>cp -a /etc/skel /home/$NEW_USER</action>
-				<action>cp -a /etc/slitaz /home/$NEW_USER/.config</action>
 				<action>cp /root/.xinitrc /home/$NEW_USER</action>
 				<action>chown -R $NEW_USER:$NEW_USER /home/$NEW_USER</action>
 				<action type="closewindow">MANAGE_USER</action>
