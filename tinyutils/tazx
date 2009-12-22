@@ -17,7 +17,7 @@ MOUSE=mouse,5,/dev/input/mice
 WM=openbox
 
 # Default user for config files in Live mode.
-[ "$USER" = "root"] && USER=`cat /etc/passwd | grep 1000 | cut -d ":" -f 1`
+USER=`cat /etc/passwd | grep 1000 | cut -d ":" -f 1`
 
 ####################
 #  Tazx functions  #
@@ -33,11 +33,15 @@ patch_xorg_kbd()
 			patch -p0 <<EOF
 --- /etc/X11/xorg.conf
 +++ /etc/X11/xorg.conf
-@@ -30,2 +30,3 @@
+@@ -26,6 +26,8 @@
+ Section "InputDevice"
+ 	Identifier  "Keyboard0"
  	Driver      "kbd"
 +	Option      "XkbLayout"	 "ch"
 +	Option      "XkbVariant" "fr"
  EndSection
+ 
+ Section "InputDevice"
 EOF
 			;;
 		en)
@@ -45,11 +49,15 @@ EOF
 			patch -p0 <<EOF
 --- /etc/X11/xorg.conf
 +++ /etc/X11/xorg.conf
-@@ -30,2 +30,3 @@
+@@ -26,6 +26,8 @@
+ Section "InputDevice"
+ 	Identifier  "Keyboard0"
  	Driver      "kbd"
 +	Option      "XkbLayout"	 "en"
 +	Option      "XkbVariant" "en"
  EndSection
+ 
+ Section "InputDevice"
 EOF
 			;;
 		ru)
@@ -57,11 +65,13 @@ EOF
 			patch -p0 <<EOF
 --- /etc/X11/xorg.conf
 +++ /etc/X11/xorg.conf
-@@ -30,2 +30,3 @@
+@@ -26,6 +26,8 @@
  	Driver      "kbd"
 +	Option      "XkbLayout"	 "us,ru(winkeys)"
 +	Option      "XkbVariant" "grp:alt_shift_toggle"
  EndSection
+  
+ Section "InputDevice"
 EOF
 			;;
 		slovene)
@@ -69,11 +79,13 @@ EOF
 			patch -p0 <<EOF
 --- /etc/X11/xorg.conf
 +++ /etc/X11/xorg.conf
-@@ -30,2 +30,3 @@
+@@ -26,6 +26,8 @@
  	Driver      "kbd"
 +	Option      "XkbLayout"  "si"
 +	Option      "XkbOptions" "grp:alt_shift_toggle"
  EndSection
+   
+ Section "InputDevice"
 EOF
 			;;
 		*)
@@ -85,10 +97,12 @@ EOF
 			patch -p0 <<EOF
 --- /etc/X11/xorg.conf
 +++ /etc/X11/xorg.conf
-@@ -30,2 +30,3 @@
+@@ -26,6 +26,8 @@
  	Driver      "kbd"
 +	Option      "XkbLayout"	"$KEYMAP"
  EndSection
+   
+ Section "InputDevice"
 EOF
 		;;
 	esac
@@ -398,6 +412,16 @@ case "$1" in
 		wm_config
 		creat_xinitrc
 		creat_xsession ;;
+	config-xorg)
+		# WM can be specified on cmdline.
+		if [ -n "$2" ]; then
+			WM=$2
+		fi
+		XSERVER="Xorg"
+		wm_config
+		creat_xinitrc
+		creat_xsession
+		patch_xorg_kbd ;;
 	*)
 		# WM can be specified on cmdline.
 		if [ -n "$1" ]; then
