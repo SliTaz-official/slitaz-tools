@@ -66,6 +66,8 @@ EOF
 --- /etc/X11/xorg.conf
 +++ /etc/X11/xorg.conf
 @@ -26,6 +26,8 @@
+ Section "InputDevice"
+ 	Identifier  "Keyboard0"
  	Driver      "kbd"
 +	Option      "XkbLayout"	 "us,ru(winkeys)"
 +	Option      "XkbVariant" "grp:alt_shift_toggle"
@@ -80,6 +82,8 @@ EOF
 --- /etc/X11/xorg.conf
 +++ /etc/X11/xorg.conf
 @@ -26,6 +26,8 @@
+ Section "InputDevice"
+ 	Identifier  "Keyboard0"
  	Driver      "kbd"
 +	Option      "XkbLayout"  "si"
 +	Option      "XkbOptions" "grp:alt_shift_toggle"
@@ -97,7 +101,9 @@ EOF
 			patch -p0 <<EOF
 --- /etc/X11/xorg.conf
 +++ /etc/X11/xorg.conf
-@@ -26,6 +26,8 @@
+@@ -26,5 +26,7 @@
+ Section "InputDevice"
+ 	Identifier  "Keyboard0"
  	Driver      "kbd"
 +	Option      "XkbLayout"	"$KEYMAP"
  EndSection
