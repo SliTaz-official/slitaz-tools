@@ -4,9 +4,9 @@
 # Use tabs to indent, split commands from the GUI and use functions.
 # Favorite networks are also supported
 #
-# (c) 2009 SliTaz GNU/Linux - GNU gpl v3
+# (c) 2010 SliTaz GNU/Linux - GNU gpl v3
 #
-VERSION=20090222
+VERSION=20100118
 
 # Export script path and others if needed so we can use them in 'quote'.
 export BIN=$0
@@ -33,7 +33,9 @@ detect_wifi_networks()
 		ifconfig $WIFI_INTERFACE up
 		for i in `iwlist $WIFI_INTERFACE scan | sed s/"Cell "/Cell-/ | grep "Cell-" | awk '{print $1}'`
 		do
-			SCAN=`iwlist $WIFI_INTERFACE scan last | sed s/"Cell "/Cell-/ | grep -A 8 "$i"`
+			SCAN=`iwlist $WIFI_INTERFACE scan last | \
+				awk '/(Cell|ESS|Qual|Encry|IE: WPA)/ {print}' | \
+				sed s/"Cell "/Cell-/ | grep -A 5 "$i"`
 			ESSID=`echo $SCAN | cut -d '"' -f 2`
 			if echo "$SCAN" | grep -q Quality; then
 				QUALITY=`echo $SCAN | sed 's/.*Quality=\([^ ]*\).*/\1/' | sed 's/.*Quality:\([^ ]*\).*/\1/'`
@@ -47,8 +49,8 @@ detect_wifi_networks()
 			fi
 			# Connected or not connected...
 			if ifconfig | grep -A 1 $WIFI_INTERFACE | \
-			grep -q inet && iwconfig $WIFI_INTERFACE | \
-			grep ESSID | grep -q -w "$ESSID"; then
+				grep -q inet && iwconfig $WIFI_INTERFACE | \
+				grep ESSID | grep -q -w "$ESSID"; then
 				STATUS=connected
 			else
 				STATUS="-"
@@ -99,10 +101,11 @@ start_wifi_connection()
 	[ -s /var/run/udhcpc.$WIFI_INTERFACE.pid ] && kill `cat /var/run/udhcpc.$WIFI_INTERFACE.pid`
 	ifconfig $WIFI_INTERFACE down
 	set_rfswitch 1 
-	iwconfig $WIFI_INTERFACE txpower auto	
+	iwconfig $WIFI_INTERFACE txpower auto
 	/etc/init.d/network.sh restart
 	# Remove tmp file (could be used to have wireless profiles)
 	rm -f /tmp/wifi.conf
+	sleep 2
 }
 
 # We must sleep 4 sec to refresh networks list.
@@ -115,12 +118,12 @@ stop_wifi_connexion()
 	iwconfig $WIFI_INTERFACE txpower off
 	set_rfswitch 0 
 	[ -s /var/run/udhcpc.$WIFI_INTERFACE.pid ] && kill `cat /var/run/udhcpc.$WIFI_INTERFACE.pid`
-	sleep 4
+	sleep 2
 }
 
 # Favorite wireless networks use only 3 values: essid. key and type of
 # key
-FAVORITES_WIFI_list()
+favorites_wifi_list()
 {
 	for i in $FAVORITES_WIFI/*.conf
 	do
@@ -272,7 +275,9 @@ EOT
 # is on we ask for the security key.
 connect_to_essid()
 {
-	SCAN=`iwlist $WIFI_INTERFACE scanning essid "$ESSID_LIST" | grep -A 6 "ESSID"`
+	SCAN=`iwlist $WIFI_INTERFACE scan | \
+		awk '/(Cell|ESS|Qual|Encry|IE: WPA)/ {print}' | \
+		grep -B 1 -A 1 "$ESSID_LIST"`
 	WIFI_ESSID="$ESSID_LIST"
 	ENCRYPTION=`echo $SCAN | sed 's/.*key:\([^ ]*\).*/\1/'`
 	# Create tmp file used by active_wifi_connexion()
@@ -355,7 +360,7 @@ box()
 	
 	<vbox>
 		<tree icon=\"network-wireless\">
-			<width>500</width><height>160</height>
+			<width>520</width><height>160</height>
 			<variable>ESSID_LIST</variable>
 			<label>ESSID|Quality|Encryption|Status</label>
 			<input>$0 detect_wifi_networks</input>
@@ -367,7 +372,7 @@ box()
 			<action>refresh:WIFI_KEY_TYPE</action>
 		</tree>
 		<hbox>
-			<text width-chars=\"50\">
+			<text width-chars=\"54\">
 				<label>
 \"Please double click on a network to connect or enter security key\"
 				</label>
@@ -387,7 +392,7 @@ box()
 			<width>500</width><height>160</height>
 			<variable>FAVORITE</variable>
 			<label>ESSID|Key Type|Key status</label>
-			<input>$0 FAVORITES_WIFI_list</input>
+			<input>$0 favorites_wifi_list</input>
 			<item icon=\"network-wireless\">any | - | -</item>
 			<action>$0 favorite_wifi_actions</action>
 			<action>refresh:FAVORITE</action>
@@ -426,7 +431,7 @@ box()
 			</hbox>
 			<hbox>
 				<text use-markup="true">
-					<label>"<b>ESSID:      </b>"</label>
+					<label>"<b>ESSID:        </b>"</label>
 				</text>
 				<entry>
 					<input>. /etc/network.conf; echo "$WIFI_ESSID"</input>
@@ -435,7 +440,7 @@ box()
 			</hbox>
 			<hbox>
 				<text use-markup="true">
-					<label>"<b>Key:         </b>"</label>
+					<label>"<b>Key:           </b>"</label>
 				</text>
 				<entry>
 					<input>. /etc/network.conf; echo "$WIFI_KEY"</input>
@@ -470,7 +475,7 @@ box()
 			</hbox>
 			<hbox>
 				<text use-markup="true">
-					<label>"<b>Iwconfig args:</b>"</label>
+					<label>"<b>Iwconfig args:</b> "</label>
 				</text>
 				<entry>
 					<input>. /etc/network.conf; echo "$WIFI_IWCONFIG_ARGS"</input>
@@ -617,7 +622,7 @@ export WIFI_DIALOG=${WIFI_DIALOG}${tmp}"
 	
 </vbox>
 </window>"
-	gtkdialog --center --program=WIFI_DIALOG >/dev/null 2>&1
+	gtkdialog --center --program=WIFI_DIALOG #>/dev/null 2>&1
 }
 
 if [ -n "$1" ]; then
