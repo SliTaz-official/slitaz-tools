@@ -113,6 +113,7 @@ mount_cdrom()
 	echo "XXX"
 	mkdir -p /media/cdrom
 	sleep 1
+	# First try to mount a cdrom
 	if mount -t iso9660 $CDROM /media/cdrom 2>>$LOG; then
 		echo "XXX" && echo 60
 		echo -e "\nUsing file from cdrom ($CDROM)..."
@@ -129,6 +130,7 @@ mount_cdrom()
 			sleep 2
 		fi
 	fi
+
 	echo "XXX" && echo 90
 	echo -e "\nChecking installation media..."
 	echo "XXX"
@@ -216,14 +218,14 @@ ask_for_mkfs_target_dev()
 ask_for_home()
 {
 	exec 3>&1
-	HOME_DEV=`$DIALOG --title " Root Partition " \
+	HOME_DEV=`$DIALOG --title " Home Partition " \
 		--backtitle "$BACKLIST" --clear \
 		--extra-label "List" --extra-button \
 		--colors --inputbox "
-On most GNU/Linux system users personnal files are stored in the directoty \
+On most GNU/Linux systems users personal files are stored in the directory \
 /home. Home can be on a separate partition or another hard disk.
 
-\Z2Home partition to use (Option):\Zn" 18 70 2>&1 1>&3`
+\Z2Home partition to use (Optional):\Zn" 18 70 2>&1 1>&3`
 	retval=$?
 	exec 3>&-
 	check_retval
@@ -256,8 +258,8 @@ ask_for_mkfs_home()
 		--clear --colors --yesno "
 Here you can format the /home partition: $HOME_DEV
 
-SliTaz use ext3 by default but another filesystem can be used if wanted, \
-for this please adjust /etc/fstab afer installation.
+SliTaz uses ext3 by default but another filesystem can be used if wanted, \
+for this please adjust /etc/fstab after installation.
 
 \Z2Do you want to format (Option): $HOME_DEV\Zn" 18 70
 	retval=$?
@@ -315,8 +317,8 @@ strong password with special characters and/or numbers.
 	USER=`$DIALOG --title " User name " \
 		--backtitle "$BACKLIST" --clear \
 		--colors --nocancel --inputbox "
-The default user for the system will have his personal files stored \
-in /home/*user* (and will automatically be added to the audio group).
+The default user for the system will have their personal files stored \
+in /home/*user* (and will be automatically added to the audio group).
 
 \Z2Default user name login:\Zn" 18 70 "tux" 2>&1 1>&3`
 	retval=$?
@@ -331,7 +333,7 @@ in /home/*user* (and will automatically be added to the audio group).
 	USER_PASSWD=`$DIALOG --title " User password " \
 		--backtitle "$BACKLIST" --clear \
 		--colors --nocancel --inputbox "
-The password for default user $USER. It may also be a security risk if too \
+The password for default user $USER. It may be a security risk if too \
 weak and should always be strong if you use a SSH connection through the web.
 
 \Z2Please specify $USER password:\Zn" 18 70 "tux" 2>&1 1>&3`
@@ -351,7 +353,7 @@ summary()
 		--backtitle "$BACKLIST" \
 		--clear --colors --yesno "
 Installation settings summary and last chance to cancel or restart all \
-installator steps.
+installation steps.
 
 Root partition: $TARGET_DEV
 Home partition: $HOME_DEV
@@ -395,7 +397,7 @@ prepare_partitions()
 		mkfs.ext3 -L "Home" $HOME_DEV >>$LOG 2>>$LOG
 	else
 		echo "XXX" && echo 70
-		echo -e "\nThe partition ($HOME_DEV) will be keeped..."
+		echo -e "\nThe partition ($HOME_DEV) will be kept..."
 		echo "XXX"
 		sleep 2
 	fi
@@ -419,7 +421,7 @@ clean_target()
 {
 	if [ "$CLEAN" == "clean" ]; then
 		echo "XXX" && echo 15
-		echo -e "\nCleaning the root partition ($TARGET_DEV)..."
+		echo -e "\nCleaning the root partition ($TARGET_DEV)"
 		echo "XXX"
 		# Keep /home in case of reinstall.
 		cd $TARGET_ROOT
@@ -610,7 +612,7 @@ install_files()
 	clean_target
 
 	echo "XXX" && echo 20
-	echo -e "\nInstalling the kernel ($KERNEL)..."
+	echo -e "\nInstalling the kernel ($KERNEL)"
 	echo "XXX"
 	install_kernel
 
@@ -679,7 +681,7 @@ grub_install()
 		0)
 			(
 			echo "XXX" && echo 50
-			echo -e "\nRunning grub-install on : $TARGET_DISK..."
+			echo -e "\nRunning grub-install on : $TARGET_DISK"
 			echo "XXX"
 			grub-install --no-floppy \
 				--root-directory=$TARGET_ROOT $TARGET_DISK 2>>$LOG
@@ -690,7 +692,7 @@ grub_install()
 			) |
 			$DIALOG --title " GRUB install " \
 				--backtitle "$BACKLIST" \
-				--gauge "Installating GRUB..." 18 70 0 ;;
+				--gauge "Installing GRUB..." 18 70 0 ;;
 		1)
 			echo "grub_install: NO" >>$LOG ;;
 		255)
@@ -703,12 +705,12 @@ umount_devices()
 {
 	(
 	echo "XXX" && echo 25
-	echo -e "\nCopying the log files ($LOG)..."
+	echo -e "\nCopying the log files ($LOG)"
 	echo "XXX"
 	cp -a $LOG $TARGET_ROOT/var/log
 	sleep 2
 	echo "XXX" && echo 50
-	echo -e "\nUnmounting the target ($TARGET_DEV)..."
+	echo -e "\nUnmounting the target ($TARGET_DEV)"
 	echo "XXX"
 	if mount | grep -q $TARGET_ROOT; then
 		umount $TARGET_ROOT 2>/dev/null
@@ -870,7 +872,7 @@ a SliTaz system, the file: /etc/slitaz-release doesn't exist."
 	sleep 2
 
 	echo "XXX" && echo 25
-	echo -e "\nInstalling the kernel ($KERNEL)..."
+	echo -e "\nInstalling the kernel ($KERNEL)"
 	echo "XXX"
 	install_kernel
 
