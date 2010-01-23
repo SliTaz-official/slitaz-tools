@@ -116,14 +116,14 @@ mount_cdrom()
 	# First try to mount a cdrom
 	if mount -t iso9660 $CDROM /media/cdrom 2>>$LOG; then
 		echo "XXX" && echo 60
-		echo -e "\nUsing file from cdrom ($CDROM)..."
+		echo -e "\nUsing files from cdrom ($CDROM)..."
 		echo "XXX"
 		sleep 2
 	else
 		# We may be in LiveUSB mode
 		if [ -d /home/boot ]; then
 			echo "XXX" && echo 60
-			echo -e "\nUsing file from USB device..."
+			echo -e "\nUsing files from USB device..."
 			echo "XXX"
 			rm /media/cdrom/boot 2>/dev/null
 			ln -s /home/boot /media/cdrom/boot
@@ -421,7 +421,7 @@ clean_target()
 {
 	if [ "$CLEAN" == "clean" ]; then
 		echo "XXX" && echo 15
-		echo -e "\nCleaning the root partition ($TARGET_DEV)"
+		echo -e "\nCleaning the root partition ($TARGET_DEV)..."
 		echo "XXX"
 		# Keep /home in case of reinstall.
 		cd $TARGET_ROOT
@@ -612,7 +612,7 @@ install_files()
 	clean_target
 
 	echo "XXX" && echo 20
-	echo -e "\nInstalling the kernel ($KERNEL)"
+	echo -e "\nInstalling the kernel ($KERNEL)..."
 	echo "XXX"
 	install_kernel
 
@@ -705,12 +705,12 @@ umount_devices()
 {
 	(
 	echo "XXX" && echo 25
-	echo -e "\nCopying the log files ($LOG)"
+	echo -e "\nCopying the log files ($LOG)..."
 	echo "XXX"
 	cp -a $LOG $TARGET_ROOT/var/log
 	sleep 2
 	echo "XXX" && echo 50
-	echo -e "\nUnmounting the target ($TARGET_DEV)"
+	echo -e "\nUnmounting the target ($TARGET_DEV)..."
 	echo "XXX"
 	if mount | grep -q $TARGET_ROOT; then
 		umount $TARGET_ROOT 2>/dev/null
@@ -872,7 +872,7 @@ a SliTaz system, the file: /etc/slitaz-release doesn't exist."
 	sleep 2
 
 	echo "XXX" && echo 25
-	echo -e "\nInstalling the kernel ($KERNEL)"
+	echo -e "\nInstalling the kernel ($KERNEL)..."
 	echo "XXX"
 	install_kernel
 
