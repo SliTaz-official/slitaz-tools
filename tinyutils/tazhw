@@ -100,11 +100,6 @@ detect_pci_devices()
 		done
 		# yenta_socket = laptop
 		if `lsmod | grep -q "yenta_socket"`; then
-			for mod in ac battery
-			do
-				load_module
-				echo " $mod" >> /var/lib/detected-modules
-			done
 			grep -qs batt /etc/lxpanel/default/panels/panel || 
 			sed -i 's/= cpu/= batt\n}\n\nPlugin {\n    type = cpu/' \
 				/etc/lxpanel/default/panels/panel 2> /dev/null
