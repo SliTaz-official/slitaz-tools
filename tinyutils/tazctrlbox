@@ -171,6 +171,24 @@ New account information
 	gtkdialog --center --program=ADD_USER_DIALOG >/dev/null	
 }
 
+# i18n functions
+list_locales()
+{
+	cd /usr/share/i18n/locales
+	for locale in `ls -1 [a-z][a-z]_[A-Z][A-Z]`
+	do
+		echo "preferences-desktop-locale | $locale | UTF-8"
+	done
+}
+gen_utf8_locale()
+{
+	rm -rf /usr/lib/locale/$LANGUAGE
+	localedef -i $LANGUAGE -c -f UTF-8 /usr/lib/locale/$LANGUAGE
+	# System configuration
+	echo "LANG=$LANGUAGE" > /etc/locale.conf
+	echo "LC_ALL=$LANGUAGE" >> /etc/locale.conf
+}
+
 # Main dialog with notebook.
 #
 export MAIN_DIALOG='
@@ -186,58 +204,8 @@ export MAIN_DIALOG='
 		</pixmap>
 	</hbox>
 
-	<notebook labels="Time|Boot loader|Initialization|Login manager|Users">
+	<notebook labels="Boot loader|Initialization|Login manager|Time|Language|Users">'
 	
-	<vbox>
-		<frame Date and time>
-			<hbox>
-				<text wrap="false">
-					<label>"System time:   "</label>
-				</text>
-				<entry editable="false">
-					<input>LC_ALL=C date</input>
-					<variable>DATE</variable>
-				</entry>
-				<button>
-					<label>Sync online</label>
-					<input file icon="reload"></input>
-					<action>rdate -s tick.greyware.com</action>
-					<action>refresh:DATE</action>
-					<action>refresh:HWTIME</action>
-				</button>
-			</hbox>
-			<hbox>
-				<text wrap="false">
-					<label>"Hardware time:"</label>
-				</text>
-				<entry editable="false">
-					<input>LC_ALL=C hwclock</input>
-					<variable>HWTIME</variable>
-				</entry>
-				<button>
-					<label>Set from system</label>
-					<input file icon="reload"></input>
-					<action>hwclock -w -u</action>
-					<action>refresh:HWTIME</action>
-					<action>refresh:DATE</action>
-				</button>
-			</hbox>
-			<hbox>
-				<text wrap="true">
-					<label>"Timezone:       "</label>
-				</text>
-				<entry>
-					<input>cat /etc/TZ</input>
-					<variable>NEW_TZ</variable>
-				</entry>
-				<button>
-					<label>Change</label>
-					<input file icon="forward"></input>
-					<action>echo "$NEW_TZ" > /etc/TZ</action>
-				</button>
-			</hbox>
-		</frame>
-	</vbox>'
 # GRUB
 MAIN_DIALOG=${MAIN_DIALOG}"
 	<vbox>
@@ -389,11 +357,6 @@ MAIN_DIALOG=${MAIN_DIALOG}'
 				</button>
 			</hbox>
 			<hbox>
-				<button>
-					<label>Resize screen</label>
-					<input file icon="view-fullscreen"></input>
-					<action>tazx</action>
-				</button>
 				<text wrap="false">
 					<label>"Theme:"</label>
 				</text>
@@ -433,6 +396,81 @@ MAIN_DIALOG=${MAIN_DIALOG}'
 			</hbox>
 		</frame>
 	</vbox>'
+# Time setting.
+MAIN_DIALOG=${MAIN_DIALOG}'	
+	<vbox>
+		<frame Date and time>
+			<hbox>
+				<text wrap="false">
+					<label>"System time:   "</label>
+				</text>
+				<entry editable="false">
+					<input>LC_ALL=C date</input>
+					<variable>DATE</variable>
+				</entry>
+				<button>
+					<label>Sync online</label>
+					<input file icon="reload"></input>
+					<action>rdate -s tick.greyware.com</action>
+					<action>refresh:DATE</action>
+					<action>refresh:HWTIME</action>
+				</button>
+			</hbox>
+			<hbox>
+				<text wrap="false">
+					<label>"Hardware time:"</label>
+				</text>
+				<entry editable="false">
+					<input>LC_ALL=C hwclock</input>
+					<variable>HWTIME</variable>
+				</entry>
+				<button>
+					<label>Set from system</label>
+					<input file icon="reload"></input>
+					<action>hwclock -w -u</action>
+					<action>refresh:HWTIME</action>
+					<action>refresh:DATE</action>
+				</button>
+			</hbox>
+			<hbox>
+				<text wrap="true">
+					<label>"Timezone:       "</label>
+				</text>
+				<entry>
+					<input>cat /etc/TZ</input>
+					<variable>NEW_TZ</variable>
+				</entry>
+				<button>
+					<label>Change</label>
+					<input file icon="forward"></input>
+					<action>echo "$NEW_TZ" > /etc/TZ</action>
+				</button>
+			</hbox>
+		</frame>
+	</vbox>'
+# Language setting.
+MAIN_DIALOG=${MAIN_DIALOG}"
+	<vbox>
+		<tree>
+			<width>600</width><height>210</height>
+			<variable>LANGUAGE</variable>
+			<label>Language|Charmap</label>
+			<input icon_column=\"0\">$0 list_locales</input>
+			<action>$0 gen_utf8_locale</action>
+		</tree>
+		<hbox>
+		<text width-chars=\"60\">
+			<label>
+\"To change system language you can double-click on the locale name.\"
+			</label>
+		</text>
+		<button>
+			<label>Keymap</label>
+			<input file icon=\"input-keyboard\"></input>
+			<action>tazkeymap &</action>
+		</button>
+	</hbox>
+	</vbox>"
 # Display users list throught get_users.
 MAIN_DIALOG=${MAIN_DIALOG}"
 	<vbox>
@@ -497,8 +535,7 @@ export MAIN_DIALOG=${MAIN_DIALOG}'
 
 </vbox>
 
-</window>
-'
+</window>'
 
 # Script can be called with an arg to exec a function.
 if [ -n "$1" ]; then
