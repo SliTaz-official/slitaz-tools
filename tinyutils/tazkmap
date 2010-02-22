@@ -37,6 +37,7 @@ value=`$DIALOG  --clear \
     --title " SliTaz kmap configuration " \
     --menu \
 "Séléctionnez votre clavier - Select your keymap." 15 70 5 \
+"us" "USA" \
 "fr_CH" "Suisse français." \
 "fr" "Français" \
 "be" "Belge" \
@@ -47,7 +48,6 @@ value=`$DIALOG  --clear \
 "es" "Spanish" \
 "it" "Italiano" \
 "jp" "Japanese" \
-"us" "USA" \
 2>&1 1>&3`
 retval=$?
 exec 3>&-
