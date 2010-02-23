@@ -110,7 +110,7 @@ detect_pci_devices()
 # Detect all USB devices.
 detect_usb_devices()
 {
-	if [ -f /proc/bus/usb/device -a ! -s /var/lib/detected-usb-modules ]; then
+	if [ -f /proc/bus/usb/devices -a ! -s /var/lib/detected-usb-modules ]; then
 		rm -f /var/lib/detected-usb-modules
 		cat /proc/bus/usb/devices | grep "Vendor" | while read line ; do
 			ID=`echo "$line" | awk '{ print $2,$3 }' | sed 's/ /   /' | \
