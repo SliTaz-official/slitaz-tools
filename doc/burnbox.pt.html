@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pt" lang="pt">
+
+<head>
+	<title>Manual do Burnbox</title>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<style type="text/css"><!--
+	body { font: 90% sans-serif, vernada, arial; margin: 0; }
+	#header { background: #f0ba08; color: black; height: 50px;
+		border-top: 1px solid black; border-bottom: 1px solid black; }
+	#content { margin: 0px 50px 26px 50px; }
+	h1 { margin: 14px 0px 0px 16px; color: #3e1220; }
+	h3 { color: #6c0023; }
+	li { line-height: 1.4em; }
+	pre { padding: 5px; color: black; background: #e1e0b0; }
+	pre.script { padding: 10px; color: black; background: #e8e8e8;
+		border: 1px inset #333333; }
+	code { font-size: 100%; color: #669900; background: transparent; }
+	hr { color: white; background: white; height: 1px; border: 0; }
+	--></style>
+</head>
+
+<body>
+
+<div id="header">
+<h1>Manual do Burnbox (Aplicativo de Gravação de CD/DVD)</h1>
+</div>
+
+<!-- Start content -->
+<div id="content">
+
+<h3>Sobre</h3>
+<p>
+
+O Burnbox suporta:
+</p>
+<ul>
+	<li>Gravação de imagens ISO</li>
+	<li>Backup de dados e CDs de áudio</li>
+	<li>Gravação de dados em CD/DVD (A gravação em DVD requer o pacote opcional <em>dvd+rw-tools</em>)</li>
+	<li>Gravação de CD de áudio (Para áudio MP3 é necessário o pacote <em>mpg123</em>)</li>
+	<li>Gravação de Video CD (VCD/SVCD) (Requer os pacotes <em>vcdimager</em> e <em>ffmpeg</em>)</li>
+</ul>
+
+<h3>Configurações de Dispositivo</h3>
+<p>
+Assegure-se de que o drive de cdrom está configurado corretamente 
+na primeira aba do programa (device: /dev/cdrom, speed (auto-detected): 48;
+Options: ). A entrada é definida a partir da configuração do DEVICE (dispositivo).
+</p>
+
+<h3>Apagar CD/DVD-RW</h3>
+<p>
+Use a opção <code>Blank disk</code> para apagar o conteúdo de um cd ou
+dvd regravável e prepará-lo para gravação.</p>
+
+<h3>Gravação de Imagens ISO</h3>
+<p>
+Utilize a segunda aba para gravações de imagem ISO.
+</p>
+<ul>
+	<li>Clique no botão <code>Browse</code> para especificar a imagem iso</li>
+	<li>Clique no botão <code>Burn ISO</code> para iniciar a gravação</li>
+</ul>
+<p>
+Você pode criar ou manipular imagens ISO com o aplicativo ISO Master.
+</p>
+
+<h3>Backup de dados e CD de áudio</h3>
+<p>
+Utilize a segunda aba. O pacote opcional <em>cdrkit-isoinfo</em> 
+pode ajudar a aumentar as velocidades de gravação. 
+</p>
+<ul>
+	<li>Coloque o  CD no drive</li>
+	<li>Selecione a opção de backup: "Save backup on Hard disk" (default) ou "Backup on CD disc"</li>
+	<li>Se você selecionar a opção "Save backup on Hard disk" (default), selecione a pasta para gravar o "CD/DVD backup"</li>
+	<li>Clique no botão <code>Backup DataCD</code></li>
+</ul>
+<p>
+A extração de faixas de áudio de CDs é possível com o aplicativo Asunder. 
+</p>
+
+<h3>Gravação de CD/DVD de dados</h3>
+<p>
+Você encontra esta opção na terceira aba. Pode-se especificar o tipo de 
+gravação antes de adiciona os arquivos. Dependendo do tipo de gravação
+escolhido, os arquivos são decodificados durante a execução do programa.
+Pode-se remover arquivos simplesmente clicando no nome do arquivo na
+visão de pastas em árvore. A informação "total track size" mostra o
+quanto o CD/DVD está ocupado.
+</p>
+
+<ul>
+	<li>Selecione "data-cd" em "Burn Type"</li>
+	<li>Especifique "file/folder" ou <code>Browse</code></li>
+	<li>Clique em <code>Add</code></li>
+	<li>Clique em <code>Burn Disc</code></li>
+</ul>
+
+<h3>Gravação de CDs de áudio</h3>
+<p>
+Você encontra esta opção na terceira aba. São suportados arquivos WAV, OGG
+e MP3. OGG e MP3 são convertidos automaticamente em arquivos WAV sem
+compressão para a gravação.
+</p>
+<ul>
+	<li>Selecione "audio-cd" in "Burn Type"</li>
+	<li>Especifique "file/folder" ou <code> Browse</code></li>
+	<li>Clique em <code> Add</code> para decodificar arquivos OGG e MP3 em WAV</li>
+	<li>Clique em <code> Burn Disc</code></li>
+</ul>
+
+<h3>Gravação de Video CD (VCD/SVCD)</h3>
+<p>
+Você encontra esta opção na terceira aba. Somente a gravação de vídeos
+no formato mpg são suportados diretamente: MPEG-1 para VCD e MPEG-2
+para SVCD e DVD. Arquivos AVI, MOV, FLV e WMV são automaticamente 
+convertidos para mpg compatível com VCD/SVCD/DVD.
+</p>
+<ul>
+	<li>Selecione "data-cd" em "Burn Type"</li>
+	<li>Especifique "file/folder" ou <code>Browse</code></li>
+	<li>Clique em <code>Add</code> para decodificar AVI, FLV, MOV, WVM em MPG</li>
+	<li>Clique em <code>Burn Disc</code></li>
+</ul>
+
+<h3>Problemas comuns</h3>
+<ul>
+	<li>O Burnbox funciona com o usuário root mas não com um usuário comum:
+        isto ocorre quando o usuário não se encontra no grupo "cdrom".
+        Para resolver execute <code>addgroup usuário cdrom</code></li>
+	<li>Mensagens "cdrom not readable / writable": Certifique-se de que
+        o usuário possui as permissões necessárias e está no grupo "cdrom"</li>	
+	<li>Gravação de áudio MP3 não funciona: verifique se o pacote 
+        <em>mpg123</em> está instalado</li>
+	<li>Opção VCD não funciona: verifique se o pacote <em>vcdimager</em>
+        está instalado</li>
+	<li>Arquivos AVI, FLV, WMV não são convertidos para MPG: verifique se
+        o pacote <em>ffmpeg</em> está instalado</li>
+	<li>Gravação de DVD não funciona: Verifique se o pacote <em>dvd+rw-tools</em>
+        está instalado</li>
+</ul>
+
+<!-- End content -->
+</div>
+
+</body>
+</html>
