@@ -8,7 +8,7 @@
 # Authors : Christophe Lincoln <pankso@slitaz.org>
 #           Rohit Joshi <jozee@slitaz.org>
 #
-VERSION=20090722
+VERSION=20100315
 TMPDIR="/tmp/burn-cd"
 
 chk_install()
@@ -20,19 +20,35 @@ chk_install()
 		fi			
 	done 
 	if [ ! "$UNINSTALLED" = "" ] ; then
-		xterm -bg gray93 -fg black -geometry 80x16 -title "INSTALL PACKAGE" \
+		xterm -geometry 80x16 -title "INSTALL PACKAGE" \
 				-e "echo -n \"This option depends on $UNINSTALLED. Please install and try again..\"; sleep 4;"
 	fi	
+}
+
+# Auto Install DEPENDS and/or SUGGESTED
+install()
+{
+	#echo "pkgs to install: $1"
+	for pkg in $1 ; do
+	   # Avoid reinstall
+		if [ ! -d /var/lib/tazpkg/installed/"$pkg" ]; then
+			xterm -geometry 80x16 -title "INSTALL PACKAGE" \
+				-e "	echo \"This option depends on $pkg. Installing $pkg as root: \" ;  subox tazpkg get-install $pkg --forced; sleep 2;
+						echo -e \"----\nPress ENTER to close and PROCEED with decoding...\"; read i; exit 0;	"		
+		fi
+	done
+	
 }
 
 
 # Check read write permission for device.
 chk_rw_permissions()
 {
-	xterm -bg gray93 -fg black -geometry 80x16 -title "Check Permission" \
+	xterm -geometry 80x16 -title "Check Permission" \
 		-e ' 
 			if [ ! -r "$DEVICE"  -o   ! -w "$DEVICE" ]; then
-				echo "You dont have read write permission for $DEVICE; trying adding yourself to group cdrom."					 		
+				echo "You dont have read write permission for $DEVICE;  "
+				echo "Add yourself to group cdrom: addgroup tux cdrom"								 		
 			else
 				echo "You have read write permission for $DEVICE. You can proceed to burn."					
 			fi
@@ -45,15 +61,7 @@ audio_cd_stats()
 {
 	AUDIO_CD_SIZE=`du -m $TMPDIR | awk '{print $1}'`
 	TRACK_NB=`ls -1 $TMPDIR | wc -l`
-	echo -n "Total tracks: $AUDIO_CD_SIZE Mb"
-}
-
-# Display cd/dvd size.
-disc_stats()
-{
-	DISC_SIZE=`du -m $TMPDIR | awk '{print $1}'`
-	TRACK_NB=`ls -1 $TMPDIR | wc -l`
-	echo -n "Total size: $DISC_SIZE Mb"
+	echo -n "Total $TRACK_NB tracks: $AUDIO_CD_SIZE Mb"
 }
 
 
@@ -61,7 +69,7 @@ decode_ogg()
 {
 	if ls $TMPDIR | grep -q .ogg; then
 		cd $TMPDIR
-		xterm -bg gray93 -fg black -geometry 80x16 -title "Oggdec" \
+		xterm -geometry 80x16 -title "Oggdec" \
 			-e 'for i in *.ogg; do oggdec "$i" && rm "$i"; done; sleep 2'
 	fi
 }
@@ -71,15 +79,12 @@ decode_mp3()
 	
 	if ls $TMPDIR | grep -q .mp3; then
 		cd $TMPDIR
-		UNINSTALLED=""
-		chk_install "mpg123"
-		if [ "$UNINSTALLED" = "" ] ; then
-			xterm -bg gray93 -fg black -geometry 80x16 -title "mpg123" \
+		install "mpg123"
+		
+		xterm -geometry 80x16 -title "mpg123" \
 				-e 'for file in *.mp3; do 
-						mpg123 --rate 44100 --stereo --buffer 3072 --resync -w  `basename "$file" .mp3`.wav "$file" && rm "$file"; 
-				  done; sleep 2'
-				  
-		fi
+						mpg123 --rate 44100 --stereo --buffer 3072 --resync -w  `basename "$file" .mp3`.wav "$file" && rm -f "$file"; 
+				  done; sleep 2'			  	
 	fi
 }
 
@@ -88,11 +93,9 @@ decode_video()
 	# convert videos into a VCD/SVCD/DVD compatible mpg video format
 	if ls $TMPDIR | grep -q ".avi\|.mov\|.wmv\|.flv"  ; then
 		cd $TMPDIR
-		UNINSTALLED=""
-		chk_install "ffmpeg"
+		install "ffmpeg"
 				
-		if [ "$UNINSTALLED" = "" ] ; then
-			xterm -bg gray93 -fg black -geometry 80x16 -title "ffmpeg" \
+		xterm -geometry 80x16 -title "ffmpeg" \
 				-e ' echo -n "Select target type (pal-vcd ntsc-vcd pal-svcd ntsc-svcd pal-dvd ntsc-dvd) "; read TARGET_OPTIONS
 					 for file in *.avi *.wmv *.mov *.flv; do
 						 ext=`echo "${file##*.}"`
@@ -100,7 +103,6 @@ decode_video()
 					 	 ffmpeg -i "$file" -target "$TARGET_OPTIONS" "$output_file" && rm "$file";
 					 done; sleep 2;
 				   '
-		fi
 	fi
 	
 
@@ -202,7 +204,7 @@ copy_dir()
 # =====ISO=====
 burn_iso()
 {
-	xterm -bg gray93 -fg black -geometry 80x16 -title "Wodim" \
+	xterm -geometry 80x16 -title "Wodim" \
 		-e "wodim -v speed=$SPEED dev=$DEVICE $OPTIONS $ISO_IMAGE; sleep 4			
 		"
 }
@@ -210,89 +212,83 @@ burn_iso()
 # Use -pad to avoid file size error.
 burn_audio()
 {
-	UNINSTALLED=""
-	chk_install "cdrkit"
-	if [ "$UNINSTALLED" = "" ] ; then
-		xterm -bg gray93 -fg black -geometry 80x16 -title "Wodim:AUDIO" \
+
+	install "cdrkit"
+	xterm -geometry 80x16 -title "Wodim:AUDIO" \
 			-e " echo \"BURN TYPE SELECTED = $BURN_MODE \"; sleep 1;				
 			 wodim -v speed=$SPEED dev=$DEVICE $OPTIONS -pad -dao -audio $TMPDIR/*.wav; sleep 4 
 			 
 		"
-	fi
 }
 # =====DATA=====
 burn_cddata()
 {
-	UNINSTALLED=""
-	chk_install "cdrkit"
-	if [ "$UNINSTALLED" = "" ] ; then
-		xterm -bg gray93 -fg black -geometry 80x16 -title "Wodim:CD DATA" \
+	
+	install "cdrkit"
+
+	xterm -geometry 80x16 -title "Wodim:CD DATA" \
 			-e " echo \"BURN TYPE SELECTED = $BURN_MODE \"; sleep 1;
 				wodim -v speed=$SPEED dev=$DEVICE $OPTIONS -pad -dao -data $TMPDIR/*; sleep 4 
 				
 			"
-	fi	
 				
 }
 
 burn_dvddata()
 {
 	# For multisession support, remove --dvd-compat option
-	UNINSTALLED=""
-	chk_install "dvd+rw-tools"
-	if [ "$UNINSTALLED" = "" ] ; then
-		xterm -bg gray93 -fg black -geometry 80x16 -title "growisofs:DVD DATA" \
+	install "dvd+rw-tools"
+
+	xterm -geometry 80x16 -title "growisofs:DVD DATA" \
 			-e " echo \"BURN TYPE SELECTED = $BURN_MODE \"; sleep 1;
 				# no iso-file available
 				growisofs -dvd-compat -speed=$SPEED -pad -J -r -f -Z  $DEVICE  $TMPDIR/*; sleep 4	
 				"
-	fi	
 }
 
 # ====VIDEO=====
 burn_dvdvideo()
 {
-	UNINSTALLED=""
-	chk_install "dvd+rw-tools"
+
+	install "dvd+rw-tools"
 	
 	# current assumption: compatible dvd-video format
-	if [ "$UNINSTALLED" = "" ] ; then
-			xterm -bg gray93 -fg black -geometry 80x16 -title "growisofs:DVD VIDEO" \
+	xterm -geometry 80x16 -title "growisofs:DVD VIDEO" \
 			-e " echo \"BURN TYPE SELECTED = $BURN_MODE\"; sleep 1;    
 			   	 growisofs -dvd-video -udf -pad -J -r -f -Z $DEVICE -speed=$SPEED  $TMPDIR/*; sleep 2
 				"	
-	fi		
+		
 }
 
 burn_vcd()
 {
-	UNINSTALLED=""
-	chk_install "vcdimager"
-	if [ "$UNINSTALLED" = "" ] ; then
-		mkdir -p $TMPDIR/vcd
-		xterm -bg gray93 -fg black -geometry 80x16 -title "vcdimager:VCD" \
+	
+	install "vcdimager"
+
+	mkdir -p $TMPDIR/vcd
+		xterm -geometry 80x16 -title "vcdimager:VCD" \
 			-e " echo \"BURN TYPE SELECTED = $BURN_MODE $UNINSTALLED \"; sleep 1;
-				 vcdimager -t vcd2 -l VCD -c $TMPDIR/vcd/vcd.cue -b $TMPDIR/vcd/vcd.bin $TMPDIR/*.mpg; sleep 2; 
+			   	 vcdimager -t vcd2 -l VCD -c $TMPDIR/vcd/vcd.cue -b $TMPDIR/vcd/vcd.bin $TMPDIR/*.mpg; sleep 2; 
 				# cdrdao write --device $DEVICE $TMPDIR/vcd/vcd.cue; sleep 2
 				  wodim -v speed=$SPEED dev=$DEVICE $OPTIONS -pad -dao cuefile=$TMPDIR/vcd/vcd.cue ; sleep 2				
 				"	
-	fi	
+	
 		
 }
 
 burn_svcd()
 {
-	UNINSTALLED=""
-	chk_install "vcdimager"
-	if [ "$UNINSTALLED" = "" ] ; then
-		mkdir -p $TMPDIR/svcd
-		xterm -bg gray93 -fg black -geometry 80x16 -title "vcdimager:SVCD" \
+	
+	install "vcdimager"
+
+	mkdir -p $TMPDIR/svcd
+		xterm -geometry 80x16 -title "vcdimager:SVCD" \
 			-e " echo \"BURN TYPE SELECTED = $BURN_MODE\"
 				  vcdimager -t svcd -l SVCD -c $TMPDIR/svcd/svcd.cue -b $TMPDIR/svcd/svcd.bin $TMPDIR/*.mpg; sleep 2; 
 				 # cdrdao write --device $DEVICE $TMPDIR/svcd/svcd.cue; sleep 2;
 				 wodim -v speed=$SPEED dev=$DEVICE $OPTIONS -pad -dao cuefile=$TMPDIR/svcd/svcd.cue ; sleep 2
 				"	
-	fi	
+	
 }
 
 # =====CLONE=====
@@ -302,7 +298,7 @@ rip_disc()
 	SUGGESTED="cdrkit-isoinfo"
 	if ! "$CHECKBOX_FOLDER" ; then SAVE_DISC="/tmp/burn-cd" ; fi	
 	if [ -d /var/lib/tazpkg/installed/${SUGGESTED} ]; then
-		xterm -bg gray93 -fg black -geometry 80x16 -title "dd" \
+		xterm -geometry 80x16 -title "dd" \
 			-e ' echo "RIPPING DISC $DEVICE AT $SAVE_DISC..."
 				 COUNT=`isoinfo -d -i $DEVICE | grep "^Volume size is:" | cut -d " " -f 4`
 				 BLOCK=`isoinfo -d -i $DEVICE | grep "^Logical block size is:" | cut -d " " -f 5`
@@ -311,7 +307,7 @@ rip_disc()
 				# eject ;
 			   '
 	else 
-		xterm -bg gray93 -fg black -geometry 80x16 -title "dd" \
+		xterm -geometry 80x16 -title "dd" \
 			-e '   echo "Though you dont have the cdrkit-isoinfo package installed, \
 				          you can still rip but it may be slower."
 					echo -n "Would you like to continue (y/N)? : "; read ans
@@ -325,7 +321,7 @@ rip_disc()
 	fi	
 	if ! "$CHECKBOX_FOLDER" ; then 
 				ISO_IMAGE="/tmp/burn-cd/image.iso"
-				xterm -bg gray93 -fg black -geometry 80x16 -title "dd" \
+				xterm -geometry 80x16 -title "dd" \
 			-e ' echo -e " ---Please insert EMPTY DISC at $DEVICE ---\n ---press ENTER to continue..." && read close;'
 				burn_iso
 	fi
@@ -333,7 +329,7 @@ rip_disc()
 
 blank_dvd()
 {
-	xterm -bg gray93 -fg black -geometry 80x16 -title "growisofs:DVD ERASE" \
+	xterm -geometry 80x16 -title "growisofs:DVD ERASE" \
 		-e "growisofs -Z $DEVICE=/dev/zero"
 }
 
@@ -356,202 +352,33 @@ burn_disc()
 		
 }
 
+track_list()
+{
+	for file in `ls $TMPDIR` ; do
+		track_size=`du -m $TMPDIR/$file | awk '{print $1}'`
+		echo "$file | $track_size"	
+	done
+}
+
+export BIN=$0
 # Main GTK interface
 MAIN_DIALOG='
 <window title="SliTaz - Burnbox" icon-name="drive-optical">
 <vbox>
 
-	<notebook labels="General|Burn ISO or Backup Disc| Burn CD/DVD (Audio,Video,Data)">
+	<notebook labels=" Burn CD/DVD (Audio,Video,Data)| Backup Disc| Burn ISO | Help/Settings">
 	
-	<vbox>
-		<frame Information>
-		
-			<text width_request="250" use-markup="true">
-				<label>
-"Burns ISOs, backs up CD/DVDs, burns data CD/DVDs, audio CDs and video CDs (VCD/SVCD)
-"
-				</label>				
-			</text>
-			<hbox>
-				<text use-markup="true">
-					<label> "<b> Please consult HELP file if needed:  </b>"	</label>
-				</text>
-			  <button>
-					<input file icon="help"></input>
-					<action> firefox /usr/share/doc/burnbox/burnbox.html </action>
-				</button>
-				</hbox>
-			
-		</frame>
-		<frame Settings>
-		<text>
-				<label>
-"Before burning, please verify/change device writer settings below if needed.
-"
-				</label>
-		</text>
-		
-			<hbox>
-				<text use-markup="true">
-					<label>"<b>Device:     </b>"</label>
-				</text>
-				<entry>
-					<default>/dev/cdrom</default>
-					<variable>DEVICE</variable>
-				</entry>
-			</hbox>
-			<hbox>
-				<text use-markup="true">
-					<label>"<b>Speed:     </b>"</label>
-				</text>
-				<entry>
-					<input>cat /proc/sys/dev/cdrom/info | grep "drive speed" | cut -f 3</input>
-					<variable>SPEED</variable>
-				</entry>
-			</hbox>
-			<hbox>
-				<text use-markup="true">
-					<label>"<b>Options:  </b>"</label>
-				</text>
-				<entry>
-					<default>-eject -multi</default>
-					<variable>OPTIONS</variable>
-				</entry>
-				<button>
-					<input file icon="help"></input>
-					<action>xterm -sb -bg gray93 -fg black -geometry 95x25 -title "wodim help" -e "wodim --help ; echo -e \"----\nENTER to continue...\" && read close"</action>
-				</button>
-			</hbox>	
-			<hbox>
-				<text use-markup="true">
-					<label> "<b>Check Permissions for Device:  </b>"	</label>
-				</text>' 
-		MAIN_DIALOG=${MAIN_DIALOG}"	<button>				
-					<input file icon=\"dialog-information\"></input>
-					<action>$0 chk_rw_permissions</action>
-				</button> "
-	   MAIN_DIALOG=${MAIN_DIALOG}'</hbox>		
-		</frame>
-		<frame Blank CD/DVD-RW>
-			<hbox>
-				<text use-markup="true">
-					<label>"<b>Option:   </b>"</label>
-				</text>
-				<entry>
-					<variable>BLANK_OPTS</variable>
-					<default>fast</default>
-				</entry>
-				<button>
-					<input file icon="help"></input>
-					<action>xterm -bg gray93 -fg black -geometry 80x15 -title "wodim blank=help" -e "wodim blank=help ; echo -e \"----\nENTER to continue...\" && read close"</action>
-				</button>
-				<button>
-					<label>Blank disc</label>
-					<input file icon="forward"></input>
-					<action>xterm -bg gray93 -fg black -title "Wodim" -e "wodim -v -blank=$BLANK_OPTS dev=$DEVICE; sleep 2"</action>
-				</button>
-			</hbox>
-		</frame>
-	</vbox>
-	
-	<vbox>
-		<frame Select ISO and burn>		
-		<hbox>
-		  <text>
-		<label> 
-			"  	" 
-		</label>
-		</text>
-				<text use-markup="true">
-					<label>"<b>ISO path:</b>"</label>
-				</text>
-				<entry>
-					<variable>ISO_IMAGE</variable>
-				</entry>
-				<button>
-				    <label>Browse</label>
-					<input file stock="gtk-open"></input>
-					<action type="fileselect">ISO_IMAGE</action>
-				</button>
-			'
-# Burn iso button.
-MAIN_DIALOG=${MAIN_DIALOG}"
-				<button>
-					<label>Burn ISO</label>
-					<input file icon=\"forward\"></input>
-					<action>$0 burn_iso</action>
-				</button>
-			</hbox>"
-# Backup CD
-MAIN_DIALOG=${MAIN_DIALOG}'
-	</frame>
-	
- <frame Data CD/DVD backup >
-   <text>
-		<label> 
-			"  " 
-		</label>
-	</text>
-			<checkbox>
-				<label>Save backup on Hard disk (Unselect to backup on CD disc) </label>
-				<variable>CHECKBOX_FOLDER</variable>
-				<default>true</default>
-				<action>if true enable:SAVE_DISC</action>
-				<action>if true enable:OPENBUTTON</action>
-				<action>if false disable:SAVE_DISC</action>
-				<action>if false disable:OPENBUTTON</action>				
-			</checkbox>
-			<hbox>
-				<text use-markup="true">
-					<label>"<b> Backup folder:</b>"</label>
-				</text>
-				<entry accept="directory">
-				<label>Select a folder to save cloned disc to</label>
-					<variable>SAVE_DISC</variable>
-				</entry>
-				<button>
-				    <label>Browse</label>
-					<input file stock="gtk-open"></input>
-					<variable>OPENBUTTON</variable>
-					<action type="fileselect">SAVE_DISC</action>
-				</button>					
-'
-# Burn backup button.
-MAIN_DIALOG=${MAIN_DIALOG}"
-			<button>
-					<label>Backup DataCD</label>
-					<variable>DATA_RIP</variable>
-					<input file icon=\"forward\"></input>
-					<action>$0 rip_disc</action>
-				</button>
-			</hbox>"			
-MAIN_DIALOG=${MAIN_DIALOG}'
-		</frame>
-	<frame Audio CD backup>	  				
-			<hbox>
-			<text>
-				<label> "Clone audio CD using asunder " 	</label>
-			</text>
-				<button>					
-				<label> Backup AudioCD</label>
-				<variable>AUDIO_RIP</variable>
-				<input file icon="forward"></input>
-				<action>asunder</action>
-				</button>
-	        </hbox>
- </frame>
-		
-	</vbox>
 	<vbox>	
 		<tree icon_name="audio-x-generic">
 			<width>500</width><height>200</height>
 			<variable>TRACKS_LIST</variable>
-			<label>Track name (Double-click to remove a track)</label>
-			<input>ls -1 /tmp/burn-cd</input>
+			<label>Track name (Double-click to remove a track) | Track Size (Mb)</label>
+			<input>$BIN track_list</input>
 			<action>rm "/tmp/burn-cd/$TRACKS_LIST"</action>
 			<action>refresh:TRACKS_LIST</action>
 			<action>refresh:TRACKS_SIZE</action>
 		</tree>'
+		
 # Select burn audio-cd, data-cd, dvd-video or vcd/svcd		
 MAIN_DIALOG=${MAIN_DIALOG}'
    <frame>
@@ -644,15 +471,227 @@ MAIN_DIALOG=${MAIN_DIALOG}"
 		</hbox>
 		</frame>
 	</vbox> "
+
+# Backup CD
+MAIN_DIALOG=${MAIN_DIALOG}'	
+<vbox>	
+	
+		<text use-markup="true"> 
+			<label>
+			"
+<b>Choose either the Data or the Audio CD backup frame </b>
+"
+		</label>
+		</text> 
+	
+ <frame Data CD/DVD backup >
+   <text>
+		<label> 
+			"  " 
+		</label>
+	</text>
+			<checkbox>
+				<label>Save backup on Hard Disk Folder (Unselect to backup on CD disc)</label>
+				<variable>CHECKBOX_FOLDER</variable>
+				<default>true</default>
+				<action>if true enable:SAVE_DISC</action>
+				<action>if true enable:OPENBUTTON</action>
+				<action>if false disable:SAVE_DISC</action>
+				<action>if false disable:OPENBUTTON</action>				
+			</checkbox>
+			<hbox>
+				<text use-markup="true">
+					<label>"      Backup Folder Path:"</label>
+				</text>
+				<entry accept="directory">
+				<label>Select a folder to save cloned disc to</label>
+					<variable>SAVE_DISC</variable>
+				</entry>
+				<button>
+				    <label>Browse</label>
+					<input file stock="gtk-open"></input>
+					<variable>OPENBUTTON</variable>
+					<action type="fileselect">SAVE_DISC</action>
+				</button>	
+				</hbox>				
+'
+# Burn backup button.
+MAIN_DIALOG=${MAIN_DIALOG}"
+			<hbox>
+			<text>
+				<label>\"Proceed to backup your data CD: \" 	</label>
+			</text>
+			<button>
+					<label>Backup DataCD</label>
+					<variable>DATA_RIP</variable>
+					<input file icon=\"forward\"></input>
+					<action>$0 rip_disc</action>
+				</button>
+			</hbox>
+			</frame>"			
+MAIN_DIALOG=${MAIN_DIALOG}'		
+	<frame Audio CD backup>	
+		<text>
+			<label> 
+				"  " 
+			</label>
+		</text> 			 				
+			<hbox>
+			<text>
+				<label> "Proceed to clone your audio CD:"</label>
+			</text>
+				<button>					
+				<label> Backup AudioCD</label>
+				<variable>AUDIO_RIP</variable>
+				<input file icon="forward"></input>
+				<action>asunder</action>
+				</button>
+	        </hbox>
+ </frame>
+		
+	</vbox>'
+	
+MAIN_DIALOG=${MAIN_DIALOG}'
+	<vbox>
+		<text use-markup="true"> 
+			<label>
+			"			 
+			"
+		</label>
+		</text> 
+		<frame Select ISO and burn>		
+		<hbox>
+		  <text>
+		<label> 
+			"  	" 
+		</label>
+		</text>
+				<text use-markup="true">
+					<label>"<b>ISO path:</b>"</label>
+				</text>
+				<entry>
+					<variable>ISO_IMAGE</variable>
+				</entry>
+				<button>
+				    <label>Browse</label>
+					<input file stock="gtk-open"></input>
+					<action type="fileselect">ISO_IMAGE</action>
+				</button>
+			</hbox>
+			'
+# Burn iso button.
+MAIN_DIALOG=${MAIN_DIALOG}"
+			<hbox>
+				<button>
+					<label>Burn ISO</label>
+					<input file icon=\"forward\"></input>
+					<action>$0 burn_iso</action>
+				</button>
+			</hbox>
+			</frame>
+			</vbox>"
+
+	
+
 #
 #				
 # tmp3=	
+MAIN_DIALOG=${MAIN_DIALOG}'
+	<vbox>
+		<frame Information>
+		
+			<text width_request="250" use-markup="true">
+				<label>
+"Burns ISOs, backs up CD/DVDs, burns data CD/DVDs, audio CDs and video CDs (VCD/SVCD)
+"
+				</label>				
+			</text>
+			<hbox>
+				<text use-markup="true">
+					<label> "<b> Please consult HELP file if needed:  </b>"	</label>
+				</text>
+			  <button>
+					<input file icon="help"></input>
+					<action> firefox /usr/share/doc/burnbox/burnbox.html </action>
+				</button>
+				</hbox>
+			
+		</frame>
+		<frame Settings>
+		<text>
+				<label>
+"Before burning, please verify/change device writer settings below if needed.
+"
+				</label>
+		</text>
+		
+			<hbox>
+				<text use-markup="true">
+					<label>"<b>Device:     </b>"</label>
+				</text>
+				<entry>
+					<default>/dev/cdrom</default>
+					<variable>DEVICE</variable>
+				</entry>
+			</hbox>
+			<hbox>
+				<text use-markup="true">
+					<label>"<b>Speed:     </b>"</label>
+				</text>
+				<entry>
+					<input>cat /proc/sys/dev/cdrom/info | grep "drive speed" | cut -f 3</input>
+					<variable>SPEED</variable>
+				</entry>
+			</hbox>
+			<hbox>
+				<text use-markup="true">
+					<label>"<b>Options:  </b>"</label>
+				</text>
+				<entry>
+					<default>-eject -multi</default>
+					<variable>OPTIONS</variable>
+				</entry>
+				<button>
+					<input file icon="help"></input>
+					<action>xterm -sb -geometry 95x25 -title "wodim help" -e "wodim --help ; echo -e \"----\nENTER to continue...\" && read close"</action>
+				</button>
+			</hbox>	'
+			
+	   MAIN_DIALOG=${MAIN_DIALOG}'		
+		</frame>
+		<frame Blank CD/DVD-RW>
+			<hbox>
+				<text use-markup="true">
+					<label>"<b>Option:   </b>"</label>
+				</text>
+				<entry>
+					<variable>BLANK_OPTS</variable>
+					<default>fast</default>
+				</entry>
+				<button>
+					<input file icon="help"></input>
+					<action>xterm -geometry 80x16 -title "wodim blank=help" -e "wodim blank=help ; echo -e \"----\nENTER to continue...\" && read close"</action>
+				</button>
+				<button>
+					<label>Blank disc</label>
+					<input file icon="forward"></input>
+					<action>xterm -title "Wodim" -e "wodim -v -blank=$BLANK_OPTS dev=$DEVICE; sleep 2"</action>
+				</button>
+			</hbox>
+		</frame>
+	</vbox>'
 export MAIN_DIALOG=${MAIN_DIALOG}'
 	
-	</notebook>
-	
-	<hbox>
-		<button>
+	</notebook>' 
+	MAIN_DIALOG=${MAIN_DIALOG}"<hbox>
+			<button>				
+					<input file icon=\"dialog-information\"></input>
+					<label> Check Permissions for Device</label>
+					<action>$0 chk_rw_permissions</action>
+				</button> 
+				"
+	MAIN_DIALOG=${MAIN_DIALOG}'
+			<button>
 			<label>Exit</label>
 			<input file icon="exit"></input>
 			<action type="exit">Exit</action>
