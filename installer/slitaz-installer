@@ -58,7 +58,7 @@ check_root()
 	ERROR_MSG="\
 [\Z6en\Zn] You must be root administrator to start SliTaz installer, please \
 use 'su' to get a root SHell and restart installation.\n\n
-[\Z6fr\Zn] Vous devez être root pour installer SLiTaz GNU/Linux. Vous pouvez \
+[\Z6fr\Zn] Vous devez Ãªtre root pour installer SLiTaz GNU/Linux. Vous pouvez \
 utiliser 'su' suivi du mot de passe administrateur pour devenir root \
 et relancer l'installation."
 		error_message
