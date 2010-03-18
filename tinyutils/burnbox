@@ -612,7 +612,7 @@ MAIN_DIALOG=${MAIN_DIALOG}'
 				</text>
 			  <button>
 					<input file icon="help"></input>
-					<action> firefox /usr/share/doc/burnbox/burnbox.html </action>
+					<action> browser /usr/share/doc/burnbox/burnbox.html </action>
 				</button>
 				</hbox>
 			
