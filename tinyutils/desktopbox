@@ -35,7 +35,6 @@ usage()
   new-folder   Create a new folder on the desktop with mkdir.
   new-file     Create a new empty file or SHell script on the desktop.
   add-icons    Add a system icon to the desktop.
-  calendar     Display a calendar under mouse pointer.
   notify       Display a notification message (center/no decoration).
                Ex: `basename $0` notify \"Message to display\" 4
   autostart    Manage autostarted applications with Openbox.
@@ -244,11 +243,6 @@ case $1 in
 </vbox>
 </window>'
 		export DESKTOP_DIALOG=${DESKTOP_DIALOG}${ACTIONS} ;;
-	calendar)
-		# Calendar using glade file.
-		#
-		gtkdialog --glade-xml=$GLADE_XML/calendar.glade \
-        	--program=MAIN_WINDOW ;;
 	logout)
 		# X session/system logout.
 		#
