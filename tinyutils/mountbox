@@ -59,9 +59,20 @@ de montage est généré depuis /media te /mnt.
 MAIN_DIALOG='
 <window title="Mountbox" icon-name="media-flash">
 <vbox>
-	
+	<frame>
 	<tree>
-		<width>520</width><height>120</height>
+		<width>500</width><height>130</height>
+		<variable>DEVICE</variable>
+		<label>Umounted dev|Size|System|Type|Label|Boot|Start|End|Blocks|Id|UUID</label>
+		<input>/usr/lib/slitaz/libmountbox list-umounted</input>
+		<action>/usr/lib/slitaz/libmountbox umounted-fs-infos</action>
+		<action>refresh:MOUNTED</action>
+		<action>refresh:DEVICE</action>
+	</tree>
+	</frame>
+	<frame>
+	<tree>
+		<width>500</width><height>110</height>
 		<variable>MOUNTED</variable>
 		<label>Mounted fs|Size|Used|Available|Use%|Mounted on|Option</label>'
 
@@ -86,35 +97,36 @@ DEVICE='<input>/usr/lib/slitaz/libmountbox list-mounted</input>
 		<action>refresh:DEVICE</action>
 	</tree>
 	
-	<tree>
-		<width>500</width><height>120</height>
-		<variable>DEVICE</variable>
-		<label>Umounted dev|Size|System|Type|Label|Boot|Start|End|Blocks|Id|UUID</label>
-		<input>/usr/lib/slitaz/libmountbox list-umounted</input>
-		<action>/usr/lib/slitaz/libmountbox umounted-fs-infos</action>
-		<action>refresh:MOUNTED</action>
-		<action>refresh:DEVICE</action>
-	</tree>
+	</frame>
+	
 	<hbox>
-		<text use-markup="true">
+		<text use-markup="true" >
 			<label>"<b>Mount selected device on:</b>"</label>
 		</text>
 		<entry accept="directory">
 			<default>/media/cdrom</default>
-			<variable>MOUNT_POINT</variable>'
-
-# Get the mount points list.
-MAIN_DIALOG=${MAIN_DIALOG}${DEVICE}
-
-# Actions buttons (mount, umount, eject, etc).
-ACTIONS='
-		</entry>
+			<variable>MOUNT_POINT</variable>
+			</entry>
 		<button>
 			<label>Browse</label>
 			<input file icon="folder-open"></input>
 			<action type="fileselect">MOUNT_POINT</action>
 		</button>
 	</hbox>
+	<hbox>
+		<text use-markup="true" wrap="false">
+			<label>"Tip: Select an unmounted /dev. Then, type or select a folder to mount. Then, press a button.          
+"</label>
+		</text>
+	</hbox>
+	'
+
+# Get the mount points list.
+MAIN_DIALOG=${MAIN_DIALOG}${DEVICE}
+
+# Actions buttons (mount, umount, eject, etc).
+ACTIONS='
+		
 	<hbox>
 		<button>
 			<label>Mount</label>
