@@ -2,21 +2,23 @@ SliTaz tools                                                               2010
 ===============================================================================
 
 
-The SliTaz tools package provide many tinyutils, shared and custom configuration
-files destined to improve SliTaz. The tools was initialy created to help people
-build there own distribution by followin SliTaz Cookbook, now the package mostly
-provide all the configuration tools and all home-made GTK boxes such has subox,
-tazctrlbox, the installer, etc.
+The SliTaz tools package provides many tinyutils, shared and custom 
+configuration files destined to improve SliTaz. The tools were initially 
+created to help people build their own distribution by following the SliTaz 
+Cookbook; now the package mostly provides all the configuration tools and 
+all home-made GTK boxes such as subox, tazctrlbox, the installer, etc.
 
-The package also provide some scripts (firewall), desktop files with there icons,
-the licenses and examples to help hackers or users understand and manage SliTaz.
+The package also provide some scripts (firewall), desktop files with their 
+icons, the licenses and examples to help hackers or users understand and 
+manage SliTaz.
 
 
 Installation
 ------------
-The tools are are build and installed throught tazwokthe wok and splitted
-into 2 separated packages, one with only ncurses dependencie (for text system)
-and one with GTK has dependancie (for grahical system). So make install...
+The tools are built and installed through tazwok and the wok, and split
+into 2 separate packages: one with only ncurses dependencies (for a text 
+system) and one with GTK dependencies (for a graphical system). So make 
+install...
 
 Translation
 -----------	
@@ -35,8 +37,8 @@ To update all translations from the pot file:
 	$ make msgmerge
 
 To compile po files for testing purposes you can use 'make msgfmt' or manually 
-compile your translation. Example for french locale, note that the file must be 
-copied into /usr/share/locale/fr/LC_MESSAGES so gettext can find it:
+compile your translation. Example for french locale, note that the file must 
+be copied into /usr/share/locale/fr/LC_MESSAGES so gettext can find it:
 
 	$ msgfmt -o tazusb.mo fr.po
 
