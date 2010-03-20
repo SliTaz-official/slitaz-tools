@@ -1,9 +1,9 @@
-#! /bin/sh
+#!/bin/sh
 #
 # Gtkdialog to execute program as root from a WM menu.
-# - SliTaz GNU/Linux 2008.
+# (c) SliTaz GNU/Linux 2008-2010 - GNU gpl.
 #
-VERSION=20080113
+VERSION=20100314
 
 # Usage.
 if [ -z "$1" ]; then
@@ -13,51 +13,55 @@ if [ -z "$1" ]; then
 fi
 
 # Nothing to do if we are root
-test $(id -u) = 0 && exec $1
+test $(id -u) = 0 && exec $@
+
+# Include gettext helper script.
+. /usr/bin/gettext.sh
+
+# Export package name for gettext.
+TEXTDOMAIN='subox'
+export TEXTDOMAIN
 
 # Keep command in an exported variable to be used by SU_DIALOG.
 export SU_CMD=$@
 
 # Main window and root password default entry set to 'root'.
 export SU_DIALOG='
-<window title="Subox">
-  <vbox>
+<window title="Subox" skip_taskbar_hint="true">
+<vbox>
 
-    <text use-markup="true">
-      <label>"
+	<text use-markup="true">
+		<label>"
 <b>SliTaz - Subox</b>"
-      </label>
-    </text>
-    <text wrap="true" width-chars="48">
-      <label>"
-Please enter root password to execute :"
-      </label>
-    </text>
-    <text>
-      <input>echo $SU_CMD</input>
-    </text>
+		</label>
+	</text>
+	<text wrap="true" width-chars="64">
+		<label>"'`gettext "
+Please enter root password (default root) to execute :"`' '$1'
+"
+		</label>
+	</text>
+	
+	<hbox>
+		<text use-markup="true">
+			<label>"'`gettext "<b>Administrator password :</b>"`'"</label>
+		</text>
+		<entry visibility="false">
+			<variable>PASSWD</variable>
+		</entry>
+	</hbox>
+	
+	<hbox>
+		<button ok>
+			<action>echo $PASSWD | su -c "$SU_CMD" &</action>
+			<action type="closewindow">SU_DIALOG</action>
+		</button>
+		<button cancel></button>
+	</hbox>
 
-    <hbox>
-      <text use-markup="true">
-        <label>"<b>Root password :</b>"</label>
-      </text>
-      <entry visibility="false">
-        <default>root</default>
-        <variable>PASSWD</variable>
-      </entry>
-    </hbox>
-
-    <hbox>
-      <button ok>
-        <action>echo $PASSWD | su -c "$SU_CMD" &</action>
-        <action type="closewindow">SU_DIALOG</action>
-      </button>
-      <button cancel></button>
-    </hbox>
-
-  </vbox>
-</window>
-'
+</vbox>
+</window>'
 
 gtkdialog --center --program=SU_DIALOG
+
 exit 0

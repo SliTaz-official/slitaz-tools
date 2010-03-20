@@ -5,98 +5,102 @@
 #
 VERSION=20100314
 
+# Include gettext helper script.
+. /usr/bin/gettext.sh
+
+# Export package name for gettext.
+TEXTDOMAIN='scpbox'
+export TEXTDOMAIN
+
+# Box
 export SCP_DIALOG='
 <window title="Scpbox" icon-name="folder-remote">
-  <vbox>
- 
-    <text use-markup="true">
-      <label>
-"
-<b>SliTaz - Scpbox</b>"
-      </label>
-    </text>
-    <text wrap="true" width-chars="52" use-markup="true">
-      <label>
-"
-Copy files securely with scp from Dropbear SSH client/server.
-"
-      </label>
-    </text>
-  
-    <frame Configuration>
-      <hbox>
-        <text use-markup="true">
-          <label>"<b>User        :</b>"</label>
-        </text>
-        <entry>
-          <variable>USER</variable>
-        </entry>
-      </hbox>
-      <hbox>
-        <text use-markup="true">
-          <label>"<b>Host        :</b>"</label>
-        </text>
-        <entry>
-          <variable>HOST</variable>
-        </entry>
-      </hbox>
-      <hbox>
-        <text use-markup="true">
-          <label>"<b>Options  :</b>"</label>
-        </text>
-        <entry>
-          <default>-r -P 22</default>
-          <variable>SCP_OPTS</variable>
-        </entry>
-      </hbox>
-    </frame>
-    
-    <frame Paths>
-      <hbox>
-        <text use-markup="true">
-          <label>"<b>Local       :</b>"</label>
-        </text>
-        <entry>
-          <input>echo $HOME</input>
-          <variable>LOCAL_PATH</variable>
-        </entry>
-        <button>
-          <input file icon="gtk-open"></input>
-	      <action type="fileselect">LOCAL_PATH</action>
-        </button>
-      </hbox>
-      
-      <hbox>
-        <text use-markup="true">
-          <label>"<b>Remote   :</b>"</label>
-        </text>
-        <entry>
-          <variable>REMOTE_PATH</variable>
-        </entry>
-      </hbox>
-    </frame>
+<vbox>
 
-    <hbox>
-      <button>
-        <label>Download</label>
-        <input file icon="down"></input>
-        <action>xterm -geometry 80x16 -e scp $SCP_OPTS $USER@$HOST:$REMOTE_PATH $LOCAL_PATH</action>
-      </button>
-      <button>
-        <label>Upload</label>
-        <input file icon="up"></input>
-        <action>xterm -geometry 80x16 -e scp $SCP_OPTS $LOCAL_PATH $USER@$HOST:$REMOTE_PATH</action>
-      </button>
-      <button>
-        <input file icon="exit"></input>
-        <action type="exit">Exit</action>
-      </button>
-    </hbox>
-  
-  </vbox>
-</window>
-'
+	<text use-markup="true">
+		<label>"
+<b>SliTaz - Scpbox</b>"
+		</label>
+	</text>
+	<text wrap="true" width-chars="52" use-markup="true">
+		<label>"'`gettext "
+Copy files securely with scp from Dropbear SSH client/server.
+		"`'"</label>
+	</text>
+	
+	<frame Configuration>
+		<hbox>
+			<text use-markup="true">
+				<label>"'`gettext "<b>User        :</b>"`'"</label>
+			</text>
+			<entry>
+				<variable>USER</variable>
+			</entry>
+		</hbox>
+		<hbox>
+			<text use-markup="true">
+				<label>"'`gettext "<b>Host        :</b>"`'"</label>
+			</text>
+			<entry>
+				<variable>HOST</variable>
+			</entry>
+		</hbox>
+		<hbox>
+			<text use-markup="true">
+				<label>"'`gettext "<b>Options  :</b>"`'"</label>
+			</text>
+			<entry>
+				<default>-r -P 22</default>
+				<variable>SCP_OPTS</variable>
+			</entry>
+		</hbox>
+	</frame>
+	
+	<frame '`gettext "Paths"`'>
+		<hbox>
+			<text use-markup="true">
+				<label>"'`gettext "<b>Local       :</b>"`'"</label>
+			</text>
+			<entry>
+				<input>echo $HOME</input>
+				<variable>LOCAL_PATH</variable>
+			</entry>
+			<button>
+				<input file icon="gtk-open"></input>
+				<action type="fileselect">LOCAL_PATH</action>
+			</button>
+		</hbox>
+		<hbox>
+			<text use-markup="true">
+				<label>"'`gettext "<b>Remote   :</b>"`'"</label>
+			</text>
+			<entry>
+				<variable>REMOTE_PATH</variable>
+			</entry>
+		</hbox>
+	</frame>
+	
+	<hbox>
+		<button>
+			<label>'`gettext "Download"`'</label>
+			<input file icon="down"></input>
+			<action>xterm -geometry 80x16 -e scp $SCP_OPTS $USER@$HOST:$REMOTE_PATH $LOCAL_PATH</action>
+		</button>
+		<button>
+			<label>'`gettext "Upload"`'</label>
+			<input file icon="up"></input>
+			<action>xterm -geometry 80x16 -e scp $SCP_OPTS $LOCAL_PATH $USER@$HOST:$REMOTE_PATH</action>
+		</button>
+		<button>
+			<label>'`gettext "Exit"`'</label>
+			<input file icon="exit"></input>
+			<action type="exit">Exit</action>
+		</button>
+	</hbox>
+
+</vbox>
+</window>'
  
-gtkdialog --program=SCP_DIALOG
+gtkdialog --program=SCP_DIALOG >/dev/null
 
 exit 0
