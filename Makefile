@@ -5,7 +5,7 @@ PREFIX?=/usr
 DOCDIR?=/usr/share/doc
 DESTDIR?=
 TINYUTILS?=subox scpbox
-LINGUAS?=fr
+LINGUAS?=fr pt
 
 all:
 
@@ -14,7 +14,7 @@ all:
 pot:
 	@for p in $(TINYUTILS); do \
 		echo -n "Generating $$p pot file... "; \
-		xgettext -o po/$$p/$$p.pot -L Shell --package-name=$$p ./$$p; \
+		xgettext -o po/$$p/$$p.pot -L Shell --package-name=$$p tinyutils/$$p; \
 		echo "done"; \
 	done;
 

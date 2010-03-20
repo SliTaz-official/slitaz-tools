@@ -28,7 +28,7 @@ Copy files securely with scp from Dropbear SSH client/server.
 		"`'"</label>
 	</text>
 	
-	<frame Configuration>
+	<frame '`gettext "Configuration"`'>
 		<hbox>
 			<text use-markup="true">
 				<label>"'`gettext "<b>User        :</b>"`'"</label>

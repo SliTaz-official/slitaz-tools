@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: subox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-20 00:58+0100\n"
+"POT-Creation-Date: 2010-03-20 04:07+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,12 +16,12 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: subox:39
+#: tinyutils/subox:39
 msgid ""
 "\n"
 "Please enter root password (default root) to execute :"
 msgstr ""
 
-#: subox:47
+#: tinyutils/subox:47
 msgid "<b>Administrator password :</b>"
 msgstr ""
