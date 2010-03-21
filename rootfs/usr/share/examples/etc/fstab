@@ -1,8 +1,0 @@
-# /etc/fstab: information about static file systems.
-#
-proc            /proc        proc    defaults          0       0
-sysfs           /sys         sysfs   defaults          0       0
-devpts          /dev/pts     devpts  defaults          0       0
-tmpfs           /dev/shm     tmpfs   defaults          0       0
-#/dev/hda3       /home        ext3    defaults          0       2
-#/dev/hdb1       /mnt/data    ext3    defaults          0       2
