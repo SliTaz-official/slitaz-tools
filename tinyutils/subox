@@ -13,7 +13,7 @@ if [ -z "$1" ]; then
 fi
 
 # Nothing to do if we are root
-test $(id -u) = 0 && exec $@
+test $(id -u) = 0 && exec $1
 
 # Include gettext helper script.
 . /usr/bin/gettext.sh
@@ -23,7 +23,7 @@ TEXTDOMAIN='subox'
 export TEXTDOMAIN
 
 # Keep command in an exported variable to be used by SU_DIALOG.
-export SU_CMD=$@
+export SU_CMD=$1
 
 # Main window and root password default entry set to 'root'.
 export SU_DIALOG='
@@ -37,7 +37,8 @@ export SU_DIALOG='
 	</text>
 	<text wrap="true" width-chars="64">
 		<label>"'`gettext "
-Please enter root password (default root) to execute :"`' '$1'
+Please enter root password (default root) to execute :"`'
+'$@'
 "
 		</label>
 	</text>
