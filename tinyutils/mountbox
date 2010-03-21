@@ -30,7 +30,9 @@ export HELP='
 			<label>
 "Mountbox lets you mount devices on mount points. A device 
 can be a cdrom, flash key, USB disk or local HD partition.
-Mount points are generated from /media and /mnt.
+Mount points are generated from /media and /mnt. Simply
+select an unmounted device. Then type or select a folder 
+to mount. Then press a button.
 "
 			</label>
 		</text>
@@ -112,12 +114,6 @@ DEVICE='<input>/usr/lib/slitaz/libmountbox list-mounted</input>
 			<input file icon="folder-open"></input>
 			<action type="fileselect">MOUNT_POINT</action>
 		</button>
-	</hbox>
-	<hbox>
-		<text use-markup="true" wrap="false">
-			<label>"Tip: Select an unmounted /dev. Then, type or select a folder to mount. Then, press a button.          
-"</label>
-		</text>
 	</hbox>
 	'
 
