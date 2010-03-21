@@ -602,7 +602,7 @@ MAIN_DIALOG=${MAIN_DIALOG}'
 		
 			<text width_request="250" use-markup="true">
 				<label>
-"Burns ISOs, backs up CD/DVDs, burns data CD/DVDs, audio CDs and video CDs (VCD/SVCD)
+"Burnbox burns ISOs, backs up CD/DVDs, burns data CD/DVDs, audio CDs and video CDs (VCD/SVCD)
 "
 				</label>				
 			</text>
