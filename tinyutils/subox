@@ -35,7 +35,7 @@ export SU_DIALOG='
 <b>SliTaz - Subox</b>"
 		</label>
 	</text>
-	<text wrap="true" width-chars="64">
+	<text wrap="true" width-chars="50">
 		<label>"'`gettext "
 Please enter root password (default root) to execute :"`'
 '$@'
@@ -45,7 +45,7 @@ Please enter root password (default root) to execute :"`'
 	
 	<hbox>
 		<text use-markup="true">
-			<label>"'`gettext "<b>Administrator password :</b>"`'"</label>
+			<label>"'`gettext "<b>Admin password :</b>"`'"</label>
 		</text>
 		<entry visibility="false">
 			<variable>PASSWD</variable>
