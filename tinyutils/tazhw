@@ -8,18 +8,22 @@
 #
 # (c) 2009 SliTaz GNU/Linux - GNU gpl v3
 #
+# Authors : Christophe Lincoln <pankso@slitaz.org>
+#			Rohit Joshi <jozee@slitaz.org>
+#
 
 usage()
 {
 	echo -e "\nSliTaz Hardware configuration\n
 \033[1mUsage: \033[0m `basename $0` [command] [--option]
 \033[1mCommands: \033[0m\n
-  usage             Print this short usage.
-  box               Start in graphical mode.
-  init              Used at boot time to configure devices.
-  detect-pci        Detect all PCI devices.
-  detect-usb        Detect all USB devices.
-  detected-modules  List all detected Kernel modules.
+  usage			Print this short usage.
+  box			Start in graphical mode.
+  init			Used at boot time to configure devices.
+  setup			Setup hardware devices.
+  detect-pci		Detect all PCI devices.
+  detect-usb		Detect all USB devices.
+  detected-modules	List all detected Kernel modules.
   
 \033[1mOptions: \033[0m\n
   --get-firmware    Get and install non-free firmware (PCI and USB).\n"
@@ -164,46 +168,146 @@ box_detect_devices()
 	fi
 }
 
+box_setup_devices()
+{
+	SETUP_OPTIONS=""
+	if [ $INSTALL_NON_FREE == true ]; then 
+		SETUP_OPTIONS="$SETUP_OPTIONS --non-free"				
+	fi
+	if [ $AUTO_INSTALL_SUGGESTED == true ]; then
+		SETUP_OPTIONS="$SETUP_OPTIONS --suggested"	
+	elif [ $CONFIRM_INSTALL_SUGGESTED == true ]; then
+		SETUP_OPTIONS="$SETUP_OPTIONS --confirm"		
+	fi	
+	xterm -geometry 80x24 -T "$DEVICE Setup" \
+		-e "$0 setup $DEVICE $SETUP_OPTIONS; \
+		echo -e \"----\nPress ENTER to close...\"; \
+		read i; exit 0"    	
+}
+
 box()
 {
 	export BIN=$0
 	export MAIN_DIALOG='
-<window title="Tazhw Box" icon-name="computer">
+<window title="Tazhw box" icon-name="computer">
 <vbox>
-	
-	<text width-chars="54" use-markup="true">
+ 	<text width-chars="54" use-markup="true">
 		<label>"
-<b>Hardware auto-detection and configuration tool</b>
+			<b>Hardware auto-detection and configuration tool</b>
 		"</label>
-	</text>
-	<tree>
-		<width>520</width><height>180</height>
-		<variable>MODULE</variable>
-		<label>Kernel Module|Description</label>
-		<input>$BIN box_list</input>
-		<action>refresh:MODULE</action>
-	</tree>
+	</text>		
+	<frame Loaded Kernel Modules>
+		<vbox>
+			<tree>
+				<width>470</width><height>180</height>
+				<variable>MODULE</variable>
+				<label>Module|Description</label>
+				<input>$BIN box_list</input>
+				<action>refresh:MODULE</action>
+			</tree>
+			<hbox>
+				<checkbox>
+					<label>Auto install non-free Firmware       </label>
+					<variable>INSTALL_FIRMARE</variable>
+					<default>true</default>
+				</checkbox>
+				<button>
+					<label>Discover PCI/USB devices</label>
+					<input file icon="folder-saved-search"></input>
+					<action>$BIN box_detect_devices</action>
+					<action>refresh:MODULE</action>
+				</button>		
+			</hbox>
+		</vbox>
+	</frame>
+	<frame Hardware Setup>
+		<hbox>
+				<button>
+					<label>Printer</label>
+					<input file icon="printer"></input>
+					<action>export DEVICE="printer";$BIN box_setup_devices</action>
+				</button>	
+				<button>
+					<label>Scanner</label>
+					<input file icon="x-office-document"></input>
+					<action>export DEVICE="scanner";$BIN box_setup_devices</action>
+				</button>				
+				<button>
+					<label>3G-Modem</label>
+					<input file icon="network-transmit-receive"></input>
+					<action>export DEVICE="3g-modem";$BIN box_setup_devices</action>
+				</button>	
+				<button>
+					<label>Nvidia</label>
+					<input file icon="video-display"></input>
+					<action>export DEVICE="nvidia";$BIN box_setup_devices</action>
+				</button>
+				<button>
+					<label>ATI Radeon</label>
+					<input file icon="video-display"></input>
+					<action>export DEVICE="ati";$BIN box_setup_devices</action>
+				</button>				
+				
+			</hbox>
+			<hbox>
+			   <button>
+					<label>Webcam     </label>
+					<input file icon="camera-video"></input>
+					<action>export DEVICE="webcam";$BIN box_setup_devices</action>
+				</button>
+				
+					<button>
+					<label>Digital Camera    </label>
+					<input file icon="camera-photo"></input>
+					<action>export DEVICE="camera";$BIN box_setup_devices</action>
+				</button>
+				 <button>
+					<label>Bluetooth   </label>
+					<input file icon="preferences-desktop-multimedia"></input>
+					<action>export DEVICE="bluetooth";$BIN box_setup_devices</action>
+				</button>
+				
+				<button>
+					<label>Firewall    </label>
+					<input file icon="gtk-network"></input>
+					<action>export DEVICE="firewall";$BIN box_setup_devices</action>
+				</button>
+			
+			</hbox>	
+			<hbox>
+				<checkbox>
+					<label>Install non-free packages      </label>
+					<variable>INSTALL_NON_FREE</variable>
+					<default>true</default>					
+				</checkbox>
+				<checkbox>
+					<label>Auto-install all optional packages    </label>
+					<variable>AUTO_INSTALL_SUGGESTED</variable>
+					<default>false</default>					
+				</checkbox>
+											
+			</hbox>
+			<hbox>			
+				<checkbox>
+					<label>Choose optional packages to install</label>
+					<variable>CONFIRM_INSTALL_SUGGESTED</variable>
+					<default>false</default>					
+				</checkbox>	
+			</hbox>
+	
+	</frame>
 	<hbox>
-		<checkbox>
-			<label>Auto install non-free Firmware</label>
-			<variable>INSTALL_FIRMARE</variable>
-			<default>true</default>
-		</checkbox>
 		<button>
-			<label>Detect PCI/USB devices</label>
-			<input file icon="forward"></input>
-			<action>$BIN box_detect_devices</action>
-			<action>refresh:MODULE</action>
-		</button>
-		<button>
-			<label>Exit</label>
-			<input file icon="exit"></input>
-			<action type="exit">Exit</action>
-		</button>
-	</hbox>
+				<label>Exit</label>
+				<input file icon="exit"></input>
+				<action type="exit">Exit</action>
+			</button>
+    </hbox>
+
 </vbox>
 </window>'
-	gtkdialog --center --program=MAIN_DIALOG >/dev/null
+   
+   	gtkdialog --center --program=MAIN_DIALOG >/dev/null
 }
 
 # Get firmware used by check_firmware()
@@ -231,6 +335,9 @@ case "$1" in
 		rm -f /var/lib/detected-usb-modules
 		detect_usb_devices
 		display_line && echo "" ;;
+	setup) 
+		SETUP_OPTIONS=`echo "$@" | sed 's/setup//' `
+		hwsetup $SETUP_OPTIONS ;;
 	box*)
 		box_check_root
 		$1 ;;
