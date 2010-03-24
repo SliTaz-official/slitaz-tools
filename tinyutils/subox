@@ -3,7 +3,7 @@
 # Gtkdialog to execute program as root from a WM menu.
 # (c) SliTaz GNU/Linux 2008-2010 - GNU gpl.
 #
-VERSION=20100314
+VERSION=20100324
 
 # Usage.
 if [ -z "$1" ]; then
@@ -26,7 +26,7 @@ export TEXTDOMAIN
 export SU_CMD=$1
 
 # Main window and root password default entry set to 'root'.
-export SU_DIALOG='
+SU_DIALOG='
 <window title="Subox" skip_taskbar_hint="true">
 <vbox>
 
@@ -47,14 +47,29 @@ Please enter root password (default root) to execute :"`'
 		<text use-markup="true">
 			<label>"'`gettext "<b>Admin password :</b>"`'"</label>
 		</text>
-		<entry visibility="false">
+		<entry visibility="false">'
+
+# Check if we have a saved passwd.
+if [ -s $HOME/.config/slitaz/subox.conf ]; then
+	PASSWD=`cat $HOME/.config/slitaz/subox.conf`
+	[ -n "$PASSWD" ] && SU_DIALOG="$SU_DIALOG <default>$PASSWD</default>"
+fi
+
+export SU_DIALOG=''${SU_DIALOG}'
 			<variable>PASSWD</variable>
 		</entry>
 	</hbox>
 	
 	<hbox>
+		<checkbox>
+			<label>"'`gettext "Autosave password"`'"</label>
+			<variable>AUTOSAVE</variable>
+			<default>false</default>
+		</checkbox>
 		<button ok>
 			<action>echo $PASSWD | su -c "$SU_CMD" &</action>
+			<action>[ $AUTOSAVE == true ] && echo $PASSWD > '$HOME/.config/slitaz/subox.conf'</action>
+			<action>[ $AUTOSAVE == true ] && chmod 0600 '$HOME/.config/slitaz/subox.conf'</action>
 			<action type="closewindow">SU_DIALOG</action>
 		</button>
 		<button cancel></button>
@@ -63,6 +78,6 @@ Please enter root password (default root) to execute :"`'
 </vbox>
 </window>'
 
-gtkdialog --center --program=SU_DIALOG
+gtkdialog --center --program=SU_DIALOG > /dev/null
 
 exit 0
