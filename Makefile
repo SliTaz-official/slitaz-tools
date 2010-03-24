@@ -6,7 +6,7 @@ DOCDIR?=/usr/share/doc
 DESTDIR?=
 TINYUTILS?=subox scpbox
 LINGUAS?=fr pt
-
+	
 all:
 
 # i18n.
