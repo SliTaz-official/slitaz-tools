@@ -1,0 +1,211 @@
+#!/bin/sh
+#
+#
+# Tab display engine
+#
+######################################################
+
+use_tab()
+{
+local tmp=''
+case "$2" in
+header|body)
+	$1 | while read exe name call; do
+	  case "$exe" in
+	  \#*) continue;;
+	  /*)  [ -e $exe ] || continue;;
+	  *)   which $exe > /dev/null || continue
+	  esac
+	  if [ "$2" == "header" ]; then
+	    echo -n "$tmp$name"
+	    tmp='|'
+	  else
+	    $call
+	  fi
+	done
+	;;
+*)
+	tmp=$(use_tab $1 header)
+	echo "$tmp" | grep -q \| && cat <<EOT
+<notebook labels="$tmp">
+EOT
+	[ -n "$tmp" ] && cat <<EOT
+$(use_tab $1 body)
+EOT
+	echo "$tmp" | grep -q \| && cat <<EOT
+</notebook>
+EOT
+	;;
+esac
+}
+
+#
+# GUI functions
+#
+############################################################
+
+xterm="xterm -fa MiscFixed -fs 11"
+helpbutton()
+{
+	local label;
+        label="<label>$3</label>"
+	[ -n "$3" ] || label=""
+	cat << EOT
+<button>
+	<input file icon="help"></input>$label
+	<action>$xterm -geometry $2 -title "$1 help (q to quit)" -e "( echo ; $(which $1) --help 2>&1 ) | less"</action>
+</button>
+EOT
+}
+
+editbutton()
+{
+	cat << EOT
+<button>
+	<input file icon="accessories-text-editor"></input>
+	<action type="lauch">leafpad $1</action>
+</button>
+EOT
+}
+
+manbutton()
+{
+	cat << EOT
+<button>
+	<input file icon="browser"></input>
+	<label>man</label>
+	<action>$xterm -geometry 80x24 -title "$2 man (q to quit)" -e ". /etc/profile; man $1 $2"</action>
+</button>
+EOT
+}
+
+helpdaemon()
+{
+	cat << EOT
+<hbox>
+	<text use-markup="true">
+		<label>"<b>$3</b>"</label>
+	</text>
+	<entry editable="false">
+EOT
+	eval tmp=\$$3
+	[ -n "$tmp" ] && cat << EOT
+		<default>$tmp</default>
+EOT
+	cat << EOT
+		<variable>$4</variable>
+	</entry>
+EOT
+	[ -n "$6" ] || cat << EOT
+$(helpbutton $1 $2)
+EOT
+	[ -n "$5" ] && cat << EOT
+$(manbutton $5 $1)
+EOT
+	cat << EOT
+$(editbutton /etc/daemons.conf)
+</hbox>
+EOT
+}
+
+datafile()
+{
+	cat << EOT
+<hbox>
+	<text use-markup="true">
+		<label>"<b>$3</b>"</label>
+	</text>
+ 	<entry editable="false">
+EOT
+	[ -n "$1" ] && cat << EOT
+		<default>$1</default>
+EOT
+	cat << EOT
+		<variable>$2</variable>
+	</entry>
+EOT
+	[ -n "$4" ] && cat << EOT
+$(manbutton $4)
+EOT
+	cat << EOT
+$(editbutton \$$2)
+</hbox>
+EOT
+}
+
+configfile()
+{
+	datafile "$1" $2 'Configuration:' "$3"
+}
+
+BROWSER=''
+for i in firefox opera dillo midori netsurf links ; do
+	which $i > /dev/null && BROWSER="$i" && break
+done
+case "$BROWSER" in
+links) BROWSER="links -g ";;
+esac
+
+webbutton()
+{
+	[ -f "/var/lib/tazpkg/installed/$1/receipt" ] && 
+	[ -n "$BROWSER" ] && cat << EOT
+<button>
+	<input file icon="browser"></input>
+	<label>web</label>
+	<action>. /var/lib/tazpkg/installed/$1/receipt ; $BROWSER \$WEB_SITE &</action>
+</button>
+EOT
+}
+
+wikibutton()
+{
+[ -n "$BROWSER" ] && cat <<EOT
+        <button>
+          <input file icon="browser"></input>
+	  <label>Wiki</label>
+	  <action>$BROWSER $1 &</action>
+        </button>
+EOT
+}
+
+startstopdaemon()
+{
+	local pkg
+	pkg=$1
+	[ -n "$2" ] && pkg=$2
+	if [ ! -d /var/lib/tazpkg/installed/${pkg} ]; then
+		installbox $pkg
+	fi
+	webbutton $pkg
+	cat << EOT
+<button>
+	<label>Start</label>
+	<input file icon="forward"></input>
+	<action>sed -i "s/RUN_DAEMONS=\\"\\(.*\\)$1 \?\\(.*\\)\\"/RUN_DAEMONS=\\"\1\2\\"/" /etc/rcS.conf</action>
+	<action>sed -i "s/RUN_DAEMONS=\\"\\(.*\\)\\"/RUN_DAEMONS=\\"$1 \1\\"/" /etc/rcS.conf</action>
+	<action>/etc/init.d/$1 start</action>
+</button>
+<button>
+	<label>Stop</label>
+	<input file icon="stop"></input>
+	<action>sed -i "s/RUN_DAEMONS=\\"\\(.*\\)$1 \?\\(.*\\)\\"/RUN_DAEMONS=\\"\1\2\\"/" /etc/rcS.conf</action>
+	<action>/etc/init.d/$1 stop</action>
+</button>
+EOT
+}
+
+installbox()
+{
+	cat << EOT
+<hbox>
+	
+	<button>
+		<input file icon="go-jump"></input>
+		<label>Install</label>
+		<action>$xterm -geometry 80x17 -title "$1 install" -e "yes y | tazpkg get-install $1 ; echo -e \"----\n\nENTER to continue...\" && read close"</action>
+		<action type="exit">restart</action>
+	</button>
+</hbox>
+EOT
+}
