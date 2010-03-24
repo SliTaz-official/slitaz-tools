@@ -92,7 +92,7 @@ device()
 			GROUP="video"			
 			;;
 		ati)
-    		DEPENDS=" xorg-xf86-video-ati mesa-dri-ati "
+    		DEPENDS=" xorg-xf86-video-ati mesa-dri-ati mesa-demos"
     		NON_FREE_DEPENDS="mesa mesa-demos mesa-dri linux-agp catalyst"
     		SUGGESTED=""
 			GROUP="video"			
@@ -793,7 +793,7 @@ setup()
 						echo "your config is backed up at /etc/X11/xorg.conf.backup"
 		        		echo "if ati fails; please use your backed up xorg.conf"
 		        		echo ""
-		        		echo "Replace vesa driver with nv in /etc/X11/xorg.conf"
+		        		echo "Replace vesa driver with radeon in /etc/X11/xorg.conf"
 		        		# free ati driver is called radeon
 		        		sed -i 's/vesa/radeon/' /etc/X11/xorg.conf
 						# mesa-demos to check if acceleration is working
