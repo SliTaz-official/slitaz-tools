@@ -1,0 +1,748 @@
+#!/bin/sh
+#
+# Gtkdialog box to manage servers.
+# Please use tab to indent.
+
+VERSION=20100315
+
+. /usr/lib/slitaz/gui_functions
+
+# Check if user is root.
+check_root()
+{
+	if test $(id -u) != 0 ; then
+		echo -e "
+You must be root to run `basename $0`. Please type 'su' and
+root password to become super-user.\n"
+		exit 0
+	fi
+}
+#
+# Status servers
+#
+tab_status_servers()
+{
+local servers
+servers="dropbear sshd inetd dhcpd dnsd named rsync httpd mbd vnc pppd knock"
+cat <<EOT
+<frame Servers>
+	<text wrap="false" width-chars="58">
+		<input>for i in $servers; do ps ww | grep \$i | grep -v grep | fold -s; done</input>
+	</text>
+</frame>
+EOT
+}
+
+data_status()
+{
+cat <<EOT
+ps          Servers               tab_status_servers
+EOT
+}
+
+#
+# Status
+#
+tab_status()
+{
+use_tab data_status
+}
+
+sshremote()
+{
+	cat << EOT
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Remote  :</b>"</label>
+        </text>
+        <entry>
+          <variable>$2</variable>
+	  <default>user@elsewhere</default>
+        </entry>
+        <button>
+          <input file icon="utilities-terminal"></input>
+	  <label>Connect</label>
+	  <action>xterm -fa MiscFixed -fs 11 -bg black -fg white -geometry 80x25 -title "$1" -e "$1 \$$2 ; echo -e \"----\nENTER to continue...\" && read close" &</action>
+        </button>
+        <button>
+          <input file icon="go-up"></input>
+	  <label>Send key</label>
+	  <action>$xterm -geometry 80x10 -title "send ssh key" -e "$0 call sendsshkey \$$2; echo -e \"----\nENTER to continue...\" && read close"</action>
+        </button>
+      </hbox>
+EOT
+}
+#
+# Dropbear client & server
+#
+tab_dropbear()
+{
+. /etc/daemons.conf
+set -- $DROPBEAR_OPTIONS
+while [ -n "$2" ]; do
+  [ "$1" = "-b" ] && DROPBEAR_BANNER="$2" && break
+  shift
+done
+
+cat <<EOT
+     <frame Dropbear>
+$(helpdaemon dropbear 80x30 DROPBEAR_OPTIONS DROPBEAR_OPTS)
+$(datafile /etc/dropbear/banner DROPBEAR_BANNER 'Banner   :')
+$(sshremote DROPBEAR_PEER 'dbclient -i /etc/dropbear/dropbear_rsa_host_key')
+      <hbox>
+	$(startstopdaemon dropbear)
+      </hbox>
+     </frame>
+EOT
+}
+
+#
+# OpenSSH client & server
+#
+tab_openssh()
+{
+cat <<EOT
+    <frame OpenSSH>
+$(helpdaemon sshd 80x30 OPENSSH_OPTIONS OPENSSH_OPTS 8 nohelp)
+$(configfile /etc/ssh/sshd_config OPENSSH_CONF '5 sshd_config')
+$(sshremote OPENSSH_PEER 'ssh -i /etc/ssh/ssh_host_rsa_key')
+      <hbox>
+	$(startstopdaemon openssh)
+      </hbox>
+     </frame>
+EOT
+}
+
+data_sshd()
+{
+cat <<EOT
+dropbear    Dropbear      tab_dropbear
+sshd        OpenSSH       tab_openssh
+EOT
+}
+
+#
+# SSH tab
+#
+tab_sshd()
+{
+use_tab data_sshd
+}
+
+#
+# Busybox Inetd
+#
+tab_inetd()
+{
+cat <<EOT
+<frame Inetd (busybox)>
+$(helpdaemon inetd 60x14 INETD_OPTIONS INETD_OPTS)
+$(configfile /etc/inetd.conf INETD_CONF)
+      <hbox>
+EOT
+for i in $(grep bin /etc/inetd.conf | awk '{ print $6}'); do
+  i=$(basename $i)
+  helpbutton $i 60x19 $i
+done
+cat <<EOT
+	$(startstopdaemon inetd)
+      </hbox>
+     </frame>
+EOT
+}
+
+#
+# ZeroConf
+#
+tab_zcip()
+{
+	
+	. /etc/daemons.conf
+if [ -x /sbin/zcip -a -z "$ZCIP_OPTIONS" ]; then
+	ZCIP_OPTIONS="eth0 /etc/zcip.script"
+	cat >> /etc/daemons.conf <<EOT
+# ZeroConf options
+ZCIP_OPTIONS="$ZCIP_OPTIONS"
+
+EOT
+fi
+cat <<EOT
+     <frame Zcip (busybox)>
+$(helpdaemon zcip 60x14 ZCIP_OPTIONS ZCIP_OPTS)
+$(datafile /etc/zcip.script CZIP_SCRIPT 'Script :')
+      <hbox>
+	$(startstopdaemon zcip)
+      </hbox>
+     </frame>
+EOT
+}
+
+#
+# Dhcpd ISC
+#
+tab_isc_dhcpd()
+{
+cat <<EOT
+    <frame Dhcpd (ISC)>
+$(helpdaemon dhcpd 60x14 DHCPD_OPTIONS DHCPD_OPTS)
+$(configfile /etc/dhcpd.conf DHCPD_CONF)
+      <hbox>
+	$(startstopdaemon dhcpd dhcp)
+      </hbox>
+     </frame>
+EOT
+}
+
+#
+# Dhcpd Busybox
+#
+tab_udhcpd()
+{
+cat <<EOT
+    <frame Udhcpd (busybox)>
+$(helpdaemon udhcpd 60x14 UDHCPD_OPTIONS UDHCPD_OPTS)
+$(configfile /etc/udhcpd.conf UDHCPD_CONF)
+      <hbox>
+	$(startstopdaemon udhcpd busybox)
+      </hbox>
+     </frame>
+EOT
+}
+
+data_dhcpd()
+{
+cat <<EOT
+udhcpd      Udhcpd        tab_udhcpd
+dhcpd       Dhcpd         tab_isc_dhcpd
+dnsmasq     DNSmasq       tab_dnsmasq
+EOT
+}
+
+#
+# dhcpd tab
+#
+tab_dhcpd()
+{
+use_tab data_dhcpd
+}
+
+#
+# PXE forwarder
+#
+tab_gpxe()
+{
+cat <<EOT
+<frame PXE forwarder>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>WEB boot URL(s) :</b>"</label>
+        </text>
+      </hbox>
+      <hbox>
+        <entry editable="true">
+          <default>
+"$(dd bs=1 skip=5 count=255 if=/usr/share/boot/gpxe.pxe 2> /dev/null | strings)"
+          </default>
+          <variable>WEB_PXE</variable>
+        </entry>
+      </hbox>
+      <hbox>
+$(wikibutton http://wiki.slitaz.org/doku.php?id=quickstart:pxe)
+        <button>
+          <input file icon="go-jump"></input>
+	  <label>Install</label>
+	  <action>
+	echo -n "\$WEB_PXE" | cat - /dev/zero | \
+	dd conv=notrunc bs=1 seek=5 count=255 of=/usr/share/boot/gpxe.pxe
+	  </action>
+	  <action>
+	sed -i "s|tftpd -r .*\$|tftpd -r /usr/share/boot|" /etc/inetd.conf
+	  </action>
+	  <action> sed -i "/^boot_file/d" \$UDHCPD_CONF </action>
+	  <action> echo "boot_file gpxe.pxe" >> \$UDHCPD_CONF </action>
+	  <action> /etc/init.d/inetd restart </action>
+	  <action> /etc/init.d/udhcpd restart </action>
+	<action>sed -i "s/RUN_DAEMONS=\\"\\(.*\\)inetd \?\\(.*\\)\\"/RUN_DAEMONS=\\"\1\2\\"/" /etc/rcS.conf</action>
+	<action>sed -i "s/RUN_DAEMONS=\\"\\(.*\\)udhcpd \?\\(.*\\)\\"/RUN_DAEMONS=\\"\1\2\\"/" /etc/rcS.conf</action>
+	<action>sed -i "s/RUN_DAEMONS=\\"\\(.*\\)\\"/RUN_DAEMONS=\\"udhcpd inetd \1\\"/" /etc/rcS.conf</action>
+        </button>
+      </hbox>
+</frame>
+EOT
+}
+
+#
+# PXE server
+#
+tab_pxelinux()
+{
+cat <<EOT
+<frame PXElinux>
+      <hbox>
+        <text wrap="true">
+          <label>
+"Launch Dhcpd and Inetd with Tftpd to start the PXE service."
+          </label>
+        </text>
+      </hbox>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Configuration :</b>"</label>
+        </text>
+        <entry editable="false">
+          <default>
+$(grep bin/tftpd /etc/inetd.conf | awk '{ print $NF }')/pxelinux.cfg/default
+          </default>
+          <variable>PXE_CONF</variable>
+        </entry>
+        <button>
+          <input file icon="accessories-text-editor"></input>
+	  <action>dir=\$(dirname \$PXE_CONF); [ -d \$dir ] || mkdir -p \$dir</action>
+	  <action>lzma d /usr/share/boot/pxelinux.0.lzma \$(dirname \$PXE_CONF)/../pxelinux.0</action>
+	  <action>sed -i "/^boot_file/d" \$UDHCPD_CONF</action>
+	  <action>echo "boot_file pxelinux.0" >> \$UDHCPD_CONF</action>
+	  <action>grep -q "^siaddr" \$UDHCPD_CONF || echo "siaddr \$(ifconfig \$INTERFACE | grep inet.ad | cut -d: -f2 | cut -d\  -f1)" >> \$UDHCPD_CONF</action>
+	  <action>[ -f \$PXE_CONF ] || echo -e "label linux\n\tkernel bzImage\n\tappend initrd=rootfs.gz rw root=/dev/null vga=normal" > \$PXE_CONF</action>
+          <action type="lauch">leafpad \$PXE_CONF</action>
+        </button>
+      </hbox>
+      <hbox>
+$(wikibutton http://wiki.slitaz.org/doku.php?id=quickstart:pxe)
+        <button>
+          <input file icon="system-file-manager"></input>
+	  <label>Network boot files</label>
+	  <action>$xterm -geometry 100x25 -title "Network boot files (q to quit)" -e "find \$(dirname \$(dirname \$PXE_CONF)) -exec ls -ld {} \; | less"</action>
+        </button>
+      </hbox>
+     </frame>
+EOT
+}
+
+data_pxe()
+{
+[ -f /usr/share/boot/pxelinux.0.lzma ] && cat <<EOT
+true        PXElinux          tab_pxelinux
+EOT
+[ -f /usr/share/boot/gpxe.pxe ] && cat <<EOT
+true        PXE\ forwarder    tab_gpxe
+EOT
+}
+
+#
+# PXE
+#
+tab_pxe()
+{
+use_tab data_pxe
+}
+
+#
+# Busybox dnsd
+#
+tab_dnsd()
+{
+cat <<EOT
+    <frame Dnsd (busybox master dns)>
+$(helpdaemon dnsd 80x15 DNSD_OPTIONS DNSD_OPTS)
+$(configfile /etc/dnsd.conf DNSD_CONF)
+      <hbox>
+	$(startstopdaemon dnsd busybox)
+      </hbox>
+     </frame>
+EOT
+}
+
+#
+# ISC Bind
+#
+tab_named()
+{
+cat <<EOT
+    <frame Named (ISC bind)>
+$(helpdaemon named 80x10 NAMED_OPTIONS NAMED_OPTS)
+$(configfile /etc/bind/named.conf.local NAMED_CONF)
+      <hbox>
+	$(startstopdaemon named bind)
+      </hbox>
+     </frame>
+EOT
+}
+
+#
+# DNSmasq 
+#
+tab_dnsmasq()
+{
+cat <<EOT
+    <frame DNSmasq (DNS/DHCP/TFTP)>
+$(helpdaemon dnsmasq 100x34 DNSMASQ_OPTIONS DNSMASQ_OPTS)
+$(configfile /etc/dnsmasq.conf DNSMASQ_CONF)
+      <hbox>
+	$(startstopdaemon dnsmasq)
+      </hbox>
+     </frame>
+EOT
+}
+
+data_dns()
+{
+cat <<EOT
+dnsd        Dnsd          tab_dnsd
+named       Named         tab_named
+dnsmasq     DNSmasq       tab_dnsmasq
+#TODO sheerdns    Sheerdns      tab_sheerdns
+EOT
+}
+
+#
+# dns tab
+#
+tab_dns()
+{
+use_tab data_dns
+}
+
+#
+# rsync server
+#
+tab_rsync()
+{
+cat <<EOT
+     <frame Rsync>
+$(helpdaemon rsync 80x30 RSYNCD_OPTIONS RSYNCD_OPTS 1)
+$(configfile /etc/rsyncd.conf RSYNCD_CONF)
+$(datafile /etc/rsyncd.secrets RSYNCD_SECRETS 'Secrets file     :')
+      <hbox>
+	$(startstopdaemon rsyncd rsync)
+      </hbox>
+     </frame>
+EOT
+}
+
+php_ini()
+{
+[ -f /etc/php.ini ] && cat <<EOT
+      <frame PHP>
+$(configfile /etc/php.ini PHP_CONF)
+      </frame>
+EOT
+}
+
+#
+# Apache server
+#
+tab_apache()
+{
+cat <<EOT
+     <frame Apache>
+$(configfile /etc/apache/httpd.conf HTTPD_CONF)
+$(php_ini)
+      <hbox>
+	$(startstopdaemon apache)
+      </hbox>
+     </frame>
+EOT
+}
+
+#
+# Lighttpd server
+#
+tab_lighttpd()
+{
+cat <<EOT
+     <frame Lighttpd>
+$(helpdaemon lighttpd 80x15 LIGHTTPD_OPTIONS LIGHTTPD_OPTS)
+$(configfile /etc/lighttpd/lighttpd.conf LIGHTTPD_CONF)
+$(php_ini)
+      <hbox>
+	$(startstopdaemon lighttpd)
+      </hbox>
+     </frame>
+EOT
+}
+
+#
+# Busybox httpd server
+#
+tab_httpd()
+{
+cat <<EOT
+     <frame httpd (busybox)>
+$(helpdaemon httpd 80x30 HTTPD_OPTIONS HTTPD_OPTS)
+$(configfile /etc/httpd.conf HTTPD_CONF)
+$(php_ini)
+      <hbox>
+	$(startstopdaemon httpd busybox)
+      </hbox>
+     </frame>
+EOT
+}
+
+data_http()
+{
+cat <<EOT
+/etc/apache/httpd.conf  Apache          tab_apache
+lighttpd                Lighttpd        tab_lighttpd
+/etc/httpd.conf         Busybox\ httpd  tab_httpd
+EOT
+}
+
+#
+# http tab
+#
+tab_http()
+{
+use_tab data_http
+}
+
+#
+# Samba servers
+#
+tab_wins()
+{
+cat <<EOT
+     <frame Samba: smbd & nmbd>
+$(configfile /etc/samba/smb.conf SMBD_CONF)
+      <hbox>
+        <button>
+          <label>Reload</label>
+          <input file icon="reload"></input>
+          <action>/etc/init.d/samba reload</action>
+        </button>
+	$(startstopdaemon samba)
+      </hbox>
+     </frame>
+EOT
+}
+
+#
+# x11vnc
+#
+tab_vnc()
+{
+cat <<EOT
+     <frame x11vnc>
+$(helpdaemon x11vnc 80x30 X11VNC_OPTIONS X11VNC_OPTS)
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>New password</b>"</label>
+        </text>
+        <entry>
+          <variable>X11VNC_PASSWD</variable>
+        </entry>
+        <button>
+          <input file icon="reload"></input>
+          <label>Update</label>
+          <action>x11vnc -storepasswd \$X11VNC_PASSWD /etc/vnc.secret</action>
+        </button>
+      </hbox>
+      <hbox>
+	$(startstopdaemon x11vnc)
+      </hbox>
+     </frame>
+EOT
+}
+
+#
+# knock server
+#
+tab_knockd()
+{
+cat <<EOT
+    <frame Knockd: trigger backdoors>
+$(helpdaemon knockd 80x15 KNOCK_OPTIONS KNOCK_OPTS)
+$(configfile /etc/knockd.conf KNOCKD_CONF)
+      <hbox>
+	$(startstopdaemon knockd knock)
+      </hbox>
+     </frame>
+EOT
+}
+
+data_servers()
+{
+local $pxe
+pxe="#"
+[ -x /usr/bin/tftpd -a -x /usr/sbin/udhcpd ] && pxe="inetd"
+[ -x /usr/sbin/dnsmasq ] && pxe="true"
+[ -f /usr/share/boot/pxelinux.0.lzma -o /usr/share/boot/gpxe.pxe ] || pxe="#"
+cat <<EOT
+$([ -x /usr/sbin/dropbear -o -x /usr/sbin/sshd ] && echo "true" ||
+echo "#")   SSH           tab_sshd
+$([ -x /usr/sbin/lighttpd -o -x /usr/bin/httpd ] && echo "true" || 
+echo "#")   HTTP          tab_http
+rsync       Rsync         tab_rsync
+smbd        SAMBA          tab_wins
+inetd       Inetd         tab_inetd
+zcip        ZeroConf      tab_zcip
+$([ -x /usr/sbin/udhcpd -o -x /usr/sbin/dhcpd -o -x /usr/sbin/dnsmasq ] && 
+echo "true" ||
+echo "#")   DHCP          tab_dhcpd
+$pxe        PXE           tab_pxe
+dnsmasq     tftpd         tab_dnsmasq
+$([ -x /usr/sbin/dnsd -o -x /usr/sbin/named -o -x /usr/sbin/dnsmasq ] && 
+echo "true" ||
+echo "#")   DNS           tab_dns
+x11vnc      VNC           tab_vnc 
+knockd      Knock         tab_knockd
+#TODO+callback pppd        Pppd          tab_pppd
+#TODO pptpd       PoPToP        tab_poptop
+#TODO squid *sql openldap 
+EOT
+}
+
+#
+# Servers tab
+#
+tab_servers()
+{
+use_tab data_servers
+}
+
+#
+# Firewall tab
+#
+tab_firewall()
+{
+cat <<EOT
+    <frame Iptables>
+$(configfile /etc/firewall.conf IPTABLES_CONF)
+      <hbox>
+$(helpbutton iptables 80x30)
+$(manbutton 8 iptables)
+$(webbutton iptables)
+        <button>
+          <label>Load</label>
+          <input file icon="reload"></input>
+          <action>cat \$IPTABLES_CONF | /sbin/iptables-restore</action>
+        </button>
+        <button>
+          <label>Save</label>
+          <input file icon="go-jump"></input>
+          <action>/sbin/iptables-save > \$IPTABLES_CONF</action>
+        </button>
+      </hbox>
+     </frame>
+EOT
+}
+
+#
+# knock client
+#
+tab_knock()
+{
+cat <<EOT
+    <frame Knock>
+    <hbox>
+      <text use-markup="true">
+        <label>"<b>Options : </b>"</label>
+      </text>
+      <entry editable="true">
+        <variable>KNOCK_OPTS</variable>
+	<default>myserver.example.com 123:tcp 456:udp 789:tcp</default>
+      </entry>
+    </hbox>
+    <hbox>
+$(helpbutton knock 80x12)
+      <button>
+        <label>Start</label>
+        <input file icon="forward"></input>
+        <action>knock \$KNOCK_OPTS</action>
+      </button>
+    </hbox>
+    </frame>
+EOT
+}
+
+data_main()
+{
+cat <<EOT
+#program    tab name      function
+true        Servers       tab_servers
+iptables    Firewall      tab_firewall
+knock       Knock         tab_knock
+EOT
+}
+
+tab_main()
+{
+use_tab data_main
+}
+
+######################################################
+#
+# Serverbox GUI
+#
+######################################################
+
+# Only root can configure server.
+check_root
+
+# English/French help dialog.
+export HELP='
+<window title="Network status" icon-name="network-wire">
+<vbox>
+	<text use-markup="true">
+		<label>
+"
+<b>SliTaz - Serverbox</b>"
+		</label>
+	</text>
+	<frame English>
+		<text wrap="true" width-chars="58">
+			<label>
+"Serverbox lets you manage and setup servers. First, install and 
+edit configuration files. Then, start or stop servers."
+			</label>
+		</text>
+	</frame>
+	<frame Francais>
+		<text wrap="true" width-chars="58">
+			<label>
+"Serverbox peut demarrer ou arreter le reseau, configurer
+les interfaces reseau ou editer directement les fichiers."
+			</label>
+		</text>
+	</frame>
+</vbox>
+</window>
+'
+
+# The main dialog with notebook, start/stop buttons and all options.
+# Note that /etc/network.conf is seded when an interface is activated.
+#
+head='
+<window title="SliTaz Server Manager" icon-name="network-wired">
+	<vbox>
+
+		<hbox>
+			<text use-markup="true">
+				<label>"<b>Server Manager</b>"</label>
+			</text>
+			<pixmap>
+				<input file>/usr/share/pixmaps/netbox.png</input>
+			</pixmap>
+		</hbox>
+'
+bottom='
+		<hbox>
+			<button help>
+				<label>Help</label>
+				<action type="launch">HELP</action>
+			</button>
+			<button>
+				<label>Quit</label>
+				<input file icon="exit"></input>
+				<action type="exit">Exit</action>
+			</button>
+		</hbox>
+
+	</vbox>
+</window>
+'
+
+SERVER_BOX="${head}$(tab_main)${bottom}"
+
+export SERVER_BOX
+
+gtkdialog --center --program=SERVER_BOX >/dev/null
