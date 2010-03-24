@@ -7,7 +7,7 @@
 #
 
 DEVICE=$1
-DEPENDS="usbutils hal-info"
+DEPENDS=""
 AUTO_INSTALL_SUGGESTED="no"
 CONFIRM_SUGGESTED="no"
 NON_FREE="no"
@@ -50,33 +50,33 @@ device()
 {
 	case "$DEVICE" in
   		printer) 
-			DEPENDS="$DEPENDS cups cups-pdf"
+			DEPENDS="$DEPENDS cups cups-pdf usbutils hal-info"
 			SUGGESTED="hplip gutenprint foomatic-filters foomatic-db hal-cups-utils foomatic-db-nonfree ufr2 splix"
 			CONFIRM_SUGGESTED="yes"
 			GROUP="lp"					
 			;;
 		scanner) 
-			DEPENDS="$DEPENDS xsane"
+			DEPENDS="$DEPENDS xsane usbutils hal-info"
 			SUGGESTED="hplip"
 			GROUP="scanner lp"
 			;;
     	webcam)
-    		DEPENDS="$DEPENDS v4l-dvb "
+    		DEPENDS="$DEPENDS v4l-dvb usbutils hal-info"
 			SUGGESTED="xorg-xf86-video-v4l linux-video libv4l "
 			GROUP="video audio lp"
 			;;				
 		camera)  
-    	    DEPENDS="$DEPENDS gphoto2"
+    	    DEPENDS="$DEPENDS gphoto2 usbutils hal-info"
 			SUGGESTED=""
 			GROUP="camera lp"
 			;;
 		bluetooth)
-			DEPENDS="$DEPENDS bluez"
+			DEPENDS="$DEPENDS bluez usbutils hal-info"
 			SUGGESTED=""
 			GROUP="lp"
 			;;	
 		3g-modem)
-    		DEPENDS="$DEPENDS linux-dialup wvdial pcmciautils"
+    		DEPENDS="$DEPENDS linux-dialup wvdial pcmciautils usbutils hal-info"
 			SUGGESTED=""
 			GROUP="dialout lp"
 			;;
