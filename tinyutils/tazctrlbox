@@ -522,6 +522,11 @@ export MAIN_DIALOG=${MAIN_DIALOG}'
 			<action>tazhw box &</action>
 		</button>
 		<button>
+			<label>Server</label>
+			<input file icon="utilities-system-monitor"></input>
+			<action>serverbox &</action>
+		</button>
+		<button>
 			<label>Storage</label>
 			<input file icon="media-flash"></input>
 			<action>mountbox &</action>
