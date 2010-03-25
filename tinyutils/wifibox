@@ -121,6 +121,32 @@ stop_wifi_connexion()
 	sleep 2
 }
 
+auto_connect_to_favorites_atboot()
+{
+	. $FAVORITES_WIFI/${FAVNET}.conf
+	
+	if grep -q "ssid=\"$FAVNET\"" /etc/wpa_supplicant.conf ; then
+		# edit configuration
+		sed -i "/start ${FAVNET}.conf/,/end ${FAVNET}.conf/s/[^_]ssid=.*/  ssid=\"$WIFI_ESSID\"/  " /etc/wpa_supplicant.conf
+		sed -i "/start ${FAVNET}.conf/,/end ${FAVNET}.conf/s/psk=.*/psk=\"$WIFI_KEY\"/ " /etc/wpa_supplicant.conf
+	else
+		# add new configuration
+		echo -e "
+# start ${FAVNET}.conf configuration
+network={ 
+	ssid=\"$WIFI_ESSID\"
+	scan_ssid=1 
+	key_mgmt=WPA-EAP WPA-PSK IEEE8021X NONE 
+	group=CCMP TKIP WEP104 WEP40 
+	pairwise=CCMP TKIP 
+	psk=\"$WIFI_KEY\" 
+	priority=3  
+} 
+# end ${FAVNET}.conf configuration" >> /etc/wpa_supplicant.conf  
+    fi
+
+}
+
 # Favorite wireless networks use only 3 values: essid. key and type of
 # key
 favorites_wifi_list()
@@ -169,13 +195,19 @@ ESSID name: $WIFI_ESSID
 			<label>Edit settings</label>
 			<input file icon=\"accessories-text-editor\"></input>	
 			<action>leafpad $FAVORITES_WIFI/\"$FAVORITE\".conf</action>
-			<action>rm -f /tmp/wifi.conf</action>
-			<action type=\"exit\">exit</action>
+			<action>rm -f /tmp/wifi.conf</action>					
+		</button>
+		<button>
+			<label>Save Edits</label>
+			<input file icon=\"document-save\"></input>	
+			<action>export FAVNET=$WIFI_ESSID; $0 auto_connect_to_favorites_atboot</action>
+			<action type=\"exit\">exit</action>					
 		</button>
 		<button>
 			<label>Delete</label>
 			<input file icon=\"gtk-delete\"></input>	
 			<action>rm -f $FAVORITES_WIFI/\"$FAVORITE\".conf</action>
+			<action>sed -i \"/start ${FAVORITE}.conf/,/end ${FAVORITE}.conf/d\" /etc/wpa_supplicant.conf</action>
 			<action type=\"exit\">exit</action>
 		</button>
 		<button cancel></button>
@@ -236,6 +268,7 @@ Please configure your new favorite Wireless network
 			<action>echo "WIFI_ESSID=\"$WIFI_ESSID\"" >> $FAVORITES_WIFI/"$WIFI_ESSID".conf</action>
 			<action>echo "WIFI_KEY=\"$WIFI_KEY\"" >> $FAVORITES_WIFI/"$WIFI_ESSID".conf</action>
 			<action>echo "WIFI_KEY_TYPE=\"$WIFI_KEY_TYPE\"" >> $FAVORITES_WIFI/"$WIFI_ESSID".conf</action>
+			<action>export FAVNET=$WIFI_ESSID; $BIN auto_connect_to_favorites_atboot</action>
 			<action type="exit">exit</action>
 		</button>
 		<button cancel></button>
@@ -385,10 +418,11 @@ box()
 		</hbox>
 	</vbox>"
 	
+	
 	# Favorite networks
 	WIFI_DIALOG=${WIFI_DIALOG}"	
 	<vbox>
-		<tree icon=\"network-wireless\">
+	    <tree icon=\"network-wireless\">
 			<width>500</width><height>160</height>
 			<variable>FAVORITE</variable>
 			<label>ESSID|Key Type|Key status</label>
@@ -401,6 +435,13 @@ box()
 			<action>refresh:WIFI_KEY</action>
 			<action>refresh:WIFI_KEY_TYPE</action>
 		</tree>
+		<hbox>
+			<text width-chars=\"65\">
+				<label>
+\"Favorites network connect automatically when computer is started           \"
+				</label>
+			</text>
+		</hbox>
 		<hbox>
 			<text width-chars=\"50\">
 				<label>
@@ -490,6 +531,17 @@ box()
 	# Start Button for manual configuration.
 	WIFI_DIALOG=${WIFI_DIALOG}'
 		<hbox>
+		   <button>
+				<label>Save to Favorites</label>
+				<input file icon="document-save"></input>
+				<action>echo "# Wireless connection configuration." > $FAVORITES_WIFI/"$WIFI_ESSID".conf</action>
+				<action>echo "#" >> /etc/wireless/"$WIFI_ESSID".conf</action>
+				<action>echo "WIFI_ESSID=\"$WIFI_ESSID\"" >> $FAVORITES_WIFI/"$WIFI_ESSID".conf</action>
+				<action>echo "WIFI_KEY=\"$WIFI_KEY\"" >> $FAVORITES_WIFI/"$WIFI_ESSID".conf</action>
+				<action>echo "WIFI_KEY_TYPE=\"$WIFI_KEY_TYPE\"" >> $FAVORITES_WIFI/"$WIFI_ESSID".conf</action>
+				<action>export FAVNET=$WIFI_ESSID; $BIN auto_connect_to_favorites_atboot</action>	
+				<action>refresh:FAVORITE</action>
+			</button>
 			<button>
 				<label>Start connection</label>
 				<input file icon="forward"></input>
