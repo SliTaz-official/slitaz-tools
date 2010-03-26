@@ -438,7 +438,7 @@ box()
 		<hbox>
 			<text width-chars=\"65\">
 				<label>
-\"Favorites network connect automatically when computer is started           \"
+\"Favorite networks connect automatically when computer is started           \"
 				</label>
 			</text>
 		</hbox>
