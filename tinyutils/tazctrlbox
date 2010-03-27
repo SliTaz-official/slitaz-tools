@@ -5,7 +5,7 @@
 # are called by argument. Individual window dialog are put into 
 # functions.
 #
-# (C) GNU gpl v3 - SliTaz GNU/Linux 2008.
+# (C) GNU gpl v3 - SliTaz GNU/Linux 2010.
 # Author: Christophe Lincoln <pankso@slitaz.org>
 #
 VERSION=1.0
@@ -154,7 +154,8 @@ New account information
 			<button ok>
 				<action>adduser -D $NEW_USER</action>
 				<action>echo "$NEW_USER:$PASSWD" | chpasswd</action>
-				<action>adduser -G audio $NEW_USER</action>
+				<action>addgroup $NEW_USER audio</action>
+				<action>addgroup $NEW_USER cdrom</action>
 				<action>rmdir /home/$NEW_USER</action>
 				<action>cp -a /etc/skel /home/$NEW_USER</action>
 				<action>cp /root/.xinitrc /home/$NEW_USER</action>
