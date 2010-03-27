@@ -159,6 +159,8 @@ New account information
 				<action>rmdir /home/$NEW_USER</action>
 				<action>cp -a /etc/skel /home/$NEW_USER</action>
 				<action>cp /root/.xinitrc /home/$NEW_USER</action>
+				<action>mkdir -p /home/$NEW_USER/.config/slitaz</action>
+				<action>cp -a /etc/slitaz/applications.conf /home/$NEW_USER/.config/slitaz</action>
 				<action>chown -R $NEW_USER:$NEW_USER /home/$NEW_USER</action>
 				<action type="closewindow">MANAGE_USER</action>
 			</button>
