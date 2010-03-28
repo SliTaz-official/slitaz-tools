@@ -140,7 +140,8 @@ mount_cdrom()
 		--backtitle "$BACKLIST" \
 		--gauge "Preparing the installation media..." 18 70 0
 	# Exit with error msg if no rootfs.gz found.
-	if [ ! -f /media/cdrom/boot/rootfs.gz ]; then
+	if [ ! -f /media/cdrom/boot/rootfs.gz -a \
+	     ! -f /media/cdrom/boot/rootfs1.gz ]; then
 		ERROR_MSG="$MOUNT_CDROM_ERROR_MSG"
 		error_message
 		echo "missing: /media/cdrom/boot/rootfs.gz" >>$LOG
@@ -473,9 +474,10 @@ copy_bootloaders()
 extract_rootfs()
 {
 	cd $TARGET_ROOT
-	(zcat rootfs.gz 2>/dev/null || lzma d rootfs.gz -so || \
-	 cat rootfs.gz) 2>>$LOG | cpio -id 2>>$LOG > /dev/null
-	rm -f rootfs.gz
+	for i in $(ls $1/rootfs* | sort -r); do
+		( zcat $i 2>/dev/null || lzma d $i -so || \
+		  cat $i ) 2>>$LOG | cpio -id
+	done 2>>$LOG > /dev/null
 	# unpack /usr (double check...)
 	if ls etc/tazlito | grep -q ".extract"; then
 		for i in etc/tazlito/*.extract; do
@@ -621,16 +623,10 @@ install_files()
 	echo "XXX"
 	copy_bootloaders
 
-	echo "XXX" && echo 40
-	echo -e "\nCopying the compressed system (rootfs.gz)..."
-	echo "XXX"
-	cp /media/cdrom/boot/rootfs.gz $TARGET_ROOT
-	sleep 2
-
 	echo "XXX" && echo 50
 	echo -e "\nExtracting the root system..."
 	echo "XXX"
-	extract_rootfs
+	extract_rootfs /media/cdrom/boot
 
 	echo "XXX" && echo 60
 	echo -e "\nPreconfiguring the system..."
@@ -881,16 +877,10 @@ a SliTaz system, the file: /etc/slitaz-release doesn't exist."
 	echo "XXX"
 	copy_bootloaders
 
-	echo "XXX" && echo 35
-	echo -e "\nCopying the compressed system (rootfs.gz)..."
-	echo "XXX"
-	cp /media/cdrom/boot/rootfs.gz $TARGET_ROOT
-	sleep 2
-
 	echo "XXX" && echo 40
 	echo -e "\nExtracting the root system..."
 	echo "XXX"
-	extract_rootfs
+	extract_rootfs /media/cdrom/boot
 
 	# Restore backups.
 	echo "XXX" && echo 42
