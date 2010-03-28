@@ -2,7 +2,7 @@
 # 
 # Gtkdialog box for the mount command. Part of SliTaz tools.
 #
-VERSION=20100328
+VERSION=20100401
 
 # Check if user is root.
 check_root()
@@ -405,7 +405,7 @@ floppyset()
 	floppysetcat $@ | split -b 1440k /dev/stdin floppy$$
 	i=1
 	ls floppy$$* | while read file ; do
-		output=floppy.$(printf "%03d" $i)
+		output=$(printf "fd%03d.img" $i)
 		cat $file /dev/zero | dd bs=1k count=1440 of=$output conv=sync 2> /dev/null
 		rm -f $file
 		i=$(( $i + 1 ))
@@ -541,7 +541,7 @@ floppysetfromiso()
 		[ -d $i ] || continue
 		j=0
 		for f in $i/floppy* ; do
-			mv $f $(printf "floppy.%03d" $(( $base + $j )) )
+			mv $f $(printf "fd%03d.img" $(( $base + $j )) )
 			j=$(($j + 1))
 		done
 		base=$(($base + 100))
@@ -555,7 +555,7 @@ floppysetfromiso()
 dialogwritefloppyset()
 {
 	if ! list_floppy check; then
-		du -h floppy.???
+		du -h fd???.img
 		return
 	fi
 	while true; do
@@ -566,7 +566,7 @@ dialogwritefloppyset()
     Insert a blank floppy in drive and
 select the floppy image you what to write.
 " 18 46 46 \
-		$(on="on"; for i in floppy*; do echo "$i $(du -h $i | cut -f1) $on "; on="off"; done) 2>&1 1>&3`
+		$(on="on"; for i in fd???.img; do echo "$i $(du -h $i | cut -f1) $on "; on="off"; done) 2>&1 1>&3`
 	retval=$?
 	exec 3>&-
 	check_retval
@@ -689,7 +689,7 @@ stage boot to break the tiny loader 15Mb limit.
       <button>
         <input file icon="forward"></input>
         <label>Create image set from ISO boot</label>
-	<action>cd $OUTPUTDIR; bootfloppybox call mkisofloppiesxterm $ISO</action>
+	<action>cd $FILE_DIRECTORY; bootfloppybox call mkisofloppiesxterm $ISO</action>
         <action type="closewindow">IMAGE_SET</action>
       </button>
     </hbox>
@@ -759,7 +759,7 @@ lower than 14-15Mb due to the tiny boot loader design.
       <button>
         <input file icon="forward"></input>
         <label>Create image set</label>
-	<action>cd $OUTPUTDIR; bootfloppybox call mkfloppies $KERNEL $INITRD $CMDLINE</action>
+	<action>cd $OUTPUT_DIRECTORY; bootfloppybox call mkfloppies $KERNEL $INITRD $CMDLINE</action>
         <action type="closewindow">IMAGE_SET</action>
       </button>
     </hbox>
@@ -861,7 +861,7 @@ IMAGE_SHOW='
     <tree>
         <width>50</width><height>140</height>
     	<label>Size|File</label>
-    	<input>du -h floppy.??? | sed "s/\t/|/" </input>
+    	<input>du -h fd???.img | sed "s/\t/|/" </input>
     </tree>
     <hbox>
 '
@@ -915,7 +915,7 @@ if [ "$1" == "call" ]; then
 	mkfloppies)
 		shift 2
 		floppyset $@
-		sz=$(cat floppy.* | wc -c)
+		sz=$(cat fd???.img | wc -c)
 		if [ -n "$XAUTHORITY" ]; then
 			gtkdialogshowfloppyset $sz
 		else
