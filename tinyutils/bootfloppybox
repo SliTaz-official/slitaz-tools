@@ -2,7 +2,7 @@
 # 
 # Gtkdialog box for the mount command. Part of SliTaz tools.
 #
-VERSION=20081121
+VERSION=20100328
 
 # Check if user is root.
 check_root()
@@ -28,19 +28,32 @@ check_retval()
 	esac
 }
 
+# check or list floppy devices.
+list_floppy()
+{
+	local list
+	list=""
+	for i in /sys/devices/platform/floppy.*/block:*; do
+		[ -d $i ] || continue
+		list="$list ${i#*block:}"
+	done
+	[ -n "$1" ] || echo $list
+	[ -n "$list" ]
+}
+
+# dialog to select the floppy device
 select_floppy()
 {
 	DEVICE="$DIALOG --title \" Floppy device \" --backtitle \"Boot Floppy Creation\" --clear --extra-button --extra-label \"Format\" --colors --radiolist \"
 Select boot device
 \" 18 70 50"
 	on=on
-	for i in /sys/devices/platform/floppy.*/block:*; do
-		[ -d $i ] || continue
-		DEVICE="$DEVICE /dev/${i#*block:} 'Floppy in ${i#*block:}' $on"
+	for i in $(list_floppy); do
+		DEVICE="$DEVICE /dev/$i 'Floppy in $i' $on"
 		on=off
 	done
-	DEVICE="$DEVICE floppy \"cdrom image file boot.iso\" $on"
-	DEVICE="$DEVICE cdrom \"floppy image file boot.fd\" off 2>&1 1>&3"
+	DEVICE="$DEVICE floppy \"floppy image file boot.fd\" $on"
+	DEVICE="$DEVICE cdrom \"cdrom image file boot.iso\" off 2>&1 1>&3"
 	exec 3>&1
 	DEVICE=`eval $DEVICE`
 	retval=$?
@@ -53,6 +66,7 @@ Select boot device
     	fi
 }
 
+# Build menu for grub or grub4dos
 mkmenu()
 {
 if [ "$1" = "grub4dos" ]; then
@@ -159,6 +173,7 @@ title Grub4Dos
 EOT
 }
 
+# Install grub or grub4dos on floppy
 install_grub()
 {
 	LOOP=""
@@ -218,6 +233,57 @@ EOT
 	esac
 }
 
+# Build /init for floppies from iso image
+buildinit()
+{
+	mv $1/init $1/init.org
+	cat > $1/init <<EOTEOT
+#!/bin/sh
+
+mount -t proc proc /proc
+total=\$(grep MemTotal /proc/meminfo | sed 's/[^0-9]//g')
+# the floppy driver may not be included in kernel
+insmod /lib/modules/*/kernel/drivers/block/floppy.ko.gz 2> /dev/null
+# loram may put floppy.ko.gz module in /lib
+insmod /lib/floppy.ko.gz 2> /dev/null
+umount /proc
+while read name min num count file md5; do
+	[ -e \$file ] && continue
+	[ \$total -lt \$min ] && break
+	while [ \$count -ne 0 ]; do
+		tmp="\$(dd if=/dev/fd0 count=1 2> /dev/null | md5sum)"
+		echo -n "Insert floppy \$num for \$name and press Enter or Q to skip"
+		while true; do
+			echo -n ":"
+			read -t 10 answer < /dev/tty0
+			case "\$answer" in
+			Q*|q*|A*|a*) break 3;;
+			esac
+			dd if=/dev/fd0 count=1 > /tmp/bs.\$\$ 2> /dev/null
+			[ -s /tmp/bs.\$\$ ] || continue
+			[ "\$(md5sum < /tmp/bs.\$\$)" != "\$tmp" ] || continue
+			rm -f /tmp/bs.\$\$
+			break
+		done
+		dd if=/dev/fd0 of=/tmp/rootfs.\$num 2> /dev/null || continue
+		cat /tmp/rootfs.\$num >> /tmp/rootfs
+		rm -f /tmp/rootfs.\$num
+		num=\$((\$num+1))
+		count=\$((\$count-1))
+	done
+	echo "\$md5  /tmp/rootfs" | md5sum -c || break
+	cpio -idmu < /tmp/rootfs > /dev/null 2>&1 ||
+	( zcat /tmp/rootfs 2> /dev/null || unlzma -c /tmp/rootfs ) | cpio -idmu
+	rm -f /tmp/rootfs*
+done <<EOT
+$(while read line; do echo $line; done)
+EOT
+mv -f /init.org /init || sh
+exec /init
+EOTEOT
+	chmod +x $1/init
+}
+
 # write a 32 bits data
 # usage: storelong offset data32 file
 storelong()
@@ -236,7 +302,8 @@ getlong()
 		hexdump -e '"" 1/4 "%d" "\n"'
 }
 
-floppyset()
+# output floppy images set
+floppysetcat()
 {
 	KERNEL="$1"
 	INITRD="$2"
@@ -262,17 +329,17 @@ floppyset()
 	dd if=$KERNEL bs=512 count=1 of=$bs 2> /dev/null
 	uudecode <<EOT | dd of=$bs conv=notrunc 2> /dev/null
 begin-base64 644 -
-v/Sd/GgAkAcxyQYXify7eACO2cU3sQbzpY7ZiSeMRwKg8X2YQAYfxkX4P/qz
-GFFLdfyXmEHoPgG+AAKATBGAx0QkAJwDdA7oZAG+KAI5HHIuR4scVuhAAV+L
-NehQAbAgzRCwCM0QTpjNFjwIdAOIBK07NXTy6CoBPAp14oh8/onmsA+/9AH+
-TRyxBbSTiUQcsAGJRBSZiVQQiVQYZjHbQ9PjS2YDHWbT62gAEAe/gAAp+5xz
-AgHfU1Yx2+jaAF65AIC0h/5EHM0VW5133KEaAki/HAKxCThEHHKwMcDNE+oA
-ACCQsEYoyL65AejCAF3rKYD5E3IEOMF3boD+AnIEOOZ3b4D9UHN5YIH9AAZ0
-JwZSUVOWtAJQuQYAUbEEwcUEsA8h6ASQJxRAJ+h1AOLusCDNEFnirpjNE2Ex
-9q2RrZKtUCjIdwKwAZg5+HICifhQUrQCzRNalV5YcpYp9wHxweYJAfM4wXUm
-iMj+xrEBOOZ1HIj0/sW2ADwTdRKA/VByDbUAYL68AegkAJjNFmGjBABSUWaP
-BgAACf91nhYHsDEsA7QOuwcAzRA8DXTzw7AN6O//rAjAdfjDWDoASW5zZXJ0
-IG5leHQgZmxvcHB5IGFuZCBwcmVzcyBhbnkga2V5IHRvIGNvbnRpbnVlLgcN
+/L+6nWgAkAcGF4n8McC5HQDzq1sfD6mg8X1ABlfFd3ixBvOlZWaPR3gGH8ZF
++D/6l1hB6CsBvgACA3QO6HYBWwseKAJ0K1PoUgFe6GcBsCDNELAIzRBO6GYB
+PAh0A4gErTk2KAJ08Og/ATwKdeCIfP6J5v9MEP9MGL/0AYFNHP+Ax0UwAJyw
+D7EFtJOJRBywAYlEFJhmmNPgSGYDBWbT6GgAEAe/gAAp+JxzAgHHMdtQVujm
+AF65AIC0h/5EHM0VWJ133KEaAki/HAKxCThEHHK4k80T6gAAIJCwRijIvtsB
+6NMAXesjgPkTcgQ4wXdjgP4CcgQ45ndkYIH9AAZ0KgZSUVOWtAJQsQa1BMHF
+BLAPIegEkCcUQCfojQD+zXXssCDNEOK06JcAmM0TYVJQKMh3ArABmDn4cgKJ
++FC0As0TlV5YWnKgT0GAxwJOdfg4wXVFiMj+xrEBOOZ1O4j0/sW2ADou8AFy
+L4D9UHIqtQBgvt4B/kQMU+g6AFvoQQB1FlKYzRO4AQLNE1rQ1Dpk/nXqRgjk
+deVhlY7hT4zhiehHdYoWB7AxLAO0DrsHAM0QPA1088OwDejv/6wIwHX4w79s
+BLFbZQINuA0BZToNdArNFnT0mM0Wju9Hw1g6AEluc2VydCBkaXNrIDEuBw0A
 AA==
 ====
 EOT
@@ -332,27 +399,544 @@ EOT
 	rm -f $bs
 }
 
+# Create boot floppy set from kernel, initrd & cmdline
+floppyset()
+{
+	floppysetcat $@ | split -b 1440k /dev/stdin floppy$$
+	i=1
+	ls floppy$$* | while read file ; do
+		output=floppy.$(printf "%03d" $i)
+		cat $file /dev/zero | dd bs=1k count=1440 of=$output conv=sync 2> /dev/null
+		rm -f $file
+		i=$(( $i + 1 ))
+	done
+}
+
+# Create boot floppy set from a SliTaz ISO image
+floppysetfromiso()
+{
+	mkdir /tmp/iso$$
+	mount -o loop,ro $1 /tmp/iso$$
+	rootfs="$(ls /tmp/iso$$/boot/rootfs*.gz 2> /dev/null | tail -1)"
+	bzimage=/tmp/iso$$/boot/bzImage
+	if [ -z "$rootfs" -o ! -s $bzimage ]; then
+		umount -d /tmp/iso$$
+		rm -rf /tmp/iso$$
+		echo "Not a SliTaz ISO image !"
+		return 1
+	fi
+	mkdir -p /tmp/rootfs$$/fs
+	n=1
+	for i in $(ls /tmp/iso$$/boot/rootfs*.gz | sort -r); do
+		mkdir /tmp/rootfs$$/$n
+		ln -s $i /tmp/rootfs$$/$n
+		n=$(($n + 1))
+	done
+	echo "Unpack rootfs..."
+	( zcat $rootfs 2> /dev/null | unlzma -c $rootfs ) | \
+		( cd /tmp/rootfs$$/fs ; cpio -idm > /dev/null )
+	if [ $(unlzma -c $rootfs 2> /dev/null| wc -c) -gt $(stat -c %s $rootfs) ]; then
+		if [ $(du -ck $rootfs $bzimage | awk 'END { print $1 }') -gt 15296 ]; then
+	# The rootfs.gz file is too big, extract a minimum bootfs with busybox stuff
+			echo "Extract bootfs..."
+			mv /tmp/rootfs$$/fs /tmp/rootfs$$/fs0
+			for i in lib bin sbin usr/bin usr/sbin ; do
+				mkdir -p /tmp/rootfs$$/fs/$i
+			done
+			cd /tmp/rootfs$$/fs0
+			dir=$(echo lib/modules/*/kernel/drivers/block)
+			mkdir -p ../fs/$dir
+			[ -f $dir/floppy.ko.gz ] && mv $dir/floppy.ko.gz ../fs/$dir
+			for i in dev init mnt proc sys tmp ; do
+				mv $i ../fs
+			done
+			mv lib/lib[cm][.-]* lib/ld-* ../fs/lib
+			for i in $(bin/busybox | awk '{ if (s) printf "%s",$0 }
+				   /Currently/ { s=1 }' | sed 's/,//g'); do
+				for j in bin sbin usr/bin usr/sbin ; do
+					[ -e $j/$i ] && mv $j/$i ../fs/$j/$i
+				done
+			done
+			mv bin/busybox ../fs/bin
+			rm -f ../1/*
+			find | cpio -o -H newc | lzma e ../1/rootfs.gz -si
+			cd - > /dev/null
+			rm -rf /tmp/rootfs$$/fs0
+		else
+	# The rootfs.gz file fit in 15Mb, no need to split it.
+			rm -rf /tmp/rootfs$$/1
+		fi
+	else
+	# This is a loram rootfs.gz, extract loram bootstrap
+		echo "Split loram rootfs..."
+		hexdump -C $rootfs | grep " 30 37 30 37 " | \
+		while read offset rem; do
+			offset=$((0x$offset / 4))
+			for i in 1 2 3 4; do
+				tag=$(dd if=$rootfs bs=4 skip=$offset count=2 2> /dev/null)
+				if [ "07070100" != "$tag" ]; then
+					offset=$(($offset + 1))
+					continue
+				fi
+				dd if=$rootfs skip=$(($offset / 1024)) bs=4k count=1 2> /dev/null | \
+				dd skip=$(($offset % 1024)) bs=4 of=/tmp/rootfs$$/1/root 2> /dev/null
+				dd if=$rootfs skip=$((1 + ($offset / 1024) )) bs=4k \
+					>> /tmp/rootfs$$/1/root 2> /dev/null
+				rm -f /tmp/rootfs$$/1/rootfs*
+				break 2
+			done
+		done
+	fi
+	# Create extra rootfs floppies
+	for i in /tmp/rootfs$$/[1-9]*/root* ; do
+		[ -f $i ] || continue
+		echo "Create floppies for rootfs $(basename $(dirname $i) )..."
+		case "$(dd if=$i bs=1 count=4 2> /dev/null)" in
+		0707) cat $i ;;
+		*)    zcat $i 2> /dev/null || unlzma -c $i ;;
+		esac | cpio -t > $(dirname $i)/files.list
+		sed -i '/ blocks$/d' $(dirname $i)/files.list
+		x=$(readlink $i)
+		[ -n "$x" ] || x=$i
+		pad=$(( $(stat -c %s $x ) % 1474560 ))
+		[ $pad -ne 0 ] && pad=$(( 1474560 - $pad ))
+		dd if=/dev/zero bs=1 count=$pad 2> /dev/null | cat $i - | \
+		split -b 1440k /dev/stdin $(dirname $i)/floppy
+	done
+	selection="$(grep append /tmp/iso$$/boot/isolinux/common.cfg | sed 's/.*append //')"
+	[ -n "$selection" ] || selection="0 slitaz"
+	set -- $selection
+	selection=""
+	while [ -n "$2" ]; do
+		[ ! -d /tmp/rootfs$$/1 -a -z "$4" ] && break
+		case "$1" in
+		*G)	selection="$2 $(( ${1%G} * 1024 * 1024 )) $selection" ;;
+		*M)	selection="$2 $(( ${1%M} * 1024 )) $selection" ;;
+		*)	selection="$2 $1 $selection" ;;
+		esac
+		shift 2
+	done
+	echo "Create /init ..."
+	base=100
+	set -- $selection
+	for i in /tmp/rootfs$$/[1-9]* ; do
+		[ -d $i ] || continue
+		while read file; do
+			[ -e $i/../fs/$file ] && continue
+			[ $(grep -- "$file" $i/../*/files.list | wc -l) -eq 1 ] &&
+			break
+		done < $i/files.list
+		printf "%s %s %03d %d %s %s\n" \
+			$1 $2 $base $(ls $i/floppy* | wc -l) $file \
+			$(cat $i/floppy* | md5sum - | awk '{print $1}')
+		base=$(($base + 100))
+		shift 2
+	done | buildinit /tmp/rootfs$$/fs
+	cmdline="$(grep append /tmp/iso$$/boot/isolinux/isolinux.cfg | tail -n 1 | sed 's/.*gz //')"
+	( cd /tmp/rootfs$$/fs ; find | cpio -o -H newc ) | lzma e /tmp/rootfs$$/rootfs -si
+	echo "Create first stage boot floppies..."
+	floppyset $bzimage /tmp/rootfs$$/rootfs $cmdline
+	base=100
+	for i in /tmp/rootfs$$/[1-9]* ; do
+		[ -d $i ] || continue
+		j=0
+		for f in $i/floppy* ; do
+			mv $f $(printf "floppy.%03d" $(( $base + $j )) )
+			j=$(($j + 1))
+		done
+		base=$(($base + 100))
+	done
+	rm -rf /tmp/rootfs$$
+	umount -d /tmp/iso$$
+	rm -rf /tmp/iso$$
+}
+
+# Show new boot floppy set
+dialogwritefloppyset()
+{
+	if ! list_floppy check; then
+		du -h floppy.???
+		return
+	fi
+	while true; do
+	exec 3>&1
+	IMAGE=`$DIALOG --title " Write floppy image " \
+		--backtitle "Boot floppy set creation on $DEVICE" --clear \
+		--colors --radiolist "
+    Insert a blank floppy in drive and
+select the floppy image you what to write.
+" 18 46 46 \
+		$(on="on"; for i in floppy*; do echo "$i $(du -h $i | cut -f1) $on "; on="off"; done) 2>&1 1>&3`
+	retval=$?
+	exec 3>&-
+	check_retval
+	dd if=$IMAGE of=$DEVICE
+	done
+}
+
+dialognofloppyset()
+{
+	cat << EOT
+The boot loader can't load the kernel and the initramfs in the first 16Mb
+of RAM. The total size exceed 15Mb. No floppy image is created.
+EOT
+}
+
+# Check for iso 9660 image
+isiso()
+{
+	mkdir /tmp/iso$$
+	mount -o loop,ro $1 /tmp/iso$$ 2> /dev/null
+	status=$?
+	umount -d /tmp/iso$$ 2> /dev/null
+	rm -rf /tmp/iso$$
+	return $status
+}
+
+dialogfloppyset()
+{
+	: ${DIALOG=dialog}
+	while true; do
+	exec 3>&1
+	KERNEL=`$DIALOG --title " Select a Linux kernel or a SliTaz iso " \
+		--backtitle "Boot floppy set creation on $DEVICE" --clear \
+		--colors --fselect "$PWD" 10 70 \
+		2>&1 1>&3`
+	retval=$?
+	exec 3>&-
+	check_retval
+	[ -f $KERNEL ] && break
+	done
+	if isiso $KERNEL ; then
+		bootfloppybox call mkisofloppies $KERNEL
+		dialogwritefloppyset
+		return
+	fi
+	exec 3>&1
+	INITRD=`$DIALOG --title " Select an Initramfs " \
+		--backtitle "Boot floppy set creation on $DEVICE" --clear \
+		--colors --fselect "$PWD" 10 70 \
+		2>&1 1>&3`
+	retval=$?
+	exec 3>&-
+	check_retval
+	[ -f "$INITRD" ] || INITRD=""
+	exec 3>&1
+	CMDLINE=`$DIALOG --title " Enter boot command line " \
+		--backtitle "Boot floppy set creation on $DEVICE" --clear \
+		--colors --inputbox "Kernel command line" 10 70 "rw root=/dev/null autologin" \
+		2>&1 1>&3`
+	retval=$?
+	exec 3>&-
+	check_retval
+	bootfloppybox call mkfloppies $KERNEL $INITRD $CMDLINE &&
+	dialogwritefloppyset ||
+	dialognofloppyset
+}
+
+#
+# Create floppy image set
+#
+export IMAGE_SET='
+<window title="Image set generator" icon-name="gtk-floppy">
+  <vbox>
+    <text use-markup="true">
+      <label>
+"
+<b>Create a boot floppy set</b>
+"
+      </label>
+    </text>
+    <notebook labels="Slitaz only|Any linux">
+    <frame Slitaz only (no size limit)>
+    <vbox>
+    <text wrap="false" width-chars="44" use-markup="true">
+      <label>
+"
+Slitaz distro use a floppy boot flavor as first
+stage boot to break the tiny loader 15Mb limit.
+"
+      </label>
+    </text>
+    <hbox>
+      <text use-markup="true">
+        <label>"<b>Slitaz ISO : </b>"</label>
+      </text>
+      <entry accept="filename">
+        <label>Select a Slitaz ISO image</label>
+        <variable>ISO</variable>
+      </entry>
+      <button>
+        <input file stock="gtk-open"></input>
+        <action type="fileselect">ISO</action>
+      </button>
+    </hbox>
+    <hbox>
+      <text use-markup="true">
+        <label>"<b>Output directory : </b>"</label>
+      </text>
+      <entry accept="directory">
+        <label>Select output directory</label>
+        <variable>FILE_DIRECTORY</variable>
+        <default>/tmp</default>
+      </entry>
+      <button>
+        <input file stock="gtk-open"></input>
+        <action type="fileselect">FILE_DIRECTORY</action>
+      </button>
+    </hbox>
+    <hbox>
+      <button>
+        <input file icon="forward"></input>
+        <label>Create image set from ISO boot</label>
+	<action>cd $OUTPUTDIR; bootfloppybox call mkisofloppiesxterm $ISO</action>
+        <action type="closewindow">IMAGE_SET</action>
+      </button>
+    </hbox>
+    </vbox>
+    </frame>
+    <frame Any Linux distribution (max total size 14-15Mb)>
+    <vbox>
+    <text wrap="false" width-chars="44" use-markup="true">
+      <label>
+"
+The total size of the kernel and the initramfs must be
+lower than 14-15Mb due to the tiny boot loader design.
+"
+      </label>
+    </text>
+    <hbox>
+      <text use-markup="true">
+        <label>"<b>Kernel      : </b>"</label>
+      </text>
+      <entry accept="filename">
+        <label>Select a linux kernel</label>
+        <variable>KERNEL</variable>
+      </entry>
+      <button>
+        <input file stock="gtk-open"></input>
+        <action type="fileselect">KERNEL</action>
+      </button>
+    </hbox>
+    <hbox>
+      <text use-markup="true">
+        <label>"<b>Initramfs : </b>"</label>
+      </text>
+      <entry accept="filename">
+        <label>Select an initramfs/initrd file</label>
+        <variable>INITRD</variable>
+      </entry>
+      <button>
+        <input file stock="gtk-open"></input>
+        <action type="fileselect">INITRD</action>
+      </button>
+    </hbox>
+    <hbox>
+      <text use-markup="true">
+        <label>"<b>Cmdline   : </b>"</label>
+      </text>
+      <entry>
+        <label>Enter kernel arguments</label>
+        <variable>CMDLINE</variable>
+        <default>rw root=/dev/null autologin</default>
+      </entry>
+    </hbox>
+    <hbox>
+      <text use-markup="true">
+        <label>"<b>Output directory : </b>"</label>
+      </text>
+      <entry accept="directory">
+        <label>Select output directory</label>
+        <variable>OUTPUT_DIRECTORY</variable>
+        <default>/tmp</default>
+      </entry>
+      <button>
+        <input file stock="gtk-open"></input>
+        <action type="fileselect">OUTPUT_DIRECTORY</action>
+      </button>
+    </hbox>
+    <hbox>
+      <button>
+        <input file icon="forward"></input>
+        <label>Create image set</label>
+	<action>cd $OUTPUTDIR; bootfloppybox call mkfloppies $KERNEL $INITRD $CMDLINE</action>
+        <action type="closewindow">IMAGE_SET</action>
+      </button>
+    </hbox>
+    </vbox>
+    </frame>
+    </notebook>
+    <hbox>
+      <button>
+        <input file icon="gtk-close"></input>
+        <action type="closewindow">IMAGE_SET</action>
+      </button>
+    </hbox>
+  </vbox>
+</window>
+'
+
+#
+# Read/write floppy images
+#
+export FLOPPY_IMAGE='
+<window title="Floppy image manager" icon-name="gtk-floppy">
+  <vbox>
+    <frame Floppy disk drive>
+      <hbox>
+        <text use-markup="true">
+          <label>"<b>Device : </b>"</label>
+        </text>
+	<combobox>
+          <variable>DEVICE</variable>'
+FLOPPY_DEV=""
+for i in $(list_floppy); do
+	FLOPPY_DEV="$FLOPPY_DEV
+	  <item>/dev/$i</item>"
+done
+	FLOPPY_IMAGE="$FLOPPY_IMAGE$FLOPPY_DEV
+	</combobox>
+        <button>
+          <label>Format floppy</label>
+          <input file icon=\"media-floppy\"></input>
+	  <action>fdformat -n $DEVICE</action>
+        </button>
+      </hbox>
+    </frame>
+    <frame Floppy image file>
+      <hbox>
+        <text use-markup=\"true\">
+          <label>\"<b>File : </b>\"</label>
+        </text>
+        <entry accept=\"filename\">
+          <label>Select a floppy image</label>
+          <variable>IMAGE</variable>
+        </entry>
+        <button>
+          <input file stock=\"gtk-open\"></input>
+          <action type=\"fileselect\">IMAGE</action>
+        </button>
+      </hbox>
+    </frame>
+    <hbox>
+      <button>
+        <input file icon=\"reload\"></input>
+        <label>Create image set</label>
+	<action type=\"launch\">IMAGE_SET</action>
+      </button>
+      <button>
+        <input file icon=\"go-jump\"></input>
+        <label>Write image to floppy</label>
+        <action>dd if=\$IMAGE of=\$DEVICE</action>
+      </button>
+      <button>
+        <input file icon=\"undo\"></input>
+        <label>Get floppy image</label>
+        <action>dd if=\$DEVICE of=\$IMAGE</action>
+      </button>
+      <button>
+        <input file icon=\"gtk-close\"></input>
+        <action type=\"closewindow\">FLOPPY_IMAGE</action>
+      </button>
+    </hbox>
+  </vbox>
+</window>
+"
+
+gtkdialogshowfloppyset()
+{
+#
+# Show floppy image set
+#
+IMAGE_SHOW='
+<window title="Image set" icon-name="gtk-floppy">
+  <vbox>
+    <text use-markup="true">
+      <label>
+"
+<b>Boot floppy images</b>
+"
+      </label>
+    </text>
+    <tree>
+        <width>50</width><height>140</height>
+    	<label>Size|File</label>
+    	<input>du -h floppy.??? | sed "s/\t/|/" </input>
+    </tree>
+    <hbox>
+'
+	[ 0$1 -gt $((15 * 1024 * 1024)) ] &&  IMAGE_SHOW="$IMAGE_SHOW
+    <frame WARNING>
+    <text>
+      <label>
+\"This floppy set breaks 15Mb limit ($1 bytes).
+It should not be able to complete boot process.\"
+      </label>
+    </text>
+    </frame>
+    </hbox>
+    <hbox>
+"
+	list_floppy check && IMAGE_SHOW="$IMAGE_SHOW
+      <button>
+        <input file icon=\"media-floppy\"></input>
+	<label>Manage images</label>
+	<action type=\"launch\">FLOPPY_IMAGE</action>
+      </button>
+"
+	IMAGE_SHOW="$IMAGE_SHOW
+      <button>
+        <input file icon=\"gtk-close\"></input>
+        <action type=\"closewindow\">IMAGE_SET</action>
+      </button>
+    </hbox>
+  </vbox>
+</window>
+"
+	export IMAGE_SHOW
+	gtkdialog --program=IMAGE_SHOW
+}
+
 while true; do
 
 if [ "$1" == "call" ]; then
 	case "$2" in
 	mkmenu) mkmenu $3;;
+	mkisofloppiesxterm)
+		shift 2
+		xterm -geometry 80x16 -title "Build boot floppies from ISO" \
+			-e "$0 call mkisofloppies $@ ; echo -e \"----\nENTER to continue...\" && read close"
+		gtkdialogshowfloppyset
+		;;
+	mkisofloppies)
+		shift 2
+		floppysetfromiso $@
+		;;
 	mkfloppies)
 		shift 2
-		floppyset $@ | split -b 1440k /dev/stdin floppy$$
-		i=1
-		ls floppy$$* | while read file ; do
-			output=floppy.$(printf "%03d" $i)
-			cat $file /dev/zero | dd bs=1k count=1440 of=$output conv=sync 2> /dev/null
-			rm -f $file
-			i=$(( $i + 1 ))
-		done;;
+		floppyset $@
+		sz=$(cat floppy.* | wc -c)
+		if [ -n "$XAUTHORITY" ]; then
+			gtkdialogshowfloppyset $sz
+		else
+			if [ $sz -gt $((15 * 1024 * 1024)) ]; then
+				cat <<EOT
+This floppy set breaks 15Mb limit ($sz bytes).
+It should not be able to complete boot process.
+EOT
+			fi
+		fi
+		;;
 	install)
 		DIR=/tmp/mkbootfloppy$$
 		mkdir -p $DIR
 		DEVICE=$4
 		file=$5
 		case "$3" in
+		dialog*)
+			shift 2
+			$@
+			;;
 		grub*)
 			mkdir -p $DIR/boot/grub
 			[ -f /usr/share/boot/btmgr -a -f /usr/share/boot/memdisk.lzma ] \
@@ -452,24 +1036,25 @@ if [ -z "$XAUTHORITY" ]; then
     : ${DIALOG=dialog}
     
     DEVICE=/dev/fd0
+    list_floppy check || DEVICE="floppy"
     while true; do
 	exec 3>&1
 	ID_SOURCE=`$DIALOG --title " Choose a boot floppy " \
 		--backtitle "Boot Floppy Creation on $DEVICE" --clear \
 		--extra-button --extra-label "Change floppy" \
-		--yes-label "Install" \
-		--no-label "Quit" \
 		--colors --radiolist "
 Create a floppy or a cdrom to boot a LiveCD in a PXE network...
 May need a floppy disk in drive. Erase the whole floppy disk.
 		" 18 70 50\
-		SmartBtmgr	"Boot any partition or ATAPI CD-ROM." on \
+		FloppySet	"Boot Slitaz with floppies only." on \
+		SmartBtmgr	"Boot any partition or ATAPI CD-ROM." off \
 		Plop		"Boot USB harddisk floppy or CD/DVD." off \
 		Etherboot	"Replacement for proprietary PXE ROMs." off \
 		gPXE		"Boot from http://boot.slitaz.org/" off \
 		Memtest86+	"Memory failures detection tool." off \
 		Grub4DOS	"Enhanced grub version supporting NTFS." off \
-		Grub		"Boot loader with command shell." off  2>&1 1>&3`
+		Grub		"Boot loader with command shell." off \
+		2>&1 1>&3`
 	retval=$?
 	exec 3>&-
 	check_retval
@@ -495,6 +1080,7 @@ May need a floppy disk in drive. Erase the whole floppy disk.
 		bootfloppybox call install "$pkg" "$DEVICE" "$file"
 		exit 0
 	done <<EOT
+FloppySet /bin/dd dialogfloppyset
 SmartBtmgr /usr/share/boot/btmgr btmgr
 Plop /usr/share/boot/plpbt.bin plop
 Etherboot /usr/share/boot/etherboot etherboot
@@ -511,7 +1097,7 @@ fi
 export HELP='
 <window title="gPXE forced url" icon-name="gtk-floppy">
 <vbox>
-    <text use-markup="true">
+  <text use-markup="true">
     <label>"
 <b>Web boot parameters</b>"
     </label>
@@ -535,162 +1121,6 @@ Comma separated URL lists are supported. The PXE client will try to load the fir
 </vbox>
 </window>
 '
-#
-# Create floppy image set
-#
-export IMAGE_SET='
-<window title="Image set generator" icon-name="gtk-floppy">
-  <vbox>
-    <text use-markup="true">
-      <label>
-"
-<b>Create a boot floppy set.</b>
-"
-      </label>
-    </text>
-    <text wrap="false" width-chars="44" use-markup="true">
-      <label>
-"
-The total size of the kernel and the initramfs must not
-increase 14-15Mb due to the tiny boot loader design.
-"
-      </label>
-    </text>
-    <frame>
-    <vbox>
-    <hbox>
-      <text use-markup="true">
-        <label>"<b>Kernel      : </b>"</label>
-      </text>
-      <entry accept="filename">
-        <label>Select a linux kernel</label>
-        <variable>KERNEL</variable>
-      </entry>
-      <button>
-        <input file stock="gtk-open"></input>
-        <action type="fileselect">KERNEL</action>
-      </button>
-    </hbox>
-    <hbox>
-      <text use-markup="true">
-        <label>"<b>Initramfs : </b>"</label>
-      </text>
-      <entry accept="filename">
-        <label>Select an initramfs/initrd file</label>
-        <variable>INITRD</variable>
-      </entry>
-      <button>
-        <input file stock="gtk-open"></input>
-        <action type="fileselect">INITRD</action>
-      </button>
-    </hbox>
-    <hbox>
-      <text use-markup="true">
-        <label>"<b>Cmdline   : </b>"</label>
-      </text>
-      <entry>
-        <label>Enter kernel arguments</label>
-        <variable>CMDLINE</variable>
-        <default>rw root=/dev/null autologin</default>
-      </entry>
-    </hbox>
-    <hbox>
-      <text use-markup="true">
-        <label>"<b>Output directory : </b>"</label>
-      </text>
-      <entry accept="directory">
-        <label>Select output directory</label>
-        <variable>OUTPUTDIR</variable>
-        <default>/tmp</default>
-      </entry>
-      <button>
-        <input file stock="gtk-open"></input>
-        <action type="fileselect">OUTPUTDIR</action>
-      </button>
-    </hbox>
-    </vbox>
-    </frame>
-    <hbox>
-      <button>
-        <input file icon="forward"></input>
-        <label>Create image set</label>
-	<action>cd $OUTPUTDIR; bootfloppybox call mkfloppies $KERNEL $INITRD $CMDLINE</action>
-        <action type="closewindow">IMAGE_SET</action>
-      </button>
-      <button>
-        <input file icon="gtk-close"></input>
-        <action type="closewindow">IMAGE_SET</action>
-      </button>
-    </hbox>
-  </vbox>
-</window>
-'
-#
-# Read/write floppy images
-#
-export FLOPPY_IMAGE='
-<window title="Floppy image manager" icon-name="gtk-floppy">
-  <vbox>
-    <frame Floppy disk drive>
-      <hbox>
-        <text use-markup="true">
-          <label>"<b>Device : </b>"</label>
-        </text>
-	<combobox>
-          <variable>DEVICE</variable>'
-for i in /sys/devices/platform/floppy.*/block:*; do
-	[ -d $i ] || continue
-	FLOPPY_IMAGE="$FLOPPY_IMAGE
-	  <item>/dev/${i#*block:}</item>"
-done
-	FLOPPY_IMAGE="$FLOPPY_IMAGE
-	</combobox>
-        <button>
-          <label>Format floppy</label>
-          <input file icon=\"media-floppy\"></input>
-	  <action>fdformat -n $DEVICE</action>
-        </button>
-      </hbox>
-    </frame>
-    <frame Floppy image file>
-      <hbox>
-        <text use-markup=\"true\">
-          <label>\"<b>File : </b>\"</label>
-        </text>
-        <entry accept=\"filename\">
-          <label>Select a floppy image</label>
-          <variable>IMAGE</variable>
-        </entry>
-        <button>
-          <input file stock=\"gtk-open\"></input>
-          <action type=\"fileselect\">IMAGE</action>
-        </button>
-      </hbox>
-    </frame>
-    <hbox>
-      <button>
-        <input file icon=\"reload\"></input>
-        <label>Create image set</label>
-	<action type=\"launch\">IMAGE_SET</action>
-      </button>
-      <button>
-        <input file icon=\"go-jump\"></input>
-        <label>Write image to floppy</label>
-        <action>dd if=\$IMAGE of=\$DEVICE</action>
-      </button>
-      <button>
-        <input file icon=\"undo\"></input>
-        <label>Get floppy image</label>
-        <action>dd if=\$DEVICE of=\$IMAGE</action>
-      </button>
-      <button>
-        <input file icon=\"gtk-close\"></input>
-        <action type=\"closewindow\">FLOPPY_IMAGE</action>
-      </button>
-    </hbox>
-  </vbox>
-</window>
-"
 #
 # Write bootfloppy image to floppy device.
 #
@@ -720,28 +1150,56 @@ May need a floppy disk in drive. Erase the whole floppy disk.
         </text>
 	<combobox>
           <variable>DEVICE</variable>'
-for i in /sys/devices/platform/floppy.*/block:*; do
-	[ -d $i ] || continue
-	BOOT_DIALOG="$BOOT_DIALOG 
-	  <item>/dev/${i#*block:}</item>"
+FLOPPY_DEV=""
+for i in $(list_floppy); do
+	FLOPPY_DEV="$FLOPPY_DEV
+	  <item>/dev/$i</item>"
 done
-tmp='	  <item>floppy image (boot.fd)</item>
+	BOOT_DIALOG="$BOOT_DIALOG$FLOPPY_DEV
+	  <item>floppy image (boot.fd)</item>
 	  <item>cdrom image (boot.iso)</item>
-	</combobox>
+	</combobox>"
+if [ -n "$FLOPPY_DEV" ]; then
+	tmp='
         <button>
           <label>Format floppy</label>
           <input file icon="media-floppy"></input>
 	  <action>case "$DEVICE" in /dev/*) fdformat -n $DEVICE;; esac</action>
-        </button>
+        </button>'
+	BOOT_DIALOG="$BOOT_DIALOG$tmp"
+fi
+tmp='
       </hbox>
     </frame>
-    <notebook labels="LiveCD|USB|PXE Network|WEB Network|Memory Test|Windows|Expert">
+    <notebook labels="Set|LiveCD|USB|PXE Network|WEB Network|Memory Test|Windows|Expert">
+    <frame Boot floppy set (many floppies)>
+      <vbox>
+      <hbox>
+        <text wrap="true" width-chars="58" use-markup="true">
+          <label>
+"
+Only people without CD-ROM, USB and Network should use a floppy set. 
+The images are built from an ISO boot or from a Linux kernel, an initramfs
+and a boot command line. Non Slitaz boot floppy set are limited to 15Mb.
+"
+          </label>
+        </text>
+      </hbox>
+      <hbox>
+      <button>
+        <label>Create image set</label>
+        <input file icon="forward"></input>
+	<action type="launch">IMAGE_SET</action>
+      </button>
+      </hbox>
+      </vbox>
+    </frame>
 '  
 BOOT_DIALOG="$BOOT_DIALOG$tmp"
 while read name file pkg desc; do
-    tmp="<frame $name>
+    tmp="<frame $name (single floppy)>
       <hbox>
-    <text wrap=\"true\" width-chars=\"44\" use-markup=\"true\">
+    <text wrap=\"true\" width-chars=\"58\" use-markup=\"true\">
       <label>
 \"
 $(echo -e $desc)
@@ -837,9 +1295,9 @@ $(echo -e $desc)
   fi
   BOOT_DIALOG="$BOOT_DIALOG$tmp"
 done <<EOT
-SmartBtmgr /usr/share/boot/btmgr btmgr This OS independent Smart Boot Manager can boot any          partition or ATAPI CD-ROM.
-Plop /usr/share/boot/plpbt.bin plop This non free Boot Manager can boot a floppy disk, hardisk, USB or CD/DVD. Hit Ctrl-ESC for text mode.
-Etherboot /usr/share/boot/etherboot etherboot This network bootloader provides a replacement for proprietary PXE or NBI ROMs.
+SmartBtmgr /usr/share/boot/btmgr btmgr This OS independent Smart Boot Manager can boot \\\\nany partition or ATAPI CD-ROM.
+Plop /usr/share/boot/plpbt.bin plop This non free Boot Manager can boot a floppy disk, hardisk, USB or \\\\nCD/DVD. Hit Ctrl-ESC for text mode.
+Etherboot /usr/share/boot/etherboot etherboot This network bootloader provides a replacement \\\\nfor proprietary PXE or NBI ROMs.
 gPXE /boot/gpxe gpxe PXE / iSCSI / AoE network bootloader.
 Memtest86+ /usr/share/boot/memtest.lzma memtest Memory failures detection tool.
 Grub4DOS /usr/share/boot/grldr.lzma grub4dos Enhanced grub version supporting NTFS.
@@ -848,16 +1306,29 @@ EOT
 tmp='
     </notebook>
     <hbox>
+'
+BOOT_DIALOG="$BOOT_DIALOG$tmp"
+if [ -e /dev/cdrom ]; then
+tmp='
       <button>
         <input file icon="media-cdrom"></input>
 	<label>Burn cdrom image</label>
 	<action>burnbox</action>
       </button>
+'
+BOOT_DIALOG="$BOOT_DIALOG$tmp"
+fi
+if list_floppy check; then
+tmp='
       <button>
         <input file icon="media-floppy"></input>
 	<label>Manage floppy image</label>
 	<action type="launch">FLOPPY_IMAGE</action>
       </button>
+'
+BOOT_DIALOG="$BOOT_DIALOG$tmp"
+fi
+tmp='
       <button>
         <input file icon="exit"></input>
 	<label>Exit</label>
