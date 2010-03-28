@@ -15,7 +15,7 @@ root password to become super-user.\n"
 	fi
 }
 
-# This function is used after each screen to contine or abort install.
+# This function is used after each screen to continue or abort install.
 check_retval()
 {
 	case $retval in
@@ -463,7 +463,7 @@ floppysetfromiso()
 			cd - > /dev/null
 			rm -rf /tmp/rootfs$$/fs0
 		else
-	# The rootfs.gz file fit in 15Mb, no need to split it.
+	# The rootfs.gz file fits in 15MB, no need to split it.
 			rm -rf /tmp/rootfs$$/1
 		fi
 	else
@@ -564,7 +564,7 @@ dialogwritefloppyset()
 		--backtitle "Boot floppy set creation on $DEVICE" --clear \
 		--colors --radiolist "
     Insert a blank floppy in drive and
-select the floppy image you what to write.
+select the floppy image you want to write.
 " 18 46 46 \
 		$(on="on"; for i in fd???.img; do echo "$i $(du -h $i | cut -f1) $on "; on="off"; done) 2>&1 1>&3`
 	retval=$?
@@ -577,8 +577,8 @@ select the floppy image you what to write.
 dialognofloppyset()
 {
 	cat << EOT
-The boot loader can't load the kernel and the initramfs in the first 16Mb
-of RAM. The total size exceed 15Mb. No floppy image is created.
+The boot loader can't load the kernel and the initramfs in the first 16MB
+of RAM. The total size exceeds 15MB. No floppy image is created.
 EOT
 }
 
@@ -647,14 +647,14 @@ export IMAGE_SET='
 "
       </label>
     </text>
-    <notebook labels="Slitaz only|Any linux">
+    <notebook labels="Slitaz only|Any Linux">
     <frame Slitaz only (no size limit)>
     <vbox>
     <text wrap="false" width-chars="44" use-markup="true">
       <label>
 "
-Slitaz distro use a floppy boot flavor as first
-stage boot to break the tiny loader 15Mb limit.
+Slitaz uses a floppy boot flavor as a first
+stage boot to break the tiny loader 15MB limit.
 "
       </label>
     </text>
@@ -695,13 +695,13 @@ stage boot to break the tiny loader 15Mb limit.
     </hbox>
     </vbox>
     </frame>
-    <frame Any Linux distribution (max total size 14-15Mb)>
+    <frame Any Linux distribution (max total size 14-15MB)>
     <vbox>
     <text wrap="false" width-chars="44" use-markup="true">
       <label>
 "
 The total size of the kernel and the initramfs must be
-lower than 14-15Mb due to the tiny boot loader design.
+lower than 14-15MB due to the tiny boot loader design.
 "
       </label>
     </text>
@@ -869,8 +869,8 @@ IMAGE_SHOW='
     <frame WARNING>
     <text>
       <label>
-\"This floppy set breaks 15Mb limit ($1 bytes).
-It should not be able to complete boot process.\"
+\"This floppy set breaks the 15MB limit ($1 bytes).
+It should not be able to complete the boot process.\"
       </label>
     </text>
     </frame>
@@ -921,8 +921,8 @@ if [ "$1" == "call" ]; then
 		else
 			if [ $sz -gt $((15 * 1024 * 1024)) ]; then
 				cat <<EOT
-This floppy set breaks 15Mb limit ($sz bytes).
-It should not be able to complete boot process.
+This floppy set breaks the 15MB limit ($sz bytes).
+It should not be able to complete the boot process.
 EOT
 			fi
 		fi
@@ -1178,9 +1178,9 @@ tmp='
         <text wrap="true" width-chars="58" use-markup="true">
           <label>
 "
-Only people without CD-ROM, USB and Network should use a floppy set. 
+Only people without a CD-ROM, USB and Network should use a floppy set. 
 The images are built from an ISO boot or from a Linux kernel, an initramfs
-and a boot command line. Non Slitaz boot floppy set are limited to 15Mb.
+and a boot command line. Non Slitaz boot floppy sets are limited to 15MB.
 "
           </label>
         </text>
