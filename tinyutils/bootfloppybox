@@ -445,12 +445,26 @@ floppysetfromiso()
 			done
 			cd /tmp/rootfs$$/fs0
 			dir=$(echo lib/modules/*/kernel/drivers/block)
-			mkdir -p ../fs/$dir
+			[ -d $dir ] && mkdir -p ../fs/$dir
 			[ -f $dir/floppy.ko.gz ] && mv $dir/floppy.ko.gz ../fs/$dir
 			for i in dev init mnt proc sys tmp ; do
 				mv $i ../fs
 			done
-			mv lib/lib[cm][.-]* lib/ld-* ../fs/lib
+			mv lib/ld-* ../fs/lib
+			LD_TRACE_LOADED_OBJECTS=1 /lib/ld*.so bin/busybox | \
+			awk '/\/lib\/lib/ { print $3 }' | while read lib ; do
+				while [ -L .$lib ]; do
+					local target
+					target="$(readlink ".$lib")"
+					case "$target" in
+					/*)	;;
+					*)	target="$(dirname $lib)/$target" ;;
+					esac
+					mv ".$lib" ../fs/lib
+					lib="$target"
+				done
+				mv ".$lib" ../fs/lib
+			done
 			for i in $(bin/busybox | awk '{ if (s) printf "%s",$0 }
 				   /Currently/ { s=1 }' | sed 's/,//g'); do
 				for j in bin sbin usr/bin usr/sbin ; do
@@ -458,6 +472,7 @@ floppysetfromiso()
 				done
 			done
 			mv bin/busybox ../fs/bin
+			[ -e ../fs/bin/cpio ] || mv bin/cpio ../fs/bin
 			rm -f ../1/*
 			find | cpio -o -H newc | lzma e ../1/rootfs.gz -si
 			cd - > /dev/null
@@ -503,7 +518,7 @@ floppysetfromiso()
 		dd if=/dev/zero bs=1 count=$pad 2> /dev/null | cat $i - | \
 		split -b 1440k /dev/stdin $(dirname $i)/floppy
 	done
-	selection="$(grep append /tmp/iso$$/boot/isolinux/common.cfg | sed 's/.*append //')"
+	selection="$(grep -s append /tmp/iso$$/boot/isolinux/common.cfg | sed 's/.*append //')"
 	[ -n "$selection" ] || selection="0 slitaz"
 	set -- $selection
 	selection=""
