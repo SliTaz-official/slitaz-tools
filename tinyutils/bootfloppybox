@@ -417,7 +417,7 @@ floppysetfromiso()
 {
 	mkdir /tmp/iso$$
 	mount -o loop,ro $1 /tmp/iso$$
-	rootfs="$(ls /tmp/iso$$/boot/rootfs*.gz 2> /dev/null | tail -1)"
+	rootfs="$(ls /tmp/iso$$/boot/rootfs*z 2> /dev/null | tail -1)"
 	bzimage=/tmp/iso$$/boot/bzImage
 	if [ -z "$rootfs" -o ! -s $bzimage ]; then
 		umount -d /tmp/iso$$
@@ -427,7 +427,7 @@ floppysetfromiso()
 	fi
 	mkdir -p /tmp/rootfs$$/fs
 	n=1
-	for i in $(ls /tmp/iso$$/boot/rootfs*.gz | sort -r); do
+	for i in $(ls /tmp/iso$$/boot/rootfs*z | sort -r); do
 		mkdir /tmp/rootfs$$/$n
 		ln -s $i /tmp/rootfs$$/$n
 		n=$(($n + 1))
