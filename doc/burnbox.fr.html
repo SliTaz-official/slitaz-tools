@@ -42,11 +42,10 @@ Possibilités de Burnbox:
 	<li>Enregistrement de CD Video (VCD/SVCD) (paquets requis: <em>vcdimager</em> et <em>ffmpeg</em>)</li>
 </ul>
 
-<h3>Configuration génral des périphériques</h3>
+<h3>Configuration générale des périphériques</h3>
 <p>
 Dans le dernier onglet, assurez-vous que les paramètres sont correctes (Pilote:/dev/cdrom; Vitess (auto-detected): 48; Options: ).
 Les informations sont récupérées depuis la variable DEVICE.
-Input is taken from the DEVICE settings.
 </p>
 
 <h3>Effacer CD/DVD-RW</h3>
@@ -68,7 +67,7 @@ Vous pouvez créér ou modifier des images ISO avec l'outil ISO Master.
 
 <h3>Sauvegarde de données et de CD audio</h3>
 <p>
-Ceci est pris en charge dans le premier onglet. Le paquet optionnel <em>cdrkit-isoinfo</em> peut vous aider à améliorer la vitesse d'enregistrement'. 
+Ceci est pris en charge dans le deuxième onglet. Le paquet <em>cdrkit-isoinfo</em> (optionnel) peut vous aider à améliorer la vitesse d'enregistrement. 
 </p>
 <ul>
 	<li>Insérez un CD</li>
@@ -83,7 +82,7 @@ l'extraction de CD audio est prise en charge en utilisant le paquet Asunder.
 
 <h3>Enregistrement des données sur CD/DVD</h3>
 <p>
-Ceci est pris en charge dans le deuxième onglet. On peut spécifier le type de gravure avant d'ajouter des fichiers.
+Ceci est pris en charge dans le premier onglet. On peut spécifier le type de gravure avant d'ajouter des fichiers.
 Selon le type de gravure, les fichiers sont déchiffrés à la volée.
 On peut supprimer les fichiers ajoutés simplement en double-cliquant sur le fichier dans l'arborescence.
 La taille de la piste Total indique l'espace occupé sur le CD / DVD.
@@ -114,20 +113,20 @@ Ceci est pris en charge dans le premier onglet. Seul le format MPG est directeme
 Les formats AVI, MOV, FLV, WMV vidéos sont automatiquement converties en un VCD/SVCD/DVD compatible avec le format vidéo mpg.
 </p>
 <ul>
-	<li>Sélectionnez data-cd dans Burn Type</li>
+	<li>Sélectionnez ideo-dvd, vcd ou svcd dans Burn Type</li>
 	<li>Indiquez le fichier/répertoire ou cliquez sur <code>Browse</code></li>
-	<li>Cliquez sur le bouton <code>Add</code> auto-decode to MPG files (AVI, FLV, MOV, WMV are decoded)</li>
+	<li>Cliquez sur le bouton <code>Add</code> et cochez "Enable decoding video" pour les fichiers MPG (AVI, FLV, MOV, WMV sont décodés)</li>
 	<li>Cliquez sur le bouton <code>Burn Disc</code></li>
 </ul>
 
-<h3>Common Problems</h3>
+<h3>Problèmes fréquents</h3>
 <ul>
-	<li>Burnbox works as root but not for a user: This happens when the user is not added to the "cdrom" group <pre>addgroup tux cdrom</pre></li>
-	<li>Cdrom not readable / writable: Make sure the user has proper permissions and is added to the "cdrom" group</li>	
-	<li>MP3 audio burn does not work: Check if you have installed <em>mpg123</em></li>
-	<li>VCD option does not work: Check if you have installed <em>vcdimager</em></li>
-	<li>AVI, FLV, WMV files are not decoded to MPG: Check if you have installed <em>ffmpeg</em></li>
-	<li>DVD burn does not work: Check if you have installed <em>dvd+rw-tools</em></li>
+	<li>Burnbox fonctionne uniquement avec le compte root: Cela arrive si l'utilisateur ne fait pas parti du group "cdrom"<pre>addgroup tux cdrom</pre></li>
+	<li>Le cdrom n'est pas accessible en lecture ou écriture: Assurez-vous nque l'utilisateur à les bonnes permissions et qu'il edt bien membre du groupe "cdrom"</li>	
+	<li>La gravure des fichiers MP3 ne fonctionne pas: Vérifiez si <em>mpg123</em> est installé</li>
+	<li>Les options VCD ne fonctionnes pas: Installez <em>vcdimager</em></li>
+	<li>Les fichiers AVI, FLV, WMV ne sont pas transcodés au format MPG: Vérifiez l'installation de <em>ffmpeg</em></li>
+	<li>La gravure de DVD ne fonctionne pas: Vérifiez si vous avez installé <em>dvd+rw-tools</em></li>
 </ul>
 
 <!-- End content -->
