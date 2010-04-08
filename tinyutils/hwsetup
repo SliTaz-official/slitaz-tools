@@ -71,7 +71,7 @@ device()
 			GROUP="camera lp"
 			;;
 		bluetooth)
-			DEPENDS="$DEPENDS bluez usbutils hal-info"
+			DEPENDS="$DEPENDS bluez usbutils hal-info pygobject dbus-python"
 			SUGGESTED=""
 			GROUP="lp"
 			;;	
@@ -587,7 +587,6 @@ setup()
 		    fi 
 		    ;;
 		bluetooth) 
-			untested
 			load_modules
 			udev
 					
@@ -603,20 +602,21 @@ setup()
 				echo ""
 				lsusb | grep Bluetooth
 				# udev should run bluetoothd automatically
-				#/usr/sbin/bluetoothd 
-				hciconfig -a
-				hcitool dev
-				hcitool scan
-				echo "========================================"	
-				echo -e "Following \033[1m Bluetooth commands \033[0m  may be of help "
-				echo ""
-				echo " modprobe btusb"
-				echo " /usr/sbin/bluetoothd -nd #for starting bluetooth daemon"
-				echo " hciconfig -a"
-				echo " \"hcitool dev\" : checking local bluetooth devices..."				
-		 		echo " \"hcitool scan\" : scanning remote bluetooth devices..."		 		
-		 		echo -e " You can manually edit the configuration files in \033[1m /etc/bluetooth \033[0m if need be"
-				echo "========================================"	
+				bluetoothd 
+				sleep 1
+				if hcitool dev | grep -q hci ; then
+					echo "========================================"	
+					echo -e "Following \033[1m Bluetooth commands \033[0m  may be of help "
+					echo ""
+					#echo " modprobe btusb"
+					#echo " /usr/sbin/bluetoothd -nd #for starting bluetooth daemon"
+					echo " hciconfig -a"
+					echo " \"hcitool dev\" : checking local bluetooth devices..."				
+		 			echo " \"hcitool scan\" : scanning remote bluetooth devices..."	
+		 			echo " \"bluez-simple-agent\" : pairing with remote bluetooth devices..."	 		
+		 			echo -e " You can manually edit the configuration files in \033[1m /etc/bluetooth \033[0m if need be"
+					echo "========================================"	
+				fi
 			else
 				echo ""
 				echo "========================================"	
@@ -629,6 +629,7 @@ setup()
 				# Show if the bluetooth is detected
 		 		echo " hcitool dev # for checking local devices"
 		 		echo " hcitool scan # for scanning remote devices"
+		 		echo " bluez-simple-agent # pairing with remote bluetooth devices"	
 		 		echo ""
 		 		echo -e " You can manually edit the configuration files in \033[1m /etc/bluetooth \033[0m if need be"
 				echo ""			
@@ -824,9 +825,8 @@ case "$1" in
 		
 			device
 			#untested
-			
-			if [ "$NON_FREE" == "yes" ]; then 
-			    DEPENDS="$NON_FREE_DEPENDS" 				
+			if [ ! "$NON_FREE_DEPENDS" == "" -a "$NON_FREE" == "yes" ]; then 
+			     DEPENDS="$NON_FREE_DEPENDS" 				
 			fi
 
 			if [ "$AUTO_INSTALL_SUGGESTED" == "yes" ]; then
