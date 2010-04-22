@@ -44,6 +44,7 @@ exec 3>&1
 value=`$DIALOG  --clear \
     --title " SliTaz keymap configuration " \
     --menu "\nPlease select your keymap, current config: $CUR" 15 70 5 \
+"us"            "USA" \
 "fr_CH-latin1"  "Suisse Romande" \
 "fr-latin1"     "France" \
 "be-latin1"     "Belgique" \
@@ -70,9 +71,9 @@ value=`$DIALOG  --clear \
 "ru"            "Russia" \
 "se-lat6"       "Sweden" \
 "sg-latin1"     "Singapore " \
+"trq"			"Turkey" \
 "uk"            "United Kingdom" \
 "us-acentos"    "USA Acentos" \
-"us"            "USA" \
 2>&1 1>&3`
 retval=$?
 exec 3>&-
