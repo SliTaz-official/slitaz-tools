@@ -15,6 +15,7 @@ VERSION=2.0
 
 # We need to know cdrom device and kernel version string to copy files.
 DRIVE_NAME=`cat /proc/sys/dev/cdrom/info | grep "drive name" | cut -f 3`
+[ -n "$DRIVE_NAME" ] || DRIVE_NAME=cdrom
 CDROM=/dev/$DRIVE_NAME
 KERNEL=vmlinuz-`uname -r`
 TARGET_ROOT=/mnt/target
@@ -470,14 +471,78 @@ copy_bootloaders()
 	fi
 }
 
+need_package()
+{
+	[ -d /var/lib/tazpkg/installed/$1 ] || tazpkg get-install $1
+}
+
+# extract packed rootfs: squashfs or cromfs
+extract_loramfs()
+{
+	local i
+	for i in $(cpio -idvum 2> /dev/null); do
+		case "$i" in
+		rootfs*)
+			need_package squashfs
+			if ! unsquashfs $i ; then
+				need_package cromfs
+				unmkcromfs $i squashfs-root
+			fi
+			mv -f squashfs-root/* .
+			rmdir squashfs-root
+			rm -f $i
+		esac
+	done
+}
+
+# This is a loram rootfs.gz, skip loram bootstrap and extract
+extract_first_loramfs()
+{
+	hexdump -C $1 | grep " 30 37 30 37 " | while read ofs rem; do
+		ofs=$((0x$ofs / 4))
+		for j in 1 2 3 4; do
+			tag=$(dd if=$1 bs=4 skip=$ofs count=2 2> /dev/null)
+			if [ "07070100" != "$tag" ]; then
+				ofs=$(($ofs + 1))
+				continue
+			fi
+			dd if=$1 skip=$(($ofs / 1024)) bs=4k count=1 2> /dev/null | \
+			( dd skip=$(($ofs % 1024)) bs=4 2> /dev/null ; \
+			  dd if=$1 skip=$((1 + ($ofs / 1024) )) bs=4k ) | \
+				extract_loramfs			  
+			break 2
+		done
+	done
+}
+
 # Extract lzma'ed or gziped rootfs.
 extract_rootfs()
 {
+	local isloramfs
+	isloramfs=
 	cd $TARGET_ROOT
+	if [ -d $1/../fs/etc ]; then
+		# This is a tazlitobox loram (cdrom)
+		cp -a $1/../fs/. .
+	else
 	for i in $(ls $1/rootfs* | sort -r); do
+		if [ ! -d etc ]; then
+			if [ $( (zcat $i 2>/dev/null || lzma d $i -so) | wc -c) \
+					-lt $(stat -c %s $i) ]; then
+				# This is a tazlitobox loram (ram)
+				isloramfs=$i
+				extract_first_loramfs $i
+				continue
+			fi
+		fi
+		if [ -n "$isloramfs" ]; then
+			extract_loramfs < $i
+			continue
+		fi
 		( zcat $i 2>/dev/null || lzma d $i -so || \
-		  cat $i ) 2>>$LOG | cpio -id
+		  cat $i ) 2>>$LOG | cpio -idu
 	done 2>>$LOG > /dev/null
+	fi
 	# unpack /usr (double check...)
 	if ls etc/tazlito | grep -q ".extract"; then
 		for i in etc/tazlito/*.extract; do
