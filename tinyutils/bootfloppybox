@@ -484,23 +484,12 @@ floppysetfromiso()
 	else
 	# This is a loram rootfs.gz, extract loram bootstrap
 		echo "Split loram rootfs..."
-		hexdump -C $rootfs | grep " 30 37 30 37 " | \
-		while read offset rem; do
-			offset=$((0x$offset / 4))
-			for i in 1 2 3 4; do
-				tag=$(dd if=$rootfs bs=4 skip=$offset count=2 2> /dev/null)
-				if [ "07070100" != "$tag" ]; then
-					offset=$(($offset + 1))
-					continue
-				fi
-				dd if=$rootfs skip=$(($offset / 1024)) bs=4k count=1 2> /dev/null | \
-				dd skip=$(($offset % 1024)) bs=4 of=/tmp/rootfs$$/1/root 2> /dev/null
-				dd if=$rootfs skip=$((1 + ($offset / 1024) )) bs=4k \
-					>> /tmp/rootfs$$/1/root 2> /dev/null
-				rm -f /tmp/rootfs$$/1/rootfs*
-				break 2
-			done
-		done
+		offset=$(awk '/07070100/ { o+=index($0,"07070100"); print o/4 ; exit } { o+=1+length() }' < $rootfs)
+		dd if=$rootfs skip=$(($offset / 1024)) bs=4k count=1 2> /dev/null | \
+		dd skip=$(($offset % 1024)) bs=4 of=/tmp/rootfs$$/1/root 2> /dev/null
+		dd if=$rootfs skip=$((1 + ($offset / 1024) )) bs=4k \
+			>> /tmp/rootfs$$/1/root 2> /dev/null
+		rm -f /tmp/rootfs$$/1/rootfs*
 	fi
 	# Create extra rootfs floppies
 	for i in /tmp/rootfs$$/[1-9]*/root* ; do

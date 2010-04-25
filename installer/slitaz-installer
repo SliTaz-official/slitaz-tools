@@ -498,21 +498,10 @@ extract_loramfs()
 # This is a loram rootfs.gz, skip loram bootstrap and extract
 extract_first_loramfs()
 {
-	hexdump -C $1 | grep " 30 37 30 37 " | while read ofs rem; do
-		ofs=$((0x$ofs / 4))
-		for j in 1 2 3 4; do
-			tag=$(dd if=$1 bs=4 skip=$ofs count=2 2> /dev/null)
-			if [ "07070100" != "$tag" ]; then
-				ofs=$(($ofs + 1))
-				continue
-			fi
-			dd if=$1 skip=$(($ofs / 1024)) bs=4k count=1 2> /dev/null | \
-			( dd skip=$(($ofs % 1024)) bs=4 2> /dev/null ; \
-			  dd if=$1 skip=$((1 + ($ofs / 1024) )) bs=4k ) | \
-				extract_loramfs			  
-			break 2
-		done
-	done
+	ofs=$(awk '/07070100/ { o+=index($0,"07070100"); print o/4 ; exit } { o+=1+length() }' < $1)
+	dd if=$1 skip=$(($ofs / 1024)) bs=4k count=1 2> /dev/null | \
+	( dd skip=$(($ofs % 1024)) bs=4 2> /dev/null ; \
+	  dd if=$1 skip=$((1 + ($ofs / 1024) )) bs=4k ) | extract_loramfs			  
 }
 
 # Extract lzma'ed or gziped rootfs.
