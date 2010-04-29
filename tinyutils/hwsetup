@@ -50,7 +50,7 @@ device()
 {
 	case "$DEVICE" in
   		printer) 
-			DEPENDS="$DEPENDS cups cups-pdf usbutils hal-info"
+			DEPENDS="$DEPENDS cups cups-pdf usbutils hal-info ghostscript aspell aspell-en"
 			SUGGESTED="hplip gutenprint foomatic-filters foomatic-db hal-cups-utils foomatic-db-nonfree ufr2 splix"
 			CONFIRM_SUGGESTED="yes"
 			GROUP="lp"					
