@@ -330,15 +330,15 @@ floppysetcat()
 	uudecode <<EOT | dd of=$bs conv=notrunc 2> /dev/null
 begin-base64 644 -
 /L+6nWgAkAcGF4n8McC5HQDzq1sfD6mg8X1ABlfFd3ixBvOlZWaPR3gGH8ZF
-+D/6l1hB6CsBvgACA3QO6HYBWwseKAJ0K1PoUgFe6GcBsCDNELAIzRBO6GYB
-PAh0A4gErTk2KAJ08Og/ATwKdeCIfP6J5v9MEP9MGL/0AYFNHP+Ax0UwAJyw
-ELEFSLSTiUQcsAGJRBSYZpjT4EhmAwVm0+hoABAHv4AAKficcwIBxzHbUFbo
-5QBeuQCAtIf+RBzNFVidd9yhGgK/HAKxCThEHHK4k80T6gAAIJCwRijIvtsB
-6NMAXesjgPkTcgQ4wXdjgP4CcgQ45ndkYIH9AAZ0KgZSUVOWtAJQsQa1BMHF
-BLAPIegEkCcUQCfojQD+zXXssCDNEOK06JcAmM0TYVJQKMh3ArABmDn4cgKJ
-+FC0As0TlV5YWnKgT0GAxwJOdfg4wXVFiMj+xrEBOOZ1O4j0/sW2ADou8AFy
-L4D9UHIqtQBgvt4B/kQMU+g6AFvoQQB1FlKYzRO4AQLNE1rQ1Dpk/nXqRgjk
-deVhlY7hT4zhiehHdYoWB7AxLAO0DrsHAM0QPA1088OwDejv/6wIwHX4w79s
++D/6l1hB6DQBvgACA3QO6HYBWwseKAJ0LFNH6AoBXuhmAbAgzRCwCM0QTuhl
+ATwIdAOIBK05NigCdPDoPgE8CnXgiHz+ieb/TBD/TBi/9AGBTRz/gMdFMACc
+sBCxBUi0k4lEHLABiUQUmGaY0+BIZgMFZtPoaAAQB7+AACn4nHMCAccx21BW
+6J4AXrkAgLSH/kQczRVYnXfcoRoCvxwCsQk4RBxyuJPNE+oAACCQsEYoyL7b
+AejSAF3rI4D5E3IEOMF3a4D+AnIEOOZ3bGCB/QAGdCoGUlFTlrQCULEGtQTB
+xQSwDyHoBJAnFEAn6IwA/s117LAgzRDitOiWAJjNE2FSUCjIdwKwAZg5+HIC
+ifhQtALNE5VeWFpyoJVBjuGAxwJPdFFOdfSM4ZU4wXVFiMj+xrEBOOZ1O4j0
+/sW2AID9UHIwOi7wAXIqtQBgvt4B/kQMU+gxAFvoOAB1FlKYzRO4AQLNE1rQ
+1Dpk/nXqRgjkdeVh64sWB7AxLAO0DrsHAM0QPA1088OwDejv/6wIwHX4w79s
 BLFbZQINuA0BZToNdArNFnT0mM0Wju9Hw1g6AEluc2VydCBkaXNrIDEuBw0A
 AA==
 ====
@@ -402,7 +402,7 @@ EOT
 # Create boot floppy set from kernel, initrd & cmdline
 floppyset()
 {
-	floppysetcat $@ | split -b 1440k /dev/stdin floppy$$
+	floppysetcat "$@" | split -b 1440k /dev/stdin floppy$$
 	i=1
 	ls floppy$$* | while read file ; do
 		output=$(printf "fd%03d.img" $i)
@@ -539,7 +539,7 @@ floppysetfromiso()
 	cmdline="$(grep append /tmp/iso$$/boot/isolinux/isolinux.cfg | tail -n 1 | sed 's/.*gz //')"
 	( cd /tmp/rootfs$$/fs ; find | cpio -o -H newc ) | lzma e /tmp/rootfs$$/rootfs -si
 	echo "Create first stage boot floppies..."
-	floppyset $bzimage /tmp/rootfs$$/rootfs $cmdline
+	floppyset $bzimage /tmp/rootfs$$/rootfs "$cmdline"
 	base=100
 	for i in /tmp/rootfs$$/[1-9]* ; do
 		[ -d $i ] || continue
@@ -633,7 +633,7 @@ dialogfloppyset()
 	retval=$?
 	exec 3>&-
 	check_retval
-	bootfloppybox call mkfloppies $KERNEL $INITRD $CMDLINE &&
+	bootfloppybox call mkfloppies "$KERNEL" "$INITRD" "$CMDLINE" &&
 	dialogwritefloppyset ||
 	dialognofloppyset
 }
@@ -763,7 +763,7 @@ lower than 14-15MB due to the tiny boot loader design.
       <button>
         <input file icon="forward"></input>
         <label>Create image set</label>
-	<action>cd $OUTPUT_DIRECTORY; bootfloppybox call mkfloppies $KERNEL $INITRD $CMDLINE</action>
+	<action>cd $OUTPUT_DIRECTORY; bootfloppybox call mkfloppies "$KERNEL" "$INITRD" "$CMDLINE"</action>
         <action type="closewindow">IMAGE_SET</action>
       </button>
     </hbox>
@@ -918,7 +918,7 @@ if [ "$1" == "call" ]; then
 		;;
 	mkfloppies)
 		shift 2
-		floppyset $@
+		floppyset "$@"
 		sz=$(cat fd???.img | wc -c)
 		if [ -n "$XAUTHORITY" ]; then
 			gtkdialogshowfloppyset $sz
