@@ -120,16 +120,22 @@ mount_cdrom()
 		echo -e "\nUsing files from cdrom ($CDROM)..."
 		echo "XXX"
 		sleep 2
-	else
-		# We may be in LiveUSB mode
-		if [ -d /home/boot ]; then
-			echo "XXX" && echo 60
-			echo -e "\nUsing files from USB device..."
-			echo "XXX"
-			rm /media/cdrom/boot 2>/dev/null
-			ln -s /home/boot /media/cdrom/boot
-			sleep 2
-		fi
+	# We may be in LiveUSB mode
+	elif [ -d /home/boot ]; then
+		echo "XXX" && echo 60
+		echo -e "\nUsing files from USB device..."
+		echo "XXX"
+		rm /media/cdrom/boot 2>/dev/null
+		ln -s /home/boot /media/cdrom/boot
+		sleep 2
+	# We may be in Tiny Web boot mode
+	elif [ -d /cdrom/boot ]; then
+		echo "XXX" && echo 60
+		echo -e "\nUsing files from HTTP device..."
+		echo "XXX"
+		rm /media/cdrom/boot 2>/dev/null
+		ln -s /cdrom/boot /media/cdrom/boot
+		sleep 2
 	fi
 
 	echo "XXX" && echo 90
