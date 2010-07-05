@@ -50,28 +50,28 @@ xorg_conf_d()
 	keymap=`cat /etc/keymap.conf`
 	keyboard_config=$xorg_config/40-Keyboard.conf
 	echo 'Section "InputClass"
-		Identifier "Keyboard Defaults"
-		MatchIsKeyboard "yes"' > $keyboard_config
-	case $KEYMAP in
+	Identifier "Keyboard Defaults"
+	MatchIsKeyboard "yes"' > $keyboard_config
+	case $keymap in
 		fr_CH-latin1)
 			# Swiss FrenCH
 			echo '	Option "XkbLayout" "ch"
-		Option "XkbVariant" "fr"' >> $keyboard_config
+	Option "XkbVariant" "fr"' >> $keyboard_config
 		;;
 		en)
 			# Englisk UK
 			echo '	Option "XkbLayout" "en"
-		Option "XkbVariant" "en"' >> $keyboard_config
+	Option "XkbVariant" "en"' >> $keyboard_config
 		;;
 		ru)
 			# Russian
 			echo '	Option "XkbLayout" "us,ru(winkeys)"
-		Option "XkbVariant" "grp:alt_shift_toggle"'  >> $keyboard_config
+	Option "XkbVariant" "grp:alt_shift_toggle"'  >> $keyboard_config
 		;;
 		slovene)
 			# Slovenian
 			echo '	Option "XkbLayout" "si"
-		Option "XkbOptions" "grp:alt_shift_toggle"' >> $keyboard_config
+	Option "XkbOptions" "grp:alt_shift_toggle"' >> $keyboard_config
 		;;
 		*)
 			# Use clean /etc/keymap.conf value.
