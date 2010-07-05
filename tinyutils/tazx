@@ -23,95 +23,72 @@ USER=`cat /etc/passwd | grep 1000 | cut -d ":" -f 1`
 #  Tazx functions  #
 ####################
 
-# Patch xorg.conf to set keymap layout.
-patch_xorg_kbd()
+# Populate xorg.conf.d.
+xorg_conf_d()
 {
-	KEYMAP=`cat /etc/keymap.conf`
+	# Define the xorg.conf.d (can be /etc/X11/xorg.conf.d or /usr/share/X11/xorg.conf.d)
+	xorg_config=/etc/X11/xorg.conf.d
+
+	# Define the xorg.conf.new place.
+	xorg_template=/root/xorg.conf.new
+
+	# Obtain a default configuration file from Xorg.
+	Xorg -configure :1
+
+	# Put the differents sections in separate files in the configuration directory.
+	sed -e '/Section "ServerLayout"/,/EndSection/!d' -e "s/EndSection/EndSection\n/" $xorg_template | grep -v Core > $xorg_config/10-ServerLayout.conf
+	sed -e '/Section "Files"/,/EndSection/!d' -e "s/EndSection/EndSection\n/" $xorg_template > $xorg_config/20-Files.conf
+	sed -e '/Section "Module"/,/EndSection/!d' -e "s/EndSection/EndSection\n/" $xorg_template > $xorg_config/30-Module.conf
+	sed -e '/Section "Monitor"/,/EndSection/!d' -e "s/EndSection/EndSection\n/" $xorg_template > $xorg_config/50-Monitor.conf
+	sed -e '/Section "Device"/,/EndSection/!d' -e "s/EndSection/EndSection\n/" $xorg_template > $xorg_config/60-Device.conf
+	sed -e '/Section "Screen"/,/EndSection/!d' -e "s/EndSection/EndSection\n/" $xorg_template > $xorg_config/70-Screen.conf
+
+	# Remove the template.
+	rm $xorg_template
+
+	# Configure the keyboard with the right keymap.
+	keymap=`cat /etc/keymap.conf`
+	keyboard_config=$xorg_config/40-Keyboard.conf
+	echo 'Section "InputClass"
+		Identifier "Keyboard Defaults"
+		MatchIsKeyboard "yes"' > $keyboard_config
 	case $KEYMAP in
 		fr_CH-latin1)
 			# Swiss FrenCH
-			patch -p0 <<EOF
---- /etc/X11/xorg.conf
-+++ /etc/X11/xorg.conf
-@@ -26,6 +26,8 @@
- Section "InputDevice"
- 	Identifier  "Keyboard0"
- 	Driver      "kbd"
-+	Option      "XkbLayout"	 "ch"
-+	Option      "XkbVariant" "fr"
- EndSection
- 
- Section "InputDevice"
-EOF
-			;;
+			echo '	Option "XkbLayout" "ch"
+		Option "XkbVariant" "fr"' >> $keyboard_config
+		;;
 		en)
 			# Englisk UK
-			patch -p0 <<EOF
---- /etc/X11/xorg.conf
-+++ /etc/X11/xorg.conf
-@@ -26,6 +26,8 @@
- Section "InputDevice"
- 	Identifier  "Keyboard0"
- 	Driver      "kbd"
-+	Option      "XkbLayout"	 "en"
-+	Option      "XkbVariant" "en"
- EndSection
- 
- Section "InputDevice"
-EOF
-			;;
+			echo '	Option "XkbLayout" "en"
+		Option "XkbVariant" "en"' >> $keyboard_config
+		;;
 		ru)
 			# Russian
-			patch -p0 <<EOF
---- /etc/X11/xorg.conf
-+++ /etc/X11/xorg.conf
-@@ -26,6 +26,8 @@
- Section "InputDevice"
- 	Identifier  "Keyboard0"
- 	Driver      "kbd"
-+	Option      "XkbLayout"	 "us,ru(winkeys)"
-+	Option      "XkbVariant" "grp:alt_shift_toggle"
- EndSection
- 
- Section "InputDevice"
-EOF
-			;;
+			echo '	Option "XkbLayout" "us,ru(winkeys)"
+		Option "XkbVariant" "grp:alt_shift_toggle"'  >> $keyboard_config
+		;;
 		slovene)
 			# Slovenian
-			patch -p0 <<EOF
---- /etc/X11/xorg.conf
-+++ /etc/X11/xorg.conf
-@@ -26,6 +26,8 @@
- Section "InputDevice"
- 	Identifier  "Keyboard0"
- 	Driver      "kbd"
-+	Option      "XkbLayout"  "si"
-+	Option      "XkbOptions" "grp:alt_shift_toggle"
- EndSection
- 
- Section "InputDevice"
-EOF
-			;;
+			echo '	Option "XkbLayout" "si"
+		Option "XkbOptions" "grp:alt_shift_toggle"' >> $keyboard_config
+		;;
 		*)
 			# Use clean /etc/keymap.conf value.
-			KEYMAP=${KEYMAP%-latin1}
-			KEYMAP=${KEYMAP%-lat2}
-			KEYMAP=${KEYMAP%-lat6}
-			KEYMAP=${KEYMAP%-abnt2}
-			patch -p0 <<EOF
---- /etc/X11/xorg.conf
-+++ /etc/X11/xorg.conf
-@@ -26,6 +26,7 @@
- Section "InputDevice"
- 	Identifier  "Keyboard0"
- 	Driver      "kbd"
-+	Option      "XkbLayout" "$KEYMAP"
- EndSection
- 
- Section "InputDevice"
-EOF
+			keymap=${keymap%-latin1}
+			keymap=${keymap%-lat2}
+			keymap=${keymap%-lat6}
+			keymap=${keymap%-abnt2}
+			echo '	Option "XkbLayout" "'$keymap\"  >> $keyboard_config
 		;;
 	esac
+
+	echo 'Endsection' >> $keyboard_config
+
+	# Create a xorg.conf if needed.
+	[ ! -f /etc/X11/xorg.conf ] && echo "# You can put here you're own Xorg configurations.
+	# This configuration file is readed before all files in /etc/X11/xorg.conf.d
+	# This file will not be erased by next updates." > /etc/X11/xorg.conf
 }
 
 # Install xorg server
@@ -146,9 +123,7 @@ install_xorg()
 		*)
 			tazpkg get-install xorg-server
 			tazpkg get-install xorg-xf86-video-$value
-			Xorg -configure :1
-			mv -f /root/xorg.conf.new /etc/X11/xorg.conf
-			patch_xorg_kbd
+			xorg_conf_d
 			sed -i 's|/usr/bin/Xvesa|/usr/bin/Xorg|' /etc/slim.conf
 			sed -i s/"^xserver_arguments"/'\#xserver_arguments'/ /etc/slim.conf
 			XSERVER=Xorg ;;
@@ -443,7 +418,7 @@ case "$1" in
 		wm_config
 		creat_xinitrc
 		creat_xsession
-		patch_xorg_kbd ;;
+		xorg_conf_d ;;
 	*)
 		# WM can be specified on cmdline.
 		if [ -n "$1" ]; then
