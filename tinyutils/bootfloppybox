@@ -2,7 +2,7 @@
 # 
 # Gtkdialog box for the mount command. Part of SliTaz tools.
 #
-VERSION=20100401
+VERSION=20100701
 
 # Check if user is root.
 check_root()
@@ -28,14 +28,17 @@ check_retval()
 	esac
 }
 
+# Trigger floppy driver to update /sys/devices/platform/
+dd if=/dev/fd0 bs=1k count=1 > /dev/null 2>&1
+
 # check or list floppy devices.
 list_floppy()
 {
 	local list
 	list=""
-	for i in /sys/devices/platform/floppy.*/block:*; do
+	for i in /sys/devices/platform/floppy.*/block/*; do
 		[ -d $i ] || continue
-		list="$list ${i#*block:}"
+		list="$list $(basename $i)"
 	done
 	[ -n "$1" ] || echo $list
 	[ -n "$list" ]
@@ -1228,7 +1231,7 @@ $(echo -e $desc)
       <button>
         <input file icon=\"browser\"></input>
 	<label>Wiki</label>
-	<action>firefox http://wiki.slitaz.org/doku.php?id=quickstart:pxe &</action>
+	<action>browser http://wiki.slitaz.org/doku.php?id=quickstart:pxe &</action>
       </button>
 "
     elif [ "$pkg" = "gpxe" ]; then
@@ -1245,7 +1248,7 @@ $(echo -e $desc)
       <button>
         <input file icon=\"browser\"></input>
 	<label>Wiki</label>
-	<action>firefox http://wiki.slitaz.org/doku.php?id=quickstart:pxe &</action>
+	<action>browser http://wiki.slitaz.org/doku.php?id=quickstart:pxe &</action>
       </button>
       <button help>
 	<action type=\"launch\">HELP</action>
@@ -1264,7 +1267,7 @@ $(echo -e $desc)
       <button>
         <input file icon=\"browser\"></input>
 	<label>Web</label>
-	<action>firefox $WEB_SITE &</action>
+	<action>browser $WEB_SITE &</action>
       </button>
 "
     fi
