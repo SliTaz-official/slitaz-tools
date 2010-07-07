@@ -1,7 +1,7 @@
 #!/bin/sh
 # usage: hwsetup [device]
 # e.g.,  hwsetup printer
-# #  
+# #
 # (c) - SliTaz GNU/Linux 2009 - GNU GPL v3
 # Authors : Rohit Joshi <jozee@slitaz.org>
 #
@@ -28,8 +28,8 @@ usage()
   3g-modem	3g-modem setup.
   firewall	start/stop firewall.
   nvidia	Nvidia (non-free/free) setup.
-  ati		ATI (non-free/free) setup.  
-  
+  ati		ATI (non-free/free) setup.
+
 \033[1mOptions: \033[0m
   --non-free	install non-free packages (nvidia, ati).
   --suggested	auto-install optional dependencies.
@@ -43,19 +43,19 @@ run_daemon_startup()
 	. /etc/rcS.conf
 	if ! echo "$RUN_DAEMONS" | grep -q "$1"; then
 		sed -i "s/^RUN_DAEMONS=\"\(.*\)\"/RUN_DAEMONS=\"\1 $1\"/" /etc/rcS.conf
-	fi	
+	fi
 }
 
 device()
 {
 	case "$DEVICE" in
-  		printer) 
+  		printer)
 			DEPENDS="$DEPENDS cups cups-pdf usbutils hal-info ghostscript aspell aspell-en"
 			SUGGESTED="hplip gutenprint foomatic-filters foomatic-db hal-cups-utils foomatic-db-nonfree ufr2 splix"
 			CONFIRM_SUGGESTED="yes"
-			GROUP="lp"					
+			GROUP="lp"
 			;;
-		scanner) 
+		scanner)
 			DEPENDS="$DEPENDS xsane usbutils hal-info"
 			SUGGESTED="hplip"
 			GROUP="scanner lp"
@@ -64,8 +64,8 @@ device()
     		DEPENDS="$DEPENDS v4l-dvb usbutils hal-info"
 			SUGGESTED="xorg-xf86-video-v4l linux-video libv4l "
 			GROUP="video audio lp"
-			;;				
-		camera)  
+			;;
+		camera)
     	    DEPENDS="$DEPENDS gphoto2 usbutils hal-info"
 			SUGGESTED=""
 			GROUP="camera lp"
@@ -74,7 +74,7 @@ device()
 			DEPENDS="$DEPENDS bluez usbutils hal-info pygobject dbus-python"
 			SUGGESTED=""
 			GROUP="lp"
-			;;	
+			;;
 		3g-modem)
     		DEPENDS="$DEPENDS linux-dialup wvdial pcmciautils usbutils hal-info"
 			SUGGESTED=""
@@ -89,18 +89,18 @@ device()
     		DEPENDS="mesa mesa-demos linux-agp xorg-xf86-video-nv"
     		NON_FREE_DEPENDS="mesa mesa-demos linux-agp nvidia"
     		SUGGESTED=""
-			GROUP="video"			
+			GROUP="video"
 			;;
 		ati)
     		DEPENDS=" xorg-xf86-video-ati mesa-dri-ati mesa-demos"
     		NON_FREE_DEPENDS="mesa mesa-demos mesa-dri linux-agp catalyst"
     		SUGGESTED=""
-			GROUP="video"			
-			;;				
+			GROUP="video"
+			;;
 	esac
 }
 
-# Check if user is root 
+# Check if user is root
 check_root()
 {
 	if test $(id -u) != 0 ; then
@@ -137,12 +137,12 @@ install()
 		if [ ! -d /var/lib/tazpkg/installed/"$pkg" ]; then
 			echo "installing pkg: $pkg"
 			tazpkg get-install "$pkg" --forced
-			if tazpkg list-files "$pkg" | grep -q "/etc/udev" ; then 
+			if tazpkg list-files "$pkg" | grep -q "/etc/udev" ; then
 			   UDEV_RULES="yes"
 			fi
 		fi
 	done
-	
+
 }
 # Install DEPENDS and/or SUGGESTED
 confirm_install()
@@ -154,12 +154,12 @@ confirm_install()
 			echo -n " Would you like to install pkg: $pkg (y/N) ? "; read anser
 			if [ "$anser" == "y" ]; then
 				tazpkg get-install "$pkg" --forced
-				if tazpkg list-files "$pkg" | grep -q "/etc/udev" ; then 
+				if tazpkg list-files "$pkg" | grep -q "/etc/udev" ; then
 			   		UDEV_RULES="yes"
 				fi
-			fi				
+			fi
 		fi
-	done	
+	done
 }
 
 add_all_user_to_group()
@@ -171,7 +171,7 @@ add_all_user_to_group()
 			if ! grep -q "$grp.*$user.*" /etc/group ; then
 				echo "adding $user to $grp"
 				addgroup "$user" "$grp"
-			fi	
+			fi
 		done
 	done
 }
@@ -184,19 +184,19 @@ find_usb_device()
   		camera)  PATTERN="Cls=00" ;;
   		bluetooth) PATTERN="Cls=e0" ;;
   	esac
-  	  	
-	if [ -f /proc/bus/usb/devices ]; then 
+
+	if [ -f /proc/bus/usb/devices ]; then
 	   # no vendor entry in dmesg ??
 	   #dmesglogs=`dmesg | tail -20`
 	   DETECTED="no"
 	   count=1
-	   
+
 	   # assume device to be in last 3 entries; use tac
 	   DEVICES_LIST=`cat /proc/bus/usb/devices | grep ^[TDP] | grep -B1 -A1 "$PATTERN" | grep -i vendor | \
 	   awk ' { print $2,$3 } ' | sed 's/ /   /'|sed 's/Vendor=//' | sed 's/ProdID=//' | tail -3`
 	   echo "Detected USB Device : Vendor : Product"
 	   echo "========================================"
-	   echo "$DEVICES_LIST" | while read line 
+	   echo "$DEVICES_LIST" | while read line
 	   do
 	      vendorid=`echo "$line" | awk '{ print $1 }'`
 	      productid=`echo "$line" | awk '{ print $2 }'`
@@ -205,44 +205,44 @@ find_usb_device()
 	   	  echo " $count) Vendor  : $vendor "
 	   	  echo "    Product : $product"
 	   	  echo "========================================"
-	   	  count=`expr $count + 1`		  
-	   done   
+	   	  count=`expr $count + 1`
+	   done
 	    # confirm (use dmesg or some other way to automate this)
-	   	  confirm_device	  
+	   	  confirm_device
 	fi
 }
 
 confirm_device()
 {
 	echo -n " Which no. is your $DEVICE shown in the above lines (1,2,3,none);  ? "; read choice
-	
+
 	case "$choice" in
 	 [nN*]) DETECTED="no" ;;
-	 
+
 	 *) 	dev=`echo "$DEVICES_LIST" | head -$choice | tail -1`
 			vendorid=`echo "$dev" | awk '{ print $1 }'`
 			productid=`echo "$dev" | awk '{ print $2 }'`
 			bus=`grep -B2 ".*$vendorid.*$productid" /proc/bus/usb/devices| grep Bus`
 			busno=` echo $bus|  awk '{ print $2 }' |cut -d "=" -f 2`
-			deviceno=`echo $bus| awk '{ print $8 }' `	
+			deviceno=`echo $bus| awk '{ print $8 }' `
 			HP=`echo $vendor | grep -q -i "Hewlett"`
-			DETECTED="yes"		
+			DETECTED="yes"
 			;;
 	esac
-	
-	
+
+
 }
 
 hputil()
 {
-	if [ "$HP" == "1" ]; then 
+	if [ "$HP" == "1" ]; then
 	 	install "hplip"
 		echo ""
 		echo -n " Do you want to use hp-setup utility (y/N) ? "; read choice
 		if [ "$choice" == "y" ]; then
 		  hp-setup
 		fi
-	fi	
+	fi
 }
 
 # udev now should do this correctly
@@ -253,67 +253,65 @@ fix_usb_permissions()
 		if ls /dev/bus/usb/*$busno/*$deviceno ; then
 			chmod 666 /dev/bus/usb/*$busno/*$deviceno
 			chgrp $grp /dev/bus/usb/*$busno/*$deviceno
-			echo "========================================"		
+			echo "========================================"
 			echo -e "\033[1m Verify $DEVICE Permissions \033[0m "
 			echo " Your $DEVICE must be in $grp group with 666 permissions"
-			ls -l /dev/bus/usb/*$busno/*$deviceno		
-			echo "========================================"			
+			ls -l /dev/bus/usb/*$busno/*$deviceno
+			echo "========================================"
 		fi
-	fi	
-	
+	fi
+
 }
 
 fix_parallel_permissions()
 {
  	if [ -f /usr/lib/cups/backend/parallel ] ; then
- 		chmod 0755 /usr/lib/cups/backend/parallel	
+ 		chmod 0755 /usr/lib/cups/backend/parallel
  	fi
 }
 
 load_modules()
 {
 	tazhw detect-pci
-	tazhw detect-usb	
+	tazhw detect-usb
 	sleep 1
 }
 
 udev()
 {
-	
+
 	if [ "$UDEV_RULES" == "yes" ]; then
 		echo "new udev rules are added by a package"
 		udevadm trigger
 		sleep 2
 	fi
-	
+
 }
 
 xorg()
 {
-	
-	[ -x /usr/bin/Xorg ] || install "xorg" 
+
+	[ -x /usr/bin/Xorg ] || install "xorg"
 	echo "Auto configuring Xorg.."
 	# Xorg auto configuration.
-	if [ ! -s /etc/X11/xorg.conf -a -x /usr/bin/Xorg ]; then
+	if [ ! -d /etc/X11/xorg.conf.d -a -x /usr/bin/Xorg ]; then
 		echo "Configuring Xorg..."
-		# generate xorg.conf if no xorg.conf (shifting from xvesa to xorg)
-		Xorg -configure
-		mv -f /root/xorg.conf.new /etc/X11/xorg.conf
+		# Populate /etc/X11/xorg.conf.d if it doesn't exist.
 		sed -i 's|/usr/bin/Xvesa|/usr/bin/Xorg|' /etc/slim.conf
 		sed -i s/"^xserver_arguments"/'\#xserver_arguments'/ /etc/slim.conf
 		tazx config-xorg
 	fi
-	
+
 }
 
 wvdialbox()
 {
-	# setup your modem  
-	#wvdialconf						
+	# setup your modem
+	#wvdialconf
 	echo "===================================="
 	#set username, password, pin
 	#echo -e "Edit \033[1m /etc/wvdial.conf \033[0m  for phone number, login name, password and pin"
-	if [ ! -f /etc/wvdial.conf ]; then 
+	if [ ! -f /etc/wvdial.conf ]; then
 	    APN="apn.yournet.net"
 	    PHONE="*99#"
 	    USERNAME="user"
@@ -330,7 +328,7 @@ wvdialbox()
 		echo "Baud = 460800" >> /etc/wvdial.conf
 		echo "Init1 = ATZ " >> /etc/wvdial.conf
 		echo "Init2 = ATQ0 V1 E1 S0=0 &C1 &D2 +FCLASS=0" >> /etc/wvdial.conf
-		echo "Init3 = AT+CGDCONT=1,\"IP\", \"$APN\"" >> /etc/wvdial.conf		
+		echo "Init3 = AT+CGDCONT=1,\"IP\", \"$APN\"" >> /etc/wvdial.conf
 		echo "ISDN = 0" >> /etc/wvdial.conf
 		echo "Modem Type = Analog Modem" >> /etc/wvdial.conf
 		echo "" >> /etc/wvdial.conf
@@ -342,14 +340,14 @@ wvdialbox()
 	#<action>sed -i "s/^\[Dialer.*/[Dialer slitaz]/" /etc/wvdial.conf</action>
 	#DIALER=`grep Dialer /etc/wvdial.conf | sed \'2d\'|tr \"[]\" \" \"|cut -d \" \" -f 3`
 	#DIALER=`grep -B1 AT+CPIN /etc/wvdial.conf | sed \'2d\'|tr \"[]\" \" \"|cut -d \" \" -f 3`
-	
+
 MAIN_DIALOG="
 <window title=\"Wvdial Box\" icon-name=\"applications-internet\">
 <vbox>
-	
+
 "
 	MAIN_DIALOG=${MAIN_DIALOG}'
-	   
+
        <hbox>
 			<text use-markup="true">
 				<label>"<b>Phone Number:   </b>"</label>
@@ -403,8 +401,8 @@ MAIN_DIALOG="
 				<input>cat /etc/wvdial.conf | grep AT+CGDCONT | cut -d "," -f3 | tr -d "[\" ]"</input>
 				<variable>APN</variable>
 			</entry>
-		</hbox>	
-			
+		</hbox>
+
 
 		<hbox>
 			<text use-markup="true">
@@ -428,32 +426,32 @@ MAIN_DIALOG="
 				<label>Save Configuration</label>
 				<input file icon="document-save"></input>
 				<action>sed -i "s/^Phone.*/Phone = $PHONE/ " /etc/wvdial.conf</action>
-				<action>sed -i "s/^Username.*/Username = $USERNAME/ " /etc/wvdial.conf</action>	
-				<action>sed -i "s/^Password.*/Password = $PASSWORD/ " /etc/wvdial.conf</action>	
+				<action>sed -i "s/^Username.*/Username = $USERNAME/ " /etc/wvdial.conf</action>
+				<action>sed -i "s/^Password.*/Password = $PASSWORD/ " /etc/wvdial.conf</action>
 				<action>sed -i "s/.*AT+CPIN=.*/Init4 = AT+CPIN=$PIN/ " /etc/wvdial.conf</action>
-				<action>sed -i "s/.*AT+CGDCONT=.*/Init3 = AT+CGDCONT=1,\"IP\", \"$APN\" /" /etc/wvdial.conf </action>												
-				<action>sed -i "s:^Modem.*/dev.*:Modem = $MODEM: " /etc/wvdial.conf</action>	
+				<action>sed -i "s/.*AT+CGDCONT=.*/Init3 = AT+CGDCONT=1,\"IP\", \"$APN\" /" /etc/wvdial.conf </action>
+				<action>sed -i "s:^Modem.*/dev.*:Modem = $MODEM: " /etc/wvdial.conf</action>
 			</button>
-			
+
 		</hbox>
-		<hbox>			
+		<hbox>
 			<button>
 					<label>Dial Pin Once        </label>
 					<input file icon="forward"></input>
-					<action>xterm -geometry 80x16 -title "Wvdial" -e "echo \"Bringing eth0 down...\"; ifconfig eth0 down; ifconfig eth1 down; echo \"Dialing...\"; wvdial pin; sleep 5"</action>					
+					<action>xterm -geometry 80x16 -title "Wvdial" -e "echo \"Bringing eth0 down...\"; ifconfig eth0 down; ifconfig eth1 down; echo \"Dialing...\"; wvdial pin; sleep 5"</action>
 			</button>
 			<button>
 					<label>Start Dialing       </label>
 					<input file icon="forward"></input>
-					<action>xterm -geometry 80x16 -title "Wvdial" -e "echo \"Bringing eth0 down...\"; ifconfig eth0 down; ifconfig eth1 down; echo \"Dialing...\"; wvdial slitaz; sleep 5"</action>					
+					<action>xterm -geometry 80x16 -title "Wvdial" -e "echo \"Bringing eth0 down...\"; ifconfig eth0 down; ifconfig eth1 down; echo \"Dialing...\"; wvdial slitaz; sleep 5"</action>
 			</button>
-		</hbox>	' 
-		
-		
-export MAIN_DIALOG=${MAIN_DIALOG}"	
+		</hbox>	'
+
+
+export MAIN_DIALOG=${MAIN_DIALOG}"
 </vbox>
 </window>"
-	gtkdialog --center --program=MAIN_DIALOG 
+	gtkdialog --center --program=MAIN_DIALOG
 }
 
 
@@ -461,8 +459,8 @@ export MAIN_DIALOG=${MAIN_DIALOG}"
 
 setup()
 {
- 	case "$DEVICE" in 
-		printer) 
+ 	case "$DEVICE" in
+		printer)
 			load_modules
 			udev
 			# check parallel or usb printer
@@ -481,8 +479,8 @@ setup()
 				if [ "$anser" == "y" ]; then
 						/etc/init.d/cupsd start
 						sleep 2
-						browser http://localhost:631/						
-				else			
+						browser http://localhost:631/
+				else
 					echo ""
 					echo "===================================="
 						echo -e "Start \033[1m cups \033[0m using :"
@@ -492,24 +490,24 @@ setup()
 				fi
 			else
 				failed
-		    fi 								
+		    fi
 			;;
-		scanner) 
+		scanner)
 			load_modules
 			udev
 			find_usb_device
-			fix_usb_permissions "scanner" 
-		  	
-		  	if [ "$DETECTED" == "yes" ]; then 	
-		  	    #hputil	  		
+			fix_usb_permissions "scanner"
+
+		  	if [ "$DETECTED" == "yes" ]; then
+		  	    #hputil
 				echo ""
 				echo -n " Do you want to start scanner (y/N) ? "; read anser
 				echo ""
 				if [ "$anser" == "y" ]; then
 						sane-find-scanner # to verify scanner has been found
 						scanimage -L # List scanners
-						xsane #scanner application												
-				else			
+						xsane #scanner application
+				else
 					echo ""
 					echo "===================================="
 						echo -e "Following \033[1m Scanner commands \033[0m  may be of help"
@@ -521,22 +519,22 @@ setup()
 				failed
 		    fi
 			;;
-		webcam) 
+		webcam)
 			load_modules
 			udev
-					   
+
 		   	if [ -n "`ls /dev/video0`" ] ; then
 				# fix permissions
 				 chmod 666 /dev/video0
-				# ls -l /dev/video0		
-				
+				# ls -l /dev/video0
+
 				if [ -d /var/lib/tazpkg/installed/mplayer-svn ]; then
 					echo ""
 					echo -n " Would you like to test webcam (y/N) ? "; read anser
 					echo ""
 					if [ "$anser" == "y" ]; then
 						mplayer tv:// -tv driver=v4l2:width=320:height=240:device=/dev/video0 -vo x11 &
-					fi				
+					fi
 				else
 				    echo ""
 					echo -n " Would you like to test webcam by installing mplayer-svn (y/N) ? "; read anser
@@ -544,7 +542,7 @@ setup()
 					if [ "$anser" == "y" ]; then
 						install mplayer-svn
 						mplayer tv:// -tv driver=v4l2:width=320:height=240:device=/dev/video0 -vo x11 &
-					else			
+					else
 						echo ""
 		       			echo "============================"
 						echo "webcam is set up; please use mplayer-svn/fswebcam/amsn/skype to view"
@@ -555,12 +553,12 @@ setup()
 				failed
 			fi
 			;;
-		camera) 
+		camera)
 			udev
 			find_usb_device
-			fix_usb_permissions "camera" 
-			
-			if [ "$DETECTED" == "yes" ]; then 
+			fix_usb_permissions "camera"
+
+			if [ "$DETECTED" == "yes" ]; then
 				echo ""
 				echo -n " Do you want to check if gphoto2 can talk to your camera (y/N) ? "; read anser
 				echo ""
@@ -575,7 +573,7 @@ setup()
 						pcmanfm ~/Images/Photos
 					fi
 				echo ""
-				else			
+				else
 					echo ""
 					echo "===================================="
 					echo "camera is set up; please use gphoto2 to import photos"
@@ -584,42 +582,42 @@ setup()
 				fi
 			else
 				failed
-		    fi 
+		    fi
 		    ;;
-		bluetooth) 
+		bluetooth)
 			load_modules
 			udev
-					
+
 			echo -n " Do you want to see if the bluetooth is working (y/N) ? "; read anser
 			echo ""
 			if [ "$anser" == "y" ]; then
 				# sanity check: btusb is not loaded automagically for unknown reasons
-				if ! lsmod | grep -q btusb ; then 
+				if ! lsmod | grep -q btusb ; then
 					modprobe btusb
 				fi
-				echo "========================================"	
+				echo "========================================"
 				echo -e "\033[1m Bluetooth \033[0m  interfaces"
 				echo ""
 				lsusb | grep Bluetooth
 				# udev should run bluetoothd automatically
-				bluetoothd 
+				bluetoothd
 				sleep 1
 				if hcitool dev | grep -q hci ; then
-					echo "========================================"	
+					echo "========================================"
 					echo -e "Following \033[1m Bluetooth commands \033[0m  may be of help "
 					echo ""
 					#echo " modprobe btusb"
 					#echo " /usr/sbin/bluetoothd -nd #for starting bluetooth daemon"
 					echo " hciconfig -a"
-					echo " \"hcitool dev\" : checking local bluetooth devices..."				
-		 			echo " \"hcitool scan\" : scanning remote bluetooth devices..."	
-		 			echo " \"bluez-simple-agent\" : pairing with remote bluetooth devices..."	 		
+					echo " \"hcitool dev\" : checking local bluetooth devices..."
+		 			echo " \"hcitool scan\" : scanning remote bluetooth devices..."
+		 			echo " \"bluez-simple-agent\" : pairing with remote bluetooth devices..."
 		 			echo -e " You can manually edit the configuration files in \033[1m /etc/bluetooth \033[0m if need be"
-					echo "========================================"	
+					echo "========================================"
 				fi
 			else
 				echo ""
-				echo "========================================"	
+				echo "========================================"
 				echo -e "Following \033[1m Bluetooth commands \033[0m  may be of help"
 				echo ""
 				echo " modprobe btusb"
@@ -629,14 +627,14 @@ setup()
 				# Show if the bluetooth is detected
 		 		echo " hcitool dev # for checking local devices"
 		 		echo " hcitool scan # for scanning remote devices"
-		 		echo " bluez-simple-agent # pairing with remote bluetooth devices"	
+		 		echo " bluez-simple-agent # pairing with remote bluetooth devices"
 		 		echo ""
 		 		echo -e " You can manually edit the configuration files in \033[1m /etc/bluetooth \033[0m if need be"
-				echo ""			
-		    	echo "========================================"	
-		    fi		   
+				echo ""
+		    	echo "========================================"
+		    fi
 		    ;;
-		3g-modem) 	
+		3g-modem)
 				untested
 				load_modules
 				udev
@@ -644,167 +642,174 @@ setup()
 		       	echo "===================================="
 		       	echo "list detected devices"
 		       	# ls /dev/ttyUSB* /dev/ttyACM* /dev/modem
-		       	 
+
 		       	if [ -n "`ls /dev/ttyUSB*`" -o -n "`ls /dev/ttyACM*`" ] ; then
 				    echo "Detected Modem at:"
 				    echo "`ls /dev/ttyUSB*`"
 					echo -n " Do you want to configure wvdial (y/N) ? "; read anser
 					echo ""
-					if [ "$anser" == "y" ]; then	
-						wvdialbox		
-					else	
-						echo "===================================="	 
+					if [ "$anser" == "y" ]; then
+						wvdialbox
+					else
+						echo "===================================="
 						echo "wvdialconf"
 						echo -e "Edit \033[1m /etc/wvdial.conf \033[0m  for phone number, login name, password and pin"
-						echo "wvdial dialername"     		   
-						#nameserver `tail -30 /var/log/messages| grep DNS| sed 's/*\([.0-9]*\)$/\1/'` >/etc/resolv.conf 
-						echo -e " Add DNS adress of your provider in : \033[1m /etc/resolv.conf  \033[0m "	    
-						echo "===================================="					
+						echo "wvdial dialername"
+						#nameserver `tail -30 /var/log/messages| grep DNS| sed 's/*\([.0-9]*\)$/\1/'` >/etc/resolv.conf
+						echo -e " Add DNS adress of your provider in : \033[1m /etc/resolv.conf  \033[0m "
+						echo "===================================="
 					 fi
 		       	 else
 		       	    failed
-				 fi	       	
+				 fi
 		       ;;
-		firewall) echo "Setting IPTABLES_RULES to yes in /etc/firewall.conf"  
+		firewall) echo "Setting IPTABLES_RULES to yes in /etc/firewall.conf"
 				  sed -i 's/^IPTABLES_RULES="no"/IPTABLES_RULES="yes"/' /etc/firewall.conf
 		          # default is "start"
-				 if [ "$STOP" == "yes" ] ; then 
+				 if [ "$STOP" == "yes" ] ; then
 				 	/etc/init.d/firewall stop
 				 else
 				 	/etc/init.d/firewall start
 				 	if [ -d /var/lib/tazpkg/installed/nmap ]; then
-				 		echo "===================================="	 
-				 	    echo "Probing for open ports..." 
+				 		echo "===================================="
+				 	    echo "Probing for open ports..."
 				 		nmap localhost
-				 		echo "===================================="	 
+				 		echo "===================================="
 				 	fi
 				 	echo "adding firewall daemon to start automatically at boot"
 				 	run_daemon_startup "firewall"
-				 	echo "===================================="	 
-				 fi 
-		
-			   ;;			          
-		nvidia) if [ "$NON_FREE" == "yes" ] ; then
-					if [ -d /var/lib/tazpkg/installed/xorg-xf86-video-nv ]; then
-						mv /etc/X11/xorg.conf.backup /etc/X11/xorg.conf
-						tazpkg remove xorg-xf86-video-nv						
+				 	echo "===================================="
+				 fi
+
+			   ;;
+		nvidia)
+			if [ "$NON_FREE" == "yes" ] ; then
+				if [ -d /var/lib/tazpkg/installed/xorg-xf86-video-nv ]; then
+					rm /etc/X11/xorg.conf.d/55-DeviceTweaks.conf
+					tazpkg remove xorg-xf86-video-nv
+				fi
+				load_modules
+				#xorg
+				echo -n " Do you want to configure X using non-free nvidia driver (y/N) ? "; read anser
+				echo ""
+				if [ "$anser" == "y" ]; then
+					echo "Your previous config is in /etc/X11/xorg.conf.d/60-Device.conf"
+					echo "If nvidia fails, you can remove /etc/X11/xorg.conf.d/55-DeviceTweaks.conf to restore previous config."
+					Xorg -configure :1 > /dev/null
+					nvidia-xconfig -c /root/xorg.conf.new -o /tmp/xorg.conf.nvidia
+					sed -e '/Section "Device"/,/EndSection/!d' -e "s/EndSection/EndSection\n/" /tmp/xorg.conf.nvidia > /etc/X11/xorg.conf.d/55-DeviceTweaks.conf
+					rm /tmp/xorg.conf.nvidia /root/xorg.conf.new
+
+					if ! grep -q "NoLogo" /etc/X11/xorg.conf.d/55-DeviceTweaks.conf ; then
+						echo "adding to xorg.conf: Option \"NoLogo\" \"True\""
+						sed -i 's/BoardName\(.*\)/Boardname \1 \n  Option "NoLogo" "True" /' /etc/X11/xorg.conf.d/55-DeviceTweaks.conf
 					fi
-					load_modules
-					#xorg
-					echo -n " Do you want to configure X using non-free nvidia driver (y/N) ? "; read anser
+
+					# mesa-demos to check if acceleration is working
+					echo "Checking if nvidia is working ..."
+					glxinfo |grep rendering
+
+					echo "================================"
+					echo -e "\033[1m Configure nvidia settings :\033[0m  "
+					nvidia-settings
+					echo "================================"
+				else
 					echo ""
-					if [ "$anser" == "y" ]; then
-						echo "your config is backed up at /etc/X11/xorg.conf.backup"
-		        		echo "if nvidia fails; please use your backed up xorg.conf"
-						nvidia-xconfig				
-						
-		        		if ! grep -q "NoLogo" /etc/X11/xorg.conf ; then
-		        			echo "adding to xorg.conf: Option \"NoLogo\" \"True\""
-		        			sed -i 's/BoardName\(.*\)/Boardname \1 \n  Option "NoLogo" "True" /' /etc/X11/xorg.conf
-		        		fi
-		        		
-		        		# mesa-demos to check if acceleration is working
-		        		echo "Checking if nvidia is working ..." 
-		        		glxinfo |grep rendering	
-		        		
-		        		echo "================================"
-						echo -e "\033[1m Configure nvidia settings :\033[0m  "
-		        	    nvidia-settings						
-						echo "================================"      		        			        		
-					else
-						echo ""	
-		       			echo "================================"
-		       			echo "nvidia-xconfig"
-						echo "glxinfo |grep rendering # test nvidia"
-						echo "Use: nvidia-settings utility to configure your settings if necessary"
-						echo "Option \"NoLogo\" \"True\""
-		       			echo "================================"
-		       		fi
-		       	else
-		       		if [ -d /var/lib/tazpkg/installed/nvidia ]; then
-		       			mv /etc/X11/xorg.conf.backup /etc/X11/xorg.conf
-						tazpkg remove nvidia						
-					fi
-					load_modules
-					#xorg
-					echo -n " Do you want to configure X using free nvidia driver (y/N) ? "; read anser
+					echo "================================"
+					echo "Use 'Xorg -configure :1 && nvidia-xconfig -c /root/xorg.conf.new -o /tmp/xorg.conf.nvidia' to generate a template configuration file."
+					echo "glxinfo |grep rendering # test nvidia"
+					echo "Use: nvidia-settings utility to configure your settings if necessary"
+					echo "Option \"NoLogo\" \"True\""
+					echo "================================"
+				fi
+			else
+				if [ -d /var/lib/tazpkg/installed/nvidia ]; then
+					rm /etc/X11/xorg.conf.d/55-DeviceTweaks.conf
+					tazpkg remove nvidia
+				fi
+				load_modules
+				#xorg
+				echo -n " Do you want to configure X using free nvidia driver (y/N) ? "; read anser
+				echo ""
+				if [ "$anser" == "y" ]; then
 					echo ""
-					if [ "$anser" == "y" ]; then
-		       			echo ""	
-		       			echo "================================"
-		       			#backup your current config
-						cp -a /etc/X11/xorg.conf /etc/X11/xorg.conf.backup
-						echo "your config is backed up at /etc/X11/xorg.conf.backup"
-		        		echo "if nvidia fails; please use your backed up xorg.conf"
-		        		echo ""
-		        		echo "Replace vesa driver with nv in /etc/X11/xorg.conf"
-		        		# free nvidia driver is called nv
-		        		sed -i 's/vesa/nv/' /etc/X11/xorg.conf
-		        		# mesa-demos to check if acceleration is working
-						echo "Checking if nvidia is working ..." 
-		        		glxinfo |grep rendering	
-						echo "================================"	
-					fi	        	
-		        fi
-				;;
+					echo "================================"
+					echo "Your previous config is in /etc/X11/xorg.conf.d/60-Device.conf"
+					echo "If nvidia fails, you can remove /etc/X11/xorg.conf.d/55-DeviceTweaks.conf to restore previous config."
+					echo ""
+					echo "Create 55-DeviceTweaks.conf configured with nv driver."
+
+					# free nvidia driver is called nv
+					cp -a /etc/X11/xorg.conf.d/60-Device.conf /etc/X11/xorg.conf.d/55-DeviceTweaks.conf
+					sed -i 's/vesa/nv/' /etc/X11/xorg.conf.d/55-DeviceTweaks.conf
+
+					# mesa-demos to check if acceleration is working
+					echo "Checking if nvidia is working ..."
+					glxinfo |grep rendering
+					echo "================================"
+				fi
+			fi
+		;;
 		ati)	untested
-				if [ "$NON_FREE" == "yes" ] ; then
-					if [ -d /var/lib/tazpkg/installed/xorg-xf86-video-ati ]; then
-						mv /etc/X11/xorg.conf.backup /etc/X11/xorg.conf
-						tazpkg remove xorg-xf86-video-ati						
-					fi
-					load_modules
-					#xorg
-					echo -n " Do you want to configure X using non-free catalyst ati(radeon) driver (y/N) ? "; read anser
+			if [ "$NON_FREE" == "yes" ] ; then
+				if [ -d /var/lib/tazpkg/installed/xorg-xf86-video-ati ]; then
+					rm /etc/X11/xorg.conf.d/55-DeviceTweaks.conf
+					tazpkg remove xorg-xf86-video-ati
+				fi
+				load_modules
+				#xorg
+				echo -n " Do you want to configure X using non-free catalyst ati(radeon) driver (y/N) ? "; read anser
+				echo ""
+				if [ "$anser" == "y" ]; then
+					echo "Your previous config is in /etc/X11/xorg.conf.d/60-Device.conf"
+					echo "If ati fails, you can remove /etc/X11/xorg.conf.d/55-DeviceTweaks.conf to restore previous config."
+
+					# add fglrx driver to xorg.conf
+					Xorg -configure :1 > /dev/null
+					aticonfig --initial --input=/root/xorg.conf.new --output=/tmp/xorg.conf.ati
+					sed -e '/Section "Device"/,/EndSection/!d' -e "s/EndSection/EndSection\n/" /tmp/xorg.conf.ati > /etc/X11/xorg.conf.d/55-DeviceTweaks.conf
+					rm /tmp/xorg.conf.ati /root/xorg.conf.new
+
+					# mesa-demos to check if acceleration is working
+					echo "Checking if ati catalyst is working ..."
+					glxinfo |grep rendering
+				else
 					echo ""
-					if [ "$anser" == "y" ]; then
-						#backup your current config
-						cp -a /etc/X11/xorg.conf /etc/X11/xorg.conf.backup
-						echo "your config is backed up at /etc/X11/xorg.conf.backup"
-		        		echo "if ati fails; please use your backed up xorg.conf"
-		        		# add fglrx driver to xorg.conf
-						aticonfig --initial --input=/etc/X11/xorg.conf						
-						# mesa-demos to check if acceleration is working
-						echo "Checking if ati catalyst is working ..." 
-		        		glxinfo |grep rendering		        		
-					else
-						echo ""	
-		       			echo "================================"
-		       			echo -e "\033[1m Configuration :\033[0m  "
-		        		echo "Use: aticonfig utility to configure xorg.conf settings if necessary"
-		        		echo "aticonfig --initial --input=/etc/X11/xorg.conf"
-		        		echo "restart xorg"
-		       			echo "glxinfo |grep rendering"
-		       			echo "================================"
-		       		fi
-		       	else
-		       		if [ -d /var/lib/tazpkg/installed/catalyst ]; then
-						mv /etc/X11/xorg.conf.backup /etc/X11/xorg.conf
-						tazpkg remove catalyst
-					fi
-					load_modules
-					#xorg
-					echo -n " Do you want to configure X using free ati (radeon) driver (y/N) ? "; read anser
+					echo "================================"
+					echo -e "\033[1m Configuration :\033[0m  "
+					echo "Use: aticonfig utility to generate a template configuration file if necessary"
+					echo "Xorg -configure :1 &&	aticonfig --initial --input=/root/xorg.conf.new --output=/tmp/xorg.conf.ati"
+					echo "restart xorg"
+					echo "glxinfo |grep rendering"
+					echo "================================"
+				fi
+			else
+				if [ -d /var/lib/tazpkg/installed/catalyst ]; then
+					rm /etc/X11/xorg.conf.d/55-DeviceTweaks.conf
+					tazpkg remove catalyst
+				fi
+				load_modules
+				#xorg
+				echo -n " Do you want to configure X using free ati (radeon) driver (y/N) ? "; read anser
+				echo ""
+				if [ "$anser" == "y" ]; then
 					echo ""
-					if [ "$anser" == "y" ]; then
-		       			echo ""	
-		       			echo "================================"
-		       			#backup your current config
-						cp -a /etc/X11/xorg.conf /etc/X11/xorg.conf.backup
-						echo "your config is backed up at /etc/X11/xorg.conf.backup"
-		        		echo "if ati fails; please use your backed up xorg.conf"
-		        		echo ""
-		        		echo "Replace vesa driver with radeon in /etc/X11/xorg.conf"
-		        		# free ati driver is called radeon
-		        		sed -i 's/vesa/radeon/' /etc/X11/xorg.conf
-						# mesa-demos to check if acceleration is working
-						echo "Checking if ati radeon is working ..." 
-		        		glxinfo |grep rendering	
-						echo "================================"	
-					fi	  					
-		        fi
-				;;		
-		
+					echo "================================"
+					echo "Your previous config is in /etc/X11/xorg.conf.d/60-Device.conf"
+					echo "If ati fails, you can remove /etc/X11/xorg.conf.d/55-DeviceTweaks.conf to restore previous config."
+					echo ""
+					echo "Create 55-DeviceTweaks.conf configured with radeon driver."
+
+					# free ati driver is called radeon
+					cp -a /etc/X11/xorg.conf.d/60-Device.conf /etc/X11/xorg.conf.d/55-DeviceTweaks.conf
+					sed -i 's/vesa/nv/' /etc/X11/xorg.conf.d/55-DeviceTweaks.conf
+					# mesa-demos to check if acceleration is working
+					echo "Checking if ati radeon is working ..."
+					glxinfo |grep rendering
+					echo "================================"
+				fi
+			fi
+		;;
 	esac
 }
 
@@ -812,21 +817,21 @@ setup()
 case "$1" in
 	help|usage ) 	usage ;;
 	wvdial) 		wvdialbox ;;
-	xorg)  			xorg;;	 
-	
-	*) 		check_root 
+	xorg)  			xorg;;
+
+	*) 		check_root
 			echo "COMMAND OPTIONS: $@"
 			for i in "$@"; do
-	   			if [ "$i" == "--non-free" ] ;  then 	NON_FREE="yes"; 				fi 	
+	   			if [ "$i" == "--non-free" ] ;  then 	NON_FREE="yes"; 				fi
 				if [ "$i" == "--suggested" ] ; then 	AUTO_INSTALL_SUGGESTED="yes"; 	fi
-				if [ "$i" == "--confirm" ] ;   then 	CONFIRM_SUGGESTED="yes"; 		fi	
-				if [ "$i" == "stop" ] ;        then 	STOP="yes"; 					fi					
+				if [ "$i" == "--confirm" ] ;   then 	CONFIRM_SUGGESTED="yes"; 		fi
+				if [ "$i" == "stop" ] ;        then 	STOP="yes"; 					fi
 			done
-		
+
 			device
 			#untested
-			if [ ! "$NON_FREE_DEPENDS" == "" -a "$NON_FREE" == "yes" ]; then 
-			     DEPENDS="$NON_FREE_DEPENDS" 				
+			if [ ! "$NON_FREE_DEPENDS" == "" -a "$NON_FREE" == "yes" ]; then
+			     DEPENDS="$NON_FREE_DEPENDS"
 			fi
 
 			if [ "$AUTO_INSTALL_SUGGESTED" == "yes" ]; then
@@ -840,11 +845,11 @@ case "$1" in
 				echo "===================================="
 				echo -n " Do you want to install all/few/no optional dependencies (all|few|N) ? "; read anser
 			fi
-				
+
 			install "$DEPENDS"
-			case $anser in 
+			case $anser in
 				[aA]*|[yY]|1) 	install "$SUGGESTED" ;;
-				[fF]*|2) 		confirm_install "$SUGGESTED" ;;	
+				[fF]*|2) 		confirm_install "$SUGGESTED" ;;
 				*) ;;
 			esac
 
