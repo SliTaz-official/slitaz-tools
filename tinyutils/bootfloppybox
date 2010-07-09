@@ -1231,7 +1231,7 @@ $(echo -e $desc)
       <button>
         <input file icon=\"browser\"></input>
 	<label>Wiki</label>
-	<action>browser http://wiki.slitaz.org/doku.php?id=quickstart:pxe &</action>
+	<action>browser http://doc.slitaz.org/en:guides:pxe &</action>
       </button>
 "
     elif [ "$pkg" = "gpxe" ]; then
@@ -1248,7 +1248,7 @@ $(echo -e $desc)
       <button>
         <input file icon=\"browser\"></input>
 	<label>Wiki</label>
-	<action>browser http://wiki.slitaz.org/doku.php?id=quickstart:pxe &</action>
+	<action>browser http://doc.slitaz.org/en:guides:pxe &</action>
       </button>
       <button help>
 	<action type=\"launch\">HELP</action>

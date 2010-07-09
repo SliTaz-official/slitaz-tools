@@ -247,7 +247,7 @@ cat <<EOT
         </entry>
       </hbox>
       <hbox>
-$(wikibutton http://wiki.slitaz.org/doku.php?id=quickstart:pxe)
+$(wikibutton http://doc.slitaz.org/en:guides:pxe)
         <button>
           <input file icon="go-jump"></input>
 	  <label>Install</label>
@@ -307,7 +307,7 @@ $(grep bin/tftpd /etc/inetd.conf | awk '{ print $NF }')/pxelinux.cfg/default
         </button>
       </hbox>
       <hbox>
-$(wikibutton http://wiki.slitaz.org/doku.php?id=quickstart:pxe)
+$(wikibutton http://doc.slitaz.org/en:guides:pxe)
         <button>
           <input file icon="system-file-manager"></input>
 	  <label>Network boot files</label>

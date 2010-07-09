@@ -662,7 +662,7 @@ cat <<EOT
         </entry>
       </hbox>
       <hbox>
-$(wikibutton http://wiki.slitaz.org/doku.php?id=quickstart:vpn)
+$(wikibutton http://doc.slitaz.org/en:guides:vpn)
         <button>
           <input file icon="forward"></input>
 	  <label>Connect</label>
