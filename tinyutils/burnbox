@@ -205,7 +205,7 @@ copy_dir()
 burn_iso()
 {
 	xterm -geometry 80x16 -title "Wodim" \
-		-e "wodim -v speed=$SPEED dev=$DEVICE $OPTIONS $ISO_IMAGE; sleep 4			
+		-e "wodim -v speed=$SPEED dev=$DEVICE $OPTIONS '$ISO_IMAGE'; sleep 4			
 		"
 }
 # =====AUDIO=====
