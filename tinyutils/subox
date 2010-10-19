@@ -52,7 +52,8 @@ Please enter root password (default root) to execute :"`'
 # Check if we have a saved passwd.
 if [ -s $HOME/.config/slitaz/subox.conf ]; then
 	PASSWD=`cat $HOME/.config/slitaz/subox.conf`
-	[ -n "$PASSWD" ] && SU_DIALOG="$SU_DIALOG <default>$PASSWD</default>"
+		[ -n "$PASSWD" ] && SU_DIALOG="$SU_DIALOG <default>$PASSWD</default>" && AUTO_SAVED_PASSWD=true
+else {AUTO_SAVED_PASSWD=false}	
 fi
 
 export SU_DIALOG=''${SU_DIALOG}'
@@ -62,8 +63,14 @@ export SU_DIALOG=''${SU_DIALOG}'
 	
 	<hbox>
 		<checkbox>
-			<label>"'`gettext "Autosave password"`'"</label>
-			<variable>AUTOSAVE</variable>
+			<variable>AUTOSAVE</variable>'
+
+if [ $AUTO_SAVED_PASSWD = "true" ]
+	then SU_DIALOG="$SU_DIALOG <default>true</default>"
+	else SU_DIALOG="$SU_DIALOG <default>false</default>"
+fi
+
+export SU_DIALOG=''${SU_DIALOG}'
 			<default>false</default>
 		</checkbox>
 		<button ok>
@@ -71,6 +78,7 @@ export SU_DIALOG=''${SU_DIALOG}'
 			<action>[ $AUTOSAVE == true ] && echo $PASSWD > '$HOME/.config/slitaz/subox.conf'</action>
 			<action>[ $AUTOSAVE == true ] && chmod 0600 '$HOME/.config/slitaz/subox.conf'</action>
 			<action type="closewindow">SU_DIALOG</action>
+			<action>[ $AUTOSAVE == false ] && cat /dev/null > '$HOME/.config/slitaz/subox.conf'</action>
 		</button>
 		<button cancel></button>
 	</hbox>
