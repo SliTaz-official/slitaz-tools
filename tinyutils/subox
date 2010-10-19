@@ -64,7 +64,7 @@ export SU_DIALOG=''${SU_DIALOG}'
 	<hbox>
 		<checkbox>
 			<variable>AUTOSAVE</variable>'
-
+			<label>"'`gettext "Autosave password"`'"</label>
 if [ $AUTO_SAVED_PASSWD = "true" ]
 	then SU_DIALOG="$SU_DIALOG <default>true</default>"
 	else SU_DIALOG="$SU_DIALOG <default>false</default>"
@@ -77,8 +77,8 @@ export SU_DIALOG=''${SU_DIALOG}'
 			<action>echo $PASSWD | su -c "$SU_CMD" &</action>
 			<action>[ $AUTOSAVE == true ] && echo $PASSWD > '$HOME/.config/slitaz/subox.conf'</action>
 			<action>[ $AUTOSAVE == true ] && chmod 0600 '$HOME/.config/slitaz/subox.conf'</action>
-			<action type="closewindow">SU_DIALOG</action>
 			<action>[ $AUTOSAVE == false ] && cat /dev/null > '$HOME/.config/slitaz/subox.conf'</action>
+			<action type="closewindow">SU_DIALOG</action>
 		</button>
 		<button cancel></button>
 	</hbox>
