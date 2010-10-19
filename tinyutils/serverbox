@@ -692,7 +692,7 @@ export HELP='
 		<text wrap="true" width-chars="58">
 			<label>
 "Serverbox lets you manage and setup servers. First, install and 
-edit configuration files. Then, start or stop servers."
+edit any configuration files. Then, start or stop the servers."
 			</label>
 		</text>
 	</frame>
