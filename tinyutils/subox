@@ -63,8 +63,9 @@ export SU_DIALOG=''${SU_DIALOG}'
 	
 	<hbox>
 		<checkbox>
-			<variable>AUTOSAVE</variable>'
+			
 			<label>"'`gettext "Autosave password"`'"</label>
+			<variable>AUTOSAVE</variable>'
 if [ $AUTO_SAVED_PASSWD = "true" ]
 	then SU_DIALOG="$SU_DIALOG <default>true</default>"
 	else SU_DIALOG="$SU_DIALOG <default>false</default>"
