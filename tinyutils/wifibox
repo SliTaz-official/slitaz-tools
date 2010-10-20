@@ -438,7 +438,7 @@ box()
 		<hbox>
 			<text width-chars=\"65\">
 				<label>
-\"Favorite networks connect automatically when computer is started           \"
+\"Favorite networks connect automatically when the computer is started           \"
 				</label>
 			</text>
 		</hbox>
@@ -574,7 +574,7 @@ box()
 				<label>
 \"
 Some Wireless Adapters need non-free firmware. Please install the
-firmware before loading the corresponding module. Note: you can use 
+firmware before loading the corresponding module. Note you can use 
 Tazhw to automatically detect your PCI, PCMCIA or USB Wireless adapter.
 \"
 				</label>
