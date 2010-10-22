@@ -25,6 +25,27 @@ export TEXTDOMAIN
 # Keep command in an exported variable to be used by SU_DIALOG.
 export SU_CMD=$1
 
+# Error window if the pwd is wrong.
+export ERROR_DIALOG='
+<window title="Subox">
+  <vbox>
+
+    <text use-markup="true">
+      <label>"
+<b>SliTaz - Subox</b>"
+      </label>
+    </text>
+    <text wrap="true" width-chars="48">
+	<label>"'`gettext "Error: wrong password!"`'"</label>
+    </text>
+
+    <hbox>
+      <button ok></button>
+    </hbox>
+</vbox>
+</window>
+'
+
 # Main window and root password default entry set to 'root'.
 SU_DIALOG='
 <window title="Subox" skip_taskbar_hint="true">
@@ -72,10 +93,10 @@ if [ $AUTO_SAVED_PASSWD = "true" ]
 fi
 
 export SU_DIALOG=''${SU_DIALOG}'
-			<default>false</default>
+			
 		</checkbox>
 		<button ok>
-			<action>echo $PASSWD | su -c "$SU_CMD" &</action>
+			<action> echo $PASSWD | su -c "$SU_CMD &" || gtkdialog --center --program=ERROR_DIALOG</action>
 			<action>[ $AUTOSAVE == true ] && echo $PASSWD > '$HOME/.config/slitaz/subox.conf'</action>
 			<action>[ $AUTOSAVE == true ] && chmod 0600 '$HOME/.config/slitaz/subox.conf'</action>
 			<action>[ $AUTOSAVE == false ] && cat /dev/null > '$HOME/.config/slitaz/subox.conf'</action>
