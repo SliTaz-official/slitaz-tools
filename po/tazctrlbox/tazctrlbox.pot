@@ -1,0 +1,104 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: tazctrlbox\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-10-22 23:40+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: tinyutils/tazctrlbox:91
+msgid "Manage user: "
+msgstr ""
+
+#: tinyutils/tazctrlbox:102
+msgid "New password:"
+msgstr ""
+
+#: tinyutils/tazctrlbox:116
+msgid "Delete user"
+msgstr ""
+
+#: tinyutils/tazctrlbox:139
+msgid ""
+"\n"
+"New account information"
+msgstr ""
+
+#: tinyutils/tazctrlbox:146
+msgid "Login:"
+msgstr ""
+
+#: tinyutils/tazctrlbox:154
+msgid "Password:"
+msgstr ""
+
+#: tinyutils/tazctrlbox:205
+msgid "SliTaz Control Box"
+msgstr ""
+
+#: tinyutils/tazctrlbox:210
+msgid "<b>SliTaz Control Box</b>"
+msgstr ""
+
+#: tinyutils/tazctrlbox:217
+msgid "Boot loader|Initialization|Login manager|Time|Language|Users"
+msgstr ""
+
+#: tinyutils/tazctrlbox:222
+msgid "Grub boot loader"
+msgstr ""
+
+#: tinyutils/tazctrlbox:225
+msgid "Timeout:"
+msgstr ""
+
+#: tinyutils/tazctrlbox:232 tinyutils/tazctrlbox:246 tinyutils/tazctrlbox:292
+#: tinyutils/tazctrlbox:306
+msgid "Change"
+msgstr ""
+
+#: tinyutils/tazctrlbox:239
+msgid "Color:"
+msgstr ""
+
+#: tinyutils/tazctrlbox:253
+msgid "Configuration file:"
+msgstr ""
+
+#: tinyutils/tazctrlbox:268
+msgid "rcS init scripts"
+msgstr ""
+
+#: tinyutils/tazctrlbox:271
+msgid "Check filesystems:"
+msgstr ""
+
+#: tinyutils/tazctrlbox:285
+msgid "Load modules:"
+msgstr ""
+
+#: tinyutils/tazctrlbox:299
+msgid "Run daemons:"
+msgstr ""
+
+#: tinyutils/tazctrlbox:313
+msgid "Add local commands:"
+msgstr ""
+
+#: tinyutils/tazctrlbox:326
+msgid "Slim settings"
+msgstr ""
+
+#: tinyutils/tazctrlbox:329
+msgid "Sessions:"
+msgstr ""

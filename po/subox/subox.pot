@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: subox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-24 22:10+0100\n"
+"POT-Creation-Date: 2010-10-22 23:40+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,15 +17,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: tinyutils/subox:39
+msgid "Error: wrong password!"
+msgstr ""
+
+#: tinyutils/subox:60
 msgid ""
 "\n"
 "Please enter root password (default root) to execute :"
 msgstr ""
 
-#: tinyutils/subox:48
+#: tinyutils/subox:69
 msgid "<b>Admin password :</b>"
 msgstr ""
 
-#: tinyutils/subox:65
+#: tinyutils/subox:88
 msgid "Autosave password"
 msgstr ""

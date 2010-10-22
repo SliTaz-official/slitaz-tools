@@ -4,7 +4,7 @@
 PREFIX?=/usr
 DOCDIR?=/usr/share/doc
 DESTDIR?=
-TINYUTILS?=subox scpbox
+TINYUTILS?=subox scpbox tazctrlbox
 LINGUAS?=fr pt
 	
 all:

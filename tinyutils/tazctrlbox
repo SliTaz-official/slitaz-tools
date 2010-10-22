@@ -8,7 +8,14 @@
 # (C) GNU gpl v3 - SliTaz GNU/Linux 2010.
 # Author: Christophe Lincoln <pankso@slitaz.org>
 #
-VERSION=1.0
+VERSION=1.1
+
+# Include gettext helper script.
+. /usr/bin/gettext.sh
+
+# Export package name for gettext.
+TEXTDOMAIN='tazctrlbox'
+export TEXTDOMAIN
 
 # Get init configuration.
 . /etc/rcS.conf
@@ -81,7 +88,7 @@ get_users()
 manage_user()
 {
 	export MANAGE_DIALOG="
-<window title=\"Manage user: $USER\" icon-name=\"computer\">
+<window title=\"`gettext "Manage user: "`$USER\" icon-name=\"computer\">
 	<vbox>
 		<vbox>
 			<text wrap=\"false\" width-chars=\"34\">
@@ -92,7 +99,7 @@ Login name: $USER
 		</vbox>
 		<hbox>
 			<text wrap=\"false\">
-				<label>\"New password:\"</label>
+				<label>\"`gettext "New password:"`\"</label>
 			</text>
 			<entry invisible_char=\"*\" visibility=\"false\" max_length=\"8\">
 				<variable>PASSWD</variable>
@@ -106,7 +113,7 @@ Login name: $USER
 		</hbox>
 		<hbox>
 			<button>
-				<label>Delete user</label>
+				<label>`gettext "Delete user"`</label>
 				<input file icon=\"gtk-delete\"></input>
 				<action>deluser $USER</action>
 				<action type=\"closewindow\">MANAGE_USER</action>
@@ -129,14 +136,14 @@ add_user()
 	<vbox>
 		<vbox>
 			<text wrap="false" width-chars="34">
-				<label>"
-New account information
+				<label>"'`gettext "
+New account information"`'
 				"</label>
 			</text>
 		</vbox>
 		<hbox>
 			<text wrap="false">
-				<label>"Login:      "</label>
+				<label>"'`gettext "Login:"`'      "</label>
 			</text>
 			<entry>
 				<variable>NEW_USER</variable>
@@ -144,7 +151,7 @@ New account information
 		</hbox>
 		<hbox>
 			<text wrap="false">
-				<label>"Password:"</label>
+				<label>'`gettext "Password:"`'"</label>
 			</text>
 			<entry invisible_char="*" visibility="false" max_length="8">
 				<variable>PASSWD</variable>
@@ -195,55 +202,55 @@ gen_utf8_locale()
 # Main dialog with notebook.
 #
 export MAIN_DIALOG='
-<window title="SliTaz Control Box" icon-name="computer">
+<window title="'`gettext "SliTaz Control Box"`'" icon-name="computer">
 <vbox>
 
 	<hbox>
 		<text use-markup="true">
-			<label>"<b>SliTaz Control Box</b>"</label>
+			<label>"'`gettext "<b>SliTaz Control Box</b>"`'"</label>
 		</text>
 		<pixmap>
 			<input file>/usr/share/pixmaps/tazctrlbox.png</input>
 		</pixmap>
 	</hbox>
 
-	<notebook labels="Boot loader|Initialization|Login manager|Time|Language|Users">'
+	<notebook labels="'`gettext "Boot loader|Initialization|Login manager|Time|Language|Users"`'">'
 	
 # GRUB
 MAIN_DIALOG=${MAIN_DIALOG}"
 	<vbox>
-		<frame Grub boot loader>
+		<frame `gettext "Grub boot loader"`>
 			<hbox>
 				<text wrap=\"false\">
-					<label>\"Timeout:\"</label>
+					<label>\"`gettext "Timeout:"`\"</label>
 				</text>
 				<entry>
 					<input>cat /boot/grub/menu.lst | grep ^timeout | cut -d \" \" -f2</input>
 					<variable>GRUB_TIMEOUT</variable>
 				</entry>
 				<button>
-					<label>Change</label>
+					<label>`gettext "Change"`</label>
 					<input file icon=\"forward\"></input>
 					<action>$0 sed_grub_timeout</action>
 				</button>
 			</hbox>
 			<hbox>
 				<text wrap=\"false\">
-					<label>\"Color:    \"</label>
+					<label>\"`gettext "Color:"`    \"</label>
 				</text>
 				<entry>
 					<input>cat /boot/grub/menu.lst | grep ^color | cut -d \" \" -f2-3</input>
 					<variable>GRUB_COLOR</variable>
 				</entry>
 				<button>
-					<label>Change</label>
+					<label>`gettext "Change"`</label>
 					<input file icon=\"forward\"></input>
 					<action>$0 sed_grub_color</action>
 				</button>
 			</hbox>
 			<hbox>
 				<text wrap=\"false\">
-					<label>\"Configuration file:\"</label>
+					<label>\"`gettext "Configuration file:"`\"</label>
 				</text>
 				<button>
 					<label>/boot/grub/menu.lst</label>
@@ -258,10 +265,10 @@ MAIN_DIALOG=${MAIN_DIALOG}"
 # Init script
 MAIN_DIALOG=${MAIN_DIALOG}"
 	<vbox>
-		<frame rcS init scripts>
+		<frame `gettext "rcS init scripts"`>
 			<hbox>
 				<text wrap=\"false\">
-					<label>\"Check filesystems:\"</label>
+					<label>\"`gettext "Check filesystems:"`\"</label>
 				</text>
 				<entry>
 					<input>echo $CHECK_FS</input>
@@ -275,35 +282,35 @@ MAIN_DIALOG=${MAIN_DIALOG}"
 			</hbox>
 			<hbox>
 				<text wrap=\"false\">
-					<label>\"Load modules:      \"</label>
+					<label>\"`gettext "Load modules:"`      \"</label>
 				</text>
 				<entry>
 					<input>echo $LOAD_MODULES</input>
 					<variable>NEW_MODULES</variable>
 				</entry>
 				<button>
-					<label>Change</label>
+					<label>`gettext "Change"`</label>
 					<input file icon=\"forward\"></input>
 					<action>$0 sed_load_modules</action>
 				</button>
 			</hbox>
 			<hbox>
 				<text wrap=\"false\">
-					<label>\"Run daemons:       \"</label>
+					<label>\"`gettext "Run daemons:"`       \"</label>
 				</text>
 				<entry>
 					<input>echo $RUN_DAEMONS</input>
 					<variable>NEW_DAEMONS</variable>
 				</entry>
 				<button>
-					<label>Change</label>
+					<label>`gettext "Change"`</label>
 					<input file icon=\"forward\"></input>
 					<action>$0 sed_run_daemons</action>
 				</button>
 			</hbox>
 			<hbox>
 				<text wrap=\"false\">
-					<label>\"Add local commands:\"</label>
+					<label>\"`gettext "Add local commands:"`\"</label>
 				</text>
 				<button>
 					<label>/etc/init.d/local.sh</label>
@@ -316,52 +323,52 @@ MAIN_DIALOG=${MAIN_DIALOG}"
 # Slim login
 MAIN_DIALOG=${MAIN_DIALOG}'
 	<vbox>
-		<frame Slim settings>
+		<frame '`gettext "Slim settings"`'>
 			<hbox>
 				<text wrap="false">
-					<label>"Sessions:                "</label>
+					<label>"'`gettext "Sessions:"`'                "</label>
 				</text>
 				<entry>
 					<input>cat /etc/slim.conf | grep ^session | sed s/"sessions. *"//</input>
 					<variable>SLIM_SESSIONS</variable>
 				</entry>
 				<button>
-					<label>Change</label>
+					<label>'`gettext "Change"`'</label>
 					<input file icon="forward"></input>
 					<action>sed -i "s/^sessions.*/sessions            $SLIM_SESSIONS/" /etc/slim.conf</action>
 				</button>
 			</hbox>
 			<hbox>
 				<text wrap="false">
-					<label>"Default user:           "</label>
+					<label>"'`gettext "Default user:"`'           "</label>
 				</text>
 				<entry>
 					<input>cat /etc/slim.conf | grep ^default_user | sed s/"default_user. *"//</input>
 					<variable>SLIM_DEF_USER</variable>
 				</entry>
 				<button>
-					<label>Change</label>
+					<label>'`gettext "Change"`'</label>
 					<input file icon="forward"></input>
 					<action>sed -i "s/^default_user.*/default_user        $SLIM_DEF_USER/" /etc/slim.conf</action>
 				</button>
 			</hbox>
 			<hbox>
 				<text wrap="false">
-					<label>"Auto login (yes|no): "</label>
+					<label>"'`gettext "Auto login (yes|no):"`' "</label>
 				</text>
 				<entry max_length="3">
 					<input>cat /etc/slim.conf | grep ^auto_login | sed s/"auto_login. *"//</input>
 					<variable>SLIM_AUTO_LOGIN</variable>
 				</entry>
 				<button>
-					<label>Change</label>
+					<label>'`gettext "Change"`'</label>
 					<input file icon="forward"></input>
 					<action>sed -i "s/^auto_login.*/auto_login          $SLIM_AUTO_LOGIN/" /etc/slim.conf</action>
 				</button>
 			</hbox>
 			<hbox>
 				<text wrap="false">
-					<label>"Theme:"</label>
+					<label>"'`gettext "Theme:"`'"</label>
 				</text>
 				<combobox>
 					<variable>NEW_SLIM_THEME</variable>'
@@ -374,12 +381,12 @@ done
 MAIN_DIALOG=${MAIN_DIALOG}'
 				</combobox>	
 				<button>
-					<label>Preview</label>
+					<label>'`gettext "Preview"`'</label>
 					<input file icon="video-display"></input>
 					<action>slim -p /usr/share/slim/themes/$NEW_SLIM_THEME &</action>
 				</button>
 				<button>
-					<label>Change</label>
+					<label>'`gettext "Change"`'</label>
 					<input file icon="forward"></input>
 					<action>sed -i "s/^current_theme.*/current_theme       $NEW_SLIM_THEME/" /etc/slim.conf</action>
 					<action>refresh:SLIM_THEME</action>
@@ -387,7 +394,7 @@ MAIN_DIALOG=${MAIN_DIALOG}'
 			</hbox>
 			<hbox>
 				<text wrap="false">
-					<label>"Configuration file:"</label>
+					<label>"'`gettext "Configuration file:"`'"</label>
 				</text>
 				<button>
 					<label>/etc/slim.conf</label>
@@ -402,17 +409,17 @@ MAIN_DIALOG=${MAIN_DIALOG}'
 # Time setting.
 MAIN_DIALOG=${MAIN_DIALOG}'	
 	<vbox>
-		<frame Date and time>
+		<frame '`gettext "Date and time"`'>
 			<hbox>
 				<text wrap="false">
-					<label>"System time:   "</label>
+					<label>"'`gettext "System time:"`'   "</label>
 				</text>
 				<entry editable="false">
 					<input>LC_ALL=C date</input>
 					<variable>DATE</variable>
 				</entry>
 				<button>
-					<label>Sync online</label>
+					<label>'`gettext "Sync online"`'</label>
 					<input file icon="reload"></input>
 					<action>rdate -s tick.greyware.com</action>
 					<action>refresh:DATE</action>
@@ -421,14 +428,14 @@ MAIN_DIALOG=${MAIN_DIALOG}'
 			</hbox>
 			<hbox>
 				<text wrap="false">
-					<label>"Hardware time:"</label>
+					<label>"'`gettext "Hardware time:"`'"</label>
 				</text>
 				<entry editable="false">
 					<input>LC_ALL=C hwclock</input>
 					<variable>HWTIME</variable>
 				</entry>
 				<button>
-					<label>Set from system</label>
+					<label>'`gettext "Set from system"`'</label>
 					<input file icon="reload"></input>
 					<action>hwclock -w -u</action>
 					<action>refresh:HWTIME</action>
@@ -437,14 +444,14 @@ MAIN_DIALOG=${MAIN_DIALOG}'
 			</hbox>
 			<hbox>
 				<text wrap="true">
-					<label>"Timezone:       "</label>
+					<label>"'`gettext "Timezone:"`'       "</label>
 				</text>
 				<entry>
 					<input>cat /etc/TZ</input>
 					<variable>NEW_TZ</variable>
 				</entry>
 				<button>
-					<label>Change</label>
+					<label>'`gettext "Change"`'</label>
 					<input file icon="forward"></input>
 					<action>echo "$NEW_TZ" > /etc/TZ</action>
 				</button>
@@ -457,18 +464,18 @@ MAIN_DIALOG=${MAIN_DIALOG}"
 		<tree>
 			<width>600</width><height>210</height>
 			<variable>LANGUAGE</variable>
-			<label>Language|Charmap</label>
+			<label>`gettext "Language|Charmap"`</label>
 			<input icon_column=\"0\">$0 list_locales</input>
 			<action>$0 gen_utf8_locale</action>
 		</tree>
 		<hbox>
 		<text width-chars=\"60\">
 			<label>
-\"To change system language you can double-click on the locale name.\"
+\"`gettext "To change system language you can double-click on the locale name."`\"
 			</label>
 		</text>
 		<button>
-			<label>Keymap</label>
+			<label>`gettext "Keymap"`</label>
 			<input file icon=\"input-keyboard\"></input>
 			<action>tazkeymap &</action>
 		</button>
@@ -480,7 +487,7 @@ MAIN_DIALOG=${MAIN_DIALOG}"
 		<tree>
 			<width>600</width><height>210</height>
 			<variable>USER</variable>
-			<label>Login|uid:gid|Name|Home|SHell</label>
+			<label>`gettext "Login|uid:gid|Name|Home|SHell"`</label>
 			<input icon_column=\"0\">$0 get_users</input>
 			<action>$0 manage_user</action>
 			<action>refresh:USER</action>
@@ -488,11 +495,11 @@ MAIN_DIALOG=${MAIN_DIALOG}"
 		<hbox>
 		<text width-chars=\"60\">
 			<label>
-\"To change passwords or delete users you can double-click on the user name.\"
+\"`gettext "To change passwords or delete users you can double-click on the user name."`\"
 			</label>
 		</text>
 		<button>
-			<label>Add newuser</label>
+			<label>`gettext "Add newuser"`</label>
 			<input file icon=\"gtk-add\"></input>
 			<action>$0 add_user</action>
 			<action>refresh:USER</action>
@@ -503,39 +510,38 @@ export MAIN_DIALOG=${MAIN_DIALOG}'
 	</notebook>
 
 	<hbox>
-		
 		<button>
-			<label>Network</label>
+			<label>'`gettext "Network"`'</label>
 			<input file icon="netbox"></input>
 			<action>netbox &</action>
 		</button>
 		<button>
-			<label>Wireless</label>
+			<label>'`gettext "Wireless"`'</label>
 			<input file icon="network-wireless"></input>
 			<action>wifibox &</action>
 		</button>
 		<button>
-			<label>Packages</label>
+			<label>'`gettext "Packages"`'</label>
 			<input file icon="tazpkg"></input>
 			<action>tazpkgbox &</action>
 		</button>
 		<button>
-			<label>Hardware</label>
+			<label>'`gettext "Hardware"`'</label>
 			<input file icon="computer"></input>
 			<action>tazhw box &</action>
 		</button>
 		<button>
-			<label>Server</label>
+			<label>'`gettext "Server"`'</label>
 			<input file icon="utilities-system-monitor"></input>
 			<action>serverbox &</action>
 		</button>
 		<button>
-			<label>Storage</label>
+			<label>'`gettext "Storage"`'</label>
 			<input file icon="media-flash"></input>
 			<action>mountbox &</action>
 		</button>
 		<button>
-			<label>Exit</label>
+			<label>'`gettext "Exit"`'</label>
 			<input file icon="exit"></input>
 			<action type="exit">Exit</action>
 		</button>
