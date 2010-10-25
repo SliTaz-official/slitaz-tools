@@ -1,8 +1,8 @@
 #!/bin/sh
 #
 # SliTaz Control Box is a tool to configure and manage a SliTaz system.
-# The script use GTKdialog for the UI interface, some shell functions
-# are called by argument. Individual window dialog are put into 
+# The script uses GTKdialog for the UI interface. Some shell functions
+# are called by argument. Individual window dialogs are put into 
 # functions.
 #
 # (C) GNU gpl v3 - SliTaz GNU/Linux 2010.
@@ -26,7 +26,7 @@ if test $(id -u) != 0 ; then
 	exit 0
 fi
 
-# By default autologin is not configured on installed system
+# By default autologin is not configured on an installed system.
 if ! grep -q 'auto_login' /etc/slim.conf; then
 	echo '# Auto login default user' >> /etc/slim.conf
 	echo 'auto_login          no' >> /etc/slim.conf
@@ -46,7 +46,7 @@ sed_grub_color()
 	sed -i s#"color $CURRENT"#"color $GRUB_COLOR"# /boot/grub/menu.lst
 }
 
-# Set checked fs on boot.
+# Set check fs on boot.
 sed_check_fs()
 {
 	sed -i s#"CHECK_FS=\"$CHECK_FS\""#"CHECK_FS=\"$NEW_CHECK_FS\""# \
@@ -67,7 +67,7 @@ sed_run_daemons()
 		/etc/rcS.conf
 }
 
-# Get user list
+# Get user list.
 get_users()
 {
 	for i in `cat /etc/passwd | cut -d ":" -f 1`
@@ -181,7 +181,7 @@ New account information"`'
 	gtkdialog --center --program=ADD_USER_DIALOG >/dev/null	
 }
 
-# i18n functions
+# i18n functions.
 list_locales()
 {
 	cd /usr/share/i18n/locales
@@ -216,7 +216,7 @@ export MAIN_DIALOG='
 
 	<notebook labels="'`gettext "Boot loader|Initialization|Login manager|Time|Language|Users"`'">'
 	
-# GRUB
+# GRUB.
 MAIN_DIALOG=${MAIN_DIALOG}"
 	<vbox>
 		<frame `gettext "Grub boot loader"`>
@@ -262,7 +262,7 @@ MAIN_DIALOG=${MAIN_DIALOG}"
 			</hbox>
 		</frame>
 	</vbox>"
-# Init script
+# Init script.
 MAIN_DIALOG=${MAIN_DIALOG}"
 	<vbox>
 		<frame `gettext "rcS init scripts"`>
@@ -320,7 +320,7 @@ MAIN_DIALOG=${MAIN_DIALOG}"
 			</hbox>
 		</frame>
 	</vbox>"
-# Slim login
+# Slim login.
 MAIN_DIALOG=${MAIN_DIALOG}'
 	<vbox>
 		<frame '`gettext "Slim settings"`'>
@@ -406,7 +406,7 @@ MAIN_DIALOG=${MAIN_DIALOG}'
 			</hbox>
 		</frame>
 	</vbox>'
-# Time setting.
+# Time settings.
 MAIN_DIALOG=${MAIN_DIALOG}'	
 	<vbox>
 		<frame '`gettext "Date and time"`'>
@@ -458,7 +458,7 @@ MAIN_DIALOG=${MAIN_DIALOG}'
 			</hbox>
 		</frame>
 	</vbox>'
-# Language setting.
+# Language settings.
 MAIN_DIALOG=${MAIN_DIALOG}"
 	<vbox>
 		<tree>
@@ -481,7 +481,7 @@ MAIN_DIALOG=${MAIN_DIALOG}"
 		</button>
 	</hbox>
 	</vbox>"
-# Display users list throught get_users.
+# Display users list through get_users.
 MAIN_DIALOG=${MAIN_DIALOG}"
 	<vbox>
 		<tree>

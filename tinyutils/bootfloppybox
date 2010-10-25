@@ -877,7 +877,7 @@ IMAGE_SHOW='
     <text>
       <label>
 \"This floppy set breaks the 15MB limit ($1 bytes).
-It should not be able to complete the boot process.\"
+It may not be able to complete the boot process.\"
       </label>
     </text>
     </frame>
@@ -929,7 +929,7 @@ if [ "$1" == "call" ]; then
 			if [ $sz -gt $((15 * 1024 * 1024)) ]; then
 				cat <<EOT
 This floppy set breaks the 15MB limit ($sz bytes).
-It should not be able to complete the boot process.
+It may not be able to complete the boot process.
 EOT
 			fi
 		fi
