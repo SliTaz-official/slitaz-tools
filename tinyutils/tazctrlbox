@@ -471,7 +471,7 @@ MAIN_DIALOG=${MAIN_DIALOG}"
 		<hbox>
 		<text width-chars=\"60\">
 			<label>
-\"`gettext "To change system language you can double-click on the locale name."`\"
+\"`gettext "To change the system language you can double-click on the locale name."`\"
 			</label>
 		</text>
 		<button>
