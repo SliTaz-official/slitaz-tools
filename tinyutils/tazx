@@ -35,6 +35,9 @@ xorg_conf_d()
 	# Obtain a default configuration file from Xorg.
 	Xorg -configure :1
 
+	#backup existing config
+	tar -cf $xorg_config/../Previous_xorg.conf.d.tar $xorg_config/ &> /dev/null 
+
 	# Put the differents sections in separate files in the configuration directory.
 	sed -e '/Section "ServerLayout"/,/EndSection/!d' -e "s/EndSection/EndSection\n/" $xorg_template | grep -v Core > $xorg_config/10-ServerLayout.conf
 	sed -e '/Section "Files"/,/EndSection/!d' -e "s/EndSection/EndSection\n/" $xorg_template > $xorg_config/20-Files.conf
@@ -204,10 +207,12 @@ slim_config()
 		echo "SCREEN=$NEW_SCREEN" > /etc/X11/screen.conf
 		# Get current screen size and sed config file with the new value.
 		if [ -f /etc/slim.conf ]; then
-			RES=$(grep ^xserver_arguments /etc/slim.conf | \
-				sed 's/xserver_arguments.*-screen *//' | awk '{ print $1 }')
-			#sed -i "s/\(xserver_arguments.*-screen\).*/\1 $NEW_SCREEN/" /etc/slim.conf
-			sed -i s/"-screen $RES"/"-screen $NEW_SCREEN"/ /etc/slim.conf
+			    XSERV_ARGS=$(grep ^xserver_arguments /etc/slim.conf)
+				RES=$( echo $XSERV_ARGS | sed 's/xserver_arguments.*-screen *//' | awk '{print $1 }') 
+				NEW_XSERV_ARGS=$(echo $XSERV_ARGS | sed  s/"-screen $RES"/"-screen $NEW_SCREEN"/) 
+			# Comment the old one and put the new one in the config file
+			sed -i 's/"$XSERV_ARGS"/"# $XSERV_ARGS\n$NEW_XSERV_ARGS"/' /etc/slim.conf 
+
 		fi
 	fi
 }
@@ -361,6 +366,7 @@ creat_xinitrc()
 # only by startx, Slim login manager uses .xinitrc).
 creat_xsession()
 {
+	[ -f $HOME/.xsession ] && cp -f $HOME/.xsession $HOME/.previous_xsession
 	cat > $HOME/.xsession << _EOF_
 # ~/.xsession: Start X window session manually on your system (startx).
 #
