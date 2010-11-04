@@ -2,7 +2,7 @@
 #
 # Tazx - Ncurses X configuration for SliTaz GNU/Linux using Dialog boxes.
 # This tinyutils is part of slitaz-tools. Tazx can configure Xvesa kdrive
-# and Xorg with several Window Manager.
+# and Xorg with several Window Managers.
 #
 # (c) 2010 SliTaz GNU/Linux - GNU gpl v3.
 # Authors: Christophe Lincoln <pankso@slitaz.org>
@@ -35,7 +35,7 @@ xorg_conf_d()
 	# Obtain a default configuration file from Xorg.
 	Xorg -configure :1
 
-	#backup existing config
+	# Backup existing config.
 	tar -cf $xorg_config/../Previous_xorg.conf.d.tar $xorg_config/ &> /dev/null 
 
 	# Put the differents sections in separate files in the configuration directory.
@@ -89,9 +89,9 @@ xorg_conf_d()
 	echo 'Endsection' >> $keyboard_config
 
 	# Create a xorg.conf if needed.
-	[ ! -f /etc/X11/xorg.conf ] && echo "# You can put here you're own Xorg configurations.
-	# This configuration file is readed before all files in /etc/X11/xorg.conf.d
-	# This file will not be erased by next updates." > /etc/X11/xorg.conf
+	[ ! -f /etc/X11/xorg.conf ] && echo "# You can put here your own Xorg configurations.
+	# This configuration file is read before all files in /etc/X11/xorg.conf.d
+	# This file will not be erased by any updates." > /etc/X11/xorg.conf
 }
 
 # Install xorg server
@@ -186,7 +186,7 @@ screen_config_dialog()
 		xorg)
 			install_xorg ;;
 		xterm)
-			# Only with Xvesa
+			# Only with Xvesa.
 			Xvesa -ac -shadow -screen 800x600x16 -br &
 			exec xterm -cr orange -geometry 80x35+0-0 ;;
 		text)
@@ -301,8 +301,8 @@ xinitrc_sample()
 {
 	cat >  $FILE << "EOF"
 # ~/.xinitrc: Executed by slim login manager to startx X session.
-# You can use F1 with Slim to chage your window manager or configure
-# it permanently with your personnal applications.conf file.
+# You can use F1 with Slim to change your window manager or configure
+# it permanently with your personal applications.conf file.
 #
 . $HOME/.config/slitaz/applications.conf
 
@@ -331,7 +331,7 @@ case $1 in
 esac
 EOF
 	# Set default WM in applications.conf user file. Default WM can be
-	# configured graphicaly with 'desktopbox tazapps'
+	# configured graphically with 'desktopbox tazapps'
 	. $CONFIG
 	sed -i s/"WINDOW_MANAGER=.*"/"WINDOW_MANAGER=\"$WM\""/ \
 		$CONFIG
