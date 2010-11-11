@@ -581,7 +581,13 @@ users_settings()
 #!/bin/sh
 echo "root:$ROOT_PASSWD" | chpasswd
 adduser -D -H $USER
-addgroup $USER audio
+
+for grp in audio cdrom floppy dialout disk kmem tape tty video; do
+ if ! grep $grp /etc/group | grep -q $USER ; then
+    addgroup $USER $grp
+ fi
+done
+
 echo "$USER:$USER_PASSWD" | chpasswd
 if [ ! -d /home/$USER ]; then
 	cp -a /etc/skel /home/$USER
