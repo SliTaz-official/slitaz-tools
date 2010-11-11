@@ -163,6 +163,8 @@ New account information"`'
 				<action>echo "$NEW_USER:$PASSWD" | chpasswd</action>
 				<action>addgroup $NEW_USER audio</action>
 				<action>addgroup $NEW_USER cdrom</action>
+				<action>addgroup $NEW_USER floppy</action>
+				<action>addgroup $NEW_USER video</action>
 				<action>rmdir /home/$NEW_USER</action>
 				<action>cp -a /etc/skel /home/$NEW_USER</action>
 				<action>cp /root/.xinitrc /home/$NEW_USER</action>
