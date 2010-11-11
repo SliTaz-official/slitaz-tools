@@ -17,7 +17,7 @@ MOUSE=mouse,5,/dev/input/mice
 WM=openbox
 
 # Default user for config files in Live mode.
-USER=`cat /etc/passwd | grep 1000 | cut -d ":" -f 1`
+USER=`cat /etc/passwd | grep "/home" | cut -d ":" -f 1`
 
 ####################
 #  Tazx functions  #
