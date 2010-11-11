@@ -585,6 +585,9 @@ addgroup $USER audio
 echo "$USER:$USER_PASSWD" | chpasswd
 if [ ! -d /home/$USER ]; then
 	cp -a /etc/skel /home/$USER
+	cp /root/.xinitrc /home/$USER
+	mkdir -p /home/$USER/.config/slitaz
+	cp -a /etc/slitaz/applications.conf /home/$USER/.config/slitaz
 	chown -R $USER.$USER /home/$USER
 	# Path for user desktop files.
 	for i in /home/$USER/.local/share/applications/*.desktop
