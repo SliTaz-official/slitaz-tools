@@ -12,6 +12,7 @@
 VERSION=2.0
 
 : ${DIALOG=dialog}
+[ "$1" = "gui" ] && DIALOG=tazdialog
 
 # We need to know cdrom device and kernel version string to copy files.
 DRIVE_NAME=`cat /proc/sys/dev/cdrom/info | grep "drive name" | cut -f 3`

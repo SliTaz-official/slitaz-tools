@@ -199,6 +199,7 @@ find_usb_device()
 	   echo "$DEVICES_LIST" | while read line
 	   do
 	      vendorid=`echo "$line" | awk '{ print $1 }'`
+	      [ -n "$vendorid" ] || continue
 	      productid=`echo "$line" | awk '{ print $2 }'`
 	      vendor=`zcat /usr/share/misc/usb.ids.gz | grep $vendorid | head -1`
 	   	  product=`zcat /usr/share/misc/usb.ids.gz | grep $productid | head -2 | awk ' { print $1,$2,$3,$4} ' | sed -e :a -e '$!N;s/\n/ ; /;ta' `
