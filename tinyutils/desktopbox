@@ -19,14 +19,10 @@ export AUTOSTART_SCRIPT=$HOME/.config/openbox/autostart.sh
 mkdir -p $HOME/Desktop $HOME/.local/share/applications
 
 # Get the active locale (default to English).
-case $LANG in
-	fr*)
-		. $MESSAGES/fr/desktopbox.msg ;;
-	zh_CN*)
-		. $MESSAGES/zh_CN/desktopbox.msg ;;
-	*)
-		. $MESSAGES/en/desktopbox.msg ;;
-esac
+. $MESSAGES/en/desktopbox.msg
+        test -f $MESSAGES/${LANG%.*}/desktopbox.msg && . $MESSAGES/${LANG%.*}/desktopbox.msg
+        test -f $MESSAGES/${LANG%_*}/desktopbox.msg && . $MESSAGES/${LANG%_*}/desktopbox.msg
+
 
 # Command line usage.
 usage()
