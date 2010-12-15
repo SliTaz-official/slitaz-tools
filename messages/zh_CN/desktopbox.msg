@@ -1,6 +1,6 @@
 # SliTaz desktopbox messages.
 
-CHARS_SIZE="64"
+CHARS_SIZE="32"
 NEW_FOLDER_LABEL="在桌面新建文件夹："
 FOLDER_ENTRY_MSG="目录名"
 NEW_FILE_LABEL="在桌面新建文件:"

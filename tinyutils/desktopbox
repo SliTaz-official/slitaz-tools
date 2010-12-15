@@ -22,6 +22,8 @@ mkdir -p $HOME/Desktop $HOME/.local/share/applications
 case $LANG in
 	fr*)
 		. $MESSAGES/fr/desktopbox.msg ;;
+	zh_CN*)
+		. $MESSAGES/zh_CN/desktopbox.msg ;;
 	*)
 		. $MESSAGES/en/desktopbox.msg ;;
 esac
