@@ -32,7 +32,7 @@ export HELP='
 can be a cdrom, flash key, USB disk or local HD partition.
 Mount points are generated from /media and /mnt. Simply
 select an unmounted device. Then type or select a folder 
-to mount. Then press a button.
+to mount. Then press a button to mount a device.
 "
 			</label>
 		</text>
