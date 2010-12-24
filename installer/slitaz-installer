@@ -532,6 +532,7 @@ extract_rootfs()
 		  cat $i ) 2>>$LOG | cpio -idu
 	done 2>>$LOG > /dev/null
 	fi
+	cp /etc/keymap.conf etc
 	# unpack /usr (double check...)
 	if ls etc/tazlito | grep -q ".extract"; then
 		for i in etc/tazlito/*.extract; do
@@ -641,6 +642,7 @@ grub_config()
 	GRUB_ROOT="(hd${GRUB_DISK},${GRUB_PARTITION})"
 	# Create the target GRUB configuration.
 	mkdir -p $TARGET_ROOT/boot/grub
+	. /etc/locale.conf
 	cat > $TARGET_ROOT/boot/grub/menu.lst << _EOF_
 # /boot/grub/menu.lst: GRUB boot loader configuration.
 #
@@ -658,7 +660,7 @@ color yellow/brown light-green/black
 #
 title SliTaz GNU/Linux (cooking) (Kernel $KERNEL)
 root $GRUB_ROOT
-kernel /boot/$KERNEL root=$TARGET_DEV
+kernel /boot/$KERNEL root=$TARGET_DEV lang=$LANG
 
 _EOF_
 	# log
