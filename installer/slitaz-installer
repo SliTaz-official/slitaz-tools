@@ -31,18 +31,11 @@ ACTION=$1
 # Messages language setting.
 set_messages()
 {
-	case $LANG in
-		de*)
-			. /usr/share/slitaz/messages/de/installer.msg ;;
-		fr*)
-			. /usr/share/slitaz/messages/fr/installer.msg ;;
-		hu*)
-			. /usr/share/slitaz/messages/hu/installer.msg ;;
-		pt*)
-			. /usr/share/slitaz/messages/pt/installer.msg ;;
-		*)
-			. /usr/share/slitaz/messages/en/installer.msg ;;
-	esac
+	if [ -s /usr/share/slitaz/messages/${LANG:0:2}/installer.msg ]; then
+		. /usr/share/slitaz/messages/${LANG:0:2}/installer.msg
+	else
+		. /usr/share/slitaz/messages/en/installer.msg
+	fi
 }
 
 # Display error message.
