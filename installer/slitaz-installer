@@ -577,8 +577,8 @@ echo "root:$ROOT_PASSWD" | chpasswd
 adduser -D -H $USER
 
 for grp in audio cdrom floppy dialout disk kmem tape tty video; do
- if ! grep $grp /etc/group | grep -q $USER ; then
-    addgroup $USER $grp
+ if ! grep \$grp /etc/group | grep -q $USER ; then
+    addgroup $USER \$grp
  fi
 done
 
