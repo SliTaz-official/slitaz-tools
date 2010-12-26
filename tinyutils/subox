@@ -73,8 +73,9 @@ Please enter root password (default root) to execute :"`'
 # Check if we have a saved passwd.
 if [ -s $HOME/.config/slitaz/subox.conf ]; then
 	PASSWD=`cat $HOME/.config/slitaz/subox.conf`
-		[ -n "$PASSWD" ] && SU_DIALOG="$SU_DIALOG <default>$PASSWD</default>" && AUTO_SAVED_PASSWD=true
-else {AUTO_SAVED_PASSWD=false}	
+	[ -n "$PASSWD" ] && SU_DIALOG="$SU_DIALOG <default>$PASSWD</default>" && AUTO_SAVED_PASSWD=true
+else 
+AUTO_SAVED_PASSWD=false
 fi
 
 export SU_DIALOG=''${SU_DIALOG}'
