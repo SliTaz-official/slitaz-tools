@@ -16,8 +16,9 @@ KEYBD=keyboard
 MOUSE=mouse,5,/dev/input/mice
 WM=openbox
 
-# Default user for config files in Live mode.
-USER=`cat /etc/passwd | grep "/home" | cut -d ":" -f 1`
+# Default user for config files in Live mode, id is 1000 since it is
+# created by /etc/init.d/bootopts.sh.
+USER=`cat /etc/passwd | grep 1000 | cut -d ":" -f 1`
 
 ####################
 #  Tazx functions  #
