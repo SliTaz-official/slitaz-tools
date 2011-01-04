@@ -1,19 +1,16 @@
 #!/bin/sh
 #
 # Tazx - Ncurses X configuration for SliTaz GNU/Linux using Dialog boxes.
-# This tinyutils is part of slitaz-tools. Tazx can configure Xvesa kdrive
-# and Xorg with several Window Managers.
+# This tinyutils is part of slitaz-tools. Tazx can configure Xorg with 
+# several Window Managers.
 #
-# (c) 2010 SliTaz GNU/Linux - GNU gpl v3.
+# (c) 2011 SliTaz GNU/Linux - GNU gpl v3.
 # Authors: Christophe Lincoln <pankso@slitaz.org>
 #          Pascal Bellard <pascal.bellard@slitaz.org>
 #
 : ${DIALOG=tazdialog}
 
-# Default value fo Xvesa.
-XSERVER=Xvesa
-KEYBD=keyboard
-MOUSE=mouse,5,/dev/input/mice
+# Default value.
 WM=openbox
 
 # Default user for config files in Live mode, id is 1000 since it is
@@ -138,33 +135,17 @@ install_xorg()
 screen_config_dialog()
 {
 	exec 3>&1
-	if [ -x /usr/bin/Xvesa ]; then
-		value=`$DIALOG \
-			--clear --colors \
-			--title " Configure X " \
-			--menu \
-		"The 'tazx' application helps you to configure your X session.\n\
-		Window Manager : \Z2$WM\Zn \n\
-		X server : \Z2Xvesa\Zn" 16 70 5 \
-		$(Xvesa -listmodes 2>&1 | grep ^0x | awk '{ printf "%s %s\n",$2,$3 }' | sort -nr | grep x[1-2][4-6]) \
-		"xterm" "800x600x16" \
-		"xorg" "Install or reconfigure Xorg" \
-		"text" "Disable X autostart" \
-		"quit" "Quit Tazx utility" \
-		2>&1 1>&3`
-	else
-		value=`$DIALOG \
-			--clear --colors \
-			--title " Configure X " \
-			--menu \
-		"The 'tazx' application helps you to configure your X session.\n\
-		Window Manager : \Z2$WM\Zn \n\
-		X server : \Z2Xorg\Zn" 16 70 5 \
-		"xorg" "Install or reconfigure Xorg" \
-		"text" "Disable X autostart" \
-		"quit" "Quit Tazx utility" \
-		2>&1 1>&3`
-	fi
+	value=`$DIALOG \
+		--clear --colors \
+		--title " Configure X " \
+		--menu \
+	"The 'tazx' application helps you to configure your X session.\n\
+	Window Manager : \Z2$WM\Zn \n\
+	X server : \Z2Xorg\Zn" 16 70 5 \
+	"xorg" "Install or reconfigure Xorg" \
+	"text" "Disable X autostart" \
+	"quit" "Quit Tazx utility" \
+	2>&1 1>&3`
 	retval=$?
 	exec 3>&-
 	# Continue, exit or help...
@@ -186,36 +167,12 @@ screen_config_dialog()
 	case $value in
 		xorg)
 			install_xorg ;;
-		xterm)
-			# Only with Xvesa.
-			Xvesa -ac -shadow -screen 800x600x16 -br &
-			exec xterm -cr orange -geometry 80x35+0-0 ;;
 		text)
 			sed -i s/'slim'/''/ /etc/rcS.conf
 			exit 0 ;;
 		*)
-			NEW_SCREEN=$value ;;
+			continue ;;
 	esac
-}
-
-# Slim config if root.
-slim_config()
-{
-	if test $(id -u) = 0; then
-		# /etc/X11/screen.conf exists for Live mode, if this file does not
-		# exist tazx is executed at boot time.
-		mkdir -p /etc/X11
-		echo "SCREEN=$NEW_SCREEN" > /etc/X11/screen.conf
-		# Get current screen size and sed config file with the new value.
-		if [ -f /etc/slim.conf ]; then
-			    XSERV_ARGS=$(grep ^xserver_arguments /etc/slim.conf)
-				RES=$( echo $XSERV_ARGS | sed 's/xserver_arguments.*-screen *//' | awk '{print $1 }') 
-				NEW_XSERV_ARGS=$(echo $XSERV_ARGS | sed  s/"-screen $RES"/"-screen $NEW_SCREEN"/) 
-			# Comment the old one and put the new one in the config file
-			sed -i 's/"$XSERV_ARGS"/"# $XSERV_ARGS\n$NEW_XSERV_ARGS"/' /etc/slim.conf 
-
-		fi
-	fi
 }
 
 # Window manager specific configuration.
@@ -224,7 +181,6 @@ wm_config()
 	case $WM in
 		ob|openbox)
 			WM=openbox-session
-			XSEVER_OPTS="dpms +extension Composite"
 			# Check if a personal autostart script exists if OB is installed.
 			if [ -d "/var/lib/tazpkg/installed/openbox" ]; then
 				if [ ! -f "$HOME/.config/openbox/autostart.sh" ]; then
@@ -244,7 +200,6 @@ wm_config()
 			fi ;;
 		jwm)
 			WM=jwm
-			XSEVER_OPTS="dpms +extension Composite"
 			JWM_CONFIG=$HOME/.jwmrc
 			if [ -d "/var/lib/tazpkg/installed/jwm" ]; then
 				if [ ! -f "$JWM_CONFIG" ]; then
@@ -263,7 +218,6 @@ wm_config()
 			fi ;;
 		pekwm)
 			WM=pekwm
-			XSEVER_OPTS="dpms"
 			if [ -d "/var/lib/tazpkg/installed/pekwm" ]; then
 				if [ -d "$HOME/.pekwm" ]; then
 					cp -R /etc/pekwm $HOME/.pekwm
@@ -280,20 +234,15 @@ wm_config()
 				fi
 			fi ;;
 		e17|enlightenment)
-			WM=enlightenment_start
-			XSEVER_OPTS="dpms -terminate" ;;
+			WM=enlightenment_start ;;
 		fluxbox)
-			WM=startfluxbox
-			XSEVER_OPTS="dpms" ;;
+			WM=startfluxbox ;;
 		dwm|karmen)
-			WM=$WM-session
-			XSEVER_OPTS="dpms" ;;
+			WM=$WM-session ;;
 		awesome)
-			WM=awesome
-			XSEVER_OPTS="dpms" ;;
+			WM=awesome ;;
 		xfce|xfce4)
-			WM=xfce4-session
-			XSEVER_OPTS="dpms -terminate" ;;
+			WM=xfce4-session ;;
 	esac
 }
 
@@ -338,7 +287,7 @@ EOF
 		$CONFIG
 }
 
-# ~/.xinitrc for slim login.
+# ~/.xinitrc for X login from a DM.
 creat_xinitrc()
 {
 	FILE=$HOME/.xinitrc
@@ -348,6 +297,15 @@ creat_xinitrc()
 		cp /etc/slitaz/applications.conf $CONFIG
 	fi
 	xinitrc_sample
+	# .xinitrc and config for /etc/skel so new added user will get
+	# a working X session.
+	if test $(id -u) = 0; then
+		FILE=/etc/skel/.xinitrc
+		CONFIG=/etc/skel/.config/slitaz/applications.conf
+		mkdir -p /etc/skel/.config/slitaz
+		cp -f /etc/slitaz/applications.conf $CONFIG
+		xinitrc_sample
+	fi
 	# In Live mode default user needs a xinitrc, since tazx
 	# is executed only by root.
 	if [ ! -f /home/$USER/.xinitrc ]; then
@@ -371,19 +329,9 @@ creat_xsession()
 	cat > $HOME/.xsession << _EOF_
 # ~/.xsession: Start X window session manually on your system (startx).
 #
+Xorg &
+#xterm &
 _EOF_
-	if [ -x /usr/bin/Xorg ]; then
-		echo 'Xorg &' >> $HOME/.xsession
-	else
-		cat >> $HOME/.xsession << _EOT_
-Xvesa -ac -shadow $XSEVER_OPTS \\
-	-screen $NEW_SCREEN \\
-	-keybd $KEYBD \\
-	-mouse $MOUSE &
-_EOT_
-	fi
-	echo '#xterm &' >> $HOME/.xsession
-	echo '#xpad &' >> $HOME/.xsession
 	# LXpanel by default with JWM.
 	if [ "$WM" = "jwm" ]; then
 		echo 'lxpanel &' >> $HOME/.xsession
@@ -397,22 +345,13 @@ _EOT_
 ###################
 
 case "$1" in
-	show-config)
-		. /etc/X11/screen.conf
-		echo ""
-		echo "X11 screen resolution: $SCREEN"
-		echo ""
-		echo "Slim configuration for X server:"
-		cat /etc/slim.conf | grep ^default_xserver
-		cat /etc/slim.conf | grep ^xserver_arguments
-		echo "" ;;
 	install-xorg)
 		# WM can be specified on cmdline.
 		if [ -n "$2" ]; then
 			WM=$2
 		fi
+		echo "xorg" > /etc/X11/screen.conf
 		install_xorg
-		slim_config
 		wm_config
 		creat_xinitrc
 		creat_xsession ;;
@@ -421,7 +360,7 @@ case "$1" in
 		if [ -n "$2" ]; then
 			WM=$2
 		fi
-		XSERVER="Xorg"
+		echo "xorg" > /etc/X11/screen.conf
 		wm_config
 		creat_xinitrc
 		creat_xsession
@@ -431,8 +370,11 @@ case "$1" in
 		if [ -n "$1" ]; then
 			WM=$1
 		fi
-		[ -n "$NEW_SCREEN" ] || screen_config_dialog
-		slim_config
+		# User can get a new .xinitrc with tazx from cmdline.
+		if test $(id -u) = 0; then
+			echo "xorg" > /etc/X11/screen.conf
+			screen_config_dialog
+		fi
 		wm_config
 		creat_xinitrc
 		creat_xsession ;;
