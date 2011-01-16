@@ -308,16 +308,16 @@ creat_xinitrc()
 	fi
 	# In Live mode default user needs a xinitrc, since tazx
 	# is executed only by root.
+	CONFIG=/home/$USER/.config/slitaz/applications.conf
+	if [ ! -f $CONFIG ]; then
+		mkdir -p /home/$USER/.config/slitaz
+		cp /etc/slitaz/applications.conf $CONFIG
+	fi
+	chown -R $USER.$USER /home/$USER/.config/slitaz
 	if [ ! -f /home/$USER/.xinitrc ]; then
 		FILE=/home/$USER/.xinitrc
-		CONFIG=/home/$USER/.config/slitaz/applications.conf
-		if [ ! -f $CONFIG ]; then
-			mkdir -p /home/$USER/.config/slitaz
-			cp /etc/slitaz/applications.conf $CONFIG
-		fi
 		xinitrc_sample
 		chown $USER.$USER $FILE
-		chown -R $USER.$USER /home/$USER/.config/slitaz
 	fi
 }
 
