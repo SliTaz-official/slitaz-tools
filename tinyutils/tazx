@@ -196,7 +196,7 @@ wm_config()
 					mkdir -p /home/$USER/.config/openbox
 					cp /etc/xdg/openbox/menu.xml /home/$USER/.config/openbox
 				fi
-				chown -R $USER.$USER /home/$USER/.config
+				chown -R $USER.users /home/$USER/.config
 			fi ;;
 		jwm)
 			WM=jwm
@@ -210,7 +210,7 @@ wm_config()
 				# scripts.
 				if [ ! -f "/home/$USER/.jwmrc" ]; then
 					cp /etc/jwm/system.jwmrc /home/$USER/.jwmrc
-					chown $USER.$USER /home/$USER/.jwmrc
+					chown $USER.users /home/$USER/.jwmrc
 				fi
 				if [ ! -f "/root/.jwmrc" -a `id -u` = 0 ]; then
 					cp /etc/jwm/system.jwmrc /root/.jwmrc
@@ -225,7 +225,7 @@ wm_config()
 				# In Live mode we want config before starting pekwm the first time.
 				if [ ! -d "/home/$USER/.pekwm" ]; then
 					cp -R /etc/pekwm /home/$USER/.pekwm
-					chown -R $USER.$USER /home/$USER/.pekwm
+					chown -R $USER.users /home/$USER/.pekwm
 					chmod +x /home/$USER/.pekwm/start
 				fi
 				if [ ! -d "/root/.pekwm" -a `id -u` = 0 ]; then
@@ -313,11 +313,11 @@ creat_xinitrc()
 		mkdir -p /home/$USER/.config/slitaz
 		cp /etc/slitaz/applications.conf $CONFIG
 	fi
-	chown -R $USER.$USER /home/$USER/.config/slitaz
+	chown -R $USER.users /home/$USER/.config/slitaz
 	if [ ! -f /home/$USER/.xinitrc ]; then
 		FILE=/home/$USER/.xinitrc
 		xinitrc_sample
-		chown $USER.$USER $FILE
+		chown $USER.users $FILE
 	fi
 }
 
