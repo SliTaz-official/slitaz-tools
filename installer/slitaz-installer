@@ -589,7 +589,7 @@ if [ ! -d /home/$USER ]; then
 	cp /root/.xinitrc /home/$USER
 	mkdir -p /home/$USER/.config/slitaz
 	cp -a /etc/slitaz/applications.conf /home/$USER/.config/slitaz
-	chown -R $USER.$USER /home/$USER
+	chown -R $USER.users /home/$USER
 	# Path for user desktop files.
 	for i in /home/$USER/.local/share/applications/*.desktop
 	do
