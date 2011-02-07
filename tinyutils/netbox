@@ -335,9 +335,9 @@ $(editbutton \$UDHCPC_SCRIPT)
 		<button>
 			<label>Start</label>
 			<input file icon="forward"></input>
-			<action>sed -i s/`cat /etc/network.conf | grep ^INTERFACE=`/INTERFACE="\$INTERFACE"/ /etc/network.conf</action>
-			<action>sed -i s/DHCP="no"/DHCP="yes"/ /etc/network.conf</action>
-			<action>sed -i s/STATIC="yes"/STATIC="no"/ /etc/network.conf</action>
+			<action>sed -i s/^INTERFACE=.*/INTERFACE=\"\$INTERFACE\"/ /etc/network.conf</action>
+			<action>sed -i s/^DHCP=.*/DHCP=\"yes\"/ /etc/network.conf</action>
+			<action>sed -i s/^STATIC=.*/STATIC=\"no\"/ /etc/network.conf</action>
 			<action>udhcpc \$UDHCPC_OPTS -i \$INTERFACE -p /var/run/udhcpc.\$INTERFACE.pid</action>
 			<action>refresh:INTERFACE_LIST</action>
 		</button>
@@ -412,14 +412,14 @@ cat <<EOT
 			<input file icon="forward"></input>
 			<action>ifconfig lo down</action>
 			<action>ifconfig \$INTERFACE down</action>
-			<action>sed -i s/`cat /etc/network.conf | grep ^INTERFACE=`/INTERFACE="\$INTERFACE"/ /etc/network.conf</action>
-			<action>sed -i s/DHCP="yes"/DHCP="no"/ /etc/network.conf</action>
-			<action>sed -i s/WIFI="yes"/WIFI="no"/ /etc/network.conf</action>
-			<action>sed -i s/STATIC="no"/STATIC="yes"/ /etc/network.conf</action>
-			<action>sed -i s/`cat /etc/network.conf | grep ^IP=`/IP="\$IP"/ /etc/network.conf</action>
-			<action>sed -i s/`cat /etc/network.conf | grep ^NETMASK=`/NETMASK="\$NETMASK"/ /etc/network.conf</action>
-			<action>sed -i s/`cat /etc/network.conf | grep ^GATEWAY=`/GATEWAY="\$GATEWAY"/ /etc/network.conf</action>
-			<action>sed -i s/`cat /etc/network.conf | grep ^DNS_SERVER=`/DNS_SERVER="\$DNS_SERVER"/ /etc/network.conf</action>
+			<action>sed -i s/^INTERFACE=.*/INTERFACE=\"\$INTERFACE\"/ /etc/network.conf</action>
+			<action>sed -i s/^DHCP=.*/DHCP=\"no\"/ /etc/network.conf</action>
+			<action>sed -i s/^WIFI=.*/WIFI=\"no\"/ /etc/network.conf</action>
+			<action>sed -i s/^STATIC=.*/STATIC=\"yes\"/ /etc/network.conf</action>
+			<action>sed -i s/^IP=.*/IP=\"\$IP\"/ /etc/network.conf</action>
+			<action>sed -i s/^NETMASK=.*/NETMASK=\"\$NETMASK\"/ /etc/network.conf</action>
+			<action>sed -i s/^GATEWAY=.*/GATEWAY=\"\$GATEWAY\"/ /etc/network.conf</action>
+			<action>sed -i s/^DNS_SERVER=.*/DNS_SERVER=\"\$DNS_SERVER\"/ /etc/network.conf</action>
 			<action>/etc/init.d/network.sh</action>
 			<action>refresh:INTERFACE_LIST</action>
 		</button>
@@ -473,7 +473,7 @@ $(webbutton ppp)
 		<button>
 			<input file icon="accessories-text-editor"></input>
 			<label>Tune</label>
-			<action>[ -n "\$NAME" ] && sed -i "s/^name .*/name \$NAME/" /etc/ppp/options</action>
+			<action>[ -n "\$NAME" ] && sed -i \"s/^name .*/name \$NAME/\" /etc/ppp/options</action>
 			<action type="lauch">leafpad /etc/ppp/options</action>
 		</button>
 		<button>
@@ -483,16 +483,16 @@ $(webbutton ppp)
 			&& echo "\"\$USER\"	*	\"\$PASS\"" >> /etc/ppp/pap-secrets</action>
 			<action>[ -n "\$USER" ] && grep -qs "^\"\$USER\"" /etc/ppp/chap-secrets
 			&& echo "\"\$USER\"	*	\"\$PASS\"" >> /etc/ppp/chap-secrets</action>
-			<action>[ -n "\$NAME" ] && sed -i "s/^name .*/name \$NAME/" /etc/ppp/options</action>
+			<action>[ -n "\$NAME" ] && sed -i \"s/^name .*/name \$NAME/\" /etc/ppp/options</action>
 			<action>killall udhcpc</action>
-			<action>sed -i "s/DHCP=\"yes\"/DHCP=\"no\"/" /etc/network.conf</action>
-			<action>sed -i "s/PPPOE=\"no\"/PPPOE=\"yes\"/" /etc/network.conf</action>
+			<action>sed -i s/DHCP=.*/DHCP=\"no\"/ /etc/network.conf</action>
+			<action>sed -i s/PPPOE=.*/PPPOE=\"yes\"/ /etc/network.conf</action>
 			<action>pppd \$INTERFACE &</action>
 		</button>
 		<button>
 			<label>Stop</label>
 			<input file icon="stop"></input>
-			<action>sed -i "s/PPPOE=\"yes\"/PPPOE=\"no\"/" /etc/network.conf</action>
+			<action>sed -i s/PPPOE=.*/PPPOE=\"no\"/ /etc/network.conf</action>
 			<action>killall pppd</action>
 		</button>
 	</hbox>
@@ -541,9 +541,9 @@ $(webbutton ppp)
 		<button>
 			<input file icon="accessories-text-editor"></input>
 			<label>Tune</label>
-			<action>[ -n "\$NAME" ] && sed -i "s/^ACCOUNT=.*/ACCOUNT=\$NAME/" /etc/ppp/scripts/ppp-on</action>
-			<action>[ -n "\$PASS" ] && sed -i "s/^PASSWORD=.*/PASSWORD=\$PASS/" /etc/ppp/scripts/ppp-on</action>
-			<action>[ -n "\$PHONE" ] && sed -i "s/^TELEPHONE=.*/TELEPHONE=\$PHONE/" /etc/ppp/scripts/ppp-on</action>
+			<action>[ -n "\$NAME" ] && sed -i \"s/^ACCOUNT=.*/ACCOUNT=\$NAME/\" /etc/ppp/scripts/ppp-on</action>
+			<action>[ -n "\$PASS" ] && sed -i \"s/^PASSWORD=.*/PASSWORD=\$PASS/\" /etc/ppp/scripts/ppp-on</action>
+			<action>[ -n "\$PHONE" ] && sed -i \"s/^TELEPHONE=.*/TELEPHONE=\$PHONE/\" /etc/ppp/scripts/ppp-on</action>
 			<action type="lauch">leafpad /etc/ppp/scripts/ppp-on</action>
 		</button>
 		<button>
@@ -553,7 +553,7 @@ $(webbutton ppp)
 			&& echo "\"\$USER\"	*	\"\$PASS\"" >> /etc/ppp/pap-secrets</action>
 			<action>[ -n "\$USER" ] && grep -qs "^\"\$USER\"" /etc/ppp/chap-secrets
 			&& echo "\"\$USER\"	*	\"\$PASS\"" >> /etc/ppp/chap-secrets</action>
-			<action>[ -n "\$NAME" ] && sed -i "s/^name .*/name \$NAME/" /etc/ppp/options</action>
+			<action>[ -n "\$NAME" ] && sed -i \"s/^name .*/name \$NAME/\" /etc/ppp/options</action>
 			<action>/etc/ppp/scripts/ppp-off</action>
 			<action>/etc/ppp/scripts/ppp-on &</action>
 		</button>
