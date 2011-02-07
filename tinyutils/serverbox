@@ -23,9 +23,12 @@ root password to become super-user.\n"
 tab_status_servers()
 {
 local servers
-servers="dropbear sshd inetd dhcpd dnsd named rsync httpd mbd vnc pppd knock"
+servers="dropbear sshd inetd dhcpd dnsd named rsync httpd mbd vnc pppd knock postfix fetchmail cyrus perdition slapd sql squid"
 cat <<EOT
 <frame Servers>
+	<text use-markup="true">
+                <label>"<b>Running servers :</b>"</label>
+	</text>
 	<text wrap="false" width-chars="58">
 		<input>for i in $servers; do ps ww | grep \$i | grep -v grep | fold -s; done</input>
 	</text>
@@ -403,6 +406,224 @@ use_tab data_dns
 }
 
 #
+# Postfix 
+#
+tab_postfix()
+{
+cat <<EOT
+    <frame Postfix>
+$(webbutton postfix)
+$(configfile /etc/postfix/main.cf POSTFIX_CONF)
+      <hbox>
+	$(startstopdaemon postfix)
+      </hbox>
+     </frame>
+EOT
+}
+
+#
+# Fetchmail 
+#
+tab_fetchmail()
+{
+cat <<EOT
+    <frame Fetchmail>
+$(webbutton fetchmail)
+$(helpdaemon fetchmail 100x34 FETCHMAIL_OPTIONS FETCHMAIL_OPTS)
+$(configfile /etc/fetchmail.conf FETCHMAIL_CONF)
+      <hbox>
+	$(startstopdaemon fetchmail)
+      </hbox>
+     </frame>
+EOT
+}
+
+#
+# Postgrey 
+#
+tab_postgrey()
+{
+cat <<EOT
+    <frame Postgrey (SMTP grey list)>
+$(helpdaemon postgrey 100x34 POSTGREY_OPTIONS POSTGREY_OPTS)
+$(webbutton postgrey)
+      <hbox>
+	$(startstopdaemon postgrey)
+      </hbox>
+     </frame>
+EOT
+}
+
+data_smtp()
+{
+cat <<EOT
+postfix     Postfix       tab_postfix
+fetchmail   Fetchmail     tab_fetchmail
+postgrey    Grey\ list    tab_postgrey
+EOT
+}
+
+#
+# smtp tab
+#
+tab_smtp()
+{
+use_tab data_smtp
+}
+
+#
+# Cyrus IMAP 
+#
+tab_cyrus()
+{
+cat <<EOT
+    <frame Cyrus IMAP>
+$(webbutton cyrus-imapd)
+$(configfile /etc/imapd.conf IMAPD_CONF)
+$(configfile /etc/cyrus.conf CYRUS_CONF)
+      <hbox>
+	$(startstopdaemon cyrus-imapd)
+      </hbox>
+     </frame>
+EOT
+}
+
+#
+# Perdition IMAP/POP3 proxy
+#
+tab_perdition()
+{
+cat <<EOT
+    <frame Perdition proxy>
+$(webbutton perdition)
+$(helpdaemon perdition 100x34 PERDITION_OPTIONS PERDITION_OPTS)
+$(configfile /etc/perdition/perdition.imap4.conf PROXY_IMAP_CONF)
+$(configfile /etc/perdition/perdition.pop3.conf PROXY_POP3_CONF)
+      <hbox>
+	$(startstopdaemon perdition)
+      </hbox>
+     </frame>
+EOT
+}
+
+data_imap()
+{
+cat <<EOT
+cyradm      Cyrus         tab_cyrus
+perdition   Proxy         tab_perdition
+EOT
+}
+
+#
+# imap tab
+#
+tab_imap()
+{
+use_tab data_imap
+}
+
+#
+# Squid 
+#
+tab_squid()
+{
+cat <<EOT
+    <frame Squid>
+$(helpdaemon squid 100x34 SQUID_OPTIONS SQUID_OPTS)
+$(webbutton squid)
+$(configfile /etc/squid.conf SQUID_CONF)
+$([ -s /etc/squidGuard/squidGuard.conf ] && configfile /etc/squidGuard/squidGuard.conf SQUIDGUARD_CONF)
+      <hbox>
+	$(startstopdaemon squid)
+      </hbox>
+     </frame>
+EOT
+}
+
+#
+# Asterisk 
+#
+tab_asterisk()
+{
+cat <<EOT
+    <frame Asterisk telephony>
+$(webbutton asterisk)
+$(configfile /etc/asterisk/extensions.conf ASTERISK_CONF)
+      <hbox>
+	$(startstopdaemon asterisk)
+      </hbox>
+     </frame>
+EOT
+}
+
+#
+# OpenLDAP 
+#
+tab_openldap()
+{
+cat <<EOT
+    <frame OpenLDAP>
+$(helpdaemon /usr/libexec/slapd 100x34 LDAP_OPTIONS LDAP_OPTS)
+$(webbutton openldap)
+$(configfile /etc/openldap/slapd.conf LDAP_CONF)
+      <hbox>
+	$(startstopdaemon openldap)
+      </hbox>
+     </frame>
+EOT
+}
+
+#
+# MySQL 
+#
+tab_mysql()
+{
+cat <<EOT
+    <frame MySQL>
+$(helpdaemon mysqld_safe 100x34 MYSQL_OPTIONS MYSQL_OPTS)
+$(webbutton mysql)
+$(configfile /etc/my.conf MYSQL_CONF)
+      <hbox>
+	$(startstopdaemon mysql)
+      </hbox>
+     </frame>
+EOT
+}
+
+#
+# PostgreSQL 
+#
+tab_postgresql()
+{
+cat <<EOT
+    <frame PostgreSQL>
+$(helpdaemon postgres 100x34 PGSQL_OPTIONS PGSQL_OPTS)
+$(webbutton postgresql)
+$(configfile /etc/postgresql.conf POSTGRESQL_CONF)
+      <hbox>
+	$(startstopdaemon postgresql)
+      </hbox>
+     </frame>
+EOT
+}
+
+data_sql()
+{
+cat <<EOT
+mysqld_safe MySQL         tab_mysql
+postgres    PostgreSQL    tab_postgresql
+EOT
+}
+
+#
+# sql tab
+#
+tab_sql()
+{
+use_tab data_sql
+}
+
+#
 # rsync server
 #
 tab_rsync()
@@ -572,7 +793,7 @@ echo "#")   SSH           tab_sshd
 $([ -x /usr/sbin/lighttpd -o -x /usr/bin/httpd ] && echo "true" || 
 echo "#")   HTTP          tab_http
 rsync       Rsync         tab_rsync
-smbd        SAMBA          tab_wins
+smbd        SAMBA         tab_wins
 inetd       Inetd         tab_inetd
 zcip        ZeroConf      tab_zcip
 $([ -x /usr/sbin/udhcpd -o -x /usr/sbin/dhcpd -o -x /usr/sbin/dnsmasq ] && 
@@ -585,9 +806,16 @@ echo "true" ||
 echo "#")   DNS           tab_dns
 x11vnc      VNC           tab_vnc 
 knockd      Knock         tab_knockd
+$([ -x /usr/bin/mysqld_safe -o -x /usr/bin/postgres ] &&
+echo "true" ||
+echo "#")   SQL           tab_sql
+slapcat     LDAP          tab_openldap
+postfix     SMTP          tab_smtp
+cyradm      IMAP/POP3     tab_imap
+squid       Web\ cache    tab_squid
+asterisk    Telephony     tab_asterisk
 #TODO+callback pppd        Pppd          tab_pppd
 #TODO pptpd       PoPToP        tab_poptop
-#TODO squid *sql openldap 
 EOT
 }
 
@@ -661,6 +889,7 @@ cat <<EOT
 true        Servers       tab_servers
 iptables    Firewall      tab_firewall
 knock       Knock         tab_knock
+true        Status        tab_status
 EOT
 }
 
