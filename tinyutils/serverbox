@@ -23,16 +23,14 @@ root password to become super-user.\n"
 tab_status_servers()
 {
 local servers
-servers="dropbear sshd inetd dhcpd dnsd named rsync httpd mbd vnc pppd knock postfix fetchmail cyrus perdition slapd sql squid"
+servers="dropbear sshd inetd dhcpd dnsd named rsync httpd mbd vnc pppd \
+knock postfix fetchmail cyrus perdition slapd sql squid slim cron ntp nfsd \
+ftpd cups"
 cat <<EOT
-<frame Servers>
-	<text use-markup="true">
-                <label>"<b>Running servers :</b>"</label>
-	</text>
-	<text wrap="false" width-chars="58">
-		<input>for i in $servers; do ps ww | grep \$i | grep -v grep | fold -s; done</input>
-	</text>
-</frame>
+<tree>
+	<label>Server processes</label>
+	<input>for i in $servers; do ps ww | grep \$i | grep -v grep; done</input>
+</tree>
 EOT
 }
 
@@ -89,7 +87,7 @@ done
 
 cat <<EOT
      <frame Dropbear>
-$(helpdaemon dropbear 80x30 DROPBEAR_OPTIONS DROPBEAR_OPTS)
+$(helpdaemon dropbear 80x35 DROPBEAR_OPTIONS DROPBEAR_OPTS)
 $(datafile /etc/dropbear/banner DROPBEAR_BANNER 'Banner   :')
 $(sshremote DROPBEAR_PEER 'dbclient -i /etc/dropbear/dropbear_rsa_host_key')
       <hbox>
@@ -139,13 +137,13 @@ tab_inetd()
 {
 cat <<EOT
 <frame Inetd (busybox)>
-$(helpdaemon inetd 60x14 INETD_OPTIONS INETD_OPTS)
+$(helpdaemon inetd 60x20 INETD_OPTIONS INETD_OPTS)
 $(configfile /etc/inetd.conf INETD_CONF)
       <hbox>
 EOT
 for i in $(grep bin /etc/inetd.conf | awk '{ print $6}'); do
   i=$(basename $i)
-  helpbutton $i 60x19 $i
+  helpbutton $i 60x24 $i
 done
 cat <<EOT
 	$(startstopdaemon inetd)
@@ -171,7 +169,7 @@ EOT
 fi
 cat <<EOT
      <frame Zcip (busybox)>
-$(helpdaemon zcip 60x14 ZCIP_OPTIONS ZCIP_OPTS)
+$(helpdaemon zcip 60x20 ZCIP_OPTIONS ZCIP_OPTS)
 $(datafile /etc/zcip.script CZIP_SCRIPT 'Script :')
       <hbox>
 	$(startstopdaemon zcip)
@@ -203,7 +201,7 @@ tab_udhcpd()
 {
 cat <<EOT
     <frame Udhcpd (busybox)>
-$(helpdaemon udhcpd 60x14 UDHCPD_OPTIONS UDHCPD_OPTS)
+$(helpdaemon udhcpd 60x18 UDHCPD_OPTIONS UDHCPD_OPTS)
 $(configfile /etc/udhcpd.conf UDHCPD_CONF)
       <hbox>
 	$(startstopdaemon udhcpd busybox)
@@ -346,7 +344,7 @@ tab_dnsd()
 {
 cat <<EOT
     <frame Dnsd (busybox master dns)>
-$(helpdaemon dnsd 80x15 DNSD_OPTIONS DNSD_OPTS)
+$(helpdaemon dnsd 80x24 DNSD_OPTIONS DNSD_OPTS)
 $(configfile /etc/dnsd.conf DNSD_CONF)
       <hbox>
 	$(startstopdaemon dnsd busybox)
@@ -412,7 +410,6 @@ tab_postfix()
 {
 cat <<EOT
     <frame Postfix>
-$(webbutton postfix)
 $(configfile /etc/postfix/main.cf POSTFIX_CONF)
       <hbox>
 	$(startstopdaemon postfix)
@@ -428,7 +425,6 @@ tab_fetchmail()
 {
 cat <<EOT
     <frame Fetchmail>
-$(webbutton fetchmail)
 $(helpdaemon fetchmail 100x34 FETCHMAIL_OPTIONS FETCHMAIL_OPTS)
 $(configfile /etc/fetchmail.conf FETCHMAIL_CONF)
       <hbox>
@@ -446,7 +442,6 @@ tab_postgrey()
 cat <<EOT
     <frame Postgrey (SMTP grey list)>
 $(helpdaemon postgrey 100x34 POSTGREY_OPTIONS POSTGREY_OPTS)
-$(webbutton postgrey)
       <hbox>
 	$(startstopdaemon postgrey)
       </hbox>
@@ -477,8 +472,7 @@ use_tab data_smtp
 tab_cyrus()
 {
 cat <<EOT
-    <frame Cyrus IMAP>
-$(webbutton cyrus-imapd)
+    <frame Cyrus IMAP/POP3>
 $(configfile /etc/imapd.conf IMAPD_CONF)
 $(configfile /etc/cyrus.conf CYRUS_CONF)
       <hbox>
@@ -494,8 +488,7 @@ EOT
 tab_perdition()
 {
 cat <<EOT
-    <frame Perdition proxy>
-$(webbutton perdition)
+    <frame Perdition IMAP/POP3 proxy>
 $(helpdaemon perdition 100x34 PERDITION_OPTIONS PERDITION_OPTS)
 $(configfile /etc/perdition/perdition.imap4.conf PROXY_IMAP_CONF)
 $(configfile /etc/perdition/perdition.pop3.conf PROXY_POP3_CONF)
@@ -529,8 +522,7 @@ tab_squid()
 {
 cat <<EOT
     <frame Squid>
-$(helpdaemon squid 100x34 SQUID_OPTIONS SQUID_OPTS)
-$(webbutton squid)
+$(helpdaemon squid 100x26 SQUID_OPTIONS SQUID_OPTS)
 $(configfile /etc/squid.conf SQUID_CONF)
 $([ -s /etc/squidGuard/squidGuard.conf ] && configfile /etc/squidGuard/squidGuard.conf SQUIDGUARD_CONF)
       <hbox>
@@ -547,7 +539,6 @@ tab_asterisk()
 {
 cat <<EOT
     <frame Asterisk telephony>
-$(webbutton asterisk)
 $(configfile /etc/asterisk/extensions.conf ASTERISK_CONF)
       <hbox>
 	$(startstopdaemon asterisk)
@@ -563,8 +554,6 @@ tab_openldap()
 {
 cat <<EOT
     <frame OpenLDAP>
-$(helpdaemon /usr/libexec/slapd 100x34 LDAP_OPTIONS LDAP_OPTS)
-$(webbutton openldap)
 $(configfile /etc/openldap/slapd.conf LDAP_CONF)
       <hbox>
 	$(startstopdaemon openldap)
@@ -580,8 +569,7 @@ tab_mysql()
 {
 cat <<EOT
     <frame MySQL>
-$(helpdaemon mysqld_safe 100x34 MYSQL_OPTIONS MYSQL_OPTS)
-$(webbutton mysql)
+$(helpdaemon mysqld_safe 100x24 MYSQL_OPTIONS MYSQL_OPTS)
 $(configfile /etc/my.conf MYSQL_CONF)
       <hbox>
 	$(startstopdaemon mysql)
@@ -598,7 +586,6 @@ tab_postgresql()
 cat <<EOT
     <frame PostgreSQL>
 $(helpdaemon postgres 100x34 PGSQL_OPTIONS PGSQL_OPTS)
-$(webbutton postgresql)
 $(configfile /etc/postgresql.conf POSTGRESQL_CONF)
       <hbox>
 	$(startstopdaemon postgresql)
@@ -621,6 +608,179 @@ EOT
 tab_sql()
 {
 use_tab data_sql
+}
+
+#
+# Slim display manager 
+#
+tab_slim()
+{
+cat <<EOT
+    <frame Slim display manager>
+$(helpdaemon slim 80x10 SLIM_OPTIONS SLIM_OPTS)
+$(configfile /etc/slim.conf SLIM_CONF)
+      <hbox>
+	$(startstopdaemon slim)
+      </hbox>
+     </frame>
+EOT
+}
+
+#
+# Cron 
+#
+tab_cron()
+{
+cat <<EOT
+    <frame Crond (busybox)>
+$(helpdaemon crond 80x15 CROND_OPTIONS CROND_OPTS)
+      <hbox>
+	$(startstopdaemon crond)
+      </hbox>
+     </frame>
+EOT
+}
+
+#
+# NTP
+#
+tab_ntp()
+{
+cat <<EOT
+    <frame Ntpd>
+$(helpdaemon ntpd 100x34 NTP_OPTIONS NTP_OPTS)
+$(configfile /etc/ntp.conf NTP_CONF)
+      <hbox>
+	$(startstopdaemon ntp)
+      </hbox>
+     </frame>
+EOT
+}
+
+#
+# nfsd
+#
+tab_nfsd()
+{
+cat <<EOT
+    <frame Nfsd>
+$(configfile /etc/exports EXPORTS)
+      <hbox>
+	$(startstopdaemon nfsd nfs-utils)
+      </hbox>
+     </frame>
+EOT
+}
+
+#
+# unfsd
+#
+tab_unfsd()
+{
+cat <<EOT
+    <frame Unfsd>
+$(helpdaemon ntpd 80x20 UNFSD_OPTIONS UNFSD_OPTS)
+$(configfile /etc/exports EXPORTS)
+      <hbox>
+	$(startstopdaemon unfsd unfs3)
+      </hbox>
+     </frame>
+EOT
+}
+
+data_nfs()
+{
+cat <<EOT
+rpc.nfsd    Nfsd          tab_nfsd
+unfsd       Unfsd         tab_unfsd 
+EOT
+}
+
+#
+# nfs tab
+#
+tab_nfs()
+{
+use_tab data_nfs
+}
+
+#
+# ftpd
+#
+tab_ftpd()
+{
+cat <<EOT
+    <frame ftpd>
+$(helpdaemon ftpd 100x34 FTPD_OPTIONS FTPD_OPTS)
+      <hbox>
+	$(startstopdaemon ftpd)
+      </hbox>
+     </frame>
+EOT
+}
+
+#
+# pure-ftpd
+#
+tab_pureftpd()
+{
+cat <<EOT
+    <frame pure-ftpd>
+$(helpdaemon pure-ftpd 80x34 PUREFTPD_OPTIONS PUREFTPD_OPTS)
+      <hbox>
+	$(startstopdaemon pure-ftpd)
+      </hbox>
+     </frame>
+EOT
+}
+
+data_ftp()
+{
+cat <<EOT
+$(readlink /usr/bin/ftpd | grep -q busybox && echo "true" ||
+echo "#")   Busybox\ ftpd tab_ftpd
+pure-ftpd   pure-ftpd     tab_pureftpd
+EOT
+}
+
+#
+# ftp tab
+#
+tab_ftp()
+{
+use_tab data_ftp
+}
+
+#
+# NTP
+#
+tab_ntp()
+{
+cat <<EOT
+    <frame Ntpd>
+$(helpdaemon ntpd 80x20 NTP_OPTIONS NTP_OPTS)
+$(configfile /etc/ntp.conf NTP_CONF)
+      <hbox>
+	$(startstopdaemon ntp)
+      </hbox>
+     </frame>
+EOT
+}
+
+#
+# cups
+#
+tab_cups()
+{
+cat <<EOT
+    <frame Cupsd>
+$(helpdaemon cupsd 80x12 CUPSD_OPTIONS CUPSD_OPTS)
+$(configfile /etc/cups/cupsd.conf CUPSD_CONF)
+      <hbox>
+	$(startstopdaemon cupsd)
+      </hbox>
+     </frame>
+EOT
 }
 
 #
@@ -705,6 +865,7 @@ cat <<EOT
 /etc/apache/httpd.conf  Apache          tab_apache
 lighttpd                Lighttpd        tab_lighttpd
 /etc/httpd.conf         Busybox\ httpd  tab_httpd
+squid                   Web\ cache      tab_squid
 EOT
 }
 
@@ -788,31 +949,37 @@ pxe="#"
 [ -x /usr/sbin/dnsmasq ] && pxe="true"
 [ -f /usr/share/boot/pxelinux.0.lzma -o /usr/share/boot/gpxe.pxe ] || pxe="#"
 cat <<EOT
-$([ -x /usr/sbin/dropbear -o -x /usr/sbin/sshd ] && echo "true" ||
-echo "#")   SSH           tab_sshd
-$([ -x /usr/sbin/lighttpd -o -x /usr/bin/httpd ] && echo "true" || 
-echo "#")   HTTP          tab_http
-rsync       Rsync         tab_rsync
-smbd        SAMBA         tab_wins
+slim        Slim          tab_slim
+crond       Crond         tab_cron
 inetd       Inetd         tab_inetd
 zcip        ZeroConf      tab_zcip
 $([ -x /usr/sbin/udhcpd -o -x /usr/sbin/dhcpd -o -x /usr/sbin/dnsmasq ] && 
 echo "true" ||
 echo "#")   DHCP          tab_dhcpd
 $pxe        PXE           tab_pxe
-dnsmasq     tftpd         tab_dnsmasq
 $([ -x /usr/sbin/dnsd -o -x /usr/sbin/named -o -x /usr/sbin/dnsmasq ] && 
 echo "true" ||
 echo "#")   DNS           tab_dns
-x11vnc      VNC           tab_vnc 
-knockd      Knock         tab_knockd
-$([ -x /usr/bin/mysqld_safe -o -x /usr/bin/postgres ] &&
-echo "true" ||
+ntpd        NTP           tab_ntp
+cupsd       CUPS          tab_cups
+$([ -x /usr/bin/mysqld_safe -o -x /usr/bin/postgres ] && echo "true" ||
 echo "#")   SQL           tab_sql
+knockd      Knock         tab_knockd
+$([ -x /usr/sbin/dropbear -o -x /usr/sbin/sshd ] && echo "true" ||
+echo "#")   SSH           tab_sshd
+x11vnc      VNC           tab_vnc 
+dnsmasq     TFTP          tab_dnsmasq
+$([ -x /usr/bin/ftpd -o -x /usr/sbin/pure-ftpd ] && echo "true" ||
+echo "#")   FTP           tab_ftp
+$([ -x /usr/sbin/lighttpd -o -x /usr/bin/httpd -o -x /usr/sbin/squid ] && echo "true" || 
+echo "#")   HTTP          tab_http
+rsync       Rsync         tab_rsync
+$([ -x /usr/sbin/rpc.nfsd -o -x /usr/bin/unfsd ] && echo "true" ||
+echo "#")   NFS           tab_nfs
+smbd        SAMBA         tab_wins
 slapcat     LDAP          tab_openldap
 postfix     SMTP          tab_smtp
-cyradm      IMAP/POP3     tab_imap
-squid       Web\ cache    tab_squid
+cyradm      IMAP          tab_imap
 asterisk    Telephony     tab_asterisk
 #TODO+callback pppd        Pppd          tab_pppd
 #TODO pptpd       PoPToP        tab_poptop
