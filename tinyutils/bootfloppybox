@@ -435,13 +435,13 @@ floppysetfromiso()
 		ln -s $i /tmp/rootfs$$/$n
 		n=$(($n + 1))
 	done
-	echo "Unpack rootfs..."
+	echo "Unpacking rootfs..."
 	( zcat $rootfs 2> /dev/null | unlzma -c $rootfs ) | \
 		( cd /tmp/rootfs$$/fs ; cpio -idm > /dev/null )
 	if [ $(unlzma -c $rootfs 2> /dev/null| wc -c) -gt $(stat -c %s $rootfs) ]; then
 		if [ $(du -ck $rootfs $bzimage | awk 'END { print $1 }') -gt 15296 ]; then
 	# The rootfs.gz file is too big, extract a minimum bootfs with busybox stuff
-			echo "Extract bootfs..."
+			echo "Extracting bootfs..."
 			mv /tmp/rootfs$$/fs /tmp/rootfs$$/fs0
 			for i in lib bin sbin usr/bin usr/sbin ; do
 				mkdir -p /tmp/rootfs$$/fs/$i
@@ -486,7 +486,7 @@ floppysetfromiso()
 		fi
 	else
 	# This is a loram rootfs.gz, extract loram bootstrap
-		echo "Split loram rootfs..."
+		echo "Splitting loram rootfs..."
 		offset=$(awk '/07070100/ { o+=index($0,"07070100"); print o/4 ; exit } { o+=1+length() }' < $rootfs)
 		dd if=$rootfs skip=$(($offset / 1024)) bs=4k count=1 2> /dev/null | \
 		dd skip=$(($offset % 1024)) bs=4 of=/tmp/rootfs$$/1/root 2> /dev/null
@@ -497,7 +497,7 @@ floppysetfromiso()
 	# Create extra rootfs floppies
 	for i in /tmp/rootfs$$/[1-9]*/root* ; do
 		[ -f $i ] || continue
-		echo "Create floppies for rootfs $(basename $(dirname $i) )..."
+		echo "Creating floppies for rootfs $(basename $(dirname $i) )..."
 		case "$(dd if=$i bs=1 count=4 2> /dev/null)" in
 		0707) cat $i ;;
 		*)    zcat $i 2> /dev/null || unlzma -c $i ;;
@@ -523,7 +523,7 @@ floppysetfromiso()
 		esac
 		shift 2
 	done
-	echo "Create /init ..."
+	echo "Creating /init ..."
 	base=100
 	set -- $selection
 	for i in /tmp/rootfs$$/[1-9]* ; do
@@ -541,7 +541,7 @@ floppysetfromiso()
 	done | buildinit /tmp/rootfs$$/fs
 	cmdline="$(grep append /tmp/iso$$/boot/isolinux/isolinux.cfg | tail -n 1 | sed 's/.*gz //')"
 	( cd /tmp/rootfs$$/fs ; find | cpio -o -H newc ) | lzma e /tmp/rootfs$$/rootfs -si
-	echo "Create first stage boot floppies..."
+	echo "Creating first stage boot floppies..."
 	floppyset $bzimage /tmp/rootfs$$/rootfs "$cmdline"
 	base=100
 	for i in /tmp/rootfs$$/[1-9]* ; do

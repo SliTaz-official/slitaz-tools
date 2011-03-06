@@ -1,6 +1,6 @@
 #!/bin/sh
 # 
-# Gtkdialog box interafce for secure file transfer with scp from Dropbear.
+# Gtkdialog box interface for secure file transfer with scp from Dropbear.
 # - SliTaz GNU/Linux 2008-2010.
 #
 VERSION=20100314

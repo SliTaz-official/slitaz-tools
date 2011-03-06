@@ -92,7 +92,7 @@ xorg_conf_d()
 	# This file will not be erased by any updates." > /etc/X11/xorg.conf
 }
 
-# Install xorg server
+# Install xorg server.
 install_xorg()
 {
 	tazpkg recharge

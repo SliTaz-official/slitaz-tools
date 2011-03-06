@@ -1,7 +1,7 @@
 #!/bin/sh
 # slitaz-installer - SliTaz GNU/Linux installer.
 #
-# So this is SliTaz installer using dialog boxes. All the comments are in
+# So this is the SliTaz installer using dialog boxes. All the comments are in
 # English but displayed messages are in French. The script starts with a
 # few main variables, then all the functions and then a sequence of functions.
 #
@@ -261,7 +261,7 @@ ask_for_mkfs_home()
 Here you can format the /home partition: $HOME_DEV
 
 SliTaz uses ext3 by default but another filesystem can be used if wanted, \
-for this please adjust /etc/fstab after installation.
+for this please adjust your /etc/fstab after installation.
 
 \Z2Do you want to format (Option): $HOME_DEV\Zn" 18 70
 	retval=$?
@@ -879,7 +879,7 @@ upgrade_process()
 	set_messages
 
 	echo "XXX" && echo 10
-	echo -e "\nSearch for /etc/slitaz-release"
+	echo -e "\nSearching for /etc/slitaz-release"
 	echo "XXX"
 	if [ -f etc/slitaz-release ]; then
 		release=`cat etc/slitaz-release`
@@ -1019,7 +1019,7 @@ you can do so later by looking at the following list: \n\n
 		do
 			pct=$(($pct+$onepkg))
 			echo "XXX" && echo $pct
-			echo -e "\nInstallation of: $pkg..."
+			echo -e "\nInstalling: $pkg..."
 			echo "XXX"
 			# Log please.
 			echo "get-install: $pkg" >>$LOG

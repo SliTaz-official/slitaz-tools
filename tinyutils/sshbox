@@ -1,6 +1,6 @@
 #! /bin/sh
 # 
-# Gtkdialog box interafce for SSH connexions.
+# Gtkdialog box interface for SSH connections.
 #
 # Manage profile in .prf files store in $HOME/.sshbox 
 # (c) 2009 SliTaz GNU/Linux - GNU gpl v3
@@ -17,7 +17,7 @@ export TEMP=/tmp/$(basename $PROG).out
 # Create $CONFIG_DIR if it doesn't exist.
 [ -d $HOME/$CONFIG_DIR/session ] || mkdir -p $CONFIG_DIR/session
 
-# Set locale message if message file exist and $LANG is set.
+# Set locale message if message file exists and $LANG is set.
 # Default: English 
 if [ -f /usr/share/locale/${LANG%%_*}/LC_MESSAGES/sshbox.msg ]; then
 	. /usr/share/locale/${LANG%%_*}/LC_MESSAGES/sshbox.msg 
@@ -83,7 +83,7 @@ add_session(){
 
 gtk_manage_session(){
 	
-	# Read th config file if exist
+	# Read the config file if it exists
 	[ -f "$CONFIG_DIR/session/$SESSION.conf" ] && . "$CONFIG_DIR/session/$SESSION.conf"
 	
 	export GTK_MANAGE_SESSION="
@@ -297,7 +297,7 @@ read_settings(){
 }
 
 read_last_connection(){	
-	#Read last connexion
+	# Read last connection
 	[ -f $CONFIG_DIR/last ] &&  . $CONFIG_DIR/last
 }	
 
@@ -311,7 +311,7 @@ ssh_connect(){
 	
 	read_settings
 	
-	#TODO: Move this to another place
+	# TODO: Move this to another place
 	# Save last used profile and start ssh connection
 	echo "HOSTNAME=$SSH_HOST" > $CONFIG_DIR/last
 	echo "USERNAME=$SSH_USER" >> $CONFIG_DIR/last
@@ -321,7 +321,7 @@ ssh_connect(){
 	
 	[ ! -z $SSH_PORT ] && SSH_OPTION="-p $SSH_PORT"
 	
-	#  set terminal options
+	# set terminal options
 	if [ "$XTERM" ==  "sakura" ]; then
 		OPTION="--title $SSH_USER@$SSH_HOST"
 	else 

@@ -20,13 +20,13 @@ usage()
 
 \033[1mCommands: \033[0m
   usage		Print this short usage.
-  printer	Paraller and USB Printer setup.
+  printer	Parallel and USB Printer setup.
   scanner	USB Scanner setup.
   webcam	Integrated and USB webcam setup.
   camera	Digital Camera setup.
   bluetooth	Bluetooth setup.
   3g-modem	3g-modem setup.
-  firewall	start/stop firewall.
+  firewall	Start/stop firewall.
   nvidia	Nvidia (non-free/free) setup.
   ati		ATI (non-free/free) setup.
 
@@ -135,7 +135,7 @@ install()
 	for pkg in $1 ; do
 	   # Avoid reinstall
 		if [ ! -d /var/lib/tazpkg/installed/"$pkg" ]; then
-			echo "installing pkg: $pkg"
+			echo "Installing pkg: $pkg"
 			tazpkg get-install "$pkg" --forced
 			if tazpkg list-files "$pkg" | grep -q "/etc/udev" ; then
 			   UDEV_RULES="yes"
@@ -151,7 +151,7 @@ confirm_install()
 	for pkg in $1 ; do
 	   # Avoid reinstall
 		if [ ! -d /var/lib/tazpkg/installed/"$pkg" ]; then
-			echo -n " Would you like to install pkg: $pkg (y/N) ? "; read anser
+			echo -n "Would you like to install pkg: $pkg (y/N) ? "; read anser
 			if [ "$anser" == "y" ]; then
 				tazpkg get-install "$pkg" --forced
 				if tazpkg list-files "$pkg" | grep -q "/etc/udev" ; then
@@ -215,7 +215,7 @@ find_usb_device()
 
 confirm_device()
 {
-	echo -n " Which no. is your $DEVICE shown in the above lines (1,2,3,none);  ? "; read choice
+	echo -n "Which no. is your $DEVICE shown in the above lines (1,2,3,none);  ? "; read choice
 
 	case "$choice" in
 	 [nN*]) DETECTED="no" ;;
@@ -239,7 +239,7 @@ hputil()
 	if [ "$HP" == "1" ]; then
 	 	install "hplip"
 		echo ""
-		echo -n " Do you want to use hp-setup utility (y/N) ? "; read choice
+		echo -n "Do you want to use hp-setup utility (y/N) ? "; read choice
 		if [ "$choice" == "y" ]; then
 		  hp-setup
 		fi
@@ -256,7 +256,7 @@ fix_usb_permissions()
 			chgrp $grp /dev/bus/usb/*$busno/*$deviceno
 			echo "========================================"
 			echo -e "\033[1m Verify $DEVICE Permissions \033[0m "
-			echo " Your $DEVICE must be in $grp group with 666 permissions"
+			echo "Your $DEVICE must be in $grp group with 666 permissions"
 			ls -l /dev/bus/usb/*$busno/*$deviceno
 			echo "========================================"
 		fi
@@ -282,7 +282,7 @@ udev()
 {
 
 	if [ "$UDEV_RULES" == "yes" ]; then
-		echo "new udev rules are added by a package"
+		echo "New udev rules are added by a package"
 		udevadm trigger
 		sleep 2
 	fi
@@ -475,7 +475,7 @@ setup()
 			#lpinfo -v
 			if [ "$DETECTED" == "yes" ]; then
 			    echo ""
-				echo -n " Do you want to start cups (y/N) ? "; read anser
+				echo -n "Do you want to start cups (y/N) ? "; read anser
 				echo ""
 				if [ "$anser" == "y" ]; then
 						/etc/init.d/cupsd start
@@ -484,7 +484,7 @@ setup()
 				else
 					echo ""
 					echo "===================================="
-						echo -e "Start \033[1m cups \033[0m using :"
+						echo -e "Starting \033[1m cups \033[0m using :"
 						echo "/etc/init.d/cupsd start"
 						echo "browser http://localhost:631/"
 					echo "===================================="
@@ -502,7 +502,7 @@ setup()
 		  	if [ "$DETECTED" == "yes" ]; then
 		  	    #hputil
 				echo ""
-				echo -n " Do you want to start scanner (y/N) ? "; read anser
+				echo -n "Do you want to start scanner (y/N) ? "; read anser
 				echo ""
 				if [ "$anser" == "y" ]; then
 						sane-find-scanner # to verify scanner has been found
@@ -531,14 +531,14 @@ setup()
 
 				if [ -d /var/lib/tazpkg/installed/mplayer-svn ]; then
 					echo ""
-					echo -n " Would you like to test webcam (y/N) ? "; read anser
+					echo -n "Would you like to test webcam (y/N) ? "; read anser
 					echo ""
 					if [ "$anser" == "y" ]; then
 						mplayer tv:// -tv driver=v4l2:width=320:height=240:device=/dev/video0 -vo x11 &
 					fi
 				else
 				    echo ""
-					echo -n " Would you like to test webcam by installing mplayer-svn (y/N) ? "; read anser
+					echo -n "Would you like to test webcam by installing mplayer-svn (y/N) ? "; read anser
 					echo ""
 					if [ "$anser" == "y" ]; then
 						install mplayer-svn
@@ -546,7 +546,7 @@ setup()
 					else
 						echo ""
 		       			echo "============================"
-						echo "webcam is set up; please use mplayer-svn/fswebcam/amsn/skype to view"
+						echo "Webcam is set up; please use mplayer-svn/fswebcam/amsn/skype to view"
 						echo "============================"
 		       		fi
 				fi
@@ -561,12 +561,12 @@ setup()
 
 			if [ "$DETECTED" == "yes" ]; then
 				echo ""
-				echo -n " Do you want to check if gphoto2 can talk to your camera (y/N) ? "; read anser
+				echo -n "Do you want to check if gphoto2 can talk to your camera (y/N) ? "; read anser
 				echo ""
 				if [ "$anser" == "y" ]; then
 					# Show if the camera is detected
 					gphoto2 --auto-detect
-					echo -e " Do you want to test importing photos (y/N) ? "; read choice
+					echo -e "Do you want to test importing photos (y/N) ? "; read choice
 					if [ "$choice" == "y" ]; then
 						mkdir -p ~/Images/Photos
 						cd ~/Images/Photos
@@ -577,7 +577,7 @@ setup()
 				else
 					echo ""
 					echo "===================================="
-					echo "camera is set up; please use gphoto2 to import photos"
+					echo "Camera is set up; please use gphoto2 to import photos"
 					echo "Quick start guide: http://www.gphoto.org/doc/manual/using-gphoto2.html"
 					echo "===================================="
 				fi
@@ -589,7 +589,7 @@ setup()
 			load_modules
 			udev
 
-			echo -n " Do you want to see if the bluetooth is working (y/N) ? "; read anser
+			echo -n "Do you want to see if the bluetooth is working (y/N) ? "; read anser
 			echo ""
 			if [ "$anser" == "y" ]; then
 				# sanity check: btusb is not loaded automagically for unknown reasons
@@ -630,7 +630,7 @@ setup()
 		 		echo " hcitool scan # for scanning remote devices"
 		 		echo " bluez-simple-agent # pairing with remote bluetooth devices"
 		 		echo ""
-		 		echo -e " You can manually edit the configuration files in \033[1m /etc/bluetooth \033[0m if need be"
+		 		echo -e "You can manually edit the configuration files in \033[1m /etc/bluetooth \033[0m if need be"
 				echo ""
 		    	echo "========================================"
 		    fi
@@ -641,13 +641,13 @@ setup()
 				udev
 				echo ""
 		       	echo "===================================="
-		       	echo "list detected devices"
+		       	echo "List detected devices"
 		       	# ls /dev/ttyUSB* /dev/ttyACM* /dev/modem
 
 		       	if [ -n "`ls /dev/ttyUSB*`" -o -n "`ls /dev/ttyACM*`" ] ; then
 				    echo "Detected Modem at:"
 				    echo "`ls /dev/ttyUSB*`"
-					echo -n " Do you want to configure wvdial (y/N) ? "; read anser
+					echo -n "Do you want to configure wvdial (y/N) ? "; read anser
 					echo ""
 					if [ "$anser" == "y" ]; then
 						wvdialbox
@@ -657,7 +657,7 @@ setup()
 						echo -e "Edit \033[1m /etc/wvdial.conf \033[0m  for phone number, login name, password and pin"
 						echo "wvdial dialername"
 						#nameserver `tail -30 /var/log/messages| grep DNS| sed 's/*\([.0-9]*\)$/\1/'` >/etc/resolv.conf
-						echo -e " Add DNS adress of your provider in : \033[1m /etc/resolv.conf  \033[0m "
+						echo -e "Add DNS adress of your provider in : \033[1m /etc/resolv.conf  \033[0m "
 						echo "===================================="
 					 fi
 		       	 else
@@ -677,7 +677,7 @@ setup()
 				 		nmap localhost
 				 		echo "===================================="
 				 	fi
-				 	echo "adding firewall daemon to start automatically at boot"
+				 	echo "Adding firewall daemon to start automatically at boot"
 				 	run_daemon_startup "firewall"
 				 	echo "===================================="
 				 fi
@@ -691,7 +691,7 @@ setup()
 				fi
 				load_modules
 				#xorg
-				echo -n " Do you want to configure X using non-free nvidia driver (y/N) ? "; read anser
+				echo -n "Do you want to configure X using non-free nvidia driver (y/N) ? "; read anser
 				echo ""
 				if [ "$anser" == "y" ]; then
 					echo "Your previous config is in /etc/X11/xorg.conf.d/60-Device.conf"
@@ -702,7 +702,7 @@ setup()
 					rm /tmp/xorg.conf.nvidia /root/xorg.conf.new
 
 					if ! grep -q "NoLogo" /etc/X11/xorg.conf.d/55-DeviceTweaks.conf ; then
-						echo "adding to xorg.conf: Option \"NoLogo\" \"True\""
+						echo "Adding to xorg.conf: Option \"NoLogo\" \"True\""
 						sed -i 's/BoardName\(.*\)/Boardname \1 \n  Option "NoLogo" "True" /' /etc/X11/xorg.conf.d/55-DeviceTweaks.conf
 					fi
 
@@ -730,7 +730,7 @@ setup()
 				fi
 				load_modules
 				#xorg
-				echo -n " Do you want to configure X using free nvidia driver (y/N) ? "; read anser
+				echo -n "Do you want to configure X using free nvidia driver (y/N) ? "; read anser
 				echo ""
 				if [ "$anser" == "y" ]; then
 					echo ""
@@ -759,7 +759,7 @@ setup()
 				fi
 				load_modules
 				#xorg
-				echo -n " Do you want to configure X using non-free catalyst ati(radeon) driver (y/N) ? "; read anser
+				echo -n "Do you want to configure X using non-free catalyst ati(radeon) driver (y/N) ? "; read anser
 				echo ""
 				if [ "$anser" == "y" ]; then
 					echo "Your previous config is in /etc/X11/xorg.conf.d/60-Device.conf"
@@ -791,7 +791,7 @@ setup()
 				fi
 				load_modules
 				#xorg
-				echo -n " Do you want to configure X using free ati (radeon) driver (y/N) ? "; read anser
+				echo -n "Do you want to configure X using free ati (radeon) driver (y/N) ? "; read anser
 				echo ""
 				if [ "$anser" == "y" ]; then
 					echo ""
@@ -840,11 +840,11 @@ case "$1" in
 			elif [ "$CONFIRM_SUGGESTED" == "yes" ]; then
 				echo ""
 				echo "===================================="
-				echo "Following optional packages can be installed:"
+				echo "The following optional packages can be installed:"
 				echo ""
 				echo "$SUGGESTED"
 				echo "===================================="
-				echo -n " Do you want to install all/few/no optional dependencies (all|few|N) ? "; read anser
+				echo -n "Do you want to install all/few/no optional dependencies (all|few|N) ? "; read anser
 			fi
 
 			install "$DEPENDS"

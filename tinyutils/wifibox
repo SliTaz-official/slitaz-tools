@@ -304,7 +304,7 @@ manbutton()
 EOT
 }
 
-# Independant dialog to connect on a wireless network. If encryption
+# Independent dialog to connect to a wireless network. If encryption
 # is on we ask for the security key.
 connect_to_essid()
 {
@@ -574,7 +574,7 @@ box()
 				<label>
 \"
 Some Wireless Adapters need non-free firmware. Please install the
-firmware before loading the corresponding module. Note you can use 
+firmware before loading the corresponding module. Note that you can use 
 Tazhw to automatically detect your PCI, PCMCIA or USB Wireless adapter.
 \"
 				</label>

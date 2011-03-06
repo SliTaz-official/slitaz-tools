@@ -1,8 +1,8 @@
 #!/bin/sh
 # Tazfile - Tiny autonomus zone files locator.
 #
-# This is a lightweight files locator for *.tazpkg files, all written in
-# SHell script. It works well with Busybox ash shell and bash. Tazfile let you
+# This is a lightweight files locator for *.tazpkg files written in
+# SHell script. It works well with Busybox ash shell and bash. Tazfile lets you
 # create and explore a files list database.
 #
 # (C) 2008 SliTaz - GNU General Public License v3.
@@ -66,7 +66,7 @@ check_for_files_list_lzma()
 	if [ ! -f "$FILES_LIST" ]; then
 		echo -e "
 Unable to find the list : $FILES_LIST\n
-You must probably run 'tazfile recharge' as root to get the last list of 
+You must probably run 'tazfile recharge' as root to get the latest list of 
 files available on the mirror.\n"
 		exit 0
 	fi

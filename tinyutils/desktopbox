@@ -11,7 +11,7 @@ VERSION=20090504
 GLADE_XML=/usr/share/slitaz/glade
 MESSAGES=/usr/share/slitaz/messages
 
-# Export script path and other if needed so we can use them in 'quote'.
+# Export script path and others if needed so we can use them in 'quote'.
 export BIN=$0
 export AUTOSTART_SCRIPT=$HOME/.config/openbox/autostart.sh
 
@@ -39,7 +39,7 @@ usage()
   logout       Prompt for X session exit or system halt/reboot.\n"
 }
 
-# Openbox autostart functions, first column is used for icon
+# Openbox autostart functions, first column is used for icons
 autostart_list()
 {
 	# Enabled
@@ -57,7 +57,7 @@ autostart_list()
 	done
 }
 
-# Enable or disbale autostarted applications.
+# Enable or disable autostarted applications.
 autostart_actions()
 {
 	if grep -q "^$APPLICATION" $AUTOSTART_SCRIPT; then
@@ -309,7 +309,7 @@ case $1 in
 </window>"
 		export DESKTOP_DIALOG=${DESKTOP_DIALOG}${TAZUSB_DIALOG}${ACTIONS} ;;
 	notify)
-		# Nofification message without window decoration.
+		# Notification message without window decoration.
 		MSG="$2"
 		SEC=$3
 		[ -z $SEC ] && SEC=4
@@ -371,8 +371,8 @@ case $1 in
 		;;
 	tazapps)
 		# Default applications configuration script. System wide config file
-		# is /etc/slitaz/applications.conf and each user can have personnal
-		# settings. System wide for root and personnal config for user.
+		# is /etc/slitaz/applications.conf and each user can have personal
+		# settings. System wide for root and personal config for user.
 		export CONFIG="$HOME/.config/slitaz/applications.conf"
 		if [ ! -f $CONFIG ]; then
 			mkdir -p $HOME/.config/slitaz

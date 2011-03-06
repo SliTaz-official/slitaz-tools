@@ -57,7 +57,7 @@ de montage est généré depuis /media te /mnt.
 </vbox>
 </window>'
 
-# Mount and umount buttons with fiel for devive and mount point.
+# Mount and umount buttons with fields for device and mount points.
 MAIN_DIALOG='
 <window title="Mountbox" icon-name="media-flash">
 <vbox>
