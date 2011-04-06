@@ -50,7 +50,6 @@ detect_interfaces()
 			*)
 				continue ;;
 		esac
-		
 	done
 }
 

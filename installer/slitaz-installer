@@ -653,8 +653,11 @@ default 0
 # Boot automatically after 8 secs.
 timeout 8
 
+# Graphical splash image.
+splashimage=/boot/grub/splash.xpm.gz
+
 # Change the colors.
-color yellow/brown light-green/black
+#color yellow/brown light-green/black
 
 # For booting SliTaz from : $TARGET_DEV
 #
