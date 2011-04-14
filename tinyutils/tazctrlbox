@@ -151,7 +151,7 @@ New account information"`'
 		</hbox>
 		<hbox>
 			<text wrap="false">
-				<label>'`gettext "Password:"`'"</label>
+				<label>"'`gettext "Password:"`'"</label>
 			</text>
 			<entry invisible_char="*" visibility="false" max_length="8">
 				<variable>PASSWD</variable>
