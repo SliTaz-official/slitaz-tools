@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
-Exec=desktopbox logout
+Exec=tazbox logout
 Icon=logout
 StartupNotify=false
 Terminal=false
