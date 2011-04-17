@@ -11,10 +11,15 @@ all:
 
 # i18n.
 
-pot:
+tazboxpot:
+	xgettext -o po/tazbox/tazbox.pot -L Shell \
+		--package-name="TazBox" ./tazbox/tazbox
+
+pot: tazboxpot
 	@for p in $(TINYUTILS); do \
 		echo -n "Generating $$p pot file... "; \
-		xgettext -o po/$$p/$$p.pot -L Shell --package-name=$$p tinyutils/$$p; \
+		xgettext -o po/$$p/$$p.pot -L Shell \
+			--package-name=$$p tinyutils/$$p; \
 		echo "done"; \
 	done;
 

@@ -25,7 +25,7 @@ Translation
 To start a new translation please use msginit from the pot file directory.
 Example for French/France locale (fr_FR):
 
-	$ msginit -l fr_FR -o fr.po -i subox.pot
+	$ msginit -l fr_FR -o fr.po -i tazbox.pot
 
 To update all pot files when some new strings have been added (mainly for
 developers before commit):
@@ -40,7 +40,7 @@ To compile po files for testing purposes you can use 'make msgfmt' or manually
 compile your translation. Example for french locale, note that the file must 
 be copied into /usr/share/locale/fr/LC_MESSAGES so gettext can find it:
 
-	$ msgfmt -o tazusb.mo fr.po
+	$ msgfmt -o tazbox.mo fr.po
 
 
 ===============================================================================

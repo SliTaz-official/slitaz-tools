@@ -1,5 +1,0 @@
-[Desktop Entry]
-Name=Logout
-Name[fr]=Déconnexion
-Icon=/usr/share/pixmaps/logout.png
-Exec=desktopbox logout

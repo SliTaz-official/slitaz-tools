@@ -1,0 +1,70 @@
+#!/bin/sh
+#
+# SliTaz tiny GUI boxes for the desktop (su, logout, etc) and as usual
+# please KISS
+#
+# Note: $(gettext "text") dont work inside Yad so use `gettext \"text\"`
+#
+# Copyright (C) 2011 SliTaz GNU/linux - GNU gpl v3
+#    - Christophe Lincoln <pankso@slitaz.org>
+#
+
+# Internationalization
+. /usr/bin/gettext.sh
+TEXTDOMAIN='tazbox'
+export TEXTDOMAIN
+
+#
+# Functions
+#
+
+usage() {
+	cat << EOT
+
+$(gettext "Usage:") $(basename $0) [command]
+
+$(gettext "Commands:")
+  usage      $(gettext "Display this short help usage")
+  logout     $(gettext "Desktop lougout box")
+
+EOT
+}
+
+# Logout GUI function
+logout_main() {
+	text=$(gettext "SliTaz Logout. Please choose an action:")
+	yad --entry --title="SliTaz Logout" \
+		--window-icon=/usr/share/pixmaps/slitaz-menu.png \
+		--width=440 --height=150 --text="$text" \
+		--image="slitaz-menu" --image-on-top \
+		--center --on-top  --entry-text \
+			"`gettext \"Close X session\"` : exit" \
+			"`gettext \"Reboot system\"` : reboot" \
+			"`gettext \"Shutdown system\"` : halt"
+}
+
+#
+# Commands
+#
+case "$1" in
+	su)
+		echo "TODO" ;;
+	logout)
+		# Store box results
+		main=`logout_main`		
+		# Deal with --button values
+		case $? in
+			1) exit 0 ;;
+			*) continue ;;
+		esac
+		# Deal with $main values
+		case "$main" in
+			*exit) openbox --exit || jwm -exit ;;
+			*reboot) reboot ;;
+			*halt) poweroff ;;
+		esac ;;
+	*)
+		usage ;;
+esac
+
+exit 0

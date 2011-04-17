@@ -1,0 +1,22 @@
+[Desktop Entry]
+Type=Application
+Exec=desktopbox logout
+Icon=logout
+StartupNotify=false
+Terminal=false
+Name=Log Out
+Name[de]=Abmelden
+Name[es]=Salir
+Name[fr]=Déconnexion
+Name[hr]=Odjava
+Name[hu]=Kijelentkezés
+Name[id]=Log Keluar
+Name[it]=Esci
+Name[ja]=ログアウト
+Name[nl]=Uitloggen
+Name[pl]=Wyloguj
+Name[pt]=Sair
+Name[pt_BR]=Encerrar sessão
+Name[ru]=Выйти
+Name[zh_CN]=注销
+Name[zh_TW]=登出
