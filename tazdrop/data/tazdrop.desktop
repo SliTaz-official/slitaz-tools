@@ -1,0 +1,8 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Name=Dropped Notes
+Name[fr]=Notes déposées
+Icon=slitaz-menu
+Exec=tazdrop --notes
+Categories=Office;

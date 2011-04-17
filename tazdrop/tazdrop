@@ -1,0 +1,186 @@
+#!/bin/sh
+#
+# SliTaz Drag N' Drop tool! Just put whatever you want on the tiny box
+# or the expanded panel and it will deal with it. Or at least it will
+# try, since we are in the first stage of the tool
+#
+# Copyright (C) 2011 SliTaz GNU/linux - BSD License
+#    - Christophe Lincoln <pankso@slitaz.org>
+#
+
+# Follow XDG standards
+CONFIG=$HOME/.config/slitaz/tazdrop.conf
+NOTES=$HOME/.cache/tazdrop.notes
+
+[ ! -f "$CONFIG" ] && cp /etc/slitaz/tazdrop.conf $CONFIG
+. $CONFIG
+
+# Internationalization
+. /usr/bin/gettext.sh
+TEXTDOMAIN='tazdrop'
+export TEXTDOMAIN
+
+#
+# Here are the functions
+#
+
+usage() {
+	cat << EOT
+
+$(gettext "Usage:") $(basename $0) [--option|file|url]
+
+$(gettext "Options:")
+  --usage  $(gettext "Display this samll help")
+  --dnd    $(gettext "Display the desktop Drad N' Drop window")
+  --notes  $(gettext "Display your dropped text notes")
+
+EOT
+}
+
+# Write notes content type to a file
+write_drop() {
+	sed "s/`echo -en '\r'` /\n/g" >> $NOTES << EOT
+====
+$drop
+EOT
+}
+
+# Get and install a package from URL
+get_install_pkg() {
+	tmp=$DOWNLOADS/$$ 
+	mkdir -p $tmp
+	$TERMINAL -hold -e "cd $tmp && wget $drop && \
+		su -c \"tazpkg install *.tazpkg && mv *.tazpkg .. && \
+		cd .. && rm -rf $tmp\"" &
+}
+
+# Main GUI function
+drop_main() {
+	yad --text "$DROP_TEXT" \
+		--geometry="${DROP_SIZE}$DROP_GEOM" \
+		--name="tazdrop" \
+		--dnd --sticky --on-top \
+		--undecorated --no-buttons \
+		--command="$0"
+}
+
+# Image GUI function
+drop_image() {
+	yad --image=$DROP_IMAGE \
+		--geometry="$DROP_GEOM" \
+		--name="tazdrop" \
+		--dnd --sticky --on-top \
+		--undecorated --no-buttons \
+		--command="$0"
+}
+
+# Notes GUI function
+drop_notes() {
+	text=$(gettext "Edit or clean-up your dropped text notes")
+	yad --text-info --filename=$NOTES  \
+		--title="Dropped Notes" --editable \
+		--image=text-editor --image-on-top \
+		--window-icon=/usr/share/pixmaps/slitaz-menu.png \
+		--text="$text" --margins=5 \
+		--width=500 --height=400 \
+		--button="gtk-remove:2" \
+		--button="gtk-save:0" \
+		--button="gtk-close:1"
+}
+
+#
+# We may have args on cmdline, execute cmd & and exit.
+#
+case "$1" in
+	--usage|--help)
+		usage && exit 0 ;;
+	--dnd)
+		drop_main && exit 0 ;;
+	--dnd-image)
+		drop_image && exit 0 ;;
+	--notes)
+		drop_notes > /tmp/notes.$$
+		# Deal with --button
+		case $? in
+			1) continue ;;
+			0) mv -f /tmp/notes.$$ $NOTES ;;
+			2) echo "" > $NOTES ;;
+		esac
+		# Clean cache and exit
+		rm -f /tmp/notes.$$ && exit 0 ;;
+	*)
+		[ -z "$1" ] && usage && exit 0
+		drop="$1" && continue ;;
+esac
+
+#
+# Drag and drop handler, uritype first filetype after.
+#
+# Use 'xdg-open' & 'xdg-mime query filetype /path/to/file',
+# both needs xprop (on slitaz we have obxprop from openbox)?
+#
+case "$drop" in
+	file:///*)
+		# Handle local files
+		case "$drop" in
+			*.png|*.jpg|*.jpeg|*.gif|*.xpm)
+				$IMAGE "$drop" & ;;
+			*.txt|*.conf|*.css|*.php|*.cgi|*.list|*README*|*TODO| \
+			*.diff|*.log|*.js|*.xml|*receipt)
+				$EDITOR "$drop" & ;;
+			*.pdf)
+				$PDF "$drop" & ;;
+			*.html)
+				$BROWSER "$drop" & ;;
+			*.ogg|*.mp3)
+				file=${drop#file://}
+				$SOUND "$file" & ;;
+			*.tazpkg)
+				file=${drop#file://}
+				dir=$(dirname $file)
+				pkg=$(basename $file)
+				$TERMINAL -e "su -c \"cd $dir && tazpkg install ${pkg%/}\"" & ;;
+			*.desktop)
+				# Exec *.desktop file so they can be used in a non
+				# Freedesktop environment (Ex: Ob/tint2/emlfm2)
+				file=${drop#file://}
+				exec=$(fgrep Exec= "$file" | sed s'/Exec=//')
+				$exec & ;;
+			*)
+				# May we have a directory dropped to be tarbalize!
+				# Let leave the tarball in the same the directory.
+				file=${drop#file://}
+				if [ -d "$file" ]; then
+					cd $(dirname $file)
+					file=$(basename $file)
+					tar -c -j -f ${file}.tar.bz2 $file &
+				fi
+				# Or maybe an executable binary or script
+				if [ -x "$file" ]; then
+					$file &
+				fi
+				;;
+		esac
+		;;
+	http://*|https://*|ftp://*)
+		# Handle URL by filetype extension
+		case "$drop" in
+			*.png|*.jpg|*.jpeg|*.gif|*.xpm|*.gz|*.bz2|*.lzma|*.xz| \
+			*.zip|*.pdf|*.iso)
+				$TERMINAL -e "cd $DOWNLOADS && wget $drop" & ;;
+			*.tazpkg)
+				get_install_pkg ;;
+			*.html|*.php|*.cgi|*.py|*.pl|*/|*[a-zA-Z0-9])
+				$BROWSER "$drop" & ;;
+		esac
+		;;
+	*[a-z0-9]@[a-z0-9]*.[a-z]*)
+		# Handle email
+		exec $EMAIL "$drop" & ;;
+	--*)
+		usage && exit 0 ;;
+	*)
+		write_drop ;;
+esac
+
+exit 0
