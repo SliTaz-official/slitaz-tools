@@ -123,7 +123,7 @@ case "$drop" in
 	file:///*)
 		# Handle local files
 		case "$drop" in
-			*.png|*.jpg|*.jpeg|*.gif|*.xpm)
+			*.png|*.jpg|*.jpeg|*.gif|*.xpm|*.ico)
 				$IMAGE "$drop" & ;;
 			*.txt|*.conf|*.css|*.php|*.cgi|*.list|*README*|*TODO| \
 			*.diff|*.log|*.js|*.xml|*receipt)
@@ -165,7 +165,7 @@ case "$drop" in
 	http://*|https://*|ftp://*)
 		# Handle URL by filetype extension
 		case "$drop" in
-			*.png|*.jpg|*.jpeg|*.gif|*.xpm|*.gz|*.bz2|*.lzma|*.xz| \
+			*.png|*.jpg|*.jpeg|*.ico|*.gif|*.xpm|*.gz|*.bz2|*.lzma|*.xz| \
 			*.zip|*.pdf|*.iso)
 				$TERMINAL -e "cd $DOWNLOADS && wget $drop" & ;;
 			*.tazpkg)
