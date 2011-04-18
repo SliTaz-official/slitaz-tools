@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tazctrlbox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-22 23:40+0200\n"
+"POT-Creation-Date: 2011-04-18 19:05+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,63 +42,157 @@ msgstr ""
 msgid "Password:"
 msgstr ""
 
-#: tinyutils/tazctrlbox:205
+#: tinyutils/tazctrlbox:207
 msgid "SliTaz Control Box"
 msgstr ""
 
-#: tinyutils/tazctrlbox:210
+#: tinyutils/tazctrlbox:212
 msgid "<b>SliTaz Control Box</b>"
 msgstr ""
 
-#: tinyutils/tazctrlbox:217
+#: tinyutils/tazctrlbox:219
 msgid "Boot loader|Initialization|Login manager|Time|Language|Users"
 msgstr ""
 
-#: tinyutils/tazctrlbox:222
+#: tinyutils/tazctrlbox:224
 msgid "Grub boot loader"
 msgstr ""
 
-#: tinyutils/tazctrlbox:225
+#: tinyutils/tazctrlbox:227
 msgid "Timeout:"
 msgstr ""
 
-#: tinyutils/tazctrlbox:232 tinyutils/tazctrlbox:246 tinyutils/tazctrlbox:292
-#: tinyutils/tazctrlbox:306
+#: tinyutils/tazctrlbox:234 tinyutils/tazctrlbox:248 tinyutils/tazctrlbox:294
+#: tinyutils/tazctrlbox:308 tinyutils/tazctrlbox:338 tinyutils/tazctrlbox:352
+#: tinyutils/tazctrlbox:366 tinyutils/tazctrlbox:391 tinyutils/tazctrlbox:456
 msgid "Change"
 msgstr ""
 
-#: tinyutils/tazctrlbox:239
+#: tinyutils/tazctrlbox:241
 msgid "Color:"
 msgstr ""
 
-#: tinyutils/tazctrlbox:253
+#: tinyutils/tazctrlbox:255 tinyutils/tazctrlbox:399
 msgid "Configuration file:"
 msgstr ""
 
-#: tinyutils/tazctrlbox:268
+#: tinyutils/tazctrlbox:270
 msgid "rcS init scripts"
 msgstr ""
 
-#: tinyutils/tazctrlbox:271
+#: tinyutils/tazctrlbox:273
 msgid "Check filesystems:"
 msgstr ""
 
-#: tinyutils/tazctrlbox:285
+#: tinyutils/tazctrlbox:287
 msgid "Load modules:"
 msgstr ""
 
-#: tinyutils/tazctrlbox:299
+#: tinyutils/tazctrlbox:301
 msgid "Run daemons:"
 msgstr ""
 
-#: tinyutils/tazctrlbox:313
+#: tinyutils/tazctrlbox:315
 msgid "Add local commands:"
 msgstr ""
 
-#: tinyutils/tazctrlbox:326
+#: tinyutils/tazctrlbox:328
 msgid "Slim settings"
 msgstr ""
 
-#: tinyutils/tazctrlbox:329
+#: tinyutils/tazctrlbox:331
 msgid "Sessions:"
+msgstr ""
+
+#: tinyutils/tazctrlbox:345
+msgid "Default user:"
+msgstr ""
+
+#: tinyutils/tazctrlbox:359
+msgid "Auto login (yes|no):"
+msgstr ""
+
+#: tinyutils/tazctrlbox:373
+msgid "Theme:"
+msgstr ""
+
+#: tinyutils/tazctrlbox:386
+msgid "Preview"
+msgstr ""
+
+#: tinyutils/tazctrlbox:414
+msgid "Date and time"
+msgstr ""
+
+#: tinyutils/tazctrlbox:417
+msgid "System time:"
+msgstr ""
+
+#: tinyutils/tazctrlbox:424
+msgid "Sync online"
+msgstr ""
+
+#: tinyutils/tazctrlbox:433
+msgid "Hardware time:"
+msgstr ""
+
+#: tinyutils/tazctrlbox:440
+msgid "Set from system"
+msgstr ""
+
+#: tinyutils/tazctrlbox:449
+msgid "Timezone:"
+msgstr ""
+
+#: tinyutils/tazctrlbox:469
+msgid "Language|Charmap"
+msgstr ""
+
+#: tinyutils/tazctrlbox:476
+msgid "To change the system language you can double-click on the locale name."
+msgstr ""
+
+#: tinyutils/tazctrlbox:480
+msgid "Keymap"
+msgstr ""
+
+#: tinyutils/tazctrlbox:492
+msgid "Login|uid:gid|Name|Home|SHell"
+msgstr ""
+
+#: tinyutils/tazctrlbox:500
+msgid ""
+"To change passwords or delete users you can double-click on the user name."
+msgstr ""
+
+#: tinyutils/tazctrlbox:504
+msgid "Add newuser"
+msgstr ""
+
+#: tinyutils/tazctrlbox:516
+msgid "Network"
+msgstr ""
+
+#: tinyutils/tazctrlbox:521
+msgid "Wireless"
+msgstr ""
+
+#: tinyutils/tazctrlbox:526
+msgid "Packages"
+msgstr ""
+
+#: tinyutils/tazctrlbox:531
+msgid "Hardware"
+msgstr ""
+
+#: tinyutils/tazctrlbox:536
+msgid "Server"
+msgstr ""
+
+#: tinyutils/tazctrlbox:541
+msgid "Storage"
+msgstr ""
+
+#: tinyutils/tazctrlbox:546
+msgid "Exit"
 msgstr ""

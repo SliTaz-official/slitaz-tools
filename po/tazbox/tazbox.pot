@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-17 22:43+0200\n"
+"POT-Creation-Date: 2011-04-18 19:05+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,7 +30,7 @@ msgid "Display this short help usage"
 msgstr ""
 
 #: tazbox/tazbox:28
-msgid "Desktop lougout box"
+msgid "Desktop logout box"
 msgstr ""
 
 #: tazbox/tazbox:35

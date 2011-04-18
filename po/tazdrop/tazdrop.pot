@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazDrop\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-17 23:25+0200\n"
+"POT-Creation-Date: 2011-04-18 19:05+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,11 +26,11 @@ msgid "Options:"
 msgstr ""
 
 #: tazdrop/tazdrop:33
-msgid "Display this samll help"
+msgid "Display this small help"
 msgstr ""
 
 #: tazdrop/tazdrop:34
-msgid "Display the desktop Drad N' Drop window"
+msgid "Display the desktop Drag N' Drop window"
 msgstr ""
 
 #: tazdrop/tazdrop:35
