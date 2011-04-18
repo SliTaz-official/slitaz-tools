@@ -3,7 +3,7 @@
 # SliTaz tiny GUI boxes for the desktop (su, logout, etc) and as usual
 # please KISS
 #
-# Note: $(gettext "text") dont work inside Yad so use `gettext \"text\"`
+# Note: $(gettext "text") doesn't work inside Yad so use `gettext \"text\"`
 #
 # Copyright (C) 2011 SliTaz GNU/linux - GNU gpl v3
 #    - Christophe Lincoln <pankso@slitaz.org>
@@ -25,7 +25,7 @@ $(gettext "Usage:") $(basename $0) [command]
 
 $(gettext "Commands:")
   usage      $(gettext "Display this short help usage")
-  logout     $(gettext "Desktop lougout box")
+  logout     $(gettext "Desktop logout box")
 
 EOT
 }
