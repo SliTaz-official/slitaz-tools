@@ -2,7 +2,7 @@
 #
 # SliTaz Drag N' Drop tool! Just put whatever you want on the tiny box
 # or the expanded panel and it will deal with it. Or at least it will
-# try, since we are in the first stage of the tool
+# try, since we are in the first stages of the tool.
 #
 # Copyright (C) 2011 SliTaz GNU/linux - BSD License
 #    - Christophe Lincoln <pankso@slitaz.org>
@@ -30,8 +30,8 @@ usage() {
 $(gettext "Usage:") $(basename $0) [--option|file|url]
 
 $(gettext "Options:")
-  --usage  $(gettext "Display this samll help")
-  --dnd    $(gettext "Display the desktop Drad N' Drop window")
+  --usage  $(gettext "Display this small help")
+  --dnd    $(gettext "Display the desktop Drag N' Drop window")
   --notes  $(gettext "Display your dropped text notes")
 
 EOT
@@ -45,7 +45,7 @@ $drop
 EOT
 }
 
-# Get and install a package from URL
+# Get and install a package from an URL
 get_install_pkg() {
 	tmp=$DOWNLOADS/$$ 
 	mkdir -p $tmp
@@ -117,7 +117,7 @@ esac
 # Drag and drop handler, uritype first filetype after.
 #
 # Use 'xdg-open' & 'xdg-mime query filetype /path/to/file',
-# both needs xprop (on slitaz we have obxprop from openbox)?
+# both need xprop (on slitaz we have obxprop from openbox)?
 #
 case "$drop" in
 	file:///*)
@@ -141,14 +141,14 @@ case "$drop" in
 				pkg=$(basename $file)
 				$TERMINAL -e "su -c \"cd $dir && tazpkg install ${pkg%/}\"" & ;;
 			*.desktop)
-				# Exec *.desktop file so they can be used in a non
+				# Exec *.desktop files so they can be used in a non
 				# Freedesktop environment (Ex: Ob/tint2/emlfm2)
 				file=${drop#file://}
 				exec=$(fgrep Exec= "$file" | sed s'/Exec=//')
 				$exec & ;;
 			*)
-				# May we have a directory dropped to be tarbalize!
-				# Let leave the tarball in the same the directory.
+				# Can a directory dropped be tarbalized!
+				# Lets leave the tarball in the same directory.
 				file=${drop#file://}
 				if [ -d "$file" ]; then
 					cd $(dirname $file)

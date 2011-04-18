@@ -2,21 +2,21 @@ SliTaz Drag N' Drop tool
 ================================================================================
 
 
-TazDrop is as small window wich can run in a corder of screen on as an expanded
-panel and let you Drag N' Drop any kind of content and get an action on it.
-You drop an URL if it il a site it will open a browser to this location, if
-the URL is a file (tarball, iso, PDF, etc) it will downloaded it. It also handle
-email addresse, SliTaz Packages (drop one on TazDrop it will install it) and
-if you drop a folder it will create an tar.bz2 archive of it. You can even
-drop one of it's options, try to drop: --notes
+TazDrop is a small window which can run in a corner of a screen and as an 
+expanded panel and let you Drag N' Drop any kind of content and perform an 
+action on it. If you drop an URL to a site it will open a browser to its 
+location, if the URL is a file (tarball, iso, PDF, etc) it will download it. 
+It can also handle email addresses, SliTaz Packages (drop one on TazDrop and 
+it will install it) and if you drop a folder it will create a tar.bz2 archive 
+of it. You can even drop one of its options, try to drop: --notes
 
-Note: This tool is sepatated from tazboxes since it's run pemanently and have
-quiet a few lines of code.
+Note: This tool is separate from tazboxes since it runs permanently and has
+quite a few lines of code.
 
 
 Auto start the DND window
 -------------------------
-To start TazDrop with your Window manager you have to put thes line in your
+To start TazDrop with your Window manager you have to put these lines in your
 autostart script (For Openbox: ~/.config/openbox/autostart.sh)
 
 # TazDrop Drag N' Drop handler
@@ -26,7 +26,7 @@ tazdrop --dnd &
 Skip task bar in Openbox
 ------------------------
 To not show the apps in the panel (lxpanel, tint2) you must add these
-settings to your Openbox rc.xml ater <applications> at the bottom of
+settings to your Openbox rc.xml after <applications> at the bottom of
 the file:
 
   <application name="tazdrop">
@@ -38,10 +38,10 @@ the file:
 Misc notes
 ----------
 
-	* Dropped folder will be archived in tar.bz2
-	* Text content is wrote to $HOME/.cache/tazdrop.notes
-	* Applications are logically configurable as wel as the tool
-	  behavour
+	* Dropped folders will be archived to tar.bz2
+	* Text content is written to $HOME/.cache/tazdrop.notes
+	* Applications are logically configurable as well as the tool
+	  behaviour
 
 
 ================================================================================
