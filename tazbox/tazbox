@@ -9,10 +9,16 @@
 #    - Christophe Lincoln <pankso@slitaz.org>
 #
 
+# Download dir (may be in a config file)
+DOWNLOADS=$HOME/Downloads
+
 # Internationalization
 . /usr/bin/gettext.sh
 TEXTDOMAIN='tazbox'
 export TEXTDOMAIN
+
+# Icons for most windows
+icon=/usr/share/pixmaps/slitaz-menu.png
 
 #
 # Functions
@@ -25,16 +31,30 @@ $(gettext "Usage:") $(basename $0) [command]
 
 $(gettext "Commands:")
   usage      $(gettext "Display this short help usage")
-  logout     $(gettext "Desktop logout box")
+  logout     $(gettext "Desktop logout box with actions")
+  out        $(gettext "Pipe a command output into a GTK window")
+  out-dl     $(gettext "Pipe Wget output into a GTK window")
 
 EOT
+}
+
+cancel_dl() {
+	if [ "$?" == 1 ]; then
+		echo "CANCEL"
+		rm -f $DOWNLOADS/$(basename $url)
+	fi
+}
+
+# Outup a command in a GTK window
+output_command() {	
+	yad --text-info --title="TazBox Output" --window-icon=$icon \
+		--geometry="560x210+0-24" --fore="#ffffff" --back="#000000"
 }
 
 # Logout GUI function
 logout_main() {
 	text=$(gettext "SliTaz Logout. Please choose an action:")
-	yad --entry --title="SliTaz Logout" \
-		--window-icon=/usr/share/pixmaps/slitaz-menu.png \
+	yad --entry --title="SliTaz Logout" --window-icon=$icon \
 		--width=440 --height=150 --text="$text" \
 		--image="slitaz-menu" --image-on-top \
 		--center --on-top  --entry-text \
@@ -48,10 +68,11 @@ logout_main() {
 #
 case "$1" in
 	su)
+		# Execute a command as root
 		echo "TODO" ;;
 	logout)
-		# Store box results
-		main=`logout_main`		
+		# Lougout window with actions
+		main=`logout_main`
 		# Deal with --button values
 		case $? in
 			1) exit 0 ;;
@@ -63,6 +84,14 @@ case "$1" in
 			*reboot) reboot ;;
 			*halt) poweroff ;;
 		esac ;;
+	out)
+		# Pipe a command into a GTK window
+		output_command ;;
+	dl-out)
+		# A tiny GTK window for Busybox wget output
+		url=$2
+		busybox wget -c -P $DOWNLOADS $url 2>&1 | output_command
+		cancel_dl ;;
 	*)
 		usage ;;
 esac
