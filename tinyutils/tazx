@@ -364,7 +364,12 @@ case "$1" in
 		wm_config
 		creat_xinitrc
 		creat_xsession
-		xorg_conf_d ;;
+		xorg_conf_d 
+		if grep -qs screen= /proc/cmdline ; then
+			MODE="$(sed 's/.*screen=\([0-9]*x[0-9]*\).*/\1/' < /proc/cmdline)"
+			sed -i "s/.*EndSubSection.*/\\t\\tModes\\t\"$MODE\"\\n&/" \
+				/etc/X11/xorg.conf.d/70-Screen.conf
+		fi ;;
 	*)
 		# WM can be specified on cmdline.
 		if [ -n "$1" ]; then
