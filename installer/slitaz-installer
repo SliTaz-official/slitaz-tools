@@ -498,6 +498,8 @@ extract_loramfs()
 # This is a loram rootfs.gz, skip loram bootstrap and extract
 extract_first_loramfs()
 {
+	(zcat $1 || unlzma -c $1) | cpio -i extractfs.cpio 2> /dev/null &&
+		( cd / ; cpio -id ) < extractfs.cpio && rm -f extractfs.cpio
 	ofs=$(awk '/07070100/ { o+=index($0,"07070100"); printf "%d\n",o/4 ; exit } { o+=1+length() }' < $1)
 	dd if=$1 skip=$(($ofs / 1024)) bs=4k count=1 2> /dev/null | \
 	( dd skip=$(($ofs % 1024)) bs=4 2> /dev/null ; \
