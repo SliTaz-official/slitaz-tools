@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Burnbox Manual</title>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+
+<div id="header">
+	<h1>SliTaz Burnbox Manual</h1>
+</div>
+
+<!-- Start content -->
+<div id="content">
+
+<h3>About</h3>
+<p>
+Burnbox supports:
+</p>
+<ul>
+	<li>ISO burning</li>
+	<li>Backup of data and audio CDs</li>
+	<li>Data CD/DVD burning (DVD burning requires an optional package <em>dvd+rw-tools</em>)</li>
+	<li>Audio CD burning (MP3 requires an optional package <em>mpg123</em>)</li>
+	<li>Video CD (VCD/SVCD) burning (requires packages <em>vcdimager</em> and <em>ffmpeg</em>)</li>
+</ul>
+
+<h3>General Device Settings</h3>
+<p>
+In the last tab, make sure the cdrom settings are correct (Device:/dev/cdrom; Speed (auto-detected): 48; Options: ). 
+Input is taken from the DEVICE settings.
+</p>
+
+<h3>Blank CD/DVD-RW</h3>
+<p>
+Use <code>Blank disk</code> to erase contents and prepare for burning.
+</p>
+
+<h3>Iso Burning</h3>
+<p>
+This is supported in the third tab.
+</p>
+<ul>
+	<li>Press button <code>Browse</code> to specify the iso file path</li>
+	<li>Press button <code>Burn ISO</code></li>
+</ul>
+<p>
+You can also create or manipulate ISO images with the ISO Master utility.
+</p>
+
+<h3>Backup of data and audio CD</h3>
+<p>
+This is supported in the second tab. Optional package <em>cdrkit-isoinfo</em> may help to improve the burn speed. 
+</p>
+<ul>
+	<li>Insert CD</li>
+	<li>Select backup option: "Save backup on Hard Disk Folder" (default) or "Backup on CD disc"</li>
+	<li>If backup option is "Save backup on Hard Disk Folder" (default), then specify the folder to do a "CD/DVD backup"</li>
+	<li>Press button <code>Backup DataCD</code></li>
+</ul>
+<p>
+Audio CD ripping is supported using the asunder package. 
+</p>
+
+<h3>Data CD/DVD burning</h3>
+<p>
+This is supported in the First tab. One can specify the burn type before adding files. 
+Depending upon the burn type, the files are decoded on the fly. 
+One can remove the added files by simply double-clicking on the file in the tree view. 
+Total track size shows the CD/DVD space occupied.
+</p>
+
+<ul>
+	<li>Select data-cd in Burn Type</li>
+	<li>Specify file/folder or <code>Browse</code></li>
+	<li>Press button <code>Add</code></li>
+	<li>Press button <code>Burn Disc</code></li>
+</ul>
+
+<h3>Audio CD burning</h3>
+<p>
+This is supported in the first tab. WAV, OGG, MP3 files are supported. 
+OGG and MP3 are automatically converted into an uncompressed WAV format for burning.
+</p>
+<ul>
+	<li>Select audio-cd in Burn Type</li>
+	<li>Specify file/folder or <code> Browse</code></li>
+	<li>Press button <code> Add</code> to auto-decode to uncompressed WAV (OGG, MP3 are decoded)</li>
+	<li>Press button <code> Burn Disc</code></li>
+</ul>
+
+<h3>Video CD (VCD/SVCD) burning</h3>
+<p>
+This is supported in the first tab. Only burning mpg video format is supported directly: MPEG-1 video for vcd and MPEG-2 for svcd and dvd. 
+AVI, MOV, FLV, WMV videos are automatically converted into a VCD/SVCD/DVD compatible mpg video format.
+</p>
+<ul>
+	<li>Select video-dvd, vcd or svcd in Burn Type</li>
+	<li>Specify file/folder or <code>Browse</code></li>
+	<li>Press button <code>Add</code> and select Enable decoding video for MPG files (AVI, FLV, MOV, WMV are decoded)</li>
+	<li>Press button <code>Burn Disc</code></li>
+</ul>
+
+<h3>Common Problems</h3>
+<ul>
+	<li>Burnbox works as root but not for a user: This happens when the user is not added to the "cdrom" group <pre>addgroup tux cdrom</pre></li>
+	<li>Cdrom not readable / writable: Make sure the user has proper permissions and is added to the "cdrom" group</li>	
+	<li>MP3 audio burn does not work: Check if you have installed <em>mpg123</em></li>
+	<li>VCD option does not work: Check if you have installed <em>vcdimager</em></li>
+	<li>AVI, FLV, WMV files are not decoded to MPG: Check if you have installed <em>ffmpeg</em></li>
+	<li>DVD burn does not work: Check if you have installed <em>dvd+rw-tools</em></li>
+</ul>
+
+<!-- End content -->
+</div>
+
+</body>
+</html>
