@@ -31,6 +31,7 @@ $(gettext "Usage:") $(basename $0) [command]
 
 $(gettext "Commands:")
   usage      $(gettext "Display this short help usage")
+  su         $(gettext "Execute a command a super-user")
   logout     $(gettext "Desktop logout box with actions")
   out        $(gettext "Pipe a command output into a GTK window")
   out-dl     $(gettext "Pipe Wget output into a GTK window")
@@ -38,6 +39,26 @@ $(gettext "Commands:")
   keymap     $(gettext "Configure system keymap (root)")
 
 EOT
+}
+
+# Su frontend GUI's
+su_main() {
+	text=$(gettext "Slitaz admin password")
+	note=$(gettext "Please enter root password (default root) to execute:")
+	yad --title="Slitaz - su" --window-icon=$icon \
+		--width=520 --height=160 \
+		--text="<b>$text</b>\n$note\n$SU_CMD\n" \
+		--image="slitaz-menu" --image-on-top \
+		--center --on-top --form $PASSWD \
+		--field="`gettext "Password:"`:H" $CHECKED \
+		--field="`gettext "Autosave password"`:CHK"
+}
+
+su_error() {
+	text=$(gettext "Error: wrong password!")
+	yad --title="Slitaz - su error" --width=520 --height=60 \
+		--image="error" --image-on-top --center --on-top \
+		--text="\n\t<b>$text</b>" --button="gtk-close:1"
 }
 
 # User may press cancel on download.
@@ -138,8 +159,33 @@ keymap() {
 #
 case "$1" in
 	su)
-		# Execute a command as root
-		echo "TODO" ;;
+		# Keep command in an exported variable to be used by Yad. 4 argument
+		# should be inuff: appname --opt --opt -v /dev/sda. Nothing to do if
+		# we are root.
+		test $(id -u) = 0 && exec $2 $3 $4 $5
+		export SU_CMD="$2 $3 $4 $5"
+		# Check if a password have been saved before launch main dialog
+		if [ -s $HOME/.config/slitaz/subox.conf ]; then	
+			PASSWD=$(cat $HOME/.config/slitaz/subox.conf)
+			CHECKED="TRUE"
+		fi
+		# Display the main dialog (ask for password) 
+		main=$(su_main)
+		# Deal with --button values and exit if canceled to avoid erasing
+		# saved password.
+		case $? in
+			1) exit 0 ;;
+			*) continue ;;
+		esac
+		# Save or erase Autosaved password
+		if [ $(echo $main |cut -f2 -d"|") == "TRUE" ]; then 
+			echo $main | cut -f 1 -d "|" > $HOME/.config/slitaz/subox.conf
+			chmod 0600 $HOME/.config/slitaz/subox.conf 
+		else
+			cat /dev/null > $HOME/.config/slitaz/subox.conf
+		fi
+		# Try to login & execute. If password is wrong execute error dialog 
+		echo $main | cut -f 1 -d "|" | su -c "$SU_CMD &" || su_error ;;
 	logout)
 		# Lougout window with actions
 		main=`logout_main`
