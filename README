@@ -3,13 +3,13 @@ SliTaz tools                                                               2011
 
 
 The SliTaz tools package provides many tinyutils, shared and custom 
-configuration files destined to improve SliTaz. The tools were initially 
+configuration files designed to improve SliTaz. The tools were initially 
 created to help people build their own distribution by following the SliTaz 
 Cookbook; now the package mostly provides all the configuration tools and 
 all home-made GTK boxes such as subox, tazctrlbox, the installer, etc.
 
-The package also provide some scripts (firewall), desktop files with their 
-icons, the licenses and examples to help hackers or users understand and 
+The package also provides some scripts (firewall), desktop files with their 
+icons, and the licenses and examples to help hackers or users understand and 
 manage SliTaz.
 
 

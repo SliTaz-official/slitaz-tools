@@ -48,7 +48,7 @@ cancel_dl() {
 	fi
 }
 
-# Outup a command in a GTK window
+# Output a command in a GTK window
 output_command() {	
 	yad --text-info --title="TazBox Output" --window-icon=$icon \
 		--geometry="560x210+0-24" --fore="#ffffff" --back="#000000"
@@ -146,7 +146,7 @@ case "$1" in
 		# Execute a command as root
 		echo "TODO" ;;
 	logout)
-		# Lougout window with actions
+		# Logout window with actions
 		main=`logout_main`
 		# Deal with --button values
 		case $? in
