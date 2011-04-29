@@ -1,0 +1,91 @@
+# Tazbox Portuguese translation.
+# Copyright (C) 2011 www.slitaz.org
+# This file is distributed under the same license as the tazbox package.
+# Claudinei Pereira <claudinei@slitaz.org>, 2011.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: tazbox\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-04-29 20:15+0300\n"
+"PO-Revision-Date: 2011-04-29 14:22-0300\n"
+"Last-Translator: Claudinei Pereira <claudinei@slitaz.org>\n"
+"Language-Team: Portuguese <i18n@slitaz.org>\n"
+"Language: pt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: tazbox/tazbox:30
+msgid "Usage:"
+msgstr "Uso:"
+
+#: tazbox/tazbox:32
+msgid "Commands:"
+msgstr "Comandos:"
+
+#: tazbox/tazbox:33
+msgid "Display this short help usage"
+msgstr "Mostra esta utilização"
+
+#: tazbox/tazbox:34
+msgid "Desktop logout box with actions"
+msgstr "Caixa de logout do desktop com ações"
+
+#: tazbox/tazbox:35
+msgid "Pipe a command output into a GTK window"
+msgstr "Concatena a saída de um comando em uma janela GTK"
+
+#: tazbox/tazbox:36
+msgid "Pipe Wget output into a GTK window"
+msgstr "Concatena a saída do wget em uma janela GTK"
+
+#: tazbox/tazbox:37
+msgid "Configure system language (root)"
+msgstr "Configura a linguagem do sistema (root)"
+
+#: tazbox/tazbox:38
+msgid "Configure system keymap (root)"
+msgstr "Configura o mapa de teclado do sistema (root)"
+
+#: tazbox/tazbox:59
+msgid "SliTaz Logout. Please choose an action:"
+msgstr "Logout do SliTaz. Por favor escolha uma ação:"
+
+#: tazbox/tazbox:64
+msgid "Close X session"
+msgstr "Fechar a sessão X"
+
+#: tazbox/tazbox:65
+msgid "Reboot system"
+msgstr "Reiniciar o sistema"
+
+#: tazbox/tazbox:66
+msgid "Shutdown system"
+msgstr "Desligar o sistema"
+
+#: tazbox/tazbox:71
+msgid "Language configuration"
+msgstr "Configuração de linguagem"
+
+#: tazbox/tazbox:83
+msgid "Name"
+msgstr "Nome"
+
+#: tazbox/tazbox:83
+msgid "Description"
+msgstr "Descrição"
+
+#: tazbox/tazbox:99
+msgid "Keyborad configuration"
+msgstr "Configuração do teclado"
+
+#: tazbox/tazbox:121
+msgid "Keymap"
+msgstr "Mapa de teclado"
+
+#: tazbox/tazbox:121
+msgid "Type"
+msgstr "Tipo"
