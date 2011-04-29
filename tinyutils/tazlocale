@@ -3,7 +3,7 @@
 # Tazlocale: SliTaz GNU/Linux locale setting using dialog boxes.
 # Configuration file is : /etc/locale.conf
 #
-# 20100201 <pankso@slitaz.org> - GNU gpl.
+# 20110429 <pankso@slitaz.org> - GNU gpl.
 #
 
 # Check if user is root.
@@ -48,7 +48,7 @@ link_language_files()
 		ln -s index.$LANGUAGE.html index.html
 	fi
 	# SliTaz Software Manuals
-	for soft in tazpkg tazlito tazusb tazwok
+	for soft in tazpkg tazlito tazusb tazwok burnbox tazweb
 	do
 		if [ -f /usr/share/doc/$soft/$soft.$LANGUAGE.html ]; then
 			cd /usr/share/doc/$soft && rm -f $soft.html
@@ -60,10 +60,9 @@ link_language_files()
 # Locale name displayed.
 get_locale_name()
 {
-	for i in `ls -1 /usr/share/i18n/locales/ | grep ^[a-z][a-z]_[A-Z][A-Z]`
+	for i in `ls -1 /usr/share/i18n/locales | grep ^[a-z][a-z]_[A-Z][A-Z]`
 	do
-		#name=`locale -a -v | grep -A 2 "locale: $i" | grep "title" | \
-		#	cut -d " " -f 7`
+		#desc=$(grep ^title /usr/share/i18n/locales/$i | cut -d '"' -f 2)
 		echo "$i Locale"
 	done
 }
@@ -122,12 +121,17 @@ case "$1" in
 	*_*)
 		# Execute functions (can be called from an other apps).
 		$1 ;;
-	link-files)
-		link_language_files ;;
 	list)
 		echo ""
 		locale -a
 		echo "" ;;
+	init)
+		# This command can be used to change system locale from cmdline.
+		locale=$2
+		echo "LANG=$locale" > /etc/locale.conf
+		echo "LC_ALL=$locale" >> /etc/locale.conf
+		gen_utf8_locale
+		link_language_files ;;
 	*)
 		: ${DIALOG=dialog}
 		dialog_menu

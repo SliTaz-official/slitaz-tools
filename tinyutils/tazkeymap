@@ -1,25 +1,12 @@
 #!/bin/sh
 #
 # Tazkeymap - SliTaz GNU/Linux keymap config using loadkeys and dialog boxes.
-# Configuration file is : /etc/kbd.conf
+# Configuration file is : /etc/keymap.conf
 #
-# (C) SliTaz GNU/Linux - 20080427 <pankso@slitaz.org> - GNU gpl.
+# (C) SliTaz GNU/Linux - 2011 <pankso@slitaz.org> - GNU gpl.
 #
-: ${DIALOG=tazdialog}
+: ${DIALOG=dialog}
 export ICON="accessories-character-map"
-
-# Script functions.
-status()
-{
-	local CHECK=$?
-	echo -en "\\033[70G[ "
-	if [ $CHECK = 0 ]; then
-		echo -en "\\033[1;33mOK"
-	else
-		echo -en "\\033[1;31mFailed"
-	fi
-	echo -e "\\033[0;39m ]"
-}
 
 # Check if user is root.
 #
