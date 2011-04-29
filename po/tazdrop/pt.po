@@ -1,0 +1,43 @@
+# Tazdrop portuguese translation.
+# Copyright (C) 2011 www.slitaz.org
+# This file is distributed under the same license as the tazdrop package.
+# Claudinei Pereira <claudinei@slitaz.org>, 2011.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: tazdrop\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-04-29 20:30+0300\n"
+"PO-Revision-Date: 2011-04-29 14:34-0300\n"
+"Last-Translator: Claudinei Pereira <claudinei@slitaz.org>\n"
+"Language-Team: Portuguese <i18n@slitaz.org>\n"
+"Language: pt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: tazdrop/tazdrop:32
+msgid "Usage:"
+msgstr "Uso:"
+
+#: tazdrop/tazdrop:34
+msgid "Options:"
+msgstr "Opções:"
+
+#: tazdrop/tazdrop:35
+msgid "Display this small help"
+msgstr "Mostra esta utilização"
+
+#: tazdrop/tazdrop:36
+msgid "Display the desktop Drag N' Drop window"
+msgstr "Mostra a janela de Arrastar e Largar do desktop"
+
+#: tazdrop/tazdrop:37
+msgid "Display your dropped text notes"
+msgstr "Mostra suas notas de texto"
+
+#: tazdrop/tazdrop:81
+msgid "Edit or clean-up your dropped text notes"
+msgstr "Edita ou limpa suas notas de texto"
