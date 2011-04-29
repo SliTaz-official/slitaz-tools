@@ -32,11 +32,16 @@ load_keymap() {
 }
 
 case "$1" in
-	init)
+	config)
 		# Used to configure keymap from cmdline or scripts
 		kmap=$2
 		echo "$kmap" > /etc/keymap.conf
 		load_keymap ;;
+	init)
+		# Used to configure keymap boot scripts, keymap us then loaded by
+		# the script /etc/init.d/i18n.sh
+		kmap=$2
+		echo "$kmap" > /etc/keymap.conf ;;
 	*)
 		# Default to text mode dialog.
 		exec 3>&1
