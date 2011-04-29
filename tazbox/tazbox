@@ -34,8 +34,8 @@ $(gettext "Commands:")
   logout     $(gettext "Desktop logout box with actions")
   out        $(gettext "Pipe a command output into a GTK window")
   out-dl     $(gettext "Pipe Wget output into a GTK window")
-  locale     $(gettext "Configure system language")
-  keymap     $(gettext "Configure system keymap")
+  locale     $(gettext "Configure system language (root)")
+  keymap     $(gettext "Configure system keymap (root)")
 
 EOT
 }
@@ -48,7 +48,7 @@ cancel_dl() {
 	fi
 }
 
-# Output a command in a GTK window
+# Outup a command in a GTK window
 output_command() {	
 	yad --text-info --title="TazBox Output" --window-icon=$icon \
 		--geometry="560x210+0-24" --fore="#ffffff" --back="#000000"
@@ -75,29 +75,23 @@ locale_main() {
 		desc=$(grep ^title $db/$locale | cut -d '"' -f 2)
 		echo -e "$locale \n $desc"
 	done | \
-	yad --list $opts --title="SliTaz locale" --on-top \
+	yad --list --title="SliTaz locale" --window-icon=$icon \
 		--width=500 --height=380 --separator="" \
+		--center --sticky --on-top \
 		--image=preferences-desktop-locale --image-on-top \
 		--text="<b>$text</b>" --print-column=1 \
 		--column $(gettext "Name") --column $(gettext "Description")
 }
 
 locale() {
-	# Locale window with list
 	locale=$(locale_main)
 	# Deal with --button values
 	case $? in
 		1) exit 0 ;;
 		*) continue ;;
 	esac
-	# Deal with $locale values
-	[ "$locale" = "en" ] && locale="en_US"
-	# User language configuration is in ~/.profile
-	sed -i -e s"/LANG=.*/LANG=$locale/" \
-		-e s"/LC_ALL=.*/LC_ALL=$locale/" $HOME/.profile
-	# System language configuration via Tazlocale, on first boot
-	# we have root for root passwd so we can configure system locale
-	echo 'root' | su -c "tazlocale init $locale"
+	# System language configuration.
+	[ "$locale" ] && tazlocale init $locale
 }
 
 # Keymap functions
@@ -119,23 +113,24 @@ keymap_main() {
 		type=$(echo $i | cut -d "|" -f 2)
 		echo -e "${keymap%.map.gz} \n $type"
 	done | \
-	yad --list $opts --title="SliTaz locale" \
+	yad --list $opts --title="SliTaz keymap" --window-icon=$icon \
 		--width=500 --height=380 --separator="" \
+		--center --sticky --on-top \
 		--image=input-keyboard --image-on-top \
 		--text="<b>$text</b>" --print-column=1 \
 		--column $(gettext "Keymap") --column $(gettext "Type")
+	rm -f $tmp
 }
 
 keymap() {
-	# Locale window with list
 	keymap=$(keymap_main)
 	# Deal with --button values
 	case $? in
 		1) exit 0 ;;
 		*) continue ;;
 	esac
-	[ "$keymap" ] && loadkeys $keymap
-	#setxkbmap $keymap
+	# System keymap configuration
+	[ "$keymap" ] && tazkeymap init $keymap
 }
 
 #
@@ -146,7 +141,7 @@ case "$1" in
 		# Execute a command as root
 		echo "TODO" ;;
 	logout)
-		# Logout window with actions
+		# Lougout window with actions
 		main=`logout_main`
 		# Deal with --button values
 		case $? in
@@ -171,11 +166,13 @@ case "$1" in
 		locale ;;
 	keymap)
 		keymap ;;
-	i18n)
-		# This command is used at first login to configure user
-		# environment.
+	boot)
+		# This command is used at first boot to configure system.
+		Xorg -br -quiet :1 &
+		DISPLAY=:1 openbox &
 		locale
-		keymap ;;
+		keymap
+		killall Xorg ;;
 	*)
 		usage ;;
 esac
