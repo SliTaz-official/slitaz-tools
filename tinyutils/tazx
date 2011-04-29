@@ -57,23 +57,22 @@ xorg_conf_d()
 		fr_CH-latin1)
 			# Swiss FrenCH
 			echo '	Option "XkbLayout" "ch"
-	Option "XkbVariant" "fr"' >> $keyboard_config
-		;;
+	Option "XkbVariant" "fr"' >> $keyboard_config ;;
 		en)
 			# Englisk UK
 			echo '	Option "XkbLayout" "en"
-	Option "XkbVariant" "en"' >> $keyboard_config
-		;;
+	Option "XkbVariant" "en"' >> $keyboard_config ;;
 		ru)
 			# Russian
 			echo '	Option "XkbLayout" "us,ru(winkeys)"
-	Option "XkbVariant" "grp:alt_shift_toggle"'  >> $keyboard_config
-		;;
+	Option "XkbVariant" "grp:alt_shift_toggle"'  >> $keyboard_config ;;
 		slovene)
 			# Slovenian
 			echo '	Option "XkbLayout" "si"
-	Option "XkbOptions" "grp:alt_shift_toggle"' >> $keyboard_config
-		;;
+	Option "XkbOptions" "grp:alt_shift_toggle"' >> $keyboard_config ;;
+		us-acentos)
+			echo '	Option "XkbLayout" "us"
+	Option "XkbVariant" "intl"' >> $keyboard_config ;;
 		*)
 			# Use clean /etc/keymap.conf value.
 			keymap=${keymap%-latin1}
