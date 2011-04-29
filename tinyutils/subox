@@ -1,0 +1,3 @@
+#!/bin/sh
+# Small wrapper for the old subox.
+exec tazbox su "$@"
