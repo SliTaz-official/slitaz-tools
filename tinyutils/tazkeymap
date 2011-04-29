@@ -6,16 +6,13 @@
 # (C) SliTaz GNU/Linux - 2011 <pankso@slitaz.org> - GNU gpl.
 #
 : ${DIALOG=dialog}
-export ICON="accessories-character-map"
 
 # Check if user is root.
 #
 if test $(id -u) != 0; then
-  echo ""
-  echo "You must be root to run `basename $0`!"
-  echo "Type 'su' and root password to become super-user."
-  echo ""
-  exit 1
+	echo -e "\nYou must be root to run `basename $0`!"
+	echo -e "Type 'su' and root password to become super-user.\n"
+	exit 1
 fi
 
 # Get current keymap if it exists.
@@ -25,77 +22,85 @@ else
 	CUR="none"
 fi
 
-# Dialog menu.
-#
-exec 3>&1
-value=`$DIALOG  --clear \
-    --title " SliTaz keymap configuration " \
-    --menu "\nPlease select your keymap, current config: $CUR" 15 70 5 \
-"us"            "USA" \
-"fr_CH-latin1"  "Suisse Romande" \
-"fr-latin1"     "France" \
-"be-latin1"     "Belgique" \
-"br-abnt2"      "Brazil" \
-"cf"            "Canada/Quebec" \
-"croat"         "Croat" \
-"cz-lat2"       "Czech" \
-"de_CH-latin1"  "Schweizer Deutsch" \
-"de-latin1"     "Deutchland" \
-"dk-latin1"     "Danemark" \
-"dvorak"        "Dvorak" \
-"dvorak-r"      "Dvorak (right-hand)" \
-"dvorak-l"      "Dvorak (left-hand)" \
-"es"            "Spain/Mexico" \
-"fi-latin1"     "Finland" \
-"hu"            "Hungria" \
-"it"            "Italia" \
-"is-latin1"     "Island" \
-"jp106"         "Japan" \
-"nl2"           "Netherlands" \
-"no-latin1"     "Norway" \
-"pl2"           "Poland" \
-"pt-latin1"     "Portugal" \
-"ru"            "Russia" \
-"se-lat6"       "Sweden" \
-"sg-latin1"     "Singapore " \
-"trq"			"Turkey" \
-"uk"            "United Kingdom" \
-"us-acentos"    "USA Acentos" \
-2>&1 1>&3`
-retval=$?
-exec 3>&-
+# Load the selected kmap file from /usr/share/kbd/keymaps or Busybox kmaps.
+load_keymap() {
+	if [ -x /bin/loadkeys ]; then
+		loadkeys $kmap
+	else
+		loadkmap < /usr/share/kmap/$kmap.kmap
+	fi
+}
 
-case $retval in
-	0)
-		continue ;;
-	1)
-		echo "Cancel pressed."
-		exit 0 ;;
-	255)
-		if test -n "$value" ; then
-			echo "$value"
-		else
-			echo "ESC pressed."
-			exit 0
-		fi ;;
+case "$1" in
+	init)
+		# Used to configure keymap from cmdline or scripts
+		kmap=$2
+		echo "$kmap" > /etc/keymap.conf
+		load_keymap ;;
+	*)
+		# Default to text mode dialog.
+		exec 3>&1
+		value=`$DIALOG  --clear \
+		--title " SliTaz keymap configuration " \
+		--menu "\nPlease select your keymap, current config: $CUR" 15 70 5 \
+		"us"            "USA" \
+		"fr_CH-latin1"  "Suisse Romande" \
+		"fr-latin1"     "France" \
+		"be-latin1"     "Belgique" \
+		"br-abnt2"      "Brazil" \
+		"cf"            "Canada/Quebec" \
+		"croat"         "Croat" \
+		"cz-lat2"       "Czech" \
+		"de_CH-latin1"  "Schweizer Deutsch" \
+		"de-latin1"     "Deutchland" \
+		"dk-latin1"     "Danemark" \
+		"dvorak"        "Dvorak" \
+		"dvorak-r"      "Dvorak (right-hand)" \
+		"dvorak-l"      "Dvorak (left-hand)" \
+		"es"            "Spain/Mexico" \
+		"fi-latin1"     "Finland" \
+		"hu"            "Hungria" \
+		"it"            "Italia" \
+		"is-latin1"     "Island" \
+		"jp106"         "Japan" \
+		"nl2"           "Netherlands" \
+		"no-latin1"     "Norway" \
+		"pl2"           "Poland" \
+		"pt-latin1"     "Portugal" \
+		"ru"            "Russia" \
+		"se-lat6"       "Sweden" \
+		"sg-latin1"     "Singapore " \
+		"trq"			"Turkey" \
+		"uk"            "United Kingdom" \
+		"us-acentos"    "USA Acentos" \
+		2>&1 1>&3`
+		retval=$?
+		exec 3>&-
+		case $retval in
+			0)
+				continue ;;
+			1)
+				echo "Cancel pressed."
+				exit 0 ;;
+			255)
+				if test -n "$value" ; then
+					echo "$value"
+				else
+					echo "ESC pressed."
+					exit 0
+				fi ;;
+		esac
+		# If it's a reconfiguration give an info message.
+		if [ -s /etc/keymap.conf ]; then
+			$DIALOG --clear \
+				--title " Keyboard mapping information\n" \
+				--msgbox "
+		Please logout of your current session and login again to use $value
+		keyboard.\n" 16 70
+		fi
+		kmap=$value
+		echo "$kmap" > /etc/keymap.conf
+		load_keymap ;;
 esac
-
-# If it's a reconfiguration give an info message.
-if [ -s /etc/keymap.conf ]; then
-	$DIALOG --clear \
-		--title " Keyboard mapping information\n" \
-		--msgbox "
-Please logout of your current session and login again to use $value
-keyboard.\n" 16 70
-fi
-
-# Now we can load the selected kmap file from /usr/share/kbd/keymaps.
-#
-echo "$value" > /etc/keymap.conf
-if [ -x /bin/loadkeys ]; then
-	loadkeys $value
-else
-	loadkmap < /usr/share/kmap/$value.kmap
-fi
 
 exit 0
