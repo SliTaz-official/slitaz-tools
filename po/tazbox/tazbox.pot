@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-29 11:33+0200\n"
+"POT-Creation-Date: 2011-04-29 13:39+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,11 +42,11 @@ msgid "Pipe Wget output into a GTK window"
 msgstr ""
 
 #: tazbox/tazbox:37
-msgid "Configure system language"
+msgid "Configure system language (root)"
 msgstr ""
 
 #: tazbox/tazbox:38
-msgid "Configure system keymap"
+msgid "Configure system keymap (root)"
 msgstr ""
 
 #: tazbox/tazbox:59
@@ -69,22 +69,22 @@ msgstr ""
 msgid "Language configuration"
 msgstr ""
 
-#: tazbox/tazbox:82
+#: tazbox/tazbox:83
 msgid "Name"
 msgstr ""
 
-#: tazbox/tazbox:82
+#: tazbox/tazbox:83
 msgid "Description"
 msgstr ""
 
-#: tazbox/tazbox:105
+#: tazbox/tazbox:99
 msgid "Keyborad configuration"
 msgstr ""
 
-#: tazbox/tazbox:126
+#: tazbox/tazbox:121
 msgid "Keymap"
 msgstr ""
 
-#: tazbox/tazbox:126
+#: tazbox/tazbox:121
 msgid "Type"
 msgstr ""
