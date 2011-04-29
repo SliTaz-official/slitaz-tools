@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-18 19:05+0100\n"
+"POT-Creation-Date: 2011-04-29 11:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,34 +17,74 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: tazbox/tazbox:24
+#: tazbox/tazbox:30
 msgid "Usage:"
 msgstr ""
 
-#: tazbox/tazbox:26
+#: tazbox/tazbox:32
 msgid "Commands:"
 msgstr ""
 
-#: tazbox/tazbox:27
+#: tazbox/tazbox:33
 msgid "Display this short help usage"
 msgstr ""
 
-#: tazbox/tazbox:28
-msgid "Desktop logout box"
+#: tazbox/tazbox:34
+msgid "Desktop logout box with actions"
 msgstr ""
 
 #: tazbox/tazbox:35
+msgid "Pipe a command output into a GTK window"
+msgstr ""
+
+#: tazbox/tazbox:36
+msgid "Pipe Wget output into a GTK window"
+msgstr ""
+
+#: tazbox/tazbox:37
+msgid "Configure system language"
+msgstr ""
+
+#: tazbox/tazbox:38
+msgid "Configure system keymap"
+msgstr ""
+
+#: tazbox/tazbox:59
 msgid "SliTaz Logout. Please choose an action:"
 msgstr ""
 
-#: tazbox/tazbox:41
+#: tazbox/tazbox:64
 msgid "Close X session"
 msgstr ""
 
-#: tazbox/tazbox:42
+#: tazbox/tazbox:65
 msgid "Reboot system"
 msgstr ""
 
-#: tazbox/tazbox:43
+#: tazbox/tazbox:66
 msgid "Shutdown system"
+msgstr ""
+
+#: tazbox/tazbox:71
+msgid "Language configuration"
+msgstr ""
+
+#: tazbox/tazbox:82
+msgid "Name"
+msgstr ""
+
+#: tazbox/tazbox:82
+msgid "Description"
+msgstr ""
+
+#: tazbox/tazbox:105
+msgid "Keyborad configuration"
+msgstr ""
+
+#: tazbox/tazbox:126
+msgid "Keymap"
+msgstr ""
+
+#: tazbox/tazbox:126
+msgid "Type"
 msgstr ""

@@ -1,7 +1,7 @@
 #!/bin/sh
 #
-# SliTaz tiny GUI boxes for the desktop (su, logout, etc) and as usual
-# please KISS
+# SliTaz tiny GUI boxes for the desktop (su, logout, locale, etc)
+# and as usual, please: KISS
 #
 # Note: $(gettext "text") doesn't work inside Yad so use `gettext \"text\"`
 #
@@ -34,10 +34,13 @@ $(gettext "Commands:")
   logout     $(gettext "Desktop logout box with actions")
   out        $(gettext "Pipe a command output into a GTK window")
   out-dl     $(gettext "Pipe Wget output into a GTK window")
+  locale     $(gettext "Configure system language")
+  keymap     $(gettext "Configure system keymap")
 
 EOT
 }
 
+# User may press cancel on download.
 cancel_dl() {
 	if [ "$?" == 1 ]; then
 		echo "CANCEL"
@@ -61,6 +64,78 @@ logout_main() {
 			"`gettext \"Close X session\"` : exit" \
 			"`gettext \"Reboot system\"` : reboot" \
 			"`gettext \"Shutdown system\"` : halt"
+}
+
+# Locale functions
+locale_main() {
+	text=$(gettext "Language configuration")
+	db=/usr/share/i18n/locales
+	for locale in $(ls -1 $db | grep ^[a-z][a-z]_[A-Z][A-Z])
+	do
+		desc=$(grep ^title $db/$locale | cut -d '"' -f 2)
+		echo -e "$locale \n $desc"
+	done | \
+	yad --list $opts --title="SliTaz locale" --on-top \
+		--width=500 --height=380 --separator="" \
+		--image=preferences-desktop-locale --image-on-top \
+		--text="<b>$text</b>" --print-column=1 \
+		--column $(gettext "Name") --column $(gettext "Description")
+}
+
+locale() {
+	# Locale window with list
+	locale=$(locale_main)
+	# Deal with --button values
+	case $? in
+		1) exit 0 ;;
+		*) continue ;;
+	esac
+	# Deal with $locale values
+	[ "$locale" = "en" ] && locale="en_US"
+	# User language configuration is in ~/.profile
+	sed -i -e s"/LANG=.*/LANG=$locale/" \
+		-e s"/LC_ALL=.*/LC_ALL=$locale/" $HOME/.profile
+	# System language configuration via Tazlocale, on first boot
+	# we have root for root passwd so we can configure system locale
+	echo 'root' | su -c "tazlocale init $locale"
+}
+
+# Keymap functions
+keymap_main() {
+	text=$(gettext "Keyborad configuration")
+	tmp=/tmp/keymap.list
+	echo > $tmp
+	cd /usr/share/kbd/keymaps/i386
+	# We first need a list to sort and then use \n fo Yad list.
+	for i in $(find *rty *rtz dvorak -name *.map.gz)
+	do
+		keymap=$(basename $i)
+		type=$(dirname $i)
+		echo -e "$keymap|$type" >> $tmp
+	done
+	for i in $(sort $tmp)
+	do
+		keymap=$(echo $i | cut -d "|" -f 1)
+		type=$(echo $i | cut -d "|" -f 2)
+		echo -e "${keymap%.map.gz} \n $type"
+	done | \
+	yad --list $opts --title="SliTaz locale" \
+		--width=500 --height=380 --separator="" \
+		--image=input-keyboard --image-on-top \
+		--text="<b>$text</b>" --print-column=1 \
+		--column $(gettext "Keymap") --column $(gettext "Type")
+}
+
+keymap() {
+	# Locale window with list
+	keymap=$(keymap_main)
+	# Deal with --button values
+	case $? in
+		1) exit 0 ;;
+		*) continue ;;
+	esac
+	[ "$keymap" ] && loadkeys $keymap
+	#setxkbmap $keymap
 }
 
 #
@@ -92,6 +167,15 @@ case "$1" in
 		url=$2
 		busybox wget -c -P $DOWNLOADS $url 2>&1 | output_command
 		cancel_dl ;;
+	locale)
+		locale ;;
+	keymap)
+		keymap ;;
+	i18n)
+		# This command is used at first login to configure user
+		# environment.
+		locale
+		keymap ;;
 	*)
 		usage ;;
 esac

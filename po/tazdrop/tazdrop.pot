@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazDrop\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-18 19:05+0100\n"
+"POT-Creation-Date: 2011-04-29 11:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,26 +17,26 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: tazdrop/tazdrop:30
+#: tazdrop/tazdrop:32
 msgid "Usage:"
 msgstr ""
 
-#: tazdrop/tazdrop:32
+#: tazdrop/tazdrop:34
 msgid "Options:"
 msgstr ""
 
-#: tazdrop/tazdrop:33
+#: tazdrop/tazdrop:35
 msgid "Display this small help"
 msgstr ""
 
-#: tazdrop/tazdrop:34
+#: tazdrop/tazdrop:36
 msgid "Display the desktop Drag N' Drop window"
 msgstr ""
 
-#: tazdrop/tazdrop:35
+#: tazdrop/tazdrop:37
 msgid "Display your dropped text notes"
 msgstr ""
 
-#: tazdrop/tazdrop:79
+#: tazdrop/tazdrop:81
 msgid "Edit or clean-up your dropped text notes"
 msgstr ""
