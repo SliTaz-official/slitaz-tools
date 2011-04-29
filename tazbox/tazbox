@@ -168,7 +168,7 @@ case "$1" in
 		keymap ;;
 	boot)
 		# This command is used at first boot to configure system.
-		Xorg -br -quiet :1 &
+		Xorg -br -quiet -nolisten tcp :1 &
 		DISPLAY=:1 openbox &
 		locale
 		keymap
