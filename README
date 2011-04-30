@@ -13,12 +13,20 @@ icons, and the licenses and examples to help hackers or users understand and
 manage SliTaz.
 
 
+More tools informations
+-----------------------
+
+    * installer/README
+    * tazbox/README
+
+
 Installation
 ------------
 The tools are built and installed through tazwok and the wok, and split
 into 2 separate packages: one with only ncurses dependencies (for a text 
 system) and one with GTK dependencies (for a graphical system). So make 
 install...
+
 
 Translation
 -----------	

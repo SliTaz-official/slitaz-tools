@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tazbox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-30 14:31+0200\n"
+"POT-Creation-Date: 2011-04-30 15:54+0200\n"
 "PO-Revision-Date: 2011-04-29 14:22-0300\n"
 "Last-Translator: Claudinei Pereira <claudinei@slitaz.org>\n"
 "Language-Team: Portuguese <i18n@slitaz.org>\n"
@@ -75,7 +75,8 @@ msgid "Error: wrong password!"
 msgstr ""
 
 #: tazbox/tazbox:80
-msgid "SliTaz Logout. Please choose an action:"
+#, fuzzy
+msgid "<b>SliTaz Logout.</b> Please choose an action:"
 msgstr "Logout do SliTaz. Por favor escolha uma ação:"
 
 #: tazbox/tazbox:85
