@@ -8,10 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: subox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-22 23:40+0200\n"
+"POT-Creation-Date: 2011-04-29 18:20+0200\n"
 "PO-Revision-Date: 2010-10-23 00:08+0100\n"
 "Last-Translator: Christophe Lincoln <pankso@slitaz.org>\n"
 "Language-Team: French\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -33,7 +34,6 @@ msgstr ""
 msgid "<b>Admin password :</b>"
 msgstr "<b>Mot de passe admin:</b>"
 
-#: tinyutils/subox:88
+#: tinyutils/subox:89
 msgid "Autosave password"
 msgstr "Sauvegarder mot de passe"
-
