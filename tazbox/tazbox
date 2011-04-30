@@ -77,9 +77,9 @@ output_command() {
 
 # Logout GUI function
 logout_main() {
-	text=$(gettext "SliTaz Logout. Please choose an action:")
+	text=$(gettext "<b>SliTaz Logout.</b> Please choose an action:")
 	yad --entry --title="SliTaz Logout" --window-icon=$icon \
-		--width=440 --height=150 --text="$text" \
+		--width=440 --height=140 --text="$text" \
 		--image="slitaz-menu" --image-on-top \
 		--center --on-top  --entry-text \
 			"`gettext \"Close X session\"` : exit" \
