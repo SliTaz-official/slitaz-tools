@@ -31,7 +31,7 @@ $(gettext "Usage:") $(basename $0) [command]
 
 $(gettext "Commands:")
   usage      $(gettext "Display this short help usage")
-  su         $(gettext "Execute a command a super-user")
+  su         $(gettext "Execute a command as super-user")
   logout     $(gettext "Desktop logout box with actions")
   out        $(gettext "Pipe a command output into a GTK window")
   out-dl     $(gettext "Pipe Wget output into a GTK window")
@@ -69,7 +69,7 @@ cancel_dl() {
 	fi
 }
 
-# Outup a command in a GTK window
+# Output a command in a GTK window
 output_command() {	
 	yad --text-info --title="TazBox Output" --window-icon=$icon \
 		--geometry="560x210+0-24" --fore="#ffffff" --back="#000000"
@@ -117,11 +117,11 @@ locale() {
 
 # Keymap functions
 keymap_main() {
-	text=$(gettext "Keyborad configuration")
+	text=$(gettext "Keyboard configuration")
 	tmp=/tmp/keymap.list
 	echo > $tmp
 	cd /usr/share/kbd/keymaps/i386
-	# We first need a list to sort and then use \n fo Yad list.
+	# We first need a list to sort and then use \n for Yad list.
 	for i in $(find *rty *rtz dvorak -name *.map.gz)
 	do
 		keymap=$(basename $i)
@@ -159,26 +159,26 @@ keymap() {
 #
 case "$1" in
 	su)
-		# Keep command in an exported variable to be used by Yad. 4 argument
-		# should be inuff: appname --opt --opt -v /dev/sda. Nothing to do if
+		# Keep command in an exported variable to be used by Yad. 4 arguments
+		# should be enuff: appname --opt --opt -v /dev/sda. Nothing to do if
 		# we are root.
 		test $(id -u) = 0 && exec $2 $3 $4 $5
 		export SU_CMD="$2 $3 $4 $5"
-		# Check if a password have been saved before launch main dialog
+		# Check if a password has been saved before launching main dialog
 		if [ -s $HOME/.config/slitaz/subox.conf ]; then	
 			PASSWD=$(cat $HOME/.config/slitaz/subox.conf)
 			CHECKED="TRUE"
 		fi
 		# Display the main dialog (ask for password) 
 		main=$(su_main)
-		# Deal with --button values and exit if canceled to avoid erasing
+		# Deal with --button values and exit if cancelled to avoid erasing
 		# saved password.
 		case $? in
 			1) exit 0 ;;
 			*) continue ;;
 		esac
 		# Save or erase Autosaved password
-		if [ $(echo $main |cut -f2 -d"|") == "TRUE" ]; then 
+		if [ $(echo $main | cut -f2 -d"|") == "TRUE" ]; then 
 			echo $main | cut -f 1 -d "|" > $HOME/.config/slitaz/subox.conf
 			chmod 0600 $HOME/.config/slitaz/subox.conf 
 		else
@@ -187,7 +187,7 @@ case "$1" in
 		# Try to login & execute. If password is wrong execute error dialog 
 		echo $main | cut -f 1 -d "|" | su -c "$SU_CMD &" || su_error ;;
 	logout)
-		# Lougout window with actions
+		# Logout window with actions
 		main=`logout_main`
 		# Deal with --button values
 		case $? in
@@ -203,7 +203,7 @@ case "$1" in
 	out)
 		# Pipe a command into a GTK window
 		output_command ;;
-	dl-out)
+	out-dl)
 		# A tiny GTK window for Busybox wget output
 		url=$2
 		busybox wget -c -P $DOWNLOADS $url 2>&1 | output_command

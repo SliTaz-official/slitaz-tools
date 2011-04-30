@@ -2,19 +2,19 @@ SliTaz Installer
 ================================================================================
 
 
-The first SliTaz installer use ncurses Dialog within a SHell script. At the
-date of april 2011 is is the last SliTaz home make tools who dont have a
-desktop integrated interface. So we must think different and make change,
-we must also keep in mind that the first installer have some crappy code
+The first SliTaz installer uses ncurses Dialog within a SHell script. As of
+April 2011 it is the last SliTaz home made tool which doesn't have a
+desktop integrated interface. So we must think differently and make changes,
+we must also keep in mind that the first installer had some crappy code
 since it was written at the start of the project.
 
-The NEW way to think: one installer, all in SHell script and usable from the
-cmdline without dialog or any other gui alike interface! This new installer
+The NEW way to think: one installer, entirely in SHell script and usable from 
+the cmdline without dialog or any other gui-like interface! This new installer
 must be able to perform an installation automatically based an a simple config
-file wich clear variables such as: TYPE="iso|web", TARGET="/dev/hda1", USER="".
+file with clear variables such as: TYPE="iso|web", TARGET="/dev/hda1", USER="".
 
-This way we will be able to create different kind of frontend: Dialog, GTK and
-CGI/web in TazPanel. The front just have to create a config file and start
-the cmdline installer and report steps in a nice way (progess bar or/and
+With this way, we will be able to create a different kind of frontend: Dialog, 
+GTK and CGI/web in TazPanel. The frontend just has to create a config file and 
+start the cmdline installer and report steps in a nice way (progess bar or/and
 messages).
 
