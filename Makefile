@@ -4,7 +4,8 @@
 PREFIX?=/usr
 DOCDIR?=/usr/share/doc
 DESTDIR?=
-TINYUTILS?=subox scpbox
+TOOLS?=scpbox tazbox tazdrop
+TINYUTILS?=scpbox
 LINGUAS?=fr pt
 	
 all:
@@ -23,7 +24,7 @@ tazdrop-pot:
 		--package-name="TazDrop" ./tazdrop/tazdrop
 	@echo "done"
 
-pot: tazbox-pot tazdrop-pot
+tinyutils-pot: 
 	@for p in $(TINYUTILS); do \
 		echo -n "Generating $$p pot file... "; \
 		xgettext -o po/$$p/$$p.pot -L Shell \
@@ -31,23 +32,27 @@ pot: tazbox-pot tazdrop-pot
 		echo "done"; \
 	done;
 
+pot: tazbox-pot tazdrop-pot tinyutils-pot
+
 msgmerge:
-	@for p in $(TINYUTILS); do \
+	@for p in $(TOOLS); do \
 		for l in $(LINGUAS); do \
-			echo -n "Updating $$p $$l po file."; \
-			msgmerge -U po/$$p/$$l.po po/$$p/$$p.pot ; \
+			echo -en "\rUpdating $$p $$l po file."; \
+			[ -f "po/$$p/$$l.po" ] && \
+				msgmerge -U po/$$p/$$l.po po/$$p/$$p.pot; \
 		done; \
 	done;
 
 msgfmt:
-	@for p in $(TINYUTILS); do \
+	@for p in $(TOOLS); do \
 		for l in $(LINGUAS); do \
 			echo -n "Compiling $$p $$l mo file... "; \
 			mkdir -p po/mo/$$l; \
-			msgfmt -o po/mo/$$l/$$p.mo po/$$p/$$l.po ; \
+			[ -f "po/$$p/$$l.po" ] && msgfmt -o po/mo/$$l/$$p.mo po/$$p/$$l.po; \
 			echo "done"; \
 		done; \
 	done;
 
 clean:
 	rm -rf po/mo
+	rm -f po/*/*.po~
