@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-29 18:20+0200\n"
+"POT-Creation-Date: 2011-04-30 14:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,61 +30,85 @@ msgid "Display this short help usage"
 msgstr ""
 
 #: tazbox/tazbox:34
-msgid "Desktop logout box with actions"
+msgid "Execute a command a super-user"
 msgstr ""
 
 #: tazbox/tazbox:35
-msgid "Pipe a command output into a GTK window"
+msgid "Desktop logout box with actions"
 msgstr ""
 
 #: tazbox/tazbox:36
-msgid "Pipe Wget output into a GTK window"
+msgid "Pipe a command output into a GTK window"
 msgstr ""
 
 #: tazbox/tazbox:37
-msgid "Configure system language (root)"
+msgid "Pipe Wget output into a GTK window"
 msgstr ""
 
 #: tazbox/tazbox:38
+msgid "Configure system language (root)"
+msgstr ""
+
+#: tazbox/tazbox:39
 msgid "Configure system keymap (root)"
 msgstr ""
 
-#: tazbox/tazbox:59
+#: tazbox/tazbox:46
+msgid "Slitaz admin password"
+msgstr ""
+
+#: tazbox/tazbox:47
+msgid "Please enter root password (default root) to execute:"
+msgstr ""
+
+#: tazbox/tazbox:53
+msgid "Password:"
+msgstr ""
+
+#: tazbox/tazbox:54
+msgid "Autosave password"
+msgstr ""
+
+#: tazbox/tazbox:58
+msgid "Error: wrong password!"
+msgstr ""
+
+#: tazbox/tazbox:80
 msgid "SliTaz Logout. Please choose an action:"
 msgstr ""
 
-#: tazbox/tazbox:64
+#: tazbox/tazbox:85
 msgid "Close X session"
 msgstr ""
 
-#: tazbox/tazbox:65
+#: tazbox/tazbox:86
 msgid "Reboot system"
 msgstr ""
 
-#: tazbox/tazbox:66
+#: tazbox/tazbox:87
 msgid "Shutdown system"
 msgstr ""
 
-#: tazbox/tazbox:71
+#: tazbox/tazbox:92
 msgid "Language configuration"
 msgstr ""
 
-#: tazbox/tazbox:83
+#: tazbox/tazbox:104
 msgid "Name"
 msgstr ""
 
-#: tazbox/tazbox:83
+#: tazbox/tazbox:104
 msgid "Description"
 msgstr ""
 
-#: tazbox/tazbox:99
+#: tazbox/tazbox:120
 msgid "Keyborad configuration"
 msgstr ""
 
-#: tazbox/tazbox:121
+#: tazbox/tazbox:142
 msgid "Keymap"
 msgstr ""
 
-#: tazbox/tazbox:121
+#: tazbox/tazbox:142
 msgid "Type"
 msgstr ""
