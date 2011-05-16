@@ -58,10 +58,9 @@ xorg_conf_d()
 			# Swiss FrenCH
 			echo '	Option "XkbLayout" "ch"
 	Option "XkbVariant" "fr"' >> $keyboard_config ;;
-		en)
+		uk)
 			# Englisk UK
-			echo '	Option "XkbLayout" "en"
-	Option "XkbVariant" "en"' >> $keyboard_config ;;
+			echo '	Option "XkbLayout" "gb"' >> $keyboard_config ;;
 		ru)
 			# Russian
 			echo '	Option "XkbLayout" "us,ru(winkeys)"
