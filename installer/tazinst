@@ -1,0 +1,1248 @@
+#!/bin/sh
+# slitaz-installer - SliTaz GNU/Linux installer.
+#
+# So this is the SliTaz installer. The script starts with a
+# few main variables, then all the functions and then the 
+# full sequence of functions.
+#
+# (C) 2007-2011 SliTaz - GNU General Public License v3.
+#
+# Authors : Christophe Lincoln <pankso@slitaz.org>
+#
+
+VERSION=2.99
+
+#
+SOURCE_ROOT=/media/source
+TARGET_ROOT=/mnt/target
+LOG=/var/log/tazinst.log
+BACKLIST="SliTaz GNU/Linux installer"
+
+# Default debug
+DEBUG=0
+
+# Mirror urls
+URL_STABLE="http://mirror.slitaz.org/iso/stable/slitaz-3.0.iso"
+URL_COOKING="http://mirror.slitaz.org/iso/cooking/slitaz-cooking.iso"
+URL_ROLLING="http://mirror.slitaz.org/iso/rolling/slitaz-core.iso"
+
+# Print a short help
+usage()
+{
+	echo -e "\n`gettext \"Tazinst - SliTaz installer - Version\"`: $VERSION\n"
+	echo -e "\033[1m`gettext \"Usage\"`:"
+	echo -e "\033[0m `gettext \"tazinst [command] [config-file|options]\n\"`"
+	echo -e "\033[1m`gettext \"Commands\"`: \033[0m"
+	echo -e "usage         Print this short usage."
+	echo -e "install       Install SliTaz on HDD using a configuration file."
+	echo -e "upgrade       Upgrade SLiTaz on HDD using a configuration file."
+	echo -e "config        Generate a configuration file."
+	echo -e "cli           Install or upgrade using command line options:"
+	echo -e "  -i             `gettext \"Full Install (not upgrading, all present data will be lost).\"`"
+	echo -e "  -u             `gettext \"Upgrade (Needs an active internet connection).\"`"
+	echo -e "  -t <type>      `gettext \"Install type (cdrom|usb|iso|web|weboot).\"`"
+	echo -e "  -m <source>    `gettext \"Source media (ex: file.iso|usb partition|web url)\"`"
+	echo -e "  -p <partition> `gettext \"Partition where SliTaz will be installed (ex:/dev/hda3).\"`"
+	echo -e "  -f <fs>        `gettext \"Partition will be formatted (fs=ext2|ext3|ext4|etc..).\"`"
+	echo -e "  -g             `gettext \"Install Grub.\"`"
+	echo -e "  -w             `gettext \"Dual-boot a Windows partition (auto|hd<disk>,<part> ex:hd0,0).\"`"
+	echo -e "  -d             `gettext \"Debug mode.\"`"
+	exit 0
+}
+
+# Print an error msg & exit
+# $1: exit code
+# $@: err msg
+abort()
+{
+	# unmouting source & target
+	if mount | grep -q $SOURCE_ROOT; then
+		umount $SOURCE_ROOT 2>>$LOG
+	fi
+	if mount | grep -q $TARGET_ROOT; then
+		umount $TARGET_ROOT 2>>$LOG
+	fi
+	echo "Error $@"
+	echo "Installation canceled"
+	test $(id -u) = 0 && echo "Installation canceled on error $@" >> $LOG
+	exit $1
+}
+
+# Print a warning msg
+warning()
+{
+	echo "Warning: $@" | tee -a $LOG
+}
+
+# Print a debug msg
+debug()
+{
+	[ $DEBUG -gt 0 ] && echo -e "\033[1mDEBUG: \033[0m$1" 
+	echo "DEBUG: $1" >>$LOG
+}
+
+# print a msg
+msg()
+{
+	STEP=$(($STEP+1))
+	echo "$STEP. $@" | tee -a $LOG
+}
+
+########################
+# Gen-config functions #
+########################
+
+# Generate a config file
+# $1: Configuration file
+gen_config()
+{
+	CONFILE=$1
+	touch $CONFILE || error 1 "Unable to write $CONFILE"
+	if [ -r "$CONFILE" ]; then
+		cat > $CONFILE << _EOF_
+# tazinst.conf: SliTaz Installer configuration file.
+#
+
+# Install type : [cdrom|usb|iso|web|weboot]
+INST_TYPE="cdrom"
+
+# Install source
+# usb:/dev/xxx, ex: SRC_FILE=/dev/sdb1
+# iso:file.iso, ex: SRC_FILE=~/slitaz.3.0.iso
+# web: url, ex: SRC_FILE=http://mirror.slitaz.org/iso/cooking/slitaz-cooking.iso
+# web: predefinites (stable|cooking|rolling), ex: SRC_FILE=cooking
+SRC_FILE=""
+
+# Install Target (Root Partition).
+TGT_PARTITION="/dev/hda5"
+
+# Target File system.  
+# SliTaz uses ext3 by default but another filesystem can be used if wanted,
+# for this please adjust your /etc/fstab after installation. Valid options are:
+# (btrfs|ext2|ext3|ext4|fat16|fat32|hfs|hfs+|jfs|ntfs|reiser4|reiserfs|ufs|xfs)
+TGT_FS="ext3"
+
+# Home partition.
+# On most GNU/Linux systems users personal files are stored in the directory
+# /home. Home can be on a separate partition or another hard disk.
+TGT_HOME=""
+# Home File system (if /home is on a separate partition)
+TGT_HOME_FS=""
+
+# Hostname
+TGT_HOSTNAME="slitaz"
+
+# root password
+# The root administrator privilege lets you manage and configure the full
+# system. A root user can damage your system so you should always setup a
+# strong password with special characters and/or numbers.
+TGT_ROOT_PWD="root"
+
+# The default user for the system will have his personal files stored
+# in /home/*user* (and will be automatically added to the audio group).
+TGT_USER="tux"
+TGT_USER_PWD=""
+
+# Grub bootloader
+# install grub [yes|no]
+TGT_GRUB="no"
+# Where to find menu.lst (dedicated grub part. or multi-os install)
+# If you don't know what to do, it's safe to leave it blank
+TGT_MENU_PARTITION=""
+
+# Windows dual-boot
+# Dual boot is disabled if WINBOOT is empty: TGT_WINBOOT=""
+# You may let tazinst find your win partition, mode=auto: TGT_WINBOOT="auto"
+# or set manual setting: "hd[disk],[partition]" ex:TGT_WINBOOT=hd0,0
+TGT_WINBOOT=""
+
+_EOF_
+
+	else
+		abort 2 "Configuration file $CONFILE not found"
+	fi
+
+}
+
+######################
+# Checking functions #
+######################
+
+
+# def values and start log
+# $@ : 
+init()
+{
+	echo "=== Tazinst start at `date` ===" >$LOG
+	echo "Command: $0 $@" >>$LOG
+
+	# Default Type
+	INST_TYPE=cdrom
+	# Default Hostname.
+	TGT_HOSTNAME=slitaz
+	# Default root passwd
+	TGT_ROOT_PWD=root
+	# Default user
+	TGT_USER=tux
+	# Default Grub Install
+	TGT_GRUB=no
+}
+
+# Read Conf
+# $1: conf file
+read_configuration_file()
+{
+	CONFILE=$1
+	if [ -n "$CONFILE" ]; then
+		if [ -r "$CONFILE" ]; then
+			debug "Using config-file=$CONFILE"
+			# source doesn't like file without a path
+			[ $(echo "$CONFILE" | grep -c "/") == "0" ] && CONFILE="./$CONFILE"
+			source $CONFILE || abort 2 "Unable to read $CONFILE"
+		else
+			abort 2 "Configuration file not found"
+		fi
+	else
+		abort 2 "No configuration file provided"
+	fi
+}
+
+# Cli options
+# $@: tazinst parms
+check_cli_options()
+{
+	shift
+	while getopts "c:df:ghip:s:t:uw:" opt ; do
+		case $opt in
+			d) DEBUG=1 ;;
+			f) TGT_FS=$OPTARG ;;
+			g) TGT_GRUB="yes" ;;
+			h) usage ;;
+			i) INSTALL="install" ;;
+			p) TGT_PARTITION=$OPTARG ;;
+			s) SRC_FILE=$OPTARG ;;
+			t) INST_TYPE=$OPTARG ;;
+			u) UPGRADE="upgrade" ;;
+			w) TGT_WINBOOT=$OPTARG ;;
+			[?]) abort 1 ;;
+		esac
+	done
+
+	# Duplicate install modes are forbidden
+	[ -n "$INSTALL" ] && [ -n "$UPGRADE" ] && abort 1 "Mismatched parameters"
+	INST_ACTION="$INSTALL$UPGRADE"
+	# Don't allow formatting on upgrades
+	[ "$INST_ACTION" == "upgrade" ] && [ -n "$TGT_FS" ] && \
+		warning "Partition $TGT_PARTITION will not be formatted during upgrade"
+}
+
+# check main vars
+check_vars()
+{
+	# error handling
+	local error=no
+	local found=no
+	local partition=""
+
+	debug "--- Tazinst main options  ---"
+	debug "action=$INST_ACTION"
+	debug "type=$INST_TYPE"
+	debug "source=$SRC_FILE"
+	debug "/ partition=$TGT_PARTITION"
+	debug "/ filesystem=$TGT_FS"
+	debug "/home partition=$TGT_HOME"
+	debug "/home filesystem=$TGT_HOME_FS"
+	debug "hostname=$TGT_HOSTNAME"
+	debug "root-pwd=$TGT_ROOT_PWD"
+	debug "user=$TGT_USER"
+	debug "user-pwd=$TGT_USER_PWD"
+	debug "grub=$TGT_GRUB"
+	debug "winboot=$TGT_WINBOOT"
+	debug "--------------------------------------"
+
+	# Check Action
+	case $INST_ACTION in
+		install|upgrade) ;;
+		*) msg "INST_ACTION=$INST_ACTION: Invalid setting"; error=yes ;;
+	esac
+
+	# Check Type
+	case $INST_TYPE in
+		cdrom|weboot) ;;
+		usb|iso|web)
+			# We need a valid source 
+			if [ -z "$SRC_FILE" ]; then
+				echo "Type is $INST_TYPE, but INST_SOURCE is not set"; error=yes
+			fi ;;
+		*) msg "INST_TYPE=$INST_TYPE: Invalid setting"; error=yes ;;
+	esac
+
+	# Check Source file
+	# 1. assign predefs
+	if [ "$INST_TYPE" == "web" ]; then
+		[ "$SRC_FILE" == "stable" ] && SRC_FILE=$URL_STABLE
+		[ "$SRC_FILE" == "cooking" ] && SRC_FILE=$URL_COOKING
+		[ "$SRC_FILE" == "rolling" ] && SRC_FILE=$URL_ROLLING
+	fi
+	# 2. check avail.
+	case $INST_TYPE in
+		iso)
+			if [ ! -r "$SRC_FILE" ]; then
+				msg "SRC_FILE=$SRC_FILE: file not found" ; error=yes
+			fi ;;
+		web)
+			if [ $(wget -sq "$SRC_FILE") ]; then
+				msg "SRC_FILE=$SRC_FILE: file not found" ; error=yes
+			fi ;;
+	esac
+
+	# Check Target Partition
+	found=no
+	LIST_PARTITION=$(fdisk -l | awk '/^\/dev/{printf "%s ",$1}')
+	for partition in $LIST_PARTITION; do
+		[ "$partition" == "$TGT_PARTITION" ] && found="yes"
+	done
+	if [ "$found" != "yes" ]; then
+		msg "TGT_PARTITION=$TGT_PARTITION Partition not found"; error=yes
+	fi
+
+	# Check Filesystem
+	case $TGT_FS in
+		"") ;;
+		btrfs|ext2|ext3|ext4|fat16|fat32|hfs|hfs+|jfs|ntfs|reiser4|reiserfs|ufs|xfs)
+			found=no
+			for xdir in /sbin /usr/sbin /usr/bin; do
+				[ -x "$xdir/mkfs.$TGT_FS" ] && found=yes
+			done
+			if [ "$found" == "no" ]; then
+				msg "$TGT_FS: mkfs.$TGT_FS is not installed."; error=yes
+			fi ;;
+		*) msg "TGT_FS=$TGT_FS: Invalid setting"; error=yes ;;
+	esac
+
+	# Check Home partition
+	if [ -n "$TGT_HOME" ]; then
+		found=no
+		for partition in $LIST_PARTITION; do
+			[ "$partition" == "$TGT_HOME" ] && found=yes
+		 done
+		if [ "$found" != "yes" ]; then
+			msg "TGT_HOME=$TGT_HOME: Not found"; error=yes
+		fi
+	fi
+
+	# Check Home Filesystem
+	case $TGT_HOME_FS in
+		"") ;;
+		btrfs|ext2|ext3|ext4|fat16|fat32|hfs|hfs+|jfs|ntfs|reiser4|reiserfs|ufs|xfs)
+			found=no
+			for xdir in /sbin /usr/sbin /usr/bin; do
+				[ -x "$xdir/mkfs.$TGT_FS" ] && found=yes
+			done
+			if [ "$found" == "no" ]; then
+				msg "$TGT_FS: mkfs.$TGT_FS is not installed."; error=yes
+			fi ;;
+		*) msg "TGT_HOME_FS=$TGT_HOME_FS: Invalid setting"; error=yes ;;
+	esac
+
+	# Check Grub
+	case $TGT_GRUB in
+		yes|no) ;;
+		*) msg "TGT_GRUB=$TGT_GRUB: Invalid setting"; error=yes ;;
+	esac
+
+	# Check Winboot
+	case $TGT_WINBOOT in
+		"") ;;
+		auto) ;;
+		hd[[:digit:]],[[:digit:]]) ;;
+		*) msg "TGT_WINBOOT=$TGT_WINBOOT: Invalid format"; error=yes ;;
+	esac
+
+	# Stop on error
+	[ "$error" == "yes" ] && abort 1
+}
+
+# Exit install if user is not root.
+check_root()
+{
+	if test $(id -u) != 0 ; then
+		echo "You must be the root user (system administrator) to install SliTaz, \
+please use 'su' to get a root SHell and restart installation."
+		exit 0
+	fi
+}
+
+# Mount cdrom
+check_cdrom()
+{
+	# Set device name
+	DRIVE_NAME=`cat /proc/sys/dev/cdrom/info | grep "drive name" | cut -f 3` [ -n "$DRIVE_NAME" ] || DRIVE_NAME=cdrom
+	CDROM=/dev/$DRIVE_NAME
+	# Try to mount a cdrom
+	if mount -t iso9660 $CDROM $SOURCE_ROOT 2>>$LOG; then
+		debug "Using files from cdrom ($CDROM)..."
+		sleep 2
+	else
+		warning "Failed to mount $CDROM"
+	fi
+}
+
+# Link LiveUSB
+check_usb()
+{
+	# /home is on USB dev
+	if [ -d /home/boot ]; then
+		debug "Using files from USB device..."
+		ln -s /home/boot $SOURCE_ROOT/boot
+		SOURCE_STATUS="link"
+		sleep 2
+	else
+		# Try to mount LiveUSB
+		if mount $SRC_FILE $SOURCE_ROOT 2>>$LOG; then
+			debug "Using files from USB device ($SRC_FILE)..."
+			SOURCE_STATUS="mount"
+		else
+			warning "Failed to mount USB device $SRC_FILE"
+		fi
+	fi
+}
+
+# Mount ISO file
+check_iso()
+{
+	local src_md5
+	# Integrity check
+	src_md5=$(echo $SRC_FILE | sed 's/.iso$/.md5/')
+	if [ -r "$src_md5" ]; then
+		[ $(md5sum $SRC_FILE | cut -d' ' -f1) == $(cat "$src_md5" | cut -d' ' -f1) ] || \
+			abort 3 "$SRC-FILE corrupted"
+	else
+		warning "$src_md5 not found, unable to check integrity of $SRC_FILE"	
+	fi
+	# Try to mount ISO
+	if mount -o loop -t iso9660 $SRC_FILE $SOURCE_ROOT 2>>$LOG; then
+		debug "Using files from ISO ($SRC_FILE)..."
+		sleep 2
+	else
+		warning "Failed to mount ISO '$SRC_FILE'"
+	fi
+}
+
+# Source is on the web
+check_web()
+{
+	local src_md5
+	debug "Downloading $SRC_FILE"
+	if wget $SRC_FILE -P /tmp; then
+		debug "Download completed."
+	else
+		warning "Failed to download '$SRC_FILE'"
+	fi
+	src_md5=$(echo $SRC_FILE | sed 's/.iso$/.md5/')
+	debug "Downloading $src_md5"
+	wget $src_md5 -P /tmp || warning "Failed to download '$src_md5'"
+	tmpfile=$(echo $SRC_FILE | awk 'BEGIN{RS="/"}{out=$1}END{printf"%s",out}')
+	SRC_FILE="/tmp/$tmpfile"
+	check_iso
+}
+
+# We may be in Tiny Web boot mode
+check_weboot()
+{
+	if [ -d $SRC_FILE/boot ]; then
+		debug "Using files from HTTP device..."
+		ln -s $SRC_FILE/boot $SOURCE_ROOT/boot
+		sleep 2
+	else
+		abort 3 "Error: Web boot files not found"
+	fi
+}
+
+# set up source and check Slitaz' content
+check_source()
+{
+	debug "Creating mount point ($SOURCE_ROOT)..."
+	mkdir -p $SOURCE_ROOT
+	sleep 1
+	case $INST_TYPE in
+	cdrom)
+		check_cdrom ;;
+	usb)
+		check_usb ;;
+	iso)
+		check_iso ;;
+	web)
+		check_web ;;
+	weboot)
+		check_cdrom
+		check_web ;;
+	*)
+		abort 8 "Internal" ;;
+	esac
+
+	# Exit with error msg if no rootfs.gz found.
+	debug "Checking installation media..."
+	if [ ! -f $SOURCE_ROOT/boot/rootfs.gz -a \
+		 ! -f $SOURCE_ROOT/boot/rootfs1.gz ]; then
+		abort 3 "Invalid source"
+	else
+		debug "Installation media checked ok"
+	fi
+}
+
+# Tiny summary
+summary()
+{
+	echo "Installation settings summary:"
+	STEP=0
+
+	if [ "$INST_ACTION" == "install" ]; then
+		if [ -n "$TGT_FS" ]; then
+			msg "Format root partition '$TGT_PARTITION' ($TGT_FS)"
+		fi
+		if [ -n "$TGT_HOME_FS" ]; then
+			msg "Format /home partition '$TGT_HOME' ($TGT_HOME_FS)"
+		fi	
+		msg "Install SliTaz on '$TGT_PARTITION' from $INST_TYPE"
+		[ -n "$TGT_HOME" ] && msg "Set Home partition to '$TGT_HOME'"
+		msg "Set Hostname as '$TGT_HOSTNAME'"
+		msg "Set Default user as '$TGT_USER'"
+	else
+		msg "Check '$TGT_PARTITION'"
+		msg "Backup /etc, /home and the packages list"
+		msg "Upgrade SliTaz on '$TGT_PARTITION' from $INST_TYPE"
+		msg "Restore /etc, /home"
+		msg "Upgrade additional packages."
+	fi
+	if [ -n "$TGT_WINBOOT" ]; then
+		msg "Enable Windows dual-boot ($TGT_WINBOOT)"
+	fi
+	if [ "$TGT_GRUB" == "yes" ]; then
+		msg "Install Grub"
+	fi
+
+	echo -n "Continue:(y/n)"
+	read answer
+	case $answer in
+		[yY]) echo "Running $BACKLIST.." ;;
+		*) abort 4 "Cancelled by user" ;;
+	esac
+	STEP=0
+}
+
+#######################
+# Installer functions #
+#######################
+
+# Mount and mkfs with progress.
+prepare_install()
+{
+	debug "Preparing target partition..."
+	# Mount point can be already used.
+	if mount | grep -q $TARGET_ROOT; then
+		umount $TARGET_ROOT 2>>$LOG
+	fi
+	sleep 2
+
+	# Formatting root partition
+	case $TGT_FS in
+		"")
+			debug "The partition ($TGT_PARTITION) will be cleaned..."
+#			ROOT_FS=$(parted /dev/hda5 print -m | grep "^1:" | cut -d':' -f5) ;;
+			ROOT_FS=auto ;;
+		*)
+			msg "Formatting $TGT_PARTITION ($TGT_FS)"
+			mkfs.$TGT_FS $TGT_PARTITION >>$LOG 2>>$LOG
+			ROOT_FS=$TGT_FS ;;
+	esac
+	sleep 2
+
+	# Formatting /home
+	if [ -n "$TGT_HOME" ]; then
+		case $TGT_HOME_FS in
+			"")
+				debug "The partition ($TGT_HOME) will be kept..." ;;
+			*)
+				msg "Formatting /home on $TGT_HOME ($TGT_HOME_FS)"
+				mkfs.$TGT_HOME_FS -L "Home" $TGT_HOME >>$LOG 2>>$LOG ;;
+		esac
+		sleep 2
+	fi
+
+	# Mount target.
+	debug "Creating mount point: $TARGET_ROOT"
+	mkdir -p $TARGET_ROOT >>$LOG
+	sleep 2
+
+	mount -t $ROOT_FS $TGT_PARTITION $TARGET_ROOT >>$LOG 2>>$LOG
+	if [ $(mount | grep -c "mnt/target") == "0" ]; then
+		abort 5 "Can't mount $TGT_PARTITION"
+	fi
+}
+
+# Get a clean target device (15%).
+clean_target()
+{
+	if [ -z "$TGT_FS" ]; then
+		# partition was not formatted
+		debug "Cleaning the root partition ($TGT_PARTITION)..."
+		# Keep /home in case of reinstall.
+		cd $TARGET_ROOT || abort 8 "Internal"
+		for dir in *
+		do
+			case "$dir" in
+				home)
+					debug "keeping /home found on: $TGT_PARTITION"
+					mv home home.bak ;;
+				lost+found)
+					continue ;;
+				*)
+					debug "removing target: $dir"
+					rm -rf $dir 2>>$LOG ;;
+			esac
+		done
+		if [ -d mklost+found ]; then
+			mklost+found 2>>$LOG
+		fi
+	fi
+	sleep 2
+}
+
+# Kernel is renamed to standard vmlinuz-$VERSION.
+install_kernel()
+{
+	if [ -d /$TARGET_ROOT/lib/modules ]; then
+		KERNEL=$(ls /$TARGET_ROOT/lib/modules | tail -1)
+		KERNEL="vmlinuz-$KERNEL"
+	else
+		warning "Falling back to running kernel name.."
+		KERNEL=vmlinuz-`uname -r`
+	fi
+	mkdir -p $TARGET_ROOT/boot
+	cp $SOURCE_ROOT/boot/bzImage $TARGET_ROOT/boot/$KERNEL
+	debug "install_kernel: $KERNEL"
+	sleep 2
+}
+
+# Copy isolinux r/w files (not syslinux, some files are read only).
+copy_bootloaders()
+{
+	if [ -d "$SOURCE/ROOT/boot/isolinux" ]; then
+		debug "Copy isolinux r/w files"
+		mkdir -p $TARGET_ROOT/boot/isolinux
+		cp -a $SOURCE_ROOT/boot/isolinux/*.cfg $TARGET_ROOT/boot/isolinux
+		cp -a $SOURCE_ROOT/boot/isolinux/*.kbd $TARGET_ROOT/boot/isolinux
+		cp -a $SOURCE_ROOT/boot/isolinux/*.txt $TARGET_ROOT/boot/isolinux
+		cp -a $SOURCE_ROOT/boot/isolinux/*.bin $TARGET_ROOT/boot/isolinux
+		cp -a $SOURCE_ROOT/boot/isolinux/*.msg $TARGET_ROOT/boot/isolinux
+		cp -a $SOURCE_ROOT/boot/isolinux/*.lss $TARGET_ROOT/boot/isolinux
+		cp -a $SOURCE_ROOT/boot/isolinux/*.c32 $TARGET_ROOT/boot/isolinux
+	fi
+}
+
+need_package()
+{
+	[ -d /var/lib/tazpkg/installed/$1 ] || tazpkg get-install $1
+}
+
+# extract packed rootfs: squashfs or cromfs
+extract_loramfs()
+{
+	local i
+	for i in $(cpio -idvum 2> /dev/null); do
+		case "$i" in
+		rootfs*)
+			need_package squashfs
+			if ! unsquashfs $i ; then
+				need_package cromfs
+				unmkcromfs $i squashfs-root
+			fi
+			mv -f squashfs-root/* .
+			rmdir squashfs-root
+			rm -f $i
+		esac
+	done
+}
+
+# This is a loram rootfs.gz, skip loram bootstrap and extract
+extract_first_loramfs()
+{
+	(zcat $1 || unlzma -c $1) | cpio -i extractfs.cpio 2> /dev/null &&
+		( cd / ; cpio -id ) < extractfs.cpio && rm -f extractfs.cpio
+	ofs=$(awk '/07070100/ { o+=index($0,"07070100"); printf "%d\n",o/4 ; exit } { o+=1+length() }' < $1)
+	dd if=$1 skip=$(($ofs / 1024)) bs=4k count=1 2> /dev/null | \
+	( dd skip=$(($ofs % 1024)) bs=4 2> /dev/null ; \
+	  dd if=$1 skip=$((1 + ($ofs / 1024) )) bs=4k ) | extract_loramfs			  
+}
+
+# Extract lzma'ed or gziped rootfs.
+extract_rootfs()
+{
+	local isloramfs
+	isloramfs=
+	cd $TARGET_ROOT || abort 8 "Internal"
+	if [ -d $1/../fs/etc ]; then
+		# This is a tazlitobox loram (cdrom)
+		cp -a $1/../fs/. .
+	else
+	for i in $(ls $1/rootfs* | sort -r); do
+		if [ ! -d etc ]; then
+			if [ $( (zcat $i 2>/dev/null || lzma d $i -so) | wc -c) \
+					-lt $(stat -c %s $i) ]; then
+				# This is a tazlitobox loram (ram)
+				isloramfs=$i
+				extract_first_loramfs $i
+				continue
+			fi
+		fi
+		if [ -n "$isloramfs" ]; then
+			extract_loramfs < $i
+			continue
+		fi
+		( zcat $i 2>/dev/null || lzma d $i -so || \
+		  cat $i ) 2>>$LOG | cpio -idu
+	done 2>>$LOG > /dev/null
+	fi
+	cp /etc/keymap.conf etc
+	# unpack /usr (double check...)
+	if ls etc/tazlito | grep -q ".extract"; then
+		for i in etc/tazlito/*.extract; do
+			[ -f "$i" ] && . $i /media/cdrom
+		done
+	fi
+}
+
+# Pre configure freshly installed system (60 - 80%).
+pre_config_system()
+{
+	cd $TARGET_ROOT || abort 8 "Internal"
+	# Restore backup of existing /home if exists.
+	# (created by prepare_target_dev)
+	if [ -d home.bak ]; then
+		debug "Restoring directory: /home..."
+		rm -rf home
+		mv home.bak home
+		sleep 1
+	fi
+	# Add root device to CHECK_FS in rcS.conf to check filesystem
+	# on each boot.
+	debug "Adding $TGT_PARTITION and CHECK_FS to file /etc/rcS.conf..."
+	sed -i s#'CHECK_FS=\"\"'#"CHECK_FS=\"$TGT_PARTITION\""# etc/rcS.conf
+	sleep 2
+	# Set hostname.
+	msg "Configuring host name: $TGT_HOSTNAME"
+	echo $TGT_HOSTNAME > etc/hostname
+}
+
+# Set root passwd and create user after rootfs extraction.
+users_settings()
+{
+	cat > $TARGET_ROOT/users.sh << _EOF_
+#!/bin/sh
+echo "root:$TGT_ROOT_PWD" | chpasswd
+adduser -D -H $TGT_USER
+
+for grp in audio cdrom floppy dialout disk kmem tape tty video; do
+ if ! grep \$grp /etc/group | grep -q $TGT_USER ; then
+	grep -q \$grp /etc/group && addgroup $TGT_USER \$grp
+ fi
+done
+
+echo "$TGT_USER:$TGT_USER_PWD" | chpasswd
+if [ ! -d /home/$TGT_USER ]; then
+	cp -a /etc/skel /home/$TGT_USER
+	cp /root/.xinitrc /home/$TGT_USER
+	mkdir -p /home/$TGT_USER/.config/slitaz
+	cp -a /etc/slitaz/applications.conf /home/$TGT_USER/.config/slitaz
+	chown -R $TGT_USER.users /home/$TGT_USER
+	# Path for user desktop files.
+	for i in /home/$TGT_USER/.local/share/applications/*.desktop
+	do
+		[ -e "$i" ] && sed -i s/"user_name"/"$TGT_USER"/g \$i
+	done
+fi
+# Slim default user.
+if [ -f /etc/slim.conf ]; then
+	sed -i s/"default_user .*"/"default_user        $TGT_USER"/ \
+		/etc/slim.conf
+fi
+_EOF_
+	chmod +x $TARGET_ROOT/users.sh
+	chroot $TARGET_ROOT ./users.sh
+	rm $TARGET_ROOT/users.sh
+	sleep 2
+}
+
+# /home can be on a separate partition. If default user exist in /home
+# we remove default file crated by users_settings().
+home_config()
+{
+	debug "home_config: $TGT_HOME"
+	cd $TARGET_ROOT || abort 8 "Internal"
+	mv home/$TGT_USER tmp
+	mount $TGT_HOME home
+	if [ -d $TARGET_ROOT/home/$TGTUSER ]; then
+		rm -rf tmp/$TGT_USER
+	else
+		mv tmp/$TGT_USER home
+	fi
+	echo "$TGT_HOME       /home        ext3    defaults          0       2" \
+		>> etc/fstab
+	umount home
+}
+
+# Search for a Windows partition
+win_partition()
+{
+	msg "Enabling Windows dual-boot"
+	if [ "$TGT_WINBOOT" == "auto" ];then
+		WINBOOT=$(fdisk -l | awk '
+BEGIN{disk=-1,	found=-1,	winboot=""}
+{
+	# Counting disk
+	if ($1=="Disk"){disk++, part=-1}
+	# Counting partition
+	if (substr($1,1,4)=="/dev"){part++}
+	# Read partition Id
+ 	if ($2=="*"){Id=$6}	else {Id=$5}
+	# Detect Windows type
+	if (Id=="7" || Id=="b"){
+		if (found){
+			# record 1st Windows partition found
+			winboot=sprintf("hd%d,%d",disk,part),found++}
+		}
+}
+END{printf "%s", winboot}')
+		if [ -z "$WINBOOT" ]; then
+			warning "No windows partition found. Dual-boot disabled"
+			TGT_WINBOOT=""
+		fi
+	fi
+}
+
+# Determine GRUB partition number and GRUB disk number.
+grub_partition()
+{
+	DISK_LETTER=${TGT_PARTITION#/dev/[h-s]d}
+	DISK_LETTER=${DISK_LETTER%[0-9]}
+	GRUB_PARTITION=$((${TGT_PARTITION#/dev/[h-s]d[a-z]}-1))
+	for disk in a b c d e f g h
+	do
+		nb=$(($nb+1))
+		if [ "$disk" = "$DISK_LETTER" ]; then
+			GRUB_DISK=$(($nb-1))
+			break
+		fi
+	done
+	GRUB_ROOT="(hd${GRUB_DISK},${GRUB_PARTITION})"
+}
+
+# Create grub conf
+grub_config()
+{
+	grub_partition
+	win_partition
+	# Create the target GRUB configuration.
+	mkdir -p $TARGET_ROOT/boot/grub
+	. /etc/locale.conf
+	cat > $TARGET_ROOT/boot/grub/menu.lst << _EOF_
+# /boot/grub/menu.lst: GRUB boot loader configuration.
+#
+
+# By default, boot the first entry.
+default 0
+
+# Boot automatically after 8 secs.
+timeout 8
+
+# Graphical splash image.
+splashimage=/boot/grub/splash.xpm.gz
+
+# Change the colors.
+#color yellow/brown light-green/black
+
+# For booting SliTaz from : $TGT_PARTITION
+#
+title SliTaz GNU/Linux (cooking) (Kernel $KERNEL)
+root $GRUB_ROOT
+kernel /boot/$KERNEL root=$TGT_PARTITION lang=$LANG
+
+_EOF_
+	if [ -n "$TGT_WINBOOT" ]; then
+	cat >> $TARGET_ROOT/boot/grub/menu.lst << _EOF_
+# For booting Windows :
+#
+title Microsoft Windows
+	  rootnoverify ($WINBOOT)
+	  chainloader +1
+
+_EOF_
+	fi
+	# log
+	debug "grub_config: $TARGET_ROOT/boot/grub/menu.lst"
+	echo "--- menu.lst -------------" >>$LOG
+	cat $TARGET_ROOT/boot/grub/menu.lst >>$LOG
+	echo "--- menu.lst -------------" >>$LOG
+	sleep 2
+}
+
+# Files install, calling for functions or with cmds.
+install_files()
+{
+	msg "Installing SliTaz on $TGT_PARTITION"
+	# saving pwd
+	local save_pwd=$(pwd)
+
+	debug "Cleaning the root partition if necessary..."
+	clean_target
+
+	debug "Extracting the root system..."
+	extract_rootfs $SOURCE_ROOT/boot
+
+	debug "Installing the kernel..."
+	install_kernel
+
+	debug "Copying the bootloader syslinux/isolinux..."
+	copy_bootloaders
+
+	debug "Preconfiguring the system..."
+	pre_config_system
+
+	msg "Configuring root and default $USER account..."
+	users_settings
+
+	if [ "$TGT_HOME" != "" ]; then
+		msg "Configuring $TGT_HOME to be used as /home..."
+		home_config
+		sleep 2
+	fi
+
+	debug "Creating configuration file for GRUB (menu.lst)..."
+	grub_config
+
+	debug "Files installation completed"
+	sleep 2
+	# restoring pwd
+	cd $save_pwd
+}
+
+# GRUB info with disk name used for grub-install.
+grub_install()
+{
+	if [ "$TGT_GRUB" == "yes" ]; then
+		TARGET_DISK=`echo $TGT_PARTITION | sed s/"[0-9]"/''/`
+		msg "Running grub-install on : $TARGET_DISK"
+		grub-install --no-floppy \
+				--root-directory=$TARGET_ROOT $TARGET_DISK 2>>$LOG
+		debug "Grub installation done..."
+	else
+		debug "Grub not installed"
+	fi
+}
+
+# Copy log file, umount target and eject cdrom.
+umount_devices()
+{
+	# Log files
+	debug "Copying log files ($LOG)..."
+	cp -a $LOG $TARGET_ROOT/var/log
+	sleep 2
+
+	# Umount target
+	if mount | grep -q $TARGET_ROOT; then
+		echo "Unmounting target ($TGT_PARTITION)..."
+	umount $TARGET_ROOT 2>>$LOG
+	fi
+
+	# Umount source
+	if mount | grep -q $SOURCE_ROOT; then
+		echo "Unmounting $SOURCE_ROOT"
+		umount $SOURCE_ROOT
+	fi
+
+	# Eject cd
+	if [ "$INST_TYPE" == "cdrom" ]; then
+		echo "Ejecting cdrom..."
+		eject
+	fi
+	sleep 2
+}
+
+# End of installation.
+end_of_install()
+{
+	echo "Installation complete. You can now restart (reboot) \
+from your SliTaz GNU/Linux system."
+	echo "=== Tazinst end at `date` ===" >>$LOG
+	umount_devices
+}
+
+#####################
+# Upgrade functions #
+#####################
+
+# Mount.
+prepare_upgrade()
+{
+	debug "Preparing the target partition..."
+	# Mount point can be already used.
+	if mount | grep -q $TARGET_ROOT; then
+		umount $TARGET_ROOT 2>>$LOG
+	fi
+	mkdir -p $TARGET_ROOT && sleep 2
+	# Mount target.
+	mount $TGT_PARTITION $TARGET_ROOT >>$LOG 2>>$LOG
+	if [ $(mount | grep -c "mnt/target") == "0" ]; then
+		abort 5 "Can't mount $TGT_PARTITION"
+	fi
+}
+
+# Check for a valid SliTaz
+check_release()
+{
+	if [ -f $TARGET_ROOT/etc/slitaz-release ]; then
+		release=`cat $TARGET_ROOT/etc/slitaz-release`
+		msg "Preparing upgrade of SliTaz release: $release"
+	else
+		abort 6 "The partition '$TGT_PARTITION' doesn't appear to contain \
+a SliTaz system, the file: /etc/slitaz-release doesn't exist."
+	fi && sleep 2
+}
+
+# Backup target packages list.
+backup_files()
+{
+	cd $TARGET_ROOT || abort 8 "Internal"
+	ls -1 var/lib/tazpkg/installed > home/packages-selection.list
+	for dir in *
+	do
+		case "$dir" in
+			boot)
+				rm -rf boot/vmlinuz-* ;;
+			home)
+				mv home home.bak
+				debug "keeping /home found on: $TGT_PARTITION" ;;
+			etc)
+				tar czf etc.tar.gz etc
+				mv etc etc.bak
+				debug "keeping /etc found on: $TGT_PARTITION" ;;
+			var)
+				if [ -d var/www ]; then
+					mv var/www www.bak
+					debug "keeping /var/www found on: $TGT_PARTITION"
+				fi
+				rm -rf var 2>>$LOG ;;
+			lost+found)
+				continue ;;
+			*)
+				debug "removing target: $dir"
+				rm -rf $dir 2>>$LOG ;;
+		esac
+	done
+	if [ -d mklost+found ]; then
+		mklost+found 2>>$LOG
+	fi
+	sleep 2
+}
+
+# Restore backups.
+restore_files()
+{
+	rm -rf $TARGET_ROOT/home
+	mv $TARGET_ROOT/home.bak $TARGET_ROOT/home
+	rm -rf $TARGET_ROOT/etc
+	mv $TARGET_ROOT/etc.bak $TARGET_ROOT/etc
+	if [ -d $TARGET_ROOT/www.bak ]; then
+		rm -rf $TARGET_ROOT/var/www
+		mv $TARGET_ROOT/www.bak $TARGET_ROOT/var/www
+	fi
+	debug "backups restored: `date`"
+
+	# /var/lib/slitaz-installer
+	mkdir -p $TARGET_ROOT/var/lib/tazinst
+	mv $TARGET_ROOT/etc.tar.gz $TARGET_ROOT/var/lib/tazinst
+	mv $TARGET_ROOT/home/packages-selection.list $TARGET_ROOT/var/lib/tazinst
+}
+
+# Added pkgs
+install_pkgs()
+{
+	# Check if the pkg is on the mirror.
+	debug "Checking the availability of packages..."
+	touch packages-to-install.list
+	packages=0
+	diff=`cat packages-selection.diff | sort`
+	for pkg in $diff
+	do
+		if grep -q ^$pkg-[0-9] /var/lib/tazpkg/packages.list; then
+			packages=$(($packages+1))
+			echo "$pkg" >> packages-to-install.list
+		fi
+	done
+
+	# Calculate the percent for one package and install.
+	debug "Installing any packages..."
+	sleep 2
+	if [ "$packages" == "0" ]; then
+		debug "packages to install: 0"
+	else
+		onepkg=$((48/$packages))
+		pct=50
+		# Get-install all missing pkgs.
+		for pkg in `cat packages-to-install.list`
+		do
+			pct=$(($pct+$onepkg))
+			echo $pct
+			debug "Installing: $pkg..."
+			# Get install package and answer yes in case of dependencies.
+			pkgname=`grep ^$pkg /var/lib/tazpkg/packages.list`
+			tazpkg get $pkg >/dev/null 2>/dev/null
+			yes "" | tazpkg install $pkgname.tazpkg --root=$TARGET_ROOT >/dev/null 2>/dev/null
+			rm -f $pkgname.tazpkg
+		done
+	fi
+	echo 100
+	debug "Installation of packages complete..."
+	sleep 2
+}
+
+# Search for added pkgs
+update_pkgs()
+{
+	cd $TARGET_ROOT/var/lib/tazinst || abort 8 "Internal"
+	# LiveCD packages list.
+	debug "Creating package lists..."
+	ls -1 $TARGET_ROOT/var/lib/tazpkg/installed > packages-source.list || exit 1
+	debug "packages-source.list: done"
+	# Diff
+	diff packages-source.list packages-selection.list | \
+		grep ^+[a-z] | sed s/^+// > packages-selection.diff
+	debug "packages-selection.diff: done"
+	# Get mirror list.
+	tazpkg recharge >>$LOG 2>>$LOG
+	if [ -f /var/lib/tazpkg/packages.list ]; then
+		install_pkgs
+	else
+		touch packages-to-install.list
+		warning "The list of available packages on the mirror could not be \
+downloaded. No missing packages will be reinstalled now, but \
+you can do so later by looking at the following list: \
+/var/lib/tazinst/packages-selection.diff"
+	fi
+	sleep 2
+}
+
+# Update grub conf
+grub_update()
+{
+	# Backup and create a new grub menu.lst.
+	if [ "$TGT_GRUB" == "yes" ]; then
+		msg "Grub update"
+		mv $TARGET_ROOT/boot/grub/menu.lst \
+			$TARGET_ROOT/boot/grub/menu.lst.bak 2>/dev/null
+		grub_config
+	fi
+}
+
+# Prepare the partition to upgrade, backup, install, restore configs
+# and reinstall pkgs.
+upgrade_files()
+{
+	# saving pwd
+	local save_pwd=$(pwd)
+	cd $TARGET_ROOT || abort 8 "Internal"
+
+	debug "Searching for /etc/slitaz-release"
+	check_release
+
+	msg "Backup /etc, /home and the packages list..."
+	backup_files
+
+	msg "Upgrading SliTaz on $TGT_PARTITION"
+
+	debug "Copying the bootloader syslinux/isolinux..."
+	copy_bootloaders
+
+	debug "Extracting the root system..."
+	extract_rootfs $SOURCE_ROOT/boot
+
+	msg "Restoring configuration files..."
+	restore_files
+
+	debug "Installing the kernel..."
+	install_kernel
+
+	msg "Upgrading added packages..."
+	update_pkgs
+
+	# restoring pwd
+	cd $save_pwd 
+}
+
+# End of system upgrade.
+end_of_upgrade()
+{
+	pkgscd=`cat $TARGET_ROOT/var/lib/tazinst/packages-source.list | wc -l`
+	pkginst=`cat $TARGET_ROOT/var/lib/tazinst/packages-to-install.list | wc -l`
+	echo -e "Upgrade finished. You can now restart (reboot) \
+from your SliTaz GNU/Linux system.
+Packages on the cdrom : $pkgscd
+Packages installed from the mirror : $pkginst"
+	echo "=== Tazinst end at `date` ===" >>$LOG
+	umount_devices
+}
+
+######################
+# Installer sequence #
+######################
+
+case $1 in
+	install)
+		INST_ACTION=install
+		check_root
+		init $@
+		read_configuration_file $2
+		check_vars
+		check_source
+		prepare_install
+		install_files
+		grub_install
+		end_of_install ;;
+	upgrade)
+		INST_ACTION=upgrade
+		check_root
+		init $@
+		read_configuration_file $2
+		check_vars
+		check_source
+		prepare_upgrade
+		upgrade_files
+		grub_update
+		end_of_upgrade ;;
+	config)
+		gen_config $2 ;;
+	cli)
+		check_root
+		init $@
+		check_cli_options $@
+		check_vars
+		check_source
+		summary
+		case $INST_ACTION in
+			upgrade)
+				prepare_upgrade
+				upgrade_files
+				grub_update
+				end_of_upgrade ;;
+			install)
+				prepare_install
+				install_files
+				grub_install
+				end_of_install ;;
+		esac ;;
+	usage|*)
+		usage ;;
+esac
+
+exit 0
