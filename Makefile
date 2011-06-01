@@ -6,7 +6,7 @@ DOCDIR?=/usr/share/doc
 DESTDIR?=
 TOOLS?=scpbox tazbox tazdrop
 TINYUTILS?=scpbox
-LINGUAS?=fr pt
+LINGUAS?=fr pt_BR
 
 all: msgfmt
 
@@ -61,6 +61,7 @@ install:
 	install -m 0777 -d $(DESTDIR)/etc/X11
 	install -m 0777 -d $(DESTDIR)$(PREFIX)/bin
 	install -m 0777 -d $(DESTDIR)$(PREFIX)/sbin
+	install -m 0777 -d $(DESTDIR)$(PREFIX)/share
 	cp -a rootfs/etc $(DESTDIR)
 	chmod +x $(DESTDIR)/etc/init.d/*
 	cp -a rootfs/usr/share/licenses $(DESTDIR)$(PREFIX)/share
