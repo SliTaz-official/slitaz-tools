@@ -15,17 +15,23 @@ manage SliTaz.
 
 More tools information
 -----------------------
+You will find documentation in the doc/ folder and README files for some tools:
 
     * installer/README
     * tazbox/README
+    * tazdrop/README
 
 
 Installation
 ------------
-The tools are built and installed through tazwok and the wok, and split
-into 2 separate packages: one with only ncurses dependencies (for a text 
-system) and one with GTK dependencies (for a graphical system). So make 
-install...
+The tools are split into 2 separate packages: one with only ncurses dependencies
+(for a text system) and one with GTK dependencies (for a graphical system). So
+we have 2 make install and make default to compile PO files. Install's support
+DESTDIR for packaging:
+
+# make
+# make install
+# make install-boxes
 
 
 Translation
