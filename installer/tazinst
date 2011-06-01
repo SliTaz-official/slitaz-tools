@@ -43,7 +43,7 @@ usage()
 	echo -e "  -t <type>      `gettext \"Install type (cdrom|usb|iso|web|weboot).\"`"
 	echo -e "  -m <source>    `gettext \"Source media (ex: file.iso|usb partition|web url)\"`"
 	echo -e "  -p <partition> `gettext \"Partition where SliTaz will be installed (ex:/dev/hda3).\"`"
-	echo -e "  -f <fs>        `gettext \"Partition will be formatted (fs=ext2|ext3|ext4|etc..).\"`"
+	echo -e "  -f <fs>        `gettext \"Partition to be formatted (fs=ext2|ext3|ext4|etc..).\"`"
 	echo -e "  -g             `gettext \"Install Grub.\"`"
 	echo -e "  -w             `gettext \"Dual-boot a Windows partition (auto|hd<disk>,<part> ex:hd0,0).\"`"
 	echo -e "  -d             `gettext \"Debug mode.\"`"
@@ -63,8 +63,8 @@ abort()
 		umount $TARGET_ROOT 2>>$LOG
 	fi
 	echo "Error $@"
-	echo "Installation canceled"
-	test $(id -u) = 0 && echo "Installation canceled on error $@" >> $LOG
+	echo "Installation cancelled"
+	test $(id -u) = 0 && echo "Installation cancelled on error $@" >> $LOG
 	exit $1
 }
 
@@ -774,8 +774,8 @@ _EOF_
 	sleep 2
 }
 
-# /home can be on a separate partition. If default user exist in /home
-# we remove default file crated by users_settings().
+# /home can be on a separate partition. If default user exists in /home
+# we remove default file created by users_settings().
 home_config()
 {
 	debug "home_config: $TGT_HOME"

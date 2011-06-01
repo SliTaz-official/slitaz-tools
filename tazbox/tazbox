@@ -157,27 +157,27 @@ keymap() {
 
 # TZ functions
 tz_main() {
-    text=$(gettext "TimeZone Configuration")
-    zi="/usr/share/zoneinfo/"
-    for t in $(find $zi -type f | sed s,$zi,,g)
-    do
-        echo -e "$t"
-    done | \
-    yad --list --title="SliTaz TZ" --window-icon=$icon \
-        --width=500 --height=380 --separator="" \
-        --center --sticky --on-top \
-        --image=preferences-desktop-locale --image-on-top \
-        --text="<b>$text</b>" --print-column=1 \
-        --column $(gettext "Name")
+    	text=$(gettext "TimeZone Configuration")
+    	zi="/usr/share/zoneinfo/"
+    	for t in $(find $zi -type f | sed s,$zi,,g)
+    	do
+        	echo -e "$t"
+    	done | \
+    	yad --list --title="SliTaz TZ" --window-icon=$icon \
+        	--width=500 --height=380 --separator="" \
+        	--center --sticky --on-top \
+        	--image=preferences-desktop-locale --image-on-top \
+        	--text="<b>$text</b>" --print-column=1 \
+        	--column $(gettext "Name")
 }
 
 tz() {
-    timezone=$(tz_main)
-    case $? in
-        1) exit 0 ;;
-        *) continue ;;
-    esac
-    [ "$timezone" ] && echo $timezone > /etc/TZ
+    	timezone=$(tz_main)
+    	case $? in
+        	1) exit 0 ;;
+        	*) continue ;;
+    	esac
+    	[ "$timezone" ] && echo $timezone > /etc/TZ
 }
 
 #
@@ -239,8 +239,8 @@ case "$1" in
 		locale ;;
 	keymap)
 		keymap ;;
-    tz)
-        tz ;;
+    	tz)
+        	tz ;;
 	boot)
 		# This command is used at first boot to configure system.
 		Xorg -br -quiet -nolisten tcp :1 &
