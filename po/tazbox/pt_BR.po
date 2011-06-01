@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tazbox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-30 15:54+0200\n"
+"POT-Creation-Date: 2011-06-01 19:38+0200\n"
 "PO-Revision-Date: 2011-04-29 14:22-0300\n"
 "Last-Translator: Claudinei Pereira <claudinei@slitaz.org>\n"
 "Language-Team: Portuguese <i18n@slitaz.org>\n"
@@ -31,7 +31,7 @@ msgid "Display this short help usage"
 msgstr "Mostra esta utilização"
 
 #: tazbox/tazbox:34
-msgid "Execute a command a super-user"
+msgid "Execute a command as super-user"
 msgstr ""
 
 #: tazbox/tazbox:35
@@ -54,63 +54,74 @@ msgstr "Configura a linguagem do sistema (root)"
 msgid "Configure system keymap (root)"
 msgstr "Configura o mapa de teclado do sistema (root)"
 
-#: tazbox/tazbox:46
+#: tazbox/tazbox:40
+#, fuzzy
+msgid "Configure system timezone (root)"
+msgstr "Configura a linguagem do sistema (root)"
+
+#: tazbox/tazbox:47
 msgid "Slitaz admin password"
 msgstr ""
 
-#: tazbox/tazbox:47
+#: tazbox/tazbox:48
 msgid "Please enter root password (default root) to execute:"
 msgstr ""
 
-#: tazbox/tazbox:53
+#: tazbox/tazbox:54
 msgid "Password:"
 msgstr ""
 
-#: tazbox/tazbox:54
+#: tazbox/tazbox:55
 msgid "Autosave password"
 msgstr ""
 
-#: tazbox/tazbox:58
+#: tazbox/tazbox:59
 msgid "Error: wrong password!"
 msgstr ""
 
-#: tazbox/tazbox:80
+#: tazbox/tazbox:81
 #, fuzzy
 msgid "<b>SliTaz Logout.</b> Please choose an action:"
 msgstr "Logout do SliTaz. Por favor escolha uma ação:"
 
-#: tazbox/tazbox:85
+#: tazbox/tazbox:86
 msgid "Close X session"
 msgstr "Fechar a sessão X"
 
-#: tazbox/tazbox:86
+#: tazbox/tazbox:87
 msgid "Reboot system"
 msgstr "Reiniciar o sistema"
 
-#: tazbox/tazbox:87
+#: tazbox/tazbox:88
 msgid "Shutdown system"
 msgstr "Desligar o sistema"
 
-#: tazbox/tazbox:92
+#: tazbox/tazbox:93
 msgid "Language configuration"
 msgstr "Configuração de linguagem"
 
-#: tazbox/tazbox:104
+#: tazbox/tazbox:105 tazbox/tazbox:171
 msgid "Name"
 msgstr "Nome"
 
-#: tazbox/tazbox:104
+#: tazbox/tazbox:105
 msgid "Description"
 msgstr "Descrição"
 
-#: tazbox/tazbox:120
-msgid "Keyborad configuration"
+#: tazbox/tazbox:121
+#, fuzzy
+msgid "Keyboard configuration"
 msgstr "Configuração do teclado"
 
-#: tazbox/tazbox:142
+#: tazbox/tazbox:143
 msgid "Keymap"
 msgstr "Mapa de teclado"
 
-#: tazbox/tazbox:142
+#: tazbox/tazbox:143
 msgid "Type"
 msgstr "Tipo"
+
+#: tazbox/tazbox:160
+#, fuzzy
+msgid "TimeZone Configuration"
+msgstr "Configuração de linguagem"
