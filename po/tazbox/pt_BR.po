@@ -32,7 +32,7 @@ msgstr "Mostra esta utilização"
 
 #: tazbox/tazbox:34
 msgid "Execute a command as super-user"
-msgstr ""
+msgstr "Executa um comando como super usuário"
 
 #: tazbox/tazbox:35
 msgid "Desktop logout box with actions"
@@ -61,23 +61,23 @@ msgstr "Configura a linguagem do sistema (root)"
 
 #: tazbox/tazbox:47
 msgid "Slitaz admin password"
-msgstr ""
+msgstr "Senha de administração do SliTaz"
 
 #: tazbox/tazbox:48
 msgid "Please enter root password (default root) to execute:"
-msgstr ""
+msgstr "Por favor insira a senha do root (por padrão 'root') para executar:"
 
 #: tazbox/tazbox:54
 msgid "Password:"
-msgstr ""
+msgstr "Senha:"
 
 #: tazbox/tazbox:55
 msgid "Autosave password"
-msgstr ""
+msgstr "Senha salva automaticamente"
 
 #: tazbox/tazbox:59
 msgid "Error: wrong password!"
-msgstr ""
+msgstr "Erro: senha errada!"
 
 #: tazbox/tazbox:81
 #, fuzzy
@@ -124,4 +124,4 @@ msgstr "Tipo"
 #: tazbox/tazbox:160
 #, fuzzy
 msgid "TimeZone Configuration"
-msgstr "Configuração de linguagem"
+msgstr "Configuração de zona horária"
