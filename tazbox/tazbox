@@ -20,6 +20,11 @@ export TEXTDOMAIN
 # Icons for most windows
 icon=/usr/share/pixmaps/slitaz-menu.png
 
+# some constants to be used inside functions
+tmp="/tmp/keymap.list"
+db="/usr/share/i18n/locales"
+zi="/usr/share/zoneinfo/"
+
 #
 # Functions
 #
@@ -91,7 +96,6 @@ logout_main() {
 
 # Generate keymap list
 gen_kmap_list() {
-	tmp=/tmp/keymap.list
 	echo > $tmp
 	cd /usr/share/kbd/keymaps/i386
 	# We first need a list to sort and then use \n for Yad list.
@@ -106,9 +110,6 @@ gen_kmap_list() {
 # Initial Config functions
 setup_main() {
 	gen_kmap_list
-    db="/usr/share/i18n/locales"
-    tmp="/tmp/keymap.list"
-    zi="/usr/share/zoneinfo/"
     title=$(gettext "SliTaz Initial Setup")
     message=$(gettext "\n<big>Here you can set your preferences\nfor <b>locale, keymap and timezone</b></big>\n\n")
     locale=$(ls -1 $db | grep ^[a-z][a-z]_[A-Z][A-Z] | tr "\n" "!")
@@ -135,7 +136,6 @@ setup() {
 # Locale functions
 locale_main() {
 	text=$(gettext "Language configuration")
-	db=/usr/share/i18n/locales
 	for locale in $(ls -1 $db | grep ^[a-z][a-z]_[A-Z][A-Z])
 	do
 		desc=$(grep ^title $db/$locale | cut -d '"' -f 2)
@@ -164,7 +164,6 @@ locale() {
 keymap_main() {
 	gen_kmap_list
 	text=$(gettext "Keyboard configuration")
-	tmp=/tmp/keymap.list
 	for i in $(sort $tmp)
 	do
 		keymap=$(echo $i | cut -d "|" -f 1)
@@ -194,7 +193,6 @@ keymap() {
 # TZ functions
 tz_main() {
     	text=$(gettext "TimeZone Configuration")
-    	zi="/usr/share/zoneinfo/"
     	for t in $(find $zi -type f | sed s,$zi,,g)
     	do
         	echo -e "$t"
