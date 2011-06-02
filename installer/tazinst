@@ -8,9 +8,20 @@
 # (C) 2007-2011 SliTaz - GNU General Public License v3.
 #
 # Authors : Christophe Lincoln <pankso@slitaz.org>
-#
+#           Dominique Corbex <domcox@slitaz.org>
 
-VERSION=2.99
+VERSION=2.991
+
+# Install tests (2011-06-01): 
+# from iso ok
+# from web ok
+# stable-2.0 ok
+# stable-3.0 ok
+# cooking-20110329 ok
+# cooking-20110531 broken (xorg)
+
+# Upgrade tests:
+# 
 
 #
 SOURCE_ROOT=/media/source
@@ -22,7 +33,7 @@ BACKLIST="SliTaz GNU/Linux installer"
 DEBUG=0
 
 # Mirror urls
-URL_STABLE="http://mirror.slitaz.org/iso/stable/slitaz-3.0.iso"
+URL_STABLE="http://mirror.slitaz.org/iso/stable/slitaz-4.0.iso"
 URL_COOKING="http://mirror.slitaz.org/iso/cooking/slitaz-cooking.iso"
 URL_ROLLING="http://mirror.slitaz.org/iso/rolling/slitaz-core.iso"
 
@@ -31,17 +42,17 @@ usage()
 {
 	echo -e "\n`gettext \"Tazinst - SliTaz installer - Version\"`: $VERSION\n"
 	echo -e "\033[1m`gettext \"Usage\"`:"
-	echo -e "\033[0m `gettext \"tazinst [command] [config-file|options]\n\"`"
+	echo -e "\033[0m `gettext \"tazinst [command] [config-file]\n\"`"
 	echo -e "\033[1m`gettext \"Commands\"`: \033[0m"
-	echo -e "usage         Print this short usage."
-	echo -e "install       Install SliTaz on HDD using a configuration file."
-	echo -e "upgrade       Upgrade SLiTaz on HDD using a configuration file."
-	echo -e "config        Generate a configuration file."
-	echo -e "cli           Install or upgrade using command line options:"
+	echo -e "`gettext \"usage         Print this short usage.\"`"
+	echo -e "`gettext \"install       Install SliTaz on HDD using a configuration file.\"`"
+	echo -e "`gettext \"upgrade       Upgrade SliTaz on HDD using a configuration file.\"`"
+	echo -e "`gettext \"config        Generate a configuration file.\"`"
+	echo -e "`gettext \"cli           Install or upgrade using command line options:\"`"
 	echo -e "  -i             `gettext \"Full Install (not upgrading, all present data will be lost).\"`"
 	echo -e "  -u             `gettext \"Upgrade (Needs an active internet connection).\"`"
 	echo -e "  -t <type>      `gettext \"Install type (cdrom|usb|iso|web|weboot).\"`"
-	echo -e "  -m <source>    `gettext \"Source media (ex: file.iso|usb partition|web url)\"`"
+	echo -e "  -s <source>    `gettext \"Source media (ex: file.iso|usb partition|web url)\"`"
 	echo -e "  -p <partition> `gettext \"Partition where SliTaz will be installed (ex:/dev/hda3).\"`"
 	echo -e "  -f <fs>        `gettext \"Partition to be formatted (fs=ext2|ext3|ext4|etc..).\"`"
 	echo -e "  -g             `gettext \"Install Grub.\"`"
@@ -62,8 +73,8 @@ abort()
 	if mount | grep -q $TARGET_ROOT; then
 		umount $TARGET_ROOT 2>>$LOG
 	fi
-	echo "Error $@"
-	echo "Installation cancelled"
+	echo "`gettext \"Error\"` $@"
+	echo "`gettext \"Installation cancelled\"`"
 	test $(id -u) = 0 && echo "Installation cancelled on error $@" >> $LOG
 	exit $1
 }
@@ -71,7 +82,7 @@ abort()
 # Print a warning msg
 warning()
 {
-	echo "Warning: $@" | tee -a $LOG
+	echo "`gettext \"Warning:\"` $@" | tee -a $LOG
 }
 
 # Print a debug msg
@@ -161,13 +172,11 @@ _EOF_
 	else
 		abort 2 "Configuration file $CONFILE not found"
 	fi
-
 }
 
 ######################
 # Checking functions #
 ######################
-
 
 # def values and start log
 # $@ : 
@@ -539,6 +548,9 @@ summary()
 prepare_install()
 {
 	debug "Preparing target partition..."
+	# Target may be used
+	mount | grep -q $TGT_PARTITION && \
+		abort 5 $TGT_PARTITION": Partition in use"
 	# Mount point can be already used.
 	if mount | grep -q $TARGET_ROOT; then
 		umount $TARGET_ROOT 2>>$LOG
@@ -752,10 +764,10 @@ done
 echo "$TGT_USER:$TGT_USER_PWD" | chpasswd
 if [ ! -d /home/$TGT_USER ]; then
 	cp -a /etc/skel /home/$TGT_USER
-	cp /root/.xinitrc /home/$TGT_USER
+	[ -e /root/.xinitrc ] && cp /root/.xinitrc /home/$TGT_USER
 	mkdir -p /home/$TGT_USER/.config/slitaz
 	cp -a /etc/slitaz/applications.conf /home/$TGT_USER/.config/slitaz
-	chown -R $TGT_USER.users /home/$TGT_USER
+	chown -R $TGT_USER:$TGT_USER /home/$TGT_USER
 	# Path for user desktop files.
 	for i in /home/$TGT_USER/.local/share/applications/*.desktop
 	do
@@ -842,7 +854,9 @@ grub_partition()
 grub_config()
 {
 	grub_partition
-	win_partition
+	if [ "$TGT_GRUB" == "yes" ]; then
+		win_partition
+	fi
 	# Create the target GRUB configuration.
 	mkdir -p $TARGET_ROOT/boot/grub
 	. /etc/locale.conf
@@ -870,7 +884,7 @@ kernel /boot/$KERNEL root=$TGT_PARTITION lang=$LANG
 
 _EOF_
 	if [ -n "$TGT_WINBOOT" ]; then
-	cat >> $TARGET_ROOT/boot/grub/menu.lst << _EOF_
+		cat >> $TARGET_ROOT/boot/grub/menu.lst << _EOF_
 # For booting Windows :
 #
 title Microsoft Windows
@@ -909,7 +923,7 @@ install_files()
 	debug "Preconfiguring the system..."
 	pre_config_system
 
-	msg "Configuring root and default $USER account..."
+	msg "Configuring root and default $TGT_USER account..."
 	users_settings
 
 	if [ "$TGT_HOME" != "" ]; then
@@ -944,11 +958,6 @@ grub_install()
 # Copy log file, umount target and eject cdrom.
 umount_devices()
 {
-	# Log files
-	debug "Copying log files ($LOG)..."
-	cp -a $LOG $TARGET_ROOT/var/log
-	sleep 2
-
 	# Umount target
 	if mount | grep -q $TARGET_ROOT; then
 		echo "Unmounting target ($TGT_PARTITION)..."
@@ -975,6 +984,11 @@ end_of_install()
 	echo "Installation complete. You can now restart (reboot) \
 from your SliTaz GNU/Linux system."
 	echo "=== Tazinst end at `date` ===" >>$LOG
+	# Log files
+	echo "Copying log files ($LOG)..."
+	cp -a $LOG $TARGET_ROOT/var/log
+	sleep 2
+	# umount
 	umount_devices
 }
 
@@ -986,6 +1000,9 @@ from your SliTaz GNU/Linux system."
 prepare_upgrade()
 {
 	debug "Preparing the target partition..."
+	# Target may be used
+	mount | grep -q $TGT_PARTITION && \
+		abort 5 $TGT_PARTITION": Partition in use"
 	# Mount point can be already used.
 	if mount | grep -q $TARGET_ROOT; then
 		umount $TARGET_ROOT 2>>$LOG
