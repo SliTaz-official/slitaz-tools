@@ -38,6 +38,7 @@ $(gettext "Commands:")
   locale     $(gettext "Configure system language (root)")
   keymap     $(gettext "Configure system keymap (root)")
   tz         $(gettext "Configure system timezone (root)")
+  setup      $(gettext "System initial setup (locale, keymap & timezone)")
 
 EOT
 }
@@ -88,6 +89,49 @@ logout_main() {
 			"`gettext \"Shutdown system\"` : halt"
 }
 
+# Generate keymap list
+gen_kmap_list() {
+	tmp=/tmp/keymap.list
+	echo > $tmp
+	cd /usr/share/kbd/keymaps/i386
+	# We first need a list to sort and then use \n for Yad list.
+	for i in $(find *rty *rtz dvorak -name *.map.gz)
+	do
+		keymap=$(basename $i)
+		type=$(dirname $i)
+		echo -e "$keymap|$type" >> $tmp
+	done
+}
+
+# Initial Config functions
+setup_main() {
+	gen_kmap_list
+    db="/usr/share/i18n/locales"
+    tmp="/tmp/keymap.list"
+    zi="/usr/share/zoneinfo/"
+    title=$(gettext "SliTaz Initial Setup")
+    message=$(gettext "\n<big>Here you can set your preferences\nfor <b>locale, keymap and timezone</b></big>\n\n")
+    locale=$(ls -1 $db | grep ^[a-z][a-z]_[A-Z][A-Z] | tr "\n" "!")
+    keymap=$(cat $tmp | cut -d. -f1 | sort | tr "\n" "!")
+    timezone=$(find $zi -type f | sed s,$zi,,g | tr "\n" "!")
+    yad --width=500 --height=380 \
+		--image=$icon --title="$title" --form --text="$message" \
+		--field "Locale:CB" \
+		--field "Keymap:CB" \
+		--field "Timezone:CB" \
+		$locale \ $keymap \ $timezone    
+}
+
+setup() {
+	choices=$(setup_main)
+	locale=$(echo $choices | cut -d"|" -f1)
+	keymap=$(echo $choices | cut -d"|" -f2)
+	timezone=$(echo $choices | cut -d"|" -f3)
+	[ $locale ] && tazlocale init $locale
+	[ $keymap ] && tazkeymap init $keymap
+	[ $timezone ] && echo $timezone > /etc/TZ
+}
+
 # Locale functions
 locale_main() {
 	text=$(gettext "Language configuration")
@@ -118,17 +162,9 @@ locale() {
 
 # Keymap functions
 keymap_main() {
+	gen_kmap_list
 	text=$(gettext "Keyboard configuration")
 	tmp=/tmp/keymap.list
-	echo > $tmp
-	cd /usr/share/kbd/keymaps/i386
-	# We first need a list to sort and then use \n for Yad list.
-	for i in $(find *rty *rtz dvorak -name *.map.gz)
-	do
-		keymap=$(basename $i)
-		type=$(dirname $i)
-		echo -e "$keymap|$type" >> $tmp
-	done
 	for i in $(sort $tmp)
 	do
 		keymap=$(echo $i | cut -d "|" -f 1)
@@ -239,8 +275,10 @@ case "$1" in
 		locale ;;
 	keymap)
 		keymap ;;
-    	tz)
-        	tz ;;
+    tz)
+        tz ;;
+    setup)
+		setup ;;
 	boot)
 		# This command is used at first boot to configure system.
 		Xorg -br -quiet -nolisten tcp :1 &

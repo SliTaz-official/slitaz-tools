@@ -76,7 +76,7 @@ install:
 		touch $(DESTDIR)/$$file; \
 	done;
 	# /usr/bin tools.
-	for app in startx history tazdialog editor browser terminal file-manager; \
+	for app in tazx startx history tazdialog editor browser terminal file-manager; \
 	do \
 		install -m 0755 tinyutils/$$app $(DESTDIR)$(PREFIX)/bin; \
 	done;
@@ -112,7 +112,8 @@ install-boxes:
 	for l in $(LINGUAS); \
 	do \
 		install -m 0777 -d $(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
-		install po/mo/$$l/* $(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
+		install -m 0644 po/mo/$$l/* \
+			$(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
 	done;
 	# Default English messages (will move to po)
 	install -m 0777 -d $(DESTDIR)$(PREFIX)/share/slitaz/messages/en
