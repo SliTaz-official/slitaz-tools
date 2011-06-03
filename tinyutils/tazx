@@ -17,9 +17,13 @@ WM=openbox
 # created by /etc/init.d/bootopts.sh.
 USER=`cat /etc/passwd | grep 1000 | cut -d ":" -f 1`
 
-####################
-#  Tazx functions  #
-####################
+
+# Functions
+
+# Be sure we're root.
+check_root() {
+	[ $(id -u) != 0 ] && gettext -e "\nYou must be root to cook.\n\n" && exit 0
+}
 
 # Populate xorg.conf.d.
 xorg_conf_d()
@@ -332,13 +336,12 @@ _EOF_
 	chmod 700 $HOME/.xsession
 }
 
-###################
-#  Tazx sequence  #
-###################
+
+# Commands - WM can be specified on cmdline.
 
 case "$1" in
 	install-xorg)
-		# WM can be specified on cmdline.
+		check_root
 		if [ -n "$2" ]; then
 			WM=$2
 		fi
@@ -348,7 +351,7 @@ case "$1" in
 		creat_xinitrc
 		creat_xsession ;;
 	config-xorg)
-		# WM can be specified on cmdline.
+		check_root
 		if [ -n "$2" ]; then
 			WM=$2
 		fi
@@ -363,11 +366,10 @@ case "$1" in
 				/etc/X11/xorg.conf.d/70-Screen.conf
 		fi ;;
 	*)
-		# WM can be specified on cmdline.
+		# User can get a new .xinitrc with tazx from cmdline.
 		if [ -n "$1" ]; then
 			WM=$1
 		fi
-		# User can get a new .xinitrc with tazx from cmdline.
 		if test $(id -u) = 0; then
 			echo "xorg" > /etc/X11/screen.conf
 			screen_config_dialog
