@@ -767,7 +767,7 @@ if [ ! -d /home/$TGT_USER ]; then
 	[ -e /root/.xinitrc ] && cp /root/.xinitrc /home/$TGT_USER
 	mkdir -p /home/$TGT_USER/.config/slitaz
 	cp -a /etc/slitaz/applications.conf /home/$TGT_USER/.config/slitaz
-	chown -R $TGT_USER:$TGT_USER /home/$TGT_USER
+	chown -R $TGT_USER:users /home/$TGT_USER
 	# Path for user desktop files.
 	for i in /home/$TGT_USER/.local/share/applications/*.desktop
 	do
