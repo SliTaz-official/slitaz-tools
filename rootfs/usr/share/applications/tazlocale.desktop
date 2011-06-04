@@ -1,6 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
-Name=Système language
+Name=System language
 Name[fr]=Langue du système
 Exec=tazbox su "tazbox locale"
 Icon=locale

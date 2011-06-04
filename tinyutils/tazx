@@ -22,7 +22,7 @@ USER=`cat /etc/passwd | grep 1000 | cut -d ":" -f 1`
 
 # Be sure we're root.
 check_root() {
-	[ $(id -u) != 0 ] && gettext -e "\nYou must be root to cook.\n\n" && exit 0
+	[ $(id -u) != 0 ] && gettext -e "\nYou must be root to configure x.\n\n" && exit 0
 }
 
 # Populate xorg.conf.d.
@@ -63,7 +63,7 @@ xorg_conf_d()
 			echo '	Option "XkbLayout" "ch"
 	Option "XkbVariant" "fr"' >> $keyboard_config ;;
 		uk)
-			# Englisk UK
+			# English UK
 			echo '	Option "XkbLayout" "gb"' >> $keyboard_config ;;
 		ru)
 			# Russian
