@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Tazinst Manual - Manual for 'tazinst' installer</title>
+	<meta charset="utf-8" />
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+
+<!-- Header -->
+<div id="header">
+	<h1>Tazinst Manual</h1>
+</div>
+
+<!-- Start content -->
+<div id="content">
+
+<h2>NAME</h2>
+<p>
+	Tazinst - Tiny autonomous zone installer manager
+</p>
+
+<h2>SYNTAX</h2>
+<pre>
+tazinst [command] [configuration file]
+</pre>
+
+<h2>DESCRIPTION</h2>
+<p>
+	Tazinst is a lightweight SliTaz HDD installer (~ 29 KB). It installs SliTaz to a hard drive from a 
+	Live-CD, LiveUSB key, a SliTaz ISO image, or from the web by downloading a stable 
+	version, a cooking version or by giving the http link of another iso (eg: Development ISO).
+</p>
+<p>
+	Tazinst can format the target partition to ext2, ext3, ext4 or other formats if the 
+	matching packages are installed. The home partition can be installed on another 
+	partition and if need be formatted before installation into any one of the available 
+	formats. Tazinst may upon request install the Grub bootloader in the MBR of the target 
+	disk. A dual-boot with an existing Windows© partition is possible, finding the Windows©  
+	partition can either be done automatically or manually specified.
+</p>
+<p>
+	Tazinst can also update SliTaz installed on a hard disk partition which is handy 
+	in case of version changes. In this case, Slitaz is updated, data in /home is 
+	preserved and additional packages are reinstalled on to the new version.
+</p>
+<p>
+	Tazinst was created independently for the needs of the SliTaz GNU/Linux mini distribution.
+</p>
+<p>
+	Tazinst is written from scratch in shell script and is compatible with Busybox Ash and Bash. 
+	Tazinst is licensed under the GNU Free gpl v3.
+</p>
+
+<h2>COMMANDS</h2>
+<a name="config"></a>
+<h3>config</h3>
+<p>
+	Generates a self-documenting configuration file which when edited as required by the user 
+	will install or update SliTaz to a hard drive using tazinst install [filename].
+</p>
+<pre>
+tazinst config /var/lib/tazinst.conf
+</pre>
+
+<p>
+	The configuration file contains the following variables:
+</p>
+<ul>
+	<li>The variables describing the installation source:</li>
+</ul>
+
+<ol>
+	<li class="level1"><div class="li"> * INST_TYPE : the type of media containing
+	the SliTaz source files, either: cdrom (SliTaz LiveCD), usb 
+	(SliTaz LiveUSB), iso (ISO image of SliTaz), web (ISO image on the Web), 
+	weboot, ex : <code>INST_TYPE=web</code></div>
+	</li>
+	<li class="level1"><div class="li"> * SRC_FILE : the name of the source file containing
+	SliTaz. It depends on the type of support:
+	<ul>
+	<li class="level2"><div class="li">cdrom (SliTaz LiveCD) : 
+	<i>unused</i></div>
+	</li>
+	<li class="level2"><div class="li">usb (SliTaz LiveUSB) : name of the 
+	partition on the host USB device, ex : <code>SRC_FILE=/dev/sdb1</code>
+	</div>
+	</li>
+	<li class="level2"><div class="li">iso (ISO image of SliTaz) : name of the 
+	ISO file, ex : <code>SRC_FILE=~/slitaz.3.0.iso</code></div>
+	</li>
+	<li class="level2"><div class="li">web (ISO image on the Web) : name of the 
+	URL, ex : <code>
+	SRC_FILE=http://mirror.slitaz.org/iso/cooking/slitaz-cooking.iso</code>. 
+	Note that 3 URLs are predefined: 'stable', 'cooking, 'rolling', ex : 
+	<code>SRC_FILE=cooking</code> downloads the latest cooking available 
+	from the web</div>
+	</li>
+	<li class="level2"><div class="li">weboot : <i>unused</i></div></li> 
+	</ul></div>
+	</li>
+</ol>
+
+<ul>
+	<li class="level1"><div class="li"> The variables describing the target 
+	partition: </div>
+	</li>
+</ul>
+
+<ol>
+	<li class="level1"><div class="li"> * TGT_PARTITION : the name of the target
+	partition SliTaz will install to or update, ex : <code>TGT_PARTITION=
+	/dev/hda3</code></div>
+	</li>
+	<li class="level1"><div class="li">TGT_FS : if this variable is entered, the 
+	target partition will be formatted in the file system specified, otherwise 
+	the partition will be cleaned and /home will be preserved, ex : <code>
+	TGT_FS=ext3</code></div>
+	</li>
+	<li class="level1"><div class="li">TGT_HOME : this variable indicates if need 
+	be, the name of the partition to receive the /home directory, ex : <code>
+	TGT_HOME=/dev/hda5</code></div>
+	</li>
+	<li class="level1"><div class="li">TGT_HOME_FS : if this variable is entered, 
+	the home partition will be formatted in the file system specified, 
+	ex : <code>TGT_HOME_FS=ext2</code></div>
+	</li>
+</ol>
+
+<ul>
+	<li class="level1"><div class="li"> The configuration variables: 
+	</div>
+	</li>
+</ul>
+
+<ol>
+	<li class="level1"><div class="li">TGT_HOSTNAME : name of the system, ex : <code>
+	TGT_HOSTNAME=hd-slitaz</code>, by default <code>TGT_HOSTNAME=slitaz</code>
+	</div>
+	</li>
+	<li class="level1"><div class="li">TGT_ROOT_PWD : superuser password, ex : 
+	<code>TGT_ROOT_PWD=toor</code>, by default <code>
+	TGT_ROOT_PWD=root</code></div>
+	</li>
+	<li class="level1"><div class="li">TGT_USER : user name, 
+	ex : <code>TGT_USER=toto</code>, by default <code>TGT_USER=tux</code></div>
+	</li>
+	<li class="level1"><div class="li">TGT_USER_PWD : user password, 
+	ex : <code>TGT_USER_PWD=titi</code>, by default 
+	<code>TGT_USER_PWD=tux</code></div>
+	</li>
+</ol>
+
+<ul>
+	<li class="level1"><div class="li"> The boot loader (bootloader) configuration variables: </div>
+	</li>
+</ul>
+
+<ol>
+	<li>TGT_GRUB : install the GRUB bootloader (yes or no), ex : 
+		<code>TGT_GRUB=yes</code>, by default <code>TGT_GRUB=no</code>
+	</li>
+	<li class="level1"><div class="li">TGT_MENU_PARTITION : name of the partition 
+	where the GRUB configuration file is installed. Normally, this variable is not 
+	set, it can be used if GRUB is installed to a dedicated partition, or in a 
+	multi-os configuration, 
+	ex : <code>TGT_MENU_PARTITION=/dev/hda4</code></div>
+	</li>
+	<li class="level1"><div class="li">TGT_WINBOOT : if this variable is entered, 
+	it indicates the partition containing Windows© to implement a dual-boot. It can 
+	also be set to 'auto', in this case the dual-boot will be on the first partition 
+	Windows© detected, 
+	ex : <code>TGT_WINBOOT=auto</code></div>
+	</li>
+</ol>
+
+<p>
+	Note that only variables preceded by a asterisk are mandatory, others are optional. Thus a minimal configuration file can be:
+</p>
+<pre>
+INST_TYPE=cdrom
+TGT_PARTITION=/dev/hda3
+</pre>
+<p>
+	This file will install SliTaz on /dev/hda3 formatting the partition from a LiveCD.
+</p>
+
+<a name="install"></a>
+<h3>install</h3>
+<p>
+	Launch the SliTaz installer based on data in the configuration file.
+</p>
+<pre>
+tazinst install /var/lib/tazinst.conf
+</pre>
+
+<a name="upgrade"></a>
+<h3>upgrade</h3>
+<p>
+	Launch and upgrade SliTaz based on data in the configuration file.
+</p>
+<pre>
+tazinst upgrade /var/lib/tazinst.conf
+</pre>
+
+<h2>MAINTAINERS</h2>
+<p>
+	Christophe Lincoln &lt;pankso at slitaz.org&gt; <br />
+	Dominique Corbex &lt;domcox at slitaz.org&gt;
+</p>
+
+<!-- End of content -->
+</div>
+
+<div id="footer">
+	Copyright &copy; 2011 <a href="http://www.slitaz.org/">SliTaz GNU/Linux</a>
+</div>
+
+</body>
+</html>
