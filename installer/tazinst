@@ -52,7 +52,7 @@ usage()
 	echo -e "  -i             `gettext \"Full Install (not upgrading, all present data will be lost).\"`"
 	echo -e "  -u             `gettext \"Upgrade (Needs an active internet connection).\"`"
 	echo -e "  -t <type>      `gettext \"Install type (cdrom|usb|iso|web|weboot).\"`"
-	echo -e "  -s <source>    `gettext \"Source media (ex: file.iso|usb partition|web url)\"`"
+	echo -e "  -s <source>    `gettext \"Source media (ex: file.iso|usb partition|web url).\"`"
 	echo -e "  -p <partition> `gettext \"Partition where SliTaz will be installed (ex:/dev/hda3).\"`"
 	echo -e "  -f <fs>        `gettext \"Partition to be formatted (fs=ext2|ext3|ext4|etc..).\"`"
 	echo -e "  -g             `gettext \"Install Grub.\"`"
@@ -121,7 +121,7 @@ INST_TYPE="cdrom"
 # usb:/dev/xxx, ex: SRC_FILE=/dev/sdb1
 # iso:file.iso, ex: SRC_FILE=~/slitaz.3.0.iso
 # web: url, ex: SRC_FILE=http://mirror.slitaz.org/iso/cooking/slitaz-cooking.iso
-# web: predefinites (stable|cooking|rolling), ex: SRC_FILE=cooking
+# web: predefined mirrors (stable|cooking|rolling), ex: SRC_FILE=cooking
 SRC_FILE=""
 
 # Install Target (Root Partition).
@@ -135,7 +135,7 @@ TGT_FS="ext3"
 
 # Home partition.
 # On most GNU/Linux systems users personal files are stored in the directory
-# /home. Home can be on a separate partition or another hard disk.
+# /home. Home can be on another hard disk or on a separate partition.
 TGT_HOME=""
 # Home File system (if /home is on a separate partition)
 TGT_HOME_FS=""
@@ -164,7 +164,7 @@ TGT_MENU_PARTITION=""
 # Windows dual-boot
 # Dual boot is disabled if WINBOOT is empty: TGT_WINBOOT=""
 # You may let tazinst find your win partition, mode=auto: TGT_WINBOOT="auto"
-# or set manual setting: "hd[disk],[partition]" ex:TGT_WINBOOT=hd0,0
+# or use manual setting: "hd[disk],[partition]" ex:TGT_WINBOOT=hd0,0
 TGT_WINBOOT=""
 
 _EOF_
