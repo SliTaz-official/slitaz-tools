@@ -3,32 +3,20 @@
 # Tazlocale: SliTaz GNU/Linux locale setting using dialog boxes.
 # Configuration file is : /etc/locale.conf
 #
-# 20110429 <pankso@slitaz.org> - GNU gpl.
+# 20110614 <pankso@slitaz.org> - GNU gpl.
 #
+
+# Internationalization
+. /usr/bin/gettext.sh
+TEXTDOMAIN='slitaz-tools'
+export TEXTDOMAIN
 
 # Check if user is root.
 if test $(id -u) != 0; then
-	echo -e "\nYou must be root to run `basename $0`!"
-	echo -e "Type su and root password to become super-user.\n"
+	gettext "You must be root to run"; echo $(basename $0)
+	gettext "Type su and root password to become super-user"; echo
 	exit 1
 fi
-
-get_messages()
-{
-	[ -f "/etc/locale.conf" ] && . /etc/locale.conf
-	LANGUAGE=${LANG%_*}
-	[ "$LANG" = "C" ] && LANGUAGE="en_US"
-	case $LANGUAGE in
-		fr*)
-			RECONFIG_MSG="
-Veuilliez fermer votre session et vous reloguer pour utiliser SliTaz \
-avec la locale : $LANG" ;;
-		*)
-			RECONFIG_MSG="
-Please logout of your current session and login again to use SliTaz \
-with $LANG locale." ;;
-	esac
-}
 
 # Create symlink to translated files provide by SliTaz language pack,
 # doc and config files.
@@ -48,10 +36,18 @@ link_language_files()
 		ln -s index.$LANGUAGE.html index.html
 	fi
 	# SliTaz Software Manuals
-	for soft in tazpkg tazlito tazusb tazwok burnbox tazweb
+	for soft in tazpkg tazlito tazusb tazwok tazweb tazpanel
 	do
 		if [ -f /usr/share/doc/$soft/$soft.$LANGUAGE.html ]; then
 			cd /usr/share/doc/$soft && rm -f $soft.html
+			ln -s $soft.$LANGUAGE.html $soft.html
+		fi
+	done
+	# SliTaz Tools Manuals
+	for soft in burnbox tazinst
+	do
+		if [ -f /usr/share/doc/slitaz-tools/$soft.$LANGUAGE.html ]; then
+			cd /usr/share/doc/slitaz-tools && rm -f $soft.html
 			ln -s $soft.$LANGUAGE.html $soft.html
 		fi
 	done
@@ -87,33 +83,28 @@ $(get_locale_name) \
 	retval=$?
 	exec 3>&-
 	case $retval in
-		0)
-			continue ;;
-		1)
-			echo "Cancel pressed."
-			exit 0 ;;
-		255)
-			if test -n "$locale"; then
-				echo "$locale"
-			else
-				echo "ESC pressed."
-				exit 0
-			fi ;;
+		0) continue ;;
+		1|255) exit 0 ;;
 	esac
+	
 	# Default: C = English
 	[ "$locale" = "en" ] && locale="en_US"
 	[ -s /etc/locale.conf ] && RECONFIG="yes"
+	
 	# System configuration
 	echo "LANG=$locale" > /etc/locale.conf
 	echo "LC_ALL=$locale" >> /etc/locale.conf
 	export LANG=$locale LC_ALL=$locale
 	gen_utf8_locale
 	get_messages
+	
 	# If it's a reconfiguration give an info message.
 	if [ -n "$RECONFIG" ]; then
+		msg=$(gettext "\
+Please logout of your current session and login again to use new locale.")
 		$DIALOG --clear \
 			--title " Information " \
-			--msgbox "$RECONFIG_MSG" 16 70
+			--msgbox "$msg" 16 70
 	fi
 }
 

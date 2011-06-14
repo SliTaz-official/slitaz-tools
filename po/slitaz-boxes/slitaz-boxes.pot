@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: scpbox\n"
+"Project-Id-Version: SliTaz Boxes\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-01 19:38+0200\n"
+"POT-Creation-Date: 2011-06-14 22:15+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,49 +17,49 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: tinyutils/scpbox:26
+#: tinyutils/scpbox:24
 msgid ""
 "\n"
 "Copy files securely with scp from Dropbear SSH client/server.\n"
 "\t\t"
 msgstr ""
 
-#: tinyutils/scpbox:31
+#: tinyutils/scpbox:29
 msgid "Configuration"
 msgstr ""
 
-#: tinyutils/scpbox:34
+#: tinyutils/scpbox:32
 msgid "<b>User        :</b>"
 msgstr ""
 
-#: tinyutils/scpbox:42
+#: tinyutils/scpbox:40
 msgid "<b>Host        :</b>"
 msgstr ""
 
-#: tinyutils/scpbox:50
+#: tinyutils/scpbox:48
 msgid "<b>Options  :</b>"
 msgstr ""
 
-#: tinyutils/scpbox:59
+#: tinyutils/scpbox:57
 msgid "Paths"
 msgstr ""
 
-#: tinyutils/scpbox:62
+#: tinyutils/scpbox:60
 msgid "<b>Local       :</b>"
 msgstr ""
 
-#: tinyutils/scpbox:75
+#: tinyutils/scpbox:73
 msgid "<b>Remote   :</b>"
 msgstr ""
 
-#: tinyutils/scpbox:85
+#: tinyutils/scpbox:83
 msgid "Download"
 msgstr ""
 
-#: tinyutils/scpbox:90
+#: tinyutils/scpbox:88
 msgid "Upload"
 msgstr ""
 
-#: tinyutils/scpbox:95
+#: tinyutils/scpbox:93
 msgid "Exit"
 msgstr ""

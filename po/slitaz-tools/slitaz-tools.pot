@@ -6,7 +6,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: TazDrop\n"
+"Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-06-14 22:15+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
@@ -17,26 +17,15 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: tazdrop/tazdrop:32
-msgid "Usage:"
+#: tinyutils/tazlocale:16
+msgid "You must be root to run"
 msgstr ""
 
-#: tazdrop/tazdrop:34
-msgid "Options:"
+#: tinyutils/tazlocale:17
+msgid "Type su and root password to become super-user"
 msgstr ""
 
-#: tazdrop/tazdrop:35
-msgid "Display this small help"
-msgstr ""
-
-#: tazdrop/tazdrop:36
-msgid "Display the desktop Drag N' Drop window"
-msgstr ""
-
-#: tazdrop/tazdrop:37
-msgid "Display your dropped text notes"
-msgstr ""
-
-#: tazdrop/tazdrop:81
-msgid "Edit or clean-up your dropped text notes"
+#: tinyutils/tazlocale:103
+msgid ""
+"Please logout of your current session and login again to use new locale."
 msgstr ""

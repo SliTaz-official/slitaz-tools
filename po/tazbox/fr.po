@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-01 19:38+0200\n"
+"POT-Creation-Date: 2011-06-14 22:15+0200\n"
 "PO-Revision-Date: 2011-06-01 20:13+0100\n"
 "Last-Translator: Christophe Lincoln <pankso@slitaz.org>\n"
 "Language-Team: French\n"
@@ -18,108 +18,120 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Poedit-Language: French\n"
 
-#: tazbox/tazbox:30
+#: tazbox/tazbox:35
 msgid "Usage:"
 msgstr "Utilisation:"
 
-#: tazbox/tazbox:32
+#: tazbox/tazbox:37
 msgid "Commands:"
 msgstr "Commandes:"
 
-#: tazbox/tazbox:33
+#: tazbox/tazbox:38
 msgid "Display this short help usage"
 msgstr "Affiche cette petite aide"
 
-#: tazbox/tazbox:34
+#: tazbox/tazbox:39
 msgid "Execute a command as super-user"
 msgstr "Lancer une commande super utilisateur"
 
-#: tazbox/tazbox:35
+#: tazbox/tazbox:40
 msgid "Desktop logout box with actions"
 msgstr "Boîte de déconnexion avec actions"
 
-#: tazbox/tazbox:36
+#: tazbox/tazbox:41
 msgid "Pipe a command output into a GTK window"
 msgstr "Rediriger une commande dans une fenêtre GTK"
 
-#: tazbox/tazbox:37
+#: tazbox/tazbox:42
 msgid "Pipe Wget output into a GTK window"
 msgstr "Rediriger Wget dans une fenêtre GTK"
 
-#: tazbox/tazbox:38
+#: tazbox/tazbox:43
 msgid "Configure system language (root)"
 msgstr "Configurer la langue du système (root)"
 
-#: tazbox/tazbox:39
+#: tazbox/tazbox:44
 msgid "Configure system keymap (root)"
 msgstr "Configurer le clavier du système (root)"
 
-#: tazbox/tazbox:40
+#: tazbox/tazbox:45
 msgid "Configure system timezone (root)"
 msgstr "Configurer la zone horaire (root)"
 
-#: tazbox/tazbox:47
+#: tazbox/tazbox:46
+msgid "System initial setup (locale, keymap & timezone)"
+msgstr ""
+
+#: tazbox/tazbox:53
 msgid "Slitaz admin password"
 msgstr "Mot de passe administrateur"
 
-#: tazbox/tazbox:48
+#: tazbox/tazbox:54
 msgid "Please enter root password (default root) to execute:"
 msgstr "Veuillez entre le mot de passe root (defaut root)  pour exécuter:"
 
-#: tazbox/tazbox:54
+#: tazbox/tazbox:60
 msgid "Password:"
 msgstr "Mot de passe:"
 
-#: tazbox/tazbox:55
+#: tazbox/tazbox:61
 msgid "Autosave password"
 msgstr "Sauvegarder le mot de passe"
 
-#: tazbox/tazbox:59
+#: tazbox/tazbox:65
 msgid "Error: wrong password!"
 msgstr "Erreur: mauvais mot de passe!"
 
-#: tazbox/tazbox:81
+#: tazbox/tazbox:87
 msgid "<b>SliTaz Logout.</b> Please choose an action:"
 msgstr "<b>Déconnexion.</b> Veuillez choisir une action:"
 
-#: tazbox/tazbox:86
+#: tazbox/tazbox:92
 msgid "Close X session"
 msgstr "Fermer la session X"
 
-#: tazbox/tazbox:87
+#: tazbox/tazbox:93
 msgid "Reboot system"
 msgstr "Redémarrer le système"
 
-#: tazbox/tazbox:88
+#: tazbox/tazbox:94
 msgid "Shutdown system"
 msgstr "Eteindre le système"
 
-#: tazbox/tazbox:93
+#: tazbox/tazbox:113
+msgid "SliTaz Initial Setup"
+msgstr ""
+
+#: tazbox/tazbox:114
+msgid ""
+"\\n<big>Here you can set your preferences\\nfor <b>locale, keymap and "
+"timezone</b></big>\\n\\n"
+msgstr ""
+
+#: tazbox/tazbox:138
 msgid "Language configuration"
 msgstr "Configurer la langue"
 
-#: tazbox/tazbox:105
-#: tazbox/tazbox:171
+#: tazbox/tazbox:149 tazbox/tazbox:205
 msgid "Name"
 msgstr "Nom"
 
-#: tazbox/tazbox:105
+#: tazbox/tazbox:149
 msgid "Description"
 msgstr "Description"
 
-#: tazbox/tazbox:121
+#: tazbox/tazbox:166
 msgid "Keyboard configuration"
 msgstr "Configurer le clavier"
 
-#: tazbox/tazbox:143
+#: tazbox/tazbox:178
 msgid "Keymap"
 msgstr "Clavier"
 
-#: tazbox/tazbox:143
+#: tazbox/tazbox:178
 msgid "Type"
 msgstr "Type"
 
-#: tazbox/tazbox:160
+#: tazbox/tazbox:195
 msgid "TimeZone Configuration"
 msgstr "Configurer la zone horaire"
-

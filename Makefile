@@ -4,14 +4,33 @@
 PREFIX?=/usr
 DOCDIR?=/usr/share/doc
 DESTDIR?=
-TOOLS?=scpbox tazbox tazdrop
-TINYUTILS?=scpbox
-LINGUAS?=fr pt_BR
+
+PROJECTS=slitaz-tools slitaz-boxes tazbox tazdrop 
+LINGUAS=fr pt_BR
 
 all: msgfmt
 
+help:
+	@echo ""
+	@echo "make: pot msgmerge msgfmt install install-boxes clean"
+	@echo ""
+
 # i18n.
 
+tools-pot:
+	@echo -n "Generating SliTaz Tools pot file... "
+	@xgettext -o po/slitaz-tools/slitaz-tools.pot -L Shell \
+		--package-name="SliTaz Tools" \
+		./tinyutils/tazlocale
+	@echo "done"
+
+boxes-pot:
+	@echo -n "Generating SliTaz Boxes pot file... "
+	@xgettext -o po/slitaz-boxes/slitaz-boxes.pot -L Shell \
+		--package-name="SliTaz Boxes" \
+		./tinyutils/scpbox
+	@echo "done"
+	
 tazbox-pot:
 	@echo -n "Generating tazbox pot file... "
 	@xgettext -o po/tazbox/tazbox.pot -L Shell \
@@ -24,18 +43,10 @@ tazdrop-pot:
 		--package-name="TazDrop" ./tazdrop/tazdrop
 	@echo "done"
 
-tinyutils-pot: 
-	@for p in $(TINYUTILS); do \
-		echo -n "Generating $$p pot file... "; \
-		xgettext -o po/$$p/$$p.pot -L Shell \
-			--package-name=$$p tinyutils/$$p; \
-		echo "done"; \
-	done;
-
-pot: tazbox-pot tazdrop-pot tinyutils-pot
+pot: tools-pot boxes-pot tazbox-pot tazdrop-pot
 
 msgmerge:
-	@for p in $(TOOLS); do \
+	@for p in $(PROJECTS); do \
 		for l in $(LINGUAS); do \
 			echo -en "\rUpdating $$p $$l po file."; \
 			[ -f "po/$$p/$$l.po" ] && \
@@ -44,7 +55,7 @@ msgmerge:
 	done;
 
 msgfmt:
-	@for p in $(TOOLS); do \
+	@for p in $(PROJECTS); do \
 		for l in $(LINGUAS); do \
 			[ -f "po/$$p/$$l.po" ] && \
 				echo -n "Compiling $$p $$l mo file... " && \
@@ -70,8 +81,7 @@ install:
 		install -m 0755 tinyutils/$$i $(DESTDIR)/sbin; \
 	done;
 	# Declare all config files.
-	for file in etc/motd etc/locale.conf etc/keymap.conf etc/TZ \
-		etc/X11/screen.conf; \
+	for file in etc/locale.conf etc/keymap.conf etc/TZ etc/X11/screen.conf; \
 	do \
 		touch $(DESTDIR)/$$file; \
 	done;

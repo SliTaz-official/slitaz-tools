@@ -5,11 +5,9 @@
 #
 VERSION=20100314
 
-# Include gettext helper script.
+# Internationalization
 . /usr/bin/gettext.sh
-
-# Export package name for gettext.
-TEXTDOMAIN='scpbox'
+TEXTDOMAIN='slitaz-boxes'
 export TEXTDOMAIN
 
 # Box
