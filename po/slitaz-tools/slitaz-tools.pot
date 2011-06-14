@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-14 22:53+0200\n"
+"POT-Creation-Date: 2011-06-14 23:34+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -49,4 +49,32 @@ msgstr ""
 
 #: tinyutils/setmixer:53
 msgid "Done"
+msgstr ""
+
+#: tinyutils/tazx:32
+msgid "You must be root to configure X server."
+msgstr ""
+
+#: tinyutils/tazx:162
+msgid "Tazx dialog helps you to configure your Xorg."
+msgstr ""
+
+#: tinyutils/tazx:163
+msgid "Window Manager:"
+msgstr ""
+
+#: tinyutils/tazx:164
+msgid "X server:"
+msgstr ""
+
+#: tinyutils/tazx:165
+msgid "Install or reconfigure Xorg"
+msgstr ""
+
+#: tinyutils/tazx:166
+msgid "Install TinyX server Xfbdev"
+msgstr ""
+
+#: tinyutils/tazx:167
+msgid "Quit Tazx utility"
 msgstr ""
