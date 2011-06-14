@@ -7,11 +7,15 @@
 #
 : ${DIALOG=dialog}
 
+# Internationalization
+. /usr/bin/gettext.sh
+TEXTDOMAIN='slitaz-tools'
+export TEXTDOMAIN
+
 # Check if user is root.
-#
 if test $(id -u) != 0; then
-	echo -e "\nYou must be root to run `basename $0`!"
-	echo -e "Type 'su' and root password to become super-user.\n"
+	gettext "You must be root to run:"; echo " $(basename $0)"
+	gettext "Type su and root password to become super-user"; echo
 	exit 1
 fi
 
@@ -46,8 +50,8 @@ case "$1" in
 		# Default to text mode dialog.
 		exec 3>&1
 		value=`$DIALOG  --clear \
-		--title " SliTaz keymap configuration " \
-		--menu "\nPlease select your keymap, current config: $CUR" 15 70 5 \
+		--title " $(gettext "SliTaz keymap configuration") " \
+		--menu "" 15 70 5 \
 		"us"            "USA" \
 		"fr_CH-latin1"  "Suisse Romande" \
 		"fr-latin1"     "France" \
@@ -82,26 +86,16 @@ case "$1" in
 		retval=$?
 		exec 3>&-
 		case $retval in
-			0)
-				continue ;;
-			1)
-				echo "Cancel pressed."
-				exit 0 ;;
-			255)
-				if test -n "$value" ; then
-					echo "$value"
-				else
-					echo "ESC pressed."
-					exit 0
-				fi ;;
+			0) continue ;;
+			1|255) exit 0 ;;
 		esac
 		# If it's a reconfiguration give an info message.
 		if [ -s /etc/keymap.conf ]; then
+			msg=$(gettext "\
+Please logout of your current session and login again to use new keyboard.")
 			$DIALOG --clear \
-				--title " Keyboard mapping information\n" \
-				--msgbox "
-		Please logout of your current session and login again to use $value
-		keyboard.\n" 16 70
+				--title " Information " \
+				--msgbox "$msg" 16 70
 		fi
 		kmap=$value
 		echo "$kmap" > /etc/keymap.conf
