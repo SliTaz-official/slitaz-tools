@@ -6,7 +6,7 @@
 
 # Internationalization
 . /usr/bin/gettext.sh
-TEXTDOMAIN='slitaz-boxes'
+TEXTDOMAIN='slitaz-tools'
 export TEXTDOMAIN
 
 gettext "Setting default mixer volumes... "

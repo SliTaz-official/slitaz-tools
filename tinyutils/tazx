@@ -2,21 +2,25 @@
 #
 # Tazx - Ncurses X configuration for SliTaz GNU/Linux using Dialog boxes.
 # This tinyutils is part of slitaz-tools. Tazx can configure Xorg with 
-# several Window Managers.
+# several Window Managers. The GTK interface to configure X is in tazbox.
 #
 # (c) 2011 SliTaz GNU/Linux - GNU gpl v3.
 # Authors: Christophe Lincoln <pankso@slitaz.org>
 #          Pascal Bellard <pascal.bellard@slitaz.org>
 #
-: ${DIALOG=tazdialog}
+: ${DIALOG=dialog}
 
 # Default value.
 WM=openbox
 
 # Default user for config files in Live mode, id is 1000 since it is
 # created by /etc/init.d/bootopts.sh.
-USER=`cat /etc/passwd | grep 1000 | cut -d ":" -f 1`
+USER=$(cat /etc/passwd | grep 1000 | cut -d ":" -f 1)
 
+# Internationalization
+. /usr/bin/gettext.sh
+TEXTDOMAIN='slitaz-tools'
+export TEXTDOMAIN
 
 # Functions
 
