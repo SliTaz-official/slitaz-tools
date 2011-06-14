@@ -21,7 +21,7 @@ tools-pot:
 	@echo -n "Generating SliTaz Tools pot file... "
 	@xgettext -o po/slitaz-tools/slitaz-tools.pot -L Shell \
 		--package-name="SliTaz Tools" \
-		./tinyutils/tazlocale ./tinyutils/tazkeymap
+		./tinyutils/tazlocale ./tinyutils/tazkeymap ./tinyutils/setmixer
 	@echo "done"
 
 boxes-pot:
