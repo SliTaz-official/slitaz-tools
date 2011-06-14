@@ -4,7 +4,13 @@
 # directly.
 #
 
-echo "Setting default mixer volumes..."
+# Internationalization
+. /usr/bin/gettext.sh
+TEXTDOMAIN='slitaz-boxes'
+export TEXTDOMAIN
+
+gettext "Setting default mixer volumes... "
+
 amixer -s -q <<EOF
 set Master 75% unmute
 set Master -12dB
@@ -44,6 +50,7 @@ set Playback 100% unmute
 set "SB Live Analog/Digital Output Jack" off
 set "Audigy Analog/Digital Output Jack" off
 EOF
+gettext "Done"; echo
 
 # Store config
 alsactl store
