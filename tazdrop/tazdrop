@@ -32,9 +32,10 @@ usage() {
 $(gettext "Usage:") $(basename $0) [--option|file|url]
 
 $(gettext "Options:")
-  --usage  $(gettext "Display this small help")
-  --dnd    $(gettext "Display the desktop Drag N' Drop window")
-  --notes  $(gettext "Display your dropped text notes")
+  --usage      $(gettext "Display this small help")
+  --dnd        $(gettext "Display the desktop Drag N' Drop window")
+  --dnd-image  $(gettext "Display the desktop Drag N' Drop image")
+  --notes      $(gettext "Display your dropped text notes")
 
 EOT
 }
@@ -60,7 +61,7 @@ get_install_pkg() {
 drop_main() {
 	yad --text "$DROP_TEXT" \
 		--geometry="${DROP_SIZE}$DROP_GEOM" \
-		--name="tazdrop" \
+		--name="tazdrop" --skip-taskbar \
 		--dnd --sticky --on-top \
 		--undecorated --no-buttons \
 		--command="$0"
@@ -69,8 +70,8 @@ drop_main() {
 # Image GUI function
 drop_image() {
 	yad --image=$DROP_IMAGE \
-		--geometry="$DROP_GEOM" \
-		--name="tazdrop" \
+		--geometry="$DROP_IMAGE_GEOM" \
+		--name="tazdrop" --skip-taskbar \
 		--dnd --sticky --on-top \
 		--undecorated --no-buttons \
 		--command="$0"

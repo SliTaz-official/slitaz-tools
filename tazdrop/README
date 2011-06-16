@@ -17,22 +17,16 @@ quite a few lines of code.
 Auto start the DND window
 -------------------------
 To start TazDrop with your Window manager you have to put these lines in your
-autostart script (For Openbox: ~/.config/openbox/autostart.sh)
+autostart script (For Openbox: ~/.config/openbox/autostart.sh) to have a DND
+window with some text:
 
 # TazDrop Drag N' Drop handler
 tazdrop --dnd &
 
+To use an image as DND box, you can configure the image path via tazdrop.conf:
 
-Skip task bar in Openbox
-------------------------
-To not show the apps in the panel (lxpanel, tint2) you must add these
-settings to your Openbox rc.xml after <applications> at the bottom of
-the file:
-
-  <application name="tazdrop">
-    <focus>no</focus>
-    <skip_taskbar>yes</skip_taskbar>
-  </application>
+# TazDrop Drag N' Drop handler
+tazdrop --dnd-image &
 
 
 Misc notes
