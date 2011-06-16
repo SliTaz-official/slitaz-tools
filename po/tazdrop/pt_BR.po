@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tazdrop\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-29 20:30+0300\n"
+"POT-Creation-Date: 2011-06-16 20:28+0200\n"
 "PO-Revision-Date: 2011-04-29 14:34-0300\n"
 "Last-Translator: Claudinei Pereira <claudinei@slitaz.org>\n"
 "Language-Team: Portuguese <i18n@slitaz.org>\n"
@@ -35,9 +35,14 @@ msgid "Display the desktop Drag N' Drop window"
 msgstr "Mostra a janela de Arrastar e Largar do desktop"
 
 #: tazdrop/tazdrop:37
+#, fuzzy
+msgid "Display the desktop Drag N' Drop image"
+msgstr "Mostra a janela de Arrastar e Largar do desktop"
+
+#: tazdrop/tazdrop:38
 msgid "Display your dropped text notes"
 msgstr "Mostra suas notas de texto"
 
-#: tazdrop/tazdrop:81
+#: tazdrop/tazdrop:82
 msgid "Edit or clean-up your dropped text notes"
 msgstr "Edita ou limpa suas notas de texto"
