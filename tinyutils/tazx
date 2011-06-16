@@ -126,7 +126,8 @@ install_xorg()
 	value=`$DIALOG --clear --colors --title " $(gettext "Install Xorg") " \
 		--menu "\
 $(gettext "Tazx helps you to select your X driver.")" 16 70 5 \
-	$(fgrep xorg-xf86-video /var/lib/tazpkg/packages.list | cut -d- -f4 | while read x; do echo $x; echo driver; done) \
+	$(fgrep xorg-xf86-video /var/lib/tazpkg/packages.list | cut -d- -f4 | \
+		while read x; do echo $x; echo driver; done) \
 	"quit" "Quitter" \
 	2>&1 1>&3`
 	retval=$?
