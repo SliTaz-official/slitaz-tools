@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-16 20:28+0200\n"
+"POT-Creation-Date: 2011-06-16 20:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,8 +55,16 @@ msgstr ""
 msgid "You must be root to configure X server."
 msgstr ""
 
+#: tinyutils/tazx:126
+msgid "Install Xorg"
+msgstr ""
+
+#: tinyutils/tazx:128
+msgid "Tazx helps you to select your X driver."
+msgstr ""
+
 #: tinyutils/tazx:162
-msgid "Tazx dialog helps you to configure your Xorg."
+msgid "Tazx dialog helps you to configure your Xorg sever."
 msgstr ""
 
 #: tinyutils/tazx:163
