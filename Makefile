@@ -74,7 +74,7 @@ install:
 	install -m 0777 -d $(DESTDIR)$(PREFIX)/bin
 	install -m 0777 -d $(DESTDIR)$(PREFIX)/sbin
 	install -m 0777 -d $(DESTDIR)$(PREFIX)/share
-	cp -a rootfs/etc $(DESTDIR)
+	cp -a rootfs/etc $(DESTDIR)/
 	chmod +x $(DESTDIR)/etc/init.d/*
 	cp -a rootfs/usr/share/licenses $(DESTDIR)$(PREFIX)/share
 	# /sbin tools.
@@ -100,6 +100,16 @@ install:
 	install -m 0755 installer/tazinst $(DESTDIR)$(PREFIX)/bin
 	install -m 0644 messages/en/installer.msg \
 		$(DESTDIR)$(PREFIX)/share/slitaz/messages/en
+	# slitaz-tools i18n
+	#for l in $(LINGUAS); \
+	#do \
+		#install -m 0777 -d $(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
+		#install -m 0644 po/mo/$$l/slitaz-tools.mo \
+			#$(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
+	#done;
+	install -m 0777 -d $(DESTDIR)$(PREFIX)/share/locale/fr/LC_MESSAGES
+	install -m 0644 po/mo/fr/slitaz-tools.mo \
+			$(DESTDIR)$(PREFIX)/share/locale/fr/LC_MESSAGES
 
 install-boxes:
 	install -m 0777 -d $(DESTDIR)/etc/wireless
@@ -119,11 +129,11 @@ install-boxes:
 	install -m 0644 rootfs/usr/share/pixmaps/* \
 		$(DESTDIR)$(PREFIX)/share/pixmaps
 	cp -a doc $(DESTDIR)$(PREFIX)/share/doc/slitaz-tools
-	# i18n
+	# i18n.
 	for l in $(LINGUAS); \
 	do \
 		install -m 0777 -d $(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
-		install -m 0644 po/mo/$$l/* \
+		install -m 0644 po/mo/$$l/*box* \
 			$(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
 	done;
 	# Default English messages (will move to po)
