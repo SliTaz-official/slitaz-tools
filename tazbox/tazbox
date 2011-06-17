@@ -45,6 +45,7 @@ $(gettext "Commands:")
   tz         $(gettext "Configure system timezone (root)")
   setup      $(gettext "System initial setup (locale, keymap & timezone)")
   new-file   $(gettext "Create a new file or folder on the desktop")
+  all-apps   $(gettext "Icons of all installed applications.")
 
 EOT
 }
@@ -245,6 +246,14 @@ EOT
 	esac
 }
 
+# All applications
+all_apps() {
+	yad --icons --title="$(gettext "All Applications")" \
+		--compact --read-dir=/usr/share/applications \
+		--window-icon=$icon --width=400 --height=400 \
+		--button="gtk-close:0"
+}
+
 #
 # Commands
 #
@@ -317,6 +326,8 @@ case "$1" in
 		killall Xorg 2>/dev/null ;;
 	new-file)
 		newfile ;;
+	all-apps)
+		all_apps ;;
 	*)
 		usage ;;
 esac
