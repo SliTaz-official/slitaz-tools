@@ -1,0 +1,91 @@
+# SliTaz Tools Brazilian Portuguese translation 
+# Copyright (C) 2011 www.slitaz.org
+# This file is distributed under the same license as the slitaz-tools package.
+# Claudinei Pereira <claudinei@slitaz.org>, 2011.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: slitaz-tools\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-06-18 16:24-0300\n"
+"PO-Revision-Date: 2011-06-18 16:37-0300\n"
+"Last-Translator: Claudinei Pereira <claudinei@slitaz.org>\n"
+"Language-Team: Portuguese <i18n@slitaz.org>\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: tinyutils/tazlocale:16 tinyutils/tazkeymap:17
+msgid "You must be root to run:"
+msgstr "Você deve ser root para executar:"
+
+#: tinyutils/tazlocale:17 tinyutils/tazkeymap:18
+msgid "Type su and root password to become super-user"
+msgstr "Digite su e a senha do root para tornar-se superusuário"
+
+#: tinyutils/tazlocale:78
+msgid "SliTaz language configuration"
+msgstr "Configuração de Linguagem do SliTaz"
+
+#: tinyutils/tazlocale:103
+msgid ""
+"Please logout of your current session and login again to use new locale."
+msgstr ""
+"Finalize a sessão atual e faça login novamente para usar a nova linguagem."
+
+#: tinyutils/tazkeymap:53
+msgid "SliTaz keymap configuration"
+msgstr "Configuraçao de Zona Horária do SliTaz"
+
+#: tinyutils/tazkeymap:94
+msgid ""
+"Please logout of your current session and login again to use new keyboard."
+msgstr ""
+"Finalize a sessao atual e faça login novamente para usar a nova zona horária."
+
+#: tinyutils/setmixer:12
+msgid "Setting default mixer volumes... "
+msgstr "Definindo o volume padrão do mixer..."
+
+#: tinyutils/setmixer:53
+msgid "Done"
+msgstr "Feito"
+
+#: tinyutils/tazx:32
+msgid "You must be root to configure X server."
+msgstr "Você deve ser root para configurar o servidor gráfico."
+
+#: tinyutils/tazx:126
+msgid "Install Xorg"
+msgstr "Instalar Xorg"
+
+#: tinyutils/tazx:128
+msgid "Tazx helps you to select your X driver."
+msgstr "O Tazx ajuda a selecionar o driver gráfico."
+
+#: tinyutils/tazx:162
+msgid "Tazx dialog helps you to configure your Xorg sever."
+msgstr "A caixa de diálogo do Tazx ajuda a configurar o servidor gráfico."
+
+#: tinyutils/tazx:163
+msgid "Window Manager:"
+msgstr "Gerenciador de janelas:"
+
+#: tinyutils/tazx:164
+msgid "X server:"
+msgstr "Servidor gráfico:"
+
+#: tinyutils/tazx:165
+msgid "Install or reconfigure Xorg"
+msgstr "Instale ou reconfigure o Xorg"
+
+#: tinyutils/tazx:166
+msgid "Install TinyX server Xfbdev"
+msgstr "Instale o servidor gráfico leve Xfbdev"
+
+#: tinyutils/tazx:167
+msgid "Quit Tazx utility"
+msgstr "Sair do utilitário Tazx"
