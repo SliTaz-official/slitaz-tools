@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: slitaz-tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-18 16:24-0300\n"
+"POT-Creation-Date: 2011-06-18 22:20+0200\n"
 "PO-Revision-Date: 2011-06-18 16:37-0300\n"
 "Last-Translator: Claudinei Pereira <claudinei@slitaz.org>\n"
 "Language-Team: Portuguese <i18n@slitaz.org>\n"
@@ -66,26 +66,26 @@ msgstr "Instalar Xorg"
 msgid "Tazx helps you to select your X driver."
 msgstr "O Tazx ajuda a selecionar o driver gráfico."
 
-#: tinyutils/tazx:162
+#: tinyutils/tazx:163
 msgid "Tazx dialog helps you to configure your Xorg sever."
 msgstr "A caixa de diálogo do Tazx ajuda a configurar o servidor gráfico."
 
-#: tinyutils/tazx:163
+#: tinyutils/tazx:164
 msgid "Window Manager:"
 msgstr "Gerenciador de janelas:"
 
-#: tinyutils/tazx:164
+#: tinyutils/tazx:165
 msgid "X server:"
 msgstr "Servidor gráfico:"
 
-#: tinyutils/tazx:165
+#: tinyutils/tazx:166
 msgid "Install or reconfigure Xorg"
 msgstr "Instale ou reconfigure o Xorg"
 
-#: tinyutils/tazx:166
+#: tinyutils/tazx:167
 msgid "Install TinyX server Xfbdev"
 msgstr "Instale o servidor gráfico leve Xfbdev"
 
-#: tinyutils/tazx:167
+#: tinyutils/tazx:168
 msgid "Quit Tazx utility"
 msgstr "Sair do utilitário Tazx"

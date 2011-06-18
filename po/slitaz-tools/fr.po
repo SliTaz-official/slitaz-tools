@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-16 20:35+0200\n"
+"POT-Creation-Date: 2011-06-18 22:20+0200\n"
 "PO-Revision-Date: 2011-06-17 19:30+0100\n"
 "Last-Translator: Christophe Lincoln <pankso@slitaz.org>\n"
 "Language-Team: French\n"
@@ -17,31 +17,36 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: tinyutils/tazlocale:16
-#: tinyutils/tazkeymap:17
+#: tinyutils/tazlocale:16 tinyutils/tazkeymap:17
 msgid "You must be root to run:"
 msgstr "Vous devez être root pour lancer:"
 
-#: tinyutils/tazlocale:17
-#: tinyutils/tazkeymap:18
+#: tinyutils/tazlocale:17 tinyutils/tazkeymap:18
 msgid "Type su and root password to become super-user"
-msgstr "Veuillez taper su et le mot de passe root pour devenir super-utilisateur"
+msgstr ""
+"Veuillez taper su et le mot de passe root pour devenir super-utilisateur"
 
 #: tinyutils/tazlocale:78
 msgid "SliTaz language configuration"
 msgstr "Configuration de la langue"
 
 #: tinyutils/tazlocale:103
-msgid "Please logout of your current session and login again to use new locale."
-msgstr "Veuillez vous déloguer et vous reloguer une fois pour utiliser la nouvelle locale."
+msgid ""
+"Please logout of your current session and login again to use new locale."
+msgstr ""
+"Veuillez vous déloguer et vous reloguer une fois pour utiliser la nouvelle "
+"locale."
 
 #: tinyutils/tazkeymap:53
 msgid "SliTaz keymap configuration"
 msgstr "Configuration du clavier"
 
 #: tinyutils/tazkeymap:94
-msgid "Please logout of your current session and login again to use new keyboard."
-msgstr "Veuillez vous déloguer et vous reloguer une fois pour utiliser le nouveau clavier."
+msgid ""
+"Please logout of your current session and login again to use new keyboard."
+msgstr ""
+"Veuillez vous déloguer et vous reloguer une fois pour utiliser le nouveau "
+"clavier."
 
 #: tinyutils/setmixer:12
 msgid "Setting default mixer volumes... "
@@ -63,27 +68,26 @@ msgstr "Installer Xorg"
 msgid "Tazx helps you to select your X driver."
 msgstr "Tazx vous aide à séléctionner votre pilote Xorg."
 
-#: tinyutils/tazx:162
+#: tinyutils/tazx:163
 msgid "Tazx dialog helps you to configure your Xorg sever."
 msgstr "Tazx vous aide à configurer votre serveur Xorg."
 
-#: tinyutils/tazx:163
+#: tinyutils/tazx:164
 msgid "Window Manager:"
 msgstr "Gestionnaire de fenêtres:"
 
-#: tinyutils/tazx:164
+#: tinyutils/tazx:165
 msgid "X server:"
 msgstr "Serveur X:"
 
-#: tinyutils/tazx:165
+#: tinyutils/tazx:166
 msgid "Install or reconfigure Xorg"
 msgstr "Installer ou reconfigurer Xorg"
 
-#: tinyutils/tazx:166
+#: tinyutils/tazx:167
 msgid "Install TinyX server Xfbdev"
 msgstr "Installer le serveur TinyX Xfbdev"
 
-#: tinyutils/tazx:167
+#: tinyutils/tazx:168
 msgid "Quit Tazx utility"
 msgstr "Quitter l'utilitaire Tazx"
-

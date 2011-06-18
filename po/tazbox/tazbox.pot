@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-16 20:28+0200\n"
+"POT-Creation-Date: 2011-06-18 22:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -65,100 +65,108 @@ msgstr ""
 msgid "Create a new file or folder on the desktop"
 msgstr ""
 
-#: tazbox/tazbox:54
-msgid "Slitaz admin password"
+#: tazbox/tazbox:48
+msgid "Icons of all installed applications."
 msgstr ""
 
 #: tazbox/tazbox:55
+msgid "Slitaz admin password"
+msgstr ""
+
+#: tazbox/tazbox:56
 msgid "Please enter root password (default root) to execute:"
 msgstr ""
 
-#: tazbox/tazbox:61
+#: tazbox/tazbox:62
 msgid "Password:"
 msgstr ""
 
-#: tazbox/tazbox:62
+#: tazbox/tazbox:63
 msgid "Autosave password"
 msgstr ""
 
-#: tazbox/tazbox:66
+#: tazbox/tazbox:67
 msgid "Error: wrong password!"
 msgstr ""
 
-#: tazbox/tazbox:88
+#: tazbox/tazbox:89
 msgid "<b>SliTaz Logout.</b> Please choose an action:"
 msgstr ""
 
-#: tazbox/tazbox:93
+#: tazbox/tazbox:94
 msgid "Close X session"
 msgstr ""
 
-#: tazbox/tazbox:94
+#: tazbox/tazbox:95
 msgid "Reboot system"
 msgstr ""
 
-#: tazbox/tazbox:95
+#: tazbox/tazbox:96
 msgid "Shutdown system"
 msgstr ""
 
-#: tazbox/tazbox:114
+#: tazbox/tazbox:115
 msgid "SliTaz Initial Setup"
 msgstr ""
 
-#: tazbox/tazbox:115
+#: tazbox/tazbox:116
 msgid ""
 "\\n<big>Here you can set your preferences\\nfor <b>locale, keymap and "
 "timezone</b></big>\\n\\n"
 msgstr ""
 
-#: tazbox/tazbox:139
+#: tazbox/tazbox:140
 msgid "Language configuration"
 msgstr ""
 
-#: tazbox/tazbox:150 tazbox/tazbox:206
+#: tazbox/tazbox:151 tazbox/tazbox:207
 msgid "Name"
 msgstr ""
 
-#: tazbox/tazbox:150
+#: tazbox/tazbox:151
 msgid "Description"
 msgstr ""
 
-#: tazbox/tazbox:167
+#: tazbox/tazbox:168
 msgid "Keyboard configuration"
 msgstr ""
 
-#: tazbox/tazbox:179
+#: tazbox/tazbox:180
 msgid "Keymap"
 msgstr ""
 
-#: tazbox/tazbox:179
+#: tazbox/tazbox:180
 msgid "Type"
 msgstr ""
 
-#: tazbox/tazbox:196
+#: tazbox/tazbox:197
 msgid "TimeZone Configuration"
 msgstr ""
 
-#: tazbox/tazbox:220
+#: tazbox/tazbox:221
 msgid "Create a new file or folder on your desktop"
 msgstr ""
 
-#: tazbox/tazbox:221
+#: tazbox/tazbox:222
 msgid "New file"
 msgstr ""
 
-#: tazbox/tazbox:224
+#: tazbox/tazbox:225
 msgid "File name"
 msgstr ""
 
-#: tazbox/tazbox:225
+#: tazbox/tazbox:226
 msgid "SHell script"
 msgstr ""
 
-#: tazbox/tazbox:226
+#: tazbox/tazbox:227
 msgid "Folder"
 msgstr ""
 
-#: tazbox/tazbox:227
+#: tazbox/tazbox:228
 msgid "File"
+msgstr ""
+
+#: tazbox/tazbox:251
+msgid "All Applications"
 msgstr ""
