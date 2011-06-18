@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-06-18 22:20+0200\n"
-"PO-Revision-Date: 2011-06-01 20:13+0100\n"
+"PO-Revision-Date: 2011-06-18 22:26+0100\n"
 "Last-Translator: Christophe Lincoln <pankso@slitaz.org>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -60,15 +60,15 @@ msgstr "Configurer la zone horaire (root)"
 
 #: tazbox/tazbox:46
 msgid "System initial setup (locale, keymap & timezone)"
-msgstr ""
+msgstr "Réglage initiale du système (langue, clavier, zone horaire)"
 
 #: tazbox/tazbox:47
 msgid "Create a new file or folder on the desktop"
-msgstr ""
+msgstr "Créer un nouveau fichier ou dossier sur le bureau"
 
 #: tazbox/tazbox:48
 msgid "Icons of all installed applications."
-msgstr ""
+msgstr "Icônes de toutes les applications installées"
 
 #: tazbox/tazbox:55
 msgid "Slitaz admin password"
@@ -108,19 +108,26 @@ msgstr "Eteindre le système"
 
 #: tazbox/tazbox:115
 msgid "SliTaz Initial Setup"
-msgstr ""
+msgstr "Réglages initiale de SliTaz"
 
 #: tazbox/tazbox:116
 msgid ""
-"\\n<big>Here you can set your preferences\\nfor <b>locale, keymap and "
-"timezone</b></big>\\n\\n"
+"\\n"
+"<big>Here you can set your preferences\\n"
+"for <b>locale, keymap and timezone</b></big>\\n"
+"\\n"
 msgstr ""
+"\\n"
+"<big>Ici vous pouver régler vos préférences\\n"
+"pour <b>la langue, le clavier et la zone horaire</b></big>\\n"
+"\\n"
 
 #: tazbox/tazbox:140
 msgid "Language configuration"
 msgstr "Configurer la langue"
 
-#: tazbox/tazbox:151 tazbox/tazbox:207
+#: tazbox/tazbox:151
+#: tazbox/tazbox:207
 msgid "Name"
 msgstr "Nom"
 
@@ -146,29 +153,29 @@ msgstr "Configurer la zone horaire"
 
 #: tazbox/tazbox:221
 msgid "Create a new file or folder on your desktop"
-msgstr ""
+msgstr "Créer un nouveau fichier ou dossier sur le bureau"
 
 #: tazbox/tazbox:222
 msgid "New file"
-msgstr ""
+msgstr "Nouveau fichier"
 
 #: tazbox/tazbox:225
 msgid "File name"
-msgstr ""
+msgstr "Nom du fichier"
 
 #: tazbox/tazbox:226
-#, fuzzy
 msgid "SHell script"
-msgstr "Description"
+msgstr "Script SHell"
 
 #: tazbox/tazbox:227
 msgid "Folder"
-msgstr ""
+msgstr "Dossier"
 
 #: tazbox/tazbox:228
 msgid "File"
-msgstr ""
+msgstr "Fichier"
 
 #: tazbox/tazbox:251
 msgid "All Applications"
-msgstr ""
+msgstr "Toutes les applications"
+
