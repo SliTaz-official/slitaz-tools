@@ -101,15 +101,12 @@ install:
 	install -m 0644 messages/en/installer.msg \
 		$(DESTDIR)$(PREFIX)/share/slitaz/messages/en
 	# slitaz-tools i18n
-	#for l in $(LINGUAS); \
-	#do \
-		#install -m 0777 -d $(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
-		#install -m 0644 po/mo/$$l/slitaz-tools.mo \
-			#$(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
-	#done;
-	install -m 0777 -d $(DESTDIR)$(PREFIX)/share/locale/fr/LC_MESSAGES
-	install -m 0644 po/mo/fr/slitaz-tools.mo \
-			$(DESTDIR)$(PREFIX)/share/locale/fr/LC_MESSAGES
+	for l in $(LINGUAS); \
+	do \
+		install -m 0777 -d $(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
+		install -m 0644 po/mo/$$l/slitaz-tools.mo \
+			$(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
+	done;
 
 install-boxes:
 	install -m 0777 -d $(DESTDIR)/etc/wireless

@@ -322,6 +322,8 @@ case "$1" in
 		Xorg -br -quiet -nolisten tcp :1 &
 		DISPLAY=:1 openbox &
 		locale
+		. /etc/locale.conf
+		export LANG LC_ALL
 		keymap
 		killall Xorg 2>/dev/null ;;
 	new-file)
