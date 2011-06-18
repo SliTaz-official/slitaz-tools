@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: tazbox\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-06-16 20:28+0200\n"
-"PO-Revision-Date: 2011-04-29 14:22-0300\n"
+"PO-Revision-Date: 2011-06-18 16:20-0300\n"
 "Last-Translator: Claudinei Pereira <claudinei@slitaz.org>\n"
 "Language-Team: Portuguese <i18n@slitaz.org>\n"
 "Language: pt_BR\n"
@@ -106,13 +106,15 @@ msgstr "Desligar o sistema"
 
 #: tazbox/tazbox:114
 msgid "SliTaz Initial Setup"
-msgstr ""
+msgstr "Configuração Inicial do SliTaz"
 
 #: tazbox/tazbox:115
 msgid ""
 "\\n<big>Here you can set your preferences\\nfor <b>locale, keymap and "
 "timezone</b></big>\\n\\n"
 msgstr ""
+"\\n<big>Aqui você pode definir suas preferências\\npara <b>localização, "
+"mapa de teclado e zona horária</b></big>\\n\\n"
 
 #: tazbox/tazbox:139
 msgid "Language configuration"
@@ -146,15 +148,15 @@ msgstr "Configuração de zona horária"
 
 #: tazbox/tazbox:220
 msgid "Create a new file or folder on your desktop"
-msgstr ""
+msgstr "Cria novo arquivo ou pasta na área de trabalho"
 
 #: tazbox/tazbox:221
 msgid "New file"
-msgstr ""
+msgstr "Novo arquivo"
 
 #: tazbox/tazbox:224
 msgid "File name"
-msgstr ""
+msgstr "Nome do arquivo"
 
 #: tazbox/tazbox:225
 #, fuzzy
@@ -163,8 +165,8 @@ msgstr "Descrição"
 
 #: tazbox/tazbox:226
 msgid "Folder"
-msgstr ""
+msgstr "Pasta"
 
 #: tazbox/tazbox:227
 msgid "File"
-msgstr ""
+msgstr "Arquivo"
