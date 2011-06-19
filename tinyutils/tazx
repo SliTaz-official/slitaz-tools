@@ -113,7 +113,7 @@ xorg_conf_d()
 	cat > /etc/X11/xorg.conf << EOT
 # You can put here your own Xorg configurations. This config file is read
 # before all files in /etc/X11/xorg.conf.d and will NOT be erased by any
-updates.
+# updates.
 EOT
 	fi
 }
