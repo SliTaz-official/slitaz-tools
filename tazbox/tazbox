@@ -45,7 +45,7 @@ $(gettext "Commands:")
   tz         $(gettext "Configure system timezone (root)")
   setup      $(gettext "System initial setup (locale, keymap & timezone)")
   new-file   $(gettext "Create a new file or folder on the desktop")
-  all-apps   $(gettext "Icons of all installed applications.")
+  all-apps   $(gettext "Display icons of all installed applications")
 
 EOT
 }
@@ -113,7 +113,7 @@ gen_kmap_list() {
 setup_main() {
 	gen_kmap_list
     title=$(gettext "SliTaz Initial Setup")
-    message=$(gettext "\n<big>Here you can set your preferences\nfor <b>locale, keymap and timezone</b></big>\n\n")
+    message=$(gettext "\n<big>Here you can set your preferences\nfor <b>locale, keymap and timezone</b>.</big>\n\n")
     locale=$(ls -1 $db | grep ^[a-z][a-z]_[A-Z][A-Z] | tr "\n" "!")
     keymap=$(cat $tmp | cut -d. -f1 | sort | tr "\n" "!")
     timezone=$(find $zi -type f | sed s,$zi,,g | tr "\n" "!")
