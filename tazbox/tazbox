@@ -307,7 +307,7 @@ case "$1" in
 		# A tiny GTK window for Busybox wget output
 		url=$2
 		[ -d $DOWNLOADS ] || mkdir -p $DOWNLOADS
-		busybox wget -c -P $DOWNLOADS $url 2>1 | output_command
+		busybox wget -c -P $DOWNLOADS $url 2>&1 | output_command
 		cancel_dl ;;
 	locale)
 		locale ;;
