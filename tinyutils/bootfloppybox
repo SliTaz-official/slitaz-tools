@@ -271,7 +271,17 @@ total=\$(grep MemTotal /proc/meminfo | sed 's/[^0-9]//g')
 insmod /lib/modules/*/kernel/drivers/block/floppy.ko.gz 2> /dev/null
 # loram may put floppy.ko.gz module in /lib
 insmod /lib/floppy.ko.gz 2> /dev/null
-if blkid | grep -q 'TYPE="ext'; then
+if [ ! -x /sbin/blkid ]; then
+	cat <<EOT
+
+You can preinstall SliTaz in an ext3 partition with this floppy set.
+
+Simply enter the device name (/dev/XXXX) to create the slitaz/install.sh or
+leave it blank to skip :
+EOT
+	read -t 60 device < /dev/tty0
+	[ -n "\$device" ] && mount \$device /mnt && mkdir /mnt/slitaz
+elif blkid | grep -q 'TYPE="ext'; then
 	cat <<EOT
 
 You can preinstall SliTaz in one of these ext3 partition:
