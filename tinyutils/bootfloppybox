@@ -243,44 +243,140 @@ buildinit()
 	cat > $1/init <<EOTEOT
 #!/bin/sh
 
+cat_floppy()
+{
+	tmp="\$(dd if=/dev/fd0 count=1 2> /dev/null | md5sum)"
+	echo -n "Insert floppy \$num for \$name and press Enter or Q to skip"
+	while true; do
+		echo -n ":"
+		read -t 10 answer < /dev/tty0
+		case "\$answer" in
+		Q*|q*|A*|a*) break 3;;
+		esac
+		dd if=/dev/fd0 count=1 > /tmp/bs.\$\$ 2> /dev/null
+		[ -s /tmp/bs.\$\$ ] || continue
+		[ "\$(md5sum < /tmp/bs.\$\$)" != "\$tmp" ] || continue
+		rm -f /tmp/bs.\$\$
+		break
+	done
+	dd if=/dev/fd0 of=/tmp/rootfs.\$num 2> /dev/null || continue
+	cat /tmp/rootfs.\$num >> \$1
+	rm -f /tmp/rootfs.\$num
+	num=\$((\$num+1))
+}
+
 mount -t proc proc /proc
 total=\$(grep MemTotal /proc/meminfo | sed 's/[^0-9]//g')
 # the floppy driver may not be included in kernel
 insmod /lib/modules/*/kernel/drivers/block/floppy.ko.gz 2> /dev/null
 # loram may put floppy.ko.gz module in /lib
 insmod /lib/floppy.ko.gz 2> /dev/null
+if blkid | grep -q 'TYPE="ext'; then
+	cat <<EOT
+
+You can preinstall SliTaz in one of these ext3 partition:
+\$(blkid | grep 'TYPE="ext')
+
+Simply enter the device name (/dev/XXXX) to create the slitaz/install.sh or
+leave it blank to skip :
+EOT
+	read -t 60 device < /dev/tty0
+	[ -n "\$device" ] && mount \$device /mnt && mkdir /mnt/slitaz
+else
+	cat <<EOT
+
+You can preinstall SliTaz in an ext3 partition with this floppy set.
+After the boot process is completed, create a partition with 'fdisk',
+format it with 'mke2fs -j' and reboot from the floppies again.
+
+EOT
+fi
 umount /proc
 while read name min num count file md5; do
 	[ -e \$file ] && continue
 	[ \$total -lt \$min ] && break
 	while [ \$count -ne 0 ]; do
-		tmp="\$(dd if=/dev/fd0 count=1 2> /dev/null | md5sum)"
-		echo -n "Insert floppy \$num for \$name and press Enter or Q to skip"
-		while true; do
-			echo -n ":"
-			read -t 10 answer < /dev/tty0
-			case "\$answer" in
-			Q*|q*|A*|a*) break 3;;
-			esac
-			dd if=/dev/fd0 count=1 > /tmp/bs.\$\$ 2> /dev/null
-			[ -s /tmp/bs.\$\$ ] || continue
-			[ "\$(md5sum < /tmp/bs.\$\$)" != "\$tmp" ] || continue
-			rm -f /tmp/bs.\$\$
-			break
-		done
-		dd if=/dev/fd0 of=/tmp/rootfs.\$num 2> /dev/null || continue
-		cat /tmp/rootfs.\$num >> /tmp/rootfs
-		rm -f /tmp/rootfs.\$num
-		num=\$((\$num+1))
+		cat_floppy /tmp/rootfs
 		count=\$((\$count-1))
 	done
 	echo "\$md5  /tmp/rootfs" | md5sum -c || break
 	cpio -idmu < /tmp/rootfs > /dev/null 2>&1 ||
 	( zcat /tmp/rootfs 2> /dev/null || unlzma -c /tmp/rootfs ) | cpio -idmu
+	if [ -d /mnt/slitaz ]; then
+		cp /tmp/rootfs /mnt/slitaz/rootfs.\$num ||
+		mv -f /mnt/slitaz /mnt/slitaz-aborted
+	fi
+	rootfslist="\$rootfslist \$num"
 	rm -f /tmp/rootfs*
 done <<EOT
 $(while read line; do echo $line; done)
 EOT
+if [ -d /mnt/slitaz ]; then
+	cat > /mnt/slitaz/install.sh <<EOT
+#!/bin/sh
+
+[ -n "\\\$1" ] || set -- .
+cd \\\$1
+dir=\\\$(dirname \\\$0)
+for i in 0 \$rootfslist ; do
+	[ -s \\\$dir/rootfs.\\\$i ] || continue
+	cpio -idmu < \\\$dir/rootfs.\\\$i > /dev/null 2>&1 ||
+	( zcat \\\$dir/rootfs.\\\$i 2> /dev/null || unlzma -c \\\$dir/rootfs.\\\$i ) | cpio -idmu
+done
+mv -f init.org init
+mkdir boot && cp \\\$dir/bzImage boot 
+cp -a /usr/lib/grub/i386-pc boot/grub
+cat > boot/grub/menu.lst<<EOF
+# /boot/grub/menu.lst: GRUB boot loader configuration.
+#
+
+# By default, boot the first entry.
+default 0
+
+# Boot automatically after 8 secs.
+timeout 8
+
+# Change the colors.
+color yellow/brown light-green/black
+
+title	SliTaz GNU/Linux
+	kernel /boot/bzImage root=\$device
+                
+EOF
+grub-install --no-floppy --root-directory=\\\$PWD \${device%[1-9]*}
+cd -
+EOT
+	chmod +x /mnt/slitaz/install.sh
+	num=1
+	name="the Linux kernel"
+	dd count=0 of=/mnt/slitaz/bzImage.fd
+	fullsize=1
+	while [ \$(stat -c %s /mnt/slitaz/bzImage.fd) -lt \$fullsize ]; do
+		cat_floppy /mnt/slitaz/bzImage.fd
+		setup=\$(dd if=/mnt/slitaz/bzImage.fd skip=497 bs=1 count=1 2> /dev/null | hexdump -e '"" 1/1 "%d" "\n"')
+		syssize=\$(dd if=/mnt/slitaz/bzImage.fd skip=500 bs=1 count=4 2> /dev/null | hexdump -e '"" 1/4 "%d" "\n"')
+		cmdline=\$(dd if=/mnt/slitaz/bzImage.fd skip=552 bs=1 count=4 2> /dev/null | hexdump -e '"" 1/4 "%d" "\n"')
+		initrd=\$(dd if=/mnt/slitaz/bzImage.fd skip=540 bs=1 count=4 2> /dev/null | hexdump -e '"" 1/4 "%d" "\n"')
+		[ \$cmdline -eq 0 ] || cmdline=512
+		size=\$((512 + \$setup * 512 + \$cmdline + \$syssize * 16))
+		[ -s /etc/slitaz-release ] || initrd=0
+		fullsize=\$((\$size + \$initrd + 512))
+		[ \$(stat -c %s /mnt/slitaz/bzImage.fd) -lt \$size ] ||
+			name="the first initramfs"
+	done
+	[ -s /etc/slitaz-release ] &&
+	dd if=/mnt/slitaz/bzImage.fd bs=512 skip=\$((\$setup+1+\$cmdline/512+(31+\$syssize)/32)) > /mnt/slitaz/rootfs.0 &&
+	dd bs=1 seek=\$initrd count=0 of=/mnt/slitaz/rootfs.0
+	dd if=/dev/zero of=/mnt/slitaz/bzImage.fd conv=notrunc bs=1 count=4 seek=552
+	dd if=/dev/zero of=/mnt/slitaz/bzImage.fd conv=notrunc bs=1 count=8 seek=536
+	dd if=/mnt/slitaz/bzImage.fd bs=512 count=\$((\$setup+1)) > /mnt/slitaz/bzImage
+	dd if=/mnt/slitaz/bzImage.fd bs=512 skip=\$((\$setup+1+\$cmdline/512)) >> /mnt/slitaz/bzImage
+	rm -f /mnt/slitaz/bzImage.fd
+	size=\$((512 + \$setup * 512 + \$syssize * 16))
+	dd bs=1 seek=\$size count=0 of=/mnt/slitaz/bzImage
+	[ \$(stat -c %s /mnt/slitaz/bzImage) -eq \$size ] ||
+	mv -f /mnt/slitaz /mnt/slitaz-aborted
+fi
 mv -f /init.org /init || sh
 exec /init
 EOTEOT
