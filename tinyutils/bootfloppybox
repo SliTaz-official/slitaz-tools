@@ -240,6 +240,9 @@ EOT
 buildinit()
 {
 	mv $1/init $1/init.org
+	for i in /dev/tty0 /dev/[sh]d[ab]? ; do
+		[ -e $1$i ] || cp -a $i $1/dev
+	done
 	cat > $1/init <<EOTEOT
 #!/bin/sh
 
@@ -325,7 +328,10 @@ if [ -d /mnt/slitaz ]; then
 	cat > /mnt/slitaz/install.sh <<EOT
 #!/bin/sh
 
-[ -n "\\\$1" ] || set -- .
+if [ -z "\\\$1" ]; then
+	echo "Usage: \\\$0 target-directory"
+	exit 1
+fi
 cd \\\$1
 dir=\\\$(dirname \\\$0)
 for i in 0 \$rootfslist ; do
@@ -359,7 +365,7 @@ EOT
 	chmod +x /mnt/slitaz/install.sh
 	num=1
 	name="the Linux kernel"
-	dd count=0 of=/mnt/slitaz/bzImage.fd
+	dd count=0 of=/mnt/slitaz/bzImage.fd > /dev/null 2>&1
 	fullsize=1
 	while [ \$(stat -c %s /mnt/slitaz/bzImage.fd) -lt \$fullsize ]; do
 		cat_floppy /mnt/slitaz/bzImage.fd
@@ -383,7 +389,7 @@ EOT
 	dd if=/mnt/slitaz/bzImage.fd bs=512 skip=\$((\$setup+1+\$cmdline/512)) >> /mnt/slitaz/bzImage
 	rm -f /mnt/slitaz/bzImage.fd
 	size=\$((512 + \$setup * 512 + \$syssize * 16))
-	dd bs=1 seek=\$size count=0 of=/mnt/slitaz/bzImage
+	dd bs=1 seek=\$size count=0 of=/mnt/slitaz/bzImage > /dev/null 2>&1
 	[ \$(stat -c %s /mnt/slitaz/bzImage) -eq \$size ] ||
 	mv -f /mnt/slitaz /mnt/slitaz-aborted
 fi
