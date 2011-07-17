@@ -287,7 +287,7 @@ EOT
 elif blkid | grep -q 'TYPE="ext'; then
 	cat <<EOT
 
-You can preinstall SliTaz in one of these ext3 partition:
+You can preinstall SliTaz in one of these ext3 partitions:
 \$(blkid | grep 'TYPE="ext')
 
 Simply enter the device name (/dev/XXXX) to create the slitaz/install.sh or
@@ -1228,7 +1228,7 @@ export HELP='
 
 You can override the DHCP bootfile with a Boot URL such as <i>tftp://192.168.0.1/pxe/pxeloader</i>, <i>http://mirror.slitaz.org/pxe/pxelinux.0</i>, or <i>x-tftm://192.168.0.201//lts/vmlinuz.ltsp</i>.
 
-You can override IP configuration too (useful without a DHCP server), example: <i>ip=192.168.0.10/24 gw=192.168.0.1 dns=192.168.0.1 nodhcp url=http://mirror.slitaz.org/pxe/pxelinux.0</i>
+You can override the IP configuration too (useful without a DHCP server), example: <i>ip=192.168.0.10/24 gw=192.168.0.1 dns=192.168.0.1 nodhcp url=http://mirror.slitaz.org/pxe/pxelinux.0</i>
 
 The <i>nodhcp</i> keyword avoids dhcp timeouts and the <i>url=</i> keyword is optional when the url is the only one argument.
 
