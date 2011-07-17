@@ -332,14 +332,20 @@ if [ -z "\\\$1" ]; then
 	echo "Usage: \\\$0 target-directory"
 	exit 1
 fi
+dir=\\\$(cd \\\$(dirname \\\$0); pwd)
 cd \\\$1
-dir=\\\$(dirname \\\$0)
 for i in 0 \$rootfslist ; do
 	[ -s \\\$dir/rootfs.\\\$i ] || continue
 	cpio -idmu < \\\$dir/rootfs.\\\$i > /dev/null 2>&1 ||
 	( zcat \\\$dir/rootfs.\\\$i 2> /dev/null || unlzma -c \\\$dir/rootfs.\\\$i ) | cpio -idmu
 done
-mv -f init.org init
+if ! mv -f init.org init 2> /dev/null; then
+	for i in \\\$(ls rootfs*gz | sed '1!G;h;\\\$!d'); do
+		mount -o loop,ro \\\$i /media/cdrom && rm -f \\\$i
+		cp -a /media/cdrom/. .
+		umount -d /media/cdrom
+	done
+fi
 mkdir boot && cp \\\$dir/bzImage boot 
 cp -a /usr/lib/grub/i386-pc boot/grub
 cat > boot/grub/menu.lst<<EOF
