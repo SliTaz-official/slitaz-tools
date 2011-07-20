@@ -19,7 +19,12 @@
 # 6: No SliTaz system to upgrade found
 # 8: Internal error
 
-VERSION=3.0
+VERSION=3.01
+
+# Internationalization
+. /usr/bin/gettext.sh
+TEXTDOMAIN='tazinst'
+export TEXTDOMAIN
 
 SOURCE_ROOT=/media/source
 TARGET_ROOT=/mnt/target
@@ -39,13 +44,13 @@ usage()
 {
 	echo -e "\n`gettext \"Tazinst - SliTaz installer - Version\"`: $VERSION\n"
 	echo -e "\033[1m`gettext \"Usage\"`:"
-	echo -e "\033[0m `gettext \"tazinst [command] [config-file]\n\"`"
+	echo -e "\033[0m `gettext \"tazinst [command] [config-file]\"`\n"
 	echo -e "\033[1m`gettext \"Commands\"`: \033[0m"
-	echo -e "`gettext \"usage         Print this short usage.\"`"
-	echo -e "`gettext \"install       Install SliTaz on HDD using a configuration file.\"`"
-	echo -e "`gettext \"upgrade       Upgrade SliTaz on HDD using a configuration file.\"`"
-	echo -e "`gettext \"config        Generate a configuration file.\"`"
-	echo -e "`gettext \"cli           Install or upgrade using command line options:\"`"
+	echo -e "usage         `gettext \"Print this short usage.\"`"
+	echo -e "install       `gettext \"Install SliTaz on HDD using a configuration file.\"`"
+	echo -e "upgrade       `gettext \"Upgrade SliTaz on HDD using a configuration file.\"`"
+	echo -e "config        `gettext \"Generate a configuration file.\"`"
+	echo -e "cli           `gettext \"Install or upgrade using command line options:\"`"
 	echo -e "  -i             `gettext \"Full Install (not upgrading, all present data will be lost).\"`"
 	echo -e "  -u             `gettext \"Upgrade (Needs an active internet connection).\"`"
 	echo -e "  -t <type>      `gettext \"Install type (cdrom|usb|iso|web|weboot).\"`"
@@ -528,7 +533,7 @@ summary()
 	echo -ne "`gettext \"Continue:(y/n)\"`"
 	read answer
 	case $answer in
-		[yY]) echo -e "`gettext \"Running $BACKLIST..\"`" ;;
+		[oOyY]) echo -e "`gettext \"Running $BACKLIST..\"`" ;;
 		*) abort 4 `gettext "Cancelled by user"` ;;
 	esac
 	STEP=0

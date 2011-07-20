@@ -5,7 +5,7 @@ PREFIX?=/usr
 DOCDIR?=/usr/share/doc
 DESTDIR?=
 
-PROJECTS=slitaz-tools slitaz-boxes tazbox tazdrop 
+PROJECTS=slitaz-tools slitaz-boxes tazbox tazdrop tazinst 
 LINGUAS=fr pt_BR
 
 all: msgfmt
@@ -31,7 +31,7 @@ boxes-pot:
 		--package-name="SliTaz Boxes" \
 		./tinyutils/scpbox
 	@echo "done"
-	
+
 tazbox-pot:
 	@echo -n "Generating tazbox pot file... "
 	@xgettext -o po/tazbox/tazbox.pot -L Shell \
@@ -44,7 +44,13 @@ tazdrop-pot:
 		--package-name="TazDrop" ./tazdrop/tazdrop
 	@echo "done"
 
-pot: tools-pot boxes-pot tazbox-pot tazdrop-pot
+tazinst-pot:
+	@echo -n "Generating tazinst pot file... "
+	@xgettext -o po/tazinst/tazinst.pot -L Shell \
+		--package-name="Tazinst" ./tazinst/tazinst
+	@echo "done"
+
+pot: tools-pot boxes-pot tazbox-pot tazdrop-pot tazinst-pot
 
 msgmerge:
 	@for p in $(PROJECTS); do \
@@ -97,9 +103,16 @@ install:
 	# Installer's
 	install -m 0777 -d $(DESTDIR)$(PREFIX)/share/slitaz/messages/en
 	install -m 0755 installer/slitaz-installer $(DESTDIR)$(PREFIX)/bin
-	install -m 0755 installer/tazinst $(DESTDIR)$(PREFIX)/bin
 	install -m 0644 messages/en/installer.msg \
 		$(DESTDIR)$(PREFIX)/share/slitaz/messages/en
+	# tazinst
+	install -m 0755 installer/tazinst $(DESTDIR)$(PREFIX)/bin
+	for l in $(LINGUAS); \
+	do \
+		install -m 0777 -d $(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
+		install -m 0644 po/mo/$$l/tazinst.mo \
+			$(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
+	done;
 	# slitaz-tools i18n
 	for l in $(LINGUAS); \
 	do \
@@ -139,7 +152,7 @@ install-boxes:
 		$(DESTDIR)$(PREFIX)/share/slitaz/messages/en
 	# Gksu fake for pcmanfm.
 	cd $(DESTDIR)$(PREFIX)/bin && ln -s subox gksu
-	
+
 clean:
 	rm -rf po/mo
 	rm -f po/*/*.po~
