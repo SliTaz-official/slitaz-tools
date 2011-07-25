@@ -1,5 +1,5 @@
 #!/bin/sh
-# slitaz-installer - SliTaz GNU/Linux installer.
+# tazinst - SliTaz GNU/Linux installer.
 #
 # So this is the SliTaz installer. The script starts with a
 # few main variables, then all the functions and then the 
@@ -10,16 +10,16 @@
 # Authors : Christophe Lincoln <pankso@slitaz.org>
 #           Dominique Corbex <domcox@slitaz.org>
 #
-# Exit codes
+# Exit codes:
 # 1: Parameters error 
 # 2: Configuration file error
 # 3: Source error
 # 4: Cancelled by user
 # 5: Target partition error
-# 6: No SliTaz system to upgrade found
+# 6: SliTaz system to upgrade not found
 # 8: Internal error
 
-VERSION=3.01
+VERSION=3.10
 
 # Internationalization
 . /usr/bin/gettext.sh
@@ -39,17 +39,22 @@ URL_STABLE="http://mirror.slitaz.org/iso/stable/slitaz-4.0.iso"
 URL_COOKING="http://mirror.slitaz.org/iso/cooking/slitaz-cooking.iso"
 URL_ROLLING="http://mirror.slitaz.org/iso/rolling/slitaz-core.iso"
 
+# Config
+[ -r /etc/slitaz/tazinst.conf ] && . /etc/slitaz/tazinst.conf
+
 # Print a short help
 usage()
 {
 	echo -e "\n`gettext \"Tazinst - SliTaz installer - Version\"`: $VERSION\n"
 	echo -e "\033[1m`gettext \"Usage\"`:"
-	echo -e "\033[0m `gettext \"tazinst [command] [config-file]\"`\n"
+	echo -e "\033[0m `gettext \"tazinst [command] [config-file|url|options]\"`\n"
 	echo -e "\033[1m`gettext \"Commands\"`: \033[0m"
 	echo -e "usage         `gettext \"Print this short usage.\"`"
 	echo -e "install       `gettext \"Install SliTaz on HDD using a configuration file.\"`"
 	echo -e "upgrade       `gettext \"Upgrade SliTaz on HDD using a configuration file.\"`"
 	echo -e "config        `gettext \"Generate a configuration file.\"`"
+	echo -e "check         `gettext \"Check configuration file validity.\"`"
+	echo -e "showurl       `gettext \"Show the full URL of a predefined URL (stable|cooking|rolling).\"`"
 	echo -e "cli           `gettext \"Install or upgrade using command line options:\"`"
 	echo -e "  -i             `gettext \"Full Install (not upgrading, all present data will be lost).\"`"
 	echo -e "  -u             `gettext \"Upgrade (Needs an active internet connection).\"`"
@@ -76,7 +81,7 @@ abort()
 		umount $TARGET_ROOT 2>>$LOG
 	fi
 	echo -e "`gettext \"Error\"` $@"
-	echo -e "`gettext \"Installation cancelled\"`"
+#	echo -e "`gettext \"Installation cancelled\"`"
 	test $(id -u) = 0 && echo "Installation cancelled on error $@" >> $LOG
 	exit $1
 }
@@ -270,7 +275,7 @@ check_vars()
 
 	# Check Action
 	case $INST_ACTION in
-		install|upgrade) ;;
+		install|upgrade|check) ;;
 		*) msg `gettext "INST_ACTION=$INST_ACTION: Invalid setting"`; error=yes ;;
 	esac
 
@@ -299,7 +304,7 @@ check_vars()
 				msg `gettext "SRC_FILE=$SRC_FILE: file not found"`; error=yes
 			fi ;;
 		web)
-			if [ $(wget -sq "$SRC_FILE") ]; then
+			if ! wget -sq "$SRC_FILE" 2> /dev/null ; then
 				msg `gettext "SRC_FILE=$SRC_FILE: file not found on the web"`; error=yes
 			fi ;;
 	esac
@@ -766,7 +771,7 @@ if [ ! -d /home/$TGT_USER ]; then
 	[ -e /root/.xinitrc ] && cp /root/.xinitrc /home/$TGT_USER
 	mkdir -p /home/$TGT_USER/.config/slitaz
 	cp -a /etc/slitaz/applications.conf /home/$TGT_USER/.config/slitaz
-	# chmod $TGT_USER:user doesn't work with most ISO
+	# Set ownership
 	if grep -q ^users: /etc/group; then
 		chown -R $TGT_USER:users /home/$TGT_USER
 	else
@@ -1262,6 +1267,22 @@ case $1 in
 				grub_install
 				end_of_install ;;
 		esac ;;
+	showurl)
+		case $2 in
+			stable)
+				echo $URL_STABLE ;;
+			cooking)
+				echo $URL_COOKING ;;
+			rolling)
+				echo $URL_ROLLING ;;
+		esac ;;
+	check)
+		LOG="/dev/null"
+		INST_ACTION=check
+		check_root
+		init $@
+		read_configuration_file $2
+		check_vars ;;
 	usage|*)
 		usage ;;
 esac

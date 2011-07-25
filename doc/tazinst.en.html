@@ -72,32 +72,32 @@ tazinst config /var/lib/tazinst.conf
 </ul>
 
 <ol>
-	<li class="level1"><div class="li"> * INST_TYPE : the type of media containing
+	<li class="level1"><div class="li"> * INST_TYPE: the type of media containing
 	the SliTaz source files, either: cdrom (SliTaz LiveCD), usb 
 	(SliTaz LiveUSB), iso (ISO image of SliTaz), web (ISO image on the Web), 
-	weboot, ex : <code>INST_TYPE=web</code></div>
+	weboot, ex: <code>INST_TYPE=web</code></div>
 	</li>
-	<li class="level1"><div class="li"> * SRC_FILE : the name of the source file containing
+	<li class="level1"><div class="li"> * SRC_FILE: the name of the source file containing
 	SliTaz. It depends on the type of support:
 	<ul>
-	<li class="level2"><div class="li">cdrom (SliTaz LiveCD) : 
+	<li class="level2"><div class="li">cdrom (SliTaz LiveCD): 
 	<i>unused</i></div>
 	</li>
-	<li class="level2"><div class="li">usb (SliTaz LiveUSB) : name of the 
-	partition on the host USB device, ex : <code>SRC_FILE=/dev/sdb1</code>
+	<li class="level2"><div class="li">usb (SliTaz LiveUSB): name of the 
+	partition on the host USB device, ex: <code>SRC_FILE=/dev/sdb1</code>
 	</div>
 	</li>
-	<li class="level2"><div class="li">iso (ISO image of SliTaz) : name of the 
-	ISO file, ex : <code>SRC_FILE=~/slitaz.3.0.iso</code></div>
+	<li class="level2"><div class="li">iso (ISO image of SliTaz): name of the 
+	ISO file, ex: <code>SRC_FILE=~/slitaz.3.0.iso</code></div>
 	</li>
-	<li class="level2"><div class="li">web (ISO image on the Web) : name of the 
-	URL, ex : <code>
+	<li class="level2"><div class="li">web (ISO image on the Web): name of the 
+	URL, ex: <code>
 	SRC_FILE=http://mirror.slitaz.org/iso/cooking/slitaz-cooking.iso</code>. 
-	Note that 3 URLs are predefined: 'stable', 'cooking, 'rolling', ex : 
+	Note that 3 URLs are predefined: 'stable', 'cooking, 'rolling', ex: 
 	<code>SRC_FILE=cooking</code> downloads the latest cooking available 
 	from the web</div>
 	</li>
-	<li class="level2"><div class="li">weboot : <i>unused</i></div></li> 
+	<li class="level2"><div class="li">weboot: <i>unused</i></div></li> 
 	</ul></div>
 	</li>
 </ol>
@@ -109,22 +109,22 @@ tazinst config /var/lib/tazinst.conf
 </ul>
 
 <ol>
-	<li class="level1"><div class="li"> * TGT_PARTITION : the name of the target
-	partition SliTaz will install to or update, ex : <code>TGT_PARTITION=
+	<li class="level1"><div class="li"> * TGT_PARTITION: the name of the target
+	partition SliTaz will install to or update, ex: <code>TGT_PARTITION=
 	/dev/hda3</code></div>
 	</li>
-	<li class="level1"><div class="li">TGT_FS : if this variable is entered, the 
+	<li class="level1"><div class="li">TGT_FS: if this variable is entered, the 
 	target partition will be formatted in the file system specified, otherwise 
-	the partition will be cleaned and /home will be preserved, ex : <code>
+	the partition will be cleaned and /home will be preserved, ex: <code>
 	TGT_FS=ext3</code></div>
 	</li>
-	<li class="level1"><div class="li">TGT_HOME : this variable indicates if need 
-	be, the name of the partition to receive the /home directory, ex : <code>
+	<li class="level1"><div class="li">TGT_HOME: this variable indicates if need 
+	be, the name of the partition to receive the /home directory, ex: <code>
 	TGT_HOME=/dev/hda5</code></div>
 	</li>
-	<li class="level1"><div class="li">TGT_HOME_FS : if this variable is entered, 
+	<li class="level1"><div class="li">TGT_HOME_FS: if this variable is entered, 
 	the home partition will be formatted in the file system specified, 
-	ex : <code>TGT_HOME_FS=ext2</code></div>
+	ex: <code>TGT_HOME_FS=ext2</code></div>
 	</li>
 </ol>
 
@@ -135,19 +135,19 @@ tazinst config /var/lib/tazinst.conf
 </ul>
 
 <ol>
-	<li class="level1"><div class="li">TGT_HOSTNAME : name of the system, ex : <code>
+	<li class="level1"><div class="li">TGT_HOSTNAME: name of the system, ex: <code>
 	TGT_HOSTNAME=hd-slitaz</code>, by default <code>TGT_HOSTNAME=slitaz</code>
 	</div>
 	</li>
-	<li class="level1"><div class="li">TGT_ROOT_PWD : superuser password, ex : 
+	<li class="level1"><div class="li">TGT_ROOT_PWD: superuser password, ex: 
 	<code>TGT_ROOT_PWD=toor</code>, by default <code>
 	TGT_ROOT_PWD=root</code></div>
 	</li>
-	<li class="level1"><div class="li">TGT_USER : user name, 
-	ex : <code>TGT_USER=toto</code>, by default <code>TGT_USER=tux</code></div>
+	<li class="level1"><div class="li">TGT_USER: user name, 
+	ex: <code>TGT_USER=toto</code>, by default <code>TGT_USER=tux</code></div>
 	</li>
-	<li class="level1"><div class="li">TGT_USER_PWD : user password, 
-	ex : <code>TGT_USER_PWD=titi</code>, by default 
+	<li class="level1"><div class="li">TGT_USER_PWD: user password, 
+	ex: <code>TGT_USER_PWD=titi</code>, by default 
 	<code>TGT_USER_PWD=tux</code></div>
 	</li>
 </ol>
@@ -158,20 +158,14 @@ tazinst config /var/lib/tazinst.conf
 </ul>
 
 <ol>
-	<li>TGT_GRUB : install the GRUB bootloader (yes or no), ex : 
+	<li>TGT_GRUB: install the GRUB bootloader (yes or no), ex: 
 		<code>TGT_GRUB=yes</code>, by default <code>TGT_GRUB=no</code>
 	</li>
-	<li class="level1"><div class="li">TGT_MENU_PARTITION : name of the partition 
-	where the GRUB configuration file is installed. Normally, this variable is not 
-	set, it can be used if GRUB is installed to a dedicated partition, or in a 
-	multi-os configuration, 
-	ex : <code>TGT_MENU_PARTITION=/dev/hda4</code></div>
-	</li>
-	<li class="level1"><div class="li">TGT_WINBOOT : if this variable is entered, 
+	<li class="level1"><div class="li">TGT_WINBOOT: if this variable is entered, 
 	it indicates the partition containing Windows© to implement a dual-boot. It can 
 	also be set to 'auto', in this case the dual-boot will be on the first partition 
 	Windows© detected, 
-	ex : <code>TGT_WINBOOT=auto</code></div>
+	ex: <code>TGT_WINBOOT=auto</code></div>
 	</li>
 </ol>
 
@@ -203,6 +197,27 @@ tazinst install /var/lib/tazinst.conf
 <pre>
 tazinst upgrade /var/lib/tazinst.conf
 </pre>
+
+<a name="showurl"></a>
+<h3>showurl</h3>
+<p>Display the full URL of the predefined shortcuts: 'stable', 'cooking, 'rolling'.</p>
+<p>You may overwrite these shortcuts in /etc/slitaz/tazinst.conf:</p>
+<ul>
+<li>URL_STABLE="http://mirror.slitaz.org/iso/stable/slitaz...." for 'stable'</li>
+<li>URL_COOKING="http://mirror.slitaz.org/iso/cooking/slitaz..." for 'cooking'</li>
+<li>URL_ROLLING="http://mirror.slitaz.org/iso/rolling/slitaz..." for 'rolling'</li>
+</ul>
+<pre>
+tazinst showurl stable
+</pre>
+
+<a name="check"></a>
+<h3>check</h3>
+<p>Check a configuration file for errors.</p>
+<pre>
+tazinst check /var/lib/tazinst.conf
+</pre>
+
 
 <h2>MAINTAINERS</h2>
 <p>
