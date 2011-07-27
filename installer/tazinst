@@ -19,7 +19,7 @@
 # 6: SliTaz system to upgrade not found
 # 8: Internal error
 
-VERSION=3.10
+VERSION=3.11
 
 # Internationalization
 . /usr/bin/gettext.sh
@@ -1283,6 +1283,8 @@ case $1 in
 		init $@
 		read_configuration_file $2
 		check_vars ;;
+	version)
+		echo $VERSION ;;
 	usage|*)
 		usage ;;
 esac
