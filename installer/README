@@ -28,10 +28,12 @@ translations go in the po/ folder.
 To start a new translation please use msginit from the pot file directory. 
 Example for French/France locale (fr_FR):
 
-$ msginit -l fr_FR -o fr.po -i tazpanel.pot
+$ msginit -l fr_FR -o fr.po -i tazinst.pot
 
 To update all translations from a newly updated pot file:
 
 $ make msgmerge
+Or:
+$ msgmerge -U fr.po tazinst.pot
 
 ================================================================================

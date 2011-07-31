@@ -19,7 +19,7 @@
 # 6: SliTaz system to upgrade not found
 # 8: Internal error
 
-VERSION=3.11
+VERSION=3.20
 
 # Internationalization
 . /usr/bin/gettext.sh
@@ -53,7 +53,7 @@ usage()
 	echo -e "install       `gettext \"Install SliTaz on HDD using a configuration file.\"`"
 	echo -e "upgrade       `gettext \"Upgrade SliTaz on HDD using a configuration file.\"`"
 	echo -e "config        `gettext \"Generate a configuration file.\"`"
-	echo -e "check         `gettext \"Check configuration file validity.\"`"
+	echo -e "check         `gettext \"Check validity of the configuration file.\"`"
 	echo -e "showurl       `gettext \"Show the full URL of a predefined URL (stable|cooking|rolling).\"`"
 	echo -e "cli           `gettext \"Install or upgrade using command line options:\"`"
 	echo -e "  -i             `gettext \"Full Install (not upgrading, all present data will be lost).\"`"
@@ -81,7 +81,6 @@ abort()
 		umount $TARGET_ROOT 2>>$LOG
 	fi
 	echo -e "`gettext \"Error\"` $@"
-#	echo -e "`gettext \"Installation cancelled\"`"
 	test $(id -u) = 0 && echo "Installation cancelled on error $@" >> $LOG
 	exit $1
 }
@@ -115,7 +114,7 @@ msg()
 gen_config()
 {
 	CONFILE=$1
-	touch $CONFILE || abort 2 `gettext "Unable to write to $CONFILE"`
+	touch $CONFILE || abort 2 `gettext "Can't write config file"`
 	if [ -r "$CONFILE" ]; then
 		cat > $CONFILE << _EOF_
 # tazinst.conf: SliTaz Installer configuration file.
@@ -174,7 +173,7 @@ TGT_WINBOOT=""
 _EOF_
 
 	else
-		abort 2 `gettext "Configuration file $CONFILE not found"`
+		abort 2 `gettext "Config file not found"`
 	fi
 }
 
@@ -211,9 +210,9 @@ read_configuration_file()
 			debug "Using config-file=$CONFILE"
 			# source doesn't like file without a path
 			[ $(echo "$CONFILE" | grep -c "/") == "0" ] && CONFILE="./$CONFILE"
-			source $CONFILE || abort 2 `gettext "Unable to read $CONFILE"`
+			source $CONFILE || abort 2 `gettext "Unable to read config file"`
 		else
-			abort 2 `gettext "Configuration file not found"`
+			abort 2 `gettext "Config file not found"`
 		fi
 	else
 		abort 2 `gettext "No configuration file provided"`
@@ -246,7 +245,7 @@ check_cli_options()
 	INST_ACTION="$INSTALL$UPGRADE"
 	# Don't allow formatting on upgrades
 	[ "$INST_ACTION" == "upgrade" ] && [ -n "$TGT_FS" ] && \
-		warning `gettext "Partition $TGT_PARTITION will not be formatted during upgrade"`
+		warning "$TGT_PARTITION: `gettext "will not be formatted during upgrade"`"
 }
 
 # check main vars
@@ -276,7 +275,7 @@ check_vars()
 	# Check Action
 	case $INST_ACTION in
 		install|upgrade|check) ;;
-		*) msg `gettext "INST_ACTION=$INST_ACTION: Invalid setting"`; error=yes ;;
+		*) msg "INST_ACTION=$INST_ACTION: `gettext "Invalid setting"`"; error=yes ;;
 	esac
 
 	# Check Type
@@ -285,9 +284,9 @@ check_vars()
 		usb|iso|web)
 			# We need a valid source 
 			if [ -z "$SRC_FILE" ]; then
-				msg `gettext "Type is $INST_TYPE, but INST_SOURCE is not set"`; error=yes
+				msg "INST_TYPE=$INST_TYPE,`gettext "but SRC_FILE is not set"`"; error=yes
 			fi ;;
-		*) msg `gettext "INST_TYPE=$INST_TYPE: Invalid setting"`; error=yes ;;
+		*) msg "INST_TYPE=$INST_TYPE: `gettext "Invalid setting"`"; error=yes ;;
 	esac
 
 	# Check Source file
@@ -301,11 +300,11 @@ check_vars()
 	case $INST_TYPE in
 		iso)
 			if [ ! -r "$SRC_FILE" ]; then
-				msg `gettext "SRC_FILE=$SRC_FILE: file not found"`; error=yes
+				msg "SRC_FILE=$SRC_FILE: `gettext "file not found"`"; error=yes
 			fi ;;
 		web)
 			if ! wget -sq "$SRC_FILE" 2> /dev/null ; then
-				msg `gettext "SRC_FILE=$SRC_FILE: file not found on the web"`; error=yes
+				msg "SRC_FILE=$SRC_FILE: `gettext "file not found on the web"`"; error=yes
 			fi ;;
 	esac
 
@@ -316,7 +315,7 @@ check_vars()
 		[ "$partition" == "$TGT_PARTITION" ] && found="yes"
 	done
 	if [ "$found" != "yes" ]; then
-		msg `gettext "TGT_PARTITION=$TGT_PARTITION Partition not found"`; error=yes
+		msg "TGT_PARTITION=$TGT_PARTITION: `gettext "Partition not found"`"; error=yes
 	fi
 
 	# Check Filesystem
@@ -328,9 +327,9 @@ check_vars()
 				[ -x "$xdir/mkfs.$TGT_FS" ] && found=yes
 			done
 			if [ "$found" == "no" ]; then
-				msg `gettext "$TGT_FS: mkfs.$TGT_FS is not installed."`; error=yes
+				msg "$TGT_FS: mkfs.$TGT_FS `gettext "is not installed."`"; error=yes
 			fi ;;
-		*) msg `gettext "TGT_FS=$TGT_FS: Unknown filesystem"`; error=yes ;;
+		*) msg "TGT_FS=$TGT_FS: `gettext "Unknown filesystem"`"; error=yes ;;
 	esac
 
 	# Check Home partition
@@ -340,7 +339,7 @@ check_vars()
 			[ "$partition" == "$TGT_HOME" ] && found=yes
 		 done
 		if [ "$found" != "yes" ]; then
-			msg `gettext "TGT_HOME=$TGT_HOME: Partition not found"`; error=yes
+			msg "TGT_HOME=$TGT_HOME: `gettext "Partition not found"`"; error=yes
 		fi
 	fi
 
@@ -353,15 +352,15 @@ check_vars()
 				[ -x "$xdir/mkfs.$TGT_FS" ] && found=yes
 			done
 			if [ "$found" == "no" ]; then
-				msg `gettext "$TGT_FS: mkfs.$TGT_FS is not installed."`; error=yes
+				msg "$TGT_FS: mkfs.$TGT_FS `gettext "is not installed."`"; error=yes
 			fi ;;
-		*) msg `gettext "TGT_HOME_FS=$TGT_HOME_FS: unknown filesystem"`; error=yes ;;
+		*) msg "TGT_HOME_FS=$TGT_HOME_FS: `eval_gettext "Unknown filesystem"`"; error=yes ;;
 	esac
 
 	# Check Grub
 	case $TGT_GRUB in
 		yes|no) ;;
-		*) msg `gettext "TGT_GRUB=$TGT_GRUB: Invalid setting"`; error=yes ;;
+		*) msg "TGT_GRUB=$TGT_GRUB: `eval_gettext "Invalid setting"`"; error=yes ;;
 	esac
 
 	# Check Winboot
@@ -369,7 +368,7 @@ check_vars()
 		"") ;;
 		auto) ;;
 		hd[[:digit:]],[[:digit:]]) ;;
-		*) msg `gettext "TGT_WINBOOT=$TGT_WINBOOT: Invalid format"`; error=yes ;;
+		*) msg "TGT_WINBOOT=$TGT_WINBOOT: `eval_gettext "Invalid format"`"; error=yes ;;
 	esac
 
 	# Stop on error
@@ -397,7 +396,7 @@ check_cdrom()
 		debug "Using files from cdrom ($CDROM)..."
 		sleep 2
 	else
-		warning `gettext "Failed to mount $CDROM"`
+		warning "$CDROM: `gettext "Failed to mount"`"
 	fi
 }
 
@@ -416,7 +415,7 @@ check_usb()
 			debug "Using files from USB device ($SRC_FILE)..."
 			SOURCE_STATUS="mount"
 		else
-			warning `gettext "Failed to mount USB device $SRC_FILE"`
+			warning "$SRC_FILE: `gettext "Failed to mount USB device"`"
 		fi
 	fi
 }
@@ -429,16 +428,16 @@ check_iso()
 	src_md5=$(echo $SRC_FILE | sed 's/.iso$/.md5/')
 	if [ -r "$src_md5" ]; then
 		[ $(md5sum $SRC_FILE | cut -d' ' -f1) == $(cat "$src_md5" | cut -d' ' -f1) ] || \
-			abort 3 `gettext "$SRC-FILE corrupted"`
+			abort 3 "$SRC-FILE `gettext "corrupted"`"
 	else
-		warning `gettext "$src_md5 not found, unable to check integrity of $SRC_FILE"`
+		warning "$SRC_FILE: `gettext "md5 file not found, unable to check integrity."`"
 	fi
 	# Try to mount ISO
 	if mount -o loop -t iso9660 $SRC_FILE $SOURCE_ROOT 2>>$LOG; then
 		debug "Using files from ISO ($SRC_FILE)..."
 		sleep 2
 	else
-		warning `gettext "Failed to mount ISO '$SRC_FILE'"`
+		warning "$SRC_FILE: `gettext "Failed to mount ISO."`"
 	fi
 }
 
@@ -450,11 +449,11 @@ check_web()
 	if wget $SRC_FILE -P /tmp; then
 		debug "Download completed."
 	else
-		warning `gettext "Failed to download '$SRC_FILE'"`
+		warning "$SRC_FILE: `gettext "Failed to download."`"
 	fi
 	src_md5=$(echo $SRC_FILE | sed 's/.iso$/.md5/')
 	debug "Downloading $src_md5"
-	wget $src_md5 -P /tmp || warning `gettext "Failed to download '$src_md5'"`
+	wget $src_md5 -P /tmp || warning "$src_md5: `eval_gettext "Failed to download."`"
 	tmpfile=$(echo $SRC_FILE | awk 'BEGIN{RS="/"}{out=$1}END{printf"%s",out}')
 	SRC_FILE="/tmp/$tmpfile"
 	check_iso
@@ -512,24 +511,24 @@ summary()
 
 	if [ "$INST_ACTION" == "install" ]; then
 		if [ -n "$TGT_FS" ]; then
-			msg `gettext "Format root partition '$TGT_PARTITION' ($TGT_FS)"`
+			msg "`gettext "Format root partition"` '$TGT_PARTITION' ($TGT_FS)"
 		fi
 		if [ -n "$TGT_HOME_FS" ]; then
-			msg `gettext "Format /home partition '$TGT_HOME' ($TGT_HOME_FS)"`
+			msg "`gettext "Format /home partition"` '$TGT_HOME' ($TGT_HOME_FS)"
 		fi	
-		msg `gettext "Install SliTaz on '$TGT_PARTITION' from $INST_TYPE"`
-		[ -n "$TGT_HOME" ] && msg `gettext "Set Home partition to '$TGT_HOME'"`
-		msg `gettext "Set Hostname as '$TGT_HOSTNAME'"`
-		msg `gettext "Set Default user as '$TGT_USER'"`
+		msg "`gettext "Install SliTaz on"` '$TGT_PARTITION'. `gettext "Source:"` $INST_TYPE"
+		[ -n "$TGT_HOME" ] && msg "`gettext "Set Home partition to" `'$TGT_HOME'"
+		msg "`gettext "Set Hostname as"` '$TGT_HOSTNAME'"
+		msg "`gettext "Set Default user as"` '$TGT_USER'"
 	else
-		msg `gettext "Check '$TGT_PARTITION'"`
+		msg "`gettext "Check"` '$TGT_PARTITION'"
 		msg `gettext "Backup /etc, /home and the packages list"`
-		msg `gettext "Upgrade SliTaz on '$TGT_PARTITION' from $INST_TYPE"`
+		msg "`gettext "Upgrade SliTaz on"` '$TGT_PARTITION'. `gettext "Source:"` $INST_TYPE"
 		msg `gettext "Restore /etc, /home"`
 		msg `gettext "Upgrade additional packages."`
 	fi
 	if [ -n "$TGT_WINBOOT" ]; then
-		msg `gettext "Enable Windows dual-boot ($TGT_WINBOOT)"`
+		msg "`gettext "Enable Windows dual-boot"` ($TGT_WINBOOT)"
 	fi
 	if [ "$TGT_GRUB" == "yes" ]; then
 		msg `gettext "Install Grub"`
@@ -554,7 +553,7 @@ prepare_install()
 	debug "Preparing target partition..."
 	# Target may be used
 	mount | grep -q $TGT_PARTITION && \
-		abort 5 `gettext $TGT_PARTITION": Partition in use"`
+		abort 5 "$TGT_PARTITION: `gettext "Partition in use"`"
 	# Mount point can be already used.
 	if mount | grep -q $TARGET_ROOT; then
 		umount $TARGET_ROOT 2>>$LOG
@@ -568,7 +567,7 @@ prepare_install()
 #			ROOT_FS=$(parted /dev/hda5 print -m | grep "^1:" | cut -d':' -f5) ;;
 			ROOT_FS=auto ;;
 		*)
-			msg `gettext "Formatting $TGT_PARTITION ($TGT_FS)"`
+			msg "`gettext "Formatting main partition:"` $TGT_PARTITION ($TGT_FS)"
 			mkfs.$TGT_FS $TGT_PARTITION >>$LOG 2>>$LOG
 			ROOT_FS=$TGT_FS ;;
 	esac
@@ -580,7 +579,7 @@ prepare_install()
 			"")
 				debug "The partition ($TGT_HOME) will be kept..." ;;
 			*)
-				msg `gettext "Formatting /home on $TGT_HOME ($TGT_HOME_FS)"`
+				msg "`gettext "Formatting /home partition:"` $TGT_HOME ($TGT_HOME_FS)"
 				mkfs.$TGT_HOME_FS -L "Home" $TGT_HOME >>$LOG 2>>$LOG ;;
 		esac
 		sleep 2
@@ -593,7 +592,7 @@ prepare_install()
 
 	mount -t $ROOT_FS $TGT_PARTITION $TARGET_ROOT >>$LOG 2>>$LOG
 	if [ $(mount | grep -c "mnt/target") == "0" ]; then
-		abort 5 `gettext "Can't mount $TGT_PARTITION"`
+		abort 5 "$TGT_PARTITION: `gettext "Can't mount"`"
 	fi
 }
 
@@ -747,7 +746,7 @@ pre_config_system()
 	sed -i s#'CHECK_FS=\"\"'#"CHECK_FS=\"$TGT_PARTITION\""# etc/rcS.conf
 	sleep 2
 	# Set hostname.
-	msg `gettext "Configuring host name: $TGT_HOSTNAME"`
+	msg "`gettext "Configuring host name:"` $TGT_HOSTNAME"
 	echo $TGT_HOSTNAME > etc/hostname
 }
 
@@ -914,7 +913,7 @@ _EOF_
 # Files install, calling for functions or with cmds.
 install_files()
 {
-	msg `gettext "Installing SliTaz on $TGT_PARTITION"`
+	msg "`gettext "Installing SliTaz on"` $TGT_PARTITION"
 	# saving pwd
 	local save_pwd=$(pwd)
 
@@ -933,11 +932,11 @@ install_files()
 	debug "Preconfiguring the system..."
 	pre_config_system
 
-	msg `gettext "Configuring root and default $TGT_USER account..."`
+	msg "`gettext "Configuring root and default user account:"` $TGT_USER"
 	users_settings
 
 	if [ "$TGT_HOME" != "" ]; then
-		msg `gettext "Configuring $TGT_HOME to be used as /home..."`
+		msg "$TGT_HOME: `gettext "Configuring partition to be used as /home..."`"
 		home_config
 		sleep 2
 	fi
@@ -956,7 +955,7 @@ grub_install()
 {
 	if [ "$TGT_GRUB" == "yes" ]; then
 		TARGET_DISK=`echo $TGT_PARTITION | sed s/"[0-9]"/''/`
-		msg `gettext "Running grub-install on : $TARGET_DISK"`
+		msg "`gettext "Running grub-install on:"` $TARGET_DISK"
 		grub-install --no-floppy \
 				--root-directory=$TARGET_ROOT $TARGET_DISK 2>>$LOG
 		debug "Grub installation done..."
@@ -970,13 +969,13 @@ umount_devices()
 {
 	# Umount target
 	if mount | grep -q $TARGET_ROOT; then
-		echo -e "`gettext \"Unmounting target ($TGT_PARTITION)...\"`"
+		echo -e "`gettext \"Unmounting target\"` ($TGT_PARTITION)..."
 	umount $TARGET_ROOT 2>>$LOG
 	fi
 
 	# Umount source
 	if mount | grep -q $SOURCE_ROOT; then
-		echo -e "`gettext \"Unmounting $SOURCE_ROOT\"`"
+		echo -e "`gettext \"Unmounting\"` $SOURCE_ROOT"
 		umount $SOURCE_ROOT
 	fi
 
@@ -995,7 +994,7 @@ end_of_install()
 	echo -e "`gettext \"from your SliTaz GNU/Linux system.\"`"
 	echo "=== Tazinst end at `date` ===" >>$LOG
 	# Log files
-	echo -e "`gettext \"Copying log files ($LOG)...\"`"
+	echo -e "`gettext \"Copying log files\"` ($LOG)..."
 	cp -a $LOG $TARGET_ROOT/var/log
 	sleep 2
 	# umount
@@ -1012,7 +1011,7 @@ prepare_upgrade()
 	debug "Preparing the target partition..."
 	# Target may be used
 	mount | grep -q $TGT_PARTITION && \
-		abort 5 `gettext "$TGT_PARTITION": Partition in use"`
+		abort 5 "$TGT_PARTITION: `gettext "Partition in use"`"
 	# Mount point can be already used.
 	if mount | grep -q $TARGET_ROOT; then
 		umount $TARGET_ROOT 2>>$LOG
@@ -1021,7 +1020,7 @@ prepare_upgrade()
 	# Mount target.
 	mount $TGT_PARTITION $TARGET_ROOT >>$LOG 2>>$LOG
 	if [ $(mount | grep -c "mnt/target") == "0" ]; then
-		abort 5 `gettext "Can't mount $TGT_PARTITION"`
+		abort 5 "$TGT_PARTITION `gettext "Can't mount"`"
 	fi
 }
 
@@ -1030,10 +1029,10 @@ check_release()
 {
 	if [ -f $TARGET_ROOT/etc/slitaz-release ]; then
 		release=`cat $TARGET_ROOT/etc/slitaz-release`
-		msg `gettext "Preparing upgrade of SliTaz release: $release"`
+		msg "`gettext "Preparing upgrade of SliTaz release:"` $release"
 	else
-		abort 6 `gettext "The partition '$TGT_PARTITION' doesn't appear to contain \
-a SliTaz system, the file: /etc/slitaz-release doesn't exist."`
+		abort 6 "'$TGT_PARTITION': `gettext "This partition doesn't appear to contain \
+a valid SliTaz system, the file: /etc/slitaz-release doesn't exist."`"
 	fi && sleep 2
 }
 
@@ -1186,7 +1185,7 @@ upgrade_files()
 	msg `gettext "Backup /etc, /home and the packages list..."`
 	backup_files
 
-	msg `gettext "Upgrading SliTaz on $TGT_PARTITION"`
+	msg "`gettext "Upgrading SliTaz on:"` $TGT_PARTITION"
 
 	debug "Copying the bootloader syslinux/isolinux..."
 	copy_bootloaders

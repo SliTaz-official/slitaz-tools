@@ -46,7 +46,7 @@ tazdrop-pot:
 
 tazinst-pot:
 	@echo -n "Generating tazinst pot file... "
-	@xgettext -o po/tazinst/tazinst.pot -L Shell \
+	@xgettext -o po/installer/tazinst.pot -L Shell \
 		--package-name="Tazinst" ./tazinst/tazinst
 	@echo "done"
 
