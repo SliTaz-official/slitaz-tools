@@ -19,7 +19,7 @@
 # 6: SliTaz system to upgrade not found
 # 8: Internal error
 
-VERSION=3.20
+VERSION=3.21
 
 # Internationalization
 . /usr/bin/gettext.sh
@@ -185,8 +185,9 @@ _EOF_
 # $@ : 
 init()
 {
-	echo "=== Tazinst start at `date` ===" >$LOG
+	echo "=== Tazinst: start at `date` ===" >$LOG
 	echo "Command: $0 $@" >>$LOG
+	debug $(fdisk -l | grep \/dev)
 
 	# Default Type
 	INST_TYPE=cdrom
@@ -284,7 +285,7 @@ check_vars()
 		usb|iso|web)
 			# We need a valid source 
 			if [ -z "$SRC_FILE" ]; then
-				msg "INST_TYPE=$INST_TYPE,`gettext "but SRC_FILE is not set"`"; error=yes
+				msg "INST_TYPE=$INST_TYPE, `gettext "but no source file is provided"`"; error=yes
 			fi ;;
 		*) msg "INST_TYPE=$INST_TYPE: `gettext "Invalid setting"`"; error=yes ;;
 	esac
@@ -317,6 +318,9 @@ check_vars()
 	if [ "$found" != "yes" ]; then
 		msg "TGT_PARTITION=$TGT_PARTITION: `gettext "Partition not found"`"; error=yes
 	fi
+	if [ "$TGT_PARTITION" == "$SRC_FILE" ]; then
+		msg $(gettext "Target and source partitions should be different."); error=yes
+	fi
 
 	# Check Filesystem
 	case $TGT_FS in
@@ -341,6 +345,12 @@ check_vars()
 		if [ "$found" != "yes" ]; then
 			msg "TGT_HOME=$TGT_HOME: `gettext "Partition not found"`"; error=yes
 		fi
+		if [ "$TGT_HOME" == "$SRC_FILE" ]; then
+			msg $(gettext "/home and source partitions should be different."); error=yes
+		fi
+		if [ "$TGT_HOME" == "$TGT_PARTITION" ]; then
+			msg $(gettext "main and /home partitions should be different."); error=yes
+		fi
 	fi
 
 	# Check Home Filesystem
@@ -354,13 +364,13 @@ check_vars()
 			if [ "$found" == "no" ]; then
 				msg "$TGT_FS: mkfs.$TGT_FS `gettext "is not installed."`"; error=yes
 			fi ;;
-		*) msg "TGT_HOME_FS=$TGT_HOME_FS: `eval_gettext "Unknown filesystem"`"; error=yes ;;
+		*) msg "TGT_HOME_FS=$TGT_HOME_FS: `gettext "Unknown filesystem"`"; error=yes ;;
 	esac
 
 	# Check Grub
 	case $TGT_GRUB in
 		yes|no) ;;
-		*) msg "TGT_GRUB=$TGT_GRUB: `eval_gettext "Invalid setting"`"; error=yes ;;
+		*) msg "TGT_GRUB=$TGT_GRUB: `gettext "Invalid setting"`"; error=yes ;;
 	esac
 
 	# Check Winboot
@@ -368,7 +378,7 @@ check_vars()
 		"") ;;
 		auto) ;;
 		hd[[:digit:]],[[:digit:]]) ;;
-		*) msg "TGT_WINBOOT=$TGT_WINBOOT: `eval_gettext "Invalid format"`"; error=yes ;;
+		*) msg "TGT_WINBOOT=$TGT_WINBOOT: `gettext "Invalid format"`"; error=yes ;;
 	esac
 
 	# Stop on error
@@ -453,7 +463,7 @@ check_web()
 	fi
 	src_md5=$(echo $SRC_FILE | sed 's/.iso$/.md5/')
 	debug "Downloading $src_md5"
-	wget $src_md5 -P /tmp || warning "$src_md5: `eval_gettext "Failed to download."`"
+	wget $src_md5 -P /tmp || warning "$src_md5: `gettext "Failed to download."`"
 	tmpfile=$(echo $SRC_FILE | awk 'BEGIN{RS="/"}{out=$1}END{printf"%s",out}')
 	SRC_FILE="/tmp/$tmpfile"
 	check_iso
