@@ -19,7 +19,7 @@
 # 6: SliTaz system to upgrade not found
 # 8: Internal error
 
-VERSION=3.21
+VERSION=3.22
 
 # Internationalization
 . /usr/bin/gettext.sh
@@ -55,6 +55,7 @@ usage()
 	echo -e "config        `gettext \"Generate a configuration file.\"`"
 	echo -e "check         `gettext \"Check validity of the configuration file.\"`"
 	echo -e "showurl       `gettext \"Show the full URL of a predefined URL (stable|cooking|rolling).\"`"
+	echo -e "log           `gettext \"Display log file contents.\"`"
 	echo -e "cli           `gettext \"Install or upgrade using command line options:\"`"
 	echo -e "  -i             `gettext \"Full Install (not upgrading, all present data will be lost).\"`"
 	echo -e "  -u             `gettext \"Upgrade (Needs an active internet connection).\"`"
@@ -1292,6 +1293,8 @@ case $1 in
 		init $@
 		read_configuration_file $2
 		check_vars ;;
+	log)
+		cat $LOG ;;
 	version)
 		echo $VERSION ;;
 	usage|*)
