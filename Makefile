@@ -5,7 +5,7 @@ PREFIX?=/usr
 DOCDIR?=/usr/share/doc
 DESTDIR?=
 
-PROJECTS=slitaz-tools slitaz-boxes tazbox tazdrop tazinst 
+PROJECTS=slitaz-tools slitaz-boxes tazbox tazinst tazdrop 
 LINGUAS=fr pt_BR
 
 all: msgfmt
@@ -107,7 +107,7 @@ install:
 		$(DESTDIR)$(PREFIX)/share/slitaz/messages/en
 	# tazinst
 	install -m 0755 installer/tazinst $(DESTDIR)$(PREFIX)/bin
-	for l in $(LINGUAS); \
+	for l in fr; \
 	do \
 		install -m 0777 -d $(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
 		install -m 0644 po/mo/$$l/tazinst.mo \
