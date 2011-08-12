@@ -1,0 +1,46 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: TazDrop\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-06-18 22:20+0200\n"
+"PO-Revision-Date: 2011-08-11 00:25-0300\n"
+"Last-Translator: Lucas Gioia <lucas.lucas.lucas24@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: tazdrop/tazdrop:32
+msgid "Usage:"
+msgstr "Uso:"
+
+#: tazdrop/tazdrop:34
+msgid "Options:"
+msgstr "Opciónes:"
+
+#: tazdrop/tazdrop:35
+msgid "Display this small help"
+msgstr "Muestra esta pequeña ayuda"
+
+#: tazdrop/tazdrop:36
+msgid "Display the desktop Drag N' Drop window"
+msgstr ""
+
+#: tazdrop/tazdrop:37
+msgid "Display the desktop Drag N' Drop image"
+msgstr ""
+
+#: tazdrop/tazdrop:38
+msgid "Display your dropped text notes"
+msgstr "Muestra en pantalla sus notas de texto tiradas"
+
+#: tazdrop/tazdrop:82
+msgid "Edit or clean-up your dropped text notes"
+msgstr "Editar o limpiar sus notas de texto tiradas"
+

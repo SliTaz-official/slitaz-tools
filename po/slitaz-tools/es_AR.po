@@ -1,0 +1,88 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: SliTaz Tools\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-06-18 22:20+0200\n"
+"PO-Revision-Date: 2011-08-11 00:08-0300\n"
+"Last-Translator: Lucas Gioia <lucas.lucas.lucas24@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: tinyutils/tazlocale:16
+#: tinyutils/tazkeymap:17
+msgid "You must be root to run:"
+msgstr "Debes ser root para correr:"
+
+#: tinyutils/tazlocale:17
+#: tinyutils/tazkeymap:18
+msgid "Type su and root password to become super-user"
+msgstr "Escriba su y su contraseña root para ser super-usuario"
+
+#: tinyutils/tazlocale:78
+msgid "SliTaz language configuration"
+msgstr "SliTaz configuración del lenguaje"
+
+#: tinyutils/tazlocale:103
+msgid "Please logout of your current session and login again to use new locale."
+msgstr "Por favor, cierre su sesión actual e iniciela nuevamente para usar un nuevo local."
+
+#: tinyutils/tazkeymap:53
+msgid "SliTaz keymap configuration"
+msgstr "SliTaz configuración de teclas"
+
+#: tinyutils/tazkeymap:94
+msgid "Please logout of your current session and login again to use new keyboard."
+msgstr "Por favor, cierre su sesión actual e iniciela nuevamente para usar el nuevo teclado."
+
+#: tinyutils/setmixer:12
+msgid "Setting default mixer volumes... "
+msgstr "Estableciendo por defecto los volúmenes del mesclador..."
+
+#: tinyutils/setmixer:53
+msgid "Done"
+msgstr "Listo"
+
+#: tinyutils/tazx:32
+msgid "You must be root to configure X server."
+msgstr "Debes ser root para configurar el servidor X."
+
+#: tinyutils/tazx:126
+msgid "Install Xorg"
+msgstr "Instalar Xorg"
+
+#: tinyutils/tazx:128
+msgid "Tazx helps you to select your X driver."
+msgstr "Tazx le ayudará a seleccionar su controlador X."
+
+#: tinyutils/tazx:163
+msgid "Tazx dialog helps you to configure your Xorg sever."
+msgstr "Los diálogos Tazx le ayudarán a configurar su servidor Xorg."
+
+#: tinyutils/tazx:164
+msgid "Window Manager:"
+msgstr "Gestor de ventanas:"
+
+#: tinyutils/tazx:165
+msgid "X server:"
+msgstr "Servidor X:"
+
+#: tinyutils/tazx:166
+msgid "Install or reconfigure Xorg"
+msgstr "Instalar o reconfigurar Xorg"
+
+#: tinyutils/tazx:167
+msgid "Install TinyX server Xfbdev"
+msgstr "Instalar TinyX servidor Xfbdev"
+
+#: tinyutils/tazx:168
+msgid "Quit Tazx utility"
+msgstr "Salir de la utilidad Tazx"
+

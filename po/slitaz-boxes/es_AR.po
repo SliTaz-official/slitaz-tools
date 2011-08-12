@@ -1,0 +1,68 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: SliTaz Boxes\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-06-18 22:20+0200\n"
+"PO-Revision-Date: 2011-08-11 21:59-0300\n"
+"Last-Translator: Lucas Gioia <lucas.lucas.lucas24@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: tinyutils/scpbox:24
+msgid ""
+"\n"
+"Copy files securely with scp from Dropbear SSH client/server.\n"
+"\t\t"
+msgstr ""
+"\n"
+"Copia archivos de forma segura con scp de Dropbear cliente/servidor SSH .\n"
+"\t\t"
+
+#: tinyutils/scpbox:29
+msgid "Configuration"
+msgstr "Configuración"
+
+#: tinyutils/scpbox:32
+msgid "<b>User        :</b>"
+msgstr "<b>Usuario        :</b>"
+
+#: tinyutils/scpbox:40
+msgid "<b>Host        :</b>"
+msgstr "<b>Alojamiento        :</b>"
+
+#: tinyutils/scpbox:48
+msgid "<b>Options  :</b>"
+msgstr "<b>Opciónes  :</b>"
+
+#: tinyutils/scpbox:57
+msgid "Paths"
+msgstr "Rutas"
+
+#: tinyutils/scpbox:60
+msgid "<b>Local       :</b>"
+msgstr "<b>Local       :</b>"
+
+#: tinyutils/scpbox:73
+msgid "<b>Remote   :</b>"
+msgstr "<b>Remoto   :</b>"
+
+#: tinyutils/scpbox:83
+msgid "Download"
+msgstr "Descargar"
+
+#: tinyutils/scpbox:88
+msgid "Upload"
+msgstr "Cargar"
+
+#: tinyutils/scpbox:93
+msgid "Exit"
+msgstr "Salir"
+
