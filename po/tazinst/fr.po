@@ -8,95 +8,63 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-31 10:00+0200\n"
-"PO-Revision-Date: 2011-07-31 10:39+0200\n"
+"POT-Creation-Date: 2011-08-14 16:42+0200\n"
+"PO-Revision-Date: 2011-08-14 17:02+0200\n"
 "Last-Translator: Dominique Corbex <domcox@slitaz.org>\n"
 "Language-Team: French\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: installer/tazinst:48
+#: installer/tazinst:51
 msgid "Tazinst - SliTaz installer - Version"
 msgstr "Tazinst - Installateur Slitaz - Version"
 
-#: installer/tazinst:49
+#: installer/tazinst:53
 msgid "Usage"
 msgstr "Usage"
 
-#: installer/tazinst:50
-msgid "tazinst [command] [config-file|url|options]"
-msgstr "tazinst [commande] [fichier-config|url|options]"
+#: installer/tazinst:53
+msgid "tazinst [command] [setup-file|url-shortcut]"
+msgstr "tazinst [commande] [fichier-param|raccourci-url]"
 
-#: installer/tazinst:51
+#: installer/tazinst:55
 msgid "Commands"
 msgstr "Commandes"
 
-#: installer/tazinst:52
+#: installer/tazinst:56
 msgid "Print this short usage."
 msgstr "Affiche cette petite aide"
 
-#: installer/tazinst:53
-msgid "Install SliTaz on HDD using a configuration file."
-msgstr "Installe SliTaz sur HDD à l'aide d'un fichier de configuration."
-
-#: installer/tazinst:54
-msgid "Upgrade SliTaz on HDD using a configuration file."
-msgstr "Met à jour SliTaz sur HDD à l'aide d'un fichier de configuration."
-
-#: installer/tazinst:55
-msgid "Generate a configuration file."
-msgstr "Génére un fichier de configuration."
-
-#: installer/tazinst:56
-msgid "Check validity of the configuration file."
-msgstr "Vérifie la validité du fichier de configuration."
-
 #: installer/tazinst:57
-msgid "Show the full URL of a predefined URL (stable|cooking|rolling)."
-msgstr "Affiche l'URL complète d'un raccourci (stable|cooking|rolling)."
+msgid "Install SliTaz on HDD using setup file contents."
+msgstr "Installe SliTaz sur HDD à l'aide d'un fichier de paramètres."
 
-#
 #: installer/tazinst:58
-msgid "Install or upgrade using command line options:"
-msgstr "Installe ou met à jour en utilisant des options en ligne de commande:"
+msgid "Upgrade SliTaz on HDD using setup file contents."
+msgstr "Met à jour SliTaz sur HDD à l'aide d'un fichier de paramètres."
 
 #: installer/tazinst:59
-msgid "Full Install (not upgrading, all present data will be lost)."
-msgstr "Installation complète (pas de mise à jour, les données seront perdues)."
+msgid "Create a new setup file."
+msgstr "Crée un nouveau fichier de paramètres."
 
 #: installer/tazinst:60
-msgid "Upgrade (Needs an active internet connection)."
-msgstr "Mise à jour (Nécessite une connexion internet active)."
+msgid "Check validity of settings in a setup file."
+msgstr "Vérifie la validité du fichier de paramètres."
 
 #: installer/tazinst:61
-msgid "Install type (cdrom|usb|iso|web|weboot)."
-msgstr "Type d'installation (cdrom|usb|iso|web|weboot)."
+msgid "Show full URL of a predefined shortcut (stable|cooking|rolling)."
+msgstr "Affiche l'URL complète d'un raccourci (stable|cooking|rolling)."
 
 #: installer/tazinst:62
-msgid "Source media (ex: file.iso|usb partition|web url)."
-msgstr "Média source (ex: fichier.iso|partition usb|url web)."
+msgid "Display log file contents and exit."
+msgstr "Affiche le contenu du fichier journal."
 
 #: installer/tazinst:63
-msgid "Partition where SliTaz will be installed (ex:/dev/hda3)."
-msgstr "Partition où SliTaz sera installé (ex:/dev/hda3)."
-
-#: installer/tazinst:64
-msgid "Partition to be formatted (fs=ext2|ext3|ext4|etc..)."
-msgstr "Formatage de la partition (fs=ext2|ext3|ext4|etc..)."
-
-#: installer/tazinst:65
-msgid "Install Grub."
-msgstr "Installer Grub."
-
-#: installer/tazinst:66
-msgid "Dual-boot a Windows partition (auto|hd<disk>,<part> ex:hd0,0)."
-msgstr "Dual-boot avec une partition Windows (auto|hd<disk>,<part> ex:hd0,0)."
-
-#: installer/tazinst:67
-msgid "Debug mode."
-msgstr "Mode Debug"
+msgid "Print version and exit."
+msgstr "Affiche la version."
 
 #: installer/tazinst:83
 msgid "Error"
@@ -106,66 +74,87 @@ msgstr "Erreur"
 msgid "Warning:"
 msgstr "Attention :"
 
-#: installer/tazinst:117
-msgid "Can't write config file"
-msgstr "Impossible d'écrire un fichier de configuration."
+#: installer/tazinst:118
+msgid "Can't write setup file"
+msgstr "Impossible d'écrire un fichier de paramètres"
 
-#: installer/tazinst:176 installer/tazinst:215
-msgid "Config file not found"
-msgstr "Fichier de configuration non trouvé"
+#: installer/tazinst:177 installer/tazinst:225
+msgid "Setup file not found"
+msgstr "fichier de paramètres non trouvé"
 
-#: installer/tazinst:213
-msgid "Unable to read config file"
-msgstr "Impossible de lire le fichier de configuration."
+#: installer/tazinst:191
+msgid "Another instance of tazinst is running."
+msgstr "Une autre instance de tazinst est en cours."
 
-#: installer/tazinst:218
-msgid "No configuration file provided"
-msgstr "Fichier de configuration non trouvé"
+#: installer/tazinst:223
+msgid "Unable to read setup file"
+msgstr "Impossible de lire le fichier de paramètres"
 
-#: installer/tazinst:244
-msgid "Mismatched parameters"
-msgstr "Paramètres incompatibles"
+#: installer/tazinst:228
+msgid "No setup file provided"
+msgstr "Aucun fichier de paramètres fourni"
 
-#: installer/tazinst:248
-msgid "will not be formatted during upgrade"
-msgstr "ne sera pas formaté durant la mise à jour"
+#: installer/tazinst:259
+msgid "Unknown install mode"
+msgstr "Mode d'installation inconnu"
 
-#: installer/tazinst:278 installer/tazinst:289 installer/tazinst:363
-#, sh-format
-msgid "Invalid setting"
-msgstr "Paramètre invalide"
+#: installer/tazinst:268
+msgid "No source file provided"
+msgstr "Pas de fichier source fourni"
 
-#: installer/tazinst:287
-msgid "but SRC_FILE is not set"
-msgstr "mais SRC_FILE n'est pas défini"
+#: installer/tazinst:270
+msgid "Unknown source type"
+msgstr "Type de source inconnu"
 
-#: installer/tazinst:303
-msgid "file not found"
-msgstr "fichier non trouvé"
+#: installer/tazinst:284
+msgid "Source file not found"
+msgstr "fichier source non trouvé"
 
-#: installer/tazinst:307
-msgid "file not found on the web"
-msgstr "fichier non trouvé sur le web"
+#: installer/tazinst:288
+msgid "URL not found"
+msgstr "URL non trouvée"
 
-#: installer/tazinst:318 installer/tazinst:342
-msgid "Partition not found"
-msgstr "Partition non trouvée"
+#: installer/tazinst:299
+msgid "Partition for / not found"
+msgstr "Partition / non trouvée"
 
-#: installer/tazinst:330 installer/tazinst:355
-msgid "is not installed."
+#: installer/tazinst:302
+msgid "Target and source partitions should be different"
+msgstr "Les partitions cible et source doivent etre différentes"
+
+#: installer/tazinst:314 installer/tazinst:345
+msgid "is not installed"
 msgstr "n'est pas installé"
 
-#: installer/tazinst:332 installer/tazinst:357
-#, sh-format
-msgid "Unknown filesystem"
-msgstr "Système de fichiers inconnu"
+#: installer/tazinst:316
+msgid "Unknown filesystem (/)"
+msgstr "Système de fichiers inconnu (/)"
 
-#: installer/tazinst:371
-#, sh-format
-msgid "Invalid format"
-msgstr "Format invalide"
+#: installer/tazinst:326
+msgid "Partition for /home not found"
+msgstr "Partition /home non trouvée"
 
-#: installer/tazinst:382
+#: installer/tazinst:329
+msgid "/home and source partitions should be different"
+msgstr "Les partitions source et /home doivent être différentes"
+
+#: installer/tazinst:332
+msgid "/ and /home partitions should be different"
+msgstr "Les partitions / et /home doivent être différentes"
+
+#: installer/tazinst:347
+msgid "Unknown filesystem (/home)"
+msgstr "Système de fichiers inconnu (/home)"
+
+#: installer/tazinst:353
+msgid "Bootloader (grub): Invalid settings"
+msgstr "Chargeur d'amore Grub: Paramètre invalide"
+
+#: installer/tazinst:361
+msgid "Windows Dual-Boot: Invalid settings"
+msgstr "Windows Dual-Boot: Paramètre invalide"
+
+#: installer/tazinst:372
 msgid ""
 "You must be the root user (system administrator) to install SliTaz, please "
 "use 'su' to get a root SHell and restart installation."
@@ -174,196 +163,129 @@ msgstr ""
 "SliTaz, utilisez « su » pour obtenir un shell root et redémarrer "
 "l'installation."
 
-#: installer/tazinst:399
-msgid "Failed to mount"
-msgstr "Impossible de monter"
+#: installer/tazinst:389
+msgid "Mount failed"
+msgstr "Échec du montage"
 
-#: installer/tazinst:418
+#: installer/tazinst:408
 msgid "Failed to mount USB device"
 msgstr "Impossible de monter le périphérique USB"
 
-#: installer/tazinst:431
-msgid "corrupted"
-msgstr "corrompu"
+#: installer/tazinst:421
+msgid "md5sum mismatch, file corrupted"
+msgstr "Erreur md5sum, fichier corrompu"
 
-#: installer/tazinst:433
+#: installer/tazinst:423
 msgid "md5 file not found, unable to check integrity."
 msgstr "fichier md5 non trouvé, impossible de vérifier l'intégrité."
 
-#: installer/tazinst:440
+#: installer/tazinst:430
 msgid "Failed to mount ISO."
 msgstr "Impossible de monter l'image ISO."
 
-#: installer/tazinst:452 installer/tazinst:456
-#, sh-format
-msgid "Failed to download."
-msgstr "Impossible de télécharger."
+#: installer/tazinst:442 installer/tazinst:446
+msgid "File download failed."
+msgstr "Échec au téléchargement du fichier."
 
-#: installer/tazinst:470
+#: installer/tazinst:460
 msgid "Web boot files not found"
 msgstr "Fichiers Web boot non trouvés"
 
-#: installer/tazinst:493 installer/tazinst:606 installer/tazinst:699
-#: installer/tazinst:734 installer/tazinst:802 installer/tazinst:1042
-#: installer/tazinst:1139 installer/tazinst:1180
+#: installer/tazinst:483 installer/tazinst:556 installer/tazinst:649
+#: installer/tazinst:684 installer/tazinst:752 installer/tazinst:994
+#: installer/tazinst:1091 installer/tazinst:1132
 msgid "Internal"
 msgstr "Interne"
 
-#: installer/tazinst:500
+#: installer/tazinst:490
 msgid "Invalid source"
 msgstr "Source invalide"
 
-#: installer/tazinst:509
-msgid "Installation settings summary:"
-msgstr "Récapitulatif des paramètres d'installation:"
-
-#: installer/tazinst:514
-msgid "Format root partition"
-msgstr "Formatage de la partition root"
-
-#: installer/tazinst:517
-msgid "Format /home partition"
-msgstr "Formatage de la partition /home"
-
-#: installer/tazinst:519
-msgid "Install SliTaz on"
-msgstr "Installe SliTaz sur"
-
-#: installer/tazinst:519 installer/tazinst:526
-msgid "Source:"
-msgstr "Source :"
-
-#: installer/tazinst:520
-msgid "Set Home partition to"
-msgstr "Installe la partition /home sur"
-
-#: installer/tazinst:521
-msgid "Set Hostname as"
-msgstr "Définition du Hostname"
-
-#: installer/tazinst:522
-msgid "Set Default user as"
-msgstr "Définition de l'utilsateur par défaut"
-
-#: installer/tazinst:524
-msgid "Check"
-msgstr "Vérifie"
-
-#: installer/tazinst:525
-msgid "Backup /etc, /home and the packages list"
-msgstr "Sauvegarde de /etc, /home et de la liste des paquets"
-
-#: installer/tazinst:526
-msgid "Upgrade SliTaz on"
-msgstr "Met à jour SliTaz sur"
-
-#: installer/tazinst:527
-msgid "Restore /etc, /home"
-msgstr "Restauration de /etc, /home"
-
-#: installer/tazinst:528
-msgid "Upgrade additional packages."
-msgstr "Mise à jour des paquets additionnels."
-
-#: installer/tazinst:531
-msgid "Enable Windows dual-boot"
-msgstr "Active le Dual-boot avec Windows"
-
-#: installer/tazinst:534
-msgid "Install Grub"
-msgstr "Installe Grub"
-
-#: installer/tazinst:537
-msgid "Continue:(y/n)"
-msgstr "Continuer : (o/n)"
-
-#: installer/tazinst:541
-msgid "Cancelled by user"
-msgstr "Annulé par l'utilisateur"
-
-#: installer/tazinst:556 installer/tazinst:1014
+#: installer/tazinst:506 installer/tazinst:966
 msgid "Partition in use"
 msgstr "Partition utilisée"
 
-#: installer/tazinst:570
-msgid "Formatting main partition:"
-msgstr "Formatage de la partition principale :"
+#: installer/tazinst:520
+msgid "Formatting / partition:"
+msgstr "Formatage de la partition / :"
 
-#: installer/tazinst:582
+#: installer/tazinst:532
 msgid "Formatting /home partition:"
 msgstr "Formatage de la partition /home :"
 
-#: installer/tazinst:595 installer/tazinst:1023
-msgid "Can't mount"
-msgstr "Montage impossible"
+#: installer/tazinst:545 installer/tazinst:975
+msgid "Unable to mount partition"
+msgstr "Impossible de monter la partition"
 
-#: installer/tazinst:634
-msgid "Falling back to running kernel name.."
-msgstr "Repli sur le nom du noyau actuellement utilisé.."
+#: installer/tazinst:585
+msgid "Kernel name not found, falling back to:"
+msgstr "Nom du noyau non trouvé, retour à:"
 
-#: installer/tazinst:749
+#: installer/tazinst:699
 msgid "Configuring host name:"
 msgstr "Configuration du Hostname :"
 
-#: installer/tazinst:838
+#: installer/tazinst:788
 msgid "No windows partition found. Dual-boot disabled"
 msgstr "Aucune partition Windows trouvée. Dual-boot désactivé"
 
-#: installer/tazinst:895
+#: installer/tazinst:845
 msgid "Enabling Windows dual-boot"
 msgstr "Activation du Dual-boot avec Windows"
 
-#: installer/tazinst:916
-msgid "Installing SliTaz on"
-msgstr "Installe SliTaz sur"
+#: installer/tazinst:866
+msgid "Installing SliTaz on:"
+msgstr "Installe SliTaz sur:"
 
-#: installer/tazinst:935
+#: installer/tazinst:885
 msgid "Configuring root and default user account:"
 msgstr "Configure les comptes de root et de l'utilisateur par défaut :"
 
-#: installer/tazinst:939
-msgid "Configuring partition to be used as /home..."
-msgstr "Configure la partition à utiliser comme /home..."
+#: installer/tazinst:889
+msgid "Configuring partition to be used as /home:"
+msgstr "Configure la partition à utiliser comme /home:"
 
-#: installer/tazinst:958
+#: installer/tazinst:908
 msgid "Running grub-install on:"
 msgstr "Installe Grub sur:"
 
-#: installer/tazinst:972
-msgid "Unmounting target"
-msgstr "Démontage de la partition hôte"
+#: installer/tazinst:922
+msgid "Unmounting target partition:"
+msgstr "Démontage de la partition:"
 
-#: installer/tazinst:978
-msgid "Unmounting"
-msgstr "Démontage"
+#: installer/tazinst:928
+msgid "Unmounting:"
+msgstr "Démontage:"
 
-#: installer/tazinst:984
+#: installer/tazinst:934
 msgid "Ejecting cdrom..."
 msgstr "Éjection du CD-Rom..."
 
-#: installer/tazinst:993
-msgid "Installation complete. You can now restart (reboot) "
+#: installer/tazinst:945
+msgid "Installation complete. You can now restart (reboot)"
 msgstr "Installation terminée. Vous pouvez maintenant redémarrer "
 
-#: installer/tazinst:994
+#: installer/tazinst:946 installer/tazinst:1167
 msgid "from your SliTaz GNU/Linux system."
 msgstr "votre système SliTaz GNU/Linux."
 
-#: installer/tazinst:997
+#: installer/tazinst:949
 msgid "Copying log files"
 msgstr "Copie du fichier journal"
 
-#: installer/tazinst:1032
+#: installer/tazinst:984
 msgid "Preparing upgrade of SliTaz release:"
 msgstr "Prépare la mise à jour de la version de SliTaz :"
 
-#: installer/tazinst:1034
+#: installer/tazinst:986
 msgid ""
 "This partition doesn't appear to contain a valid SliTaz system, the file: /"
 "etc/slitaz-release doesn't exist."
-msgstr "Cette partition ne semble pas contenir un système SliTaz valide, le fichier: /etc/slitaz-release n'existe pas."
+msgstr ""
+"Cette partition ne semble pas contenir un système SliTaz valide, le "
+"fichier: /etc/slitaz-release n'existe pas."
 
-#: installer/tazinst:1154
+#: installer/tazinst:1106
 msgid ""
 "The list of available packages on the mirror could not be downloaded. No "
 "missing packages will be reinstalled now, but you can do so later by looking "
@@ -374,41 +296,155 @@ msgstr ""
 "possible de le faire ultérieurement à l'aide de la liste suivante : /var/lib/"
 "tazinst/packages-selection.diff"
 
-#: installer/tazinst:1167
+#: installer/tazinst:1119
 msgid "Grub update"
 msgstr "Mise à jour de Grub"
 
-#: installer/tazinst:1185
+#: installer/tazinst:1137
 msgid "Backup /etc, /home and the packages list..."
 msgstr "Sauvegarde de /etc, /home et de la liste des paquets..."
 
-#: installer/tazinst:1188
+#: installer/tazinst:1140
 msgid "Upgrading SliTaz on:"
 msgstr "Met à jour SliTaz sur :"
 
-#: installer/tazinst:1196
+#: installer/tazinst:1148
 msgid "Restoring configuration files..."
 msgstr "Restauration des fichiers de configuration..."
 
-#: installer/tazinst:1202
+#: installer/tazinst:1154
 msgid "Upgrading added packages..."
 msgstr "Mise à hour des paquets additionnels..."
 
-#: installer/tazinst:1214
-msgid ""
-"Upgrade finished. You can now restart (reboot) from your SliTaz GNU/Linux "
-"system."
-msgstr ""
-"La mise à jour est terminée. Vous pouvez redémarrer votre système Slitaz GNU/"
-"Linux."
+#: installer/tazinst:1166
+msgid "Upgrade finished. You can now restart (reboot)"
+msgstr "La mise à jour est terminée. Vous pouvez redémarrer"
 
-#: installer/tazinst:1215
+#: installer/tazinst:1168
 msgid "Packages on the cdrom :"
 msgstr "Paquets sur le cdrom :"
 
-#: installer/tazinst:1216
+#: installer/tazinst:1169
 msgid "Packages installed from the mirror :"
 msgstr "Paquets installés depuis le miroir :"
+
+#~ msgid "Generate a configuration file."
+#~ msgstr "Génére un fichier de configuration."
+
+#
+#~ msgid "Install or upgrade using command line options:"
+#~ msgstr ""
+#~ "Installe ou met à jour en utilisant des options en ligne de commande:"
+
+#~ msgid "Full Install (not upgrading, all present data will be lost)."
+#~ msgstr ""
+#~ "Installation complète (pas de mise à jour, les données seront perdues)."
+
+#~ msgid "Upgrade (Needs an active internet connection)."
+#~ msgstr "Mise à jour (Nécessite une connexion internet active)."
+
+#~ msgid "Install type (cdrom|usb|iso|web|weboot)."
+#~ msgstr "Type d'installation (cdrom|usb|iso|web|weboot)."
+
+#~ msgid "Source media (ex: file.iso|usb partition|web url)."
+#~ msgstr "Média source (ex: fichier.iso|partition usb|url web)."
+
+#~ msgid "Partition where SliTaz will be installed (ex:/dev/hda3)."
+#~ msgstr "Partition où SliTaz sera installé (ex:/dev/hda3)."
+
+#~ msgid "Partition to be formatted (fs=ext2|ext3|ext4|etc..)."
+#~ msgstr "Formatage de la partition (fs=ext2|ext3|ext4|etc..)."
+
+#~ msgid "Install Grub."
+#~ msgstr "Installer Grub."
+
+#~ msgid "Dual-boot a Windows partition (auto|hd<disk>,<part> ex:hd0,0)."
+#~ msgstr ""
+#~ "Dual-boot avec une partition Windows (auto|hd<disk>,<part> ex:hd0,0)."
+
+#~ msgid "Debug mode."
+#~ msgstr "Mode Debug"
+
+#~ msgid "Config file not found"
+#~ msgstr "Fichier de configuration non trouvé"
+
+#~ msgid "Mismatched parameters"
+#~ msgstr "Paramètres incompatibles"
+
+#~ msgid "will not be formatted during upgrade"
+#~ msgstr "ne sera pas formaté durant la mise à jour"
+
+#~ msgid "but SRC_FILE is not set"
+#~ msgstr "mais SRC_FILE n'est pas défini"
+
+#~ msgid "file not found on the web"
+#~ msgstr "fichier non trouvé sur le web"
+
+#~ msgid "Invalid format"
+#~ msgstr "Format invalide"
+
+#~ msgid "Failed to mount"
+#~ msgstr "Impossible de monter"
+
+#~ msgid "corrupted"
+#~ msgstr "corrompu"
+
+#~ msgid "Installation settings summary:"
+#~ msgstr "Récapitulatif des paramètres d'installation:"
+
+#~ msgid "Format /home partition"
+#~ msgstr "Formatage de la partition /home"
+
+#~ msgid "Install SliTaz on"
+#~ msgstr "Installe SliTaz sur"
+
+#~ msgid "Source:"
+#~ msgstr "Source :"
+
+#~ msgid "Set Home partition to"
+#~ msgstr "Installe la partition /home sur"
+
+#~ msgid "Set Hostname as"
+#~ msgstr "Définition du Hostname"
+
+#~ msgid "Set Default user as"
+#~ msgstr "Définition de l'utilsateur par défaut"
+
+#~ msgid "Check"
+#~ msgstr "Vérifie"
+
+#~ msgid "Backup /etc, /home and the packages list"
+#~ msgstr "Sauvegarde de /etc, /home et de la liste des paquets"
+
+#~ msgid "Upgrade SliTaz on"
+#~ msgstr "Met à jour SliTaz sur"
+
+#~ msgid "Restore /etc, /home"
+#~ msgstr "Restauration de /etc, /home"
+
+#~ msgid "Upgrade additional packages."
+#~ msgstr "Mise à jour des paquets additionnels."
+
+#~ msgid "Enable Windows dual-boot"
+#~ msgstr "Active le Dual-boot avec Windows"
+
+#~ msgid "Install Grub"
+#~ msgstr "Installe Grub"
+
+#~ msgid "Continue:(y/n)"
+#~ msgstr "Continuer : (o/n)"
+
+#~ msgid "Cancelled by user"
+#~ msgstr "Annulé par l'utilisateur"
+
+#~ msgid "Formatting main partition:"
+#~ msgstr "Formatage de la partition principale :"
+
+#~ msgid "Can't mount"
+#~ msgstr "Montage impossible"
+
+#~ msgid "Falling back to running kernel name.."
+#~ msgstr "Repli sur le nom du noyau actuellement utilisé.."
 
 #~ msgid "Check configuration file validity."
 #~ msgstr "Vérification de la validité du fichier de configuration."

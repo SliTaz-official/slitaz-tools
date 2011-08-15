@@ -14,7 +14,7 @@ with clear variables such as: INST_TYPE="iso", TGT_PARTITION="/dev/hda1".
 
 With this way, it allows developpers to create a different kind of frontend: 
 Dialog, GTK and CGI/web in TazPanel. The frontend just has to create a config 
-file and start the cmdline installer and report steps in a nice way (progess 
+file and start the cmdline installer and report steps in a nice way (progress 
 bar or/and messages).
 
 
