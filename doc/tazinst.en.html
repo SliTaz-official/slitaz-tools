@@ -29,14 +29,14 @@ tazinst [command] [option]
 <h2>DESCRIPTION</h2>
 <p>
 	Tazinst is a lightweight SliTaz HDD installer (~ 31 KB). It installs SliTaz
-	to a hard drive from a Live-CD, LiveUSB key, a SliTaz ISO image, or from 
+	to a hard drive from a Live-CD, a LiveUSB key, a SliTaz ISO image, or from 
 	the web by downloading a stable, cooking or rolling version or by giving
 	the http link of another iso (eg: Development ISO).
 </p>
 <p>
 	Tazinst can format the target partition to ext2, ext3, ext4 or other formats
 	if the matching packages are installed. The home partition can be installed
-	on another partition and if need be formatted before installation into any
+	on another partition and if need be, formatted before installation into any
 	one of the available formats. Tazinst may upon request install the Grub
 	bootloader in the MBR of the target disk. A dual-boot with an existing 
 	Windows© partition is possible, finding the Windows© partition can either be
@@ -63,7 +63,7 @@ tazinst [command] [option]
 	a simple setup file with clear variables such as: 
 	<code>INST_TYPE="iso"</code>, <code>TGT_PARTITION="/dev/hda1"</code>.
 
-	With this way, it allows developpers to create a different kind of frontend:
+	With this way, it allows developers to create a different kind of frontend:
 	Dialog, GTK and CGI/web in TazPanel. The frontend just has to create a 
 	setup file and start the cmdline installer and report steps in a nice way 
 	(progress bar or/and messages). 
@@ -177,8 +177,8 @@ tazinst [command] [option]
 	<li class="level1"><div class="li">
 	<strong>TGT_WINBOOT</strong>: if this variable is entered, it indicates the
 	partition containing Windows© to implement a dual-boot. It can also be set
-	to 'auto', in this case the	dual-boot will be on the first partition
-	Windows© detected, 
+	to 'auto', in this case the dual-boot will be on the first partition
+	Windows© detects, 
 	ex: <code>TGT_WINBOOT=auto</code>
 	</div></li>
 </ol>
@@ -216,8 +216,8 @@ tazinst new /var/lib/tazinst.conf
 <p>
 	Performs a SliTaz install on a HDD based on data in the setup file.
 	If you decide to format your HDD, all data will be lost. If you do not 
-	format, all data but an existing /home directory will be removed, the
-	home directory will be kept as is.
+	format, all data except for any existing /home directory will be removed, 
+	the home directory will be kept as is.
 </p>
 <pre>
 tazinst install /var/lib/tazinst.conf
@@ -278,9 +278,9 @@ tazinst version
 
 <h2>SYSTEM FILE</h2>
 <p>
-	The /etc/slitaz/tazinst.conf configuration file allows you to change default
-	settings of tazinst, if you want to use custom values for URL, directories
-	and files, you'll have to create it and modify the following variables:
+	The /etc/slitaz/tazinst.conf configuration file allows you to change the default
+	settings of tazinst, if you want to use custom values for URLs, directories
+	and files, you'll have to create one and modify the following variables:
 </p>
 
 <ul>
@@ -330,9 +330,9 @@ tazinst version
 	<code>DEBUG=0</code>
 	</div></li>
 	<p>
-		It is highly recommended to set <code>DEBUG=1</code> and join the
-		content of the resulting Log file when sending a bug report to
-		developpers.
+		It is highly recommended to set <code>DEBUG=1</code> and attach the
+		contents of the resulting Log file when sending a bug report to
+		developers.
 	</p>
 </ol>
 </div></li>
