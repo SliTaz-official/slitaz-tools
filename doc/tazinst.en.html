@@ -105,6 +105,8 @@ tazinst [command] [option]
 	</div></li>
 	<li class="level2"><div class="li">weboot: <i>unused</i>
 	</div></li> 
+	</ul>
+	</div></li>
 </ol>
 </div></li>
 </ul>
@@ -182,7 +184,7 @@ tazinst [command] [option]
 	ex: <code>TGT_WINBOOT=auto</code>
 	</div></li>
 </ol>
-</div/></li>
+</div></li>
 </ul>
 
 <p>
@@ -200,7 +202,7 @@ TGT_PARTITION=/dev/hda3
 
 <h2>COMMANDS</h2>
 
-<a name="new"></a>
+<a id="new"></a>
 <h3>new</h3>
 <p>
 	Generates a new self-documenting setup file which when edited as required
@@ -211,7 +213,7 @@ tazinst new /var/lib/tazinst.conf
 </pre>
 
 
-<a name="install"></a>
+<a id="install"></a>
 <h3>install</h3>
 <p>
 	Performs a SliTaz install on a HDD based on data in the setup file.
@@ -223,7 +225,7 @@ tazinst new /var/lib/tazinst.conf
 tazinst install /var/lib/tazinst.conf
 </pre>
 
-<a name="upgrade"></a>
+<a id="upgrade"></a>
 <h3>upgrade</h3>
 <p>
 	Upgrade an existing SliTaz system on a HDD based on data in the setup file.
@@ -235,7 +237,7 @@ tazinst install /var/lib/tazinst.conf
 tazinst upgrade /var/lib/tazinst.conf
 </pre>
 
-<a name="showurl"></a>
+<a id="showurl"></a>
 <h3>showurl</h3>
 <p>
 	Display the full URL of the predefined shortcuts: 'stable', 'cooking, 
@@ -249,7 +251,7 @@ tazinst upgrade /var/lib/tazinst.conf
 tazinst showurl stable
 </pre>
 
-<a name="check"></a>
+<a id="check"></a>
 <h3>check</h3>
 <p>
 	Check a setup file for errors.
@@ -258,7 +260,7 @@ tazinst showurl stable
 tazinst check /var/lib/tazinst.conf
 </pre>
 
-<a name="log"></a>
+<a id="log"></a>
 <h3>log</h3>
 <p>
 	Display the last log file contents and exit.
@@ -267,7 +269,7 @@ tazinst check /var/lib/tazinst.conf
 tazinst log
 </pre>
 
-<a name="version"></a>
+<a id="version"></a>
 <h3>version</h3>
 <p>
 	Print the version information and exit.
@@ -300,7 +302,7 @@ tazinst version
 	</code>
 	</div></li>
 </ol>
-</div></ul>
+</div></li>
 </ul>
 
 <ul>
@@ -327,13 +329,11 @@ tazinst version
 	<code>LOG="/var/log/tazinst.log"</code>
 	</div></li>
 	<li class="level1"><div class="li">Debugging: (quiet => 0, debug => 1)<br />
-	<code>DEBUG=0</code>
-	</div></li>
-	<p>
+	<code>DEBUG=0</code><br />
 		It is highly recommended to set <code>DEBUG=1</code> and attach the
 		contents of the resulting Log file when sending a bug report to
 		developers.
-	</p>
+	</div></li>
 </ol>
 </div></li>
 </ul>

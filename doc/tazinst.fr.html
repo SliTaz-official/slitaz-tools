@@ -111,7 +111,9 @@ tazinst [commande] [option]
 	sur le web
 	</div></li>
 	<li class="level2"><div class="li">weboot : <i>inutilisé</i>
-	</div></li> 
+	</div></li>
+	</ul>
+	</div></li>
 </ol>
 </div></li>
 </ul>
@@ -210,7 +212,7 @@ TGT_PARTITION=/dev/hda3
 
 <h2>COMMANDES</h2>
 
-<a name="new"></a>
+<a id="new"></a>
 <h3>new</h3>
 <p>
 	Génère un fichier de paramètres autodocumenté, qui une fois édité 
@@ -221,7 +223,7 @@ TGT_PARTITION=/dev/hda3
 tazinst new /var/lib/tazinst.conf
 </pre>
 
-<a name="install"></a>
+<a id="install"></a>
 <h3>install</h3>
 <p>
 	Lance l'installation de SliTaz en fonction des données présentes dans le
@@ -234,7 +236,7 @@ tazinst new /var/lib/tazinst.conf
 tazinst install /var/lib/tazinst.conf
 </pre>
 
-<a name="upgrade"></a>
+<a id="upgrade"></a>
 <h3>upgrade</h3>
 <p>
 	Lance la mise à jour de SliTaz en fonction des données présentes dans le
@@ -247,7 +249,7 @@ tazinst install /var/lib/tazinst.conf
 tazinst upgrade /var/lib/tazinst.conf
 </pre>
 
-<a name="showurl"></a>
+<a id="showurl"></a>
 <h3>showurl</h3>
 <p>
 	Affiche l'URL complète des raccourcis prédéfinis : 'stable', 'cooking, 
@@ -261,7 +263,7 @@ tazinst upgrade /var/lib/tazinst.conf
 tazinst showurl stable
 </pre>
 
-<a name="check"></a>
+<a id="check"></a>
 <h3>check</h3>
 <p>
 	Vérifie que le fichier de paramètres ne contient pas d'erreurs.
@@ -270,7 +272,7 @@ tazinst showurl stable
 tazinst check /var/lib/tazinst.conf
 </pre>
 
-<a name="log"></a>
+<a id="log"></a>
 <h3>log</h3>
 <p>
 	Affiche le contenu du fichier journal.
@@ -279,7 +281,7 @@ tazinst check /var/lib/tazinst.conf
 tazinst log
 </pre>
 
-<a name="version"></a>
+<a id="version"></a>
 <h3>version</h3>
 <p>
 	Affiche les informations de version.
@@ -313,7 +315,7 @@ tazinst version
 	</code>
 	</div></li>
 </ol>
-</div></ul>
+</div></li>
 </ul>
 
 <ul>
@@ -340,13 +342,11 @@ tazinst version
 	<code>LOG="/var/log/tazinst.log"</code>
 	</div></li>
 	<li class="level1"><div class="li">Debugging: (non => 0, debug => 1)<br />
-	<code>DEBUG=0</code>
-	</div></li>
-	<p>
+	<code>DEBUG=0</code><br />
 		Il est chaudement recommandé de définir <code>DEBUG=1</code> et de
 		joindre le fichier journal resultant lors de l'envoi d'un rapport de
 		bogue aux développeurs.
-	</p>
+	</div></li>
 </ol>
 </div></li>
 </ul>
