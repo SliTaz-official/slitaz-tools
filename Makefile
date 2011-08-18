@@ -101,9 +101,9 @@ install:
 	install -m 0755 tinyutils/soundconf $(DESTDIR)$(PREFIX)/sbin
 	install -m 0755 tinyutils/setmixer $(DESTDIR)$(PREFIX)/sbin
 	# Installer's
-	install -m 0777 -d $(DESTDIR)$(PREFIX)/share/slitaz/messages/en
-	install -m 0755 installer/slitaz-installer $(DESTDIR)$(PREFIX)/bin
-	install -m 0644 messages/en/installer.msg \
+#	install -m 0777 -d $(DESTDIR)$(PREFIX)/share/slitaz/messages/en
+#	install -m 0755 installer/slitaz-installer $(DESTDIR)$(PREFIX)/bin
+#	install -m 0644 messages/en/installer.msg \
 		$(DESTDIR)$(PREFIX)/share/slitaz/messages/en
 	# tazinst
 	install -m 0755 installer/tazinst $(DESTDIR)$(PREFIX)/sbin
@@ -114,6 +114,10 @@ install:
 				$(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
 		done \
 	done
+	# installer.cgi
+	install -m 0755 installer/installer.sh $(DESTDIR)$(PREFIX)/sbin
+	install -m 0777 -d /var/www/installer
+	install -m 0755 installer/cgi/* /var/www/installer
 	# slitaz-tools i18n
 	for l in $(LINGUAS); \
 	do \
