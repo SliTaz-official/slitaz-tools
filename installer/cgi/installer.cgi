@@ -7,7 +7,7 @@
 # Authors : Dominique Corbex <domcox@slitaz.org>
 #
 
-VERSION="0.10"
+VERSION="0.11"
 
 # Get parameters with GET, POST and FILE functions
 . /usr/bin/httpd_helper.sh
@@ -41,45 +41,43 @@ read_setup()
 write_setup()
 {
 	if [ -e "$INSTFILE" ]; then
-		# Read vars from URL
-		read_query_string GET
 		# Install type
-		INST_TYPE=$GET_INST_TYPE
+		INST_TYPE=$(GET INST_TYPE)
 		# Source File
 		case "$INST_TYPE" in
 			usb)
-				SRC_FILE=$GET_SRC_USB ;;
+				SRC_FILE=$(GET SRC_USB) ;;
 			iso)
-				SRC_FILE=$GET_SRC_ISO ;;
+				SRC_FILE=$(GET SRC_ISO) ;;
 			web)
-				SRC_FILE=$GET_SRC_WEB ;;
+				SRC_FILE=$(GET SRC_WEB) ;;
 		esac
 		SRC_FILE=$(echo "$SRC_FILE" | sed 's/\//\\\//'g)
-		[ -n $GET_URL ] && SRC_WEB=$GET_URL
+		[ -n $(GET URL) ] && SRC_WEB=$(GET URL)
 		# Main Partition
-		TGT_PARTITION=$(echo "$GET_TGT_PARTITION" | sed 's/\//\\\//'g)
-		[ -n "$GET_MAIN_FMT" ] && TGT_FS=$GET_MAIN_FS || TGT_FS=""
+		TGT_PARTITION=$(echo "$(GET TGT_PARTITION)" | sed 's/\//\\\//'g)
+		[ -n "$(GET MAIN_FMT)" ] && TGT_FS=$(GET MAIN_FS) || TGT_FS=""
 		# Home Partition
-		if [ -n "$GET_HOME_SPLIT" ] ; then
-			TGT_HOME=$(echo "$GET_HOME_PART" | sed 's/\//\\\//'g)
-			[ -n "$GET_HOME_FMT" ] && TGT_HOME_FS=$GET_HOME_FS
+		if [ -n "$(GET HOME_SPLIT)" ] ; then
+			TGT_HOME=$(echo "$(GET HOME_PART)" | sed 's/\//\\\//'g)
+			[ -n "$(GET HOME_FMT)" ] && TGT_HOME_FS=$(GET HOME_FS)
 		else
 			TGT_HOME=""
 			TGT_HOME_FS=""
 		fi
 		# Hostname
-		TGT_HOSTNAME=$GET_TGT_HOSTNAME
+		TGT_HOSTNAME=$(GET TGT_HOSTNAME)
 		# Root pwd
-		TGT_ROOT_PWD=$GET_TGT_ROOT_PWD
+		TGT_ROOT_PWD=$(GET TGT_ROOT_PWD)
 		# User Login
-		TGT_USER=$GET_TGT_USER
+		TGT_USER=$(GET TGT_USER)
 		# User Pwd
-		TGT_USER_PWD=$GET_TGT_USER_PWD
+		TGT_USER_PWD=$(GET TGT_USER_PWD)
 		# Grub
-		TGT_GRUB=$GET_TGT_GRUB
+		TGT_GRUB=$(GET TGT_GRUB)
 		[ "$TGT_GRUB" == "yes" ] || TGT_GRUB=no
 		# Win Dual-Boot
-		TGT_WINBOOT=$GET_TGT_WINBOOT
+		TGT_WINBOOT=$(GET TGT_WINBOOT)
 
 		# Save changes to INSTFILE
 		sed -i s/"^INST_TYPE=.*"/"INST_TYPE=\"$INST_TYPE\"/" $INSTFILE
@@ -260,18 +258,18 @@ EOT
 	<tr>
 	<td><input type="radio" name="INST_TYPE" value="web" $([ "$INST_TYPE" == "web" ] && echo "checked" id="web") />
 	<label for="web">$(gettext "Web"):
-	<a class="button" href="$SCRIPT_NAME?page=$GET_page&SRC_WEB=stable">$(gettext "Stable")</a>
-	<a class="button" href="$SCRIPT_NAME?page=$GET_page&SRC_WEB=cooking">$(gettext "Cooking")</a>
+	<a class="button" href="$SCRIPT_NAME?page=$(GET page)&SRC_WEB=stable">$(gettext "Stable")</a>
+	<a class="button" href="$SCRIPT_NAME?page=$(GET page)&SRC_WEB=cooking">$(gettext "Cooking")</a>
 	$(gettext "URL:")</label>
 EOT
-	case $GET_SRC_WEB in
+	case $(GET SRC_WEB) in
 		stable|cooking)
-			GET_SRC_WEB=$(tazinst showurl $GET_SRC_WEB) ;;
+			get_SRC_WEB=$(tazinst showurl $(GET SRC_WEB)) ;;
 		*)
-			[ "$INST_TYPE" == "web" ] && GET_SRC_WEB=$SRC_FILE ;;
+			[ "$INST_TYPE" == "web" ] && get_SRC_WEB=$SRC_FILE ;;
 	esac
 cat <<EOT
-	<input type="url" size="55" name="SRC_WEB" value="$GET_SRC_WEB" placeholder="$(gettext "Full url to an ISO image file")" /></td>
+	<input type="url" size="55" name="SRC_WEB" value="$get_SRC_WEB" placeholder="$(gettext "Full url to an ISO image file")" /></td>
 	</tr>
 	</table>
 EOT
@@ -523,7 +521,9 @@ run_tazinst()
 {
 	echo "<h4>$(gettext "Proceeding:")</h4>"
 	table_start
-	tazinst $GET_INST_ACTION $INSTFILE | \
+#	tazinst $(GET INST_ACTION) $INSTFILE | \
+#		awk '{print "<tr><td><tt>" $0 "</tt></td></tr>"}'
+	ping -w 3 google.com | \
 		awk '{print "<tr><td><tt>" $0 "</tt></td></tr>"}'
 	table_end
 	return $(grep -c "cancelled on error" $INSTFILE)
@@ -564,15 +564,8 @@ xhtml_header()
 	<meta charset="utf-8" />
 	<link rel="shortcut icon" href="/styles/default/favicon.ico" />
 	<link rel="stylesheet" type="text/css" href="style.css" />
-	<!-- Function to hide the loading message when page is generated. -->
-	<script type="text/javascript">
-		function showLoading(){
-			document.getElementById("loading").style.display='none';
-		}
-	</script>
 </head>
-<body onload="showLoading()"> 
-
+<body>
 <!-- Page content -->
 <div id="content">
 EOT
@@ -628,13 +621,11 @@ form_end()
 #
 get_config
 
-read_query_string GET
-
 #
 # Pages
 #
 
-case "$GET_page" in
+case "$(GET page)" in
 	gparted)
 		gparted
  		xhtml_header
@@ -672,11 +663,11 @@ case "$GET_page" in
 		write_setup
 		xhtml_header
 		if ! (tazinst check $INSTFILE); then
-			page_redirection $GET_INST_ACTION
+			page_redirection $(GET INST_ACTION)
 		else
 			read_setup
 			form_start
-			display_action $GET_INST_ACTION
+			display_action $(GET INST_ACTION)
 			if run_tazinst; then
 				moveto_page home reboot
 			else
