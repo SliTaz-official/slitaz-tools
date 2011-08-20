@@ -521,9 +521,7 @@ run_tazinst()
 {
 	echo "<h4>$(gettext "Proceeding:")</h4>"
 	table_start
-#	tazinst $(GET INST_ACTION) $INSTFILE | \
-#		awk '{print "<tr><td><tt>" $0 "</tt></td></tr>"}'
-	ping -w 3 google.com | \
+	tazinst $(GET INST_ACTION) $INSTFILE | \
 		awk '{print "<tr><td><tt>" $0 "</tt></td></tr>"}'
 	table_end
 	return $(grep -c "cancelled on error" $INSTFILE)
