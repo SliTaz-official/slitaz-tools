@@ -274,7 +274,7 @@ total=\$(grep MemTotal /proc/meminfo | sed 's/[^0-9]//g')
 insmod /lib/modules/*/kernel/drivers/block/floppy.ko.gz 2> /dev/null
 # loram may put floppy.ko.gz module in /lib
 insmod /lib/floppy.ko.gz 2> /dev/null
-case "\$(blkid 2>&1)" in
+case "\$(/sbin/blkid 2>&1)" in
 *not\ found*)
 	cat <<EOT
 
