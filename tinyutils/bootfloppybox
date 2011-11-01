@@ -274,7 +274,8 @@ total=\$(grep MemTotal /proc/meminfo | sed 's/[^0-9]//g')
 insmod /lib/modules/*/kernel/drivers/block/floppy.ko.gz 2> /dev/null
 # loram may put floppy.ko.gz module in /lib
 insmod /lib/floppy.ko.gz 2> /dev/null
-if [ ! -x /sbin/blkid ]; then
+case "\$(blkid 2>&1)" in
+*not\ found*)
 	cat <<EOT
 
 You can preinstall SliTaz in an ext3 partition with this floppy set.
@@ -283,8 +284,8 @@ Simply enter the device name (/dev/XXXX) to create the slitaz/install.sh or
 leave it blank to skip :
 EOT
 	read -t 60 device < /dev/tty0
-	[ -n "\$device" ] && mount \$device /mnt && mkdir /mnt/slitaz
-elif blkid | grep -q 'TYPE="ext'; then
+	[ -n "\$device" ] && mount \$device /mnt && mkdir /mnt/slitaz ;;
+*TYPE=\"ext*)
 	cat <<EOT
 
 You can preinstall SliTaz in one of these ext3 partitions:
@@ -294,8 +295,8 @@ Simply enter the device name (/dev/XXXX) to create the slitaz/install.sh or
 leave it blank to skip :
 EOT
 	read -t 60 device < /dev/tty0
-	[ -n "\$device" ] && mount \$device /mnt && mkdir /mnt/slitaz
-else
+	[ -n "\$device" ] && mount \$device /mnt && mkdir /mnt/slitaz ;;
+*)
 	cat <<EOT
 
 You can preinstall SliTaz in an ext3 partition with this floppy set.
@@ -303,7 +304,7 @@ After the boot process is completed, create a partition with 'fdisk',
 format it with 'mke2fs -j' and reboot from the floppies again.
 
 EOT
-fi
+esac
 umount /proc
 while read name min num count file md5; do
 	[ -e \$file ] && continue
@@ -321,6 +322,7 @@ while read name min num count file md5; do
 	fi
 	rootfslist="\$rootfslist \$num"
 	rm -f /tmp/rootfs*
+	mkdir /sbin 2> /dev/null
 done <<EOT
 $(while read line; do echo $line; done)
 EOT
@@ -399,8 +401,8 @@ EOT
 	[ \$(stat -c %s /mnt/slitaz/bzImage) -eq \$size ] ||
 	mv -f /mnt/slitaz /mnt/slitaz-aborted
 fi
-mv -f /init.org /init || sh
-exec /init
+[ -d /sbin ] && mv -f /init.org /init && exec /init
+exec /bin/ash < /dev/tty0 > /dev/tty0 2>&1
 EOTEOT
 	chmod +x $1/init
 }
@@ -605,7 +607,7 @@ floppysetfromiso()
 	else
 	# This is a loram rootfs.gz, extract loram bootstrap
 		echo "Splitting loram rootfs..."
-		offset=$(awk '/07070100/ { o+=index($0,"07070100"); print o/4 ; exit } { o+=1+length() }' < $rootfs)
+		offset=$(awk '/07070100/ { o+=index($0,"07070100"); print int(o/4) ; exit } { o+=1+length() }' < $rootfs)
 		dd if=$rootfs skip=$(($offset / 1024)) bs=4k count=1 2> /dev/null | \
 		dd skip=$(($offset % 1024)) bs=4 of=/tmp/rootfs$$/1/root 2> /dev/null
 		dd if=$rootfs skip=$((1 + ($offset / 1024) )) bs=4k \
