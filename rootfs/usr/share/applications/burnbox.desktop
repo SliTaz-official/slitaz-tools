@@ -5,6 +5,6 @@ Name[fr]=Graver des CD ou DVD
 Name[pt]=Gravador de CD/DVD
 Comment=Burn ISO images or audio tracks to CD or DVD
 Exec=burnbox
-Icon=/usr/share/icons/SliTaz/16x16/devices/drive-optical.png
+Icon=drive-optical
 Type=Application
 Categories=GTK;Utility;
