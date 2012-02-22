@@ -817,7 +817,6 @@ grub_config()
 	fi
 	# Create the target GRUB configuration.
 	mkdir -p $TARGET_ROOT/boot/grub
-	. /etc/locale.conf
 	cat > $TARGET_ROOT/boot/grub/menu.lst << _EOF_
 # /boot/grub/menu.lst: GRUB boot loader configuration.
 #
@@ -838,7 +837,7 @@ splashimage=/boot/grub/splash.xpm.gz
 #
 title SliTaz GNU/Linux (cooking) (Kernel $KERNEL)
 root $GRUB_ROOT
-kernel /boot/$KERNEL root=$TGT_PARTITION lang=$LANG
+kernel /boot/$KERNEL root=$TGT_PARTITION quiet
 
 _EOF_
 	if [ -n "$TGT_WINBOOT" ]; then
