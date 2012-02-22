@@ -61,15 +61,15 @@ msgstr "Configura a linguagem do sistema (root)"
 
 #: tazbox/tazbox:46
 msgid "System initial setup (locale, keymap & timezone)"
-msgstr ""
+msgstr "Configuração inicial do sistema (locale, keymap & timezone)"
 
 #: tazbox/tazbox:47
 msgid "Create a new file or folder on the desktop"
-msgstr ""
+msgstr "Cria um novo arquivo ou pasta na área de trabalho"
 
 #: tazbox/tazbox:48
 msgid "Icons of all installed applications."
-msgstr ""
+msgstr "Ícones de todos os aplicativos instalados."
 
 #: tazbox/tazbox:55
 msgid "Slitaz admin password"
@@ -177,4 +177,4 @@ msgstr "Arquivo"
 
 #: tazbox/tazbox:251
 msgid "All Applications"
-msgstr ""
+msgstr "Todos os aplicativos"
