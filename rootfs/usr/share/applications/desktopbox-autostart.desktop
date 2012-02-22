@@ -2,7 +2,7 @@
 Encoding=UTF-8
 Name=Auto started applications
 Name[pt]=Aplicações Auto Iniciadas
-Icon=preferences-system-session
+Icon=gnome-session
 Exec=desktopbox autostart
 Type=Application
 Categories=Settings;DesktopSettings;GTK;
