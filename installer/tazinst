@@ -5,7 +5,7 @@
 # few main variables, then all the functions and then the 
 # full sequence of functions.
 #
-# (C) 2007-2011 SliTaz - GNU General Public License v3.
+# (C) 2007-2012 SliTaz - GNU General Public License v3.
 #
 # Authors : Christophe Lincoln <pankso@slitaz.org>
 #           Dominique Corbex <domcox@slitaz.org>
@@ -20,7 +20,7 @@
 # 7: Another instance is running
 # 8: Internal error
 
-VERSION=3.30
+VERSION=3.31
 
 # Internationalization
 . /usr/bin/gettext.sh
@@ -758,7 +758,7 @@ home_config()
 	cd $TARGET_ROOT || abort 8 $(gettext "Internal")
 	mv home/$TGT_USER tmp
 	mount $TGT_HOME home
-	if [ -d $TARGET_ROOT/home/$TGTUSER ]; then
+	if [ -d $TARGET_ROOT/home/$TGT_USER ]; then
 		rm -rf tmp/$TGT_USER
 	else
 		mv tmp/$TGT_USER home
