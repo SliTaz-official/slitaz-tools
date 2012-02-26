@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Tazinst manual
+Name[pt]=Manual do Tazinst
+Name[fr]=Manuel de Tazinst
+Exec=browser file:///usr/share/doc/slitaz-tools/tazinst.html
+Icon=text-html
+Type=Application
+Categories=Documentation;
