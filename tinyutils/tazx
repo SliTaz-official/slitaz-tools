@@ -182,7 +182,7 @@ $(gettext "X server:") \Z2Xorg\Zn" 16 70 5 \
 			install_xorg ;;
 		xfbdev)
 			# FIXME: Much to do here, for now just install Xfbdev.
-			tazpkg get-install xorg-server-xfbdev ;;
+			tazpkg get-install xorg-server-Xfbdev ;;
 		*) exit 0 ;;
 	esac
 }
