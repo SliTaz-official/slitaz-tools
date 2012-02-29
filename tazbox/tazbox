@@ -55,7 +55,7 @@ su_main() {
 	text=$(gettext "Slitaz admin password")
 	note=$(gettext "Please enter root password (default root) to execute:")
 	yad --title="Slitaz - su" --window-icon=$icon \
-		--width=520 --height=160 \
+		--width=520 --height=140 \
 		--text="<b>$text</b>\n$note\n$SU_CMD\n" \
 		--image="slitaz-menu" --image-on-top \
 		--center --on-top --form $PASSWD \
