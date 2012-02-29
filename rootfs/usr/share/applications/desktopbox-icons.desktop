@@ -1,9 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Name=Desktop icons
-Name[fr]=Icônes du bureau
-Name[pt]=Ícones do Desktop
-Icon=user-desktop
-Exec=desktopbox add-icons
-Type=Application
-Categories=Settings;DesktopSettings;GTK;

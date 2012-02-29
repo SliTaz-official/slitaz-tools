@@ -1,9 +1,9 @@
 [Desktop Entry]
 Encoding=UTF-8
-Name=Wireless networks connections
-Name[fr]=Connexions réseaux sans fil
-Name[pt]=Gerenciador de Redes Wireless
-Exec=subox wifibox
+Name=Wifi configuration
+Name[fr]=Configuration Wifi
+Name[pt]=Wifi configuração
+Exec=tazbox su wifibox
 Icon=network-wireless
 Type=Application
 Categories=System;Application;
