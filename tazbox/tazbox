@@ -330,6 +330,14 @@ case "$1" in
 		newfile ;;
 	all-apps)
 		all_apps ;;
+	notify|-n)
+		# On screen notification box.
+		time="$3"
+		[ "$time" ] || time=4
+		yad --text="<b>$2</b>" --width=520 --height=80 \
+			--center --on-top --image=info --image-on-top \
+			--timeout=$time --skip-taskbar --no-buttons \
+			--borders=12 --undecorated ;;
 	*)
 		usage ;;
 esac
