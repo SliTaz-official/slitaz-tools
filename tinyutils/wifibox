@@ -1,0 +1,154 @@
+#!/bin/sh
+#
+# Small Wifi utility to quicly connect to a network. Easy network connection is
+# most important, this tool provide a quick way to connect or change wifi
+# settings while full network configuration is done in TazPanel. 
+#
+# Copyright (C) 2012 SliTaz GNU/Linux - GNU gpl v2
+#
+# Authors : Christophe Lincoln <pankso@slitaz.org>
+#
+
+# Only for root.
+if [ $(id -u) != 0 ]; then
+	exec tazbox su $(basename $0)
+	exit 0
+fi
+
+# Internationalization
+. /usr/bin/gettext.sh
+TEXTDOMAIN='wifibox'
+export TEXTDOMAIN
+
+# Start a wifi connection
+start_wifi() {
+	sed -i \
+		-e s'/^DHCP=.*/DHCP="yes"/' \
+		-e s'/^STATIC=.*/STATIC="no"/' \
+		-e s'/^WIFI=.*/WIFI="yes"/' \
+		/etc/network.conf
+	ifconfig $WIFI_INTERFACE up
+	iwconfig $WIFI_INTERFACE txpower auto
+	/etc/init.d/network.sh start
+}
+
+# Catch essids and format output for GTK tree. We get the list of
+# networks by Cell and without spaces.
+detect_wifi() {
+	if [ -d /sys/class/net/$WIFI_INTERFACE/wireless ]; then
+		ifconfig $WIFI_INTERFACE up
+		echo -e "any\nN/A\nnone\n-"
+		for i in $(iwlist $WIFI_INTERFACE scan | sed s/"Cell "/Cell-/ | grep "Cell-" | awk '{print $1}')
+		do
+			scan=$(iwlist $WIFI_INTERFACE scan last | \
+				awk '/(Cell|ESS|Qual|Encry|IE: WPA|WPA2)/ {print}' | \
+				sed s/"Cell "/Cell-/ | grep -A 5 "$i")
+			essid=$(echo $scan | cut -d '"' -f 2)
+			if echo "$scan" | grep -q Quality; then
+				quality=$(echo $scan | sed 's/.*Quality=\([^ ]*\).*/\1/' | sed 's/.*Quality:\([^ ]*\).*/\1/')
+			else
+				quality="-"
+			fi
+			cryto=$(echo $scan | sed 's/.*key:\([^ ]*\).*/\1/')
+			# Check encryption type
+			if echo "$scan" | grep -q WPA*; then
+				cryto="WPA"
+			fi
+			# Connected or not connected...
+			if ifconfig | grep -A 1 $WIFI_INTERFACE | \
+				grep -q inet && iwconfig $WIFI_INTERFACE | \
+				grep ESSID | grep -q -w "$essid"; then
+				status=connected
+			else
+				status="-"
+			fi
+			
+			echo -e "$essid\n$quality\n$cryto\n$status"
+		done
+	fi
+}
+
+# Prompt for password or connect
+connect_main() {
+	case $keytype in
+		WPA|WEP)
+			title=$(gettext "Wifi connection")
+			text=$(gettext "Connection to:")
+			yad --form --width=520 --height=140 \
+				--center --on-top --window-icon="network-wireless" \
+				--image="network-wireless" --image-on-top \
+				--title="$title" --text="$text <b>$essid</b>" \
+				--field="$keytype $(gettext "Password:"):H" ;;
+		none) continue ;;
+		*) exit 0 ;;
+	esac
+}
+
+connect() {
+	main=$(connect_main)
+	ret=$?
+	# Deal with --button values
+	case $ret in
+		1) exit 0 ;;
+		*) continue ;;
+	esac
+	/etc/init.d/network.sh stop
+	sleep 1
+	key=$(echo "$main" | cut -d '|' -f 1)
+	sed -i \
+		-e s"/^WIFI_ESSID=.*/WIFI_ESSID=\"$essid\""/ \
+		-e s"/^WIFI_KEY=.*/WIFI_KEY=\"$key\"/" \
+		-e s"/^WIFI_KEY_TYPE=.*/WIFI_KEY_TYPE=\"$keytype\"/" \
+		/etc/network.conf
+	start_wifi
+}
+
+# Main GUI box function with pure Yad spec
+wifi_main() {
+	title=$(gettext "Wifi network")
+	text=$(gettext "<b>Connect to a wifi network</b> \(Double click to connect\)")
+	detect_wifi | yad --list --width=520 --height=300 \
+		--center --on-top --window-icon="network-wireless" \
+		--image="network-wireless" --image-on-top \
+		--title="$title" --text="$text" \
+		--column "$(gettext "essid Name")" --column "$(gettext "Quality")" \
+		--column "$(gettext "Encryption")" --column "$(gettext "Status")" \
+		--button="Start wifi:4" --button="Stop wifi:3" \
+		--button="Configuration:2" --button="gtk-close:1"
+}
+
+# Main function
+wifi() {
+	# Store box results
+	main=$(wifi_main)
+	ret=$?
+	# Deal with --button values
+	case $ret in
+		1) exit 0 ;;
+		2) tazweb http://tazpanel:82/network.cgi?wifi && exit 0 ;;
+		3) /etc/init.d/network.sh stop && exit 0 ;;
+		3) start_wifi && exit 0 ;;
+		*) continue ;;
+	esac
+	if [ -n "$main" ]; then
+		essid=$(echo "$main" | cut -d "|" -f 1)
+		keytype=$(echo "$main" | cut -d "|" -f 3)
+		connect
+	fi
+}
+
+#
+# Script commands
+#
+
+case "$1" in
+	usage|help|-*)
+		echo "$(gettext "Usage:") $(basename $0) [interface]" ;;
+	*)
+		. /etc/network.conf
+		[ -n "$1" ] && WIFI_INTERFACE="$1"
+		wifi ;;
+esac
+
+exit 0
+
