@@ -5,6 +5,6 @@ Name[fr]=Monter un périphérique
 Name[pt]=Montagem de Dispositivos
 Comment=Mount devices on mount points
 Exec=subox mountbox
-Icon=/usr/share/icons/SliTaz/16x16/devices/media-flash.png
+Icon=media-flash
 Type=Application
 Categories=System;Application;

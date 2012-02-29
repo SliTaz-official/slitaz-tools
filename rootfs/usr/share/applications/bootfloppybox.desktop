@@ -4,6 +4,6 @@ Name=Boot floppy/cdrom creation tool
 Name[pt]=Criação de disquete/cdrom de boot
 Name[fr]=Disquette/cdrom de démarrage
 Exec=subox bootfloppybox
-Icon=/usr/share/icons/SliTaz/16x16/devices/gtk-floppy.png
+Icon=gtk-floppy
 Type=Application
 Categories=System;
