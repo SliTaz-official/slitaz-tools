@@ -1,6 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
-Name=Time Zone
+Name=Time Zone configuration
 Name[fr]=Zone horaire
 Exec=tazbox su "tazbox tz"
 Icon=locale
