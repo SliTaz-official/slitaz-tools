@@ -107,7 +107,7 @@ Login name: $USER
 			<button>
 				<label>Change</label>
 				<input file icon=\"forward\"></input>
-				<action>echo \"$USER:$PASSWD\" | chpasswd</action>
+				<action>echo \"$USER:$PASSWD\" | chpasswd -m</action>
 				<action type=\"closewindow\">MANAGE_USER</action>
 			</button>
 		</hbox>
@@ -160,7 +160,7 @@ New account information"`'
 		<hbox>
 			<button ok>
 				<action>adduser -D $NEW_USER</action>
-				<action>echo "$NEW_USER:$PASSWD" | chpasswd</action>
+				<action>echo "$NEW_USER:$PASSWD" | chpasswd -m</action>
 				<action>addgroup $NEW_USER audio</action>
 				<action>addgroup $NEW_USER cdrom</action>
 				<action>addgroup $NEW_USER floppy</action>
