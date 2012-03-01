@@ -605,7 +605,7 @@ copy_bootloaders()
 		cp -a $SOURCE_ROOT/boot/isolinux/*.c32 $TARGET_ROOT/boot/isolinux
 	fi
 	# GRUB splash image
-	if [ -f "$SOURCE_ROOT/boot/grub/splash.xmp.gz" ]; then
+	if [ -f "$SOURCE_ROOT/boot/grub/splash.xpm.gz" ]; then
 		debug "Copy GRUB splash image"
 		mkdir -p $TARGET_ROOT/boot/grub
 		$SOURCE_ROOT/boot/grub/splash.xpm.gz $TARGET_ROOT/boot/grub
