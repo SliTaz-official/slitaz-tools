@@ -131,8 +131,8 @@ INST_TYPE="cdrom"
 # web: predefined mirrors (stable|cooking|rolling), ex: SRC_FILE=cooking
 SRC_FILE=""
 
-# Install Target (Root Partition).
-TGT_PARTITION="/dev/hda5"
+# Install Target (Root Partition, ex /dev/hda5).
+TGT_PARTITION=""
 
 # Target File system.  
 # SliTaz uses ext3 by default but another filesystem can be used if wanted,
