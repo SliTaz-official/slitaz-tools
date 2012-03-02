@@ -222,27 +222,28 @@ newfile_main() {
 	yad --entry --title="$(gettext "New file")" --window-icon=$icon \
 		--text="<b>$text</b>" --width=460 --height=160 \
 		--center --on-top --image=slitaz-menu --image-on-top \
-		--entry-label="$(gettext "File name")" --ricon=filenew \
-		--button="$(gettext "SHell script"):3" \
-		--button="$(gettext "Folder"):2" \
+		--entry-label="$(gettext "File name")" --always-print-result \
+		--button="$(gettext "SHell script"):4" \
+		--button="$(gettext "Folder"):3" \
 		--button="$(gettext "File"):2" \
 		--button="gtk-cancel:1"
 }
 
 newfile() {
 	file=$(newfile_main)
+	ret=$?
 	[ "$file" ] || exit 0
-	case $? in
-		3)
+	case $ret in
+		4)
 			cat > $HOME/Desktop/$file << EOT
 #!/bin/sh
 #
 
 EOT
 			chmod +x $HOME/Desktop/$file ;;
-		2) mkdir -p $HOME/Desktop/$file ;;
-		0) touch $HOME/Desktop/$file ;;
-		1|*) exit 0 ;;
+		3) mkdir -p $HOME/Desktop/$file ;;
+		2) touch $HOME/Desktop/$file ;;
+		1) exit 0 ;;
 	esac
 }
 
