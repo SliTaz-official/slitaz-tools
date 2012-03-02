@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tazinst\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-14 16:42+0200\n"
+"POT-Creation-Date: 2012-03-02 19:57+0100\n"
 "PO-Revision-Date: 2012-22-02 16:38+0300\n"
 "Last-Translator: Claudinei Pereira <claudinei@slitaz.org>\n"
 "Language-Team: Brazilian Portuguese (i18n@slitaz.org>\n"
@@ -190,9 +190,9 @@ msgstr "Falha ao baixar arquivo."
 msgid "Web boot files not found"
 msgstr "Arquivos de boot via web não encontrados"
 
-#: installer/tazinst:483 installer/tazinst:556 installer/tazinst:649
-#: installer/tazinst:684 installer/tazinst:752 installer/tazinst:994
-#: installer/tazinst:1091 installer/tazinst:1132
+#: installer/tazinst:483 installer/tazinst:556 installer/tazinst:655
+#: installer/tazinst:690 installer/tazinst:758 installer/tazinst:999
+#: installer/tazinst:1096 installer/tazinst:1137
 msgid "Internal"
 msgstr "Interno"
 
@@ -200,7 +200,7 @@ msgstr "Interno"
 msgid "Invalid source"
 msgstr "Fonte inválida"
 
-#: installer/tazinst:506 installer/tazinst:966
+#: installer/tazinst:506 installer/tazinst:971
 msgid "Partition in use"
 msgstr "Partição em uso"
 
@@ -212,7 +212,7 @@ msgstr "Formatando partição /:"
 msgid "Formatting /home partition:"
 msgstr "Formatando partição /home:"
 
-#: installer/tazinst:545 installer/tazinst:975
+#: installer/tazinst:545 installer/tazinst:980
 msgid "Unable to mount partition"
 msgstr "Falha ao montar partição"
 
@@ -220,108 +220,108 @@ msgstr "Falha ao montar partição"
 msgid "Kernel name not found, falling back to:"
 msgstr "Nome do Kernel não encontrado, voltando a:"
 
-#: installer/tazinst:699
+#: installer/tazinst:705
 msgid "Configuring host name:"
 msgstr "Configurando nome do host:"
 
-#: installer/tazinst:788
+#: installer/tazinst:794
 msgid "No windows partition found. Dual-boot disabled"
 msgstr "Partição windows não encontrada. Dual-boot desabilitado"
 
-#: installer/tazinst:845
+#: installer/tazinst:850
 msgid "Enabling Windows dual-boot"
 msgstr "Habilitando dual-boot com windows"
 
-#: installer/tazinst:866
+#: installer/tazinst:871
 msgid "Installing SliTaz on:"
 msgstr "Instalando SliTaz em:"
 
-#: installer/tazinst:885
+#: installer/tazinst:890
 msgid "Configuring root and default user account:"
 msgstr "Configurando conta dos usuários padrão e root:"
 
-#: installer/tazinst:889
+#: installer/tazinst:894
 msgid "Configuring partition to be used as /home:"
 msgstr "Configurando partição a ser usada com /home:"
 
-#: installer/tazinst:908
+#: installer/tazinst:913
 msgid "Running grub-install on:"
 msgstr "Executando grub-install em:"
 
-#: installer/tazinst:922
+#: installer/tazinst:927
 msgid "Unmounting target partition:"
 msgstr "Desmontando partição alvo:"
 
-#: installer/tazinst:928
+#: installer/tazinst:933
 msgid "Unmounting:"
 msgstr "Desmontando:"
 
-#: installer/tazinst:934
+#: installer/tazinst:939
 msgid "Ejecting cdrom..."
 msgstr "Ejetando cdrom..."
 
-#: installer/tazinst:945
+#: installer/tazinst:950
 msgid "Installation complete. You can now restart (reboot)"
 msgstr "Instalação completa. Você pode reiniciar (reboot)"
 
-#: installer/tazinst:946 installer/tazinst:1167
+#: installer/tazinst:951 installer/tazinst:1172
 msgid "from your SliTaz GNU/Linux system."
 msgstr "do seu sistema SliTaz GNU/Linux."
 
-#: installer/tazinst:949
+#: installer/tazinst:954
 msgid "Copying log files"
 msgstr "Copiando arquivos de log"
 
-#: installer/tazinst:984
+#: installer/tazinst:989
 msgid "Preparing upgrade of SliTaz release:"
 msgstr "Preparando atualização do SliTaz:"
 
-#: installer/tazinst:986
+#: installer/tazinst:991
 msgid ""
 "This partition doesn't appear to contain a valid SliTaz system, the file: /"
 "etc/slitaz-release doesn't exist."
 msgstr ""
-"Esta partição parece não conter um sistema SliTaz válido, o arquivo: "
-"/etc/slitaz-release não existe."
+"Esta partição parece não conter um sistema SliTaz válido, o arquivo: /etc/"
+"slitaz-release não existe."
 
-#: installer/tazinst:1106
+#: installer/tazinst:1111
 msgid ""
 "The list of available packages on the mirror could not be downloaded. No "
 "missing packages will be reinstalled now, but you can do so later by looking "
 "at the following list: /var/lib/tazinst/packages-selection.diff"
 msgstr ""
-"A lista de pacotes disponíveis no mirror não pode ser obtida. Nenhum "
-"pacote perdido será reinstalado, mas pode-se fazer isso depois mediante "
-"verificação da seguinte lista: /var/lib/tazinst/packages-selection.diff"
+"A lista de pacotes disponíveis no mirror não pode ser obtida. Nenhum pacote "
+"perdido será reinstalado, mas pode-se fazer isso depois mediante verificação "
+"da seguinte lista: /var/lib/tazinst/packages-selection.diff"
 
-#: installer/tazinst:1119
+#: installer/tazinst:1124
 msgid "Grub update"
 msgstr "Atualizando Grub"
 
-#: installer/tazinst:1137
+#: installer/tazinst:1142
 msgid "Backup /etc, /home and the packages list..."
 msgstr "Backup de /etc/, /home e da lista de pacotes..."
 
-#: installer/tazinst:1140
+#: installer/tazinst:1145
 msgid "Upgrading SliTaz on:"
 msgstr "Atualizando SliTaz em:"
 
-#: installer/tazinst:1148
+#: installer/tazinst:1153
 msgid "Restoring configuration files..."
 msgstr "Recuperando arquivos de configuração..."
 
-#: installer/tazinst:1154
+#: installer/tazinst:1159
 msgid "Upgrading added packages..."
 msgstr "Atualizando pacotes adicionados..."
 
-#: installer/tazinst:1166
+#: installer/tazinst:1171
 msgid "Upgrade finished. You can now restart (reboot)"
 msgstr "Atualização terminada. Você pode reiniciar (reboot)"
 
-#: installer/tazinst:1168
+#: installer/tazinst:1173
 msgid "Packages on the cdrom :"
 msgstr "Pacotes no cdrom :"
 
-#: installer/tazinst:1169
+#: installer/tazinst:1174
 msgid "Packages installed from the mirror :"
 msgstr "Pacotes instalados a partir do mirror :"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tazbox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-18 22:20+0200\n"
+"POT-Creation-Date: 2012-03-02 19:57+0100\n"
 "PO-Revision-Date: 2011-06-18 16:20-0300\n"
 "Last-Translator: Claudinei Pereira <claudinei@slitaz.org>\n"
 "Language-Team: Portuguese <i18n@slitaz.org>\n"
@@ -68,7 +68,8 @@ msgid "Create a new file or folder on the desktop"
 msgstr "Cria um novo arquivo ou pasta na área de trabalho"
 
 #: tazbox/tazbox:48
-msgid "Icons of all installed applications."
+#, fuzzy
+msgid "Display icons of all installed applications"
 msgstr "Ícones de todos os aplicativos instalados."
 
 #: tazbox/tazbox:55
@@ -113,9 +114,10 @@ msgid "SliTaz Initial Setup"
 msgstr "Configuração Inicial do SliTaz"
 
 #: tazbox/tazbox:116
+#, fuzzy
 msgid ""
 "\\n<big>Here you can set your preferences\\nfor <b>locale, keymap and "
-"timezone</b></big>\\n\\n"
+"timezone</b>.</big>\\n\\n"
 msgstr ""
 "\\n<big>Aqui você pode definir suas preferências\\npara <b>localização, mapa "
 "de teclado e zona horária</b></big>\\n\\n"
@@ -175,6 +177,6 @@ msgstr "Pasta"
 msgid "File"
 msgstr "Arquivo"
 
-#: tazbox/tazbox:251
+#: tazbox/tazbox:252
 msgid "All Applications"
 msgstr "Todos os aplicativos"

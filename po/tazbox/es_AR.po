@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-18 22:20+0200\n"
+"POT-Creation-Date: 2012-03-02 19:57+0100\n"
 "PO-Revision-Date: 2011-08-11 00:21-0300\n"
 "Last-Translator: Lucas Gioia <lucas.lucas.lucas24@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -65,7 +65,8 @@ msgid "Create a new file or folder on the desktop"
 msgstr "Crear un nuevo archivo o carpeta en el escritorio"
 
 #: tazbox/tazbox:48
-msgid "Icons of all installed applications."
+#, fuzzy
+msgid "Display icons of all installed applications"
 msgstr "Íconos de todas las aplicaciónes instaladas."
 
 #: tazbox/tazbox:55
@@ -74,7 +75,8 @@ msgstr "Slitaz contraseña de administrador"
 
 #: tazbox/tazbox:56
 msgid "Please enter root password (default root) to execute:"
-msgstr "Por favor, ingrese la contraseña root (por defecto: root) para ejecutar:"
+msgstr ""
+"Por favor, ingrese la contraseña root (por defecto: root) para ejecutar:"
 
 #: tazbox/tazbox:62
 msgid "Password:"
@@ -109,23 +111,19 @@ msgid "SliTaz Initial Setup"
 msgstr "SliTaz configuración inicial"
 
 #: tazbox/tazbox:116
+#, fuzzy
 msgid ""
-"\\n"
-"<big>Here you can set your preferences\\n"
-"for <b>locale, keymap and timezone</b></big>\\n"
-"\\n"
+"\\n<big>Here you can set your preferences\\nfor <b>locale, keymap and "
+"timezone</b>.</big>\\n\\n"
 msgstr ""
-"\\n"
-"<big>Aquí puedes configurar tus preferencias \\n"
-"for <b>local, teclado, zona horaria</b></big>\\n"
-"\\n"
+"\\n<big>Aquí puedes configurar tus preferencias \\nfor <b>local, teclado, "
+"zona horaria</b></big>\\n\\n"
 
 #: tazbox/tazbox:140
 msgid "Language configuration"
 msgstr "Configuración del idioma"
 
-#: tazbox/tazbox:151
-#: tazbox/tazbox:207
+#: tazbox/tazbox:151 tazbox/tazbox:207
 msgid "Name"
 msgstr "Nombre"
 
@@ -173,7 +171,6 @@ msgstr "Carpeta"
 msgid "File"
 msgstr "Archivo"
 
-#: tazbox/tazbox:251
+#: tazbox/tazbox:252
 msgid "All Applications"
 msgstr "Todas las aplicaciónes"
-
