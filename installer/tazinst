@@ -20,7 +20,7 @@
 # 7: Another instance is running
 # 8: Internal error
 
-VERSION=3.31
+VERSION=3.32
 
 # Internationalization
 . /usr/bin/gettext.sh
@@ -1064,19 +1064,15 @@ install_pkgs()
 		fi
 	done
 
-	# Calculate the percent for one package and install.
+	# Install packages.
 	debug "Installing any packages..."
 	sleep 2
 	if [ "$packages" == "0" ]; then
 		debug "packages to install: 0"
 	else
-		onepkg=$((48/$packages))
-		pct=50
 		# Get-install all missing pkgs.
 		for pkg in `cat packages-to-install.list`
 		do
-			pct=$(($pct+$onepkg))
-			echo $pct
 			debug "Installing: $pkg..."
 			# Get install package and answer yes in case of dependencies.
 			pkgname=`grep ^$pkg /var/lib/tazpkg/packages.list`
@@ -1085,7 +1081,6 @@ install_pkgs()
 			rm -f $pkgname.tazpkg
 		done
 	fi
-	echo 100
 	debug "Installation of packages complete..."
 	sleep 2
 }
