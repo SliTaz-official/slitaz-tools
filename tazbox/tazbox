@@ -18,7 +18,7 @@ TEXTDOMAIN='tazbox'
 export TEXTDOMAIN
 
 # Icons for most windows
-icon=/usr/share/pixmaps/slitaz-menu.png
+icon=/usr/share/pixmaps/slitaz-icon.png
 
 # some constants to be used inside functions
 tmp="/tmp/keymap.list"
@@ -57,7 +57,7 @@ su_main() {
 	yad --title="Slitaz - su" --window-icon=$icon \
 		--width=520 --height=140 \
 		--text="<b>$text</b>\n$note\n$SU_CMD\n" \
-		--image="slitaz-menu" --image-on-top \
+		--image="slitaz-icon" --image-on-top \
 		--center --on-top --form $PASSWD \
 		--field="`gettext "Password:"`:H" $CHECKED \
 		--field="`gettext "Autosave password"`:CHK"
@@ -89,7 +89,7 @@ logout_main() {
 	text=$(gettext "<b>SliTaz Logout.</b> Please choose an action:")
 	yad --entry --title="SliTaz Logout" --window-icon=$icon \
 		--width=440 --height=140 --text="$text" \
-		--image="slitaz-menu" --image-on-top \
+		--image="slitaz-icon" --image-on-top \
 		--center --on-top  --entry-text \
 			"`gettext \"Close X session\"` : exit" \
 			"`gettext \"Reboot system\"` : reboot" \
@@ -221,7 +221,7 @@ newfile_main() {
 	text=$(gettext "Create a new file or folder on your desktop")
 	yad --entry --title="$(gettext "New file")" --window-icon=$icon \
 		--text="<b>$text</b>" --width=460 --height=160 \
-		--center --on-top --image=slitaz-menu --image-on-top \
+		--center --on-top --image=slitaz-icon --image-on-top \
 		--entry-label="$(gettext "File name")" --always-print-result \
 		--button="$(gettext "SHell script"):4" \
 		--button="$(gettext "Folder"):3" \
