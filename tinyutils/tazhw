@@ -212,7 +212,7 @@ box()
 				<checkbox>
 					<label>Auto install non-free Firmware       </label>
 					<variable>INSTALL_FIRMARE</variable>
-					<default>true</default>
+					<default>false</default>
 				</checkbox>
 				<button>
 					<label>Discover PCI/USB devices</label>
