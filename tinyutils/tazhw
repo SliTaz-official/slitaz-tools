@@ -72,19 +72,22 @@ check_firmware()
 load_module()
 {
 	if ! lsmod | grep -q "^$mod"; then
-	# lsmod and some modules use underscore, other use dash.
-	# The real modprobe can handle both but not busybox version
-	modprobe $mod 2>/dev/null && \
-	echo "* Loaded module:   $mod" || \
-	echo "! Missing module:  $mod"
+
+		# lsmod and some modules use underscore, other use dash.
+		# The real modprobe can handle both but not busybox version
+		modprobe $mod 2>/dev/null && \
+		echo "* Loaded module:   $mod" || \
+			echo "! Missing module:  $mod"
+
+		# Add it to load automatically at next boot.
+		if ! echo "$LOAD_MODULES" | grep -q "$mod"; then
+			sed -i s/"LOAD_MODULES=\"$LOAD_MODULES\""/"LOAD_MODULES=\"$LOAD_MODULES $mod\""/ \
+				/etc/rcS.conf
+		fi
+		. /etc/rcS.conf
+
 	else
 		echo "> Module in use:   $mod"
-	fi
-	# Add module to rcS.conf and avoid duplication.
-	. /etc/rcS.conf
-	if ! echo "$LOAD_MODULES" | grep -q "$mod"; then
-		sed -i s/"LOAD_MODULES=\"$LOAD_MODULES\""/"LOAD_MODULES=\"$LOAD_MODULES $mod\""/ \
-			/etc/rcS.conf
 	fi
 }
 
