@@ -3,6 +3,7 @@ Encoding=UTF-8
 Name=Keyboard mapping
 Name[fr]=Mappage du clavier
 Name[pt]=Mapa do Teclado
+Name[pt_BR]=Mapa do Teclado
 Exec=tazbox su "tazbox keymap"
 Icon=input-keyboard
 Terminal=false

@@ -3,6 +3,7 @@ Encoding=UTF-8
 Name=Manage servers
 Name[fr]=Gérer les serveurs
 Name[pt]=Gerenciar servidores
+Name[pt_BR]=Gerenciar servidores
 Exec=subox serverbox
 Icon=utilities-system-monitor
 Type=Application

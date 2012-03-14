@@ -2,7 +2,8 @@
 Encoding=UTF-8
 Name=Wifi configuration
 Name[fr]=Configuration Wifi
-Name[pt]=Wifi configuração
+Name[pt]=Configuração de Wifi
+Name[pt_BR]=Configuração de Wifi
 Exec=tazbox su wifibox
 Icon=network-wireless
 Type=Application

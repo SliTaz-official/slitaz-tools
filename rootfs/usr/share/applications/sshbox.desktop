@@ -2,6 +2,8 @@
 Encoding=UTF-8
 Name=SSHBox Secure Shell
 Name[fr]=SSHBox Shell sécurisé
+Name[pt]=SSHBox Shell Seguro
+Name[pt_BR]=SSHBox Shell Seguro
 Comment=Upload or download files with scp
 Comment[fr]=Connexion distante sécurisée
 Exec=sshbox

@@ -3,6 +3,7 @@ Encoding=UTF-8
 Name=Favorite applications
 Name[fr]=Applications favorites
 Name[pt]=Aplicativos Favoritos
+Name[pt_BR]=Aplicativos Favoritos
 Icon=preferences-desktop
 Exec=desktopbox tazapps
 Type=Application

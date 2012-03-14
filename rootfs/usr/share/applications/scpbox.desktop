@@ -3,6 +3,7 @@ Encoding=UTF-8
 Name=Scpbox Secure copy
 Name[fr]=Copie sécurisée Scpbox
 Name[pt]=Scpbox Cópia Segura de Arquivos
+Name[pt_BR]=Scpbox Cópia Segura de Arquivos
 Exec=scpbox
 Icon=folder-remote
 Type=Application

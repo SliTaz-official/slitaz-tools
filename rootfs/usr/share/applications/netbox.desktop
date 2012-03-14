@@ -3,6 +3,7 @@ Encoding=UTF-8
 Name=Configure networking
 Name[fr]=Configurer le réseau
 Name[pt]=Configuração de Rede
+Name[pt_BR]=Configuração de Rede
 Exec=subox netbox
 Icon=netbox
 Type=Application

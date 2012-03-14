@@ -3,6 +3,7 @@ Encoding=UTF-8
 Name=Hardware detection and drivers
 Name[fr]=Détection du matériel et drivers
 Name[pt]=Detecção de Hardware e Drivers
+Name[pt_BR]=Detecção de Hardware e Drivers
 Icon=computer
 Exec=subox 'tazhw box'
 Type=Application

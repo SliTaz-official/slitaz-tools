@@ -3,6 +3,7 @@ Encoding=UTF-8
 Name=Burn CD/DVD
 Name[fr]=Graver des CD ou DVD
 Name[pt]=Gravador de CD/DVD
+Name[pt_BR]=Gravador de CD/DVD
 Comment=Burn ISO images or audio tracks to CD or DVD
 Exec=burnbox
 Icon=drive-optical

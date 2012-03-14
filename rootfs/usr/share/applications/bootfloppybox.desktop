@@ -2,6 +2,7 @@
 Encoding=UTF-8
 Name=Boot floppy/cdrom creation tool
 Name[pt]=Criação de disquete/cdrom de boot
+Name[pt_BR]=Criação de disquete/cdrom de boot
 Name[fr]=Disquette/cdrom de démarrage
 Exec=subox bootfloppybox
 Icon=gtk-floppy

@@ -2,6 +2,7 @@
 Encoding=UTF-8
 Name=Burnbox manual
 Name[pt]=Manual do Burnbox
+Name[pt_BR]=Manual do Burnbox
 Exec=browser file:///usr/share/doc/slitaz-tools/burnbox.html
 Icon=text-html
 Type=Application
