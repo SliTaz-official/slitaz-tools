@@ -61,7 +61,7 @@ case "$1" in
 		"croat"         "Croat" \
 		"cz-lat2"       "Czech" \
 		"de_CH-latin1"  "Schweizer Deutsch" \
-		"de-latin1"     "Deutchland" \
+		"de-latin1"     "Deutschland" \
 		"dk-latin1"     "Danemark" \
 		"dvorak"        "Dvorak" \
 		"dvorak-r"      "Dvorak (right-hand)" \
