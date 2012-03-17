@@ -89,7 +89,7 @@ xorg_conf_d()
 		ru)
 			# Russian
 			echo '	Option "XkbLayout" "us,ru(winkeys)"
-	Option "XkbVariant" "grp:alt_shift_toggle"'  >> $keyboard_config ;;
+	Option "XkbOptions" "grp:ctrl_shift_toggle, grp_led:scroll"'  >> $keyboard_config ;;
 		slovene)
 			# Slovenian
 			echo '	Option "XkbLayout" "si"
