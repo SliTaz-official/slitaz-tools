@@ -43,6 +43,11 @@ link_language_files()
 			ln -s $soft.$LANGUAGE.html $soft.html
 		fi
 	done
+	# SliTaz TazWeb "My Web Home"
+	if [ -f /usr/share/tazweb/home.$LANGUAGE.html ]; then
+		cd /usr/share/tazweb && rm -f home.html
+		ln -s home.$LANGUAGE.html home.html
+	fi
 	# SliTaz Tools Manuals
 	for soft in burnbox tazinst
 	do
