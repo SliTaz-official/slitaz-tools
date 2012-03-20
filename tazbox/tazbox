@@ -325,7 +325,8 @@ case "$1" in
 		locale
 		keymap
 		killall Xorg 2>/dev/null 
-		rm -rf /tmp/.X-* ;;
+		rm -rf /tmp/.X-*
+		sleep 1 ;;
 	new-file)
 		newfile ;;
 	all-apps)
