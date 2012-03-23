@@ -511,8 +511,8 @@ cat <<EOT
 			<label>"<b>Username: </b>"</label>
 		</text>
 		<entry>
-			<input>USER=\$(grep -s ^ACCOUNT= /etc/ppp/scripts/ppp-on | cut -f1); echo "\${USER#*=}"</input>
-			<variable>USER</variable>
+			<input>NAME=\$(grep -s ^ACCOUNT= /etc/ppp/scripts/ppp-on | cut -f1); echo "\${NAME#*=}"</input>
+			<variable>NAME</variable>
 		</entry>
 	</hbox>
 	<hbox>
@@ -540,19 +540,19 @@ $(webbutton ppp)
 		<button>
 			<input file icon="accessories-text-editor"></input>
 			<label>Tune</label>
-			<action>[ -n "\$NAME" ] && sed -i \"s/^ACCOUNT=.*/ACCOUNT=\$NAME/\" /etc/ppp/scripts/ppp-on</action>
-			<action>[ -n "\$PASS" ] && sed -i \"s/^PASSWORD=.*/PASSWORD=\$PASS/\" /etc/ppp/scripts/ppp-on</action>
-			<action>[ -n "\$PHONE" ] && sed -i \"s/^TELEPHONE=.*/TELEPHONE=\$PHONE/\" /etc/ppp/scripts/ppp-on</action>
+			<action>[ -n "\$NAME" ] && sed -i "s/^ACCOUNT=.*/ACCOUNT=\$NAME/" /etc/ppp/scripts/ppp-on</action>
+			<action>[ -n "\$PASS" ] && sed -i "s/^PASSWORD=.*/PASSWORD=\$PASS/" /etc/ppp/scripts/ppp-on</action>
+			<action>[ -n "\$PHONE" ] && sed -i "s/^TELEPHONE=.*/TELEPHONE=\$PHONE/" /etc/ppp/scripts/ppp-on</action>
 			<action type="lauch">leafpad /etc/ppp/scripts/ppp-on</action>
 		</button>
 		<button>
 			<label>Start</label>
 			<input file icon="forward"></input>
-			<action>[ -n "\$USER" ] && grep -qs "^\"\$USER\"" /etc/ppp/pap-secrets
-			&& echo "\"\$USER\"	*	\"\$PASS\"" >> /etc/ppp/pap-secrets</action>
-			<action>[ -n "\$USER" ] && grep -qs "^\"\$USER\"" /etc/ppp/chap-secrets
-			&& echo "\"\$USER\"	*	\"\$PASS\"" >> /etc/ppp/chap-secrets</action>
-			<action>[ -n "\$NAME" ] && sed -i \"s/^name .*/name \$NAME/\" /etc/ppp/options</action>
+			<action>[ -n "\$NAME" ] && grep -qs "^\$NAME" /etc/ppp/pap-secrets \
+				|| echo "\$NAME	*	\$PASS" >> /etc/ppp/pap-secrets</action>
+			<action>[ -n "\$NAME" ] && grep -qs "^\$NAME" /etc/ppp/chap-secrets \
+				|| echo "\$NAME	*	\$PASS" >> /etc/ppp/chap-secrets</action>
+			<action>[ -n "\$NAME" ] && sed -i "s/^name .*/name \$NAME/" /etc/ppp/options</action>
 			<action>/etc/ppp/scripts/ppp-off</action>
 			<action>/etc/ppp/scripts/ppp-on &</action>
 		</button>
