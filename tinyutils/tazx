@@ -44,7 +44,7 @@ xorg_conf_d()
 	xorg_template=/root/xorg.conf.new
 
 	# Obtain a default configuration file from Xorg.
-	Xorg -configure :1
+	Xorg -configure :2
 
 	# Backup existing config.
 	tar -cf $xorg_config/../Previous_xorg.conf.d.tar $xorg_config/ &> /dev/null 
