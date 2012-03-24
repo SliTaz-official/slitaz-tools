@@ -73,7 +73,7 @@ load_module()
 {
 	if ! lsmod | grep -q "^$mod"; then
 
-		# lsmod and some modules use underscore, other use dash.
+		# lsmod and some modules use underscore, others use dash.
 		# The real modprobe can handle both but not busybox version
 		modprobe $mod 2>/dev/null && \
 		echo "* Loaded module:   $mod" || \

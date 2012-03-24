@@ -4,7 +4,7 @@ SliTaz Installer
 
 The first SliTaz installer was built using ncurses Dialog within a SHell script. 
 It was the last SliTaz home made tool that didn't have a desktop integrated 
-interface, and had some crappy code as it was written at the start of the 
+interface and had some crappy code as it was written at the start of the 
 project.
 
 Tazinst is the new installer written entirely in SHell script and usable from 

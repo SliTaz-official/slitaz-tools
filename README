@@ -2,7 +2,7 @@ SliTaz tools                                                               2011
 ===============================================================================
 
 
-The SliTaz tools package provides many tinyutils, shared and custom 
+The SliTaz tools package provides many tinyutils, and shared and custom 
 configuration files designed to improve SliTaz. The tools were initially 
 created to help people build their own distribution by following the SliTaz 
 Cookbook; now the package mostly provides all the configuration tools and 
@@ -26,7 +26,7 @@ Installation
 ------------
 The tools are split into 2 separate packages: one with only ncurses dependencies
 (for a text system) and one with GTK dependencies (for a graphical system). So
-we have 2 make install and make default to compile PO files. Install's support
+we have to make install and make default to compile PO files. Install's support
 DESTDIR for packaging:
 
 # make

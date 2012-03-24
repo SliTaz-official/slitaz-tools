@@ -513,7 +513,7 @@ setup()
 					echo "===================================="
 						echo -e "Following \033[1m Scanner commands \033[0m  may be of help"
 						echo "sane-find-scanner # to verify scanner has been found"
-						echo "xsane #scanner application"
+						echo "xsane # scanner application"
 					echo "===================================="
 				fi
 			else
@@ -623,7 +623,7 @@ setup()
 				echo ""
 				echo " modprobe btusb"
 				echo " lsusb | grep Bluetooth"
-				echo " /usr/sbin/bluetoothd -nd #for starting bluetooth daemon"
+				echo " /usr/sbin/bluetoothd -nd # for starting bluetooth daemon"
 				echo " hciconfig -a"
 				# Show if the bluetooth is detected
 		 		echo " hcitool dev # for checking local devices"

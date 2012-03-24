@@ -49,7 +49,7 @@ xorg_conf_d()
 	# Backup existing config.
 	tar -cf $xorg_config/../Previous_xorg.conf.d.tar $xorg_config/ &> /dev/null 
 
-	# Put the differents sections in separate files in the config directory.
+	# Put the different sections in separate files in the config directory.
 	sed -e '/Section "ServerLayout"/,/EndSection/!d' \
 		-e "s/EndSection/EndSection\n/" $xorg_template | \
 		grep -v Core > $xorg_config/10-ServerLayout.conf
@@ -160,7 +160,7 @@ config_dialog()
 		--clear --colors \
 		--title " Configure X " \
 		--menu "\
-$(gettext "Tazx dialog helps you to configure your Xorg sever.")\n\
+$(gettext "Tazx dialog helps you to configure your Xorg server.")\n\
 $(gettext "Window Manager:") \Z2$WM\Zn \
 $(gettext "X server:") \Z2Xorg\Zn" 16 70 5 \
 	"xorg" "$(gettext "Install or reconfigure Xorg")" \

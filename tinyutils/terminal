@@ -1,5 +1,5 @@
 #!/bin/sh
-# Lauch SliTaz default X Terminal.
+# Launch SliTaz default X Terminal.
 #
 . /etc/slitaz/applications.conf
 

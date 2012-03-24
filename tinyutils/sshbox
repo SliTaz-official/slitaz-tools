@@ -333,7 +333,7 @@ ssh_connect(){
 
 gtk_about(){
 		export GTK_ABOUT="
-				<window title=\"${TITLE_ABOUT:-About} de $PROGNAMENAME\" icon-name=\"sunny\">
+				<window title=\"${TITLE_ABOUT:-About} the $PROGNAMENAME\" icon-name=\"sunny\">
 				<vbox>
 					<pixmap>
 						<input file stock=\"gtk-network\"></input>

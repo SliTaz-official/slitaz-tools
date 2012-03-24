@@ -18,7 +18,7 @@ if test $(id -u) != 0; then
 	exit 1
 fi
 
-# Create symlink to translated files provide by SliTaz language pack,
+# Create symlink to translated files provided by SliTaz language pack,
 # doc and config files.
 link_language_files()
 {

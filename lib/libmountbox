@@ -11,15 +11,15 @@ usage()
 {
 	echo -e "\nUsage: $0 command\n
 Output commands:
-  list-mounted      List all mounted devices in suitable GTK tree format.
-  list-umounted     List all umounted in suitable GTK tree format.
+  list-mounted      List all mounted devices in a suitable GTK tree format.
+  list-umounted     List all umounted in a suitable GTK tree format.
   create-file       Create an empty file with predefined size.
   add-old-crypto    Create loop-eas device.
   remove-crypto     Delete a crypto device.
   
 GTKdialog boxes
-  mounted-fs-infos  Display a mounted devices infos with actions.
-  umounted-fs-infos Display a umounted devices infos with actions.
+  mounted-fs-infos  Display mounted devices info with actions.
+  umounted-fs-infos Display umounted devices info with actions.
   remove-loop       Confirmation box.
   new-file          Parameter box for file creation.
   cryptomgr         Manage crypto device with devmapper.
