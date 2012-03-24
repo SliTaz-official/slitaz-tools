@@ -320,13 +320,11 @@ case "$1" in
 		setup ;;
 	boot)
 		# This command is used at first boot to configure system.
-		Xorg -br -quiet -nolisten tcp :1 &
+		Xorg -br -quiet -nolock -nolisten tcp :1 &
 		DISPLAY=:1 openbox &
 		locale
 		keymap
-		killall Xorg 2>/dev/null 
-		rm -rf /tmp/.X-*
-		sleep 1 ;;
+		killall Xorg 2>/dev/null ;;
 	new-file)
 		newfile ;;
 	all-apps)
