@@ -46,6 +46,7 @@ $(gettext "Commands:")
   setup      $(gettext "System initial setup (locale, keymap & timezone)")
   new-file   $(gettext "Create a new file or folder on the desktop")
   all-apps   $(gettext "Display icons of all installed applications")
+  notify     $(gettext "Notify user with a desktop centered box")
 
 EOT
 }
@@ -331,10 +332,12 @@ case "$1" in
 		all_apps ;;
 	notify|-n)
 		# On screen notification box.
-		time="$3"
+		icon="$3"
+		time="$4"
+		[ "$icon" ] || icon=info
 		[ "$time" ] || time=4
 		yad --text="<b>$2</b>" --width=520 --height=80 \
-			--center --on-top --image=info --image-on-top \
+			--center --on-top --image=$icon --image-on-top \
 			--timeout=$time --skip-taskbar --no-buttons \
 			--borders=12 --undecorated ;;
 	*)

@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 Exec=tazbox logout
-Icon=logout
+Icon=slitaz-logout
 StartupNotify=false
 Terminal=false
 Name=Log Out
