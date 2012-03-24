@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-24 14:34+0100\n"
-"PO-Revision-Date: 2012-03-02 19:58+0100\n"
+"PO-Revision-Date: 2012-03-24 14:36+0100\n"
 "Last-Translator: Christophe Lincoln <pankso@slitaz.org>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -72,7 +72,7 @@ msgstr "Icônes de toutes les applications installées"
 
 #: tazbox/tazbox:49
 msgid "Notify user with a desktop centered box"
-msgstr ""
+msgstr "Notifie l'utilisateur avec une box centrée sur le bureau"
 
 #: tazbox/tazbox:56
 msgid "Slitaz admin password"
@@ -116,17 +116,22 @@ msgstr "Réglages initiale de SliTaz"
 
 #: tazbox/tazbox:117
 msgid ""
-"\\n<big>Here you can set your preferences\\nfor <b>locale, keymap and "
-"timezone</b>.</big>\\n\\n"
+"\\n"
+"<big>Here you can set your preferences\\n"
+"for <b>locale, keymap and timezone</b>.</big>\\n"
+"\\n"
 msgstr ""
-"\\n<big>Ici vous pouver régler vos préférences\\npour <b>la langue, le "
-"clavier et la zone horaire</b></big>\\n\\n"
+"\\n"
+"<big>Ici vous pouver régler vos préférences\\n"
+"pour <b>la langue, le clavier et la zone horaire</b></big>\\n"
+"\\n"
 
 #: tazbox/tazbox:141
 msgid "Language configuration"
 msgstr "Configurer la langue"
 
-#: tazbox/tazbox:152 tazbox/tazbox:208
+#: tazbox/tazbox:152
+#: tazbox/tazbox:208
 msgid "Name"
 msgstr "Nom"
 
@@ -177,3 +182,4 @@ msgstr "Fichier"
 #: tazbox/tazbox:253
 msgid "All Applications"
 msgstr "Toutes les applications"
+
