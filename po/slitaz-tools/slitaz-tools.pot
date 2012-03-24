@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-02 19:57+0100\n"
+"POT-Creation-Date: 2012-03-24 14:34+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,11 +25,11 @@ msgstr ""
 msgid "Type su and root password to become super-user"
 msgstr ""
 
-#: tinyutils/tazlocale:78
+#: tinyutils/tazlocale:83
 msgid "SliTaz language configuration"
 msgstr ""
 
-#: tinyutils/tazlocale:103
+#: tinyutils/tazlocale:108
 msgid ""
 "Please logout of your current session and login again to use new locale."
 msgstr ""

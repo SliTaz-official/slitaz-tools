@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tazinst\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-02 19:57+0100\n"
+"POT-Creation-Date: 2012-03-24 14:34+0100\n"
 "PO-Revision-Date: 2012-22-02 16:38+0300\n"
 "Last-Translator: Claudinei Pereira <claudinei@slitaz.org>\n"
 "Language-Team: Brazilian Portuguese (i18n@slitaz.org>\n"
@@ -192,7 +192,7 @@ msgstr "Arquivos de boot via web não encontrados"
 
 #: installer/tazinst:483 installer/tazinst:556 installer/tazinst:655
 #: installer/tazinst:690 installer/tazinst:758 installer/tazinst:999
-#: installer/tazinst:1096 installer/tazinst:1137
+#: installer/tazinst:1091 installer/tazinst:1132
 msgid "Internal"
 msgstr "Interno"
 
@@ -264,7 +264,7 @@ msgstr "Ejetando cdrom..."
 msgid "Installation complete. You can now restart (reboot)"
 msgstr "Instalação completa. Você pode reiniciar (reboot)"
 
-#: installer/tazinst:951 installer/tazinst:1172
+#: installer/tazinst:951 installer/tazinst:1167
 msgid "from your SliTaz GNU/Linux system."
 msgstr "do seu sistema SliTaz GNU/Linux."
 
@@ -284,7 +284,7 @@ msgstr ""
 "Esta partição parece não conter um sistema SliTaz válido, o arquivo: /etc/"
 "slitaz-release não existe."
 
-#: installer/tazinst:1111
+#: installer/tazinst:1106
 msgid ""
 "The list of available packages on the mirror could not be downloaded. No "
 "missing packages will be reinstalled now, but you can do so later by looking "
@@ -294,34 +294,34 @@ msgstr ""
 "perdido será reinstalado, mas pode-se fazer isso depois mediante verificação "
 "da seguinte lista: /var/lib/tazinst/packages-selection.diff"
 
-#: installer/tazinst:1124
+#: installer/tazinst:1119
 msgid "Grub update"
 msgstr "Atualizando Grub"
 
-#: installer/tazinst:1142
+#: installer/tazinst:1137
 msgid "Backup /etc, /home and the packages list..."
 msgstr "Backup de /etc/, /home e da lista de pacotes..."
 
-#: installer/tazinst:1145
+#: installer/tazinst:1140
 msgid "Upgrading SliTaz on:"
 msgstr "Atualizando SliTaz em:"
 
-#: installer/tazinst:1153
+#: installer/tazinst:1148
 msgid "Restoring configuration files..."
 msgstr "Recuperando arquivos de configuração..."
 
-#: installer/tazinst:1159
+#: installer/tazinst:1154
 msgid "Upgrading added packages..."
 msgstr "Atualizando pacotes adicionados..."
 
-#: installer/tazinst:1171
+#: installer/tazinst:1166
 msgid "Upgrade finished. You can now restart (reboot)"
 msgstr "Atualização terminada. Você pode reiniciar (reboot)"
 
-#: installer/tazinst:1173
+#: installer/tazinst:1168
 msgid "Packages on the cdrom :"
 msgstr "Pacotes no cdrom :"
 
-#: installer/tazinst:1174
+#: installer/tazinst:1169
 msgid "Packages installed from the mirror :"
 msgstr "Pacotes instalados a partir do mirror :"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tazbox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-02 19:57+0100\n"
+"POT-Creation-Date: 2012-03-24 14:34+0100\n"
 "PO-Revision-Date: 2011-06-18 16:20-0300\n"
 "Last-Translator: Claudinei Pereira <claudinei@slitaz.org>\n"
 "Language-Team: Portuguese <i18n@slitaz.org>\n"
@@ -72,48 +72,52 @@ msgstr "Cria um novo arquivo ou pasta na área de trabalho"
 msgid "Display icons of all installed applications"
 msgstr "Ícones de todos os aplicativos instalados."
 
-#: tazbox/tazbox:55
+#: tazbox/tazbox:49
+msgid "Notify user with a desktop centered box"
+msgstr ""
+
+#: tazbox/tazbox:56
 msgid "Slitaz admin password"
 msgstr "Senha de administração do SliTaz"
 
-#: tazbox/tazbox:56
+#: tazbox/tazbox:57
 msgid "Please enter root password (default root) to execute:"
 msgstr "Por favor insira a senha do root (por padrão 'root') para executar:"
 
-#: tazbox/tazbox:62
+#: tazbox/tazbox:63
 msgid "Password:"
 msgstr "Senha:"
 
-#: tazbox/tazbox:63
+#: tazbox/tazbox:64
 msgid "Autosave password"
 msgstr "Senha salva automaticamente"
 
-#: tazbox/tazbox:67
+#: tazbox/tazbox:68
 msgid "Error: wrong password!"
 msgstr "Erro: senha errada!"
 
-#: tazbox/tazbox:89
+#: tazbox/tazbox:90
 #, fuzzy
 msgid "<b>SliTaz Logout.</b> Please choose an action:"
 msgstr "Logout do SliTaz. Por favor escolha uma ação:"
 
-#: tazbox/tazbox:94
+#: tazbox/tazbox:95
 msgid "Close X session"
 msgstr "Fechar a sessão X"
 
-#: tazbox/tazbox:95
+#: tazbox/tazbox:96
 msgid "Reboot system"
 msgstr "Reiniciar o sistema"
 
-#: tazbox/tazbox:96
+#: tazbox/tazbox:97
 msgid "Shutdown system"
 msgstr "Desligar o sistema"
 
-#: tazbox/tazbox:115
+#: tazbox/tazbox:116
 msgid "SliTaz Initial Setup"
 msgstr "Configuração Inicial do SliTaz"
 
-#: tazbox/tazbox:116
+#: tazbox/tazbox:117
 #, fuzzy
 msgid ""
 "\\n<big>Here you can set your preferences\\nfor <b>locale, keymap and "
@@ -122,61 +126,61 @@ msgstr ""
 "\\n<big>Aqui você pode definir suas preferências\\npara <b>localização, mapa "
 "de teclado e zona horária</b></big>\\n\\n"
 
-#: tazbox/tazbox:140
+#: tazbox/tazbox:141
 msgid "Language configuration"
 msgstr "Configuração de linguagem"
 
-#: tazbox/tazbox:151 tazbox/tazbox:207
+#: tazbox/tazbox:152 tazbox/tazbox:208
 msgid "Name"
 msgstr "Nome"
 
-#: tazbox/tazbox:151
+#: tazbox/tazbox:152
 msgid "Description"
 msgstr "Descrição"
 
-#: tazbox/tazbox:168
+#: tazbox/tazbox:169
 #, fuzzy
 msgid "Keyboard configuration"
 msgstr "Configuração do teclado"
 
-#: tazbox/tazbox:180
+#: tazbox/tazbox:181
 msgid "Keymap"
 msgstr "Mapa de teclado"
 
-#: tazbox/tazbox:180
+#: tazbox/tazbox:181
 msgid "Type"
 msgstr "Tipo"
 
-#: tazbox/tazbox:197
+#: tazbox/tazbox:198
 #, fuzzy
 msgid "TimeZone Configuration"
 msgstr "Configuração de zona horária"
 
-#: tazbox/tazbox:221
+#: tazbox/tazbox:222
 msgid "Create a new file or folder on your desktop"
 msgstr "Cria novo arquivo ou pasta na área de trabalho"
 
-#: tazbox/tazbox:222
+#: tazbox/tazbox:223
 msgid "New file"
 msgstr "Novo arquivo"
 
-#: tazbox/tazbox:225
+#: tazbox/tazbox:226
 msgid "File name"
 msgstr "Nome do arquivo"
 
-#: tazbox/tazbox:226
+#: tazbox/tazbox:227
 #, fuzzy
 msgid "SHell script"
 msgstr "Descrição"
 
-#: tazbox/tazbox:227
+#: tazbox/tazbox:228
 msgid "Folder"
 msgstr "Pasta"
 
-#: tazbox/tazbox:228
+#: tazbox/tazbox:229
 msgid "File"
 msgstr "Arquivo"
 
-#: tazbox/tazbox:252
+#: tazbox/tazbox:253
 msgid "All Applications"
 msgstr "Todos os aplicativos"
