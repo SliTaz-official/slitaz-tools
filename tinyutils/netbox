@@ -434,7 +434,7 @@ EOT
 }
 
 #
-# PPPoe settings.
+# PPPoE settings.
 #
 tab_pppoe()
 {
@@ -442,19 +442,11 @@ cat <<EOT
 <frame PPPoE>
 	<hbox>
 		<text use-markup="true">
-			<label>"<b>Name:       </b>"</label>
-		</text>
-		<entry>
-			<input>NAME=\$(grep -s ^name /etc/ppp/options); echo "\${NAME#* }"</input>
-			<variable>NAME</variable>
-		</entry>
-	</hbox>
-	<hbox>
-		<text use-markup="true">
 			<label>"<b>Username:</b>"</label>
 		</text>
 		<entry>
-			<variable>USER</variable>
+			<input>PPoE_ID=\$(grep -s ^name /etc/ppp/options); echo "\${PPoE_ID#* }"</input>
+			<variable>PPoE_ID</variable>
 		</entry>
 	</hbox>
 	<hbox>
@@ -462,7 +454,10 @@ cat <<EOT
 			<label>"<b>Password:</b>"</label>
 		</text>
 		<entry>
-			<variable>PASS</variable>
+			<input>PPoE_PASS=\$(ID=\$(awk '/^name/{print \$2}' /etc/ppp/options) ; \
+				awk -v KEY="\$ID" '\$1==KEY{print \$3}' /etc/ppp/pap-secrets); \
+				echo "\$PPoE_PASS"</input>
+			<variable>PPoE_PASS</variable>
 		</entry>
 	</hbox>
 	<hbox>
@@ -472,26 +467,26 @@ $(webbutton ppp)
 		<button>
 			<input file icon="accessories-text-editor"></input>
 			<label>Tune</label>
-			<action>[ -n "\$NAME" ] && sed -i \"s/^name .*/name \$NAME/\" /etc/ppp/options</action>
+			<action>[ -n "\$PPoE_ID" ] && sed -i 's/^name .*/name \$PPoE_ID/' /etc/ppp/options</action>
 			<action type="lauch">leafpad /etc/ppp/options</action>
 		</button>
 		<button>
 			<label>Start</label>
 			<input file icon="forward"></input>
-			<action>[ -n "\$USER" ] && grep -qs "^\"\$USER\"" /etc/ppp/pap-secrets
-			&& echo "\"\$USER\"	*	\"\$PASS\"" >> /etc/ppp/pap-secrets</action>
-			<action>[ -n "\$USER" ] && grep -qs "^\"\$USER\"" /etc/ppp/chap-secrets
-			&& echo "\"\$USER\"	*	\"\$PASS\"" >> /etc/ppp/chap-secrets</action>
-			<action>[ -n "\$NAME" ] && sed -i \"s/^name .*/name \$NAME/\" /etc/ppp/options</action>
+			<action>[ -n "\$PPoE_ID" ] && grep -qs "^\$PPoE_ID" /etc/ppp/pap-secrets \
+				|| echo "\$PPoE_ID	*	\$PPoE_PASS" >> /etc/ppp/pap-secrets</action>
+			<action>[ -n "\$PPoE_ID" ] && grep -qs "^\$PPoE_ID" /etc/ppp/chap-secrets \
+				|| echo "\$PPoE_ID	*	\$PPoE_PASS" >> /etc/ppp/chap-secrets</action> 
+			<action>[ -n "\$PPoE_ID" ] && sed -i "s/^name .*/name \$PPoE_ID/" /etc/ppp/options</action>
 			<action>killall udhcpc</action>
-			<action>sed -i s/DHCP=.*/DHCP=\"no\"/ /etc/network.conf</action>
-			<action>sed -i s/PPPOE=.*/PPPOE=\"yes\"/ /etc/network.conf</action>
-			<action>pppd \$INTERFACE &</action>
+			<action>sed -i 's/DHCP=.*/DHCP="no"/' /etc/network.conf</action>
+			<action>sed -i 's/PPPOE=.*/PPPOE="yes"/' /etc/network.conf</action>
+			<action>. /etc/network.conf ; pppd \$INTERFACE &</action>
 		</button>
 		<button>
 			<label>Stop</label>
 			<input file icon="stop"></input>
-			<action>sed -i s/PPPOE=.*/PPPOE=\"no\"/ /etc/network.conf</action>
+			<action>sed -i 's/PPPOE=.*/PPPOE="no"/' /etc/network.conf</action>
 			<action>killall pppd</action>
 		</button>
 	</hbox>
