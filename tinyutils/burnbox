@@ -612,7 +612,7 @@ MAIN_DIALOG=${MAIN_DIALOG}'
 				</text>
 			  <button>
 					<input file icon="help"></input>
-					<action> browser /usr/share/doc/slitaz-tools/burnbox.html </action>
+					<action> browser file:///usr/share/doc/slitaz-tools/burnbox.html </action>
 				</button>
 				</hbox>
 			
