@@ -48,6 +48,11 @@ link_language_files()
 		cd /usr/share/tazweb && rm -f home.html
 		ln -s home.$LANGUAGE.html home.html
 	fi
+	# SliTaz WebHome
+	if [ -f /usr/share/webhome/index.$LANGUAGE.html ]; then
+		cd /usr/share/webhome && rm -f index.html
+		ln -s index.$LANGUAGE.html index.html
+	fi
 	# SliTaz Tools Manuals
 	for soft in burnbox tazinst
 	do
@@ -91,18 +96,18 @@ $(get_locale_name) \
 		0) continue ;;
 		1|255) exit 0 ;;
 	esac
-	
+
 	# Default: C = English
 	[ "$locale" = "en" ] && locale="en_US"
 	[ -s /etc/locale.conf ] && RECONFIG="yes"
-	
+
 	# System configuration
 	echo "LANG=$locale" > /etc/locale.conf
 	echo "LC_ALL=$locale" >> /etc/locale.conf
 	export LANG=$locale LC_ALL=$locale
 	gen_utf8_locale
 	get_messages
-	
+
 	# If it's a reconfiguration give an info message.
 	if [ -n "$RECONFIG" ]; then
 		msg=$(gettext "\
