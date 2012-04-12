@@ -2,7 +2,7 @@
 # 
 # Gtkdialog box for the mount command. Part of SliTaz tools.
 #
-VERSION=20100701
+VERSION=20120412
 
 # Check if user is root.
 check_root()
@@ -659,7 +659,7 @@ floppysetfromiso()
 		base=$(($base + 100))
 		shift 2
 	done | buildinit /tmp/rootfs$$/fs
-	cmdline="$(grep append /tmp/iso$$/boot/isolinux/isolinux.cfg | tail -n 1 | sed 's/.*gz //')"
+	cmdline="$(grep 'append *initrd' /tmp/iso$$/boot/isolinux/isolinux.cfg | tail -n 1 | sed 's/.*gz //')"
 	( cd /tmp/rootfs$$/fs ; find | cpio -o -H newc ) | lzma e /tmp/rootfs$$/rootfs -si
 	echo "Creating first stage boot floppies..."
 	floppyset $bzimage /tmp/rootfs$$/rootfs "$cmdline"
