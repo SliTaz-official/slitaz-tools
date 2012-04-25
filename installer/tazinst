@@ -774,20 +774,39 @@ win_partition()
 	debug "Searching for Windows"
 	if [ "$TGT_WINBOOT" == "auto" ];then
 		WINBOOT=$(fdisk -l | awk '
-BEGIN{disk=-1,	found=-1,	winboot=""}
+BEGIN{
+	disk=-1
+	found=0 
+	winboot=""}
 {
-	# Counting disk
-	if ($1=="Disk"){disk++, part=-1}
-	# Counting partition
-	if (substr($1,1,4)=="/dev"){part++}
-	# Read partition Id
- 	if ($2=="*"){Id=$6}	else {Id=$5}
-	# Detect Windows type
-	if (Id=="7" || Id=="b"){
-		if (found){
-			# record 1st Windows partition found
-			winboot=sprintf("hd%d,%d",disk,part),found++}
+	# Count disks
+	if ($1=="Disk"){
+		disk++
+		part=-1
+		dev=substr($2,6,3)
+		# get removable status
+		file="/sys/block/"dev"/removable"
+		"cat " file | getline removable
+		close("cat ")
+}
+	# Count partitions
+	if (substr($1,1,4)=="/dev"){
+		# List fixed drives only
+		if (removable==0){
+			part++
+			# Read partition Id
+	 		if ($2=="*"){Id=$6} else {Id=""}
+			# Detect Windows Partition Type: 7,b,c,e,f
+			WPT="[7bcef]"
+			if (Id ~ WPT){
+				found++
+				# record 1st Windows partition found
+				if (found==1){
+					winboot=sprintf("hd%d,%d",disk,part)
+				}
+			}
 		}
+	}
 }
 END{printf "%s", winboot}')
 		if [ -z "$WINBOOT" ]; then
