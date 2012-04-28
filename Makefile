@@ -137,13 +137,13 @@ install-boxes:
 	install -m 0755 tazbox/tazbox $(DESTDIR)$(PREFIX)/bin
 
 	# Libs
-	install -m 0755 lib/[a-z]* $(DESTDIR)$(PREFIX)/lib/slitaz
+	#install -m 0755 lib/*.* $(DESTDIR)$(PREFIX)/lib/slitaz
 
-	# Desktop files, icons and doc.
-	install -m 0644 rootfs/usr/share/applications/* \
-		$(DESTDIR)$(PREFIX)/share/applications
-	install -m 0644 rootfs/usr/share/pixmaps/* \
-		$(DESTDIR)$(PREFIX)/share/pixmaps
+	# Desktop files and icons.
+	install -m 0644 applications/* $(DESTDIR)$(PREFIX)/share/applications
+	install -m 0644 pixmaps/* $(DESTDIR)$(PREFIX)/share/pixmaps
+
+	# Documentation
 	cp -a doc $(DESTDIR)$(PREFIX)/share/doc/slitaz-tools
 
 	# i18n.
