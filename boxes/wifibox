@@ -2,7 +2,7 @@
 #
 # Small Wifi utility to quickly connect to a network. Easy network connection is
 # most important, this tool provides a quick way to connect or change wifi
-# settings while full network configuration is done in TazPanel. 
+# settings while full network configuration is done in TazPanel.
 #
 # Copyright (C) 2012 SliTaz GNU/Linux - GNU gpl v2
 #
@@ -11,13 +11,13 @@
 
 # Only for root.
 if [ $(id -u) != 0 ]; then
-	exec tazbox su $(basename $0)
+	exec tazbox su $(basename $0) $@
 	exit 0
 fi
 
 # Internationalization
 . /usr/bin/gettext.sh
-TEXTDOMAIN='wifibox'
+TEXTDOMAIN='slitaz-boxes'
 export TEXTDOMAIN
 
 # Start a wifi connection
@@ -62,7 +62,7 @@ detect_wifi() {
 			else
 				status="-"
 			fi
-			
+
 			echo -e "$essid\n$quality\n$cryto\n$status"
 		done
 	fi
@@ -111,7 +111,7 @@ wifi_main() {
 		--center --on-top --window-icon="network-wireless" \
 		--image="network-wireless" --image-on-top \
 		--title="$title" --text="$text" \
-		--column "$(gettext "essid Name")" --column "$(gettext "Quality")" \
+		--column "$(gettext "ESSID Name")" --column "$(gettext "Quality")" \
 		--column "$(gettext "Encryption")" --column "$(gettext "Status")" \
 		--button="Start wifi:4" --button="Stop wifi:3" \
 		--button="Configuration:2" --button="gtk-close:1"

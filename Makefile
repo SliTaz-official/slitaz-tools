@@ -5,7 +5,7 @@ PREFIX?=/usr
 DOCDIR?=/usr/share/doc
 DESTDIR?=
 
-PROJECTS=slitaz-tools slitaz-boxes tazbox tazinst tazdrop 
+PROJECTS=slitaz-tools slitaz-boxes tazbox tazinst tazdrop
 LINGUAS=es_AR fr pt_BR
 
 all: msgfmt
@@ -29,7 +29,7 @@ boxes-pot:
 	@echo -n "Generating SliTaz Boxes pot file... "
 	@xgettext -o po/slitaz-boxes/slitaz-boxes.pot -L Shell \
 		--package-name="SliTaz Boxes" \
-		./tinyutils/scpbox
+		./boxes/wifibox
 	@echo "done"
 
 tazbox-pot:
@@ -118,23 +118,26 @@ install:
 	done;
 
 install-boxes:
-	install -m 0777 -d $(DESTDIR)/etc/wireless
+	#install -m 0777 -d $(DESTDIR)/etc/wireless
 	install -m 0777 -d $(DESTDIR)$(PREFIX)/bin
 	install -m 0777 -d $(DESTDIR)$(PREFIX)/lib/slitaz
 	install -m 0777 -d $(DESTDIR)$(PREFIX)/share/locale
 	install -m 0777 -d $(DESTDIR)$(PREFIX)/share/applications
 	install -m 0777 -d $(DESTDIR)$(PREFIX)/share/pixmaps
 	install -m 0777 -d $(DESTDIR)$(PREFIX)/share/doc
-	install -m 0755 tinyutils/*box $(DESTDIR)$(PREFIX)/bin
+	install -m 0755 boxes/* $(DESTDIR)$(PREFIX)/bin
 	install -m 0755 tazbox/tazbox $(DESTDIR)$(PREFIX)/bin
+
 	# Libs
 	install -m 0755 lib/[a-z]* $(DESTDIR)$(PREFIX)/lib/slitaz
+
 	# Desktop files, icons and doc.
 	install -m 0644 rootfs/usr/share/applications/* \
 		$(DESTDIR)$(PREFIX)/share/applications
 	install -m 0644 rootfs/usr/share/pixmaps/* \
 		$(DESTDIR)$(PREFIX)/share/pixmaps
 	cp -a doc $(DESTDIR)$(PREFIX)/share/doc/slitaz-tools
+
 	# i18n.
 	for l in $(LINGUAS); \
 	do \
@@ -142,10 +145,7 @@ install-boxes:
 		install -m 0644 po/mo/$$l/*box* \
 			$(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
 	done;
-	# Default English messages (will move to po)
-	install -m 0777 -d $(DESTDIR)$(PREFIX)/share/slitaz/messages/en
-	install -m 0644 messages/en/desktopbox.msg \
-		$(DESTDIR)$(PREFIX)/share/slitaz/messages/en
+
 	# Gksu fake for pcmanfm.
 	cd $(DESTDIR)$(PREFIX)/bin && ln -s subox gksu
 

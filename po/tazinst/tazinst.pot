@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tazinst\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-24 14:34+0100\n"
+"POT-Creation-Date: 2012-04-28 20:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -188,8 +188,8 @@ msgid "Web boot files not found"
 msgstr ""
 
 #: installer/tazinst:483 installer/tazinst:556 installer/tazinst:655
-#: installer/tazinst:690 installer/tazinst:758 installer/tazinst:999
-#: installer/tazinst:1091 installer/tazinst:1132
+#: installer/tazinst:690 installer/tazinst:758 installer/tazinst:1018
+#: installer/tazinst:1110 installer/tazinst:1151
 msgid "Internal"
 msgstr ""
 
@@ -197,7 +197,7 @@ msgstr ""
 msgid "Invalid source"
 msgstr ""
 
-#: installer/tazinst:506 installer/tazinst:971
+#: installer/tazinst:506 installer/tazinst:990
 msgid "Partition in use"
 msgstr ""
 
@@ -209,7 +209,7 @@ msgstr ""
 msgid "Formatting /home partition:"
 msgstr ""
 
-#: installer/tazinst:545 installer/tazinst:980
+#: installer/tazinst:545 installer/tazinst:999
 msgid "Unable to mount partition"
 msgstr ""
 
@@ -221,99 +221,99 @@ msgstr ""
 msgid "Configuring host name:"
 msgstr ""
 
-#: installer/tazinst:794
+#: installer/tazinst:813
 msgid "No windows partition found. Dual-boot disabled"
 msgstr ""
 
-#: installer/tazinst:850
+#: installer/tazinst:869
 msgid "Enabling Windows dual-boot"
 msgstr ""
 
-#: installer/tazinst:871
+#: installer/tazinst:890
 msgid "Installing SliTaz on:"
 msgstr ""
 
-#: installer/tazinst:890
+#: installer/tazinst:909
 msgid "Configuring root and default user account:"
 msgstr ""
 
-#: installer/tazinst:894
+#: installer/tazinst:913
 msgid "Configuring partition to be used as /home:"
 msgstr ""
 
-#: installer/tazinst:913
+#: installer/tazinst:932
 msgid "Running grub-install on:"
 msgstr ""
 
-#: installer/tazinst:927
+#: installer/tazinst:946
 msgid "Unmounting target partition:"
 msgstr ""
 
-#: installer/tazinst:933
+#: installer/tazinst:952
 msgid "Unmounting:"
 msgstr ""
 
-#: installer/tazinst:939
+#: installer/tazinst:958
 msgid "Ejecting cdrom..."
 msgstr ""
 
-#: installer/tazinst:950
+#: installer/tazinst:969
 msgid "Installation complete. You can now restart (reboot)"
 msgstr ""
 
-#: installer/tazinst:951 installer/tazinst:1167
+#: installer/tazinst:970 installer/tazinst:1186
 msgid "from your SliTaz GNU/Linux system."
 msgstr ""
 
-#: installer/tazinst:954
+#: installer/tazinst:973
 msgid "Copying log files"
 msgstr ""
 
-#: installer/tazinst:989
+#: installer/tazinst:1008
 msgid "Preparing upgrade of SliTaz release:"
 msgstr ""
 
-#: installer/tazinst:991
+#: installer/tazinst:1010
 msgid ""
 "This partition doesn't appear to contain a valid SliTaz system, the file: /"
 "etc/slitaz-release doesn't exist."
 msgstr ""
 
-#: installer/tazinst:1106
+#: installer/tazinst:1125
 msgid ""
 "The list of available packages on the mirror could not be downloaded. No "
 "missing packages will be reinstalled now, but you can do so later by looking "
 "at the following list: /var/lib/tazinst/packages-selection.diff"
 msgstr ""
 
-#: installer/tazinst:1119
+#: installer/tazinst:1138
 msgid "Grub update"
 msgstr ""
 
-#: installer/tazinst:1137
+#: installer/tazinst:1156
 msgid "Backup /etc, /home and the packages list..."
 msgstr ""
 
-#: installer/tazinst:1140
+#: installer/tazinst:1159
 msgid "Upgrading SliTaz on:"
 msgstr ""
 
-#: installer/tazinst:1148
+#: installer/tazinst:1167
 msgid "Restoring configuration files..."
 msgstr ""
 
-#: installer/tazinst:1154
+#: installer/tazinst:1173
 msgid "Upgrading added packages..."
 msgstr ""
 
-#: installer/tazinst:1166
+#: installer/tazinst:1185
 msgid "Upgrade finished. You can now restart (reboot)"
 msgstr ""
 
-#: installer/tazinst:1168
+#: installer/tazinst:1187
 msgid "Packages on the cdrom :"
 msgstr ""
 
-#: installer/tazinst:1169
+#: installer/tazinst:1188
 msgid "Packages installed from the mirror :"
 msgstr ""

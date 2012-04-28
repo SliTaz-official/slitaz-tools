@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-24 14:34+0100\n"
+"POT-Creation-Date: 2012-04-28 20:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,11 +25,11 @@ msgstr ""
 msgid "Type su and root password to become super-user"
 msgstr ""
 
-#: tinyutils/tazlocale:83
+#: tinyutils/tazlocale:88
 msgid "SliTaz language configuration"
 msgstr ""
 
-#: tinyutils/tazlocale:108
+#: tinyutils/tazlocale:113
 msgid ""
 "Please logout of your current session and login again to use new locale."
 msgstr ""
@@ -64,7 +64,7 @@ msgid "Tazx helps you to select your X driver."
 msgstr ""
 
 #: tinyutils/tazx:163
-msgid "Tazx dialog helps you to configure your Xorg sever."
+msgid "Tazx dialog helps you to configure your Xorg server."
 msgstr ""
 
 #: tinyutils/tazx:164

@@ -290,16 +290,29 @@ case "$1" in
 		echo $main | cut -f 1 -d "|" | su -c "$SU_CMD &" || su_error ;;
 	logout)
 		# Logout window with actions
-		main=`logout_main`
+		main=$(logout_main)
 		# Deal with --button values
 		case $? in
 			1) exit 0 ;;
 			*) continue ;;
 		esac
-		# Deal with $main values
+		# DE and WM started with a cistom -session script should export
+		# XDG_CURRENT_DESKTOP
 		case "$main" in
-			*exit) openbox --exit || jwm -exit ;;
-			*reboot) reboot ;;
+			*exit) 
+				case $XDG_CURRENT_DESKTOP in
+					LXDE)
+						[ "$_LXSESSION_PID" ] && kill $_LXSESSION_PID
+						[ "$DESKTOP_SESSION" == "compiz" ] && \
+							killall compiz
+						openbox --exit ;;
+					openbox) openbox --exit ;;
+					compiz) killall compiz ;;
+					*)
+						# Try to kill other WM that dont set XDG var.
+						jwm -exit 2>/dev/null ;;
+				esac ;;
+			*reboot) reboot || reboot -f ;;
 			*halt) poweroff ;;
 		esac ;;
 	out)
