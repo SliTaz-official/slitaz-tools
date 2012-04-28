@@ -1,6 +1,10 @@
-SliTaz TazBox                                                              2011
+TazBox
 ===============================================================================
 
-TazBox is the new desktop tools boxes using Yad and replacing subox
-and desktopbox. It may also replace scpbox.
 
+TazBox is multi box utility providing small GUI such as a logout, su, locale
+or keymap configuration and more. See 'tazbox usage' for more information. The
+strings are gettextized and boxes are powerd by Yad/GTK.
+
+
+===============================================================================

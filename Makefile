@@ -75,13 +75,12 @@ msgfmt:
 # Installation
 
 install:
-	install -m 0777 -d $(DESTDIR)/sbin
-	install -m 0777 -d $(DESTDIR)/etc
-	install -m 0777 -d $(DESTDIR)$(PREFIX)/bin
-	install -m 0777 -d $(DESTDIR)$(PREFIX)/sbin
-	install -m 0777 -d $(DESTDIR)$(PREFIX)/share
-	cp -a rootfs/etc $(DESTDIR)/
-	chmod +x $(DESTDIR)/etc/init.d/*
+	install -m 0755 -d $(DESTDIR)/sbin
+	install -m 0755 -d $(DESTDIR)/etc
+	install -m 0755 -d $(DESTDIR)$(PREFIX)/bin
+	install -m 0755 -d $(DESTDIR)$(PREFIX)/sbin
+	install -m 0755 -d $(DESTDIR)$(PREFIX)/share
+	cp -a etc $(DESTDIR)/
 
 	# Licenses
 	cp -a licenses $(DESTDIR)$(PREFIX)/share
@@ -111,7 +110,7 @@ install:
 	install -m 0755 installer/tazinst $(DESTDIR)$(PREFIX)/sbin
 	for l in $(LINGUAS); do \
 		for i in `ls po/mo/$$l/tazinst.mo` ; do \
-			install -m 0777 -d $(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
+			install -m 0755 -d $(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
 			install -m 0644 po/mo/$$l/tazinst.mo \
 				$(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
 		done \
@@ -120,19 +119,22 @@ install:
 	# slitaz-tools i18n
 	for l in $(LINGUAS); \
 	do \
-		install -m 0777 -d $(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
+		install -m 0755 -d $(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
 		install -m 0644 po/mo/$$l/slitaz-tools.mo \
 			$(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
 	done;
 
+	# Permissions
+	chmod +x $(DESTDIR)/etc/init.d/*
+
 install-boxes:
-	#install -m 0777 -d $(DESTDIR)/etc/wireless
-	install -m 0777 -d $(DESTDIR)$(PREFIX)/bin
-	install -m 0777 -d $(DESTDIR)$(PREFIX)/lib/slitaz
-	install -m 0777 -d $(DESTDIR)$(PREFIX)/share/locale
-	install -m 0777 -d $(DESTDIR)$(PREFIX)/share/applications
-	install -m 0777 -d $(DESTDIR)$(PREFIX)/share/pixmaps
-	install -m 0777 -d $(DESTDIR)$(PREFIX)/share/doc
+	#install -m 0755 -d $(DESTDIR)/etc/wireless
+	install -m 0755 -d $(DESTDIR)$(PREFIX)/bin
+	install -m 0755 -d $(DESTDIR)$(PREFIX)/lib/slitaz
+	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/locale
+	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/applications
+	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/pixmaps
+	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/doc/slitaz
 	install -m 0755 boxes/* $(DESTDIR)$(PREFIX)/bin
 	install -m 0755 tazbox/tazbox $(DESTDIR)$(PREFIX)/bin
 
@@ -143,13 +145,13 @@ install-boxes:
 	install -m 0644 applications/* $(DESTDIR)$(PREFIX)/share/applications
 	install -m 0644 pixmaps/* $(DESTDIR)$(PREFIX)/share/pixmaps
 
-	# Documentation
-	cp -a doc $(DESTDIR)$(PREFIX)/share/doc/slitaz-tools
+	# Documentation (style is already in slitaz-doc)
+	cp -a doc/*.html $(DESTDIR)$(PREFIX)/share/doc/slitaz
 
 	# i18n.
 	for l in $(LINGUAS); \
 	do \
-		install -m 0777 -d $(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
+		install -m 0755 -d $(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
 		install -m 0644 po/mo/$$l/*box* \
 			$(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
 	done;

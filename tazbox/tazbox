@@ -80,7 +80,7 @@ cancel_dl() {
 }
 
 # Output a command in a GTK window
-output_command() {	
+output_command() {
 	yad --text-info --title="TazBox Output" --window-icon=$icon \
 		--geometry="560x210+0-24" --fore="#ffffff" --back="#000000"
 }
@@ -123,7 +123,7 @@ setup_main() {
 		--field "Locale:CB" \
 		--field "Keymap:CB" \
 		--field "Timezone:CB" \
-		$locale \ $keymap \ $timezone    
+		$locale \ $keymap \ $timezone
 }
 
 setup() {
@@ -267,11 +267,11 @@ case "$1" in
 		test $(id -u) = 0 && exec $2 $3 $4 $5
 		export SU_CMD="$2 $3 $4 $5"
 		# Check if a password has been saved before launching main dialog
-		if [ -s $HOME/.config/slitaz/subox.conf ]; then	
+		if [ -s $HOME/.config/slitaz/subox.conf ]; then
 			PASSWD=$(cat $HOME/.config/slitaz/subox.conf)
 			CHECKED="TRUE"
 		fi
-		# Display the main dialog (ask for password) 
+		# Display the main dialog (ask for password)
 		main=$(su_main)
 		# Deal with --button values and exit if cancelled to avoid erasing
 		# saved password.
@@ -280,13 +280,13 @@ case "$1" in
 			*) continue ;;
 		esac
 		# Save or erase Autosaved password
-		if [ $(echo $main | cut -f2 -d"|") == "TRUE" ]; then 
+		if [ $(echo $main | cut -f2 -d"|") == "TRUE" ]; then
 			echo $main | cut -f 1 -d "|" > $HOME/.config/slitaz/subox.conf
-			chmod 0600 $HOME/.config/slitaz/subox.conf 
+			chmod 0600 $HOME/.config/slitaz/subox.conf
 		else
 			cat /dev/null > $HOME/.config/slitaz/subox.conf
 		fi
-		# Try to login & execute. If password is wrong execute error dialog 
+		# Try to login & execute. If password is wrong execute error dialog
 		echo $main | cut -f 1 -d "|" | su -c "$SU_CMD &" || su_error ;;
 	logout)
 		# Logout window with actions
@@ -299,7 +299,7 @@ case "$1" in
 		# DE and WM started with a cistom -session script should export
 		# XDG_CURRENT_DESKTOP
 		case "$main" in
-			*exit) 
+			*exit)
 				case $XDG_CURRENT_DESKTOP in
 					LXDE)
 						[ "$_LXSESSION_PID" ] && kill $_LXSESSION_PID
@@ -332,13 +332,6 @@ case "$1" in
         tz ;;
     setup)
 		setup ;;
-	boot)
-		# This command is used at first boot to configure system.
-		Xorg -br -quiet -nolock -nolisten tcp :1 &
-		DISPLAY=:1 openbox &
-		locale
-		keymap
-		killall Xorg 2>/dev/null ;;
 	new-file)
 		newfile ;;
 	all-apps)
