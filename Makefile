@@ -76,30 +76,37 @@ msgfmt:
 
 install:
 	install -m 0777 -d $(DESTDIR)/sbin
-	install -m 0777 -d $(DESTDIR)/etc/X11
+	install -m 0777 -d $(DESTDIR)/etc
 	install -m 0777 -d $(DESTDIR)$(PREFIX)/bin
 	install -m 0777 -d $(DESTDIR)$(PREFIX)/sbin
 	install -m 0777 -d $(DESTDIR)$(PREFIX)/share
 	cp -a rootfs/etc $(DESTDIR)/
 	chmod +x $(DESTDIR)/etc/init.d/*
-	cp -a rootfs/usr/share/licenses $(DESTDIR)$(PREFIX)/share
+
+	# Licenses
+	cp -a licenses $(DESTDIR)$(PREFIX)/share
+
 	# /sbin tools.
 	for i in tazlocale tazkeymap tazhw hwsetup; do \
 		install -m 0755 tinyutils/$$i $(DESTDIR)/sbin; \
 	done;
+
 	# Declare all config files.
-	for file in etc/locale.conf etc/keymap.conf etc/TZ etc/X11/screen.conf; \
+	for file in etc/locale.conf etc/keymap.conf etc/TZ; \
 	do \
 		touch $(DESTDIR)/$$file; \
 	done;
+
 	# /usr/bin tools.
 	for app in tazx startx history editor browser terminal file-manager; \
 	do \
 		install -m 0755 tinyutils/$$app $(DESTDIR)$(PREFIX)/bin; \
 	done;
+
 	# /usr/sbin sound tools.
 	install -m 0755 tinyutils/soundconf $(DESTDIR)$(PREFIX)/sbin
 	install -m 0755 tinyutils/setmixer $(DESTDIR)$(PREFIX)/sbin
+
 	# tazinst
 	install -m 0755 installer/tazinst $(DESTDIR)$(PREFIX)/sbin
 	for l in $(LINGUAS); do \
@@ -109,6 +116,7 @@ install:
 				$(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
 		done \
 	done
+
 	# slitaz-tools i18n
 	for l in $(LINGUAS); \
 	do \
