@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Boxes\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-28 20:10+0200\n"
+"POT-Creation-Date: 2012-04-29 23:05+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,42 +17,42 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: boxes/wifibox:75
+#: boxes/wifi-box:75
 msgid "Wifi connection"
 msgstr ""
 
-#: boxes/wifibox:76
+#: boxes/wifi-box:76
 msgid "Connection to:"
 msgstr ""
 
-#: boxes/wifibox:81
+#: boxes/wifi-box:81
 msgid "Password:"
 msgstr ""
 
-#: boxes/wifibox:108
+#: boxes/wifi-box:108
 msgid "Wifi network"
 msgstr ""
 
-#: boxes/wifibox:109
+#: boxes/wifi-box:109
 msgid "<b>Connect to a wifi network</b> \\(Double click to connect\\)"
 msgstr ""
 
-#: boxes/wifibox:114
+#: boxes/wifi-box:114
 msgid "ESSID Name"
 msgstr ""
 
-#: boxes/wifibox:114
+#: boxes/wifi-box:114
 msgid "Quality"
 msgstr ""
 
-#: boxes/wifibox:115
+#: boxes/wifi-box:115
 msgid "Encryption"
 msgstr ""
 
-#: boxes/wifibox:115
+#: boxes/wifi-box:115
 msgid "Status"
 msgstr ""
 
-#: boxes/wifibox:146
+#: boxes/wifi-box:146
 msgid "Usage:"
 msgstr ""
