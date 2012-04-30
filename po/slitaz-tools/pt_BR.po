@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: slitaz-tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-30 12:30+0200\n"
+"POT-Creation-Date: 2012-04-30 13:50+0200\n"
 "PO-Revision-Date: 2011-06-18 16:37-0300\n"
 "Last-Translator: Claudinei Pereira <claudinei@slitaz.org>\n"
 "Language-Team: Portuguese <i18n@slitaz.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: tinyutils/tazlocale:83
-msgid "Configuring system locale for:"
+msgid "Setting system locale to:"
 msgstr ""
 
 #: tinyutils/tazlocale:97
@@ -32,19 +32,19 @@ msgid ""
 msgstr ""
 "Finalize a sessão atual e faça login novamente para usar a nova linguagem."
 
-#: tinyutils/tazkeymap:17
-msgid "You must be root to run:"
-msgstr "Você deve ser root para executar:"
+#: tinyutils/tazkeymap:49
+msgid "Config file   :"
+msgstr ""
 
-#: tinyutils/tazkeymap:18
-msgid "Type su and root password to become super-user"
-msgstr "Digite su e a senha do root para tornar-se superusuário"
+#: tinyutils/tazkeymap:50
+msgid "Current keymap:"
+msgstr ""
 
-#: tinyutils/tazkeymap:53
+#: tinyutils/tazkeymap:57
 msgid "SliTaz keymap configuration"
 msgstr "Configuraçao de Zona Horária do SliTaz"
 
-#: tinyutils/tazkeymap:94
+#: tinyutils/tazkeymap:69
 msgid ""
 "Please logout of your current session and login again to use new keyboard."
 msgstr ""
@@ -126,3 +126,9 @@ msgstr ""
 #: tinyutils/decode:98
 msgid "No file:"
 msgstr ""
+
+#~ msgid "You must be root to run:"
+#~ msgstr "Você deve ser root para executar:"
+
+#~ msgid "Type su and root password to become super-user"
+#~ msgstr "Digite su e a senha do root para tornar-se superusuário"

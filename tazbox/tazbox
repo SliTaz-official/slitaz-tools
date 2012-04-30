@@ -160,7 +160,7 @@ locale() {
 		*) continue ;;
 	esac
 	# System language configuration.
-	[ "$locale" ] && tazlocale init $locale
+	[ "$locale" ] && tazlocale $locale
 }
 
 # Keymap functions
@@ -190,7 +190,7 @@ keymap() {
 		*) continue ;;
 	esac
 	# System keymap configuration
-	[ "$keymap" ] && tazkeymap init $keymap
+	[ "$keymap" ] && tazkeymap $keymap
 }
 
 # TZ functions
