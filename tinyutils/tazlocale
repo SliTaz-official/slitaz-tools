@@ -3,20 +3,17 @@
 # Tazlocale: SliTaz GNU/Linux locale setting using dialog boxes.
 # Configuration file is : /etc/locale.conf
 #
-# 20110614 <pankso@slitaz.org> - GNU gpl.
+# Copyright (C) 2008-2012 SliTaz GNU/Linux - BSD License
 #
+# Author: Christophe Lincoln <pankso@slitaz.org>
+#
+. /lib/libtaz.sh
+check_root
 
 # Internationalization
 . /usr/bin/gettext.sh
 TEXTDOMAIN='slitaz-tools'
 export TEXTDOMAIN
-
-# Check if user is root.
-if test $(id -u) != 0; then
-	gettext "You must be root to run:"; echo " $(basename $0)"
-	gettext "Type su and root password to become super-user"; echo
-	exit 1
-fi
 
 # Create symlink to translated files provided by SliTaz language pack,
 # doc and config files.
@@ -54,10 +51,10 @@ link_language_files()
 		ln -s index.$LANGUAGE.html index.html
 	fi
 	# SliTaz Tools Manuals
-	for soft in burnbox tazinst
+	for soft in tazinst
 	do
-		if [ -f /usr/share/doc/slitaz-tools/$soft.$LANGUAGE.html ]; then
-			cd /usr/share/doc/slitaz-tools && rm -f $soft.html
+		if [ -f /usr/share/doc/slitaz/$soft.$LANGUAGE.html ]; then
+			cd /usr/share/doc/slitaz && rm -f $soft.html
 			ln -s $soft.$LANGUAGE.html $soft.html
 		fi
 	done
@@ -66,7 +63,7 @@ link_language_files()
 # Locale name displayed.
 get_locale_name()
 {
-	for i in `ls -1 /usr/share/i18n/locales | grep ^[a-z][a-z]_[A-Z][A-Z]`
+	for i in $(ls -1 /usr/share/i18n/locales | grep ^[a-z][a-z]_[A-Z][A-Z])
 	do
 		#desc=$(grep ^title /usr/share/i18n/locales/$i | cut -d '"' -f 2)
 		echo "$i Locale"
@@ -80,16 +77,27 @@ gen_utf8_locale()
 	localedef -i $locale -c -f UTF-8 /usr/lib/locale/$locale &
 }
 
+# Config /etc/locale.conf
+system_config() {
+	export LANG=$locale LC_ALL=$locale
+	gettext "Configuring system locale for:"; echo -n " $locale"
+	echo "LANG=$locale" > /etc/locale.conf
+	echo "LC_ALL=$locale" >> /etc/locale.conf
+	status
+	gen_utf8_locale
+	link_language_files
+}
+
 # Dialog menu.
 dialog_menu()
 {
 	exec 3>&1
-	locale=`$DIALOG  --clear \
+	locale=$($DIALOG  --clear \
 	--title " $(gettext "SliTaz language configuration") " \
 	--menu "" 15 70 5 \
 "en" "English" \
 $(get_locale_name) \
-2>&1 1>&3`
+2>&1 1>&3)
 	retval=$?
 	exec 3>&-
 	case $retval in
@@ -101,13 +109,6 @@ $(get_locale_name) \
 	[ "$locale" = "en" ] && locale="en_US"
 	[ -s /etc/locale.conf ] && RECONFIG="yes"
 
-	# System configuration
-	echo "LANG=$locale" > /etc/locale.conf
-	echo "LC_ALL=$locale" >> /etc/locale.conf
-	export LANG=$locale LC_ALL=$locale
-	gen_utf8_locale
-	link_language_files
-
 	# If it's a reconfiguration give an info message.
 	if [ -n "$RECONFIG" ]; then
 		msg=$(gettext "\
@@ -116,26 +117,25 @@ Please logout of your current session and login again to use new locale.")
 			--title " Information " \
 			--msgbox "$msg" 16 70
 	fi
+	system_config
 }
 
 case "$1" in
-	*_*)
-		# Execute functions (can be called from an other apps).
-		$1 ;;
 	list)
-		echo ""
-		locale -a
-		echo "" ;;
-	init)
-		# This command can be used to change system locale from cmdline.
-		locale=$2
-		echo "LANG=$locale" > /etc/locale.conf
-		echo "LC_ALL=$locale" >> /etc/locale.conf
-		gen_utf8_locale
-		link_language_files ;;
-	*)
+		for i in $(ls -1 /usr/share/i18n/locales | grep ^[a-z][a-z]_[A-Z][A-Z])
+		do
+			desc=$(grep ^title /usr/share/i18n/locales/$i | cut -d '"' -f 2)
+			echo "$i $desc"
+		done ;;
+	"")
+		# No args: display Ncurses dialog.
 		: ${DIALOG=dialog}
-		dialog_menu
+		dialog_menu ;;
+	*)
+		# Usage: tazlocale LANG_COUNTRY
+		locale=$1
+		system_config
+		gen_utf8_locale
 		link_language_files ;;
 esac
 
