@@ -29,9 +29,8 @@ boxes-pot:
 	@echo -n "Generating SliTaz Boxes pot file... "
 	@xgettext -o po/slitaz-boxes/slitaz-boxes.pot -L Shell \
 		--package-name="SliTaz Boxes" \
-		./boxes/wifi-box
+		./boxes/wifi-box ./boxes/burn-box
 	@echo "done"
-	#./boxes/burn-box
 
 tazbox-pot:
 	@echo -n "Generating tazbox pot file... "

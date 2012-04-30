@@ -93,7 +93,7 @@ case "$1" in
 					busybox wget "$file"
 					file="$(basename "$file")"
 					decoder && rm "$file" ;;
-				*)
+				*.*)
 					[ ! -f "$file" ] && \
 						(gettext "No file:"; echo " $file") && continue
 					decoder ;;
