@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: scpbox 20100314\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-14 22:15+0200\n"
+"POT-Creation-Date: 2012-04-30 10:34+0200\n"
 "PO-Revision-Date: 2011-06-18 22:26+0100\n"
 "Last-Translator: Christophe Lincoln <pankso@slitaz.org>\n"
 "Language-Team: French\n"
@@ -17,53 +17,81 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: tinyutils/scpbox:24
-msgid ""
-"\n"
-"Copy files securely with scp from Dropbear SSH client/server.\n"
-"\t\t"
+#: boxes/wifi-box:75
+msgid "Wifi connection"
 msgstr ""
-"\n"
-"Copie de fichiers distants et sécurisée avec scp de Dropbear\n"
-"\t\t"
 
-#: tinyutils/scpbox:29
-msgid "Configuration"
-msgstr "Configuration"
+#: boxes/wifi-box:76
+msgid "Connection to:"
+msgstr ""
 
-#: tinyutils/scpbox:32
-msgid "<b>User        :</b>"
-msgstr "<b>Utilisateur :</b>"
+#: boxes/wifi-box:81
+msgid "Password:"
+msgstr ""
 
-#: tinyutils/scpbox:40
-msgid "<b>Host        :</b>"
-msgstr "<b>Hôte           :</b>"
+#: boxes/wifi-box:108
+msgid "Wifi network"
+msgstr ""
 
-#: tinyutils/scpbox:48
-msgid "<b>Options  :</b>"
-msgstr "<b>Options      :</b>"
+#: boxes/wifi-box:109
+msgid "<b>Connect to a wifi network</b> \\(Double click to connect\\)"
+msgstr ""
 
-#: tinyutils/scpbox:57
-msgid "Paths"
-msgstr "Chemins"
+#: boxes/wifi-box:114
+msgid "ESSID Name"
+msgstr ""
 
-#: tinyutils/scpbox:60
-msgid "<b>Local       :</b>"
-msgstr "<b>Locale        :</b>"
+#: boxes/wifi-box:114
+msgid "Quality"
+msgstr ""
 
-#: tinyutils/scpbox:73
-msgid "<b>Remote   :</b>"
-msgstr "<b>Distant      :</b>"
+#: boxes/wifi-box:115
+msgid "Encryption"
+msgstr ""
 
-#: tinyutils/scpbox:83
-msgid "Download"
-msgstr "Télécharger"
+#: boxes/wifi-box:115
+msgid "Status"
+msgstr ""
 
-#: tinyutils/scpbox:88
-msgid "Upload"
-msgstr "Envoyer"
+#: boxes/wifi-box:146
+msgid "Usage:"
+msgstr ""
 
-#: tinyutils/scpbox:93
-msgid "Exit"
-msgstr "Quitter"
+#~ msgid ""
+#~ "\n"
+#~ "Copy files securely with scp from Dropbear SSH client/server.\n"
+#~ "\t\t"
+#~ msgstr ""
+#~ "\n"
+#~ "Copie de fichiers distants et sécurisée avec scp de Dropbear\n"
+#~ "\t\t"
 
+#~ msgid "Configuration"
+#~ msgstr "Configuration"
+
+#~ msgid "<b>User        :</b>"
+#~ msgstr "<b>Utilisateur :</b>"
+
+#~ msgid "<b>Host        :</b>"
+#~ msgstr "<b>Hôte           :</b>"
+
+#~ msgid "<b>Options  :</b>"
+#~ msgstr "<b>Options      :</b>"
+
+#~ msgid "Paths"
+#~ msgstr "Chemins"
+
+#~ msgid "<b>Local       :</b>"
+#~ msgstr "<b>Locale        :</b>"
+
+#~ msgid "<b>Remote   :</b>"
+#~ msgstr "<b>Distant      :</b>"
+
+#~ msgid "Download"
+#~ msgstr "Télécharger"
+
+#~ msgid "Upload"
+#~ msgstr "Envoyer"
+
+#~ msgid "Exit"
+#~ msgstr "Quitter"

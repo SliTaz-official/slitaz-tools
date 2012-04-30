@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: slitaz-tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-24 14:34+0100\n"
+"POT-Creation-Date: 2012-04-30 10:34+0200\n"
 "PO-Revision-Date: 2011-06-18 16:37-0300\n"
 "Last-Translator: Claudinei Pereira <claudinei@slitaz.org>\n"
 "Language-Team: Portuguese <i18n@slitaz.org>\n"
@@ -26,11 +26,11 @@ msgstr "Você deve ser root para executar:"
 msgid "Type su and root password to become super-user"
 msgstr "Digite su e a senha do root para tornar-se superusuário"
 
-#: tinyutils/tazlocale:83
+#: tinyutils/tazlocale:88
 msgid "SliTaz language configuration"
 msgstr "Configuração de Linguagem do SliTaz"
 
-#: tinyutils/tazlocale:108
+#: tinyutils/tazlocale:113
 msgid ""
 "Please logout of your current session and login again to use new locale."
 msgstr ""
@@ -67,7 +67,8 @@ msgid "Tazx helps you to select your X driver."
 msgstr "O Tazx ajuda a selecionar o driver gráfico."
 
 #: tinyutils/tazx:163
-msgid "Tazx dialog helps you to configure your Xorg sever."
+#, fuzzy
+msgid "Tazx dialog helps you to configure your Xorg server."
 msgstr "A caixa de diálogo do Tazx ajuda a configurar o servidor gráfico."
 
 #: tinyutils/tazx:164
@@ -89,3 +90,35 @@ msgstr "Instale o servidor gráfico leve Xfbdev"
 #: tinyutils/tazx:168
 msgid "Quit Tazx utility"
 msgstr "Sair do utilitário Tazx"
+
+#: tinyutils/decode:31
+msgid "Usage:"
+msgstr ""
+
+#: tinyutils/decode:33
+msgid "Decode audio and video files"
+msgstr ""
+
+#: tinyutils/decode:35
+msgid "Examples:"
+msgstr ""
+
+#: tinyutils/decode:49
+msgid "Missing decoder :"
+msgstr ""
+
+#: tinyutils/decode:50
+msgid "Skipping file   :"
+msgstr ""
+
+#: tinyutils/decode:54
+msgid "Decoding:"
+msgstr ""
+
+#: tinyutils/decode:78
+msgid "Unsupported file:"
+msgstr ""
+
+#: tinyutils/decode:98
+msgid "No file:"
+msgstr ""
