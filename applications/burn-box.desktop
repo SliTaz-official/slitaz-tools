@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Burn CD/DVD
+Name[fr]=Graver des CD/DVD
+Name[pt]=Gravador de CD/DVD
+Name[pt_BR]=Gravador de CD/DVD
+Exec=burn-box
+Icon=drive-optical
+Type=Application
+Categories=GTK;Utility;

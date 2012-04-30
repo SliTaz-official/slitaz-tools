@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Burn ISO image
+Name[fr]=Graver l'image ISO
+Exec=burn-box --iso=%f
+Icon=drive-optical
+Type=Application
+MimeType=application/x-iso
+NoDisplay=true
