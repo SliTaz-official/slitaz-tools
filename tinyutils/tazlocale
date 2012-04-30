@@ -79,11 +79,12 @@ gen_utf8_locale()
 
 # Config /etc/locale.conf
 system_config() {
-	export LANG=$locale LC_ALL=$locale
+	export LC_ALL=$locale
 	gettext "Configuring system locale for:"; echo -n " $locale"
 	echo "LANG=$locale" > /etc/locale.conf
 	echo "LC_ALL=$locale" >> /etc/locale.conf
-	status
+	# Resource libtaz.sh to get status message in the correct locale.
+	. /lib/libtaz.sh && status
 	gen_utf8_locale
 	link_language_files
 }
@@ -111,11 +112,10 @@ $(get_locale_name) \
 
 	# If it's a reconfiguration give an info message.
 	if [ -n "$RECONFIG" ]; then
+		export LC_ALL=$locale
 		msg=$(gettext "\
 Please logout of your current session and login again to use new locale.")
-		$DIALOG --clear \
-			--title " Information " \
-			--msgbox "$msg" 16 70
+		$DIALOG --clear --title " Information " --msgbox "$msg" 16 70
 	fi
 	system_config
 }

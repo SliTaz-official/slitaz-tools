@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-30 12:00+0200\n"
-"PO-Revision-Date: 2012-04-30 10:44+0100\n"
+"POT-Creation-Date: 2012-04-30 12:30+0200\n"
+"PO-Revision-Date: 2012-04-30 12:02+0100\n"
 "Last-Translator: Christophe Lincoln <pankso@slitaz.org>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -19,13 +19,13 @@ msgstr ""
 
 #: tinyutils/tazlocale:83
 msgid "Configuring system locale for:"
-msgstr ""
+msgstr "Configuration de la langue du système:"
 
-#: tinyutils/tazlocale:96
+#: tinyutils/tazlocale:97
 msgid "SliTaz language configuration"
 msgstr "Configuration de la langue"
 
-#: tinyutils/tazlocale:114
+#: tinyutils/tazlocale:116
 msgid ""
 "Please logout of your current session and login again to use new locale."
 msgstr ""

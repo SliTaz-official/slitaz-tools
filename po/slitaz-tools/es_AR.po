@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-30 12:00+0200\n"
+"POT-Creation-Date: 2012-04-30 12:30+0200\n"
 "PO-Revision-Date: 2011-08-11 00:08-0300\n"
 "Last-Translator: Lucas Gioia <lucas.lucas.lucas24@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,11 +20,11 @@ msgstr ""
 msgid "Configuring system locale for:"
 msgstr ""
 
-#: tinyutils/tazlocale:96
+#: tinyutils/tazlocale:97
 msgid "SliTaz language configuration"
 msgstr "SliTaz configuración del lenguaje"
 
-#: tinyutils/tazlocale:114
+#: tinyutils/tazlocale:116
 msgid ""
 "Please logout of your current session and login again to use new locale."
 msgstr ""
