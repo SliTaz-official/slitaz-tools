@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-30 13:50+0200\n"
+"POT-Creation-Date: 2012-04-30 14:08+0200\n"
 "PO-Revision-Date: 2011-08-11 00:08-0300\n"
 "Last-Translator: Lucas Gioia <lucas.lucas.lucas24@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,26 +16,30 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: tinyutils/tazlocale:83
+#: tinyutils/tazlocale:82
 msgid "Setting system locale to:"
 msgstr ""
 
-#: tinyutils/tazlocale:97
+#: tinyutils/tazlocale:96
 msgid "SliTaz language configuration"
 msgstr "SliTaz configuración del lenguaje"
 
-#: tinyutils/tazlocale:116
+#: tinyutils/tazlocale:115
 msgid ""
 "Please logout of your current session and login again to use new locale."
 msgstr ""
 "Por favor, cierre su sesión actual e iniciela nuevamente para usar un nuevo "
 "local."
 
-#: tinyutils/tazkeymap:49
+#: tinyutils/tazlocale:124 tinyutils/tazkeymap:47
 msgid "Config file   :"
 msgstr ""
 
-#: tinyutils/tazkeymap:50
+#: tinyutils/tazlocale:125
+msgid "Current locale:"
+msgstr ""
+
+#: tinyutils/tazkeymap:48
 msgid "Current keymap:"
 msgstr ""
 

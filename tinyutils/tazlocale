@@ -8,7 +8,6 @@
 # Author: Christophe Lincoln <pankso@slitaz.org>
 #
 . /lib/libtaz.sh
-check_root
 
 # Internationalization
 . /usr/bin/gettext.sh
@@ -121,6 +120,9 @@ Please logout of your current session and login again to use new locale.")
 }
 
 case "$1" in
+	info)
+		gettext "Config file   :"; echo " /etc/locale.conf"
+		gettext "Current locale:"; echo " $LANG" ;;
 	list)
 		for i in $(ls -1 /usr/share/i18n/locales | grep ^[a-z][a-z]_[A-Z][A-Z])
 		do
@@ -130,10 +132,12 @@ case "$1" in
 	"")
 		# No args: display Ncurses dialog.
 		: ${DIALOG=dialog}
+		check_root
 		dialog_menu ;;
 	*)
 		# Usage: tazlocale LANG_COUNTRY
 		locale=$1
+		check_root
 		system_config
 		gen_utf8_locale
 		link_language_files ;;

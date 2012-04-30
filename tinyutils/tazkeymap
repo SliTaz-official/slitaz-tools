@@ -7,9 +7,7 @@
 #
 # Author: Christophe Lincoln <pankso@slitaz.org>
 #
-: ${DIALOG=dialog}
 . /lib/libtaz.sh
-check_root
 
 # Internationalization
 . /usr/bin/gettext.sh
@@ -52,6 +50,8 @@ case "$1" in
 		list_keymaps | sort ;;
 	"")
 		# Default to text mode dialog.
+		: ${DIALOG=dialog}
+		check_root
 		exec 3>&1
 		value=$($DIALOG  --clear \
 		--title " $(gettext "SliTaz keymap configuration") " \
@@ -76,6 +76,7 @@ Please logout of your current session and login again to use new keyboard.")
 	*)
 		# Used to configure keymap from cmdline or scripts
 		kmap=$1
+		check_root
 		system_config
 		load_keymap ;;
 esac
