@@ -1,0 +1,104 @@
+#!/bin/sh
+#
+# Decode is a cmdline tool to decode all kind of files such as audio or video.
+# Let decode a single file, many file on cmdline or a full directory.
+#
+# Copyright (C) 2012 SliTaz GNU/Linux - BSD License
+#
+# Author: Christophe Lincoln <pankso@slitaz.org>
+#
+. /lib/libtaz.sh
+
+# NOTES:
+#	Do we need a --out=/output/path options ?
+#	Use convert for [.png|.jpg] --> .raw ?
+#	Use separators and give decoded file size ?
+#	Use mencoder for flash video files (and other format) ?
+
+# Internationalization
+. /usr/bin/gettext.sh
+TEXTDOMAIN='slitaz-tools'
+export TEXTDOMAIN
+
+#
+# Functions
+#
+
+# Small help and usage.
+usage() {
+	cat << EOT
+
+$(gettext "Usage:") $(basename $0) [option] [file|url] [file2 url2 ... fileN urlN]
+
+$(gettext "Decode audio and video files")
+
+$(gettext "Examples:")
+  $(basename $0) audio.mp3 audio.ogg
+  $(basename $0) /path/files/*
+  $(basename $0) http://www.myurl/file.avi
+
+EOT
+}
+
+# Check if a tool is installed. Dont force users and auto install package
+# Decode is a cmdline line tool, let have auto install option in GUI.
+check_tool() {
+	name="$(basename "$file")"
+	if [ ! -x /usr/bin/$1 ]; then
+		echo ""
+		gettext "Missing decoder :"; echo " $1"
+		gettext "Skipping file   :"; echo " $name"
+		continue
+	else
+		echo ""
+		gettext "Decoding:"; echo " $name"
+		#separator
+	fi
+}
+
+# Decode a file.
+decoder() {
+	case "$file" in
+		*.mp3|*.MP3)
+			check_tool "mpg123"
+			mpg123 --rate 44100 --stereo --buffer 3072 --resync \
+				-w "${file%.*3}.wav" "$file" ;;
+		*.ogg)
+			check_tool "oggdec"
+			oggdec "$file" ;;
+		*.avi|*.wmv|*.mov|*.flv)
+			check_tool "ffmpeg"
+			ext=${file##*.}
+			# *.flv --> mencoder file.flv -ovc lavc -oac mp3lame -o file.avi
+			ffmpeg -y -i "$file" "${file%.$ext}.mpg"
+			du -sh "${file%.$ext}.mpg" ;;
+		*.wav|*.mpg|--*)
+			# Skip decoded files and --options.
+			continue ;;
+		*) echo ""; gettext "Unsupported file:"; echo " $file" ;;
+	esac
+}
+
+#
+# Commands
+#
+
+case "$1" in
+	"") usage ;;
+	*)
+		for file in "$@"
+		do
+			case "$file" in
+				http://*)
+					busybox wget "$file"
+					file="$(basename "$file")"
+					decoder && rm "$file" ;;
+				*)
+					[ ! -f "$file" ] && \
+						(gettext "No file:"; echo " $file") && continue
+					decoder ;;
+			esac
+		done && echo "" ;;
+esac
+
+exit 0

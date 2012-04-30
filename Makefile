@@ -22,7 +22,7 @@ tools-pot:
 	@xgettext -o po/slitaz-tools/slitaz-tools.pot -L Shell \
 		--package-name="SliTaz Tools" \
 		./tinyutils/tazlocale ./tinyutils/tazkeymap ./tinyutils/setmixer \
-		./tinyutils/tazx
+		./tinyutils/tazx ./tinyutils/decode
 	@echo "done"
 
 boxes-pot:
