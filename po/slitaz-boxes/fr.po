@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: scpbox 20100314\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-04-30 21:08+0200\n"
-"PO-Revision-Date: 2011-06-18 22:26+0100\n"
+"PO-Revision-Date: 2012-04-30 21:19+0100\n"
 "Last-Translator: Christophe Lincoln <pankso@slitaz.org>\n"
 "Language-Team: French\n"
 "Language: \n"
@@ -19,116 +19,116 @@ msgstr ""
 
 #: boxes/wifi-box:75
 msgid "Wifi connection"
-msgstr ""
+msgstr "Connection wifi"
 
 #: boxes/wifi-box:76
 msgid "Connection to:"
-msgstr ""
+msgstr "Se connecter à:"
 
 #: boxes/wifi-box:81
 msgid "Password:"
-msgstr ""
+msgstr "Mot de passe:"
 
 #: boxes/wifi-box:108
 msgid "Wifi network"
-msgstr ""
+msgstr "Réseaux wifi"
 
 #: boxes/wifi-box:109
 msgid "<b>Connect to a wifi network</b> \\(Double click to connect\\)"
-msgstr ""
+msgstr "<b>Connection à un réseau wifi</b> \\(Double click pour se connecter\\)"
 
 #: boxes/wifi-box:114
 msgid "ESSID Name"
-msgstr ""
+msgstr "Nom ESSID"
 
 #: boxes/wifi-box:114
 msgid "Quality"
-msgstr ""
+msgstr "Qualité"
 
 #: boxes/wifi-box:115
 msgid "Encryption"
-msgstr ""
+msgstr "Cryptage"
 
 #: boxes/wifi-box:115
 msgid "Status"
-msgstr ""
+msgstr "Statut"
 
-#: boxes/wifi-box:146 boxes/burn-box:37
+#: boxes/wifi-box:146
+#: boxes/burn-box:37
 msgid "Usage:"
-msgstr ""
+msgstr "Utilisation"
 
 #: boxes/burn-box:39
 msgid "Commands:"
-msgstr ""
+msgstr "Commandes"
 
 #: boxes/burn-box:40
 msgid "Show all Wodim options"
-msgstr ""
+msgstr "Voir toutes les options de Wodim"
 
 #: boxes/burn-box:41
 msgid "Burn an ISO image"
-msgstr ""
+msgstr "Graver une image ISO"
 
 #: boxes/burn-box:42
 msgid "Create and burn an audio CD"
-msgstr ""
+msgstr "Crée et grave un CD audio"
 
 #: boxes/burn-box:44
-#, fuzzy
 msgid "Options:"
-msgstr "<b>Options      :</b>"
+msgstr "Options:"
 
 #: boxes/burn-box:48
 msgid "Examples:"
-msgstr ""
+msgstr "Examples:"
 
 #: boxes/burn-box:62
 msgid "Decoding files from:"
-msgstr ""
+msgstr "Décodage des fichiers depuis:"
 
 #: boxes/burn-box:83
 msgid "Not an ISO image:"
-msgstr ""
+msgstr "Pas une image ISO:"
 
 #: boxes/burn-box:98
 msgid "Burn ISO images and audio files [data in next releases]"
-msgstr ""
+msgstr "Graver des ISO et des fichiers audio [CD de données à venir]"
 
 #: boxes/burn-box:102
 msgid "Drive speed:"
-msgstr ""
+msgstr "Vitesse de gravure:"
 
 #: boxes/burn-box:103
 msgid "Wodim options:"
-msgstr ""
+msgstr "Options de Wodim"
 
 #: boxes/burn-box:104
 msgid "ISO image:"
-msgstr ""
+msgstr "Image ISO:"
 
 #: boxes/burn-box:105
 msgid "Audio files:"
-msgstr ""
+msgstr "Fichiers audio:"
 
 #: boxes/burn-box:106
 msgid "Wodim help"
-msgstr ""
+msgstr "Aide de Wodim"
 
 #: boxes/burn-box:107
 msgid "Blank CD"
-msgstr ""
+msgstr "Vider le CD"
 
 #: boxes/burn-box:108
 msgid "Burn"
-msgstr ""
+msgstr "Graver"
 
 #: boxes/burn-box:152
 msgid "Missing ISO image"
-msgstr ""
+msgstr "Manque l'image ISO"
 
 #: boxes/burn-box:160
 msgid "Missing audio directory"
-msgstr ""
+msgstr "Manque le dossier audio"
 
 #~ msgid ""
 #~ "\n"
