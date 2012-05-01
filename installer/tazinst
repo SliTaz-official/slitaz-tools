@@ -20,7 +20,7 @@
 # 7: Another instance is running
 # 8: Internal error
 
-VERSION=3.33
+VERSION=3.34
 
 # Internationalization
 . /usr/bin/gettext.sh
@@ -115,6 +115,7 @@ msg()
 gen_setup()
 {
 	SETUP=$1
+	[ -z "$1" ] && abort 1 "Missing <file> parameter for install configuration"
 	touch $SETUP || abort 2 $(gettext "Can't write setup file")
 	if [ -r "$SETUP" ]; then
 		cat > $SETUP << _EOF_
@@ -172,7 +173,7 @@ TGT_GRUB="no"
 TGT_WINBOOT=""
 
 _EOF_
-
+		echo "$(ls $1)" $(gettext "created.")
 	else
 		abort 2 $(gettext "Setup file not found")
 	fi
@@ -1220,6 +1221,7 @@ case $1 in
 	new)
 		gen_setup $2 ;;
 	showurl)
+		LOG="/dev/null"
 		case $2 in
 			stable)
 				echo $URL_STABLE ;;
@@ -1227,6 +1229,8 @@ case $1 in
 				echo $URL_COOKING ;;
 			rolling)
 				echo $URL_ROLLING ;;
+			*)
+				abort 1 $(gettext "Unknown url shortcut")
 		esac ;;
 	check)
 		LOG="/dev/null"
