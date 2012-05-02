@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: scpbox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-30 21:08+0200\n"
+"POT-Creation-Date: 2012-05-02 15:56+0200\n"
 "PO-Revision-Date: 2011-04-29 12:57-0300\n"
 "Last-Translator: Claudinei Pereira <claudinei@slitaz.org>\n"
 "Language-Team: Portuguese <i18n@slitaz.org>\n"
@@ -53,11 +53,11 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-#: boxes/wifi-box:146 boxes/burn-box:37
+#: boxes/wifi-box:146 boxes/burn-box:37 boxes/scp-box:34
 msgid "Usage:"
 msgstr ""
 
-#: boxes/burn-box:39
+#: boxes/burn-box:39 boxes/scp-box:36
 msgid "Commands:"
 msgstr ""
 
@@ -73,12 +73,12 @@ msgstr ""
 msgid "Create and burn an audio CD"
 msgstr ""
 
-#: boxes/burn-box:44
+#: boxes/burn-box:44 boxes/scp-box:39 boxes/scp-box:66
 #, fuzzy
 msgid "Options:"
 msgstr "<b>Opções      :</b>"
 
-#: boxes/burn-box:48
+#: boxes/burn-box:48 boxes/scp-box:43
 msgid "Examples:"
 msgstr ""
 
@@ -130,6 +130,46 @@ msgstr ""
 msgid "Missing audio directory"
 msgstr ""
 
+#: boxes/scp-box:37
+msgid "List all know hosts"
+msgstr ""
+
+#: boxes/scp-box:59
+msgid "<b>Secure copy</b> - Copy files remotly with scp"
+msgstr ""
+
+#: boxes/scp-box:63
+msgid "User name:"
+msgstr ""
+
+#: boxes/scp-box:64
+msgid "Hostname:"
+msgstr ""
+
+#: boxes/scp-box:65
+msgid "Know hosts:"
+msgstr ""
+
+#: boxes/scp-box:67
+msgid "Local file:"
+msgstr ""
+
+#: boxes/scp-box:68
+msgid "Local directory:"
+msgstr ""
+
+#: boxes/scp-box:69
+msgid "Remote path:"
+msgstr ""
+
+#: boxes/scp-box:70
+msgid "Download"
+msgstr "Download"
+
+#: boxes/scp-box:71
+msgid "Upload"
+msgstr "Upload"
+
 #~ msgid ""
 #~ "\n"
 #~ "Copy files securely with scp from Dropbear SSH client/server.\n"
@@ -156,12 +196,6 @@ msgstr ""
 
 #~ msgid "<b>Remote   :</b>"
 #~ msgstr "<b>Remoto  :</b>"
-
-#~ msgid "Download"
-#~ msgstr "Download"
-
-#~ msgid "Upload"
-#~ msgstr "Upload"
 
 #~ msgid "Exit"
 #~ msgstr "Sair"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: scpbox 20100314\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-30 21:08+0200\n"
+"POT-Creation-Date: 2012-05-02 15:56+0200\n"
 "PO-Revision-Date: 2012-04-30 21:19+0100\n"
 "Last-Translator: Christophe Lincoln <pankso@slitaz.org>\n"
 "Language-Team: French\n"
@@ -35,7 +35,8 @@ msgstr "Réseaux wifi"
 
 #: boxes/wifi-box:109
 msgid "<b>Connect to a wifi network</b> \\(Double click to connect\\)"
-msgstr "<b>Connection à un réseau wifi</b> \\(Double click pour se connecter\\)"
+msgstr ""
+"<b>Connection à un réseau wifi</b> \\(Double click pour se connecter\\)"
 
 #: boxes/wifi-box:114
 msgid "ESSID Name"
@@ -53,12 +54,11 @@ msgstr "Cryptage"
 msgid "Status"
 msgstr "Statut"
 
-#: boxes/wifi-box:146
-#: boxes/burn-box:37
+#: boxes/wifi-box:146 boxes/burn-box:37 boxes/scp-box:34
 msgid "Usage:"
 msgstr "Utilisation"
 
-#: boxes/burn-box:39
+#: boxes/burn-box:39 boxes/scp-box:36
 msgid "Commands:"
 msgstr "Commandes"
 
@@ -74,11 +74,11 @@ msgstr "Graver une image ISO"
 msgid "Create and burn an audio CD"
 msgstr "Crée et grave un CD audio"
 
-#: boxes/burn-box:44
+#: boxes/burn-box:44 boxes/scp-box:39 boxes/scp-box:66
 msgid "Options:"
 msgstr "Options:"
 
-#: boxes/burn-box:48
+#: boxes/burn-box:48 boxes/scp-box:43
 msgid "Examples:"
 msgstr "Examples:"
 
@@ -130,6 +130,47 @@ msgstr "Manque l'image ISO"
 msgid "Missing audio directory"
 msgstr "Manque le dossier audio"
 
+#: boxes/scp-box:37
+msgid "List all know hosts"
+msgstr ""
+
+#: boxes/scp-box:59
+msgid "<b>Secure copy</b> - Copy files remotly with scp"
+msgstr ""
+
+#: boxes/scp-box:63
+msgid "User name:"
+msgstr ""
+
+#: boxes/scp-box:64
+msgid "Hostname:"
+msgstr ""
+
+#: boxes/scp-box:65
+msgid "Know hosts:"
+msgstr ""
+
+#: boxes/scp-box:67
+#, fuzzy
+msgid "Local file:"
+msgstr "Fichiers audio:"
+
+#: boxes/scp-box:68
+msgid "Local directory:"
+msgstr ""
+
+#: boxes/scp-box:69
+msgid "Remote path:"
+msgstr ""
+
+#: boxes/scp-box:70
+msgid "Download"
+msgstr "Télécharger"
+
+#: boxes/scp-box:71
+msgid "Upload"
+msgstr "Envoyer"
+
 #~ msgid ""
 #~ "\n"
 #~ "Copy files securely with scp from Dropbear SSH client/server.\n"
@@ -156,12 +197,6 @@ msgstr "Manque le dossier audio"
 
 #~ msgid "<b>Remote   :</b>"
 #~ msgstr "<b>Distant      :</b>"
-
-#~ msgid "Download"
-#~ msgstr "Télécharger"
-
-#~ msgid "Upload"
-#~ msgstr "Envoyer"
 
 #~ msgid "Exit"
 #~ msgstr "Quitter"
