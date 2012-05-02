@@ -1,0 +1,142 @@
+#!/bin/sh
+#
+# SCP Box - Small front end to the secure file copy utility.
+#
+# Copyright (C) 2008-2012 SliTaz GNU/Linux - BSD License
+#
+# Author: Christophe Lincoln <pankso@slitaz.org>
+#
+. /lib/libtaz.sh
+
+[ "$file" ] || file="$HOME"
+[ "$dir" ] || dir="$HOME"
+
+# Internal variables (we need a space before options).
+config=$HOME/.config/scpbox
+icon=/usr/share/pixmaps/slitaz-icon.png
+term="xterm -geometry 80x16"
+scpopts=" -r -P 22"
+
+# Make sure we have a config files.
+if [ ! -d "$config" ] || [ -f "$config/hosts" ]; then
+	mkdir -p $config
+	touch $config/hosts && chmod 0600 $config/hosts
+fi
+
+#
+# Functions
+#
+
+# Help and usage
+usage() {
+	cat << EOT
+
+$(gettext "Usage:") $(basename $0) [command|option]
+
+$(gettext "Commands:")
+  list-hosts       $(gettext "List all know hosts")
+
+$(gettext "Options:")
+  --file=/path/to/file
+  --dir=/path/to/directory
+
+$(gettext "Examples:")
+  $(basename $0) --file=/path/to/file
+
+EOT
+}
+
+# List last used hosts.
+list_hosts() {
+	for h in $(cat $config/hosts)
+	do
+		echo -n "!$h"
+	done
+}
+
+# Main GUI box function with pure Yad spec
+scpbox_main() {
+	text=$(gettext "<b>Secure copy</b> - Copy files remotly with scp")
+	yad --form --title="SCP Box" --window-icon=$icon \
+		--image=folder-remote --image-on-top \
+		--height=320 --width=500 --text="$text" \
+		--field="$(gettext "User name:")" \
+		--field="$(gettext "Hostname:")" \
+		--field="$(gettext "Know hosts:")":CB \
+		--field="$(gettext "Options:")" \
+		--field="$(gettext "Local file:")":FL \
+		--field="$(gettext "Local directory:")":DIR \
+		--field="$(gettext "Remote path:")" \
+		--button="$(gettext "Download")":2 \
+		--button="$(gettext "Upload")":0 \
+		--button="gtk-close":1 \
+		"$USER" "" "$(list_hosts)" "$scpopts" "$file" "$dir" ""
+}
+
+# Main function
+scpbox() {
+	# Store box results
+	main=$(scpbox_main)
+	ret=$?
+	[ "$debug" ] && echo "DEBUG: main=$main"
+
+	user=$(echo $main | cut -d "|" -f 1)
+	hostname=$(echo $main | cut -d "|" -f 2)
+	options=$(echo $main | cut -d "|" -f 4)
+	remote=$(echo $main | cut -d "|" -f 7)
+
+	# Use and store new hostname.
+	if [ "$hostname" ]; then
+		echo "$hostname" >> $config/hosts
+		host="$hostname"
+	else
+		host=$(echo $main | cut -d "|" -f 3)
+	fi
+	if [ "$host" == "(null)" ] || [ ! "$host" ]; then
+		echo "No host: exit" && exit 0
+	fi
+
+	# Deal with --button values
+	case $ret in
+		0)
+			# Upload: do we have a single file or a directory (skip $HOME)
+			file=$(echo $main | cut -d "|" -f 5)
+			dir=$(echo $main | cut -d "|" -f 6)
+			if [ -f "$file" ]; then
+				local="$file"
+			elif [ "$dir" != "$HOME" ]; then
+				local="$dir"
+			else
+				echo "No file: exit" && exit 0
+			fi
+			cmd="scp $options $local $user@$host:$remote"
+			[ "$debug" ] && echo "DEBUG: $cmd"
+			$term -e "$cmd" ;;
+		2)
+			# Download: we need a remote a file.
+			local=$(echo $main | cut -d "|" -f 6)
+			if [ ! "$remote" ]; then
+				echo "No remote file: exit" && exit 0
+			fi
+			cmd="scp $options $user@$host:$remote $local"
+			[ "$debug" ] && echo "DEBUG: $cmd"
+			$term -e "$cmd" ;;
+		*)
+			exit 0 ;;
+	esac
+}
+
+#
+# Commands
+#
+
+case "$1" in
+	list-hosts)
+		list_hosts ;;
+	""|--*)
+		scpbox ;;
+	*)
+		usage ;;
+esac
+
+exit 0
