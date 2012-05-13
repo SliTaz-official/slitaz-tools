@@ -4,7 +4,7 @@ TazBox
 
 TazBox is multi box utility providing small GUI such as a logout, su, locale
 or keymap configuration and more. See 'tazbox usage' for more information. The
-strings are gettextized and boxes are powerd by Yad/GTK.
+strings are gettextized and boxes are powered by Yad/GTK.
 
 
 ===============================================================================

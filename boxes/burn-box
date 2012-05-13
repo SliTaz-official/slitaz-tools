@@ -2,7 +2,7 @@
 #
 # Burn-box a small front end to cdrkit powered by Yad/GTK. Keep the main
 # window uncluttered and use a wizard to create audio/video/data cd/dvd.
-# The main box let user burn an ISO, audio files from a single directory.
+# The main box lets users burn an ISO and audio files from a single directory.
 #
 # Copyright (C) 2012 SliTaz GNU/Linux - BSD License
 #

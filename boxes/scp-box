@@ -17,7 +17,7 @@ icon=/usr/share/pixmaps/slitaz-icon.png
 term="xterm -geometry 80x16"
 scpopts=" -r -P 22"
 
-# Make sure we have a config files.
+# Make sure we have config files.
 if [ ! -d "$config" ] || [ -f "$config/hosts" ]; then
 	mkdir -p $config
 	touch $config/hosts && chmod 0600 $config/hosts
@@ -34,7 +34,7 @@ usage() {
 $(gettext "Usage:") $(basename $0) [command|option]
 
 $(gettext "Commands:")
-  list-hosts       $(gettext "List all know hosts")
+  list-hosts       $(gettext "List all known hosts")
 
 $(gettext "Options:")
   --file=/path/to/file
@@ -56,13 +56,13 @@ list_hosts() {
 
 # Main GUI box function with pure Yad spec
 scpbox_main() {
-	text=$(gettext "<b>Secure copy</b> - Copy files remotly with scp")
+	text=$(gettext "<b>Secure copy</b> - Copy files remotely with scp")
 	yad --form --title="SCP Box" --window-icon=$icon \
 		--image=folder-remote --image-on-top \
 		--height=320 --width=500 --text="$text" \
 		--field="$(gettext "User name:")" \
 		--field="$(gettext "Hostname:")" \
-		--field="$(gettext "Know hosts:")":CB \
+		--field="$(gettext "Known hosts:")":CB \
 		--field="$(gettext "Options:")" \
 		--field="$(gettext "Local file:")":FL \
 		--field="$(gettext "Local directory:")":DIR \
@@ -113,7 +113,7 @@ scpbox() {
 			[ "$debug" ] && echo "DEBUG: $cmd"
 			$term -e "$cmd" ;;
 		2)
-			# Download: we need a remote a file.
+			# Download: we need a remote file.
 			local=$(echo $main | cut -d "|" -f 6)
 			if [ ! "$remote" ]; then
 				echo "No remote file: exit" && exit 0

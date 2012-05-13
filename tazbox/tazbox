@@ -296,7 +296,7 @@ case "$1" in
 			1) exit 0 ;;
 			*) continue ;;
 		esac
-		# DE and WM started with a cistom -session script should export
+		# DE and WM started with a custom -session script should export
 		# XDG_CURRENT_DESKTOP
 		case "$main" in
 			*exit)

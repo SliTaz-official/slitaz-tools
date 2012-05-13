@@ -1,7 +1,7 @@
 #!/bin/sh
 #
-# Decode is a cmdline tool to decode all kind of files such as audio or video.
-# Let decode a single file, many file on cmdline or a full directory.
+# Decode is a cmdline tool to decode all kinds of files such as audio or video.
+# Lets you decode a single file, many files on cmdline or a full directory.
 #
 # Copyright (C) 2012 SliTaz GNU/Linux - BSD License
 #
@@ -40,8 +40,8 @@ $(gettext "Examples:")
 EOT
 }
 
-# Check if a tool is installed. Dont force users and auto install package
-# Decode is a cmdline line tool, let have auto install option in GUI.
+# Check if a tool is installed. Don't force users and auto install package
+# Decode is a cmdline line tool, let's have auto install option in GUI.
 check_tool() {
 	name="$(basename "$file")"
 	if [ ! -x /usr/bin/$1 ]; then

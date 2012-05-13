@@ -3,7 +3,7 @@ SliTaz Tools Libs
 
 
 SliTaz tools libraries. On the system, libs go in /usr/lib/slitaz. Some libs
-have a usage and can be called directly from the command line. In most case
+have a usage and can be called directly from the command line. In most cases
 the library will be sourced from a script.
 
 
