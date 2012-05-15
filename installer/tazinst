@@ -609,7 +609,7 @@ copy_bootloaders()
 	if [ -f "$SOURCE_ROOT/boot/grub/splash.xpm.gz" ]; then
 		debug "Copy GRUB splash image"
 		mkdir -p $TARGET_ROOT/boot/grub
-		$SOURCE_ROOT/boot/grub/splash.xpm.gz $TARGET_ROOT/boot/grub
+                cp $SOURCE_ROOT/boot/grub/splash.xpm.gz $TARGET_ROOT/boot/grub
 	fi
 }
 
