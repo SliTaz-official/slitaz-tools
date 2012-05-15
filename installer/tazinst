@@ -861,7 +861,7 @@ splashimage=/boot/grub/splash.xpm.gz
 
 # For booting SliTaz from : $TGT_PARTITION
 #
-title SliTaz GNU/Linux (cooking) (Kernel $KERNEL)
+title SliTaz GNU/Linux (Kernel $KERNEL)
 root $GRUB_ROOT
 kernel /boot/$KERNEL root=$TGT_PARTITION quiet
 
