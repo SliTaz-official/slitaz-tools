@@ -1,15 +1,15 @@
 # French translation for Tazinst (SliTaz installer).
 # Traduction française du paquet Tazinst
-# Copyright (C) 2011 - SliTaz Team
+# Copyright (C) 2011-2012 - SliTaz Team
 # This file is distributed under the same license as Tazinst.
-# Dominique Corbex <domcox@slitaz.org>, 2011
+# Dominique Corbex <domcox@slitaz.org>, 2011-2012
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: 3.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-05-02 15:56+0200\n"
-"PO-Revision-Date: 2011-08-14 17:02+0200\n"
+"PO-Revision-Date: 2012-05-19 11:20+0200\n"
 "Last-Translator: Dominique Corbex <domcox@slitaz.org>\n"
 "Language-Team: French\n"
 "Language: \n"
@@ -80,7 +80,7 @@ msgstr "Impossible d'écrire un fichier de paramètres"
 
 #: installer/tazinst:176
 msgid "created."
-msgstr ""
+msgstr "Créé."
 
 #: installer/tazinst:178 installer/tazinst:226
 msgid "Setup file not found"
@@ -239,19 +239,19 @@ msgstr "Activation du Dual-boot avec Windows"
 
 #: installer/tazinst:891
 msgid "Installing SliTaz on:"
-msgstr "Installe SliTaz sur:"
+msgstr "Installation de SliTaz sur:"
 
 #: installer/tazinst:910
 msgid "Configuring root and default user account:"
-msgstr "Configure les comptes de root et de l'utilisateur par défaut :"
+msgstr "Configuration des comptes de root et de l'utilisateur par défaut :"
 
 #: installer/tazinst:914
 msgid "Configuring partition to be used as /home:"
-msgstr "Configure la partition à utiliser comme /home:"
+msgstr "Configuration de la partition à utiliser comme /home:"
 
 #: installer/tazinst:933
 msgid "Running grub-install on:"
-msgstr "Installe Grub sur:"
+msgstr "Installation de Grub sur:"
 
 #: installer/tazinst:947
 msgid "Unmounting target partition:"
@@ -279,7 +279,7 @@ msgstr "Copie du fichier journal"
 
 #: installer/tazinst:1009
 msgid "Preparing upgrade of SliTaz release:"
-msgstr "Prépare la mise à jour de la version de SliTaz :"
+msgstr "Préparation de la mise à jour de la version de SliTaz :"
 
 #: installer/tazinst:1011
 msgid ""
@@ -310,7 +310,7 @@ msgstr "Sauvegarde de /etc, /home et de la liste des paquets..."
 
 #: installer/tazinst:1160
 msgid "Upgrading SliTaz on:"
-msgstr "Met à jour SliTaz sur :"
+msgstr "Mise à jour de SliTaz sur :"
 
 #: installer/tazinst:1168
 msgid "Restoring configuration files..."
@@ -318,7 +318,7 @@ msgstr "Restauration des fichiers de configuration..."
 
 #: installer/tazinst:1174
 msgid "Upgrading added packages..."
-msgstr "Mise à hour des paquets additionnels..."
+msgstr "Mise à jour des paquets additionnels..."
 
 #: installer/tazinst:1186
 msgid "Upgrade finished. You can now restart (reboot)"
@@ -333,9 +333,8 @@ msgid "Packages installed from the mirror :"
 msgstr "Paquets installés depuis le miroir :"
 
 #: installer/tazinst:1233
-#, fuzzy
 msgid "Unknown url shortcut"
-msgstr "Type de source inconnu"
+msgstr "Raccourci d'URL inconnu"
 
 #~ msgid "Generate a configuration file."
 #~ msgstr "Génére un fichier de configuration."
