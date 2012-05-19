@@ -436,14 +436,14 @@ check_iso()
 check_web()
 {
 	local src_md5
-	debug "Downloading $SRC_FILE"
+	msg "Downloading $SRC_FILE"
 	if wget $SRC_FILE -P /tmp; then
 		debug "Download completed."
 	else
 		warning "$SRC_FILE: $(gettext "File download failed.")"
 	fi
 	src_md5=$(echo $SRC_FILE | sed 's/.iso$/.md5/')
-	debug "Downloading $src_md5"
+	msg "Downloading $src_md5"
 	wget $src_md5 -P /tmp || warning "$src_md5: $(gettext "File download failed.")"
 	tmpfile=$(echo $SRC_FILE | awk 'BEGIN{RS="/"}{out=$1}END{printf"%s",out}')
 	SRC_FILE="/tmp/$tmpfile"
