@@ -20,7 +20,7 @@
 # 7: Another instance is running
 # 8: Internal error
 
-VERSION=3.34
+VERSION=3.35
 
 # Internationalization
 . /usr/bin/gettext.sh
@@ -861,7 +861,7 @@ splashimage=/boot/grub/splash.xpm.gz
 
 # For booting SliTaz from : $TGT_PARTITION
 #
-title SliTaz GNU/Linux (Kernel $KERNEL)
+title SliTaz GNU/Linux [$(cat $TARGET_ROOT/etc/slitaz-release)](Kernel $KERNEL)
 root $GRUB_ROOT
 kernel /boot/$KERNEL root=$TGT_PARTITION quiet
 
