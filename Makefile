@@ -74,7 +74,7 @@ msgfmt:
 
 # Installation
 
-install:
+install: msgfmt
 	install -m 0755 -d $(DESTDIR)/sbin
 	install -m 0755 -d $(DESTDIR)/etc
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/bin
