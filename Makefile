@@ -97,7 +97,7 @@ install:
 	done;
 
 	# /usr/bin tools.
-	for app in tazx startx history editor browser terminal file-manager; \
+	for app in tazx startx history editor browser terminal file-manager decode; \
 	do \
 		install -m 0755 tinyutils/$$app $(DESTDIR)$(PREFIX)/bin; \
 	done;
