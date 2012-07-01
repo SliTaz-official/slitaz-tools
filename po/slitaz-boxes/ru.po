@@ -1,61 +1,60 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Aleksej Bobylev <al.bobylev@gmail.com>, 2012.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Boxes\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-01 20:20+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2012-05-12 12:35-0000\n"
+"Last-Translator: Aleksej Bobylev <al.bobylev@gmail.com>\n"
+"Language-Team: \n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: boxes/wifi-box:75
 msgid "Wifi connection"
-msgstr ""
+msgstr "Соединение WiFi"
 
 #: boxes/wifi-box:76
 msgid "Connection to:"
-msgstr ""
+msgstr "Соединение с:"
 
 #: boxes/wifi-box:81
 msgid "Password:"
-msgstr ""
+msgstr "Пароль:"
 
 #: boxes/wifi-box:108
 msgid "Wifi network"
-msgstr ""
+msgstr "Сеть WiFi"
 
 #: boxes/wifi-box:109
 msgid "<b>Connect to a wifi network</b> \\(Double click to connect\\)"
-msgstr ""
+msgstr "<b>Соединиться с сетью WiFi</b> \\(двойной клик для соединения\\)"
 
 #: boxes/wifi-box:114
 msgid "ESSID Name"
-msgstr ""
+msgstr "Имя ESSID"
 
 #: boxes/wifi-box:114
 msgid "Quality"
-msgstr ""
+msgstr "Уровень сигнала"
 
 #: boxes/wifi-box:115
 msgid "Encryption"
-msgstr ""
+msgstr "Шифрование"
 
 #: boxes/wifi-box:115
 msgid "Status"
-msgstr ""
+msgstr "Состояние"
 
 #: boxes/wifi-box:146 boxes/burn-box:37 boxes/scp-box:34
 msgid "Usage:"
-msgstr ""
+msgstr "Использование:"
 
 #: boxes/burn-box:39 boxes/scp-box:36
 msgid "Commands:"

@@ -1,5 +1,5 @@
 #!/bin/sh
-# Lauch SliTaz default Web browser.
+# Launch SliTaz default Web browser.
 #
 . /etc/slitaz/applications.conf
 

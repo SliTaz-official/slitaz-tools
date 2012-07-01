@@ -2,6 +2,7 @@
 Encoding=UTF-8
 Name=Burn ISO image
 Name[fr]=Graver l'image ISO
+Name[ru]=Записать образ ISO
 Exec=burn-box --iso=%f
 Icon=drive-optical
 Type=Application

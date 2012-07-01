@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Boxes\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-02 15:56+0200\n"
+"POT-Creation-Date: 2012-07-01 20:20+0000\n"
 "PO-Revision-Date: 2011-08-11 21:59-0300\n"
 "Last-Translator: Lucas Gioia <lucas.lucas.lucas24@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -130,11 +130,11 @@ msgid "Missing audio directory"
 msgstr ""
 
 #: boxes/scp-box:37
-msgid "List all know hosts"
+msgid "List all known hosts"
 msgstr ""
 
 #: boxes/scp-box:59
-msgid "<b>Secure copy</b> - Copy files remotly with scp"
+msgid "<b>Secure copy</b> - Copy files remotely with scp"
 msgstr ""
 
 #: boxes/scp-box:63
@@ -146,7 +146,7 @@ msgid "Hostname:"
 msgstr ""
 
 #: boxes/scp-box:65
-msgid "Know hosts:"
+msgid "Known hosts:"
 msgstr ""
 
 #: boxes/scp-box:67

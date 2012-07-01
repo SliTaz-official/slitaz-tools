@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: scpbox 20100314\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-02 15:56+0200\n"
+"POT-Creation-Date: 2012-07-01 20:20+0000\n"
 "PO-Revision-Date: 2012-05-02 16:00+0100\n"
 "Last-Translator: Christophe Lincoln <pankso@slitaz.org>\n"
 "Language-Team: French\n"
@@ -35,7 +35,8 @@ msgstr "Réseaux wifi"
 
 #: boxes/wifi-box:109
 msgid "<b>Connect to a wifi network</b> \\(Double click to connect\\)"
-msgstr "<b>Connection à un réseau wifi</b> \\(Double click pour se connecter\\)"
+msgstr ""
+"<b>Connection à un réseau wifi</b> \\(Double click pour se connecter\\)"
 
 #: boxes/wifi-box:114
 msgid "ESSID Name"
@@ -53,14 +54,11 @@ msgstr "Cryptage"
 msgid "Status"
 msgstr "Statut"
 
-#: boxes/wifi-box:146
-#: boxes/burn-box:37
-#: boxes/scp-box:34
+#: boxes/wifi-box:146 boxes/burn-box:37 boxes/scp-box:34
 msgid "Usage:"
 msgstr "Utilisation"
 
-#: boxes/burn-box:39
-#: boxes/scp-box:36
+#: boxes/burn-box:39 boxes/scp-box:36
 msgid "Commands:"
 msgstr "Commandes"
 
@@ -76,14 +74,11 @@ msgstr "Graver une image ISO"
 msgid "Create and burn an audio CD"
 msgstr "Crée et grave un CD audio"
 
-#: boxes/burn-box:44
-#: boxes/scp-box:39
-#: boxes/scp-box:66
+#: boxes/burn-box:44 boxes/scp-box:39 boxes/scp-box:66
 msgid "Options:"
 msgstr "Options:"
 
-#: boxes/burn-box:48
-#: boxes/scp-box:43
+#: boxes/burn-box:48 boxes/scp-box:43
 msgid "Examples:"
 msgstr "Examples:"
 
@@ -136,11 +131,13 @@ msgid "Missing audio directory"
 msgstr "Manque le dossier audio"
 
 #: boxes/scp-box:37
-msgid "List all know hosts"
+#, fuzzy
+msgid "List all known hosts"
 msgstr "List tous les noms d'hôte connu"
 
 #: boxes/scp-box:59
-msgid "<b>Secure copy</b> - Copy files remotly with scp"
+#, fuzzy
+msgid "<b>Secure copy</b> - Copy files remotely with scp"
 msgstr "<b>Copie sécurisée</b> - Copie de fichiers distants avec scp"
 
 #: boxes/scp-box:63
@@ -152,7 +149,8 @@ msgid "Hostname:"
 msgstr "Non d'hôte:"
 
 #: boxes/scp-box:65
-msgid "Know hosts:"
+#, fuzzy
+msgid "Known hosts:"
 msgstr "Hôtes connu:"
 
 #: boxes/scp-box:67

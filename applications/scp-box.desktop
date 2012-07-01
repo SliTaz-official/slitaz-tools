@@ -4,6 +4,7 @@ Name=SCP Secure copy
 Name[fr]=Copie sécurisée SCP
 Name[pt]=SCP Cópia Segura de Arquivos
 Name[pt_BR]=SCP Cópia Segura de Arquivos
+Name[ru]=Безопасное копирование файлов SCP
 Exec=scp-box
 Icon=folder-remote
 Type=Application

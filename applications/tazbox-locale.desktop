@@ -4,6 +4,7 @@ Name=System language
 Name[fr]=Langue du système
 Name[pt]=Linguagem do Sistema
 Name[pt_BR]=Linguagem do Sistema
+Name[ru]=Язык системы
 Exec=tazbox su "tazbox locale"
 Icon=locale
 Terminal=false

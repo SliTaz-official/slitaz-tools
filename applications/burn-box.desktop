@@ -4,6 +4,7 @@ Name=Burn CD/DVD
 Name[fr]=Graver des CD/DVD
 Name[pt]=Gravador de CD/DVD
 Name[pt_BR]=Gravador de CD/DVD
+Name[ru]=Записать CD/DVD
 Exec=burn-box
 Icon=drive-optical
 Type=Application

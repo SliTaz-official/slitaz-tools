@@ -4,6 +4,7 @@ Name=Time Zone configuration
 Name[fr]=Zone horaire
 Name[pt]=Configuração de Zona Horária
 Name[pt_BR]=Configuração de Zona Horária
+Name[ru]=Конфигурация часового пояса
 Exec=tazbox su "tazbox tz"
 Icon=locale
 Terminal=false
