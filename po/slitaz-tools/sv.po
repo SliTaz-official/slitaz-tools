@@ -1,0 +1,132 @@
+# Swedish translations for SliTaz Tools package.
+# Copyright (C) 2012 SliTaz
+# This file is distributed under the same license as the SliTaz Tools package.
+# Emil Eklund <emileklund123@gmail.com>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: SliTaz Tools\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-07-01 20:20+0000\n"
+"PO-Revision-Date: 2012-07-12 12:59-0000\n"
+"Last-Translator: Emil Eklund <emileklund123@gmail.com>\n"
+"Language-Team: Swedish\n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: tinyutils/tazlocale:82
+msgid "Setting system locale to:"
+msgstr "Ställer in systemspråket till:"
+
+#: tinyutils/tazlocale:96
+msgid "SliTaz language configuration"
+msgstr "Slitaz språk konfiguration"
+
+#: tinyutils/tazlocale:115
+msgid ""
+"Please logout of your current session and login again to use new locale."
+msgstr ""
+"Var god logga ut från din nuvarande session och logga in igen för att "
+"använda det nya språket."
+
+#: tinyutils/tazlocale:124 tinyutils/tazkeymap:47
+msgid "Config file   :"
+msgstr "Konfigurations fil:"
+
+#: tinyutils/tazlocale:125
+msgid "Current locale:"
+msgstr "Nuvarande språk:"
+
+#: tinyutils/tazkeymap:48
+msgid "Current keymap:"
+msgstr "Nuvarande tangentbords layout:"
+
+#: tinyutils/tazkeymap:57
+msgid "SliTaz keymap configuration"
+msgstr "Slitaz tangentbords layout konfiguration"
+
+#: tinyutils/tazkeymap:69
+msgid ""
+"Please logout of your current session and login again to use new keyboard."
+msgstr ""
+"Var god logga ut från din nuvarande session och logga in igen för att "
+"använda den nya tangentbords layouten."
+
+#: tinyutils/setmixer:12
+msgid "Setting default mixer volumes... "
+msgstr "Ställer in mixerns standard volymer..."
+
+#: tinyutils/setmixer:53
+msgid "Done"
+msgstr "Klar"
+
+#: tinyutils/tazx:32
+msgid "You must be root to configure X server."
+msgstr "Du måste vara root får att konfigurera X server"
+
+#: tinyutils/tazx:126
+msgid "Install Xorg"
+msgstr "Installera Xorg"
+
+#: tinyutils/tazx:128
+msgid "Tazx helps you to select your X driver."
+msgstr "Tazx hjälper dig att välja din X drivrutin."
+
+#: tinyutils/tazx:163
+msgid "Tazx dialog helps you to configure your Xorg server."
+msgstr "Tazx dialogen hjälper dig att konfigurera din Xorg server."
+
+#: tinyutils/tazx:164
+msgid "Window Manager:"
+msgstr "Fönster hanterare:"
+
+#: tinyutils/tazx:165
+msgid "X server:"
+msgstr "X server:"
+
+#: tinyutils/tazx:166
+msgid "Install or reconfigure Xorg"
+msgstr "Installera eller omkonifigurera Xorg"
+
+#: tinyutils/tazx:167
+msgid "Install TinyX server Xfbdev"
+msgstr "Installera TinyX server Xfbdev"
+
+#: tinyutils/tazx:168
+msgid "Quit Tazx utility"
+msgstr "Avsluta Tazx verktyget"
+
+#: tinyutils/decode:31
+msgid "Usage:"
+msgstr "Användning:"
+
+#: tinyutils/decode:33
+msgid "Decode audio and video files"
+msgstr "Avkoda ljud och video filer"
+
+#: tinyutils/decode:35
+msgid "Examples:"
+msgstr "Exempel:"
+
+#: tinyutils/decode:49
+msgid "Missing decoder :"
+msgstr "Saknar avkodare:"
+
+#: tinyutils/decode:50
+msgid "Skipping file   :"
+msgstr "Saknar fil     :"
+
+#: tinyutils/decode:54
+msgid "Decoding:"
+msgstr "Avkodning:"
+
+#: tinyutils/decode:78
+msgid "Unsupported file:"
+msgstr "Ostödd filtyp:"
+
+#: tinyutils/decode:98
+msgid "No file:"
+msgstr "Ingen fil:"

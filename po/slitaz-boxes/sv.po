@@ -1,0 +1,170 @@
+# Swedish translations for SliTaz Boxes package.
+# Copyright (C) 2012 SliTaz
+# This file is distributed under the same license as the SliTaz Boxes package.
+# Emil Eklund <emileklund123@gmail.com>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: SliTaz Boxes\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-07-01 20:20+0000\n"
+"PO-Revision-Date: 2012-07-12 02:30-0000\n"
+"Last-Translator: Emil Eklund <emileklund123@gmail.com>\n"
+"Language-Team: Swedish\n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: boxes/wifi-box:75
+msgid "Wifi connection"
+msgstr "Trådlös anslutning"
+
+#: boxes/wifi-box:76
+msgid "Connection to:"
+msgstr "Anslut till:"
+
+#: boxes/wifi-box:81
+msgid "Password:"
+msgstr "Lösenord:"
+
+#: boxes/wifi-box:108
+msgid "Wifi network"
+msgstr "Trådlöst nätverk"
+
+#: boxes/wifi-box:109
+msgid "<b>Connect to a wifi network</b> \\(Double click to connect\\)"
+msgstr "<b>Anslut till ett trådlöst nätverk</b> \\(Dubbelklicka för att ansluta\\)"
+
+#: boxes/wifi-box:114
+msgid "ESSID Name"
+msgstr "ESSID Namn"
+
+#: boxes/wifi-box:114
+msgid "Quality"
+msgstr "Kvalité"
+
+#: boxes/wifi-box:115
+msgid "Encryption"
+msgstr "Kryptering"
+
+#: boxes/wifi-box:115
+msgid "Status"
+msgstr "Status"
+
+#: boxes/wifi-box:146 boxes/burn-box:37 boxes/scp-box:34
+msgid "Usage:"
+msgstr "Användning:"
+
+#: boxes/burn-box:39 boxes/scp-box:36
+msgid "Commands:"
+msgstr "Kommandon:"
+
+#: boxes/burn-box:40
+msgid "Show all Wodim options"
+msgstr "Visa alla Wodim val"
+
+#: boxes/burn-box:41
+msgid "Burn an ISO image"
+msgstr "Skriv en ISO avbildning"
+
+#: boxes/burn-box:42
+msgid "Create and burn an audio CD"
+msgstr "Skapa och skriv en ljud CD"
+
+#: boxes/burn-box:44 boxes/scp-box:39 boxes/scp-box:66
+msgid "Options:"
+msgstr "Val:"
+
+#: boxes/burn-box:48 boxes/scp-box:43
+msgid "Examples:"
+msgstr "Exempel:"
+
+#: boxes/burn-box:62
+msgid "Decoding files from:"
+msgstr "Avkodar filer från:"
+
+#: boxes/burn-box:83
+msgid "Not an ISO image:"
+msgstr "Inte en ISO bild:"
+
+#: boxes/burn-box:98
+msgid "Burn ISO images and audio files [data in next releases]"
+msgstr "Skriv ISO bilder och ljudfiler [data i nästa utgåvan]"
+
+#: boxes/burn-box:102
+msgid "Drive speed:"
+msgstr "Hastighet:"
+
+#: boxes/burn-box:103
+msgid "Wodim options:"
+msgstr "Wodim val:"
+
+#: boxes/burn-box:104
+msgid "ISO image:"
+msgstr "ISO bild:"
+
+#: boxes/burn-box:105
+msgid "Audio files:"
+msgstr "Ljud filer:"
+
+#: boxes/burn-box:106
+msgid "Wodim help"
+msgstr "Wodim hjälp"
+
+#: boxes/burn-box:107
+msgid "Blank CD"
+msgstr "Blank CD"
+
+#: boxes/burn-box:108
+msgid "Burn"
+msgstr "Skriv"
+
+#: boxes/burn-box:152
+msgid "Missing ISO image"
+msgstr "Saknar ISO bild"
+
+#: boxes/burn-box:160
+msgid "Missing audio directory"
+msgstr "Saknar ljud mapp"
+
+#: boxes/scp-box:37
+msgid "List all known hosts"
+msgstr "Visar alla kända värdar"
+
+#: boxes/scp-box:59
+msgid "<b>Secure copy</b> - Copy files remotely with scp"
+msgstr "<b>Säker kopia</b> - Kopiera filer på avstånd med scp"
+
+#: boxes/scp-box:63
+msgid "User name:"
+msgstr "Användar namn:"
+
+#: boxes/scp-box:64
+msgid "Hostname:"
+msgstr "Värdnamn:"
+
+#: boxes/scp-box:65
+msgid "Known hosts:"
+msgstr "Kända värdar:"
+
+#: boxes/scp-box:67
+msgid "Local file:"
+msgstr "Lokal fil:"
+
+#: boxes/scp-box:68
+msgid "Local directory:"
+msgstr "Lokal mapp:"
+
+#: boxes/scp-box:69
+msgid "Remote path:"
+msgstr "Avlägsen väg:"
+
+#: boxes/scp-box:70
+msgid "Download"
+msgstr "Ladda ner"
+
+#: boxes/scp-box:71
+msgid "Upload"
+msgstr "Ladda upp"
