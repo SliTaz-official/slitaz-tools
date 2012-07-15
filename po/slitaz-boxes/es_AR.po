@@ -1,165 +1,165 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Spanish translations for SliTaz Boxes package.
+# Copyright (C) 2012 SliTaz
+# This file is distributed under the same license as the SliTaz Boxes package.
+# Lucas Gioia <lucas.lucas.lucas24@gmail.com>, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Boxes\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-01 20:20+0000\n"
-"PO-Revision-Date: 2011-08-11 21:59-0300\n"
-"Last-Translator: Lucas Gioia <lucas.lucas.lucas24@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2012-06-11 18:44-0000\n"
+"Last-Translator: Kevin Fabian Quintero <kefaquin@gmail.com>\n"
+"Language-Team: Argentinian\n"
+"Language: es_AR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: boxes/wifi-box:75
 msgid "Wifi connection"
-msgstr ""
+msgstr "Conexión Wifi"
 
 #: boxes/wifi-box:76
 msgid "Connection to:"
-msgstr ""
+msgstr "Conectado a:"
 
 #: boxes/wifi-box:81
 msgid "Password:"
-msgstr ""
+msgstr "Contraseña:"
 
 #: boxes/wifi-box:108
 msgid "Wifi network"
-msgstr ""
+msgstr "Red Wifi"
 
 #: boxes/wifi-box:109
 msgid "<b>Connect to a wifi network</b> \\(Double click to connect\\)"
-msgstr ""
+msgstr "<b>Connectar a red wifi</b> \\(Doble click para conectarse\\)"
 
 #: boxes/wifi-box:114
 msgid "ESSID Name"
-msgstr ""
+msgstr "Nombre de ESSID "
 
 #: boxes/wifi-box:114
 msgid "Quality"
-msgstr ""
+msgstr "Calidad"
 
 #: boxes/wifi-box:115
 msgid "Encryption"
-msgstr ""
+msgstr "Cifrado"
 
 #: boxes/wifi-box:115
 msgid "Status"
-msgstr ""
+msgstr "Estado"
 
 #: boxes/wifi-box:146 boxes/burn-box:37 boxes/scp-box:34
 msgid "Usage:"
-msgstr ""
+msgstr "Uso:"
 
 #: boxes/burn-box:39 boxes/scp-box:36
 msgid "Commands:"
-msgstr ""
+msgstr "Comandos:"
 
 #: boxes/burn-box:40
 msgid "Show all Wodim options"
-msgstr ""
+msgstr "Mostrar todas las opciones de Wodim"
 
 #: boxes/burn-box:41
 msgid "Burn an ISO image"
-msgstr ""
+msgstr "Grabar una imagen ISO"
 
 #: boxes/burn-box:42
 msgid "Create and burn an audio CD"
-msgstr ""
+msgstr "Crear y grabar un CD de audio"
 
 #: boxes/burn-box:44 boxes/scp-box:39 boxes/scp-box:66
-#, fuzzy
 msgid "Options:"
-msgstr "<b>Opciónes  :</b>"
+msgstr "Opciónes:"
 
 #: boxes/burn-box:48 boxes/scp-box:43
 msgid "Examples:"
-msgstr ""
+msgstr "Ejemplos:"
 
 #: boxes/burn-box:62
 msgid "Decoding files from:"
-msgstr ""
+msgstr "Decodificación de archivos de:"
 
 #: boxes/burn-box:83
 msgid "Not an ISO image:"
-msgstr ""
+msgstr "No es una imagen ISO:"
 
 #: boxes/burn-box:98
 msgid "Burn ISO images and audio files [data in next releases]"
-msgstr ""
+msgstr "Grabar imágenes ISO y archivos de audio [de datos en próximas versiones]"
 
 #: boxes/burn-box:102
 msgid "Drive speed:"
-msgstr ""
+msgstr "Velocidad de la unidad:"
 
 #: boxes/burn-box:103
 msgid "Wodim options:"
-msgstr ""
+msgstr "Opciones de wodim:"
 
 #: boxes/burn-box:104
 msgid "ISO image:"
-msgstr ""
+msgstr "Imagen ISO:"
 
 #: boxes/burn-box:105
 msgid "Audio files:"
-msgstr ""
+msgstr "Archivos de audio:"
 
 #: boxes/burn-box:106
 msgid "Wodim help"
-msgstr ""
+msgstr "Ayuda de Wodim"
 
 #: boxes/burn-box:107
 msgid "Blank CD"
-msgstr ""
+msgstr "CD en blanco"
 
 #: boxes/burn-box:108
 msgid "Burn"
-msgstr ""
+msgstr "Grabar"
 
 #: boxes/burn-box:152
 msgid "Missing ISO image"
-msgstr ""
+msgstr "Falta la imagen ISO"
 
 #: boxes/burn-box:160
 msgid "Missing audio directory"
-msgstr ""
+msgstr "Falta el directorio de audio"
 
 #: boxes/scp-box:37
 msgid "List all known hosts"
-msgstr ""
+msgstr "Listar todos los host conocidos"
 
 #: boxes/scp-box:59
 msgid "<b>Secure copy</b> - Copy files remotely with scp"
-msgstr ""
+msgstr "<b>Copia segura</b> - Copia de archivos de forma remota con scp"
 
 #: boxes/scp-box:63
 msgid "User name:"
-msgstr ""
+msgstr "Nombre de usuario:"
 
 #: boxes/scp-box:64
 msgid "Hostname:"
-msgstr ""
+msgstr "Nombre del equipo:"
 
 #: boxes/scp-box:65
 msgid "Known hosts:"
-msgstr ""
+msgstr "Hosts conocidos:"
 
 #: boxes/scp-box:67
 msgid "Local file:"
-msgstr ""
+msgstr "Archivo local:"
 
 #: boxes/scp-box:68
 msgid "Local directory:"
-msgstr ""
+msgstr "Directorio local:"
 
 #: boxes/scp-box:69
 msgid "Remote path:"
-msgstr ""
+msgstr "Ubicacion remota:"
 
 #: boxes/scp-box:70
 msgid "Download"
@@ -168,34 +168,3 @@ msgstr "Descargar"
 #: boxes/scp-box:71
 msgid "Upload"
 msgstr "Cargar"
-
-#~ msgid ""
-#~ "\n"
-#~ "Copy files securely with scp from Dropbear SSH client/server.\n"
-#~ "\t\t"
-#~ msgstr ""
-#~ "\n"
-#~ "Copia archivos de forma segura con scp de Dropbear cliente/servidor "
-#~ "SSH .\n"
-#~ "\t\t"
-
-#~ msgid "Configuration"
-#~ msgstr "Configuración"
-
-#~ msgid "<b>User        :</b>"
-#~ msgstr "<b>Usuario        :</b>"
-
-#~ msgid "<b>Host        :</b>"
-#~ msgstr "<b>Alojamiento        :</b>"
-
-#~ msgid "Paths"
-#~ msgstr "Rutas"
-
-#~ msgid "<b>Local       :</b>"
-#~ msgstr "<b>Local       :</b>"
-
-#~ msgid "<b>Remote   :</b>"
-#~ msgstr "<b>Remoto   :</b>"
-
-#~ msgid "Exit"
-#~ msgstr "Salir"

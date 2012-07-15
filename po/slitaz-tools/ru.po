@@ -8,50 +8,48 @@ msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-01 20:20+0000\n"
-"PO-Revision-Date: 2012-05-12 12:44-0000\n"
+"PO-Revision-Date: 2012-07-15 15:24-0000\n"
 "Last-Translator: Aleksej Bobylev <al.bobylev@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-SearchPath-0: .\n"
 
 #: tinyutils/tazlocale:82
 msgid "Setting system locale to:"
-msgstr ""
+msgstr "Установка системной локали:"
 
 #: tinyutils/tazlocale:96
 msgid "SliTaz language configuration"
 msgstr "Параметры языка SliTaz"
 
 #: tinyutils/tazlocale:115
-msgid ""
-"Please logout of your current session and login again to use new locale."
-msgstr ""
-"Выйдите из системы и войдите повторно, чтобы использовать новую локаль."
+msgid "Please logout of your current session and login again to use new locale."
+msgstr "Выйдите из системы и войдите повторно, чтобы использовать новую локаль."
 
-#: tinyutils/tazlocale:124 tinyutils/tazkeymap:47
+#: tinyutils/tazlocale:124
+#: tinyutils/tazkeymap:47
 msgid "Config file   :"
-msgstr ""
+msgstr "Файл настроек    :"
 
 #: tinyutils/tazlocale:125
 msgid "Current locale:"
-msgstr ""
+msgstr "Текущая локаль   :"
 
 #: tinyutils/tazkeymap:48
 msgid "Current keymap:"
-msgstr ""
+msgstr "Текущая раскладка:"
 
 #: tinyutils/tazkeymap:57
 msgid "SliTaz keymap configuration"
 msgstr "Параметры клавиатурной раскладки SliTaz"
 
 #: tinyutils/tazkeymap:69
-msgid ""
-"Please logout of your current session and login again to use new keyboard."
-msgstr ""
-"Выйдите из системы и войдите повторно, чтобы использовать новую раскладку "
-"клавиатуры."
+msgid "Please logout of your current session and login again to use new keyboard."
+msgstr "Выйдите из системы и войдите повторно, чтобы использовать новую раскладку клавиатуры."
 
 #: tinyutils/setmixer:12
 msgid "Setting default mixer volumes... "
@@ -99,35 +97,35 @@ msgstr "Выйти из утилиты Tazx"
 
 #: tinyutils/decode:31
 msgid "Usage:"
-msgstr ""
+msgstr "Использование:"
 
 #: tinyutils/decode:33
 msgid "Decode audio and video files"
-msgstr ""
+msgstr "Преобразование файлов аудио и видео"
 
 #: tinyutils/decode:35
 msgid "Examples:"
-msgstr ""
+msgstr "Примеры:"
 
 #: tinyutils/decode:49
 msgid "Missing decoder :"
-msgstr ""
+msgstr "Отсутствует декодер  :"
 
 #: tinyutils/decode:50
 msgid "Skipping file   :"
-msgstr ""
+msgstr "Пропускается файл    :"
 
 #: tinyutils/decode:54
 msgid "Decoding:"
-msgstr ""
+msgstr "Преобразуется:"
 
 #: tinyutils/decode:78
 msgid "Unsupported file:"
-msgstr ""
+msgstr "Неподдерживаемый файл:"
 
 #: tinyutils/decode:98
 msgid "No file:"
-msgstr ""
+msgstr "Нет файла:"
 
 #~ msgid "You must be root to run:"
 #~ msgstr "Вы должны быть администратором, чтобы запустить:"

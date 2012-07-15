@@ -8,13 +8,15 @@ msgstr ""
 "Project-Id-Version: SliTaz Boxes\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-01 20:20+0000\n"
-"PO-Revision-Date: 2012-05-12 12:35-0000\n"
+"PO-Revision-Date: 2012-07-15 15:14-0000\n"
 "Last-Translator: Aleksej Bobylev <al.bobylev@gmail.com>\n"
 "Language-Team: \n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-SearchPath-0: .\n"
 
 #: boxes/wifi-box:75
 msgid "Wifi connection"
@@ -52,118 +54,125 @@ msgstr "Шифрование"
 msgid "Status"
 msgstr "Состояние"
 
-#: boxes/wifi-box:146 boxes/burn-box:37 boxes/scp-box:34
+#: boxes/wifi-box:146
+#: boxes/burn-box:37
+#: boxes/scp-box:34
 msgid "Usage:"
 msgstr "Использование:"
 
-#: boxes/burn-box:39 boxes/scp-box:36
+#: boxes/burn-box:39
+#: boxes/scp-box:36
 msgid "Commands:"
-msgstr ""
+msgstr "Команды:"
 
 #: boxes/burn-box:40
 msgid "Show all Wodim options"
-msgstr ""
+msgstr "Показать все параметры Wodim"
 
 #: boxes/burn-box:41
 msgid "Burn an ISO image"
-msgstr ""
+msgstr "Записать образ ISO"
 
 #: boxes/burn-box:42
 msgid "Create and burn an audio CD"
-msgstr ""
+msgstr "Создать и записать аудио-диск"
 
-#: boxes/burn-box:44 boxes/scp-box:39 boxes/scp-box:66
+#: boxes/burn-box:44
+#: boxes/scp-box:39
+#: boxes/scp-box:66
 msgid "Options:"
-msgstr ""
+msgstr "Параметры:"
 
-#: boxes/burn-box:48 boxes/scp-box:43
+#: boxes/burn-box:48
+#: boxes/scp-box:43
 msgid "Examples:"
-msgstr ""
+msgstr "Примеры:"
 
 #: boxes/burn-box:62
 msgid "Decoding files from:"
-msgstr ""
+msgstr "Обработка файлов из папки:"
 
 #: boxes/burn-box:83
 msgid "Not an ISO image:"
-msgstr ""
+msgstr "Не является образом ISO:"
 
 #: boxes/burn-box:98
 msgid "Burn ISO images and audio files [data in next releases]"
-msgstr ""
+msgstr "Запись образов ISO и аудио-файлов [запись данных пока недоступна]"
 
 #: boxes/burn-box:102
 msgid "Drive speed:"
-msgstr ""
+msgstr "Скорость привода:"
 
 #: boxes/burn-box:103
 msgid "Wodim options:"
-msgstr ""
+msgstr "Параметры Wodim:"
 
 #: boxes/burn-box:104
 msgid "ISO image:"
-msgstr ""
+msgstr "Образ ISO:"
 
 #: boxes/burn-box:105
 msgid "Audio files:"
-msgstr ""
+msgstr "Аудио-файлы:"
 
 #: boxes/burn-box:106
 msgid "Wodim help"
-msgstr ""
+msgstr "Справка Wodim"
 
 #: boxes/burn-box:107
 msgid "Blank CD"
-msgstr ""
+msgstr "Чистый диск"
 
 #: boxes/burn-box:108
 msgid "Burn"
-msgstr ""
+msgstr "Записать"
 
 #: boxes/burn-box:152
 msgid "Missing ISO image"
-msgstr ""
+msgstr "Отсутствует образ ISO"
 
 #: boxes/burn-box:160
 msgid "Missing audio directory"
-msgstr ""
+msgstr "Отсутствует папка аудио"
 
 #: boxes/scp-box:37
 msgid "List all known hosts"
-msgstr ""
+msgstr "Список всех известных хостов"
 
 #: boxes/scp-box:59
 msgid "<b>Secure copy</b> - Copy files remotely with scp"
-msgstr ""
+msgstr "<b>Безопасное копирование</b> файлов удаленно с scp"
 
 #: boxes/scp-box:63
 msgid "User name:"
-msgstr ""
+msgstr "Имя пользователя:"
 
 #: boxes/scp-box:64
 msgid "Hostname:"
-msgstr ""
+msgstr "Название хоста:"
 
 #: boxes/scp-box:65
 msgid "Known hosts:"
-msgstr ""
+msgstr "Известные хосты:"
 
 #: boxes/scp-box:67
 msgid "Local file:"
-msgstr ""
+msgstr "Локальный файл:"
 
 #: boxes/scp-box:68
 msgid "Local directory:"
-msgstr ""
+msgstr "Локальная папка:"
 
 #: boxes/scp-box:69
 msgid "Remote path:"
-msgstr ""
+msgstr "Удаленный путь:"
 
 #: boxes/scp-box:70
 msgid "Download"
-msgstr ""
+msgstr "Загрузить"
 
 #: boxes/scp-box:71
 msgid "Upload"
-msgstr ""
+msgstr "Выгрузить"
+
