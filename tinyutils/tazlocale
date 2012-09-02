@@ -55,7 +55,7 @@ link_language_files()
         ln -s tazpanel.$LANGUAGE.html tazpanel.html
     fi
 	# SliTaz Tools Manuals
-	for soft in tazinst burnbox
+	for soft in tazinst
 	do
 		if [ -f /usr/share/doc/slitaz/$soft.$LANGUAGE.html ]; then
 			cd /usr/share/doc/slitaz && rm -f $soft.html
