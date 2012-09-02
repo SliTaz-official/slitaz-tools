@@ -32,7 +32,7 @@ link_language_files()
 		ln -s index.$LANGUAGE.html index.html
 	fi
 	# SliTaz Software Manuals
-	for soft in tazpkg tazlito tazusb tazwok tazweb tazpanel
+	for soft in tazpkg tazlito tazusb tazwok tazweb cookutils 
 	do
 		if [ -f /usr/share/doc/$soft/$soft.$LANGUAGE.html ]; then
 			cd /usr/share/doc/$soft && rm -f $soft.html
@@ -49,8 +49,13 @@ link_language_files()
 		cd /usr/share/webhome && rm -f index.html
 		ln -s index.$LANGUAGE.html index.html
 	fi
+    # TazPanel Doc under www
+    if [ -f /var/www/tazpanel/doc/tazpanel.$LANGUAGE.html ]; then
+        cd /var/www/tazpanel/doc && rm -f tazpanel.html
+        ln -s tazpanel.$LANGUAGE.html tazpanel.html
+    fi
 	# SliTaz Tools Manuals
-	for soft in tazinst
+	for soft in tazinst burnbox
 	do
 		if [ -f /usr/share/doc/slitaz/$soft.$LANGUAGE.html ]; then
 			cd /usr/share/doc/slitaz && rm -f $soft.html
