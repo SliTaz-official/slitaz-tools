@@ -75,38 +75,43 @@ xorg_conf_d()
 	# Configure the keyboard with the right keymap.
 	keymap=`cat /etc/keymap.conf`
 	keyboard_config=$xorg_config/40-Keyboard.conf
-	echo 'Section "InputClass"
-	Identifier "Keyboard Defaults"
-	MatchIsKeyboard "yes"' > $keyboard_config
+	variant=""
+	# this XkbOption moved from 40-evdev.conf (xorg-xf86-input-evdev)
+	options="terminate:ctrl_alt_bksp"
 	case $keymap in
 		fr_CH-latin1)
 			# Swiss FrenCH
-			echo '	Option "XkbLayout" "ch"
-	Option "XkbVariant" "fr"' >> $keyboard_config ;;
+			layout="ch"; variant="fr" ;;
 		uk)
 			# English UK
-			echo '	Option "XkbLayout" "gb"' >> $keyboard_config ;;
+			layout="gb" ;;
 		ru)
 			# Russian
-			echo '	Option "XkbLayout" "us,ru(winkeys)"
-	Option "XkbOptions" "grp:ctrl_shift_toggle, grp_led:scroll"'  >> $keyboard_config ;;
+			layout="us,ru"
+			options="grp:ctrl_shift_toggle, grp_led:scroll, $options" ;;
 		slovene)
 			# Slovenian
-			echo '	Option "XkbLayout" "si"
-	Option "XkbOptions" "grp:alt_shift_toggle"' >> $keyboard_config ;;
+			layout="si"; options="grp:alt_shift_toggle, $options" ;;
 		us-acentos)
-			echo '	Option "XkbLayout" "us"
-	Option "XkbVariant" "intl"' >> $keyboard_config ;;
+			layout="us"; variant="intl" ;;
 		*)
 			# Use clean /etc/keymap.conf value.
 			keymap=${keymap%-latin1}
 			keymap=${keymap%-lat2}
 			keymap=${keymap%-lat6}
-			keymap=${keymap%-abnt2}
-			echo '	Option "XkbLayout" "'$keymap\"  >> $keyboard_config ;;
+			layout=${keymap%-abnt2}
 	esac
 
-	echo 'Endsection' >> $keyboard_config
+	cat > $keyboard_config << EOC
+Section "InputClass"
+	Identifier "Keyboard Defaults"
+	MatchIsKeyboard "yes"
+	Option "XkbLayout" "$layout"
+	Option "XkbVariant" "$variant"
+	Option "XkbOptions" "$options"
+EndSection
+EOC
+	[ "x$variant" != "x" ] && sed -i '/XkbVariant/d' $keyboard_config
 
 	# Create a xorg.conf if needed.
 	if [ ! -f /etc/X11/xorg.conf ]; then
