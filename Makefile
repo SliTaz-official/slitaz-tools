@@ -55,20 +55,21 @@ pot: tools-pot boxes-pot tazbox-pot tazdrop-pot tazinst-pot
 msgmerge:
 	@for p in $(PROJECTS); do \
 		for l in $(LINGUAS); do \
-			echo -en "\rUpdating $$p $$l po file."; \
-			[ -f "po/$$p/$$l.po" ] && \
+			if [ -f "po/$$p/$$l.po" ]; then \
+				echo -e "Updating $$p $$l po file.\n" \
 				msgmerge -U po/$$p/$$l.po po/$$p/$$p.pot; \
+			fi; \
 		done; \
 	done;
 
 msgfmt:
 	@for p in $(PROJECTS); do \
 		for l in $(LINGUAS); do \
-			[ -f "po/$$p/$$l.po" ] && \
-				echo -n "Compiling $$p $$l mo file... " && \
-				mkdir -p po/mo/$$l && \
-				msgfmt -o po/mo/$$l/$$p.mo po/$$p/$$l.po && \
-				echo "done"; \
+			if [ -f "po/$$p/$$l.po" ]; then \
+				echo -e "Compiling $$p $$l mo file...\n" \
+				mkdir -p po/mo/$$l \
+				msgfmt -o po/mo/$$l/$$p.mo po/$$p/$$l.po; \
+			fi; \
 		done; \
 	done;
 
