@@ -264,8 +264,8 @@ case "$1" in
 		# Keep command in an exported variable to be used by Yad. 4 arguments
 		# should be enuff: appname --opt --opt -v /dev/sda. Nothing to do if
 		# we are root.
-		test $(id -u) = 0 && exec $2 $3 $4 $5
-		export SU_CMD="$2 $3 $4 $5"
+		test $(id -u) = 0 && exec ${@:2}
+		export SU_CMD="${@:2}"
 		# Check if a password has been saved before launching main dialog
 		if [ -s $HOME/.config/slitaz/subox.conf ]; then
 			PASSWD=$(cat $HOME/.config/slitaz/subox.conf)
