@@ -1,0 +1,133 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Constantine Mousafiris <kvisitor@gnugr.org>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: SliTaz Tools\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-07-01 20:20+0000\n"
+"PO-Revision-Date: 2012-12-18 22:06+0300\n"
+"Last-Translator: Constantine Mousafiris <kvisitor@gnugr.org>\n"
+"Language-Team: Kostis Mousafiris\n"
+"Language: el\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Virtaal 0.5.2\n"
+
+#: tinyutils/tazlocale:82
+msgid "Setting system locale to:"
+msgstr "Ρύθμιση του locale στο:"
+
+#: tinyutils/tazlocale:96
+msgid "SliTaz language configuration"
+msgstr "Ρύθμιση γλώσσας του SliTaz"
+
+#: tinyutils/tazlocale:115
+msgid ""
+"Please logout of your current session and login again to use new locale."
+msgstr ""
+"Παρακαλώ, αποσυνδεθείτε από την τρέχουσα συνεδρία σας και επανασυνδεθείτε, "
+"για να χρησιμοποιήσετε το νέο locale."
+
+#: tinyutils/tazlocale:124 tinyutils/tazkeymap:47
+msgid "Config file   :"
+msgstr "Αρχείο ρυθμίσεων   :"
+
+#: tinyutils/tazlocale:125
+msgid "Current locale:"
+msgstr "Τρέχον locale:"
+
+#: tinyutils/tazkeymap:48
+msgid "Current keymap:"
+msgstr "Τρέχον keymap:"
+
+#: tinyutils/tazkeymap:57
+msgid "SliTaz keymap configuration"
+msgstr "Ρύθμιση του keymap στο Slitaz"
+
+#: tinyutils/tazkeymap:69
+msgid ""
+"Please logout of your current session and login again to use new keyboard."
+msgstr ""
+"Παρακαλώ, αποσυνδεθείτε από την τρέχουσα συνεδρία σας και επανασυνδεθείτε, "
+"για να χρησιμοποιήσετε το νέο πληκτρολόγιο."
+
+#: tinyutils/setmixer:12
+msgid "Setting default mixer volumes... "
+msgstr "Γίνεται ρύθμιση προεπιλεγμένου επιπέδου ήχου του μείκτη (mixer)..."
+
+#: tinyutils/setmixer:53
+msgid "Done"
+msgstr "Ολοκληρώθηκε"
+
+#: tinyutils/tazx:32
+msgid "You must be root to configure X server."
+msgstr "Πρέπει να είστε διαχειριστής συστήματος για να ρυθμίσετε τον X server."
+
+#: tinyutils/tazx:126
+msgid "Install Xorg"
+msgstr "Εγκατάσταση του Xorg"
+
+#: tinyutils/tazx:128
+msgid "Tazx helps you to select your X driver."
+msgstr "Ο Tazx σας βοηθά να επιλέξετε τον οδηγό (driver) για το Χ."
+
+#: tinyutils/tazx:163
+msgid "Tazx dialog helps you to configure your Xorg server."
+msgstr ""
+"Το παράθυρο διαλόγου του Tazx σας βοηθά να ρυθμίσετε τον διακομιστή Xorg."
+
+#: tinyutils/tazx:164
+msgid "Window Manager:"
+msgstr "Διαχειριστής παραθύρων:"
+
+#: tinyutils/tazx:165
+msgid "X server:"
+msgstr "Διακομιστής Χ:"
+
+#: tinyutils/tazx:166
+msgid "Install or reconfigure Xorg"
+msgstr "Εγκατάσταση ή επαναρύθμιση του X org"
+
+#: tinyutils/tazx:167
+msgid "Install TinyX server Xfbdev"
+msgstr "Εγκατάσταση του TinyX server Xfbdev"
+
+#: tinyutils/tazx:168
+msgid "Quit Tazx utility"
+msgstr "Κλείστε το βοηθητικό πρόγραμμα Tazx"
+
+#: tinyutils/decode:31
+msgid "Usage:"
+msgstr "Χρήση:"
+
+#: tinyutils/decode:33
+msgid "Decode audio and video files"
+msgstr "Αποκωδικοποίηση αρχείων ήχου και εικόνας"
+
+#: tinyutils/decode:35
+msgid "Examples:"
+msgstr "Παραδείγματα:"
+
+#: tinyutils/decode:49
+msgid "Missing decoder :"
+msgstr "Λείπει ο αποκωδικοποιητής:"
+
+#: tinyutils/decode:50
+msgid "Skipping file   :"
+msgstr "Γίνεται παράκαμψη του αρχείου   :"
+
+#: tinyutils/decode:54
+msgid "Decoding:"
+msgstr "Γίνεται αποκωδικοποίηση:"
+
+#: tinyutils/decode:78
+msgid "Unsupported file:"
+msgstr "Μη υποστηριζόμενο αρχείο:"
+
+#: tinyutils/decode:98
+msgid "No file:"
+msgstr "Κανένα αρχείο:"
