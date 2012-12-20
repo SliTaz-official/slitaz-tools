@@ -80,7 +80,7 @@ msgstr "Options:"
 
 #: boxes/burn-box:48 boxes/scp-box:43
 msgid "Examples:"
-msgstr "Examples:"
+msgstr "Exemples:"
 
 #: boxes/burn-box:62
 msgid "Decoding files from:"
@@ -88,7 +88,7 @@ msgstr "Décodage des fichiers depuis:"
 
 #: boxes/burn-box:83
 msgid "Not an ISO image:"
-msgstr "Pas une image ISO:"
+msgstr "Ceci n'est pas une image ISO:"
 
 #: boxes/burn-box:98
 msgid "Burn ISO images and audio files [data in next releases]"
@@ -116,7 +116,7 @@ msgstr "Aide de Wodim"
 
 #: boxes/burn-box:107
 msgid "Blank CD"
-msgstr "Vider le CD"
+msgstr "Effacer le CD"
 
 #: boxes/burn-box:108
 msgid "Burn"
@@ -124,16 +124,16 @@ msgstr "Graver"
 
 #: boxes/burn-box:152
 msgid "Missing ISO image"
-msgstr "Manque l'image ISO"
+msgstr "Image ISO manquante"
 
 #: boxes/burn-box:160
 msgid "Missing audio directory"
-msgstr "Manque le dossier audio"
+msgstr "Le dossier audio est manquant"
 
 #: boxes/scp-box:37
 #, fuzzy
 msgid "List all known hosts"
-msgstr "List tous les noms d'hôte connu"
+msgstr "Liste tous les noms d'hôte connu"
 
 #: boxes/scp-box:59
 #, fuzzy
@@ -146,7 +146,7 @@ msgstr "Nom d'utilisateur:"
 
 #: boxes/scp-box:64
 msgid "Hostname:"
-msgstr "Non d'hôte:"
+msgstr "Nom d'hôte:"
 
 #: boxes/scp-box:65
 #, fuzzy
