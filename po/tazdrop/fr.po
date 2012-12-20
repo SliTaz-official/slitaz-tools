@@ -18,28 +18,28 @@ msgstr ""
 
 #: tazdrop/tazdrop:32
 msgid "Usage:"
-msgstr ""
+msgstr "Utilisation:"
 
 #: tazdrop/tazdrop:34
 msgid "Options:"
-msgstr ""
+msgstr "Options:"
 
 #: tazdrop/tazdrop:35
 msgid "Display this small help"
-msgstr ""
+msgstr "Affiche cette courte aide"
 
 #: tazdrop/tazdrop:36
 msgid "Display the desktop Drag N' Drop window"
-msgstr ""
+msgstr "Affiche la fenêtre de drag n' drop"
 
 #: tazdrop/tazdrop:37
 msgid "Display the desktop Drag N' Drop image"
-msgstr ""
+msgstr "Affiche la fenêtre de drag n' drop pour les images"
 
 #: tazdrop/tazdrop:38
 msgid "Display your dropped text notes"
-msgstr ""
+msgstr "Affiche vos prises de notes"
 
 #: tazdrop/tazdrop:82
 msgid "Edit or clean-up your dropped text notes"
-msgstr ""
+msgstr "Editer ou supprimer vos prises de notes"
