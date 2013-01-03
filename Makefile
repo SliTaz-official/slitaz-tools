@@ -6,7 +6,7 @@ DOCDIR?=/usr/share/doc
 DESTDIR?=
 
 PROJECTS=slitaz-tools slitaz-boxes tazbox tazinst tazdrop
-LINGUAS=es_AR el fr pt_BR ru sv
+LINGUAS=es_AR el fr pt_BR ru
 
 all: msgfmt
 
@@ -138,7 +138,7 @@ install-boxes:
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/doc/slitaz
 	install -m 0755 boxes/* $(DESTDIR)$(PREFIX)/bin
 	install -m 0755 tazbox/tazbox $(DESTDIR)$(PREFIX)/bin
-        install -m 0755 tinyutils/subox $(DESTDIR)$(PREFIX)/bin
+	install -m 0755 tinyutils/subox $(DESTDIR)$(PREFIX)/bin
         
 	# Libs
 	#install -m 0755 lib/*.* $(DESTDIR)$(PREFIX)/lib/slitaz
