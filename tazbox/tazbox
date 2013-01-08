@@ -329,7 +329,8 @@ case "$1" in
 	keymap)
 		keymap ;;
     tz)
-        tz ;;
+	test $(id -u) != 0 && exec tazbox su tazbox $@ && exit 0 ; 
+      tz ;;
     setup)
 		setup ;;
 	new-file)
