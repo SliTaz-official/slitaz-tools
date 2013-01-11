@@ -704,7 +704,7 @@ pre_config_system()
 	sleep 2
 	# Set hostname.
 	msg "$(gettext "Configuring host name:") $TGT_HOSTNAME"
-	echo $TGT_HOSTNAME > etc/hostname
+	sed -i s/slitaz/$TGT_HOSTNAME/ etc/hostname etc/hosts
 }
 
 # Set root passwd and create user after rootfs extraction.
