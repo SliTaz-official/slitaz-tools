@@ -1,7 +1,7 @@
-# Tazdrop portuguese translation.
-# Copyright (C) 2011 www.slitaz.org
-# This file is distributed under the same license as the tazdrop package.
-# Claudinei Pereira <claudinei@slitaz.org>, 2011.
+# Tazdrop Brazilian Portuguese translation.
+# Copyright (C) 2013 SliTaz Association 
+# This file is distributed under the same license as the TazDrop package.
+# Claudinei Pereira <claudinei@slitaz.org>, 2013.
 #
 #, fuzzy
 msgid ""
@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: tazdrop\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-06-16 20:28+0200\n"
-"PO-Revision-Date: 2011-04-29 14:34-0300\n"
+"PO-Revision-Date: 2013-01-26 01:50-0300\n"
 "Last-Translator: Claudinei Pereira <claudinei@slitaz.org>\n"
 "Language-Team: Portuguese <i18n@slitaz.org>\n"
 "Language: pt_BR\n"
