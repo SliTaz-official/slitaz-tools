@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Tazinst\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-05-02 15:56+0200\n"
-"PO-Revision-Date: 2012-22-02 16:38+0300\n"
+"PO-Revision-Date: 2013-01-26 01:55-0300\n"
 "Last-Translator: Claudinei Pereira <claudinei@slitaz.org>\n"
 "Language-Team: Brazilian Portuguese (i18n@slitaz.org>\n"
 "Language: pt_BR\n"
@@ -24,7 +24,7 @@ msgstr "Tazinst - Instalador do SliTaz - Versão"
 
 #: installer/tazinst:53
 msgid "Usage"
-msgstr "Uso"
+msgstr "Utilização"
 
 #: installer/tazinst:53
 msgid "tazinst [command] [setup-file|url-shortcut]"
@@ -80,7 +80,7 @@ msgstr "Não é possível criar o arquivo de configuração"
 
 #: installer/tazinst:176
 msgid "created."
-msgstr ""
+msgstr "Criado"
 
 #: installer/tazinst:178 installer/tazinst:226
 msgid "Setup file not found"
@@ -176,7 +176,7 @@ msgstr "Falha ao montar dispositivo USB"
 
 #: installer/tazinst:422
 msgid "md5sum mismatch, file corrupted"
-msgstr "divergência de md5sum, arquivo corrompido"
+msgstr "Divergência de md5sum, arquivo corrompido"
 
 #: installer/tazinst:424
 msgid "md5 file not found, unable to check integrity."
@@ -333,4 +333,4 @@ msgstr "Pacotes instalados a partir do mirror :"
 #: installer/tazinst:1233
 #, fuzzy
 msgid "Unknown url shortcut"
-msgstr "Tipo de arquivo fonte desconhecido"
+msgstr "URL desconhecida"

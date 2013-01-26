@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: tazbox\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-24 14:34+0100\n"
-"PO-Revision-Date: 2011-06-18 16:20-0300\n"
+"PO-Revision-Date: 2013-01-26 01:45-0300\n"
 "Last-Translator: Claudinei Pereira <claudinei@slitaz.org>\n"
 "Language-Team: Portuguese <i18n@slitaz.org>\n"
 "Language: pt_BR\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: tazbox/tazbox:35
 msgid "Usage:"
-msgstr "Uso:"
+msgstr "Utilização:"
 
 #: tazbox/tazbox:37
 msgid "Commands:"
@@ -57,7 +57,7 @@ msgstr "Configura o mapa de teclado do sistema (root)"
 #: tazbox/tazbox:45
 #, fuzzy
 msgid "Configure system timezone (root)"
-msgstr "Configura a linguagem do sistema (root)"
+msgstr "Configura a zona horária do sistema (root)"
 
 #: tazbox/tazbox:46
 msgid "System initial setup (locale, keymap & timezone)"
@@ -74,7 +74,7 @@ msgstr "Ícones de todos os aplicativos instalados."
 
 #: tazbox/tazbox:49
 msgid "Notify user with a desktop centered box"
-msgstr ""
+msgstr "Notifica o usuário com uma caixa de mensagem em tela"
 
 #: tazbox/tazbox:56
 msgid "Slitaz admin password"
@@ -99,7 +99,7 @@ msgstr "Erro: senha errada!"
 #: tazbox/tazbox:90
 #, fuzzy
 msgid "<b>SliTaz Logout.</b> Please choose an action:"
-msgstr "Logout do SliTaz. Por favor escolha uma ação:"
+msgstr "<b>Logout do SliTaz.</b> Por favor escolha uma ação:"
 
 #: tazbox/tazbox:95
 msgid "Close X session"
@@ -171,7 +171,7 @@ msgstr "Nome do arquivo"
 #: tazbox/tazbox:227
 #, fuzzy
 msgid "SHell script"
-msgstr "Descrição"
+msgstr "SHell script"
 
 #: tazbox/tazbox:228
 msgid "Folder"

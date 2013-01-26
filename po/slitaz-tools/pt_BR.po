@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: slitaz-tools\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-04-30 14:08+0200\n"
-"PO-Revision-Date: 2011-06-18 16:37-0300\n"
+"PO-Revision-Date: 2013-01-26 01:40-0300\n"
 "Last-Translator: Claudinei Pereira <claudinei@slitaz.org>\n"
 "Language-Team: Portuguese <i18n@slitaz.org>\n"
 "Language: pt_BR\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: tinyutils/tazlocale:82
 msgid "Setting system locale to:"
-msgstr ""
+msgstr "Definido linguagem do sistema para:"
 
 #: tinyutils/tazlocale:96
 msgid "SliTaz language configuration"
@@ -34,15 +34,15 @@ msgstr ""
 
 #: tinyutils/tazlocale:124 tinyutils/tazkeymap:47
 msgid "Config file   :"
-msgstr ""
+msgstr "Arquivo de configuração:"
 
 #: tinyutils/tazlocale:125
 msgid "Current locale:"
-msgstr ""
+msgstr "Linguagem atual:"
 
 #: tinyutils/tazkeymap:48
 msgid "Current keymap:"
-msgstr ""
+msgstr "Mapa de teclado atual:"
 
 #: tinyutils/tazkeymap:57
 msgid "SliTaz keymap configuration"
@@ -52,7 +52,7 @@ msgstr "Configuraçao de Zona Horária do SliTaz"
 msgid ""
 "Please logout of your current session and login again to use new keyboard."
 msgstr ""
-"Finalize a sessao atual e faça login novamente para usar a nova zona horária."
+"Finalize a sessao atual e faça login novamente para usar o novo mapa de teclado."
 
 #: tinyutils/setmixer:12
 msgid "Setting default mixer volumes... "
@@ -101,35 +101,35 @@ msgstr "Sair do utilitário Tazx"
 
 #: tinyutils/decode:31
 msgid "Usage:"
-msgstr ""
+msgstr "Utilização"
 
 #: tinyutils/decode:33
 msgid "Decode audio and video files"
-msgstr ""
+msgstr "Decodifica arquivos de áudio e vídeo"
 
 #: tinyutils/decode:35
 msgid "Examples:"
-msgstr ""
+msgstr "Exemplos:"
 
 #: tinyutils/decode:49
 msgid "Missing decoder :"
-msgstr ""
+msgstr "Decodificador não encontrado:"
 
 #: tinyutils/decode:50
 msgid "Skipping file   :"
-msgstr ""
+msgstr "Ignorando arquivo:"
 
 #: tinyutils/decode:54
 msgid "Decoding:"
-msgstr ""
+msgstr "Decodificando:"
 
 #: tinyutils/decode:78
 msgid "Unsupported file:"
-msgstr ""
+msgstr "Arquivo não suportado:"
 
 #: tinyutils/decode:98
 msgid "No file:"
-msgstr ""
+msgstr "Nenhum arquivo:"
 
 #~ msgid "You must be root to run:"
 #~ msgstr "Você deve ser root para executar:"

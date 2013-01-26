@@ -20,7 +20,7 @@ msgstr ""
 
 #: tazdrop/tazdrop:32
 msgid "Usage:"
-msgstr "Uso:"
+msgstr "Utilização:"
 
 #: tazdrop/tazdrop:34
 msgid "Options:"
@@ -37,7 +37,7 @@ msgstr "Mostra a janela de Arrastar e Largar do desktop"
 #: tazdrop/tazdrop:37
 #, fuzzy
 msgid "Display the desktop Drag N' Drop image"
-msgstr "Mostra a janela de Arrastar e Largar do desktop"
+msgstr "Mostra a imagem de Arrastar e Largar do desktop"
 
 #: tazdrop/tazdrop:38
 msgid "Display your dropped text notes"
