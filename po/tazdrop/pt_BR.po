@@ -3,7 +3,6 @@
 # This file is distributed under the same license as the TazDrop package.
 # Claudinei Pereira <claudinei@slitaz.org>, 2013.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: tazdrop\n"
@@ -35,7 +34,6 @@ msgid "Display the desktop Drag N' Drop window"
 msgstr "Mostra a janela de Arrastar e Largar do desktop"
 
 #: tazdrop/tazdrop:37
-#, fuzzy
 msgid "Display the desktop Drag N' Drop image"
 msgstr "Mostra a imagem de Arrastar e Largar do desktop"
 

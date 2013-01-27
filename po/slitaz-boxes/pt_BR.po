@@ -27,7 +27,7 @@ msgstr "Conectar a:"
 
 #: boxes/wifi-box:81
 msgid "Password:"
-msgstr "Senha"
+msgstr "Senha:"
 
 #: boxes/wifi-box:108
 msgid "Wifi network"
@@ -74,7 +74,6 @@ msgid "Create and burn an audio CD"
 msgstr "Criar e gravar um CD de áudio"
 
 #: boxes/burn-box:44 boxes/scp-box:39 boxes/scp-box:66
-#, fuzzy
 msgid "Options:"
 msgstr "Opções:"
 

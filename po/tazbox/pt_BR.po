@@ -3,7 +3,6 @@
 # This file is distributed under the same license as the tazbox package.
 # Claudinei Pereira <claudinei@slitaz.org>, 2011.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: tazbox\n"
@@ -55,7 +54,6 @@ msgid "Configure system keymap (root)"
 msgstr "Configura o mapa de teclado do sistema (root)"
 
 #: tazbox/tazbox:45
-#, fuzzy
 msgid "Configure system timezone (root)"
 msgstr "Configura a zona horária do sistema (root)"
 
@@ -68,7 +66,6 @@ msgid "Create a new file or folder on the desktop"
 msgstr "Cria um novo arquivo ou pasta na área de trabalho"
 
 #: tazbox/tazbox:48
-#, fuzzy
 msgid "Display icons of all installed applications"
 msgstr "Ícones de todos os aplicativos instalados."
 
@@ -97,7 +94,6 @@ msgid "Error: wrong password!"
 msgstr "Erro: senha errada!"
 
 #: tazbox/tazbox:90
-#, fuzzy
 msgid "<b>SliTaz Logout.</b> Please choose an action:"
 msgstr "<b>Logout do SliTaz.</b> Por favor escolha uma ação:"
 
@@ -118,7 +114,6 @@ msgid "SliTaz Initial Setup"
 msgstr "Configuração Inicial do SliTaz"
 
 #: tazbox/tazbox:117
-#, fuzzy
 msgid ""
 "\\n<big>Here you can set your preferences\\nfor <b>locale, keymap and "
 "timezone</b>.</big>\\n\\n"
@@ -139,7 +134,6 @@ msgid "Description"
 msgstr "Descrição"
 
 #: tazbox/tazbox:169
-#, fuzzy
 msgid "Keyboard configuration"
 msgstr "Configuração do teclado"
 
@@ -152,7 +146,6 @@ msgid "Type"
 msgstr "Tipo"
 
 #: tazbox/tazbox:198
-#, fuzzy
 msgid "TimeZone Configuration"
 msgstr "Configuração de zona horária"
 
@@ -169,7 +162,6 @@ msgid "File name"
 msgstr "Nome do arquivo"
 
 #: tazbox/tazbox:227
-#, fuzzy
 msgid "SHell script"
 msgstr "SHell script"
 

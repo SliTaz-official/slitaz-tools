@@ -3,7 +3,6 @@
 # This file is distributed under the same license as the tazinst package.
 # Claudinei Pereira <claudinei@slitaz.org>, 2012.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Tazinst\n"
@@ -331,6 +330,5 @@ msgid "Packages installed from the mirror :"
 msgstr "Pacotes instalados a partir do mirror :"
 
 #: installer/tazinst:1233
-#, fuzzy
 msgid "Unknown url shortcut"
 msgstr "URL desconhecida"
