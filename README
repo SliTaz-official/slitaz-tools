@@ -2,14 +2,14 @@ SliTaz tools                                                               2011
 ===============================================================================
 
 
-The SliTaz tools package provides many tinyutils, and shared and custom 
-configuration files designed to improve SliTaz. The tools were initially 
-created to help people build their own distribution by following the SliTaz 
-Cookbook; now the package mostly provides all the configuration tools and 
-all home-made GTK boxes such as subox, tazctrlbox, the installer, etc.
+The SliTaz tools package provides many tinyutils, and shared and custom
+configuration files designed to improve SliTaz. The tools were initially
+created to help people build their own distribution by following the SliTaz
+Cookbook; now the package mostly provides all the configuration tools and
+all home-made GTK boxes such as subox, tazctrlbox, etc.
 
-The package also provides some scripts (firewall), desktop files with their 
-icons, and the licenses and examples to help hackers or users understand and 
+The package also provides some scripts (firewall), desktop files with their
+icons, and the licenses and examples to help hackers or users understand and
 manage SliTaz.
 
 
@@ -17,7 +17,6 @@ More tools information
 -----------------------
 You will find documentation in the doc/ folder and README files for some tools:
 
-    * installer/README
     * tazbox/README
     * tazdrop/README
 
@@ -35,7 +34,7 @@ DESTDIR for packaging:
 
 
 Translation
------------	
+-----------
 To start a new translation please use msginit from the pot file directory.
 Example for French/France locale (fr_FR):
 
@@ -50,8 +49,8 @@ To update all translations from the pot file:
 
 	$ make msgmerge
 
-To compile po files for testing purposes you can use 'make msgfmt' or manually 
-compile your translation. Example for french locale, note that the file must 
+To compile po files for testing purposes you can use 'make msgfmt' or manually
+compile your translation. Example for french locale, note that the file must
 be copied into /usr/share/locale/fr/LC_MESSAGES so gettext can find it:
 
 	$ msgfmt -o tazbox.mo fr.po

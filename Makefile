@@ -5,7 +5,7 @@ PREFIX?=/usr
 DOCDIR?=/usr/share/doc
 DESTDIR?=
 
-PROJECTS=slitaz-tools slitaz-boxes tazbox tazinst tazdrop
+PROJECTS=slitaz-tools slitaz-boxes tazbox tazdrop
 LINGUAS=es_AR el fr pt_BR ru
 
 all: msgfmt
@@ -44,19 +44,13 @@ tazdrop-pot:
 		--package-name="TazDrop" ./tazdrop/tazdrop
 	@echo "done"
 
-tazinst-pot:
-	@echo -n "Generating tazinst pot file... "
-	@xgettext -o po/tazinst/tazinst.pot -L Shell \
-		--package-name="Tazinst" ./installer/tazinst
-	@echo "done"
-
-pot: tools-pot boxes-pot tazbox-pot tazdrop-pot tazinst-pot
+pot: tools-pot boxes-pot tazbox-pot tazdrop-pot
 
 msgmerge:
 	@for p in $(PROJECTS); do \
 		for l in $(LINGUAS); do \
 			if [ -f "po/$$p/$$l.po" ]; then \
-				echo -e "Updating $$p $$l po file.\n" \
+				echo -e "Updating $$p $$l po file.\n"; \
 				msgmerge -U po/$$p/$$l.po po/$$p/$$p.pot; \
 			fi; \
 		done; \
@@ -66,8 +60,8 @@ msgfmt:
 	@for p in $(PROJECTS); do \
 		for l in $(LINGUAS); do \
 			if [ -f "po/$$p/$$l.po" ]; then \
-				echo -e "Compiling $$p $$l mo file...\n" \
-				mkdir -p po/mo/$$l \
+				echo -e "Compiling $$p $$l mo file...\n"; \
+				mkdir -p po/mo/$$l; \
 				msgfmt -o po/mo/$$l/$$p.mo po/$$p/$$l.po; \
 			fi; \
 		done; \
@@ -107,16 +101,6 @@ install: msgfmt
 	install -m 0755 tinyutils/soundconf $(DESTDIR)$(PREFIX)/sbin
 	install -m 0755 tinyutils/setmixer $(DESTDIR)$(PREFIX)/sbin
 
-	# tazinst
-	install -m 0755 installer/tazinst $(DESTDIR)$(PREFIX)/sbin
-	for l in $(LINGUAS); do \
-		for i in `ls po/mo/$$l/tazinst.mo` ; do \
-			install -m 0755 -d $(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
-			install -m 0644 po/mo/$$l/tazinst.mo \
-				$(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
-		done \
-	done
-
 	# slitaz-tools i18n
 	for l in $(LINGUAS); \
 	do \
@@ -139,7 +123,7 @@ install-boxes:
 	install -m 0755 boxes/* $(DESTDIR)$(PREFIX)/bin
 	install -m 0755 tazbox/tazbox $(DESTDIR)$(PREFIX)/bin
 	install -m 0755 tinyutils/subox $(DESTDIR)$(PREFIX)/bin
-        
+
 	# Libs
 	#install -m 0755 lib/*.* $(DESTDIR)$(PREFIX)/lib/slitaz
 
