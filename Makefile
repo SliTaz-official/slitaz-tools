@@ -132,7 +132,7 @@ install-boxes:
 	install -m 0644 pixmaps/* $(DESTDIR)$(PREFIX)/share/pixmaps
 
 	# Documentation (style is already in slitaz-doc)
-	cp -a doc/*.html $(DESTDIR)$(PREFIX)/share/doc/slitaz
+#	cp -a doc/*.html $(DESTDIR)$(PREFIX)/share/doc/slitaz
 
 	# i18n.
 	for l in $(LINGUAS); \
