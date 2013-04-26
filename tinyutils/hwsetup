@@ -664,8 +664,8 @@ setup()
 		       	    failed
 				 fi
 		       ;;
-		firewall) echo "Setting IPTABLES_RULES to yes in /etc/firewall.conf"
-				  sed -i 's/^IPTABLES_RULES="no"/IPTABLES_RULES="yes"/' /etc/firewall.conf
+		firewall) echo "Setting IPTABLES_RULES to yes in /etc/slitaz/firewall.conf"
+				  sed -i 's/^IPTABLES_RULES="no"/IPTABLES_RULES="yes"/' /etc/slitaz/firewall.conf
 		          # default is "start"
 				 if [ "$STOP" == "yes" ] ; then
 				 	/etc/init.d/firewall stop
