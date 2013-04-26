@@ -20,10 +20,10 @@ iptables -A INPUT -i lo -j ACCEPT
 iptables -A INPUT -s $LOCAL_NETWORK -j ACCEPT
 
 # Accept near all output trafic.
-iptables -A OUTPUT -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+iptables -A OUTPUT -m conntrack --ctstate NEW,ESTABLISHED,RELATED -j ACCEPT
 
 # Accept input trafic only for connections initialized by user.
-iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+iptables -A INPUT -m conntrack  --ctstate RELATED,ESTABLISHED -j ACCEPT
 
 # If you manage a HTTP/SSH/FTP/IRC server you can accept input for
 # non-established connections an some ports. Else you can disable the
