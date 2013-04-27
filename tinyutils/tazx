@@ -11,7 +11,7 @@
 : ${DIALOG=dialog}
 
 # Default value.
-WM=openbox
+WM=lxde-session
 
 # Default user for config files in Live mode, id is 1000 since it is
 # created by /etc/init.d/bootopts.sh.
