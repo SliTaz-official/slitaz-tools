@@ -99,7 +99,7 @@ burn_main() {
 	yad --form $boxopts --title="Burn-box" \
 		--image=application-x-cd-image --image-on-top \
 		--text="<b>$text</b>" \
-		--field="$(gettext "Drive speed:")":NUM \
+		--field="$(gettext "Drive speed:")" \
 		--field="$(gettext "Wodim options:")" \
 		--field="$(gettext "ISO image:")":FL \
 		--field="$(gettext "Audio files:")":DIR \
@@ -161,7 +161,7 @@ case "$1" in
 		fi
 		burn_audio ;;
 	blank)
-		wodim -v -blank=all 2>&1 | gtkout --title="Wodim Blank" --tail ;;
+		wodim -v -blank=fast 2>&1 | gtkout --title="Wodim Blank" --tail ;;
 	""|--*)
 		burn ;;
 	*)
