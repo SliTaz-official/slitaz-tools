@@ -1,11 +1,10 @@
 [Desktop Entry]
-Encoding=UTF-8
+Type=Application
 Name=SCP Secure copy
 Name[fr]=Copie sécurisée SCP
 Name[pt]=SCP Cópia Segura de Arquivos
 Name[pt_BR]=SCP Cópia Segura de Arquivos
-Name[ru]=Безопасное копирование файлов SCP
+Name[ru]=Защищенное копирование файлов SCP
 Exec=scp-box
 Icon=folder-remote
-Type=Application
-Categories=Application;Network;
+Categories=Network;FileTransfer;

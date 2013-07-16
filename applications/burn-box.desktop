@@ -1,11 +1,12 @@
 [Desktop Entry]
-Encoding=UTF-8
+Type=Application
 Name=Burn CD/DVD
 Name[fr]=Graver des CD/DVD
 Name[pt]=Gravador de CD/DVD
 Name[pt_BR]=Gravador de CD/DVD
 Name[ru]=Записать CD/DVD
+Comment=Burn ISO images or audio tracks to CD or DVD
+Comment[ru]=Запись образа ISO или аудио-дорожек на CD или DVD
 Exec=burn-box
 Icon=drive-optical
-Type=Application
-Categories=GTK;Utility;
+Categories=GTK;Utility;AudioVideo;DiscBurning;

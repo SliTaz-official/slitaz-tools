@@ -1,12 +1,10 @@
 [Desktop Entry]
-Encoding=UTF-8
+Type=Application
 Name=Account Password
 Name[fr]=Mot de passe du compte
 Name[pt]=Mudar Senha de Usuário
 Name[pt_BR]=Mudar Senha de Usuário
 Name[ru]=Пароль учетной записи
-Exec=xterm -T "Passwd" -geometry 60x10 -e 'echo; passwd; sleep 4'
+Exec=terminal -e passwd
 Icon=system-config-authentication
-Terminal=false
-Type=Application
-Categories=Settings;DesktopSettings;
+Categories=ConsoleOnly;Settings;DesktopSettings;

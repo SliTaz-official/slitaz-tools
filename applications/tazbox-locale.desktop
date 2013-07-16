@@ -1,12 +1,10 @@
 [Desktop Entry]
-Encoding=UTF-8
+Type=Application
 Name=System language
 Name[fr]=Langue du système
 Name[pt]=Linguagem do Sistema
 Name[pt_BR]=Linguagem do Sistema
 Name[ru]=Язык системы
 Exec=tazbox su "tazbox locale"
-Icon=locale
-Terminal=false
-Type=Application
-Categories=Settings;DesktopSettings;
+Icon=config-language
+Categories=GTK;Settings;DesktopSettings;

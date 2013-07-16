@@ -47,6 +47,7 @@ $(gettext "Commands:")
   new-file   $(gettext "Create a new file or folder on the desktop")
   all-apps   $(gettext "Display icons of all installed applications")
   notify     $(gettext "Notify user with a desktop centered box")
+  tazapps    $(gettext "Configure SliTaz default applications")
 
 EOT
 }
@@ -120,9 +121,9 @@ setup_main() {
     timezone=$(find $zi -type f | sed s,$zi,,g | tr "\n" "!")
     yad --width=500 --height=380 \
 		--image=$icon --title="$title" --form --text="$message" \
-		--field "Locale:CB" \
-		--field "Keymap:CB" \
-		--field "Timezone:CB" \
+		--field "$(gettext 'Locale'):CB" \
+		--field "$(gettext 'Keymap'):CB" \
+		--field "$(gettext 'Timezone'):CB" \
 		$locale \ $keymap \ $timezone
 }
 
@@ -347,6 +348,40 @@ case "$1" in
 			--center --on-top --image=$icon --image-on-top \
 			--timeout=$time --skip-taskbar --no-buttons \
 			--borders=12 --undecorated ;;
+	tazapps)
+		# Default applications configuration script. System wide config file
+		# is /etc/slitaz/applications.conf and each user can have personal
+		# settings. System wide for root and personal config for user.
+		export CONFIG="$HOME/.config/slitaz/applications.conf"
+		if [ ! -f $CONFIG ]; then
+			mkdir -p $HOME/.config/slitaz
+			cp /etc/slitaz/applications.conf $CONFIG
+		fi
+		. $CONFIG
+		eval $(yad --title="$(gettext 'SliTaz default applications')" \
+			--window-icon=preferences-desktop --image=preferences-desktop \
+			--text="<b>$(gettext 'SliTaz default applications configuration')</b>" \
+			--form \
+			--field="$(gettext 'File manager:')" \
+			--field="$(gettext 'Web browser:')" \
+			--field="$(gettext 'Text editor:')" \
+			--field="$(gettext 'Terminal:')" \
+			--field="$(gettext 'Window manager:')" \
+			"$FILE_MANAGER" "$BROWSER" "$EDITOR" "$TERMINAL" "$WINDOW_MANAGER" | \
+			awk -F'|' '{printf "FILE_MANAGER=\"%s\"\nBROWSER=\"%s\"\nEDITOR=\"%s\"\
+TERMINAL=\"%s\"\nWINDOW_MANAGER=\"%s\"\n", $1, $2, $3, $4, $5}')
+		sed '/FILE_MANAGER=/s|"\([^"]*\)"|"'$FILE_MANAGER'"|; \
+			/BROWSER=/s|"\([^"]*\)"|"'$BROWSER'"|; \
+			/EDITOR=/s|"\([^"]*\)"|"'$EDITOR'"|; \
+			/TERMINAL=/s|"\([^"]*\)"|"'$TERMINAL'"|; \
+			/WINDOW_MANAGER=/s|"\([^"]*\)"|"'$WINDOW_MANAGER'"|' \
+			-i $CONFIG
+		;;
+	gpl)
+		yad --text-info --title="GNU General Public License" \
+		--window-icon=text-x-generic --geometry="560x500+0-24" \
+		--button "OK" < /usr/share/licenses/gpl.txt
+		;;
 	*)
 		usage ;;
 esac

@@ -1,10 +1,9 @@
 [Desktop Entry]
-Encoding=UTF-8
+Type=Application
 Name=GNU General Public License
 Name[pt]=Licença Pública Geral GNU
 Name[pt_BR]=Licença Pública Geral GNU
 Name[ru]=Основная общественная лицензия GNU
-Exec=browser file:///usr/share/licenses/gpl.txt
+Exec=tazbox gpl
 Icon=text-x-generic
-Type=Application
-Categories=Documentation;
+Categories=System;Documentation;

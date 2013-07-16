@@ -1,9 +1,5 @@
 [Desktop Entry]
 Type=Application
-Exec=tazbox logout
-Icon=slitaz-logout
-StartupNotify=false
-Terminal=false
 Name=Log Out
 Name[de]=Abmelden
 Name[es]=Salir
@@ -20,3 +16,6 @@ Name[pt_BR]=Encerrar sessão
 Name[ru]=Выйти
 Name[zh_CN]=注销
 Name[zh_TW]=登出
+Exec=tazbox logout
+Icon=slitaz-logout
+StartupNotify=false

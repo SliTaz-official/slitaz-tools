@@ -1,12 +1,10 @@
 [Desktop Entry]
-Encoding=UTF-8
+Type=Application
 Name=Time Zone configuration
 Name[fr]=Zone horaire
 Name[pt]=Configuração de Zona Horária
 Name[pt_BR]=Configuração de Zona Horária
-Name[ru]=Конфигурация часового пояса
+Name[ru]=Часовой пояс
 Exec=tazbox su "tazbox tz"
-Icon=locale
-Terminal=false
-Type=Application
-Categories=Settings;DesktopSettings;
+Icon=config-date
+Categories=GTK;Settings;DesktopSettings;
