@@ -18,6 +18,7 @@ install:
 	install -m 0644 README $(DESTDIR)$(PREFIX)/share/doc/tazdrop
 	for l in $(LINGUAS); \
 	do \
+		[ -s ../po/mo/$$l/tazdrop.mo ] || continue; \
 		install -m 0777 -d $(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
 		install -m 0644 ../po/mo/$$l/tazdrop.mo \
 			$(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
