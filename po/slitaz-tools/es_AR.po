@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-30 14:08+0200\n"
+"POT-Creation-Date: 2013-07-17 18:32+0300\n"
 "PO-Revision-Date: 2011-08-11 00:08-0300\n"
 "Last-Translator: Lucas Gioia <lucas.lucas.lucas24@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,26 +16,26 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: tinyutils/tazlocale:82
+#: tinyutils/tazlocale:87
 msgid "Setting system locale to:"
 msgstr ""
 
-#: tinyutils/tazlocale:96
+#: tinyutils/tazlocale:101
 msgid "SliTaz language configuration"
 msgstr "SliTaz configuración del lenguaje"
 
-#: tinyutils/tazlocale:115
+#: tinyutils/tazlocale:120
 msgid ""
 "Please logout of your current session and login again to use new locale."
 msgstr ""
 "Por favor, cierre su sesión actual e iniciela nuevamente para usar un nuevo "
 "local."
 
-#: tinyutils/tazlocale:124 tinyutils/tazkeymap:47
+#: tinyutils/tazlocale:129 tinyutils/tazkeymap:47
 msgid "Config file   :"
 msgstr ""
 
-#: tinyutils/tazlocale:125
+#: tinyutils/tazlocale:130
 msgid "Current locale:"
 msgstr ""
 
@@ -66,36 +66,36 @@ msgstr "Listo"
 msgid "You must be root to configure X server."
 msgstr "Debes ser root para configurar el servidor X."
 
-#: tinyutils/tazx:126
+#: tinyutils/tazx:131
 msgid "Install Xorg"
 msgstr "Instalar Xorg"
 
-#: tinyutils/tazx:128
+#: tinyutils/tazx:133
 msgid "Tazx helps you to select your X driver."
 msgstr "Tazx le ayudará a seleccionar su controlador X."
 
-#: tinyutils/tazx:163
+#: tinyutils/tazx:168
 #, fuzzy
 msgid "Tazx dialog helps you to configure your Xorg server."
 msgstr "Los diálogos Tazx le ayudarán a configurar su servidor Xorg."
 
-#: tinyutils/tazx:164
+#: tinyutils/tazx:169
 msgid "Window Manager:"
 msgstr "Gestor de ventanas:"
 
-#: tinyutils/tazx:165
+#: tinyutils/tazx:170
 msgid "X server:"
 msgstr "Servidor X:"
 
-#: tinyutils/tazx:166
+#: tinyutils/tazx:171
 msgid "Install or reconfigure Xorg"
 msgstr "Instalar o reconfigurar Xorg"
 
-#: tinyutils/tazx:167
+#: tinyutils/tazx:172
 msgid "Install TinyX server Xfbdev"
 msgstr "Instalar TinyX servidor Xfbdev"
 
-#: tinyutils/tazx:168
+#: tinyutils/tazx:173
 msgid "Quit Tazx utility"
 msgstr "Salir de la utilidad Tazx"
 
@@ -129,6 +129,45 @@ msgstr ""
 
 #: tinyutils/decode:98
 msgid "No file:"
+msgstr ""
+
+#: tinyutils/terminal:24
+msgid "configurable SliTaz wrapper for terminal."
+msgstr ""
+
+#: tinyutils/terminal:26
+msgid "Recognized options:"
+msgstr ""
+
+#: tinyutils/terminal:27
+msgid "Print the version number"
+msgstr ""
+
+#: tinyutils/terminal:28
+msgid "Print out this message"
+msgstr ""
+
+#: tinyutils/terminal:29
+#, sh-format
+msgid "Width and height of terminal window ($GEOMETRY)"
+msgstr ""
+
+#: tinyutils/terminal:30
+#, sh-format
+msgid "Title name for window (\"$TITLE\")"
+msgstr ""
+
+#: tinyutils/terminal:31
+msgid "Dont't close terminal after command finished"
+msgstr ""
+
+#: tinyutils/terminal:32
+msgid "Command to execute (must be last in line)"
+msgstr ""
+
+#: tinyutils/terminal:35
+#, sh-format
+msgid "Help for $TERMINAL:"
 msgstr ""
 
 #~ msgid "You must be root to run:"

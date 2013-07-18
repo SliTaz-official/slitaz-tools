@@ -251,11 +251,23 @@ EOT
 
 # All applications
 all_apps() {
-	yad --icons --title="$(gettext "All Applications")" \
+	yad --icons --title="$(gettext 'All Applications')" \
 		--compact --read-dir=/usr/share/applications \
 		--window-icon=$icon --width=400 --height=400 \
 		--button="gtk-close:0"
 }
+
+# Generate alternatives list: first - current choice, following - existing apps
+gen_alt() {
+	alts="$@"
+	current=$(echo $alts | cut -d' ' -f1)
+	alts=$(echo $alts | sed "s|$current||g")
+	for alt in $alts; do
+		[ ! $(busybox which $alt) ] && alts=$(echo $alts | sed "s|$alt||")
+	done
+	echo $current $alts | tr ' ' '!' #sed 's| |!|g'
+}
+
 
 #
 # Commands
@@ -358,30 +370,45 @@ case "$1" in
 			cp /etc/slitaz/applications.conf $CONFIG
 		fi
 		. $CONFIG
+
+		FILE_MANAGERS=$(gen_alt $FILE_MANAGER \
+			clex emelfm2 mc pathfinder pcmanfm ranger spacefm thunar xfe ytree)
+		BROWSERS=$(gen_alt $BROWSER \
+			arora chrome cream dillo elinks firefox iron links lynx midori \
+			netsurf opera retawq seamonkey surf tazweb)
+		EDITORS=$(gen_alt $EDITOR \
+			adie beaver emacs geany jed joe le leafpad mousepad mp-5 nano \
+			SciTE vi vim xedit xfw zile)
+		TERMINALS=$(gen_alt $TERMINAL \
+			aterm evilvte lxterminal mrxvt sakura stjerm tilda urxvt vte xterm \
+			yeahconsole)
+		WINDOW_MANAGERS=$(gen_alt $WINDOW_MANAGER \
+			awesome blackbox dwm echinus enlightenment fluxbox icewm jwm \
+			karmen matchbox openbox-session pekwm ratpoison xfwm4)
+
 		eval $(yad --title="$(gettext 'SliTaz default applications')" \
 			--window-icon=preferences-desktop --image=preferences-desktop \
 			--text="<b>$(gettext 'SliTaz default applications configuration')</b>" \
 			--form \
-			--field="$(gettext 'File manager:')" \
-			--field="$(gettext 'Web browser:')" \
-			--field="$(gettext 'Text editor:')" \
-			--field="$(gettext 'Terminal:')" \
-			--field="$(gettext 'Window manager:')" \
-			"$FILE_MANAGER" "$BROWSER" "$EDITOR" "$TERMINAL" "$WINDOW_MANAGER" | \
+			--field="$(gettext 'File manager:'):CBE" "$FILE_MANAGERS" \
+			--field="$(gettext 'Web browser:'):CBE" "$BROWSERS" \
+			--field="$(gettext 'Text editor:'):CBE" "$EDITORS" \
+			--field="$(gettext 'Terminal:'):CBE" "$TERMINALS" \
+			--field="$(gettext 'Window manager:'):CBE" "$WINDOW_MANAGERS" | \
 			awk -F'|' '{printf "FILE_MANAGER=\"%s\"\nBROWSER=\"%s\"\nEDITOR=\"%s\"\
 TERMINAL=\"%s\"\nWINDOW_MANAGER=\"%s\"\n", $1, $2, $3, $4, $5}')
+
 		sed '/FILE_MANAGER=/s|"\([^"]*\)"|"'$FILE_MANAGER'"|; \
 			/BROWSER=/s|"\([^"]*\)"|"'$BROWSER'"|; \
 			/EDITOR=/s|"\([^"]*\)"|"'$EDITOR'"|; \
 			/TERMINAL=/s|"\([^"]*\)"|"'$TERMINAL'"|; \
 			/WINDOW_MANAGER=/s|"\([^"]*\)"|"'$WINDOW_MANAGER'"|' \
-			-i $CONFIG
-		;;
+			-i $CONFIG ;;
 	gpl)
-		yad --text-info --title="GNU General Public License" \
-		--window-icon=text-x-generic --geometry="560x500+0-24" \
-		--button "OK" < /usr/share/licenses/gpl.txt
-		;;
+		yad --center --text-info --title="GNU General Public License" \
+			--image=/usr/share/pixmaps/gpl3.png --image-on-top \
+			--image-on-top --window-icon=text-x-generic --geometry="580x500" \
+			--fontname=monospace --button "OK" < /usr/share/licenses/gpl.txt ;;
 	*)
 		usage ;;
 esac

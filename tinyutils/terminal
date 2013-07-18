@@ -2,10 +2,55 @@
 # Launch SliTaz default X Terminal.
 #
 . /etc/slitaz/applications.conf
+. /lib/libtaz.sh
+
+export TEXTDOMAIN='slitaz-tools'
+
+help() {
+	cat << EOT
+$(boldify terminal): $(gettext 'configurable SliTaz wrapper for terminal.')
+
+$(boldify $(gettext 'Recognized options:'))
+-v -version  --version        $(gettext 'Print the version number')
+   -help     --help           $(gettext 'Print out this message')
+   -geometry --geometry       $(eval_gettext 'Width and height of terminal window ($GEOMETRY)')
+-t -title -T --title          $(eval_gettext 'Title name for window ("$TITLE")')
+-h -hold                      $(gettext "Dont't close terminal after command finished")
+-e           --xterm-execute  $(gettext 'Command to execute (must be last in line)')
+
+
+$(boldify $(eval_gettext 'Help for $TERMINAL:'))
+
+EOT
+	$TERMINAL $OPT_HELP
+}
+
 
 USER_CONFIG="$HOME/.config/slitaz/applications.conf"
 [ -f  $USER_CONFIG ] && . $USER_CONFIG
 
-$TERMINAL "$@" &
+local PARAMS="" GEOMETRY="80x24" TITLE="SliTaz $(cat /etc/slitaz-release)" COMMAND
+
+case $TERMINAL in
+	sakura)
+		OPT_TITLE="-t"; OPT_GEOM="--geometry"; OPT_HELP="-?"; OPT_HOLD="-h";;
+	xterm|*)
+		OPT_TITLE="-T"; OPT_GEOM="-geometry"; OPT_HELP="-help"; OPT_HOLD="-hold";;
+esac
+
+until [ $# == 0 ]; do
+	PARAM="$1"
+	case "$PARAM" in
+		-version|--version|-v)	$TERMINAL -v; exit 0;;
+		-help|--help)			help; exit 0;;
+		-h|-hold)				shift; PARAMS="$PARAMS $OPT_HOLD";;
+		-geometry|--geometry)	shift; GEOMETRY="$1"; shift;;
+		-t|-title|-T|--title)	shift; TITLE="$1"; shift;;
+		-e|--xterm-execute)		shift; COMMAND="-e $@"; break;;
+		*)						shift; PARAMS="$PARAMS $PARAM";;
+	esac
+done
+
+$TERMINAL $PARAMS $OPT_GEOM $GEOMETRY $OPT_TITLE "$TITLE" $COMMAND &
 
 exit 0

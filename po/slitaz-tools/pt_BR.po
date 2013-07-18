@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: slitaz-tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-30 14:08+0200\n"
+"POT-Creation-Date: 2013-07-17 18:32+0300\n"
 "PO-Revision-Date: 2013-01-26 01:40-0300\n"
 "Last-Translator: Claudinei Pereira <claudinei@slitaz.org>\n"
 "Language-Team: Portuguese <i18n@slitaz.org>\n"
@@ -17,25 +17,25 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: tinyutils/tazlocale:82
+#: tinyutils/tazlocale:87
 msgid "Setting system locale to:"
 msgstr "Definido linguagem do sistema para:"
 
-#: tinyutils/tazlocale:96
+#: tinyutils/tazlocale:101
 msgid "SliTaz language configuration"
 msgstr "Configuração de Linguagem do SliTaz"
 
-#: tinyutils/tazlocale:115
+#: tinyutils/tazlocale:120
 msgid ""
 "Please logout of your current session and login again to use new locale."
 msgstr ""
 "Finalize a sessão atual e faça login novamente para usar a nova linguagem."
 
-#: tinyutils/tazlocale:124 tinyutils/tazkeymap:47
+#: tinyutils/tazlocale:129 tinyutils/tazkeymap:47
 msgid "Config file   :"
 msgstr "Arquivo de configuração:"
 
-#: tinyutils/tazlocale:125
+#: tinyutils/tazlocale:130
 msgid "Current locale:"
 msgstr "Linguagem atual:"
 
@@ -51,7 +51,8 @@ msgstr "Configuraçao de Zona Horária do SliTaz"
 msgid ""
 "Please logout of your current session and login again to use new keyboard."
 msgstr ""
-"Finalize a sessao atual e faça login novamente para usar o novo mapa de teclado."
+"Finalize a sessao atual e faça login novamente para usar o novo mapa de "
+"teclado."
 
 #: tinyutils/setmixer:12
 msgid "Setting default mixer volumes... "
@@ -65,35 +66,35 @@ msgstr "Feito"
 msgid "You must be root to configure X server."
 msgstr "Você deve ser root para configurar o servidor gráfico."
 
-#: tinyutils/tazx:126
+#: tinyutils/tazx:131
 msgid "Install Xorg"
 msgstr "Instalar Xorg"
 
-#: tinyutils/tazx:128
+#: tinyutils/tazx:133
 msgid "Tazx helps you to select your X driver."
 msgstr "O Tazx ajuda a selecionar o driver gráfico."
 
-#: tinyutils/tazx:163
+#: tinyutils/tazx:168
 msgid "Tazx dialog helps you to configure your Xorg server."
 msgstr "A caixa de diálogo do Tazx ajuda a configurar o servidor gráfico."
 
-#: tinyutils/tazx:164
+#: tinyutils/tazx:169
 msgid "Window Manager:"
 msgstr "Gerenciador de janelas:"
 
-#: tinyutils/tazx:165
+#: tinyutils/tazx:170
 msgid "X server:"
 msgstr "Servidor gráfico:"
 
-#: tinyutils/tazx:166
+#: tinyutils/tazx:171
 msgid "Install or reconfigure Xorg"
 msgstr "Instale ou reconfigure o Xorg"
 
-#: tinyutils/tazx:167
+#: tinyutils/tazx:172
 msgid "Install TinyX server Xfbdev"
 msgstr "Instale o servidor gráfico leve Xfbdev"
 
-#: tinyutils/tazx:168
+#: tinyutils/tazx:173
 msgid "Quit Tazx utility"
 msgstr "Sair do utilitário Tazx"
 
@@ -128,6 +129,45 @@ msgstr "Arquivo não suportado:"
 #: tinyutils/decode:98
 msgid "No file:"
 msgstr "Nenhum arquivo:"
+
+#: tinyutils/terminal:24
+msgid "configurable SliTaz wrapper for terminal."
+msgstr ""
+
+#: tinyutils/terminal:26
+msgid "Recognized options:"
+msgstr ""
+
+#: tinyutils/terminal:27
+msgid "Print the version number"
+msgstr ""
+
+#: tinyutils/terminal:28
+msgid "Print out this message"
+msgstr ""
+
+#: tinyutils/terminal:29
+#, sh-format
+msgid "Width and height of terminal window ($GEOMETRY)"
+msgstr ""
+
+#: tinyutils/terminal:30
+#, sh-format
+msgid "Title name for window (\"$TITLE\")"
+msgstr ""
+
+#: tinyutils/terminal:31
+msgid "Dont't close terminal after command finished"
+msgstr ""
+
+#: tinyutils/terminal:32
+msgid "Command to execute (must be last in line)"
+msgstr ""
+
+#: tinyutils/terminal:35
+#, sh-format
+msgid "Help for $TERMINAL:"
+msgstr ""
 
 #~ msgid "You must be root to run:"
 #~ msgstr "Você deve ser root para executar:"

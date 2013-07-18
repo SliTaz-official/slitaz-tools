@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-01 20:20+0000\n"
+"POT-Creation-Date: 2013-07-17 18:32+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,24 +17,24 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: tinyutils/tazlocale:82
+#: tinyutils/tazlocale:87
 msgid "Setting system locale to:"
 msgstr ""
 
-#: tinyutils/tazlocale:96
+#: tinyutils/tazlocale:101
 msgid "SliTaz language configuration"
 msgstr ""
 
-#: tinyutils/tazlocale:115
+#: tinyutils/tazlocale:120
 msgid ""
 "Please logout of your current session and login again to use new locale."
 msgstr ""
 
-#: tinyutils/tazlocale:124 tinyutils/tazkeymap:47
+#: tinyutils/tazlocale:129 tinyutils/tazkeymap:47
 msgid "Config file   :"
 msgstr ""
 
-#: tinyutils/tazlocale:125
+#: tinyutils/tazlocale:130
 msgid "Current locale:"
 msgstr ""
 
@@ -63,35 +63,35 @@ msgstr ""
 msgid "You must be root to configure X server."
 msgstr ""
 
-#: tinyutils/tazx:126
+#: tinyutils/tazx:131
 msgid "Install Xorg"
 msgstr ""
 
-#: tinyutils/tazx:128
+#: tinyutils/tazx:133
 msgid "Tazx helps you to select your X driver."
 msgstr ""
 
-#: tinyutils/tazx:163
+#: tinyutils/tazx:168
 msgid "Tazx dialog helps you to configure your Xorg server."
 msgstr ""
 
-#: tinyutils/tazx:164
+#: tinyutils/tazx:169
 msgid "Window Manager:"
 msgstr ""
 
-#: tinyutils/tazx:165
+#: tinyutils/tazx:170
 msgid "X server:"
 msgstr ""
 
-#: tinyutils/tazx:166
+#: tinyutils/tazx:171
 msgid "Install or reconfigure Xorg"
 msgstr ""
 
-#: tinyutils/tazx:167
+#: tinyutils/tazx:172
 msgid "Install TinyX server Xfbdev"
 msgstr ""
 
-#: tinyutils/tazx:168
+#: tinyutils/tazx:173
 msgid "Quit Tazx utility"
 msgstr ""
 
@@ -125,4 +125,43 @@ msgstr ""
 
 #: tinyutils/decode:98
 msgid "No file:"
+msgstr ""
+
+#: tinyutils/terminal:24
+msgid "configurable SliTaz wrapper for terminal."
+msgstr ""
+
+#: tinyutils/terminal:26
+msgid "Recognized options:"
+msgstr ""
+
+#: tinyutils/terminal:27
+msgid "Print the version number"
+msgstr ""
+
+#: tinyutils/terminal:28
+msgid "Print out this message"
+msgstr ""
+
+#: tinyutils/terminal:29
+#, sh-format
+msgid "Width and height of terminal window ($GEOMETRY)"
+msgstr ""
+
+#: tinyutils/terminal:30
+#, sh-format
+msgid "Title name for window (\"$TITLE\")"
+msgstr ""
+
+#: tinyutils/terminal:31
+msgid "Dont't close terminal after command finished"
+msgstr ""
+
+#: tinyutils/terminal:32
+msgid "Command to execute (must be last in line)"
+msgstr ""
+
+#: tinyutils/terminal:35
+#, sh-format
+msgid "Help for $TERMINAL:"
 msgstr ""

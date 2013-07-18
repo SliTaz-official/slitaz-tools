@@ -22,7 +22,7 @@ tools-pot:
 	@xgettext -o po/slitaz-tools/slitaz-tools.pot -L Shell \
 		--package-name="SliTaz Tools" \
 		./tinyutils/tazlocale ./tinyutils/tazkeymap ./tinyutils/setmixer \
-		./tinyutils/tazx ./tinyutils/decode
+		./tinyutils/tazx ./tinyutils/decode ./tinyutils/terminal
 	@echo "done"
 
 boxes-pot:
@@ -113,26 +113,17 @@ install: msgfmt
 	chmod +x $(DESTDIR)/etc/init.d/*
 
 install-boxes:
-	#install -m 0755 -d $(DESTDIR)/etc/wireless
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/bin
-	install -m 0755 -d $(DESTDIR)$(PREFIX)/lib/slitaz
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/locale
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/applications
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/pixmaps
-	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/doc/slitaz
 	install -m 0755 boxes/* $(DESTDIR)$(PREFIX)/bin
 	install -m 0755 tazbox/tazbox $(DESTDIR)$(PREFIX)/bin
 	install -m 0755 tinyutils/subox $(DESTDIR)$(PREFIX)/bin
 
-	# Libs
-	#install -m 0755 lib/*.* $(DESTDIR)$(PREFIX)/lib/slitaz
-
 	# Desktop files and icons.
 	install -m 0644 applications/* $(DESTDIR)$(PREFIX)/share/applications
 	install -m 0644 pixmaps/* $(DESTDIR)$(PREFIX)/share/pixmaps
-
-	# Documentation (style is already in slitaz-doc)
-#	cp -a doc/*.html $(DESTDIR)$(PREFIX)/share/doc/slitaz
 
 	# i18n.
 	for l in $(LINGUAS); \

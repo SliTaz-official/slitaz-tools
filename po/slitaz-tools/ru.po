@@ -1,41 +1,39 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Russian translations for SliTaz Tools.
+# Copyright (C) 2013 SliTaz
+# This file is distributed under the same license as the slitaz-tools package.
+# Aleksej Bobylev <al.bobylev@gmail.com>, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-01 20:20+0000\n"
-"PO-Revision-Date: 2012-07-15 15:24-0000\n"
+"POT-Creation-Date: 2013-07-17 18:32+0300\n"
+"PO-Revision-Date: 2013-07-17 18:38+0300\n"
 "Last-Translator: Aleksej Bobylev <al.bobylev@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: \n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Basepath: ../../\n"
-"X-Poedit-SearchPath-0: .\n"
 
-#: tinyutils/tazlocale:82
+#: tinyutils/tazlocale:87
 msgid "Setting system locale to:"
 msgstr "Установка системной локали:"
 
-#: tinyutils/tazlocale:96
+#: tinyutils/tazlocale:101
 msgid "SliTaz language configuration"
 msgstr "Параметры языка SliTaz"
 
-#: tinyutils/tazlocale:115
+#: tinyutils/tazlocale:120
 msgid "Please logout of your current session and login again to use new locale."
 msgstr "Выйдите из системы и войдите повторно, чтобы использовать новую локаль."
 
-#: tinyutils/tazlocale:124
+#: tinyutils/tazlocale:129
 #: tinyutils/tazkeymap:47
 msgid "Config file   :"
 msgstr "Файл настроек    :"
 
-#: tinyutils/tazlocale:125
+#: tinyutils/tazlocale:130
 msgid "Current locale:"
 msgstr "Текущая локаль   :"
 
@@ -63,35 +61,35 @@ msgstr "Сделано"
 msgid "You must be root to configure X server."
 msgstr "Вы должны быть администратором для настройки X-сервера."
 
-#: tinyutils/tazx:126
+#: tinyutils/tazx:131
 msgid "Install Xorg"
 msgstr "Установка Xorg"
 
-#: tinyutils/tazx:128
+#: tinyutils/tazx:133
 msgid "Tazx helps you to select your X driver."
 msgstr "Tazx поможет вам выбрать драйвер для X."
 
-#: tinyutils/tazx:163
+#: tinyutils/tazx:168
 msgid "Tazx dialog helps you to configure your Xorg server."
 msgstr "Диалог Tazx поможет вам настроить сервер Xorg."
 
-#: tinyutils/tazx:164
+#: tinyutils/tazx:169
 msgid "Window Manager:"
 msgstr "Менеджер окон:"
 
-#: tinyutils/tazx:165
+#: tinyutils/tazx:170
 msgid "X server:"
 msgstr "X-сервер:"
 
-#: tinyutils/tazx:166
+#: tinyutils/tazx:171
 msgid "Install or reconfigure Xorg"
 msgstr "Установить или перенастроить Xorg"
 
-#: tinyutils/tazx:167
+#: tinyutils/tazx:172
 msgid "Install TinyX server Xfbdev"
 msgstr "Установить сервер TinyX: Xfbdev"
 
-#: tinyutils/tazx:168
+#: tinyutils/tazx:173
 msgid "Quit Tazx utility"
 msgstr "Выйти из утилиты Tazx"
 
@@ -126,6 +124,45 @@ msgstr "Неподдерживаемый файл:"
 #: tinyutils/decode:98
 msgid "No file:"
 msgstr "Нет файла:"
+
+#: tinyutils/terminal:24
+msgid "configurable SliTaz wrapper for terminal."
+msgstr "настраиваемая обёртка SliTaz для терминала."
+
+#: tinyutils/terminal:26
+msgid "Recognized options:"
+msgstr "Поддерживаемые параметры:"
+
+#: tinyutils/terminal:27
+msgid "Print the version number"
+msgstr "Информация о версии"
+
+#: tinyutils/terminal:28
+msgid "Print out this message"
+msgstr "Вывести эту справку"
+
+#: tinyutils/terminal:29
+#, sh-format
+msgid "Width and height of terminal window ($GEOMETRY)"
+msgstr "Ширина и высота окна терминала ($GEOMETRY)"
+
+#: tinyutils/terminal:30
+#, sh-format
+msgid "Title name for window (\"$TITLE\")"
+msgstr "Заголовок окна (\"$TITLE\")"
+
+#: tinyutils/terminal:31
+msgid "Dont't close terminal after command finished"
+msgstr "Не закрывать терминал после завершения команды"
+
+#: tinyutils/terminal:32
+msgid "Command to execute (must be last in line)"
+msgstr "Выполнить команду (должна быть последней в строке)"
+
+#: tinyutils/terminal:35
+#, sh-format
+msgid "Help for $TERMINAL:"
+msgstr "Справка программы $TERMINAL:"
 
 #~ msgid "You must be root to run:"
 #~ msgstr "Вы должны быть администратором, чтобы запустить:"
