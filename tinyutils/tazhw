@@ -50,7 +50,7 @@ check_firmware()
 {
 	if [ -x /usr/bin/get-$mod-firmware ]; then
 		if [ ! -d /var/lib/tazpkg/installed/$mod-firmware ]; then
-			# We need and active connection to install firmware and we
+			# We need an active connection to install firmware and we
 			# only install firmware if specified from cmdline.
 			if ifconfig | grep -q "inet addr"; then
 				# Ensure module is not loaded and get files.				
