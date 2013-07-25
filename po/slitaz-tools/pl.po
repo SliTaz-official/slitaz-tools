@@ -1,0 +1,169 @@
+# Polish translation for SliTaz Tools package.
+# Copyright (C) 2013 SliTaz
+# This file is distributed under the same license as the SliTaz Tools package.
+# Paweł Pyrczak <support@pyrczak.pl>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: SliTaz Tools\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-07-17 18:32+0300\n"
+"PO-Revision-Date: 2013-07-23 12:35+0100\n"
+"Last-Translator: Paweł Pyrczak <tkr.tkr.pl@gmail.com>\n"
+"Language-Team: Paweł Pyrczak <support@pyrczak.pl>\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Poedit-Language: Polish\n"
+"X-Poedit-Country: POLAND\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: tinyutils/tazlocale:87
+msgid "Setting system locale to:"
+msgstr "Zmienianie ustawień regionalnych systemu na:"
+
+#: tinyutils/tazlocale:101
+msgid "SliTaz language configuration"
+msgstr "Konfiguracja języka SliTaz"
+
+#: tinyutils/tazlocale:120
+msgid "Please logout of your current session and login again to use new locale."
+msgstr "Proszę wyloguj się z aktualnej sesji i zaloguj ponownie aby używać nowych ustawień regionalnych."
+
+#: tinyutils/tazlocale:129 tinyutils/tazkeymap:47
+msgid "Config file   :"
+msgstr "Plik konfiguracyjny:"
+
+#: tinyutils/tazlocale:130
+msgid "Current locale:"
+msgstr "Aktualne ustawienia regionalne:"
+
+#: tinyutils/tazkeymap:48
+msgid "Current keymap:"
+msgstr "Aktualny układ klawiatury:"
+
+#: tinyutils/tazkeymap:57
+msgid "SliTaz keymap configuration"
+msgstr "Konfiguracja układu klawiatury SliTaz"
+
+#: tinyutils/tazkeymap:69
+msgid "Please logout of your current session and login again to use new keyboard."
+msgstr "Proszę wyloguj się z aktualnej sesji i zaloguj ponownie aby używać nowego układu klawiatury."
+
+#: tinyutils/setmixer:12
+msgid "Setting default mixer volumes... "
+msgstr "Ustawianie domyślny poziomów mixera..."
+
+#: tinyutils/setmixer:53
+msgid "Done"
+msgstr "Zakończono"
+
+#: tinyutils/tazx:32
+msgid "You must be root to configure X server."
+msgstr "Aby konfigurować serwer X wymagane są uprawnienia administratora."
+
+#: tinyutils/tazx:131
+msgid "Install Xorg"
+msgstr "Zainstaluj Xorg"
+
+#: tinyutils/tazx:133
+msgid "Tazx helps you to select your X driver."
+msgstr "Tazx pomaga w wybraniu właściwego sterownika X"
+
+#: tinyutils/tazx:168
+msgid "Tazx dialog helps you to configure your Xorg server."
+msgstr "Dialog Tazx pomaga w konfiguracji serwera Xorg."
+
+#: tinyutils/tazx:169
+msgid "Window Manager:"
+msgstr "Menadżer okien:"
+
+#: tinyutils/tazx:170
+msgid "X server:"
+msgstr "Server X:"
+
+#: tinyutils/tazx:171
+msgid "Install or reconfigure Xorg"
+msgstr "Zainstaluj i skonfiguruj Xorg"
+
+#: tinyutils/tazx:172
+msgid "Install TinyX server Xfbdev"
+msgstr "Zainstaluj serwer TinyX Xfbdev"
+
+#: tinyutils/tazx:173
+msgid "Quit Tazx utility"
+msgstr "Zamknij narzędzie Tazx"
+
+#: tinyutils/decode:31
+msgid "Usage:"
+msgstr "Użycie:"
+
+#: tinyutils/decode:33
+msgid "Decode audio and video files"
+msgstr "Dekoduj pliki audio i video"
+
+#: tinyutils/decode:35
+msgid "Examples:"
+msgstr "Przykłady:"
+
+#: tinyutils/decode:49
+msgid "Missing decoder :"
+msgstr "Brakujący dekoder :"
+
+#: tinyutils/decode:50
+msgid "Skipping file   :"
+msgstr "Pomijanie pliku :"
+
+#: tinyutils/decode:54
+msgid "Decoding:"
+msgstr "Dekodowanie:"
+
+#: tinyutils/decode:78
+msgid "Unsupported file:"
+msgstr "Nieobsługiwany plik:"
+
+#: tinyutils/decode:98
+msgid "No file:"
+msgstr "Brak pliku:"
+
+#: tinyutils/terminal:24
+msgid "configurable SliTaz wrapper for terminal."
+msgstr "konfigurowalny wrapper SLiTaz dla terminala."
+
+#: tinyutils/terminal:26
+msgid "Recognized options:"
+msgstr "Rozpoznane opcje:"
+
+#: tinyutils/terminal:27
+msgid "Print the version number"
+msgstr "Wyświetl numer wersji"
+
+#: tinyutils/terminal:28
+msgid "Print out this message"
+msgstr "Wyświetl tą wiadomość"
+
+#: tinyutils/terminal:29
+#, sh-format
+msgid "Width and height of terminal window ($GEOMETRY)"
+msgstr "Szerokość i wysokość okna terminala  ($GEOMETRY)"
+
+#: tinyutils/terminal:30
+#, sh-format
+msgid "Title name for window (\"$TITLE\")"
+msgstr "Pasek tytułu dla okna (\"$TITLE\")"
+
+#: tinyutils/terminal:31
+msgid "Dont't close terminal after command finished"
+msgstr "Proszę nie zamykać terminala po zakończeniu wykonywania polecenia"
+
+#: tinyutils/terminal:32
+msgid "Command to execute (must be last in line)"
+msgstr "Polecenie do wykonania (musi być ostatnie w lini)"
+
+#: tinyutils/terminal:35
+#, sh-format
+msgid "Help for $TERMINAL:"
+msgstr "Pomoc dla $TERMINAL:"
+
