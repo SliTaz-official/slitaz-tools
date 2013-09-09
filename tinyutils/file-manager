@@ -6,6 +6,84 @@
 USER_CONFIG="$HOME/.config/slitaz/applications.conf"
 [ -f  $USER_CONFIG ] && . $USER_CONFIG
 
-$FILE_MANAGER $@ &
+# Check for terminal based File manager
+local desktop_file terminal_line exec_line exec icon_line icon params param
+
+desktop_file=$(find $HOME/.local/share/applications /usr/share/applications \
+	-iname $FILE_MANAGER.desktop | head -n1)
+echo "desktop_file: «$desktop_file»"
+
+if [ "x$desktop_file" != x ]; then
+	terminal_line=$(grep "^Terminal" $desktop_file | head -n1 | cut -d= -f2)
+	exec_line=$(grep "^Exec" $desktop_file | head -n1 | cut -d= -f2)
+
+	exec=${exec_line%% *}
+	params=${exec_line#* }; [ "x$exec" == "x$params" ] && params=
+
+	case x$terminal_line in
+		xTrue|xtrue|x1) exec="terminal -e $exec" ;;
+		*) ;;
+	esac
+
+	echo "terminal_line: «$terminal_line» exec: «$exec» params: «$params»"
+
+	if [ "x$(echo $params | grep '%i')" != x ]; then
+		# The Icon key expected
+		icon_line=$(grep "^Icon" $desktop_file | head -n1 | cut -d= -f2)
+		if [ "x$icon_line" != x ]; then
+			exec_line=$(echo $exec_line | sed 's|%i|--icon '$icon_line'|')
+		fi
+	fi
+	echo "exec_line: «$exec_line»"
+
+	for param in $params; do
+		echo "param: «$param»"
+		case x$param in
+			x%F) # A list of files expected
+				echo "F)"
+				echo » $exec $icon $@ ;;
+			x%f) # A single file name expected
+				echo "f)"
+				for param in $@; do
+					echo » $exec $icon $param
+				done ;;
+			x%U) # A list of URLs expected
+				echo "U)"
+				params=
+				for param in $@; do
+					case $param in
+						*://)
+							params="$params $param" ;;
+						*)
+							param="$(realpath $param 2>/dev/null)"
+							if [ "x$param" != x ]; then
+								params="$params file://$param"
+							fi ;;
+					esac
+				done
+				echo » $exec $icon $params
+				;;
+			x%u) # A single URL expected
+				echo "u)"
+				for param in $@; do
+					case $param in
+						*://)
+							echo  » $exec $icon $param ;;
+						*)
+							param="$(realpath $param 2>/dev/null)"
+							if [ "x$param" != x ]; then
+								echo  » $exec $icon file://$param
+							fi ;;
+					esac
+				done
+				;;
+			*) echo unknown ;;
+		esac
+	done
+	[ "x$params" == x ] && echo  » $exec
+	[ "x$params" == "x%i" ] && echo  » $exec $icon
+fi
+
+#echo $FILE_MANAGER $@ &
 
 exit 0

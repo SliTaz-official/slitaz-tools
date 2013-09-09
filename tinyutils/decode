@@ -8,6 +8,7 @@
 # Author: Christophe Lincoln <pankso@slitaz.org>
 #
 . /lib/libtaz.sh
+export TEXTDOMAIN='slitaz-tools' #i18n
 
 # NOTES:
 #	Do we need a --out=/output/path options ?
@@ -15,10 +16,6 @@
 #	Use separators and give decoded file size ?
 #	Use mencoder for flash video files (and other format) ?
 
-# Internationalization
-. /usr/bin/gettext.sh
-TEXTDOMAIN='slitaz-tools'
-export TEXTDOMAIN
 
 #
 # Functions
@@ -28,14 +25,15 @@ export TEXTDOMAIN
 usage() {
 	cat << EOT
 
-$(gettext "Usage:") $(basename $0) [option] [file|url] [file2 url2 ... fileN urlN]
+$(_n 'Decode audio and video files')
 
-$(gettext "Decode audio and video files")
+$(boldify "$(_ 'Usage:')")
+  $(basename $0) [$(_n 'option')] [$(_n 'file')|$(_n 'URL')] ...
 
-$(gettext "Examples:")
+$(boldify "$(_ 'Examples:')")
   $(basename $0) audio.mp3 audio.ogg
-  $(basename $0) /path/files/*
-  $(basename $0) http://www.myurl/file.avi
+  $(basename $0) $(_n '/path/to/files/*')
+  $(basename $0) http://www.myurl/$(_n 'file').avi
 
 EOT
 }
@@ -43,39 +41,45 @@ EOT
 # Check if a tool is installed. Don't force users and auto install package
 # Decode is a cmdline line tool, let's have auto install option in GUI.
 check_tool() {
+	dec=$1
 	name="$(basename "$file")"
 	if [ ! -x /usr/bin/$1 ]; then
-		echo ""
-		gettext "Missing decoder :"; echo " $1"
-		gettext "Skipping file   :"; echo " $name"
+		_ 'Missing decoder: $dec'
+		_ 'Skipping file: $name'
 		continue
 	else
-		echo ""
-		gettext "Decoding:"; echo " $name"
-		#separator
+		_ 'Decoding: $name'
+		newline
 	fi
 }
 
 # Decode a file.
 decoder() {
-	case "$file" in
-		*.mp3|*.MP3)
+	newline; separator; newline
+	if [ ! -f "$file" ]; then
+		_ 'No file: $file'
+		continue
+	fi
+	ext=$(echo ${file##*.} | tr '[A-Z]' '[a-z]')
+	case $ext in
+		mp3)
 			check_tool "mpg123"
 			mpg123 --rate 44100 --stereo --buffer 3072 --resync \
-				-w "${file%.*3}.wav" "$file" ;;
-		*.ogg)
+				-w "${file%.*}.wav" "$file" ;;
+		ogg)
 			check_tool "oggdec"
 			oggdec "$file" ;;
-		*.avi|*.wmv|*.mov|*.flv)
+		avi|wmv|mov|flv)
 			check_tool "ffmpeg"
-			ext=${file##*.}
 			# *.flv --> mencoder file.flv -ovc lavc -oac mp3lame -o file.avi
-			ffmpeg -y -i "$file" "${file%.$ext}.mpg"
-			du -sh "${file%.$ext}.mpg" ;;
-		*.wav|*.mpg|--*)
+			ffmpeg -y -i "$file" "${file%.*}.mpg"
+			du -sh "${file%.*}.mpg" ;;
+		wav|mpg|--*)
 			# Skip decoded files and --options.
+			name="$(basename "$file")"
+			_ 'Skipping file: $name'
 			continue ;;
-		*) echo ""; gettext "Unsupported file:"; echo " $file" ;;
+		*) _ 'Unsupported file: $file' ;;
 	esac
 }
 
@@ -84,21 +88,20 @@ decoder() {
 #
 
 case "$1" in
-	"") usage ;;
+	-h|--help|"") usage ;;
 	*)
-		for file in "$@"
-		do
+		for file in "$@"; do
+			debug "$file"
 			case "$file" in
 				http://*)
 					busybox wget "$file"
 					file="$(basename "$file")"
 					decoder && rm "$file" ;;
 				*.*)
-					[ ! -f "$file" ] && \
-						(gettext "No file:"; echo " $file") && continue
 					decoder ;;
 			esac
-		done && echo "" ;;
+		done
+		newline ;;
 esac
 
 exit 0

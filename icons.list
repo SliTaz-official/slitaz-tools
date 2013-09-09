@@ -1,0 +1,23 @@
+# slitaz-logout.desktop
+system-log-out: menu
+# burn-box.desktop
+media-optical-burn: menu
+# burn-iso.desktop
+iso-image-burn: menu
+# scp-box.desktop
+folder-remote: menu
+# wifi-box.desktop
+network-wireless: menu
+# gpl-license.desktop
+text-x-readme: menu
+# passwd.desktop
+user_auth: menu
+# tazbox-keymap.desktop
+preferences-desktop-keyboard: menu
+# tazbox-tz.desktop
+preferences-system-time: menu
+# tazbox-locale.desktop
+preferences-desktop-locale: menu
+
+# burn-box
+media-optical-dvd-rw: window big

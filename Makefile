@@ -19,28 +19,29 @@ help:
 
 tools-pot:
 	@echo -n "Generating SliTaz Tools pot file... "
-	@xgettext -o po/slitaz-tools/slitaz-tools.pot -L Shell \
+	@xgettext -o po/slitaz-tools/slitaz-tools.pot -L Shell -k_ -k_n \
 		--package-name="SliTaz Tools" \
 		./tinyutils/tazlocale ./tinyutils/tazkeymap ./tinyutils/setmixer \
-		./tinyutils/tazx ./tinyutils/decode ./tinyutils/terminal
+		./tinyutils/tazx ./tinyutils/decode ./tinyutils/terminal \
+		./tinyutils/hwsetup
 	@echo "done"
 
 boxes-pot:
 	@echo -n "Generating SliTaz Boxes pot file... "
-	@xgettext -o po/slitaz-boxes/slitaz-boxes.pot -L Shell \
+	@xgettext -o po/slitaz-boxes/slitaz-boxes.pot -L Shell -k_ -k_n \
 		--package-name="SliTaz Boxes" \
 		./boxes/wifi-box ./boxes/burn-box ./boxes/scp-box
 	@echo "done"
 
 tazbox-pot:
 	@echo -n "Generating tazbox pot file... "
-	@xgettext -o po/tazbox/tazbox.pot -L Shell \
+	@xgettext -o po/tazbox/tazbox.pot -L Shell -k -k_ -k_n \
 		--package-name="TazBox" ./tazbox/tazbox
 	@echo "done"
 
 tazdrop-pot:
 	@echo -n "Generating tazdrop pot file... "
-	@xgettext -o po/tazdrop/tazdrop.pot -L Shell \
+	@xgettext -o po/tazdrop/tazdrop.pot -L Shell -k_ -k_n \
 		--package-name="TazDrop" ./tazdrop/tazdrop
 	@echo "done"
 
@@ -50,7 +51,7 @@ msgmerge:
 	@for p in $(PROJECTS); do \
 		for l in $(LINGUAS); do \
 			if [ -f "po/$$p/$$l.po" ]; then \
-				echo -e "Updating $$p $$l po file.\n"; \
+				echo "Updating $$p $$l po file."; \
 				msgmerge -U po/$$p/$$l.po po/$$p/$$p.pot; \
 			fi; \
 		done; \
@@ -117,9 +118,12 @@ install-boxes:
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/locale
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/applications
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/pixmaps
+	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/zoneinfo
+
 	install -m 0755 boxes/* $(DESTDIR)$(PREFIX)/bin
 	install -m 0755 tazbox/tazbox $(DESTDIR)$(PREFIX)/bin
 	install -m 0755 tinyutils/subox $(DESTDIR)$(PREFIX)/bin
+	install -m 0644 tazbox/iso3166-1.tab $(DESTDIR)$(PREFIX)/share/zoneinfo
 
 	# Desktop files and icons.
 	install -m 0644 applications/* $(DESTDIR)$(PREFIX)/share/applications
@@ -134,7 +138,7 @@ install-boxes:
 	done;
 
 	# Gksu fake for pcmanfm.
-	cd $(DESTDIR)$(PREFIX)/bin && ln -s subox gksu
+	cd $(DESTDIR)$(PREFIX)/bin && ln -fs subox gksu
 
 clean:
 	rm -rf po/mo

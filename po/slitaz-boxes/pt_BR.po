@@ -1,13 +1,13 @@
-# Scpbox Portuguese translation.
-# Copyright (C) 2010-2011 www.slitaz.org
-# This file is distributed under the same license as the scpbox package.
+# Portuguese translation for SliTaz Boxes package.
+# Copyright (C) 2013 SliTaz GNU/Linux
+# This file is distributed under the same license as the SliTaz Boxes package.
 # Claudinei Pereira <claudinei@slitaz.org>, 2010.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: scpbox\n"
+"Project-Id-Version: SliTaz Boxes\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-01 20:20+0000\n"
+"POT-Creation-Date: 2013-09-06 02:11+0300\n"
 "PO-Revision-Date: 2013-01-26 01:30-0300\n"
 "Last-Translator: Claudinei Pereira <claudinei@slitaz.org>\n"
 "Language-Team: Portuguese <i18n@slitaz.org>\n"
@@ -17,157 +17,260 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: boxes/wifi-box:75
-msgid "Wifi connection"
-msgstr "Conexão wifi"
+#: boxes/wifi-box:15
+msgid "Small Wi-Fi utility to quickly connect to a network."
+msgstr ""
 
-#: boxes/wifi-box:76
-msgid "Connection to:"
-msgstr "Conectar a:"
-
-#: boxes/wifi-box:81
-msgid "Password:"
-msgstr "Senha:"
-
-#: boxes/wifi-box:108
-msgid "Wifi network"
-msgstr "Rede wifi"
-
-#: boxes/wifi-box:109
-msgid "<b>Connect to a wifi network</b> \\(Double click to connect\\)"
-msgstr "<b>Conectar à rede wifi</b> \\(Clique duplo para conectar\\)"
-
-#: boxes/wifi-box:114
-msgid "ESSID Name"
-msgstr "ESSID da rede"
-
-#: boxes/wifi-box:114
-msgid "Quality"
-msgstr "Qualidade"
-
-#: boxes/wifi-box:115
-msgid "Encryption"
-msgstr "Encriptação"
-
-#: boxes/wifi-box:115
-msgid "Status"
-msgstr "Status"
-
-#: boxes/wifi-box:146 boxes/burn-box:37 boxes/scp-box:34
+#: boxes/wifi-box:16 boxes/burn-box:33 boxes/scp-box:36
 msgid "Usage:"
 msgstr "Utilização:"
 
-#: boxes/burn-box:39 boxes/scp-box:36
-msgid "Commands:"
-msgstr "Comandos"
+#: boxes/wifi-box:17
+msgid "interface"
+msgstr ""
 
-#: boxes/burn-box:40
+#: boxes/wifi-box:38
+msgid "any"
+msgstr ""
+
+#: boxes/wifi-box:38
+msgid "N/A"
+msgstr ""
+
+#: boxes/wifi-box:38
+msgid "none"
+msgstr ""
+
+#: boxes/wifi-box:38 boxes/wifi-box:49 boxes/wifi-box:64
+msgid "-"
+msgstr ""
+
+#: boxes/wifi-box:75
+msgid "WPA Password:"
+msgstr "WPA Senha:"
+
+#: boxes/wifi-box:76
+msgid "WEP Password:"
+msgstr "WEP Senha:"
+
+#: boxes/wifi-box:82
+msgid "Wi-Fi connection"
+msgstr "Conexão Wi-Fi"
+
+#: boxes/wifi-box:85
+msgid "Connection to:"
+msgstr "Conectar a:"
+
+#: boxes/wifi-box:115
+msgid "Wi-Fi network"
+msgstr "Rede Wi-Fi"
+
+#: boxes/wifi-box:118
+msgid "<b>Connect to a Wi-Fi network</b> (Double click to connect)"
+msgstr "<b>Conectar à rede Wi-Fi</b> (Clique duplo para conectar)"
+
+#: boxes/wifi-box:120
+msgid "ESSID Name"
+msgstr "ESSID da rede"
+
+#: boxes/wifi-box:120
+msgid "Quality"
+msgstr "Qualidade"
+
+#: boxes/wifi-box:121
+msgid "Encryption"
+msgstr "Encriptação"
+
+#: boxes/wifi-box:121
+msgid "Status"
+msgstr "Status"
+
+#: boxes/wifi-box:122
+msgid "Start Wi-Fi"
+msgstr ""
+
+#: boxes/wifi-box:122
+msgid "Stop Wi-Fi"
+msgstr ""
+
+#: boxes/burn-box:32
+msgid "Burn-box a small front end to cdrkit powered by Yad/GTK."
+msgstr ""
+
+#: boxes/burn-box:34 boxes/scp-box:37
+msgid "command"
+msgstr ""
+
+#: boxes/burn-box:34 boxes/scp-box:37
+msgid "option"
+msgstr ""
+
+#: boxes/burn-box:34
+msgid "file"
+msgstr ""
+
+#: boxes/burn-box:36 boxes/scp-box:39
+msgid "Commands:"
+msgstr "Comandos:"
+
+#: boxes/burn-box:38
 msgid "Show all Wodim options"
 msgstr "Mostrar todas as opções do Wodim"
 
-#: boxes/burn-box:41
+#: boxes/burn-box:39
 msgid "Burn an ISO image"
 msgstr "Gravar uma imagem ISO"
 
-#: boxes/burn-box:42
+#: boxes/burn-box:40
 msgid "Create and burn an audio CD"
 msgstr "Criar e gravar um CD de áudio"
 
-#: boxes/burn-box:44 boxes/scp-box:39 boxes/scp-box:66
+#: boxes/burn-box:41
+msgid "Erase a RW disk"
+msgstr ""
+
+#: boxes/burn-box:43 boxes/scp-box:42 boxes/scp-box:70
 msgid "Options:"
 msgstr "Opções:"
 
-#: boxes/burn-box:48 boxes/scp-box:43
+#: boxes/burn-box:45 boxes/burn-box:50 boxes/burn-box:51
+msgid "/path/to/image.iso"
+msgstr ""
+
+#: boxes/burn-box:46 boxes/scp-box:44
+msgid "/path/to/directory"
+msgstr ""
+
+#: boxes/burn-box:48 boxes/scp-box:46
 msgid "Examples:"
 msgstr "Exemplos:"
 
-#: boxes/burn-box:62
-msgid "Decoding files from:"
-msgstr "Decodificando arquivos de:"
+#: boxes/burn-box:64
+#, sh-format
+msgid "Decoding files from: $audio"
+msgstr "Decodificando arquivos de: $audio"
 
-#: boxes/burn-box:83
-msgid "Not an ISO image:"
-msgstr "Imagem ISO inválida:"
+#: boxes/burn-box:84
+#, sh-format
+msgid "Not an ISO image: \"$iso\""
+msgstr "Imagem ISO \"$iso\" inválida"
 
-#: boxes/burn-box:98
+#: boxes/burn-box:100
+msgid "Burn-box"
+msgstr ""
+
+#: boxes/burn-box:102
 msgid "Burn ISO images and audio files [data in next releases]"
 msgstr "Gravar imagens ISO e arquivos de áudio (dados no próximo lançamento]"
 
-#: boxes/burn-box:102
+#: boxes/burn-box:104
 msgid "Drive speed:"
 msgstr "Velocidade do drive:"
 
-#: boxes/burn-box:103
+#: boxes/burn-box:105
 msgid "Wodim options:"
 msgstr "Opções do Wodim:"
 
-#: boxes/burn-box:104
+#: boxes/burn-box:106
 msgid "ISO image:"
 msgstr "Imagem ISO:"
 
-#: boxes/burn-box:105
+#: boxes/burn-box:107
 msgid "Audio files:"
 msgstr "Arquivos de áudio:"
 
-#: boxes/burn-box:106
+#: boxes/burn-box:108
 msgid "Wodim help"
 msgstr "Ajuda do Wodim"
 
-#: boxes/burn-box:107
+#: boxes/burn-box:109
 msgid "Blank CD"
 msgstr "CD em branco"
 
-#: boxes/burn-box:108
+#: boxes/burn-box:110
 msgid "Burn"
 msgstr "Gravar"
 
-#: boxes/burn-box:152
-msgid "Missing ISO image"
-msgstr "Imagem ISO não encontrada"
+#: boxes/burn-box:132
+msgid "Burning ISO"
+msgstr "Gravar uma imagem ISO"
 
-#: boxes/burn-box:160
-msgid "Missing audio directory"
-msgstr "Diretório com áudio não encontrado"
+#: boxes/burn-box:137
+msgid "Burning Audio"
+msgstr ""
 
-#: boxes/scp-box:37
+#: boxes/burn-box:149
+msgid "Wodim Help"
+msgstr "Ajuda do Wodim"
+
+#: boxes/burn-box:154
+#, sh-format
+msgid "Missing ISO image \"$iso\""
+msgstr "Imagem ISO \"$iso\" não encontrada"
+
+#: boxes/burn-box:162
+#, sh-format
+msgid "Missing audio directory \"$audio\""
+msgstr "Diretório com áudio \"$audio\" não encontrado"
+
+#: boxes/burn-box:166
+msgid "Blank disk"
+msgstr "CD em branco"
+
+#: boxes/scp-box:34
+msgid "SCP Box - Small front end to the secure file copy utility."
+msgstr ""
+
+#: boxes/scp-box:40
 msgid "List all known hosts"
 msgstr "Listar hosts disponíveis"
 
-#: boxes/scp-box:59
+#: boxes/scp-box:43 boxes/scp-box:47
+msgid "/path/to/file"
+msgstr ""
+
+#: boxes/scp-box:62
+msgid "SCP Box"
+msgstr ""
+
+#: boxes/scp-box:65
 msgid "<b>Secure copy</b> - Copy files remotely with scp"
 msgstr "<b>Cópia segura</b> - Copia arquivos remotamente com o scp"
 
-#: boxes/scp-box:63
+#: boxes/scp-box:67
 msgid "User name:"
 msgstr "Nome de usuário:"
 
-#: boxes/scp-box:64
+#: boxes/scp-box:68
 msgid "Hostname:"
 msgstr "Nome do host:"
 
-#: boxes/scp-box:65
+#: boxes/scp-box:69
 msgid "Known hosts:"
 msgstr "Hosts conhecidos:"
 
-#: boxes/scp-box:67
+#: boxes/scp-box:71
 msgid "Local file:"
 msgstr "Arquivos locais:"
 
-#: boxes/scp-box:68
+#: boxes/scp-box:72
 msgid "Local directory:"
 msgstr "Diretório local:"
 
-#: boxes/scp-box:69
+#: boxes/scp-box:73
 msgid "Remote path:"
 msgstr "Caminho remoto:"
 
-#: boxes/scp-box:70
+#: boxes/scp-box:74
 msgid "Download"
 msgstr "Download"
 
-#: boxes/scp-box:71
+#: boxes/scp-box:75
 msgid "Upload"
 msgstr "Upload"
+
+#~ msgid "Configuration"
+#~ msgstr "Configuração"
 
 #~ msgid ""
 #~ "\n"
@@ -177,9 +280,6 @@ msgstr "Upload"
 #~ "\n"
 #~ "Copie arquivos de forma segura com o scp do Cliente/Servidor Dropbear.\n"
 #~ "\t\t"
-
-#~ msgid "Configuration"
-#~ msgstr "Configuração"
 
 #~ msgid "<b>User        :</b>"
 #~ msgstr "<b>Usuário     :</b>"

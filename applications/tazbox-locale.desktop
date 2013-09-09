@@ -6,5 +6,5 @@ Name[pt]=Linguagem do Sistema
 Name[pt_BR]=Linguagem do Sistema
 Name[ru]=Язык системы
 Exec=tazbox su "tazbox locale"
-Icon=config-language
+Icon=preferences-desktop-locale
 Categories=GTK;Settings;DesktopSettings;

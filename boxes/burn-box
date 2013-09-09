@@ -1,30 +1,27 @@
 #!/bin/sh
 #
 # Burn-box a small front end to cdrkit powered by Yad/GTK. Keep the main
-# window uncluttered and use a wizard to create audio/video/data cd/dvd.
+# window uncluttered and use a wizard to create audio/video/data CD/DVD.
 # The main box lets users burn an ISO and audio files from a single directory.
 #
-# Copyright (C) 2012 SliTaz GNU/Linux - BSD License
+# Copyright (C) 2012-2013 SliTaz GNU/Linux - BSD License
 #
 # Author: Christophe Lincoln <pankso@slitaz.org>
 #
 . /lib/libtaz.sh
+export TEXTDOMAIN='slitaz-boxes' # i18n
 
 # LibTaz parser and store options. Burn-box can be used with an ISO image
 # or an audio directory in option: burn-box --iso=/path/to/image.iso
 [ "$iso" ] || iso=" "
 [ "$audio" ] || audio="$HOME"
 
-# Internal variables (we need a space before options).
-boxopts="--height=300 --width=520 --window-icon=drive-cdrom"
-options=" -eject -multi"
-speed=$(fgrep "drive speed" /proc/sys/dev/cdrom/info | cut -f 3)
-tmpdir=/tmp/$(basename $0)
-
-# Internationalization
-. /usr/bin/gettext.sh
-TEXTDOMAIN='slitaz-boxes'
-export TEXTDOMAIN
+# Internal variables
+boxopts="--height=300 --width=620"
+icon=media-optical-dvd-rw
+options="-eject -multi"
+speed=$(fgrep "drive speed" /proc/sys/dev/cdrom/info | cut -f3)
+tmpdir=$(mktemp -d)
 
 #
 # Functions
@@ -32,38 +29,42 @@ export TEXTDOMAIN
 
 # Help and usage
 usage() {
-	cat << EOT
+	newline; _ 'Burn-box a small front end to cdrkit powered by Yad/GTK.'
+	newline; boldify $(_ 'Usage:')
+	echo "  $(basename $0) [$(_n 'command')|$(_n 'option')] [$(_n 'file')]"
 
-$(gettext "Usage:") $(basename $0) [command|option] [file]
+	newline; boldify $(_ 'Commands:')
+	optlist "\
+wodim-help|-wh	$(_n 'Show all Wodim options')
+iso|-i			$(_n 'Burn an ISO image')
+audio|-a		$(_n 'Create and burn an audio CD')
+blank			$(_n 'Erase a RW disk')"
 
-$(gettext "Commands:")
-  wodim-help|-wh   $(gettext "Show all Wodim options")
-  iso|-i           $(gettext "Burn an ISO image")
-  audio|-a         $(gettext "Create and burn an audio CD")
+	newline; boldify $(_ 'Options:')
+	echo "\
+  --iso=$(_n '/path/to/image.iso')
+  --audio=$(_n '/path/to/directory')"
 
-$(gettext "Options:")
-  --iso=/path/to/image.iso
-  --audio=/path/to/directory
-
-$(gettext "Examples:")
-  $(basename $0) iso /path/to/image.iso
-  $(basename $0) --iso=/path/to/image.iso
-
-EOT
+	newline; boldify $(_ 'Examples:')
+	echo "\
+  $(basename $0) iso $(_n '/path/to/image.iso')
+  $(basename $0) --iso=$(_n '/path/to/image.iso')"
+	newline
 }
 
 # Ouput a command to a Yad/GTK box. Usage: cmd | out --title="Title" --tail
 gtkout() {
-	yad --text-info $boxopts "$@" --margins=4 --button="gtk-close":1
+	yad --window-icon=$icon $boxopts \
+		--margins=4 --fontname=monospace \
+		--text-info "$@" --button="gtk-close:1"
 }
 
 # Decode audio files with: decode [file]
 decode_audio() {
-	gettext "Decoding files from:"; echo " $audio"
-	rm -rf $tmpdir && mkdir -p $tmpdir
+	_ 'Decoding files from: $audio'
 	for f in "$audio"/*.*
 	do
-		[ "$debug" ] && echo "DEBUG: handling $f"
+		debug "handling $f"
 		case "$f" in
 			*.wav)
 				cp -f "$f" $tmpdir ;;
@@ -79,8 +80,9 @@ decode_audio() {
 
 # Burn an ISO image.
 burn_iso() {
-	[ "${iso##*.}" != "iso" ] && \
-		(gettext "Not an ISO image:"; echo " $iso") && exit 1
+	if [ "${iso##*.}" != "iso" ]; then
+		_ 'Not an ISO image: "$iso"'; exit 1
+	fi
 	wodim -v speed=$speed $options "$iso"
 }
 
@@ -95,19 +97,18 @@ burn_audio() {
 
 # Main GUI box function with pure Yad spec
 burn_main() {
-	text="$(gettext "Burn ISO images and audio files [data in next releases]")"
-	yad --form $boxopts --title="Burn-box" \
-		--image=application-x-cd-image --image-on-top \
-		--text="<b>$text</b>" \
-		--field="$(gettext "Drive speed:")" \
-		--field="$(gettext "Wodim options:")" \
-		--field="$(gettext "ISO image:")":FL \
-		--field="$(gettext "Audio files:")":DIR \
-		--button="$(gettext "Wodim help")":"$0 wodim-help" \
-		--button="$(gettext "Blank CD")":"$0 blank" \
-		--button="$(gettext "Burn")":0 \
-		--button="gtk-close":1 \
-		"$speed" "$options" "$iso" "$audio"
+	yad --title="$(_ 'Burn-box')" --window-icon=$icon $boxopts \
+		--image=$icon --image-on-top \
+		--text="<b>$(_n 'Burn ISO images and audio files [data in next releases]')</b>" \
+		--form \
+		--field="$(_n 'Drive speed:')" "$speed" \
+		--field="$(_n 'Wodim options:')" " $options" \
+		--field="$(_n 'ISO image:'):FL" "$iso" \
+		--field="$(_n 'Audio files:'):DIR" "$audio" \
+		--button="$(_n 'Wodim help'):$0 wodim-help" \
+		--button="$(_n 'Blank CD'):$0 blank" \
+		--button="$(_n 'Burn'):0" \
+		--button="gtk-close:1"
 }
 
 # Main function
@@ -121,20 +122,19 @@ burn() {
 		*) exit 0 ;;
 	esac
 
-	# Get value from $main
-	speed=$(echo $main | cut -d "|" -f 1 | cut -d "," -f 1)
-	options=$(echo $main | cut -d "|" -f 2)
-	iso=$(echo $main | cut -d "|" -f 3)
-	audio=$(echo $main | cut -d "|" -f 4)
+	# Get values from $main
+	eval $(echo $main | awk -F'|' \
+	'{printf "speed=\"%s\" options=\"%s\" iso=\"%s\" audio=\"%s\"", $1, $2, $3, $4}')
+	speed=${speed%%,*} # first from comma separated list
 
 	# Handle ISO image
 	if [ "$iso" != "(null)" ]; then
-		burn_iso 2>&1 | gtkout --title="Burning ISO" --tail
+		burn_iso 2>&1 | gtkout --title="$(_n 'Burning ISO')" --tail
 	fi
 
 	# Handle Audio files.
 	if [ "$audio" != "$HOME" ]; then
-		burn_audio 2>&1 | gtkout --title="Burning Audio" --tail
+		burn_audio 2>&1 | gtkout --title="$(_n 'Burning Audio')" --tail
 	fi
 }
 
@@ -143,13 +143,15 @@ burn() {
 #
 
 case "$1" in
+	-h|--help)
+		usage ;;
 	wodim-help|-wh)
-		wodim --help 2>&1 | gtkout --title="Wodim Help" ;;
+		wodim --help 2>&1 | gtkout --title="$(_n 'Wodim Help')" ;;
 	iso|-i)
 		# Let burn an ISO from cmdline: burn-box -i /path/to/image.iso
 		[ "$iso" == " " ] && iso="$2"
 		if [ ! -f "$iso" ]; then
-			gettext "Missing ISO image"; echo " $iso" && exit 1
+			_ 'Missing ISO image "$iso"'; exit 1
 		fi
 		burn_iso ;;
 	audio|-a)
@@ -157,11 +159,11 @@ case "$1" in
 		[ "$2" ] && audio="$2"
 		[ "$audio" == "$HOME" ] && unset audio
 		if [ ! -d "$audio" ]; then
-			gettext "Missing audio directory"; echo " $audio" && exit 1
+			_ 'Missing audio directory "$audio"'; exit 1
 		fi
 		burn_audio ;;
 	blank)
-		wodim -v -blank=fast 2>&1 | gtkout --title="Wodim Blank" --tail ;;
+		wodim -v -blank=fast 2>&1 | gtkout --title="$(_n 'Blank disk')" --tail ;;
 	""|--*)
 		burn ;;
 	*)

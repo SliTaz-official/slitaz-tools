@@ -1,12 +1,12 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# Greek translations for SliTaz Tools package.
+# Copyright (C) 2013 SliTaz GNU/Linux
+# This file is distributed under the same license as the SliTaz Tools package.
 # Constantine Mousafiris <kvisitor@gnugr.org>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-17 18:32+0300\n"
+"POT-Creation-Date: 2013-09-06 02:11+0300\n"
 "PO-Revision-Date: 2012-12-18 22:06+0300\n"
 "Last-Translator: Constantine Mousafiris <kvisitor@gnugr.org>\n"
 "Language-Team: Kostis Mousafiris\n"
@@ -17,38 +17,70 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Virtaal 0.5.2\n"
 
-#: tinyutils/tazlocale:87
-msgid "Setting system locale to:"
-msgstr "Ρύθμιση του locale στο:"
-
-#: tinyutils/tazlocale:101
+#: tinyutils/tazlocale:71
 msgid "SliTaz language configuration"
 msgstr "Ρύθμιση γλώσσας του SliTaz"
 
-#: tinyutils/tazlocale:120
+#: tinyutils/tazlocale:90
 msgid ""
 "Please logout of your current session and login again to use new locale."
 msgstr ""
 "Παρακαλώ, αποσυνδεθείτε από την τρέχουσα συνεδρία σας και επανασυνδεθείτε, "
 "για να χρησιμοποιήσετε το νέο locale."
 
-#: tinyutils/tazlocale:129 tinyutils/tazkeymap:47
-msgid "Config file   :"
-msgstr "Αρχείο ρυθμίσεων   :"
+#: tinyutils/tazlocale:92 tinyutils/tazkeymap:64
+msgid "Information"
+msgstr ""
 
-#: tinyutils/tazlocale:130
+#: tinyutils/tazlocale:100
+msgid "SliTaz GNU/Linux locale setting using dialog boxes."
+msgstr ""
+
+#: tinyutils/tazlocale:102 tinyutils/decode:30 tinyutils/hwsetup:24
+msgid "Usage:"
+msgstr "Χρήση:"
+
+#: tinyutils/tazlocale:102 tinyutils/decode:31 tinyutils/hwsetup:25
+msgid "option"
+msgstr ""
+
+#: tinyutils/tazlocale:104
+msgid "Display locale selecting dialog if no option given."
+msgstr ""
+
+#: tinyutils/tazlocale:106 tinyutils/hwsetup:40
+msgid "Options:"
+msgstr ""
+
+#: tinyutils/tazlocale:107
+msgid "Show info about config file and current locale."
+msgstr ""
+
+#: tinyutils/tazlocale:108
+msgid "Show list of available locales."
+msgstr ""
+
+#: tinyutils/tazlocale:110
+msgid "Any other option treated as locale - set locale."
+msgstr ""
+
+#: tinyutils/tazlocale:115 tinyutils/tazkeymap:42
+msgid "Config file:"
+msgstr "Αρχείο ρυθμίσεων:"
+
+#: tinyutils/tazlocale:116
 msgid "Current locale:"
 msgstr "Τρέχον locale:"
 
-#: tinyutils/tazkeymap:48
+#: tinyutils/tazkeymap:43
 msgid "Current keymap:"
 msgstr "Τρέχον keymap:"
 
-#: tinyutils/tazkeymap:57
+#: tinyutils/tazkeymap:52
 msgid "SliTaz keymap configuration"
-msgstr "Ρύθμιση του keymap στο Slitaz"
+msgstr "Ρύθμιση του keymap στο SliTaz"
 
-#: tinyutils/tazkeymap:69
+#: tinyutils/tazkeymap:65
 msgid ""
 "Please logout of your current session and login again to use new keyboard."
 msgstr ""
@@ -63,110 +95,536 @@ msgstr "Γίνεται ρύθμιση προεπιλεγμένου επιπέδ�
 msgid "Done"
 msgstr "Ολοκληρώθηκε"
 
-#: tinyutils/tazx:32
-msgid "You must be root to configure X server."
-msgstr "Πρέπει να είστε διαχειριστής συστήματος για να ρυθμίσετε τον X server."
-
-#: tinyutils/tazx:131
+#: tinyutils/tazx:122
 msgid "Install Xorg"
 msgstr "Εγκατάσταση του Xorg"
 
-#: tinyutils/tazx:133
+#: tinyutils/tazx:123
 msgid "Tazx helps you to select your X driver."
 msgstr "Ο Tazx σας βοηθά να επιλέξετε τον οδηγό (driver) για το Χ."
 
-#: tinyutils/tazx:168
+#: tinyutils/tazx:125
+msgid "driver"
+msgstr ""
+
+#: tinyutils/tazx:126
+msgid "Quit"
+msgstr ""
+
+#: tinyutils/tazx:155
+msgid "Configure X"
+msgstr ""
+
+#: tinyutils/tazx:157
 msgid "Tazx dialog helps you to configure your Xorg server."
 msgstr ""
 "Το παράθυρο διαλόγου του Tazx σας βοηθά να ρυθμίσετε τον διακομιστή Xorg."
 
-#: tinyutils/tazx:169
+#: tinyutils/tazx:158
 msgid "Window Manager:"
 msgstr "Διαχειριστής παραθύρων:"
 
-#: tinyutils/tazx:170
+#: tinyutils/tazx:159
 msgid "X server:"
 msgstr "Διακομιστής Χ:"
 
-#: tinyutils/tazx:171
+#: tinyutils/tazx:160
 msgid "Install or reconfigure Xorg"
 msgstr "Εγκατάσταση ή επαναρύθμιση του X org"
 
-#: tinyutils/tazx:172
+#: tinyutils/tazx:161
 msgid "Install TinyX server Xfbdev"
 msgstr "Εγκατάσταση του TinyX server Xfbdev"
 
-#: tinyutils/tazx:173
+#: tinyutils/tazx:162
 msgid "Quit Tazx utility"
 msgstr "Κλείστε το βοηθητικό πρόγραμμα Tazx"
 
-#: tinyutils/decode:31
-msgid "Usage:"
-msgstr "Χρήση:"
-
-#: tinyutils/decode:33
+#: tinyutils/decode:28
 msgid "Decode audio and video files"
 msgstr "Αποκωδικοποίηση αρχείων ήχου και εικόνας"
 
-#: tinyutils/decode:35
+#: tinyutils/decode:31 tinyutils/decode:36
+msgid "file"
+msgstr ""
+
+#: tinyutils/decode:31
+msgid "URL"
+msgstr ""
+
+#: tinyutils/decode:33
 msgid "Examples:"
 msgstr "Παραδείγματα:"
 
-#: tinyutils/decode:49
-msgid "Missing decoder :"
-msgstr "Λείπει ο αποκωδικοποιητής:"
+#: tinyutils/decode:35
+msgid "/path/to/files/*"
+msgstr ""
 
-#: tinyutils/decode:50
-msgid "Skipping file   :"
-msgstr "Γίνεται παράκαμψη του αρχείου   :"
+#: tinyutils/decode:47
+#, sh-format
+msgid "Missing decoder: $dec"
+msgstr "Λείπει ο αποκωδικοποιητής: $dec"
 
-#: tinyutils/decode:54
-msgid "Decoding:"
-msgstr "Γίνεται αποκωδικοποίηση:"
+#: tinyutils/decode:48 tinyutils/decode:80
+#, sh-format
+msgid "Skipping file: $name"
+msgstr "Γίνεται παράκαμψη του αρχείου: $name"
 
-#: tinyutils/decode:78
-msgid "Unsupported file:"
-msgstr "Μη υποστηριζόμενο αρχείο:"
+#: tinyutils/decode:51
+#, sh-format
+msgid "Decoding: $name"
+msgstr "Γίνεται αποκωδικοποίηση: $name"
 
-#: tinyutils/decode:98
-msgid "No file:"
-msgstr "Κανένα αρχείο:"
+#: tinyutils/decode:60
+#, sh-format
+msgid "No file: $file"
+msgstr "Κανένα αρχείο: $file"
 
-#: tinyutils/terminal:24
+#: tinyutils/decode:82
+#, sh-format
+msgid "Unsupported file: $file"
+msgstr "Μη υποστηριζόμενο αρχείο: $file"
+
+#: tinyutils/terminal:10
 msgid "configurable SliTaz wrapper for terminal."
 msgstr ""
 
-#: tinyutils/terminal:26
+#: tinyutils/terminal:12
 msgid "Recognized options:"
 msgstr ""
 
-#: tinyutils/terminal:27
+#: tinyutils/terminal:13
 msgid "Print the version number"
 msgstr ""
 
-#: tinyutils/terminal:28
+#: tinyutils/terminal:14
 msgid "Print out this message"
 msgstr ""
 
-#: tinyutils/terminal:29
+#: tinyutils/terminal:15
 #, sh-format
 msgid "Width and height of terminal window ($GEOMETRY)"
 msgstr ""
 
-#: tinyutils/terminal:30
+#: tinyutils/terminal:16
 #, sh-format
 msgid "Title name for window (\"$TITLE\")"
 msgstr ""
 
-#: tinyutils/terminal:31
-msgid "Dont't close terminal after command finished"
+#: tinyutils/terminal:17
+msgid "Don't close terminal after command finished"
 msgstr ""
 
-#: tinyutils/terminal:32
+#: tinyutils/terminal:18
 msgid "Command to execute (must be last in line)"
 msgstr ""
 
-#: tinyutils/terminal:35
+#: tinyutils/terminal:21
 #, sh-format
 msgid "Help for $TERMINAL:"
 msgstr ""
+
+#: tinyutils/hwsetup:22
+msgid "SliTaz Setup configuration"
+msgstr ""
+
+#: tinyutils/hwsetup:25
+msgid "command"
+msgstr ""
+
+#: tinyutils/hwsetup:27
+msgid "Commands:"
+msgstr ""
+
+#: tinyutils/hwsetup:29
+msgid "Print this short usage."
+msgstr ""
+
+#: tinyutils/hwsetup:30
+msgid "Parallel and USB Printer setup."
+msgstr ""
+
+#: tinyutils/hwsetup:31
+msgid "USB Scanner setup."
+msgstr ""
+
+#: tinyutils/hwsetup:32
+msgid "Integrated and USB webcam setup."
+msgstr ""
+
+#: tinyutils/hwsetup:33
+msgid "Digital Camera setup."
+msgstr ""
+
+#: tinyutils/hwsetup:34
+msgid "Bluetooth setup."
+msgstr ""
+
+#: tinyutils/hwsetup:35
+msgid "3g-modem setup."
+msgstr ""
+
+#: tinyutils/hwsetup:36
+msgid "Start/stop firewall."
+msgstr ""
+
+#: tinyutils/hwsetup:37
+msgid "Nvidia (non-free/free) setup."
+msgstr ""
+
+#: tinyutils/hwsetup:38
+msgid "ATI (non-free/free) setup."
+msgstr ""
+
+#: tinyutils/hwsetup:42
+msgid "install non-free packages (nvidia, ati)."
+msgstr ""
+
+#: tinyutils/hwsetup:43
+msgid "auto-install optional dependencies."
+msgstr ""
+
+#: tinyutils/hwsetup:44
+msgid "confirm before installing optional dependencies"
+msgstr ""
+
+#: tinyutils/hwsetup:98
+#, sh-format
+msgid ""
+"Due to a lack of compatible hardware for troubleshooting, this $DEVICE "
+"device has not been properly tested. Please report any success, failure, bug "
+"to SliTaz Bug tracker or Forum."
+msgstr ""
+
+#: tinyutils/hwsetup:107
+#, sh-format
+msgid "Failed to setup $DEVICE"
+msgstr ""
+
+#: tinyutils/hwsetup:117
+#, sh-format
+msgid "Installing pkg: $pkg"
+msgstr ""
+
+#: tinyutils/hwsetup:131
+#, sh-format
+msgid "Would you like to install pkg: $pkg"
+msgstr ""
+
+#: tinyutils/hwsetup:148
+#, sh-format
+msgid "adding $user to $grp"
+msgstr ""
+
+#: tinyutils/hwsetup:171
+msgid "Detected USB Device : Vendor : Product"
+msgstr ""
+
+#: tinyutils/hwsetup:213
+msgid "Do you want to use hp-setup utility"
+msgstr ""
+
+#: tinyutils/hwsetup:228
+#, sh-format
+msgid "Verify $DEVICE Permissions"
+msgstr ""
+
+#: tinyutils/hwsetup:229
+#, sh-format
+msgid "Your $DEVICE must be in $grp group with rw-rw-rw- permissions"
+msgstr ""
+
+#: tinyutils/hwsetup:250
+msgid "New udev rules are added by a package"
+msgstr ""
+
+#: tinyutils/hwsetup:258
+msgid "Auto configuring Xorg..."
+msgstr ""
+
+#: tinyutils/hwsetup:261
+msgid "Configuring Xorg..."
+msgstr ""
+
+#: tinyutils/hwsetup:292
+msgid "Wvdial Box"
+msgstr ""
+
+#: tinyutils/hwsetup:295
+msgid "Phone Number:"
+msgstr ""
+
+#: tinyutils/hwsetup:296
+msgid "Username:"
+msgstr ""
+
+#: tinyutils/hwsetup:297
+msgid "Password:"
+msgstr ""
+
+#: tinyutils/hwsetup:298
+msgid "Pin (if required):"
+msgstr ""
+
+#: tinyutils/hwsetup:299
+msgid "Modem:"
+msgstr ""
+
+#: tinyutils/hwsetup:300
+msgid "Access Point Name (APN):"
+msgstr ""
+
+#: tinyutils/hwsetup:301
+msgid "You must save your account info before dialing"
+msgstr ""
+
+#: tinyutils/hwsetup:302
+msgid "Edit config file"
+msgstr ""
+
+#: tinyutils/hwsetup:303
+msgid "Save Configuration"
+msgstr ""
+
+#: tinyutils/hwsetup:304
+msgid "Dial Pin Once"
+msgstr ""
+
+#: tinyutils/hwsetup:380
+msgid "Do you want to start cups"
+msgstr ""
+
+#: tinyutils/hwsetup:388
+msgid "Starting <b>cups</b> using:"
+msgstr ""
+
+#: tinyutils/hwsetup:407
+msgid "Do you want to start scanner"
+msgstr ""
+
+#: tinyutils/hwsetup:415
+msgid "Following <b>scanner commands</b> may be of help:"
+msgstr ""
+
+#: tinyutils/hwsetup:416
+msgid "to verify scanner has been found"
+msgstr ""
+
+#: tinyutils/hwsetup:417
+msgid "scanner application"
+msgstr ""
+
+#: tinyutils/hwsetup:436
+msgid "Would you like to test webcam"
+msgstr ""
+
+#: tinyutils/hwsetup:443
+msgid "Would you like to test webcam by installing mplayer-svn"
+msgstr ""
+
+#: tinyutils/hwsetup:450
+msgid "Webcam is set up; please use mplayer-svn/fswebcam/amsn/skype to view"
+msgstr ""
+
+#: tinyutils/hwsetup:466
+msgid "Do you want to check if gphoto2 can talk to your camera"
+msgstr ""
+
+#: tinyutils/hwsetup:471
+msgid "Do you want to test importing photos"
+msgstr ""
+
+#: tinyutils/hwsetup:481
+msgid "Camera is set up; please use gphoto2 to import photos"
+msgstr ""
+
+#: tinyutils/hwsetup:483
+#, sh-format
+msgid "Quick start guide: $guide_url"
+msgstr ""
+
+#: tinyutils/hwsetup:494
+msgid "Do you want to see if the bluetooth is working"
+msgstr ""
+
+#: tinyutils/hwsetup:502
+msgid "<b>Bluetooth</b> interfaces"
+msgstr ""
+
+#: tinyutils/hwsetup:510 tinyutils/hwsetup:527
+msgid "Following <b>Bluetooth commands</b> may be of help"
+msgstr ""
+
+#: tinyutils/hwsetup:515
+msgid "checking local bluetooth devices..."
+msgstr ""
+
+#: tinyutils/hwsetup:516
+msgid "scanning remote bluetooth devices..."
+msgstr ""
+
+#: tinyutils/hwsetup:517
+msgid "pairing with remote bluetooth devices..."
+msgstr ""
+
+#: tinyutils/hwsetup:520 tinyutils/hwsetup:541
+#, sh-format
+msgid "You can manually edit the configuration files in $bt if need be"
+msgstr ""
+
+#: tinyutils/hwsetup:534
+msgid "for starting bluetooth daemon"
+msgstr ""
+
+#: tinyutils/hwsetup:536
+msgid "for checking local devices"
+msgstr ""
+
+#: tinyutils/hwsetup:537
+msgid "for scanning remote devices"
+msgstr ""
+
+#: tinyutils/hwsetup:538
+msgid "pairing with remote bluetooth devices"
+msgstr ""
+
+#: tinyutils/hwsetup:552
+msgid "List detected devices"
+msgstr ""
+
+#: tinyutils/hwsetup:556
+msgid "Detected Modem at:"
+msgstr ""
+
+#: tinyutils/hwsetup:558
+msgid "Do you want to configure wvdial"
+msgstr ""
+
+#: tinyutils/hwsetup:567
+#, sh-format
+msgid "Edit $wc for phone number, login name, password and pin"
+msgstr ""
+
+#: tinyutils/hwsetup:568
+#, sh-format
+msgid "Add DNS adress of your provider in $rc"
+msgstr ""
+
+#: tinyutils/hwsetup:577
+msgid "Setting IPTABLES_RULES to yes in /etc/slitaz/firewall.conf"
+msgstr ""
+
+#: tinyutils/hwsetup:586
+msgid "Probing for open ports..."
+msgstr ""
+
+#: tinyutils/hwsetup:590
+msgid "Adding firewall daemon to start automatically at boot"
+msgstr ""
+
+#: tinyutils/hwsetup:607
+msgid "Do you want to configure X using non-free nvidia driver"
+msgstr ""
+
+#: tinyutils/hwsetup:610 tinyutils/hwsetup:649 tinyutils/hwsetup:681
+#: tinyutils/hwsetup:714
+#, sh-format
+msgid "Your previous config is in $xorg60"
+msgstr ""
+
+#: tinyutils/hwsetup:611 tinyutils/hwsetup:650
+#, sh-format
+msgid "If nvidia fails, you can remove $xorg55 to restore previous config."
+msgstr ""
+
+#: tinyutils/hwsetup:618
+msgid "Adding to xorg.conf:"
+msgstr ""
+
+#: tinyutils/hwsetup:623 tinyutils/hwsetup:659
+msgid "Checking if nvidia is working..."
+msgstr ""
+
+#: tinyutils/hwsetup:627
+msgid "Configure nvidia settings:"
+msgstr ""
+
+#: tinyutils/hwsetup:634
+msgid "test nvidia"
+msgstr ""
+
+#: tinyutils/hwsetup:635
+msgid "Use: nvidia-settings utility to configure your settings if necessary"
+msgstr ""
+
+#: tinyutils/hwsetup:646
+msgid "Do you want to configure X using free nvidia driver"
+msgstr ""
+
+#: tinyutils/hwsetup:652
+#, sh-format
+msgid "Create $xorg55short configured with nv driver."
+msgstr ""
+
+#: tinyutils/hwsetup:678
+msgid "Do you want to configure X using non-free catalyst ATI (radeon) driver"
+msgstr ""
+
+#: tinyutils/hwsetup:682
+#, sh-format
+msgid "If ati fails, you can remove $xorg55 to restore previous config."
+msgstr ""
+
+#: tinyutils/hwsetup:691
+msgid "Checking if ati catalyst is working..."
+msgstr ""
+
+#: tinyutils/hwsetup:695
+msgid "Configuration:"
+msgstr "Αρχείο ρυθμίσεων:"
+
+#: tinyutils/hwsetup:696
+msgid ""
+"Use: aticonfig utility to generate a template configuration file if necessary"
+msgstr ""
+
+#: tinyutils/hwsetup:711
+msgid "Do you want to configure X using free ATI (radeon) driver"
+msgstr ""
+
+#: tinyutils/hwsetup:715
+#, sh-format
+msgid "If ATI fails, you can remove $xorg55 to restore previous config."
+msgstr ""
+
+#: tinyutils/hwsetup:717
+#, sh-format
+msgid "Create $xorg55short configured with radeon driver."
+msgstr ""
+
+#: tinyutils/hwsetup:723
+msgid "Checking if ATI radeon is working..."
+msgstr ""
+
+#: tinyutils/hwsetup:739
+msgid "Bringing eth0 down..."
+msgstr ""
+
+#: tinyutils/hwsetup:740
+msgid "Dialing..."
+msgstr ""
+
+#: tinyutils/hwsetup:766
+msgid "The following optional packages can be installed:"
+msgstr ""
+
+#: tinyutils/hwsetup:770
+msgid "Do you want to install all/few/no optional dependencies (all|few|N)? "
+msgstr ""
+
+#~ msgid "You must be root to configure X server."
+#~ msgstr ""
+#~ "Πρέπει να είστε διαχειριστής συστήματος για να ρυθμίσετε τον X server."
+
+#~ msgid "Setting system locale to: $locale"
+#~ msgstr "Ρύθμιση του locale στο: $locale"

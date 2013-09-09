@@ -1,9 +1,8 @@
 [Desktop Entry]
-Encoding=UTF-8
 Type=Application
 Name=Dropped Notes
 Name[fr]=Notes déposées
 Name[ru]=Коллекция заметок
-Icon=slitaz-menu
 Exec=tazdrop --notes
-Categories=Office;
+Icon=slitaz-menu
+Categories=GTK;Utility;TextTools;

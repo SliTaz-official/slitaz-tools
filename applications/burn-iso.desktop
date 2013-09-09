@@ -6,6 +6,6 @@ Name[pt]=Gravador de Imagem ISO
 Name[pt_BR]=Gravador de Imagem ISO
 Name[ru]=Записать образ ISO
 Exec=burn-box --iso=%f
-Icon=drive-optical
+Icon=iso-image-burn
 NoDisplay=true
 MimeType=application/x-iso;

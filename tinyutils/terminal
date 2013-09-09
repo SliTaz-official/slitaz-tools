@@ -3,23 +3,22 @@
 #
 . /etc/slitaz/applications.conf
 . /lib/libtaz.sh
-
-export TEXTDOMAIN='slitaz-tools'
+export TEXTDOMAIN='slitaz-tools' #i18n
 
 help() {
 	cat << EOT
-$(boldify terminal): $(gettext 'configurable SliTaz wrapper for terminal.')
+$(boldify terminal): $(_n 'configurable SliTaz wrapper for terminal.')
 
-$(boldify $(gettext 'Recognized options:'))
--v -version  --version        $(gettext 'Print the version number')
-   -help     --help           $(gettext 'Print out this message')
-   -geometry --geometry       $(eval_gettext 'Width and height of terminal window ($GEOMETRY)')
--t -title -T --title          $(eval_gettext 'Title name for window ("$TITLE")')
--h -hold                      $(gettext "Don't close terminal after command finished")
--e           --xterm-execute  $(gettext 'Command to execute (must be last in line)')
+$(boldify $(_n 'Recognized options:'))
+-v -version  --version        $(_n 'Print the version number')
+   -help     --help           $(_n 'Print out this message')
+   -geometry --geometry       $(_n 'Width and height of terminal window ($GEOMETRY)')
+-t -title -T --title          $(_n 'Title name for window ("$TITLE")')
+-h -hold                      $(_n "Don't close terminal after command finished")
+-e           --xterm-execute  $(_n 'Command to execute (must be last in line)')
 
 
-$(boldify $(eval_gettext 'Help for $TERMINAL:'))
+$(boldify $(_n 'Help for $TERMINAL:'))
 
 EOT
 	$TERMINAL $OPT_HELP

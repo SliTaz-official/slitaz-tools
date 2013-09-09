@@ -4,10 +4,14 @@
 # This tinyutils is part of slitaz-tools. Tazx can configure Xorg with 
 # several Window Managers. The GTK interface to configure X is in tazbox.
 #
-# (c) 2011 SliTaz GNU/Linux - GNU gpl v3.
+# (c) 2011-2013 SliTaz GNU/Linux - GNU GPL v3.
 # Authors: Christophe Lincoln <pankso@slitaz.org>
 #          Pascal Bellard <pascal.bellard@slitaz.org>
 #
+. /lib/libtaz.sh
+. /etc/slitaz/slitaz.conf
+export TEXTDOMAIN='slitaz-tools' #i18n
+
 : ${DIALOG=dialog}
 
 # Default value.
@@ -17,26 +21,19 @@ WM=lxde-session
 # created by /etc/init.d/bootopts.sh.
 USER=$(cat /etc/passwd | grep 1000 | cut -d ":" -f 1)
 
-# Internationalization
-. /usr/bin/gettext.sh
-TEXTDOMAIN='slitaz-tools'
-export TEXTDOMAIN
-
 #
 # Functions
 #
 
-# Be sure we're root.
-check_root() {
-	if [ $(id -u) != 0 ]; then
-		gettext "You must be root to configure X server."
-		echo "" && exit 0
-	fi
+# Save chunk of xorg.conf into specified file
+save_chunk() {
+	sed -e '/Section "'${1#*-}'"/,/EndSection/!d' \
+		-e "s/EndSection/EndSection\n/" $xorg_template > \
+		$xorg_config/$1.conf
 }
 
 # Populate xorg.conf.d.
-xorg_conf_d()
-{
+xorg_conf_d() {
 	# Define the xorg.conf.d (can be /etc/X11/xorg.conf.d or /usr/share/X11/xorg.conf.d)
 	xorg_config=/etc/X11/xorg.conf.d
 
@@ -50,30 +47,19 @@ xorg_conf_d()
 	tar -cf $xorg_config/../Previous_xorg.conf.d.tar $xorg_config/ &> /dev/null 
 
 	# Put the different sections in separate files in the config directory.
-	sed -e '/Section "ServerLayout"/,/EndSection/!d' \
-		-e "s/EndSection/EndSection\n/" $xorg_template | \
-		grep -v Core > $xorg_config/10-ServerLayout.conf
-	sed -e '/Section "Files"/,/EndSection/!d' \
-		-e "s/EndSection/EndSection\n/" $xorg_template > \
-		$xorg_config/20-Files.conf
-	sed -e '/Section "Module"/,/EndSection/!d' \
-		-e "s/EndSection/EndSection\n/" $xorg_template > \
-		$xorg_config/30-Module.conf
-	sed -e '/Section "Monitor"/,/EndSection/!d' \
-		-e "s/EndSection/EndSection\n/" $xorg_template > \
-		$xorg_config/50-Monitor.conf
-	sed -e '/Section "Device"/,/EndSection/!d' \
-		-e "s/EndSection/EndSection\n/" $xorg_template > \
-		$xorg_config/60-Device.conf
-	sed -e '/Section "Screen"/,/EndSection/!d' \
-		-e "s/EndSection/EndSection\n/" $xorg_template > \
-		$xorg_config/70-Screen.conf
+	save_chunk 10-ServerLayout
+	sed -i '/Core/d' $xorg_config/10-ServerLayout.conf
+	save_chunk 20-Files
+	save_chunk 30-Module
+	save_chunk 50-Monitor
+	save_chunk 60-Device
+	save_chunk 70-Screen
 
 	# Remove the template.
 	rm $xorg_template
 
 	# Configure the keyboard with the right keymap.
-	keymap=`cat /etc/keymap.conf`
+	keymap=$(cat /etc/keymap.conf)
 	keyboard_config=$xorg_config/40-Keyboard.conf
 	variant=""
 	# this XkbOption moved from 40-evdev.conf (xorg-xf86-input-evdev)
@@ -89,6 +75,10 @@ xorg_conf_d()
 			# Russian
 			layout="us,ru"
 			options="grp:ctrl_shift_toggle, grp_led:scroll, $options" ;;
+		ua)
+			# Ukrainian
+			layout="us,ua,ru"
+			options="grp:ctrl_shift_toggle, $options" ;;
 		slovene)
 			# Slovenian
 			layout="si"; options="grp:alt_shift_toggle, $options" ;;
@@ -111,7 +101,7 @@ Section "InputClass"
 	Option "XkbOptions" "$options"
 EndSection
 EOC
-	[ "x$variant" != "x" ] && sed -i '/XkbVariant/d' $keyboard_config
+	[ x$variant == x ] && sed -i '/XkbVariant/d' $keyboard_config
 
 	# Create a xorg.conf if needed.
 	if [ ! -f /etc/X11/xorg.conf ]; then
@@ -124,26 +114,26 @@ EOT
 }
 
 # Install xorg server.
-install_xorg()
-{
+install_xorg() {
 	[ -f "/var/lib/tazpkg/packages.list" ] || tazpkg recharge
 	exec 3>&1
-	value=`$DIALOG --clear --colors --title " $(gettext "Install Xorg") " \
-		--menu "\
-$(gettext "Tazx helps you to select your X driver.")" 16 70 5 \
+	value=$($DIALOG \
+		--clear --colors \
+		--title " $(_n 'Install Xorg') " \
+		--menu "$(_n 'Tazx helps you to select your X driver.')" 16 70 8 \
 	$(fgrep xorg-xf86-video /var/lib/tazpkg/packages.list | cut -d- -f4 | \
-		while read x; do echo $x; echo driver; done) \
-	"quit" "Quitter" \
-	2>&1 1>&3`
+		while read x; do echo $x; _ 'driver'; done) \
+	"quit" "$(_n 'Quit')" \
+	2>&1 1>&3)
 	retval=$?
 	exec 3>&-
-	
+
 	# Continue or exit.
 	case $retval in
 		0) continue ;;
 		1|255) exit 0 ;;
 	esac
-	
+
 	# Set selected value.
 	case $value in
 		quit) exit 0 ;;
@@ -158,29 +148,28 @@ $(gettext "Tazx helps you to select your X driver.")" 16 70 5 \
 
 # Screen configuration dialog. TODO: menus items to enable/disable X on boot
 # and sed /etc/rcS.conf to remove slim from RUN_DAEMONS.
-config_dialog()
-{
+config_dialog() {
 	exec 3>&1
-	value=`$DIALOG \
+	value=$($DIALOG \
 		--clear --colors \
-		--title " Configure X " \
+		--title " $(_n 'Configure X') " \
 		--menu "\
-$(gettext "Tazx dialog helps you to configure your Xorg server.")\n\
-$(gettext "Window Manager:") \Z2$WM\Zn \
-$(gettext "X server:") \Z2Xorg\Zn" 16 70 5 \
-	"xorg" "$(gettext "Install or reconfigure Xorg")" \
-	"xfbdev" "$(gettext "Install TinyX server Xfbdev")" \
-	"quit" "$(gettext "Quit Tazx utility")" \
-	2>&1 1>&3`
+$(_n 'Tazx dialog helps you to configure your Xorg server.')\n\n\
+$(_n 'Window Manager:') \Z2$WM\Zn \n\
+$(_n 'X server:') \Z2Xorg\Zn" 16 70 3 \
+	"xorg" "$(_n 'Install or reconfigure Xorg')" \
+	"xfbdev" "$(_n 'Install TinyX server Xfbdev')" \
+	"quit" "$(_n 'Quit Tazx utility')" \
+	2>&1 1>&3)
 	retval=$?
 	exec 3>&-
-	
+
 	# Continue or exit.
 	case $retval in
 		0) continue ;;
 		1|255) exit 0 ;;
 	esac
-	
+
 	# Set selected value.
 	case $value in
 		xorg)
@@ -193,13 +182,12 @@ $(gettext "X server:") \Z2Xorg\Zn" 16 70 5 \
 }
 
 # Window manager specific configuration.
-wm_config()
-{
+wm_config() {
 	case $WM in
 		ob|openbox)
 			WM=openbox-session
 			# Check if a personal autostart script exists if OB is installed.
-			if [ -d "/var/lib/tazpkg/installed/openbox" ]; then
+			if [ -d "$INSTALLED/openbox" ]; then
 				if [ ! -f "$HOME/.config/openbox/autostart.sh" ]; then
 					mkdir -p $HOME/.config/openbox
 					cp /etc/xdg/openbox/autostart.sh $HOME/.config/openbox
@@ -218,7 +206,7 @@ wm_config()
 		jwm)
 			WM=jwm
 			JWM_CONFIG=$HOME/.jwmrc
-			if [ -d "/var/lib/tazpkg/installed/jwm" ]; then
+			if [ -d "$INSTALLED/jwm" ]; then
 				if [ ! -f "$JWM_CONFIG" ]; then
 					cp /etc/jwm/system.jwmrc $JWM_CONFIG
 				fi
@@ -229,13 +217,13 @@ wm_config()
 					cp /etc/jwm/system.jwmrc /home/$USER/.jwmrc
 					chown $USER.users /home/$USER/.jwmrc
 				fi
-				if [ ! -f "/root/.jwmrc" -a `id -u` = 0 ]; then
+				if [ ! -f "/root/.jwmrc" -a $(id -u) = 0 ]; then
 					cp /etc/jwm/system.jwmrc /root/.jwmrc
 				fi
 			fi ;;
 		pekwm)
 			WM=pekwm
-			if [ -d "/var/lib/tazpkg/installed/pekwm" ]; then
+			if [ -d "$INSTALLED/pekwm" ]; then
 				if [ -d "$HOME/.pekwm" ]; then
 					cp -R /etc/pekwm $HOME/.pekwm
 				fi
@@ -264,9 +252,8 @@ wm_config()
 }
 
 # Sample xinitrc for user (WM can be specified with F1 at slim login).
-xinitrc_sample()
-{
-	cat >  $FILE << "EOF"
+xinitrc_sample() {
+	cat > $1 << "EOF"
 # ~/.xinitrc: Executed by slim login manager to startx X session.
 # You can use F1 with Slim to change your window manager or configure
 # it permanently with your personal applications.conf file.
@@ -274,76 +261,63 @@ xinitrc_sample()
 . $HOME/.config/slitaz/applications.conf
 
 case $1 in
-	e17|enlightenment*)
-		exec enlightenment_start ;;
-	openbox|openbox-session|ob)
-		exec openbox-session ;;
-	dwm|dwm-session)
-		exec dwm-session ;;
-	fluxbox|startfluxbox)
-		exec startfluxbox ;;
-	awesome)
-		exec awesome ;;
-	pekwm)
-		exec pekwm ;;
-	karmen|karmen-session)
-		exec karmen-session ;;
-	jwm)
-		lxpanel &
-		exec jwm ;;
-	xfce|xfce4|xfce4-session)
-		xfce4-session ;;
-	*)
-		exec $WINDOW_MANAGER ;;
+	e17|enlightenment*)			exec enlightenment_start ;;
+	openbox|openbox-session|ob)	exec openbox-session ;;
+	dwm|dwm-session)			exec dwm-session ;;
+	fluxbox|startfluxbox)		exec startfluxbox ;;
+	awesome)					exec awesome ;;
+	pekwm)						exec pekwm ;;
+	karmen|karmen-session)		exec karmen-session ;;
+	jwm)						lxpanel & exec jwm ;;
+	xfce|xfce4|xfce4-session)	xfce4-session ;;
+	*)							exec $WINDOW_MANAGER ;;
 esac
 EOF
 	# Set default WM in applications.conf user file. Default WM can be
 	# configured graphically with 'desktopbox tazapps'
 	. $CONFIG
-	sed -i s/"WINDOW_MANAGER=.*"/"WINDOW_MANAGER=\"$WM\""/ \
-		$CONFIG
+	sed -i 's|WINDOW_MANAGER=.*|WINDOW_MANAGER="'$WM'"|' $CONFIG
 }
 
 # ~/.xinitrc for X login from a DM.
-creat_xinitrc()
-{
-	FILE=$HOME/.xinitrc
+creat_xinitrc() {
+	local APCONF=/etc/slitaz/applications.conf
+
 	CONFIG=$HOME/.config/slitaz/applications.conf
 	if [ ! -f $CONFIG ]; then
-		mkdir -p $HOME/.config/slitaz
-		cp /etc/slitaz/applications.conf $CONFIG
+		mkdir -p $(dirname $CONFIG); cp $APCONF $CONFIG
 	fi
-	xinitrc_sample
-	# .xinitrc and config for /etc/skel so new added user will get
+	xinitrc_sample $HOME/.xinitrc
+
+	# Make .xinitrc and config for /etc/skel so new added user will get
 	# a working X session.
 	if test $(id -u) = 0; then
-		FILE=/etc/skel/.xinitrc
 		CONFIG=/etc/skel/.config/slitaz/applications.conf
-		mkdir -p /etc/skel/.config/slitaz
-		cp -f /etc/slitaz/applications.conf $CONFIG
-		xinitrc_sample
+		mkdir -p $(dirname $CONFIG); cp -f $APCONF $CONFIG
+		xinitrc_sample /etc/skel/.xinitrc
 	fi
+
 	# In Live mode default user needs a xinitrc, since tazx
 	# is executed only by root.
 	CONFIG=/home/$USER/.config/slitaz/applications.conf
 	if [ ! -f $CONFIG ]; then
-		mkdir -p /home/$USER/.config/slitaz
-		cp /etc/slitaz/applications.conf $CONFIG
+		mkdir -p $(dirname $CONFIG); cp $APCONF $CONFIG
 	fi
 	chown -R $USER.users /home/$USER/.config/slitaz
-	if [ ! -f /home/$USER/.xinitrc ]; then
-		FILE=/home/$USER/.xinitrc
-		xinitrc_sample
+
+	FILE=/home/$USER/.xinitrc
+	if [ ! -f $FILE ]; then
+		xinitrc_sample $FILE
 		chown $USER.users $FILE
 	fi
 }
 
 # Create ~/.xsession to keep the configuration selected (used
 # only by startx, Slim login manager uses .xinitrc).
-creat_xsession()
-{
-	[ -f $HOME/.xsession ] && cp -f $HOME/.xsession $HOME/.previous_xsession
-	cat > $HOME/.xsession << _EOF_
+creat_xsession() {
+	local xsession=$HOME/.xsession
+	[ -f $xsession ] && cp -f $xsession $HOME/.previous_xsession
+	cat > $xsession << _EOF_
 # ~/.xsession: Start X window session manually on your system (startx).
 #
 Xorg &
@@ -351,10 +325,10 @@ Xorg &
 _EOF_
 	# LXpanel by default with JWM.
 	if [ "$WM" = "jwm" ]; then
-		echo 'lxpanel &' >> $HOME/.xsession
+		echo 'lxpanel &' >> $xsession
 	fi
-	echo "exec $WM" >> $HOME/.xsession
-	chmod 700 $HOME/.xsession
+	echo "exec $WM" >> $xsession
+	chmod 700 $xsession
 }
 
 
@@ -362,7 +336,7 @@ _EOF_
 
 case "$1" in
 	install-xorg)
-		check_root
+		check_root $@
 		if [ -n "$2" ]; then
 			WM=$2
 		fi
@@ -372,7 +346,7 @@ case "$1" in
 		creat_xinitrc
 		creat_xsession ;;
 	config-xorg)
-		check_root
+		check_root $@
 		if [ -n "$2" ]; then
 			WM=$2
 		fi

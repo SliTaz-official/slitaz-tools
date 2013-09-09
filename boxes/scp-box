@@ -2,19 +2,19 @@
 #
 # SCP Box - Small front end to the secure file copy utility.
 #
-# Copyright (C) 2008-2012 SliTaz GNU/Linux - BSD License
+# Copyright (C) 2008-2013 SliTaz GNU/Linux - BSD License
 #
 # Author: Christophe Lincoln <pankso@slitaz.org>
 #
 . /lib/libtaz.sh
+export TEXTDOMAIN='slitaz-boxes' # i18n
 
 [ "$file" ] || file="$HOME"
 [ "$dir" ] || dir="$HOME"
 
 # Internal variables (we need a space before options).
 config=$HOME/.config/scpbox
-icon=/usr/share/pixmaps/slitaz-icon.png
-term="xterm -geometry 80x16"
+term="terminal -geometry 80x16"
 scpopts=" -r -P 22"
 
 # Make sure we have config files.
@@ -31,46 +31,49 @@ fi
 usage() {
 	cat << EOT
 
-$(gettext "Usage:") $(basename $0) [command|option]
+$(_ 'SCP Box - Small front end to the secure file copy utility.')
 
-$(gettext "Commands:")
-  list-hosts       $(gettext "List all known hosts")
+$(boldify "$(_ 'Usage:')")
+  $(basename $0) [$(_n 'command')|$(_n 'option')]
 
-$(gettext "Options:")
-  --file=/path/to/file
-  --dir=/path/to/directory
+$(boldify "$(_ 'Commands:')")
+  list-hosts  $(_n 'List all known hosts')
 
-$(gettext "Examples:")
-  $(basename $0) --file=/path/to/file
+$(boldify "$(_ 'Options:')")
+  --file=$(_n '/path/to/file')
+  --dir=$(_n '/path/to/directory')
+
+$(boldify "$(_ 'Examples:')")
+  $(basename $0) --file=$(_n '/path/to/file')
 
 EOT
 }
 
 # List last used hosts.
 list_hosts() {
-	for h in $(cat $config/hosts)
-	do
+	for h in $(cat $config/hosts); do
 		echo -n "!$h"
 	done
 }
 
 # Main GUI box function with pure Yad spec
 scpbox_main() {
-	text=$(gettext "<b>Secure copy</b> - Copy files remotely with scp")
-	yad --form --title="SCP Box" --window-icon=$icon \
-		--image=folder-remote --image-on-top \
-		--height=320 --width=500 --text="$text" \
-		--field="$(gettext "User name:")" \
-		--field="$(gettext "Hostname:")" \
-		--field="$(gettext "Known hosts:")":CB \
-		--field="$(gettext "Options:")" \
-		--field="$(gettext "Local file:")":FL \
-		--field="$(gettext "Local directory:")":DIR \
-		--field="$(gettext "Remote path:")" \
-		--button="$(gettext "Download")":2 \
-		--button="$(gettext "Upload")":0 \
-		--button="gtk-close":1 \
-		"$USER" "" "$(list_hosts)" "$scpopts" "$file" "$dir" ""
+	icon=folder-remote
+	yad --title="$(_n 'SCP Box')" --window-icon=$icon \
+		--width=400 \
+		--image=$icon --image-on-top \
+		--text="$(_n '<b>Secure copy</b> - Copy files remotely with scp')" \
+		--form \
+		--field="$(_n 'User name:')" "$USER" \
+		--field="$(_n 'Hostname:')" "" \
+		--field="$(_n 'Known hosts:'):CB" "$(list_hosts)" \
+		--field="$(_n 'Options:')" "$scpopts" \
+		--field="$(_n 'Local file:'):FL" "$file" \
+		--field="$(_n 'Local directory:'):DIR" "$dir" \
+		--field="$(_n 'Remote path:')" "" \
+		--button="$(_n 'Download'):2" \
+		--button="$(_n 'Upload'):0" \
+		--button="gtk-close:1"
 }
 
 # Main function
@@ -93,7 +96,7 @@ scpbox() {
 		host=$(echo $main | cut -d "|" -f 3)
 	fi
 	if [ "$host" == "(null)" ] || [ ! "$host" ]; then
-		echo "No host: exit" && exit 0
+		echo "No host, exit"; exit 0
 	fi
 
 	# Deal with --button values
@@ -107,7 +110,7 @@ scpbox() {
 			elif [ "$dir" != "$HOME" ]; then
 				local="$dir"
 			else
-				echo "No file: exit" && exit 0
+				echo "No file, exit"; exit 0
 			fi
 			cmd="scp $options $local $user@$host:$remote"
 			[ "$debug" ] && echo "DEBUG: $cmd"
@@ -116,7 +119,7 @@ scpbox() {
 			# Download: we need a remote file.
 			local=$(echo $main | cut -d "|" -f 6)
 			if [ ! "$remote" ]; then
-				echo "No remote file: exit" && exit 0
+				echo "No remote file, exit"; exit 0
 			fi
 			cmd="scp $options $user@$host:$remote $local"
 			[ "$debug" ] && echo "DEBUG: $cmd"
@@ -131,12 +134,10 @@ scpbox() {
 #
 
 case "$1" in
-	list-hosts)
-		list_hosts ;;
-	""|--*)
-		scpbox ;;
-	*)
-		usage ;;
+	-h|--help)	usage ;;
+	list-hosts)	list_hosts ;;
+	""|--*)		scpbox ;;
+	*)			usage ;;
 esac
 
 exit 0

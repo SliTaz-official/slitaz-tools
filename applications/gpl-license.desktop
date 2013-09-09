@@ -5,5 +5,5 @@ Name[pt]=Licença Pública Geral GNU
 Name[pt_BR]=Licença Pública Geral GNU
 Name[ru]=Основная общественная лицензия GNU
 Exec=tazbox gpl
-Icon=text-x-generic
+Icon=text-x-readme
 Categories=System;Documentation;

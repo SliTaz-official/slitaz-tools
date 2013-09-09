@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Boxes\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-01 20:20+0000\n"
+"POT-Creation-Date: 2013-09-06 02:11+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,154 +17,254 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: boxes/wifi-box:75
-msgid "Wifi connection"
+#: boxes/wifi-box:15
+msgid "Small Wi-Fi utility to quickly connect to a network."
 msgstr ""
 
-#: boxes/wifi-box:76
-msgid "Connection to:"
-msgstr ""
-
-#: boxes/wifi-box:81
-msgid "Password:"
-msgstr ""
-
-#: boxes/wifi-box:108
-msgid "Wifi network"
-msgstr ""
-
-#: boxes/wifi-box:109
-msgid "<b>Connect to a wifi network</b> \\(Double click to connect\\)"
-msgstr ""
-
-#: boxes/wifi-box:114
-msgid "ESSID Name"
-msgstr ""
-
-#: boxes/wifi-box:114
-msgid "Quality"
-msgstr ""
-
-#: boxes/wifi-box:115
-msgid "Encryption"
-msgstr ""
-
-#: boxes/wifi-box:115
-msgid "Status"
-msgstr ""
-
-#: boxes/wifi-box:146 boxes/burn-box:37 boxes/scp-box:34
+#: boxes/wifi-box:16 boxes/burn-box:33 boxes/scp-box:36
 msgid "Usage:"
 msgstr ""
 
-#: boxes/burn-box:39 boxes/scp-box:36
+#: boxes/wifi-box:17
+msgid "interface"
+msgstr ""
+
+#: boxes/wifi-box:38
+msgid "any"
+msgstr ""
+
+#: boxes/wifi-box:38
+msgid "N/A"
+msgstr ""
+
+#: boxes/wifi-box:38
+msgid "none"
+msgstr ""
+
+#: boxes/wifi-box:38 boxes/wifi-box:49 boxes/wifi-box:64
+msgid "-"
+msgstr ""
+
+#: boxes/wifi-box:75
+msgid "WPA Password:"
+msgstr ""
+
+#: boxes/wifi-box:76
+msgid "WEP Password:"
+msgstr ""
+
+#: boxes/wifi-box:82
+msgid "Wi-Fi connection"
+msgstr ""
+
+#: boxes/wifi-box:85
+msgid "Connection to:"
+msgstr ""
+
+#: boxes/wifi-box:115
+msgid "Wi-Fi network"
+msgstr ""
+
+#: boxes/wifi-box:118
+msgid "<b>Connect to a Wi-Fi network</b> (Double click to connect)"
+msgstr ""
+
+#: boxes/wifi-box:120
+msgid "ESSID Name"
+msgstr ""
+
+#: boxes/wifi-box:120
+msgid "Quality"
+msgstr ""
+
+#: boxes/wifi-box:121
+msgid "Encryption"
+msgstr ""
+
+#: boxes/wifi-box:121
+msgid "Status"
+msgstr ""
+
+#: boxes/wifi-box:122
+msgid "Start Wi-Fi"
+msgstr ""
+
+#: boxes/wifi-box:122
+msgid "Stop Wi-Fi"
+msgstr ""
+
+#: boxes/burn-box:32
+msgid "Burn-box a small front end to cdrkit powered by Yad/GTK."
+msgstr ""
+
+#: boxes/burn-box:34 boxes/scp-box:37
+msgid "command"
+msgstr ""
+
+#: boxes/burn-box:34 boxes/scp-box:37
+msgid "option"
+msgstr ""
+
+#: boxes/burn-box:34
+msgid "file"
+msgstr ""
+
+#: boxes/burn-box:36 boxes/scp-box:39
 msgid "Commands:"
 msgstr ""
 
-#: boxes/burn-box:40
+#: boxes/burn-box:38
 msgid "Show all Wodim options"
 msgstr ""
 
-#: boxes/burn-box:41
+#: boxes/burn-box:39
 msgid "Burn an ISO image"
 msgstr ""
 
-#: boxes/burn-box:42
+#: boxes/burn-box:40
 msgid "Create and burn an audio CD"
 msgstr ""
 
-#: boxes/burn-box:44 boxes/scp-box:39 boxes/scp-box:66
+#: boxes/burn-box:41
+msgid "Erase a RW disk"
+msgstr ""
+
+#: boxes/burn-box:43 boxes/scp-box:42 boxes/scp-box:70
 msgid "Options:"
 msgstr ""
 
-#: boxes/burn-box:48 boxes/scp-box:43
+#: boxes/burn-box:45 boxes/burn-box:50 boxes/burn-box:51
+msgid "/path/to/image.iso"
+msgstr ""
+
+#: boxes/burn-box:46 boxes/scp-box:44
+msgid "/path/to/directory"
+msgstr ""
+
+#: boxes/burn-box:48 boxes/scp-box:46
 msgid "Examples:"
 msgstr ""
 
-#: boxes/burn-box:62
-msgid "Decoding files from:"
+#: boxes/burn-box:64
+#, sh-format
+msgid "Decoding files from: $audio"
 msgstr ""
 
-#: boxes/burn-box:83
-msgid "Not an ISO image:"
+#: boxes/burn-box:84
+#, sh-format
+msgid "Not an ISO image: \"$iso\""
 msgstr ""
 
-#: boxes/burn-box:98
-msgid "Burn ISO images and audio files [data in next releases]"
+#: boxes/burn-box:100
+msgid "Burn-box"
 msgstr ""
 
 #: boxes/burn-box:102
-msgid "Drive speed:"
-msgstr ""
-
-#: boxes/burn-box:103
-msgid "Wodim options:"
+msgid "Burn ISO images and audio files [data in next releases]"
 msgstr ""
 
 #: boxes/burn-box:104
-msgid "ISO image:"
+msgid "Drive speed:"
 msgstr ""
 
 #: boxes/burn-box:105
-msgid "Audio files:"
+msgid "Wodim options:"
 msgstr ""
 
 #: boxes/burn-box:106
-msgid "Wodim help"
+msgid "ISO image:"
 msgstr ""
 
 #: boxes/burn-box:107
-msgid "Blank CD"
+msgid "Audio files:"
 msgstr ""
 
 #: boxes/burn-box:108
+msgid "Wodim help"
+msgstr ""
+
+#: boxes/burn-box:109
+msgid "Blank CD"
+msgstr ""
+
+#: boxes/burn-box:110
 msgid "Burn"
 msgstr ""
 
-#: boxes/burn-box:152
-msgid "Missing ISO image"
+#: boxes/burn-box:132
+msgid "Burning ISO"
 msgstr ""
 
-#: boxes/burn-box:160
-msgid "Missing audio directory"
+#: boxes/burn-box:137
+msgid "Burning Audio"
 msgstr ""
 
-#: boxes/scp-box:37
+#: boxes/burn-box:149
+msgid "Wodim Help"
+msgstr ""
+
+#: boxes/burn-box:154
+#, sh-format
+msgid "Missing ISO image \"$iso\""
+msgstr ""
+
+#: boxes/burn-box:162
+#, sh-format
+msgid "Missing audio directory \"$audio\""
+msgstr ""
+
+#: boxes/burn-box:166
+msgid "Blank disk"
+msgstr ""
+
+#: boxes/scp-box:34
+msgid "SCP Box - Small front end to the secure file copy utility."
+msgstr ""
+
+#: boxes/scp-box:40
 msgid "List all known hosts"
 msgstr ""
 
-#: boxes/scp-box:59
-msgid "<b>Secure copy</b> - Copy files remotely with scp"
+#: boxes/scp-box:43 boxes/scp-box:47
+msgid "/path/to/file"
 msgstr ""
 
-#: boxes/scp-box:63
-msgid "User name:"
-msgstr ""
-
-#: boxes/scp-box:64
-msgid "Hostname:"
+#: boxes/scp-box:62
+msgid "SCP Box"
 msgstr ""
 
 #: boxes/scp-box:65
-msgid "Known hosts:"
+msgid "<b>Secure copy</b> - Copy files remotely with scp"
 msgstr ""
 
 #: boxes/scp-box:67
-msgid "Local file:"
+msgid "User name:"
 msgstr ""
 
 #: boxes/scp-box:68
-msgid "Local directory:"
+msgid "Hostname:"
 msgstr ""
 
 #: boxes/scp-box:69
-msgid "Remote path:"
-msgstr ""
-
-#: boxes/scp-box:70
-msgid "Download"
+msgid "Known hosts:"
 msgstr ""
 
 #: boxes/scp-box:71
+msgid "Local file:"
+msgstr ""
+
+#: boxes/scp-box:72
+msgid "Local directory:"
+msgstr ""
+
+#: boxes/scp-box:73
+msgid "Remote path:"
+msgstr ""
+
+#: boxes/scp-box:74
+msgid "Download"
+msgstr ""
+
+#: boxes/scp-box:75
 msgid "Upload"
 msgstr ""

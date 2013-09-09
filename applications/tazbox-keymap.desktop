@@ -6,5 +6,5 @@ Name[pt]=Mapa do Teclado
 Name[pt_BR]=Mapa do Teclado
 Name[ru]=Раскладка клавиатуры
 Exec=tazbox su "tazbox keymap"
-Icon=input-keyboard
+Icon=preferences-desktop-keyboard
 Categories=GTK;Settings;DesktopSettings;

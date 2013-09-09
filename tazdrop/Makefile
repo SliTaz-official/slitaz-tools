@@ -2,7 +2,7 @@
 #
 PREFIX?=/usr
 SYSCONFDIR?=/etc/slitaz
-LINGUAS?=es_AR pt_BR ru
+LINGUAS?=es_AR fr pl pt_BR ru
 
 # Installation
 

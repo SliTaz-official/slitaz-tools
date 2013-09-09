@@ -7,6 +7,8 @@
 # Copyright (C) 2011 SliTaz GNU/linux - BSD License
 #    - Christophe Lincoln <pankso@slitaz.org>
 #
+. /lib/libtaz.sh
+export TEXTDOMAIN='tazdrop' # i18n
 
 # Follow XDG standards
 CONFIG=$HOME/.config/slitaz/tazdrop.conf
@@ -17,75 +19,71 @@ NOTES=$HOME/.cache/tazdrop.notes
 
 [ -d $DOWNLOADS ] || mkdir -p $DOWNLOADS
 
-# Internationalization
-. /usr/bin/gettext.sh
-TEXTDOMAIN='tazdrop'
-export TEXTDOMAIN
 
 #
-# Here are the functions
+# Functions
 #
 
 usage() {
-	cat << EOT
+	newline; _ 'SliTaz Drag N Drop tool'
 
-$(gettext "Usage:") $(basename $0) [--option|file|url]
+	newline; boldify "$(_ 'Usage:')"
+	echo "  $(basename $0) [--$(_n 'option')|$(_n 'file')|$(_n 'URL')]"
 
-$(gettext "Options:")
-  --usage      $(gettext "Display this small help")
-  --dnd        $(gettext "Display the desktop Drag N' Drop window")
-  --dnd-image  $(gettext "Display the desktop Drag N' Drop image")
-  --notes      $(gettext "Display your dropped text notes")
-
-EOT
+	newline; boldify "$(_ 'Options:')"
+	optlist "\
+--usage|-h|--help	$(_ 'Display this small help')
+--dnd				$(_ 'Display the desktop Drag N Drop window')
+--image				$(_ 'Display the desktop Drag N Drop image')
+--notes				$(_ 'Display your dropped text notes')"
+	newline
 }
 
 # Write notes content type to a file
 write_drop() {
-	sed "s/`echo -en '\r'` /\n/g" >> $NOTES << EOT
-====
+	sed "s/$(echo -en '\r') /\n/g" >> $NOTES << EOT
+====[ $(date '+%x %X') ]====
 $drop
 EOT
 }
 
 # Get and install a package from an URL
 get_install_pkg() {
-	tmp=$DOWNLOADS/$$ 
+	tmp=$DOWNLOADS/$$
 	mkdir -p $tmp
-	$TERMINAL -hold -e "cd $tmp && wget $drop && \
-		su -c \"tazpkg install *.tazpkg && mv *.tazpkg .. && \
-		cd .. && rm -rf $tmp\"" &
+	cd $tmp
+	wget $drop
+	su -c "tazpkg install *.tazpkg && mv *.tazpkg .. && cd .. && rm -rf $tmp"
 }
 
 # Main GUI function
 drop_main() {
-	yad --text "$DROP_TEXT" \
-		--geometry="${DROP_SIZE}$DROP_GEOM" \
-		--name="tazdrop" --skip-taskbar \
-		--dnd --sticky --on-top \
-		--undecorated --no-buttons \
+	yad --geometry="$DROP_SIZE$DROP_GEOM" \
+		--sticky --on-top --skip-taskbar --undecorated --no-buttons \
+		--text "$DROP_TEXT" \
+		--name="tazdrop" \
+		--dnd \
 		--command="$0"
 }
 
 # Image GUI function
 drop_image() {
-	yad --image=$DROP_IMAGE \
-		--geometry="$DROP_IMAGE_GEOM" \
-		--name="tazdrop" --skip-taskbar \
-		--dnd --sticky --on-top \
-		--undecorated --no-buttons \
+	yad --geometry="$DROP_IMAGE_GEOM" \
+		--sticky --on-top --skip-taskbar --undecorated --no-buttons \
+		--image=$DROP_IMAGE \
+		--name="tazdrop" \
+		--dnd \
 		--command="$0"
 }
 
 # Notes GUI function
 drop_notes() {
-	text=$(gettext "Edit or clean-up your dropped text notes")
-	yad --text-info --filename=$NOTES  \
-		--title="Dropped Notes" --editable \
-		--image=text-editor --image-on-top \
-		--window-icon=/usr/share/pixmaps/slitaz-menu.png \
-		--text="$text" --margins=5 \
-		--width=500 --height=400 \
+	icon=text-editor
+	yad --title="$(_ 'Dropped Notes')" --window-icon=$icon \
+		--width=500 --height=400 --margins=5 \
+		--image=$icon --image-on-top \
+		--text-info --editable --filename=$NOTES  \
+		--text="$(_ 'Edit or clean-up your dropped text notes')" \
 		--button="gtk-remove:2" \
 		--button="gtk-save:0" \
 		--button="gtk-close:1"
@@ -95,11 +93,11 @@ drop_notes() {
 # We may have args on cmdline, execute cmd & and exit.
 #
 case "$1" in
-	--usage|--help)
+	--usage|-h|--help)
 		usage && exit 0 ;;
 	--dnd)
 		drop_main && exit 0 ;;
-	--dnd-image)
+	--image)
 		drop_image && exit 0 ;;
 	--notes)
 		drop_notes > /tmp/notes.$$
@@ -111,6 +109,8 @@ case "$1" in
 		esac
 		# Clean cache and exit
 		rm -f /tmp/notes.$$ && exit 0 ;;
+	get_install_pkg)
+		get_install_pkg ;;
 	*)
 		[ -z "$1" ] && usage && exit 0
 		drop="$1" && continue ;;
@@ -130,11 +130,11 @@ case "$drop" in
 				$IMAGE "$drop" & ;;
 			*.txt|*.conf|*.css|*.php|*.cgi|*.list|*README*|*TODO| \
 			*.diff|*.log|*.js|*.xml|*receipt)
-				$EDITOR "$drop" & ;;
+				editor "$drop" & ;;
 			*.pdf)
 				$PDF "$drop" & ;;
 			*.html)
-				$BROWSER "$drop" & ;;
+				browser "$drop" & ;;
 			*.ogg|*.mp3)
 				file=${drop#file://}
 				$SOUND "$file" & ;;
@@ -142,11 +142,12 @@ case "$drop" in
 				file=${drop#file://}
 				dir=$(dirname $file)
 				pkg=$(basename $file)
-				$TERMINAL -e "su -c \"cd $dir && tazpkg install ${pkg%/}\"" & ;;
+				tazbox su tazpkg actions $file ;;
 			*.desktop)
 				# Exec *.desktop files so they can be used in a non
 				# Freedesktop environment (Ex: Ob/tint2/emlfm2)
 				file=${drop#file://}
+				# FIXME: should process all other stuff from .desktop file!
 				exec=$(fgrep Exec= "$file" | sed s'/Exec=//')
 				$exec & ;;
 			*)
@@ -170,11 +171,11 @@ case "$drop" in
 		case "$drop" in
 			*.png|*.jpg|*.jpeg|*.ico|*.gif|*.xpm|*.gz|*.bz2|*.lzma|*.xz| \
 			*.zip|*.pdf|*.iso)
-				$TERMINAL -e "cd $DOWNLOADS && wget $drop" & ;;
+				terminal -e "cd $DOWNLOADS && wget $drop" & ;;
 			*.tazpkg)
-				get_install_pkg ;;
+				terminal -hold -e $0 get_install_pkg ;;
 			*.html|*.php|*.cgi|*.py|*.pl|*/|*[a-zA-Z0-9])
-				$BROWSER "$drop" & ;;
+				browser "$drop" & ;;
 		esac
 		;;
 	*[a-z0-9]@[a-z0-9]*.[a-z]*)

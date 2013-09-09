@@ -6,5 +6,5 @@ Name[pt]=Configuração de Zona Horária
 Name[pt_BR]=Configuração de Zona Horária
 Name[ru]=Часовой пояс
 Exec=tazbox su "tazbox tz"
-Icon=config-date
+Icon=preferences-system-time
 Categories=GTK;Settings;DesktopSettings;

@@ -1,14 +1,14 @@
-# French translations for PACKAGE package.
-# Copyright (C) 2010 THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# French translations for TazDrop package.
+# Copyright (C) 2013 SliTaz GNU/Linux
+# This file is distributed under the same license as the TazDrop package.
 # Christophe Lincoln <pankso@slitaz.org>, 2010.
+# Stanislas Leduc <shann@slitaz.org>, 2013.
 # 
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: TazDrop\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-26 15:48-0200\n"
+"POT-Creation-Date: 2013-09-06 02:11+0300\n"
 "PO-Revision-Date: 2013-02-20 10:21+0100\n"
 "Last-Translator: Stanislas Leduc <shann@slitaz.org>\n"
 "Language-Team: French\n"
@@ -17,11 +17,27 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: tazdrop/tazdrop:32
+#: tazdrop/tazdrop:28
+msgid "SliTaz Drag N Drop tool"
+msgstr ""
+
+#: tazdrop/tazdrop:30
 msgid "Usage:"
 msgstr "Utilisation:"
 
-#: tazdrop/tazdrop:34
+#: tazdrop/tazdrop:31
+msgid "option"
+msgstr ""
+
+#: tazdrop/tazdrop:31
+msgid "file"
+msgstr ""
+
+#: tazdrop/tazdrop:31
+msgid "URL"
+msgstr ""
+
+#: tazdrop/tazdrop:33
 msgid "Options:"
 msgstr "Options:"
 
@@ -30,11 +46,11 @@ msgid "Display this small help"
 msgstr "Affiche cette courte aide"
 
 #: tazdrop/tazdrop:36
-msgid "Display the desktop Drag N' Drop window"
+msgid "Display the desktop Drag N Drop window"
 msgstr "Affiche la fenêtre de drag n' drop"
 
 #: tazdrop/tazdrop:37
-msgid "Display the desktop Drag N' Drop image"
+msgid "Display the desktop Drag N Drop image"
 msgstr "Affiche la fenêtre de drag n' drop pour les images"
 
 #: tazdrop/tazdrop:38
@@ -42,5 +58,9 @@ msgid "Display your dropped text notes"
 msgstr "Affiche vos prises de notes"
 
 #: tazdrop/tazdrop:82
+msgid "Dropped Notes"
+msgstr ""
+
+#: tazdrop/tazdrop:86
 msgid "Edit or clean-up your dropped text notes"
 msgstr "Editer ou supprimer vos prises de notes"

@@ -3,23 +3,18 @@
 # Tazkeymap - SliTaz GNU/Linux keymap config using loadkeys and dialog boxes.
 # Configuration file is: /etc/keymap.conf
 #
-# Copyright (C) 2008-2012 SliTaz GNU/Linux - BSD License
+# Copyright (C) 2008-2013 SliTaz GNU/Linux - BSD License
 #
 # Author: Christophe Lincoln <pankso@slitaz.org>
 #
 . /lib/libtaz.sh
-
-# Internationalization
-. /usr/bin/gettext.sh
-TEXTDOMAIN='slitaz-tools'
-export TEXTDOMAIN
+export TEXTDOMAIN='slitaz-tools' #i18n
 
 # List all keymaps.
 list_keymaps() {
 	cd /usr/share/kbd/keymaps/i386
 	# We first need a list to sort and then use \n for Yad list.
-	for i in $(find *rty *rtz dvorak -name *.map.gz)
-	do
+	for i in $(find *rty *rtz dvorak -name *.map.gz); do
 		keymap=$(basename $i)
 		type=$(dirname $i)
 		echo "${keymap%.map.gz} $type"
@@ -44,8 +39,8 @@ system_config() {
 
 case "$1" in
 	info)
-		gettext "Config file   :"; echo " /etc/keymap.conf"
-		gettext "Current keymap:"; echo " $(cat /etc/keymap.conf)" ;;
+		_n 'Config file:'; echo " /etc/keymap.conf"
+		_n 'Current keymap:'; echo " $(cat /etc/keymap.conf)" ;;
 	list)
 		list_keymaps | sort ;;
 	"")
@@ -54,7 +49,7 @@ case "$1" in
 		check_root
 		exec 3>&1
 		value=$($DIALOG  --clear \
-		--title " $(gettext "SliTaz keymap configuration") " \
+		--title " $(_n 'SliTaz keymap configuration') " \
 		--menu "" 15 70 5 \
 		$(list_keymaps | sort) \
 		2>&1 1>&3)
@@ -66,9 +61,8 @@ case "$1" in
 		esac
 		# If it's a reconfiguration give an info message.
 		if [ -s /etc/keymap.conf ]; then
-			msg=$(gettext "\
-Please logout of your current session and login again to use new keyboard.")
-			$DIALOG --clear --title " Information " --msgbox "$msg" 16 70
+			$DIALOG --clear --title " $(_n 'Information') " \
+				--msgbox "$(_n 'Please logout of your current session and login again to use new keyboard.')" 16 70
 		fi
 		kmap=$value
 		system_config

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-16 18:18+0300\n"
+"POT-Creation-Date: 2013-09-06 02:11+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,200 +17,263 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: tazbox/tazbox:35
+#: tazbox/tazbox:28
+msgid "SliTaz tiny GUI boxes for the desktop"
+msgstr ""
+
+#: tazbox/tazbox:30
 msgid "Usage:"
 msgstr ""
 
-#: tazbox/tazbox:37
+#: tazbox/tazbox:31
+msgid "command"
+msgstr ""
+
+#: tazbox/tazbox:33
 msgid "Commands:"
 msgstr ""
 
-#: tazbox/tazbox:38
+#: tazbox/tazbox:35
 msgid "Display this short help usage"
 msgstr ""
 
-#: tazbox/tazbox:39
+#: tazbox/tazbox:36
 msgid "Execute a command as super-user"
 msgstr ""
 
-#: tazbox/tazbox:40
+#: tazbox/tazbox:37
 msgid "Desktop logout box with actions"
 msgstr ""
 
-#: tazbox/tazbox:41
+#: tazbox/tazbox:38
 msgid "Pipe a command output into a GTK window"
 msgstr ""
 
-#: tazbox/tazbox:42
-msgid "Pipe Wget output into a GTK window"
+#: tazbox/tazbox:39
+msgid "Pipe wget output into a GTK window"
 msgstr ""
 
-#: tazbox/tazbox:43
+#: tazbox/tazbox:40
 msgid "Configure system language (root)"
 msgstr ""
 
-#: tazbox/tazbox:44
+#: tazbox/tazbox:41
 msgid "Configure system keymap (root)"
 msgstr ""
 
-#: tazbox/tazbox:45
+#: tazbox/tazbox:42
 msgid "Configure system timezone (root)"
 msgstr ""
 
-#: tazbox/tazbox:46
+#: tazbox/tazbox:43
 msgid "System initial setup (locale, keymap & timezone)"
 msgstr ""
 
-#: tazbox/tazbox:47
+#: tazbox/tazbox:44
 msgid "Create a new file or folder on the desktop"
 msgstr ""
 
-#: tazbox/tazbox:48
+#: tazbox/tazbox:45
 msgid "Display icons of all installed applications"
 msgstr ""
 
-#: tazbox/tazbox:49
+#: tazbox/tazbox:46
 msgid "Notify user with a desktop centered box"
 msgstr ""
 
-#: tazbox/tazbox:50
+#: tazbox/tazbox:47
 msgid "Configure SliTaz default applications"
 msgstr ""
 
-#: tazbox/tazbox:57
-msgid "Slitaz admin password"
+#: tazbox/tazbox:65
+msgid "SliTaz admin password"
 msgstr ""
 
-#: tazbox/tazbox:58
+#: tazbox/tazbox:68
 msgid "Please enter root password (default root) to execute:"
 msgstr ""
 
-#: tazbox/tazbox:64
+#: tazbox/tazbox:71
 msgid "Password:"
 msgstr ""
 
-#: tazbox/tazbox:65
+#: tazbox/tazbox:72
 msgid "Autosave password"
 msgstr ""
 
-#: tazbox/tazbox:69
+#: tazbox/tazbox:77
+msgid "Error"
+msgstr ""
+
+#: tazbox/tazbox:80
 msgid "Error: wrong password!"
 msgstr ""
 
-#: tazbox/tazbox:91
-msgid "<b>SliTaz Logout.</b> Please choose an action:"
+#: tazbox/tazbox:87
+msgid "CANCEL"
 msgstr ""
 
-#: tazbox/tazbox:96
+#: tazbox/tazbox:94
+msgid "TazBox Output"
+msgstr ""
+
+#: tazbox/tazbox:106
+msgid "SliTaz Logout"
+msgstr ""
+
+#: tazbox/tazbox:109
+msgid "Please choose an action:"
+msgstr ""
+
+#: tazbox/tazbox:111
 msgid "Close X session"
 msgstr ""
 
-#: tazbox/tazbox:97
+#: tazbox/tazbox:112
 msgid "Reboot system"
 msgstr ""
 
-#: tazbox/tazbox:98
+#: tazbox/tazbox:113
 msgid "Shutdown system"
 msgstr ""
 
-#: tazbox/tazbox:117
+#: tazbox/tazbox:133
 msgid "SliTaz Initial Setup"
 msgstr ""
 
-#: tazbox/tazbox:118
+#: tazbox/tazbox:136
 msgid ""
-"\\n<big>Here you can set your preferences\\nfor <b>locale, keymap and "
-"timezone</b>.</big>\\n\\n"
+"Here you can set your preferences\\nfor <b>locale, keymap and timezone</b>."
 msgstr ""
 
-#: tazbox/tazbox:124
+#: tazbox/tazbox:138
 msgid "Locale"
 msgstr ""
 
-#: tazbox/tazbox:125 tazbox/tazbox:182
+#: tazbox/tazbox:139 tazbox/tazbox:190
 msgid "Keymap"
 msgstr ""
 
-#: tazbox/tazbox:126
+#: tazbox/tazbox:140
 msgid "Timezone"
 msgstr ""
 
-#: tazbox/tazbox:142
+#: tazbox/tazbox:160
+msgid "SliTaz locale"
+msgstr ""
+
+#: tazbox/tazbox:163
 msgid "Language configuration"
 msgstr ""
 
-#: tazbox/tazbox:153 tazbox/tazbox:209
+#: tazbox/tazbox:164 tazbox/tazbox:214
 msgid "Name"
 msgstr ""
 
-#: tazbox/tazbox:153
+#: tazbox/tazbox:164
 msgid "Description"
 msgstr ""
 
-#: tazbox/tazbox:170
+#: tazbox/tazbox:186
+msgid "SliTaz keymap"
+msgstr ""
+
+#: tazbox/tazbox:189
 msgid "Keyboard configuration"
 msgstr ""
 
-#: tazbox/tazbox:182
+#: tazbox/tazbox:190
 msgid "Type"
 msgstr ""
 
-#: tazbox/tazbox:199
+#: tazbox/tazbox:209 tazbox/tazbox:232 tazbox/tazbox:244 tazbox/tazbox:257
+msgid "SliTaz TZ"
+msgstr ""
+
+#: tazbox/tazbox:212 tazbox/tazbox:235 tazbox/tazbox:247 tazbox/tazbox:260
 msgid "TimeZone Configuration"
 msgstr ""
 
-#: tazbox/tazbox:223
-msgid "Create a new file or folder on your desktop"
+#: tazbox/tazbox:235
+msgid "Select country"
 msgstr ""
 
-#: tazbox/tazbox:224
+#: tazbox/tazbox:237
+msgid "Flag"
+msgstr ""
+
+#: tazbox/tazbox:237
+msgid "Code"
+msgstr ""
+
+#: tazbox/tazbox:237
+msgid "Country"
+msgstr ""
+
+#: tazbox/tazbox:247
+msgid "Select time zone"
+msgstr ""
+
+#: tazbox/tazbox:260
+msgid "Select location"
+msgstr ""
+
+#: tazbox/tazbox:261
+msgid "Location/City"
+msgstr ""
+
+#: tazbox/tazbox:285
 msgid "New file"
 msgstr ""
 
-#: tazbox/tazbox:227
+#: tazbox/tazbox:288
+msgid "Create a new file or folder on your desktop"
+msgstr ""
+
+#: tazbox/tazbox:289
 msgid "File name"
 msgstr ""
 
-#: tazbox/tazbox:228
+#: tazbox/tazbox:292
 msgid "SHell script"
 msgstr ""
 
-#: tazbox/tazbox:229
+#: tazbox/tazbox:293
 msgid "Folder"
 msgstr ""
 
-#: tazbox/tazbox:230
+#: tazbox/tazbox:295
 msgid "File"
 msgstr ""
 
-#: tazbox/tazbox:254
+#: tazbox/tazbox:319
 msgid "All Applications"
 msgstr ""
 
-#: tazbox/tazbox:361
+#: tazbox/tazbox:450
 msgid "SliTaz default applications"
 msgstr ""
 
-#: tazbox/tazbox:363
+#: tazbox/tazbox:452
 msgid "SliTaz default applications configuration"
 msgstr ""
 
-#: tazbox/tazbox:365
+#: tazbox/tazbox:454
 msgid "File manager:"
 msgstr ""
 
-#: tazbox/tazbox:366
+#: tazbox/tazbox:455
 msgid "Web browser:"
 msgstr ""
 
-#: tazbox/tazbox:367
+#: tazbox/tazbox:456
 msgid "Text editor:"
 msgstr ""
 
-#: tazbox/tazbox:368
+#: tazbox/tazbox:457
 msgid "Terminal:"
 msgstr ""
 
-#: tazbox/tazbox:369
+#: tazbox/tazbox:458
 msgid "Window manager:"
 msgstr ""

@@ -1,26 +1,24 @@
 #!/bin/sh
 #
-# Small Wifi utility to quickly connect to a network. Easy network connection is
-# most important, this tool provides a quick way to connect or change wifi
+# Small Wi-Fi utility to quickly connect to a network. Easy network connection
+# is most important, this tool provides a quick way to connect or change Wi-Fi
 # settings while full network configuration is done in TazPanel.
 #
-# Copyright (C) 2012 SliTaz GNU/Linux - GNU gpl v2
+# Copyright (C) 2012-2013 SliTaz GNU/Linux - GNU GPL v2
 #
-# Authors : Christophe Lincoln <pankso@slitaz.org>
+# Authors: Christophe Lincoln <pankso@slitaz.org>
 #
+. /lib/libtaz.sh
+export TEXTDOMAIN='slitaz-boxes' #i18n
 
-# Only for root.
-if [ $(id -u) != 0 ]; then
-	exec tazbox su $(basename $0) $@
-	exit 0
-fi
+usage() {
+	newline; _ 'Small Wi-Fi utility to quickly connect to a network.'
+	newline; boldify "$(_ 'Usage:')"
+	echo "  $(basename $0) [$(_ 'interface')]"
+	newline
+}
 
-# Internationalization
-. /usr/bin/gettext.sh
-TEXTDOMAIN='slitaz-boxes'
-export TEXTDOMAIN
-
-# Start a wifi connection
+# Start a Wi-Fi connection
 start_wifi() {
 	sed -i \
 		-e s'/^DHCP=.*/DHCP="yes"/' \
@@ -32,35 +30,38 @@ start_wifi() {
 	/etc/init.d/network.sh start
 }
 
-# Catch essids and format output for GTK tree. We get the list of
+# Catch ESSIDs and format output for GTK tree. We get the list of
 # networks by Cell and without spaces.
 detect_wifi() {
 	if [ -d /sys/class/net/$WIFI_INTERFACE/wireless ]; then
 		ifconfig $WIFI_INTERFACE up
-		echo -e "any\nN/A\nnone\n-"
+		echo -e "$( _n 'any')\n$(_n 'N/A')\n$(_n 'none')\n$(_n '-')"
 		for i in $(iwlist $WIFI_INTERFACE scan | sed s/"Cell "/Cell-/ | grep "Cell-" | awk '{print $1}')
 		do
 			scan=$(iwlist $WIFI_INTERFACE scan last | \
 				awk '/(Cell|ESS|Qual|Encry|IE: WPA|WPA2)/ {print}' | \
 				sed s/"Cell "/Cell-/ | grep -A 5 "$i")
 			essid=$(echo $scan | cut -d '"' -f 2)
+
 			if echo "$scan" | grep -q Quality; then
 				quality=$(echo $scan | sed 's/.*Quality=\([^ ]*\).*/\1/' | sed 's/.*Quality:\([^ ]*\).*/\1/')
 			else
-				quality="-"
+				quality="$(_n '-')"
 			fi
+
 			cryto=$(echo $scan | sed 's/.*key:\([^ ]*\).*/\1/')
 			# Check encryption type
 			if echo "$scan" | grep -q WPA*; then
 				cryto="WPA"
 			fi
+
 			# Connected or not connected...
 			if ifconfig | grep -A 1 $WIFI_INTERFACE | \
 				grep -q inet && iwconfig $WIFI_INTERFACE | \
 				grep ESSID | grep -q -w "$essid"; then
 				status=connected
 			else
-				status="-"
+				status="$(_n '-')"
 			fi
 
 			echo -e "$essid\n$quality\n$cryto\n$status"
@@ -71,14 +72,19 @@ detect_wifi() {
 # Prompt for password or connect
 connect_main() {
 	case $keytype in
+		WPA)	label="$(_n 'WPA Password:')" ;;
+		WEP)	label="$(_n 'WEP Password:')" ;;
+		*)		label= ;;
+	esac
+	case $keytype in
 		WPA|WEP)
-			title=$(gettext "Wifi connection")
-			text=$(gettext "Connection to:")
-			yad --form --width=520 --height=140 \
-				--center --on-top --window-icon="network-wireless" \
-				--image="network-wireless" --image-on-top \
-				--title="$title" --text="$text <b>$essid</b>" \
-				--field="$keytype $(gettext "Password:"):H" ;;
+			icon=network-wireless
+			yad --title="$(_n 'Wi-Fi connection')" --window-icon=$icon \
+				--width=520 --height=140 --on-top --center \
+				--image=$icon --image-on-top \
+				--text="$(_n 'Connection to:') <b>$essid</b>" \
+				--form \
+				--field="$label:H" ;;
 		none) continue ;;
 		*) exit 0 ;;
 	esac
@@ -105,16 +111,16 @@ connect() {
 
 # Main GUI box function with pure Yad spec
 wifi_main() {
-	title=$(gettext "Wifi network")
-	text=$(gettext "<b>Connect to a wifi network</b> \(Double click to connect\)")
-	detect_wifi | yad --list --width=520 --height=300 \
-		--center --on-top --window-icon="network-wireless" \
-		--image="network-wireless" --image-on-top \
-		--title="$title" --text="$text" \
-		--column "$(gettext "ESSID Name")" --column "$(gettext "Quality")" \
-		--column "$(gettext "Encryption")" --column "$(gettext "Status")" \
-		--button="Start wifi:4" --button="Stop wifi:3" \
-		--button="Configuration:2" --button="gtk-close:1"
+	icon=network-wireless
+	detect_wifi | yad --title="$(_n 'Wi-Fi network')" --window-icon=$icon \
+		--width=520 --height=300 --on-top --center \
+		--image=$icon --image-on-top \
+		--text="$(_n '<b>Connect to a Wi-Fi network</b> (Double click to connect)')" \
+		--list \
+		--column "$(_n 'ESSID Name')" --column "$(_n 'Quality')" \
+		--column "$(_n 'Encryption')" --column "$(_n 'Status')" \
+		--button="$(_n 'Start Wi-Fi'):4" --button="$(_n 'Stop Wi-Fi'):3" \
+		--button="gtk-preferences:2" --button="gtk-close:1"
 }
 
 # Main function
@@ -142,9 +148,15 @@ wifi() {
 #
 
 case "$1" in
-	usage|help|-*)
-		echo "$(gettext "Usage:") $(basename $0) [interface]" ;;
+	-h|--help|usage|help|-*)
+		usage ;;
 	*)
+		# Only for root.
+		if [ $(id -u) != 0 ]; then
+			exec tazbox su $0 $@
+			exit 0
+		fi
+
 		. /etc/network.conf
 		[ -n "$1" ] && WIFI_INTERFACE="$1"
 		wifi ;;
