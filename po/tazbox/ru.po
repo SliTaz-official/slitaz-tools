@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-06 02:11+0300\n"
+"POT-Creation-Date: 2014-01-02 18:43+0100\n"
 "PO-Revision-Date: 2013-09-04 10:50+0300\n"
 "Last-Translator: Aleksej Bobylev <al.bobylev@gmail.com>\n"
 "Language-Team: \n"
@@ -88,197 +88,202 @@ msgstr "Уведомить пользователя при помощи сооб
 msgid "Configure SliTaz default applications"
 msgstr "Настроить избранные приложения SliTaz"
 
-#: tazbox/tazbox:65
+#: tazbox/tazbox:66
 msgid "SliTaz admin password"
 msgstr "Пароль администратора SliTaz"
 
-#: tazbox/tazbox:68
+#: tazbox/tazbox:69
 msgid "Please enter root password (default root) to execute:"
 msgstr "Введите пароль (по умолчанию — root) для выполнения:"
 
-#: tazbox/tazbox:71
+#: tazbox/tazbox:72
 msgid "Password:"
 msgstr "Пароль"
 
-#: tazbox/tazbox:72
+#: tazbox/tazbox:73
 msgid "Autosave password"
 msgstr "Автосохранение пароля"
 
-#: tazbox/tazbox:77
+#: tazbox/tazbox:78
 msgid "Error"
 msgstr "Ошибка"
 
-#: tazbox/tazbox:80
+#: tazbox/tazbox:81
 msgid "Error: wrong password!"
 msgstr "Ошибка: неверный пароль!"
 
-#: tazbox/tazbox:87
+#: tazbox/tazbox:88
 msgid "CANCEL"
 msgstr "ОТМЕНА"
 
-#: tazbox/tazbox:94
+#: tazbox/tazbox:95
 msgid "TazBox Output"
 msgstr "TazBox — вывод команды"
 
-#: tazbox/tazbox:106
+#: tazbox/tazbox:107
 msgid "SliTaz Logout"
 msgstr "Выход из системы SliTaz"
 
-#: tazbox/tazbox:109
+#: tazbox/tazbox:110
 msgid "Please choose an action:"
 msgstr "Выберите действие:"
 
-#: tazbox/tazbox:111
+#: tazbox/tazbox:112
 msgid "Close X session"
 msgstr "Закрыть сессию X"
 
-#: tazbox/tazbox:112
+#: tazbox/tazbox:113
 msgid "Reboot system"
 msgstr "Перезагрузка"
 
-#: tazbox/tazbox:113
+#: tazbox/tazbox:114
 msgid "Shutdown system"
 msgstr "Выключение"
 
-#: tazbox/tazbox:133
+#: tazbox/tazbox:134
 msgid "SliTaz Initial Setup"
 msgstr "Начальные установки SliTaz"
 
-#: tazbox/tazbox:136
+#: tazbox/tazbox:137
+#, fuzzy
 msgid ""
-"Here you can set your preferences\\nfor <b>locale, keymap and timezone</b>."
+"Here you can set your preferences \\n for <b>locale, keymap and timezone</b>."
 msgstr ""
 "Здесь вы можете установить\\n<b>локаль, раскладку клавиатуры и часовой пояс</"
 "b>."
 
-#: tazbox/tazbox:138
+#: tazbox/tazbox:139
 msgid "Locale"
 msgstr "Локаль"
 
-#: tazbox/tazbox:139 tazbox/tazbox:190
+#: tazbox/tazbox:140 tazbox/tazbox:192
 msgid "Keymap"
 msgstr "Раскладка"
 
-#: tazbox/tazbox:140
+#: tazbox/tazbox:141
 msgid "Timezone"
 msgstr "Часовой пояс"
 
-#: tazbox/tazbox:160
+#: tazbox/tazbox:161
 msgid "SliTaz locale"
 msgstr "Локаль SliTaz"
 
-#: tazbox/tazbox:163
+#: tazbox/tazbox:164
 msgid "Language configuration"
 msgstr "Настройка языка"
 
-#: tazbox/tazbox:164 tazbox/tazbox:214
+#: tazbox/tazbox:165 tazbox/tazbox:216
 msgid "Name"
 msgstr "Название"
 
-#: tazbox/tazbox:164
+#: tazbox/tazbox:165
 msgid "Description"
 msgstr "Описание"
 
-#: tazbox/tazbox:186
+#: tazbox/tazbox:188
 msgid "SliTaz keymap"
 msgstr "Раскладка клавиатурыь SliTaz"
 
-#: tazbox/tazbox:189
+#: tazbox/tazbox:191
 msgid "Keyboard configuration"
 msgstr "Настройка клавиатуры"
 
-#: tazbox/tazbox:190
+#: tazbox/tazbox:192
 msgid "Type"
 msgstr "Тип"
 
-#: tazbox/tazbox:209 tazbox/tazbox:232 tazbox/tazbox:244 tazbox/tazbox:257
+#: tazbox/tazbox:211 tazbox/tazbox:234 tazbox/tazbox:246 tazbox/tazbox:259
 msgid "SliTaz TZ"
 msgstr "Часовой пояс SliTaz"
 
-#: tazbox/tazbox:212 tazbox/tazbox:235 tazbox/tazbox:247 tazbox/tazbox:260
+#: tazbox/tazbox:214 tazbox/tazbox:237 tazbox/tazbox:249 tazbox/tazbox:262
 msgid "TimeZone Configuration"
 msgstr "Настройка часового пояса"
 
-#: tazbox/tazbox:235
+#: tazbox/tazbox:237
 msgid "Select country"
 msgstr "Выберите страну"
 
-#: tazbox/tazbox:237
+#: tazbox/tazbox:239
 msgid "Flag"
 msgstr "флаг"
 
-#: tazbox/tazbox:237
+#: tazbox/tazbox:239
 msgid "Code"
 msgstr "код"
 
-#: tazbox/tazbox:237
+#: tazbox/tazbox:239
 msgid "Country"
 msgstr "страна"
 
-#: tazbox/tazbox:247
+#: tazbox/tazbox:249
 msgid "Select time zone"
 msgstr "Выберите часовой пояс"
 
-#: tazbox/tazbox:260
+#: tazbox/tazbox:262
 msgid "Select location"
 msgstr "Выберите местоположение"
 
-#: tazbox/tazbox:261
+#: tazbox/tazbox:263
 msgid "Location/City"
 msgstr "местность/город"
 
-#: tazbox/tazbox:285
+#: tazbox/tazbox:287
 msgid "New file"
 msgstr "Новый файл"
 
-#: tazbox/tazbox:288
+#: tazbox/tazbox:290
 msgid "Create a new file or folder on your desktop"
 msgstr "Создать файл или папку на рабочем столе"
 
-#: tazbox/tazbox:289
+#: tazbox/tazbox:291
 msgid "File name"
 msgstr "Имя файла"
 
-#: tazbox/tazbox:292
+#: tazbox/tazbox:294
 msgid "SHell script"
 msgstr "Скрипт"
 
-#: tazbox/tazbox:293
+#: tazbox/tazbox:295
 msgid "Folder"
 msgstr "Папка"
 
-#: tazbox/tazbox:295
+#: tazbox/tazbox:297
 msgid "File"
 msgstr "Файл"
 
-#: tazbox/tazbox:319
+#: tazbox/tazbox:322
 msgid "All Applications"
 msgstr "Все приложения"
 
-#: tazbox/tazbox:450
+#: tazbox/tazbox:411
+msgid "Downloading..."
+msgstr ""
+
+#: tazbox/tazbox:463
 msgid "SliTaz default applications"
 msgstr "Избранные приложения SliTaz"
 
-#: tazbox/tazbox:452
+#: tazbox/tazbox:465
 msgid "SliTaz default applications configuration"
 msgstr "Настройка избранных приложений SliTaz"
 
-#: tazbox/tazbox:454
+#: tazbox/tazbox:467
 msgid "File manager:"
 msgstr "Файловый менеджер:"
 
-#: tazbox/tazbox:455
+#: tazbox/tazbox:468
 msgid "Web browser:"
 msgstr "Браузер:"
 
-#: tazbox/tazbox:456
+#: tazbox/tazbox:469
 msgid "Text editor:"
 msgstr "Текстовый редактор:"
 
-#: tazbox/tazbox:457
+#: tazbox/tazbox:470
 msgid "Terminal:"
 msgstr "Терминал:"
 
-#: tazbox/tazbox:458
+#: tazbox/tazbox:471
 msgid "Window manager:"
 msgstr "Оконный менеджер:"
