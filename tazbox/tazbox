@@ -107,22 +107,11 @@ logout_main() {
 	yad --title="$(_n 'SliTaz Logout')" --window-icon=$icon \
 		--on-top --center \
 		--image=$icon --image-on-top \
-		--text="$(_n 'Please choose an action:')" \
+		--text="<b>$(_n 'Please choose an action:')</b>" \
 		--always-print-result \
 		--button "$(_n 'Close X session'):4" \
 		--button "$(_n 'Reboot system'):3" \
 		--button "$(_n 'Shutdown system'):2"
-}
-logout_oldstyle() {
-	icon=/usr/share/pixmaps/slitaz-icon.png
-	yad --title="$(_n 'SliTaz Logout')" --window-icon=$icon \
-		--on-top --center --width=440 --height=140 \
-		--image=$icon --image-on-top \
-		--text="<b>$(_n 'SliTaz Logout').</b> $(_n 'Please choose an action:')" \
-		--entry --entry-text \
-		"$(_n 'Close X session'): exit" \
-		"$(_n 'Reboot system'): reboot" \
-		"$(_n 'Shutdown system'): halt"
 }
 
 # generate keymap list
