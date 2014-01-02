@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-02 18:43+0100\n"
+"POT-Creation-Date: 2014-01-02 18:50+0100\n"
 "PO-Revision-Date: 2013-01-26 01:40-0300\n"
 "Last-Translator: Claudinei Pereira <claudinei@slitaz.org>\n"
 "Language-Team: Portuguese <i18n@slitaz.org>\n"
@@ -22,6 +22,7 @@ msgid "SliTaz GNU/Linux locale setting using dialog boxes."
 msgstr ""
 
 #: tinyutils/tazlocale:17 tinyutils/decode:30 tinyutils/hwsetup:24
+#: tinyutils/frugal:32
 msgid "Usage:"
 msgstr "Utilização"
 
@@ -29,7 +30,7 @@ msgstr "Utilização"
 msgid "option"
 msgstr ""
 
-#: tinyutils/tazlocale:20 tinyutils/hwsetup:40
+#: tinyutils/tazlocale:20 tinyutils/hwsetup:40 tinyutils/frugal:41
 msgid "Options:"
 msgstr ""
 
@@ -150,7 +151,7 @@ msgstr ""
 msgid "URL"
 msgstr ""
 
-#: tinyutils/decode:33
+#: tinyutils/decode:33 tinyutils/frugal:45
 msgid "Examples:"
 msgstr "Exemplos:"
 
@@ -230,7 +231,7 @@ msgstr ""
 msgid "command"
 msgstr ""
 
-#: tinyutils/hwsetup:27
+#: tinyutils/hwsetup:27 tinyutils/frugal:36
 msgid "Commands:"
 msgstr ""
 
@@ -618,6 +619,70 @@ msgstr ""
 
 #: tinyutils/hwsetup:770
 msgid "Do you want to install all/few/no optional dependencies (all|few|N)? "
+msgstr ""
+
+#: tinyutils/frugal:34
+msgid "SliTaz frugal installation"
+msgstr ""
+
+#: tinyutils/frugal:37
+msgid "Display install path and size stats"
+msgstr ""
+
+#: tinyutils/frugal:38
+msgid "Remove all frugal files"
+msgstr ""
+
+#: tinyutils/frugal:39
+msgid "Show GRUB configuration example"
+msgstr ""
+
+#: tinyutils/frugal:42
+msgid "Set root installation path"
+msgstr ""
+
+#: tinyutils/frugal:43
+msgid "Display some useful debug information"
+msgstr ""
+
+#: tinyutils/frugal:74
+msgid "Frugal system running detected"
+msgstr ""
+
+#: tinyutils/frugal:77
+msgid "Installation directory:"
+msgstr ""
+
+#: tinyutils/frugal:78
+msgid "Kernel size:"
+msgstr ""
+
+#: tinyutils/frugal:84
+msgid "Rootfs size:"
+msgstr ""
+
+#: tinyutils/frugal:93
+msgid "Cleaning:"
+msgstr ""
+
+#: tinyutils/frugal:109
+msgid "Unable to find ISO image:"
+msgstr ""
+
+#: tinyutils/frugal:113
+msgid "Mounting ISO image..."
+msgstr ""
+
+#: tinyutils/frugal:117
+msgid "Installing the Kernel..."
+msgstr ""
+
+#: tinyutils/frugal:120
+msgid "Installing the root filesystem..."
+msgstr ""
+
+#: tinyutils/frugal:130
+msgid "Unmounting ISO image..."
 msgstr ""
 
 #~ msgid "You must be root to configure X server."

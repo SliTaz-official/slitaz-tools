@@ -23,7 +23,7 @@ tools-pot:
 		--package-name="SliTaz Tools" \
 		./tinyutils/tazlocale ./tinyutils/tazkeymap ./tinyutils/setmixer \
 		./tinyutils/tazx ./tinyutils/decode ./tinyutils/terminal \
-		./tinyutils/hwsetup
+		./tinyutils/hwsetup ./tinyutils/frugal
 	@echo "done"
 
 boxes-pot:
@@ -93,7 +93,7 @@ install: msgfmt
 	done;
 
 	# /usr/bin tools.
-	for app in tazx startx history editor browser terminal file-manager decode; \
+	for app in tazx startx history editor browser terminal file-manager decode frugal; \
 	do \
 		install -m 0755 tinyutils/$$app $(DESTDIR)$(PREFIX)/bin; \
 	done;

@@ -1,0 +1,137 @@
+#!/bin/sh
+#
+# Frugal is a tiny tool to handle SliTaz frugal installation.
+#
+# Copyright (C) 2013 SliTaz GNU/Linux - BSD License
+#
+# Author: Christophe Lincoln <pankso@slitaz.org>
+#
+. /lib/libtaz.sh
+
+[ "$root" ] || root="/boot/frugal"
+
+# NOTES:
+#	Have a --web option to dl ISO ?
+#	Auto configure GRUB ?
+#
+
+# Internationalization
+. /usr/bin/gettext.sh
+TEXTDOMAIN='slitaz-tools'
+export TEXTDOMAIN
+
+#
+# Functions
+#
+
+# Small help and usage.
+usage() {
+	name=$(basename $0)
+	cat << EOT
+
+$(boldify $(gettext "Usage:")) $name [iso|command] [--options]
+
+$(gettext "SliTaz frugal installation")
+
+$(boldify $(gettext "Commands:"))
+  info        $(gettext "Display install path and size stats")
+  clean       $(gettext "Remove all frugal files")
+  grub-ex     $(gettext "Show GRUB configuration example")
+
+$(boldify $(gettext "Options:"))
+  --root=     $(gettext "Set root installation path")
+  --debug     $(gettext "Display some useful debug information")
+
+$(boldify $(gettext "Examples:"))
+  $name slitaz-rolling.iso
+  $name slitaz-5.0.iso --root=/boot/frugal
+
+EOT
+}
+
+# GRUB config example.
+grub_example() {
+	cat << EOT
+title SliTaz GNU/Linux (frugal)
+root (hd0,0)
+kernel /boot/frugal/bzImage root=/dev/null lang=en kmap=us
+initrd /boot/frugal/rootfs.gz
+EOT
+}
+
+#
+# Commands
+#
+
+case "$1" in
+	"") usage ;;
+	info)
+		newline
+		boldify "Frugal info"
+		separator 
+		# First check if we are running in frugal mode
+		if fgrep -q 'root=/dev/null' /proc/cmdline; then
+			gettext "Frugal system running detected"; newline
+			separator && newline && exit 0
+		fi
+		gettext "Installation directory:"; indent 30 $(colorize 36 "$root")
+		gettext "Kernel size:"
+		if [ -f "${root}/bzImage" ]; then
+			indent 30 $(du -sh ${root}/bzImage | awk '{print $1}')
+		else
+			indent 30 $(boldify "N/A")
+		fi
+		gettext "Rootfs size:"
+		if [ -f "${root}/rootfs.gz" ]; then
+			indent 30 $(du -sh ${root}/rootfs.gz | awk '{print $1}')
+		else
+			indent 30 $(boldify "N/A")
+		fi
+		separator && newline ;;
+	clean)
+		check_root
+		gettext "Cleaning:"; echo " $root"
+		rm -rf ${root}/* ;;
+	grub-ex)
+		newline
+		boldify "GRUB config example"
+		separator
+		grub_example
+		separator && newline ;;
+	*)
+		iso="$1"
+		loop="/tmp/frugal-$$"
+		check_root
+		newline
+		boldify "SliTaz Frugal"
+		separator
+		if [ ! -f "$iso" ]; then
+			gettext "Unable to find ISO image:"; colorize 31 " $iso"
+			newline && return 1
+		fi
+		debug "$iso $root"
+		gettext "Mounting ISO image..."
+		mkdir -p ${loop}
+		mount -o loop "$iso" ${loop} 2>/dev/null
+		status
+		gettext "Installing the Kernel..."
+		cp -a ${loop}/boot/bzImage ${root}
+		status
+		gettext "Installing the root filesystem..."
+		if [ -f ${loop}/boot/rootfs1.gz ]; then
+			cd ${loop}/boot
+			cat $(ls -r rootfs*.gz) > ${root}/rootfs.gz
+			cd - >/dev/null
+		else
+			cp -a ${loop}/boot/rootfs.gz ${root}
+		fi
+		status
+		# Umount the loop device
+		gettext "Unmounting ISO image..."
+		sleep 1
+		umount ${loop} && rm -rf ${loop}
+		status
+		separator && newline ;;
+esac
+
+exit 0
