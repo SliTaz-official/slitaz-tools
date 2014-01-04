@@ -3,7 +3,7 @@
 # SliTaz tiny GUI boxes for the desktop (su, logout, locale, etc)
 # and as usual, please: KISS
 #
-# Copyright (C) 2011-2013 SliTaz GNU/Linux - GNU GPL v3
+# Copyright (C) 2011-2014 SliTaz GNU/Linux - GNU GPL v3
 #    - Christophe Lincoln <pankso@slitaz.org>
 #
 . /lib/libtaz.sh

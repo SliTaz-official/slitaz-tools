@@ -4,7 +4,7 @@
 # or the expanded panel and it will deal with it. Or at least it will
 # try, since we are in the first stages of the tool.
 #
-# Copyright (C) 2011 SliTaz GNU/linux - BSD License
+# Copyright (C) 2011-2014 SliTaz GNU/linux - BSD License
 #    - Christophe Lincoln <pankso@slitaz.org>
 #
 . /lib/libtaz.sh

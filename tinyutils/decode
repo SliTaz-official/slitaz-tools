@@ -3,7 +3,7 @@
 # Decode is a cmdline tool to decode all kinds of files such as audio or video.
 # Lets you decode a single file, many files on cmdline or a full directory.
 #
-# Copyright (C) 2012 SliTaz GNU/Linux - BSD License
+# Copyright (C) 2012-2014 SliTaz GNU/Linux - BSD License
 #
 # Author: Christophe Lincoln <pankso@slitaz.org>
 #

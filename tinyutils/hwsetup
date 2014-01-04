@@ -2,7 +2,7 @@
 # usage: hwsetup [device]
 # e.g.,  hwsetup printer
 # #
-# Copyright (C) 2009-2013 SliTaz GNU/Linux - GNU GPL v3
+# Copyright (C) 2009-2014 SliTaz GNU/Linux - GNU GPL v3
 # Authors : Rohit Joshi <jozee@slitaz.org>
 #
 . /lib/libtaz.sh

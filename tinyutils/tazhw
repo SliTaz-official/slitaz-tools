@@ -6,7 +6,7 @@
 # option --get-firmware to force installation. GUI uses Yad, and is
 # called by args such as all box functions.
 #
-# (c) 2009-2013 SliTaz GNU/Linux - GNU GPL v3
+# (c) 2009-2014 SliTaz GNU/Linux - GNU GPL v3
 #
 # Authors: Christophe Lincoln <pankso@slitaz.org>
 #          Rohit Joshi <jozee@slitaz.org>

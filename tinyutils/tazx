@@ -4,7 +4,7 @@
 # This tinyutils is part of slitaz-tools. Tazx can configure Xorg with 
 # several Window Managers. The GTK interface to configure X is in tazbox.
 #
-# (c) 2011-2013 SliTaz GNU/Linux - GNU GPL v3.
+# (c) 2011-2014 SliTaz GNU/Linux - GNU GPL v3.
 # Authors: Christophe Lincoln <pankso@slitaz.org>
 #          Pascal Bellard <pascal.bellard@slitaz.org>
 #
