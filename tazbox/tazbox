@@ -103,11 +103,11 @@ output_command() {
 
 # logout GUI function
 logout_main() {
-	icon=system-log-out
+	icon=/usr/share/pixmaps/slitaz-icon.png
 	yad --title="$(_n 'SliTaz Logout')" --window-icon=$icon \
-		--on-top --center \
+		--on-top --center --height=130 \
 		--image=$icon --image-on-top \
-		--text="<b>$(_n 'Please choose an action:')</b>" \
+		--text="<b>$(_n 'SliTaz Logout - Please choose an action:')</b>" \
 		--always-print-result \
 		--button "$(_n 'Close X session'):4" \
 		--button "$(_n 'Reboot system'):3" \
