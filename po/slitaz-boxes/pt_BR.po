@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: SliTaz Boxes\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-09-06 02:11+0300\n"
-"PO-Revision-Date: 2013-01-26 01:30-0300\n"
+"PO-Revision-Date: 2014-01-15 21:43-0300\n"
 "Last-Translator: Claudinei Pereira <claudinei@slitaz.org>\n"
 "Language-Team: Portuguese <i18n@slitaz.org>\n"
 "Language: pt_BR\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 #: boxes/wifi-box:15
 msgid "Small Wi-Fi utility to quickly connect to a network."
-msgstr ""
+msgstr "Pequeno utilitário para conectar à uma rede Wi-Fi."
 
 #: boxes/wifi-box:16 boxes/burn-box:33 boxes/scp-box:36
 msgid "Usage:"
@@ -27,31 +27,31 @@ msgstr "Utilização:"
 
 #: boxes/wifi-box:17
 msgid "interface"
-msgstr ""
+msgstr "interface"
 
 #: boxes/wifi-box:38
 msgid "any"
-msgstr ""
+msgstr "qualquer"
 
 #: boxes/wifi-box:38
 msgid "N/A"
-msgstr ""
+msgstr "N/A"
 
 #: boxes/wifi-box:38
 msgid "none"
-msgstr ""
+msgstr "nenhum"
 
 #: boxes/wifi-box:38 boxes/wifi-box:49 boxes/wifi-box:64
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: boxes/wifi-box:75
 msgid "WPA Password:"
-msgstr "WPA Senha:"
+msgstr "Senha WPA:"
 
 #: boxes/wifi-box:76
 msgid "WEP Password:"
-msgstr "WEP Senha:"
+msgstr "Senha WEP:"
 
 #: boxes/wifi-box:82
 msgid "Wi-Fi connection"
@@ -87,27 +87,27 @@ msgstr "Status"
 
 #: boxes/wifi-box:122
 msgid "Start Wi-Fi"
-msgstr ""
+msgstr "Iniciar Wi-Fi"
 
 #: boxes/wifi-box:122
 msgid "Stop Wi-Fi"
-msgstr ""
+msgstr "Parar Wi-Fi"
 
 #: boxes/burn-box:32
 msgid "Burn-box a small front end to cdrkit powered by Yad/GTK."
-msgstr ""
+msgstr "O Burn-box é um pequeno frontend escrito em Yad/GTK para o cdrkit."
 
 #: boxes/burn-box:34 boxes/scp-box:37
 msgid "command"
-msgstr ""
+msgstr "comando"
 
 #: boxes/burn-box:34 boxes/scp-box:37
 msgid "option"
-msgstr ""
+msgstr "Opção"
 
 #: boxes/burn-box:34
 msgid "file"
-msgstr ""
+msgstr "arquivo"
 
 #: boxes/burn-box:36 boxes/scp-box:39
 msgid "Commands:"
@@ -127,7 +127,7 @@ msgstr "Criar e gravar um CD de áudio"
 
 #: boxes/burn-box:41
 msgid "Erase a RW disk"
-msgstr ""
+msgstr "Apagar um disco RW"
 
 #: boxes/burn-box:43 boxes/scp-box:42 boxes/scp-box:70
 msgid "Options:"
@@ -135,11 +135,11 @@ msgstr "Opções:"
 
 #: boxes/burn-box:45 boxes/burn-box:50 boxes/burn-box:51
 msgid "/path/to/image.iso"
-msgstr ""
+msgstr "/caminho/para/imagem.iso"
 
 #: boxes/burn-box:46 boxes/scp-box:44
 msgid "/path/to/directory"
-msgstr ""
+msgstr "/caminho/para/diretório"
 
 #: boxes/burn-box:48 boxes/scp-box:46
 msgid "Examples:"
@@ -157,7 +157,7 @@ msgstr "Imagem ISO \"$iso\" inválida"
 
 #: boxes/burn-box:100
 msgid "Burn-box"
-msgstr ""
+msgstr "Burn-box"
 
 #: boxes/burn-box:102
 msgid "Burn ISO images and audio files [data in next releases]"
@@ -197,7 +197,7 @@ msgstr "Gravar uma imagem ISO"
 
 #: boxes/burn-box:137
 msgid "Burning Audio"
-msgstr ""
+msgstr "Gravar áudio"
 
 #: boxes/burn-box:149
 msgid "Wodim Help"
@@ -219,7 +219,7 @@ msgstr "CD em branco"
 
 #: boxes/scp-box:34
 msgid "SCP Box - Small front end to the secure file copy utility."
-msgstr ""
+msgstr "SCP Box - pequeno frontend para o utilitário de cópia segura."
 
 #: boxes/scp-box:40
 msgid "List all known hosts"
@@ -227,11 +227,11 @@ msgstr "Listar hosts disponíveis"
 
 #: boxes/scp-box:43 boxes/scp-box:47
 msgid "/path/to/file"
-msgstr ""
+msgstr "/caminho/para/arquivo"
 
 #: boxes/scp-box:62
 msgid "SCP Box"
-msgstr ""
+msgstr "SCP Box"
 
 #: boxes/scp-box:65
 msgid "<b>Secure copy</b> - Copy files remotely with scp"
