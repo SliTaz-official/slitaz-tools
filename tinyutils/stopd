@@ -1,0 +1,14 @@
+#!/bin/sh
+#
+# Stopd - Small wrapper to stop daemons on SliTaz.
+#
+. /lib/libtaz.sh
+check_root
+
+[ ! "$1" ] && echo "Usage: stopd [daemon]" && exit 0
+
+if [ -x /etc/init.d/$1 ]; then
+	/etc/init.d/$1 stop
+fi
+
+exit 0

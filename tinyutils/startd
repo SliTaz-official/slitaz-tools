@@ -1,0 +1,14 @@
+#!/bin/sh
+#
+# Startd - Small wrapper to start daemons on SliTaz.
+#
+. /lib/libtaz.sh
+check_root
+
+[ ! "$1" ] && echo "Usage: startd [daemon]" && exit 0
+
+if [ -x /etc/init.d/$1 ]; then
+	/etc/init.d/$1 start
+fi
+
+exit 0
