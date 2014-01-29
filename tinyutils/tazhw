@@ -36,15 +36,6 @@ $(boldify "$(_n 'Options:')")
 EOT
 }
 
-# Check if user is root to install, or remove packages.
-check_root() {
-	if test $(id -u) != 0 ; then
-		echo -e "\nYou must be root to run `basename $0` with this option."
-		echo -e "Please use 'su' and root password to become super-user.\n"
-		exit 0
-	fi
-}
-
 box_check_root() {
 	if test $(id -u) != 0 ; then
 		exec subox tazhw box
@@ -107,12 +98,6 @@ detect_pci_devices() {
 			check_firmware
 			load_module
 		done
-		# yenta_socket = laptop
-		if $(lsmod | grep -q "yenta_socket"); then
-			grep -qs batt /etc/lxpanel/default/panels/panel || 
-			sed -i 's/= cpu/= batt\n}\n\nPlugin {\n    type = cpu/' \
-				/etc/lxpanel/default/panels/panel 2> /dev/null
-		fi
 	fi
 }
 
@@ -180,122 +165,6 @@ box_setup_devices() {
 		read i; exit 0"
 }
 
-box() {
-	export BIN=$0
-	export MAIN_DIALOG='
-<window title="Tazhw box" icon-name="computer">
-<vbox>
-	<text width-chars="54" use-markup="true">
-		<label>"<b>Hardware auto-detection and configuration tool</b>"</label>
-	</text>
-	<frame Loaded Kernel Modules>
-		<vbox>
-			<tree>
-				<width>470</width>
-				<height>180</height>
-				<variable>MODULE</variable>
-				<label>Module|Description</label>
-				<input>$BIN box_list</input>
-				<action>refresh:MODULE</action>
-			</tree>
-			<hbox>
-				<checkbox>
-					<label>Auto install non-free Firmware       </label>
-					<variable>INSTALL_FIRMARE</variable>
-					<default>false</default>
-				</checkbox>
-				<button>
-					<label>Discover PCI/USB devices</label>
-					<input file icon="folder-saved-search"></input>
-					<action>$BIN box_detect_devices</action>
-					<action>refresh:MODULE</action>
-				</button>
-			</hbox>
-		</vbox>
-	</frame>
-	<frame Hardware Setup>
-		<hbox>
-			<button>
-				<label>Printer</label>
-				<input file icon="printer"></input>
-				<action>export DEVICE="printer";$BIN box_setup_devices</action>
-			</button>
-			<button>
-				<label>Scanner</label>
-				<input file icon="x-office-document"></input>
-				<action>export DEVICE="scanner";$BIN box_setup_devices</action>
-			</button>
-			<button>
-				<label>3G-Modem</label>
-				<input file icon="network-transmit-receive"></input>
-				<action>export DEVICE="3g-modem";$BIN box_setup_devices</action>
-			</button>
-			<button>
-				<label>Nvidia</label>
-				<input file icon="video-display"></input>
-				<action>export DEVICE="nvidia";$BIN box_setup_devices</action>
-			</button>
-			<button>
-				<label>ATI Radeon</label>
-				<input file icon="video-display"></input>
-				<action>export DEVICE="ati";$BIN box_setup_devices</action>
-			</button>
-		</hbox>
-		<hbox>
-			<button>
-				<label>Webcam     </label>
-				<input file icon="camera-video"></input>
-				<action>export DEVICE="webcam";$BIN box_setup_devices</action>
-			</button>
-			<button>
-				<label>Digital Camera    </label>
-				<input file icon="camera-photo"></input>
-				<action>export DEVICE="camera";$BIN box_setup_devices</action>
-			</button>
-			<button>
-				<label>Bluetooth   </label>
-				<input file icon="preferences-desktop-multimedia"></input>
-				<action>export DEVICE="bluetooth";$BIN box_setup_devices</action>
-			</button>
-			<button>
-				<label>Firewall    </label>
-				<input file icon="gtk-network"></input>
-				<action>export DEVICE="firewall";$BIN box_setup_devices</action>
-			</button>
-		</hbox>
-		<hbox>
-			<checkbox>
-				<label>Install non-free packages      </label>
-				<variable>INSTALL_NON_FREE</variable>
-				<default>true</default>
-			</checkbox>
-			<checkbox>
-				<label>Auto-install all optional packages    </label>
-				<variable>AUTO_INSTALL_SUGGESTED</variable>
-				<default>false</default>
-			</checkbox>
-		</hbox>
-		<hbox>
-			<checkbox>
-				<label>Choose optional packages to install</label>
-				<variable>CONFIRM_INSTALL_SUGGESTED</variable>
-				<default>false</default>
-			</checkbox>
-		</hbox>
-	</frame>
-	<hbox>
-		<button>
-				<label>Exit</label>
-				<input file icon="exit"></input>
-				<action type="exit">Exit</action>
-			</button>
-	</hbox>
-</vbox>
-</window>'
-
-	gtkdialog --center --program=MAIN_DIALOG >/dev/null
-}
-
 # Get firmware used by check_firmware()
 if [ "$2" == "--get-firmware" ]; then
 	firmware='get'
@@ -323,10 +192,8 @@ case "$1" in
 		separator; newline ;;
 	setup)
 		SETUP_OPTIONS=$(echo "$@" | sed 's/setup//')
+		check_root
 		hwsetup $SETUP_OPTIONS ;;
-	box*)
-		box_check_root
-		$1 ;;
 	detected-modules)
 		newline; _ 'Detected PCI and USB modules'; separator
 		cat /var/lib/detected-modules
