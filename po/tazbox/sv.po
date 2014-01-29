@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-02 18:43+0100\n"
+"POT-Creation-Date: 2014-01-29 02:11+0100\n"
 "PO-Revision-Date: 2012-07-12 13:14-0000\n"
 "Last-Translator: Emil Eklund <emileklund123@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -121,7 +121,8 @@ msgid "SliTaz Logout"
 msgstr "SliTaz utloggning"
 
 #: tazbox/tazbox:110
-msgid "Please choose an action:"
+#, fuzzy
+msgid "SliTaz Logout - Please choose an action:"
 msgstr "Var god välj ett alternativ:"
 
 #: tazbox/tazbox:112

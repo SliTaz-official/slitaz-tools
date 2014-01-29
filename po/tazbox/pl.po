@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-02 18:43+0100\n"
+"POT-Creation-Date: 2014-01-29 02:11+0100\n"
 "PO-Revision-Date: 2013-07-23 12:35+0100\n"
 "Last-Translator: Paweł Pyrczak <tkr.tkr.pl@gmail.com>\n"
 "Language-Team: Paweł Pyrczak <support@pyrczak.pl>\n"
@@ -125,7 +125,8 @@ msgid "SliTaz Logout"
 msgstr "Wyloguj z SliTaz"
 
 #: tazbox/tazbox:110
-msgid "Please choose an action:"
+#, fuzzy
+msgid "SliTaz Logout - Please choose an action:"
 msgstr "Proszę wybrać polecenie:"
 
 #: tazbox/tazbox:112

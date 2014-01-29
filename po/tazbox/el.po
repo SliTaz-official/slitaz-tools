@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-02 18:43+0100\n"
+"POT-Creation-Date: 2014-01-29 02:11+0100\n"
 "PO-Revision-Date: 2012-11-23 11:30+0200\n"
 "Last-Translator: Constantine Mousafiris <kvisitor@gnugr.org>\n"
 "Language-Team: Kostis Mousafiris\n"
@@ -124,7 +124,8 @@ msgid "SliTaz Logout"
 msgstr "Αποσύνδεση από το SliTaz"
 
 #: tazbox/tazbox:110
-msgid "Please choose an action:"
+#, fuzzy
+msgid "SliTaz Logout - Please choose an action:"
 msgstr "Παρακαλώ, επιλέξτε μια ενέργεια:"
 
 #: tazbox/tazbox:112
