@@ -104,21 +104,17 @@ detect_pci_devices() {
 
 # Detect all USB devices.
 detect_usb_devices() {
-	if [ -f /proc/bus/usb/devices -a ! -s /var/lib/detected-usb-modules ]; then
-		rm -f /var/lib/detected-usb-modules
-		cat /proc/bus/usb/devices | grep "Vendor" | while read line ; do
-			ID=$(echo "$line" | awk '{ print $2,$3 }' | sed 's/ /   /' | \
-				sed 's/Vendor=/0x/' | sed 's/ProdID=/0x/')
-			if grep -q "$ID" /lib/modules/$(uname -r)/modules.usbmap; then
-				mod=$(grep "$ID" /lib/modules/$(uname -r)/modules.usbmap | \
-					awk '{ print $1 }')
-				prod=$(grep -A 2 "$line" /proc/bus/usb/devices | grep Product | \
-					cut -d"=" -f2)
-				echo "$prod"
-				check_firmware
-				load_module
-				echo " $mod" >> /var/lib/detected-usb-modules
-			fi
+	if [ -d /sys/bus/usb ]; then
+		for product in /sys/bus/usb/devices/*/product
+		do
+			path=$(dirname $product)
+			product=$(cat $product)
+			config=$(cat $path/configuration)
+			debug "$path"
+			. $path/[0-9]*/uevent
+			[ ! "$DRIVER" ] && DRIVER="(none)"
+			echo "$product $config $(indent 40 $DRIVER)"
+			unset DRIVER
 		done
 	fi
 }
