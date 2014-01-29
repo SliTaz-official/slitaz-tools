@@ -67,23 +67,31 @@ check_firmware() {
 
 load_module() {
 	if ! lsmod | grep -q "^$mod"; then
-
-		# lsmod and some modules use underscore, others use dash.
-		# The real modprobe can handle both but not busybox version
-		modprobe $mod 2>/dev/null && \
-		_ '* Loaded module:   $mod' || \
-		_ '! Missing module:  $mod'
-
-		# Add it to load automatically at next boot.
-		if ! echo "$LOAD_MODULES" | grep -q "$mod"; then
-			sed -i s/"LOAD_MODULES=\"$LOAD_MODULES\""/"LOAD_MODULES=\"$LOAD_MODULES $mod\""/ \
-				/etc/rcS.conf
+		# Check if builtin, loaded or missing
+		if modprobe $mod 2>/dev/null; then
+			if zcat /proc/config.gz | fgrep -i $mod | fgrep -q '=y'; then
+				_ '* Builtin module : $mod'
+				unset mod
+			else
+				_ "* Loaded module  : $mod"
+			fi
+		else
+			if zcat /proc/config.gz | fgrep -i $mod | fgrep -q '=y'; then
+				_ '* Builtin module : $mod'
+				unset mod
+			else
+				_ '! Missing module : $mod'
+			fi
 		fi
-		. /etc/rcS.conf
-
 	else
-		_ '> Module in use:   $mod'
+		_ '> Module in use  : $mod'
 	fi
+	# Add it to load automatically at next boot.
+	if ! echo "$LOAD_MODULES" | grep -q "$mod"; then
+		sed -i s/"LOAD_MODULES=\"$LOAD_MODULES\""/"LOAD_MODULES=\"$LOAD_MODULES $mod\""/ \
+			/etc/rcS.conf
+	fi
+	. /etc/rcS.conf
 }
 
 # Detect PCI devices and load kernel module only at first boot,
@@ -92,9 +100,10 @@ detect_pci_devices() {
 	if [ ! -s /var/lib/detected-modules ]; then
 		. /etc/rcS.conf
 		# We need module_name to match output of lsmod.
-		list=$(lspci -k | grep "modules" | cut -d ":" -f 2 | sed s/-/_/g)
+		list=$(lspci -k | grep "driver" | cut -d ":" -f 2 | sed s/-/_/g)
 		echo "$list" > /var/lib/detected-modules
-		for mod in $list; do
+		for mod in $(cat /var/lib/detected-modules | uniq)
+		do
 			check_firmware
 			load_module
 		done
