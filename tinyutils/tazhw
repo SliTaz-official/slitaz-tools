@@ -12,7 +12,7 @@
 #          Rohit Joshi <jozee@slitaz.org>
 #
 . /lib/libtaz.sh
-export TEXTDOMAIN='slitaz-boxes' #i18n
+export TEXTDOMAIN='slitaz-tools' # i18n text mode
 
 usage() {
 	cat << EOT
@@ -23,7 +23,6 @@ $(boldify "$(_n 'Usage:')") $(basename $0) [$(_n 'command')] [--$(_n 'option')]
 
 $(boldify "$(_n 'Commands:')")
   usage             $(_n 'Print this short usage.')
-  box               $(_n 'Start in graphical mode.')
   init              $(_n 'Used at boot time to configure devices.')
   setup             $(_n 'Setup hardware devices.')
   detect-pci        $(_n 'Detect all PCI devices.')
@@ -34,13 +33,6 @@ $(boldify "$(_n 'Options:')")
   --get-firmware    $(_n 'Get and install non-free firmware (PCI and USB).')
 
 EOT
-}
-
-box_check_root() {
-	if test $(id -u) != 0 ; then
-		exec subox tazhw box
-		exit 0
-	fi
 }
 
 check_firmware() {
@@ -131,49 +123,6 @@ detect_usb_devices() {
 	fi
 }
 
-# Box functions and dialog
-
-box_list() {
-	for mod in $(cat /var/lib/detected-modules /var/lib/detected-usb-modules 2>/dev/null); do
-		desc=$(modinfo $mod | grep ^description | cut -d":" -f2)
-		[ -z "$desc" ] && desc="N/A"
-		echo "$mod | $desc"
-	done
-}
-
-box_detect_devices() {
-	if [ $INSTALL_FIRMARE != true ]; then
-		xterm -T "Detect devices" \
-			-geometry 80x24 \
-			-e "$0 detect-pci; $0 detect-usb; \
-			echo -e \"----\nPress ENTER to close...\"; \
-			read i; exit 0"
-	else
-		xterm -T "Detect and get firmware" \
-			-geometry 80x24 \
-			-e "$0 detect-pci --get-firmware; \
-			$0 detect-usb --get-firmware; \
-			echo -e \"----\nPress ENTER to close...\"; \
-			read i; exit 0"
-	fi
-}
-
-box_setup_devices() {
-	SETUP_OPTIONS=""
-	if [ $INSTALL_NON_FREE == true ]; then 
-		SETUP_OPTIONS="$SETUP_OPTIONS --non-free"
-	fi
-	if [ $AUTO_INSTALL_SUGGESTED == true ]; then
-		SETUP_OPTIONS="$SETUP_OPTIONS --suggested"
-	elif [ $CONFIRM_INSTALL_SUGGESTED == true ]; then
-		SETUP_OPTIONS="$SETUP_OPTIONS --confirm"
-	fi
-	xterm -geometry 80x24 -T "$DEVICE Setup" \
-		-e "$0 setup $DEVICE $SETUP_OPTIONS; \
-		echo -e \"----\nPress ENTER to close...\"; \
-		read i; exit 0"
-}
-
 # Get firmware used by check_firmware()
 if [ "$2" == "--get-firmware" ]; then
 	firmware='get'
@@ -181,34 +130,34 @@ fi
 
 # What to do.
 case "$1" in
-	init)
+	-i|init)
 		check_root
 		_ 'Detecting PCI devices Kernel modules...'
 		detect_pci_devices
 		_ 'Detecting USB devices Kernel modules...'
 		detect_usb_devices ;;
-	detect-pci)
+	-dp|detect-pci)
 		check_root
 		newline; _ 'Detected PCI devices Kernel modules'; separator
 		rm -f /var/lib/detected-modules
 		detect_pci_devices
 		separator; newline ;;
-	detect-usb)
+	-du|detect-usb)
 		check_root
 		newline; _ 'Detected USB devices Kernel modules'; separator
 		rm -f /var/lib/detected-usb-modules
 		detect_usb_devices
 		separator; newline ;;
-	setup)
+	-s|setup)
 		SETUP_OPTIONS=$(echo "$@" | sed 's/setup//')
 		check_root
 		hwsetup $SETUP_OPTIONS ;;
-	detected-modules)
+	-dm|detected-modules)
 		newline; _ 'Detected PCI and USB modules'; separator
 		cat /var/lib/detected-modules
 		cat /var/lib/detected-usb-modules 2>/dev/null
 		separator; newline ;;
-	*)
+	*) 
 		usage ;;
 esac
 
