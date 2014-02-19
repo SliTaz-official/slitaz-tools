@@ -104,7 +104,7 @@ detect_pci_devices() {
 
 # Detect all USB devices.
 detect_usb_devices() {
-	if [ -d /sys/bus/usb ]; then
+	if [ -e /sys/bus/usb/devices/usb/usb1 ]; then
 		for product in /sys/bus/usb/devices/*/product
 		do
 			path=$(dirname $product)
