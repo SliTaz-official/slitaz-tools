@@ -2,10 +2,10 @@ SliTaz tools                                                               2014
 ===============================================================================
 
 
-The SliTaz tools package provides many tinyutils, and shared and custom
+The SliTaz tools package provides many tinyutils and shared and custom
 configuration files designed to improve SliTaz. The tools were initially
 created to help people build their own distribution by following the SliTaz
-Cookbook; now the package mostly provides all the configuration tools and
+Cookbook, now the package mostly provides all the configuration tools and
 all home-made GTK boxes such as subox, tazbox, etc.
 
 The package also provides some scripts (firewall), desktop files with their
@@ -25,7 +25,7 @@ Installation
 ------------
 The tools are split into 2 separate packages: one with only ncurses dependencies
 (for a text system) and one with GTK dependencies (for a graphical system). So
-we have to make install and make default to compile PO files. Install's support
+we have to make install and make default to compile PO files. Install supports
 DESTDIR for packaging:
 
 # make

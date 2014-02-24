@@ -29,7 +29,7 @@ list	$(_ 'Show list of available locales.')"
 }
 
 # Make symlink to file, substitute "%%" to "ll_CC", "ll" or "en" according to
-# current language settings and file existance
+# current language settings and file existence
 # (where "ll_CC" - full locale format (lang and country, and maybe, modifier).
 make_i18n_link() {
 	if [ -d $(dirname ${1/.%%/}) ]; then

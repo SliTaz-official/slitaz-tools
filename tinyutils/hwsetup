@@ -565,7 +565,7 @@ in \$bt if need be")
 					rc=$(boldify '/etc/resolv.conf')
 					optlist "\
 wvdialconf	$(_ 'Edit $wc for phone number, login name, password and pin')
-wvdial		$(_ 'Add DNS adress of your provider in $rc')"
+wvdial		$(_ 'Add DNS address of your provider in $rc')"
 					separator
 				fi
 			else

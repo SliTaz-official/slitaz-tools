@@ -11,7 +11,7 @@
 export TEXTDOMAIN='slitaz-tools' #i18n
 
 # NOTES:
-#	Do we need a --out=/output/path options ?
+#	Do we need a --out=/output/path option ?
 #	Use convert for [.png|.jpg] --> .raw ?
 #	Use separators and give decoded file size ?
 #	Use mencoder for flash video files (and other format) ?

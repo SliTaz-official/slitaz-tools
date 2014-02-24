@@ -57,7 +57,7 @@ find_icon() {
 		sed '/^Icon=/!d' | head -n1 | cut -d= -f2
 }
 
-# su frontend GUI's
+# su frontend GUIs
 su_main() {
 	CMD1="$1"; shift; CMD2="$(echo $@ | sed 's|&|&amp;|g')"
 	: ${icon=$(find_icon $CMD1)}
