@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tazbox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-02 18:43+0100\n"
-"PO-Revision-Date: 2014-01-15 22:25-0300\n"
+"POT-Creation-Date: 2014-01-29 02:11+0100\n"
+"PO-Revision-Date: 2014-03-06 22:12-0300\n"
 "Last-Translator: Claudinei Pereira <claudinei@slitaz.org>\n"
 "Language-Team: Brazilian Portuguese <i18n@slitaz.org>\n"
 "Language: pt_BR\n"
@@ -92,7 +92,17 @@ msgstr "Senha de administração do SliTaz"
 #: tazbox/tazbox:69
 msgid "Please enter root password (default root) to execute:"
 msgstr "Por favor insira a senha do root (por padrão 'root') para executar:"
-#: tazbox/tazbox:72 msgid "Password:" msgstr "Senha:" #: tazbox/tazbox:73 msgid "Autosave password" msgstr "Senha salva automaticamente" #: tazbox/tazbox:78 msgid "Error"
+
+#: tazbox/tazbox:72
+msgid "Password:"
+msgstr "Senha:"
+
+#: tazbox/tazbox:73
+msgid "Autosave password"
+msgstr "Senha salva automaticamente"
+
+#: tazbox/tazbox:78
+msgid "Error"
 msgstr "Erro"
 
 #: tazbox/tazbox:81
@@ -101,10 +111,10 @@ msgstr "Erro: senha errada!"
 
 #: tazbox/tazbox:88
 msgid "CANCEL"
-msgstr "CANCELAR" 
+msgstr "CANCELAR"
 
-#: tazbox/tazbox:95 
-msgid "TazBox Output" 
+#: tazbox/tazbox:95
+msgid "TazBox Output"
 msgstr "Saída do TazBox"
 
 #: tazbox/tazbox:107
@@ -112,8 +122,8 @@ msgid "SliTaz Logout"
 msgstr "Logout do SliTaz"
 
 #: tazbox/tazbox:110
-msgid "Please choose an action:"
-msgstr "Por favor escolha uma ação:"
+msgid "SliTaz Logout - Please choose an action:"
+msgstr "Logout do SliTaz - Por favor escolha uma ação:"
 
 #: tazbox/tazbox:112
 msgid "Close X session"
