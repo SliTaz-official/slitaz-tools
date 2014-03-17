@@ -82,7 +82,7 @@ install: msgfmt
 	cp -a licenses $(DESTDIR)$(PREFIX)/share
 
 	# /sbin tools.
-	for i in tazlocale tazkeymap tazhw hwsetup; do \
+	for i in slitaz-config tazlocale tazkeymap tazhw hwsetup; do \
 		install -m 0755 tinyutils/$$i $(DESTDIR)/sbin; \
 	done;
 

@@ -49,8 +49,8 @@ case "$1" in
 		check_root
 		exec 3>&1
 		value=$($DIALOG  --clear \
-		--title " $(_n 'SliTaz keymap configuration') " \
-		--menu "" 15 70 5 \
+		--title "{ $(_n 'SliTaz keyboard setting') }" \
+		--menu "" 20 72 14 \
 		$(list_keymaps | sort) \
 		2>&1 1>&3)
 		retval=$?
