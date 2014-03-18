@@ -9,10 +9,10 @@
 #          Pascal Bellard <pascal.bellard@slitaz.org>
 #
 
-# 20140317: most xsession, xinitrc are obsolet, provided system files
-# are in /etc/skel and WM configs files are no longer copyed by tazx 
-# to user home. If some configs are needed ba WM's there should be set
-# a /usr/bin/wmname-session script.
+# 20140317: most xsession, xinitrc are obsolete, provided system files
+# are in /etc/skel and WM config files are no longer copied by tazx 
+# to user home. If some configs are needed by WMs they should be set
+# by a /usr/bin/wmname-session script.
 
 . /lib/libtaz.sh
 . /etc/slitaz/slitaz.conf
