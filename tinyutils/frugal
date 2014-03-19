@@ -109,6 +109,7 @@ case "$1" in
 			gettext "Unable to find ISO image:"; colorize 31 " $iso"
 			newline && return 1
 		fi
+		mkdir -p ${root}
 		debug "$iso $root"
 		gettext "Mounting ISO image..."
 		mkdir -p ${loop}
