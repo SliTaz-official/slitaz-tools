@@ -1,0 +1,88 @@
+#!/bin/sh
+#
+# SliTaz Config - A tool with all SliTaz Ncurses configs in one place for
+# text mode systems (server, ARM devices)
+#
+# Copyright (C) 2014 SliTaz ARM - BSD License
+# Author: Christophe Lincoln <pankso@slitaz.org>
+#
+. /lib/libtaz.sh
+check_root
+
+title="{ SliTaz Config }"
+tmpdir="/tmp/$(basename $0)"
+tmp="$tmpdir/$$"
+height="20"
+width="72"
+
+# Use a tmp directory
+mkdir -p ${tmpdir}
+
+#
+# GUI Functions
+#
+
+# Set root passwd
+root_passwd() {
+	dialog \
+		--inputbox "Enter new root password:" \
+		10 ${width} 2>${tmp}
+    passwd=$(cat $tmp)
+    [ "$passwd" == "" ] && return 0
+    echo "root:$passwd" | chpasswd --md5
+}
+
+set_date() {
+	clear && newline
+	echo -n "Old date:"; date
+	rdate -s 203.129.68.14 2>/dev/null
+	echo -n "New date:"; date
+	sleep 4
+}
+
+# Main Dialog menu
+main_box() {
+	dialog \
+		--clear --title "$title" \
+		--ok-label "Exec" --cancel-label "Quit" \
+		--menu "" ${height} ${width} 14 \
+"keyboard"       "$(gettext 'System keyboard setting')" \
+"locale"         "$(gettext 'System language setting')" \
+"root-passwd"    "$(gettext 'Change root password')" \
+"set-date"       "$(gettext 'Set system date from the web')" \
+"quit"           "$(gettext 'Exit from SliTaz Config')" 2>${tmp}
+	
+	# Handle options
+	opt=${?}
+	case "$opt" in
+		1|255) rm -rf ${tmpdir} && exit 0 ;;
+	esac
+	
+	# Handle actions
+	action=$(cat $tmp)
+	case "$action" in
+		keyboard) tazkeymap ;;
+		locale) tazlocale ;;
+		root-passwd) root_passwd ;;
+		set-date) set_date ;;
+		quit) rm -rf ${tmpdir} && exit 0 ;;
+	esac
+}
+
+#
+# Handle commands
+#
+
+case "$1" in
+	*_*) 
+		# Execute functions 
+		$@ ;;
+	*)
+		while true; do
+			main_box
+		done ;;
+esac
+
+# Clean exit
+rm -rf ${tmpdir}
+exit 0
