@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-02 18:50+0100\n"
+"POT-Creation-Date: 2014-03-23 14:52+0100\n"
 "PO-Revision-Date: 2012-07-12 12:59-0000\n"
 "Last-Translator: Emil Eklund <emileklund123@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -51,7 +51,8 @@ msgid "Display locale selecting dialog if no option given (root)."
 msgstr ""
 
 #: tinyutils/tazlocale:105
-msgid "SliTaz language configuration"
+#, fuzzy
+msgid "SliTaz language setting"
 msgstr "Slitaz språk konfiguration"
 
 #: tinyutils/tazlocale:124
@@ -78,7 +79,8 @@ msgid "Current keymap:"
 msgstr "Nuvarande tangentbords layout:"
 
 #: tinyutils/tazkeymap:52
-msgid "SliTaz keymap configuration"
+#, fuzzy
+msgid "SliTaz keyboard setting"
 msgstr "Slitaz tangentbords layout konfiguration"
 
 #: tinyutils/tazkeymap:65
@@ -96,47 +98,36 @@ msgstr "Ställer in mixerns standard volymer..."
 msgid "Done"
 msgstr "Klar"
 
-#: tinyutils/tazx:122
+#: tinyutils/tazx:131
 msgid "Install Xorg"
 msgstr "Installera Xorg"
 
-#: tinyutils/tazx:123
+#: tinyutils/tazx:132
 msgid "Tazx helps you to select your X driver."
 msgstr "Tazx hjälper dig att välja din X drivrutin."
 
-#: tinyutils/tazx:125
+#: tinyutils/tazx:134
 msgid "driver"
 msgstr ""
 
-#: tinyutils/tazx:126
+#: tinyutils/tazx:135
 msgid "Quit"
 msgstr ""
 
-#: tinyutils/tazx:155
-msgid "Configure X"
-msgstr ""
+#: tinyutils/tazx:163
+#, fuzzy
+msgid "SliTaz Xorg config"
+msgstr "Slitaz språk konfiguration"
 
-#: tinyutils/tazx:157
-msgid "Tazx dialog helps you to configure your Xorg server."
-msgstr "Tazx dialogen hjälper dig att konfigurera din Xorg server."
-
-#: tinyutils/tazx:158
-msgid "Window Manager:"
-msgstr "Fönster hanterare:"
-
-#: tinyutils/tazx:159
-msgid "X server:"
-msgstr "X server:"
-
-#: tinyutils/tazx:160
+#: tinyutils/tazx:165
 msgid "Install or reconfigure Xorg"
 msgstr "Installera eller omkonifigurera Xorg"
 
-#: tinyutils/tazx:161
-msgid "Install TinyX server Xfbdev"
-msgstr "Installera TinyX server Xfbdev"
+#: tinyutils/tazx:166
+msgid "Install Xorg server (light version)"
+msgstr ""
 
-#: tinyutils/tazx:162
+#: tinyutils/tazx:167
 msgid "Quit Tazx utility"
 msgstr "Avsluta Tazx verktyget"
 
@@ -507,7 +498,7 @@ msgstr ""
 
 #: tinyutils/hwsetup:568
 #, sh-format
-msgid "Add DNS adress of your provider in $rc"
+msgid "Add DNS address of your provider in $rc"
 msgstr ""
 
 #: tinyutils/hwsetup:577
@@ -670,21 +661,33 @@ msgstr ""
 msgid "Unable to find ISO image:"
 msgstr ""
 
-#: tinyutils/frugal:113
+#: tinyutils/frugal:114
 msgid "Mounting ISO image..."
 msgstr ""
 
-#: tinyutils/frugal:117
+#: tinyutils/frugal:118
 msgid "Installing the Kernel..."
 msgstr ""
 
-#: tinyutils/frugal:120
+#: tinyutils/frugal:121
 msgid "Installing the root filesystem..."
 msgstr ""
 
-#: tinyutils/frugal:130
+#: tinyutils/frugal:131
 msgid "Unmounting ISO image..."
 msgstr ""
+
+#~ msgid "Tazx dialog helps you to configure your Xorg server."
+#~ msgstr "Tazx dialogen hjälper dig att konfigurera din Xorg server."
+
+#~ msgid "Window Manager:"
+#~ msgstr "Fönster hanterare:"
+
+#~ msgid "X server:"
+#~ msgstr "X server:"
+
+#~ msgid "Install TinyX server Xfbdev"
+#~ msgstr "Installera TinyX server Xfbdev"
 
 #~ msgid "You must be root to configure X server."
 #~ msgstr "Du måste vara root får att konfigurera X server"

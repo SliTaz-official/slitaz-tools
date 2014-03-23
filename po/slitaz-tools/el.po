@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-02 18:50+0100\n"
+"POT-Creation-Date: 2014-03-23 14:52+0100\n"
 "PO-Revision-Date: 2012-12-18 22:06+0300\n"
 "Last-Translator: Constantine Mousafiris <kvisitor@gnugr.org>\n"
 "Language-Team: Kostis Mousafiris\n"
@@ -51,7 +51,8 @@ msgid "Display locale selecting dialog if no option given (root)."
 msgstr ""
 
 #: tinyutils/tazlocale:105
-msgid "SliTaz language configuration"
+#, fuzzy
+msgid "SliTaz language setting"
 msgstr "Ρύθμιση γλώσσας του SliTaz"
 
 #: tinyutils/tazlocale:124
@@ -78,7 +79,8 @@ msgid "Current keymap:"
 msgstr "Τρέχον keymap:"
 
 #: tinyutils/tazkeymap:52
-msgid "SliTaz keymap configuration"
+#, fuzzy
+msgid "SliTaz keyboard setting"
 msgstr "Ρύθμιση του keymap στο SliTaz"
 
 #: tinyutils/tazkeymap:65
@@ -96,48 +98,36 @@ msgstr "Γίνεται ρύθμιση προεπιλεγμένου επιπέδ�
 msgid "Done"
 msgstr "Ολοκληρώθηκε"
 
-#: tinyutils/tazx:122
+#: tinyutils/tazx:131
 msgid "Install Xorg"
 msgstr "Εγκατάσταση του Xorg"
 
-#: tinyutils/tazx:123
+#: tinyutils/tazx:132
 msgid "Tazx helps you to select your X driver."
 msgstr "Ο Tazx σας βοηθά να επιλέξετε τον οδηγό (driver) για το Χ."
 
-#: tinyutils/tazx:125
+#: tinyutils/tazx:134
 msgid "driver"
 msgstr ""
 
-#: tinyutils/tazx:126
+#: tinyutils/tazx:135
 msgid "Quit"
 msgstr ""
 
-#: tinyutils/tazx:155
-msgid "Configure X"
-msgstr ""
+#: tinyutils/tazx:163
+#, fuzzy
+msgid "SliTaz Xorg config"
+msgstr "Ρύθμιση γλώσσας του SliTaz"
 
-#: tinyutils/tazx:157
-msgid "Tazx dialog helps you to configure your Xorg server."
-msgstr ""
-"Το παράθυρο διαλόγου του Tazx σας βοηθά να ρυθμίσετε τον διακομιστή Xorg."
-
-#: tinyutils/tazx:158
-msgid "Window Manager:"
-msgstr "Διαχειριστής παραθύρων:"
-
-#: tinyutils/tazx:159
-msgid "X server:"
-msgstr "Διακομιστής Χ:"
-
-#: tinyutils/tazx:160
+#: tinyutils/tazx:165
 msgid "Install or reconfigure Xorg"
 msgstr "Εγκατάσταση ή επαναρύθμιση του X org"
 
-#: tinyutils/tazx:161
-msgid "Install TinyX server Xfbdev"
-msgstr "Εγκατάσταση του TinyX server Xfbdev"
+#: tinyutils/tazx:166
+msgid "Install Xorg server (light version)"
+msgstr ""
 
-#: tinyutils/tazx:162
+#: tinyutils/tazx:167
 msgid "Quit Tazx utility"
 msgstr "Κλείστε το βοηθητικό πρόγραμμα Tazx"
 
@@ -508,7 +498,7 @@ msgstr ""
 
 #: tinyutils/hwsetup:568
 #, sh-format
-msgid "Add DNS adress of your provider in $rc"
+msgid "Add DNS address of your provider in $rc"
 msgstr ""
 
 #: tinyutils/hwsetup:577
@@ -671,21 +661,34 @@ msgstr ""
 msgid "Unable to find ISO image:"
 msgstr ""
 
-#: tinyutils/frugal:113
+#: tinyutils/frugal:114
 msgid "Mounting ISO image..."
 msgstr ""
 
-#: tinyutils/frugal:117
+#: tinyutils/frugal:118
 msgid "Installing the Kernel..."
 msgstr ""
 
-#: tinyutils/frugal:120
+#: tinyutils/frugal:121
 msgid "Installing the root filesystem..."
 msgstr ""
 
-#: tinyutils/frugal:130
+#: tinyutils/frugal:131
 msgid "Unmounting ISO image..."
 msgstr ""
+
+#~ msgid "Tazx dialog helps you to configure your Xorg server."
+#~ msgstr ""
+#~ "Το παράθυρο διαλόγου του Tazx σας βοηθά να ρυθμίσετε τον διακομιστή Xorg."
+
+#~ msgid "Window Manager:"
+#~ msgstr "Διαχειριστής παραθύρων:"
+
+#~ msgid "X server:"
+#~ msgstr "Διακομιστής Χ:"
+
+#~ msgid "Install TinyX server Xfbdev"
+#~ msgstr "Εγκατάσταση του TinyX server Xfbdev"
 
 #~ msgid "You must be root to configure X server."
 #~ msgstr ""

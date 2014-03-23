@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-02 18:50+0100\n"
+"POT-Creation-Date: 2014-03-23 14:52+0100\n"
 "PO-Revision-Date: 2013-08-31 15:35+0300\n"
 "Last-Translator: Aleksej Bobylev <al.bobylev@gmail.com>\n"
 "Language-Team: \n"
@@ -55,7 +55,8 @@ msgid "Display locale selecting dialog if no option given (root)."
 msgstr "При отсутствии параметров — показать диалог выбора локали."
 
 #: tinyutils/tazlocale:105
-msgid "SliTaz language configuration"
+#, fuzzy
+msgid "SliTaz language setting"
 msgstr "Параметры языка SliTaz"
 
 #: tinyutils/tazlocale:124
@@ -81,7 +82,8 @@ msgid "Current keymap:"
 msgstr "Текущая раскладка:"
 
 #: tinyutils/tazkeymap:52
-msgid "SliTaz keymap configuration"
+#, fuzzy
+msgid "SliTaz keyboard setting"
 msgstr "Параметры клавиатурной раскладки SliTaz"
 
 #: tinyutils/tazkeymap:65
@@ -99,47 +101,36 @@ msgstr "Установка громкости микшера по умолчан
 msgid "Done"
 msgstr "Готово"
 
-#: tinyutils/tazx:122
+#: tinyutils/tazx:131
 msgid "Install Xorg"
 msgstr "Установка Xorg"
 
-#: tinyutils/tazx:123
+#: tinyutils/tazx:132
 msgid "Tazx helps you to select your X driver."
 msgstr "Tazx поможет вам выбрать драйвер для X."
 
-#: tinyutils/tazx:125
+#: tinyutils/tazx:134
 msgid "driver"
 msgstr "драйвер"
 
-#: tinyutils/tazx:126
+#: tinyutils/tazx:135
 msgid "Quit"
 msgstr "Выход"
 
-#: tinyutils/tazx:155
-msgid "Configure X"
-msgstr "Настройка XOrg"
+#: tinyutils/tazx:163
+#, fuzzy
+msgid "SliTaz Xorg config"
+msgstr "Параметры языка SliTaz"
 
-#: tinyutils/tazx:157
-msgid "Tazx dialog helps you to configure your Xorg server."
-msgstr "Диалог Tazx поможет вам настроить сервер Xorg."
-
-#: tinyutils/tazx:158
-msgid "Window Manager:"
-msgstr "Менеджер окон:"
-
-#: tinyutils/tazx:159
-msgid "X server:"
-msgstr "X-сервер:"
-
-#: tinyutils/tazx:160
+#: tinyutils/tazx:165
 msgid "Install or reconfigure Xorg"
 msgstr "Установить или перенастроить Xorg"
 
-#: tinyutils/tazx:161
-msgid "Install TinyX server Xfbdev"
-msgstr "Установить сервер TinyX: Xfbdev"
+#: tinyutils/tazx:166
+msgid "Install Xorg server (light version)"
+msgstr ""
 
-#: tinyutils/tazx:162
+#: tinyutils/tazx:167
 msgid "Quit Tazx utility"
 msgstr "Выйти из утилиты Tazx"
 
@@ -517,8 +508,8 @@ msgid "Edit $wc for phone number, login name, password and pin"
 msgstr "В файле $wc вы можете изменить номер дозвона, логин, пароль и PIN"
 
 #: tinyutils/hwsetup:568
-#, sh-format
-msgid "Add DNS adress of your provider in $rc"
+#, fuzzy, sh-format
+msgid "Add DNS address of your provider in $rc"
 msgstr "Добавьте адрес DNS-сервера вашего провайдера в файл $rc"
 
 #: tinyutils/hwsetup:577
@@ -694,21 +685,36 @@ msgstr ""
 msgid "Unable to find ISO image:"
 msgstr ""
 
-#: tinyutils/frugal:113
+#: tinyutils/frugal:114
 msgid "Mounting ISO image..."
 msgstr ""
 
-#: tinyutils/frugal:117
+#: tinyutils/frugal:118
 msgid "Installing the Kernel..."
 msgstr ""
 
-#: tinyutils/frugal:120
+#: tinyutils/frugal:121
 msgid "Installing the root filesystem..."
 msgstr ""
 
-#: tinyutils/frugal:130
+#: tinyutils/frugal:131
 msgid "Unmounting ISO image..."
 msgstr ""
+
+#~ msgid "Configure X"
+#~ msgstr "Настройка XOrg"
+
+#~ msgid "Tazx dialog helps you to configure your Xorg server."
+#~ msgstr "Диалог Tazx поможет вам настроить сервер Xorg."
+
+#~ msgid "Window Manager:"
+#~ msgstr "Менеджер окон:"
+
+#~ msgid "X server:"
+#~ msgstr "X-сервер:"
+
+#~ msgid "Install TinyX server Xfbdev"
+#~ msgstr "Установить сервер TinyX: Xfbdev"
 
 #~ msgid "You must be root to configure X server."
 #~ msgstr "Вы должны быть администратором для настройки X-сервера."

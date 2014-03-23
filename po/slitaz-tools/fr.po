@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-02 18:50+0100\n"
+"POT-Creation-Date: 2014-03-23 14:52+0100\n"
 "PO-Revision-Date: 2014-01-02 19:14+0100\n"
 "Last-Translator: Christophe Lincoln <pankso@slitaz.org>\n"
 "Language-Team: French\n"
@@ -22,22 +22,16 @@ msgstr ""
 msgid "SliTaz GNU/Linux locale setting using dialog boxes."
 msgstr "Configuration de la langue via des boîtes GTK"
 
-#: tinyutils/tazlocale:17
-#: tinyutils/decode:30
-#: tinyutils/hwsetup:24
+#: tinyutils/tazlocale:17 tinyutils/decode:30 tinyutils/hwsetup:24
 #: tinyutils/frugal:32
 msgid "Usage:"
 msgstr "Utilisation :"
 
-#: tinyutils/tazlocale:18
-#: tinyutils/decode:31
-#: tinyutils/hwsetup:25
+#: tinyutils/tazlocale:18 tinyutils/decode:31 tinyutils/hwsetup:25
 msgid "option"
 msgstr "option"
 
-#: tinyutils/tazlocale:20
-#: tinyutils/hwsetup:40
-#: tinyutils/frugal:41
+#: tinyutils/tazlocale:20 tinyutils/hwsetup:40 tinyutils/frugal:41
 msgid "Options:"
 msgstr "Options:"
 
@@ -58,20 +52,22 @@ msgid "Display locale selecting dialog if no option given (root)."
 msgstr ""
 
 #: tinyutils/tazlocale:105
-msgid "SliTaz language configuration"
+#, fuzzy
+msgid "SliTaz language setting"
 msgstr "Configuration de la langue"
 
 #: tinyutils/tazlocale:124
-msgid "Please logout of your current session and login again to use new locale."
-msgstr "Veuillez vous déloguer et vous reloguer une fois pour utiliser la nouvelle locale."
+msgid ""
+"Please logout of your current session and login again to use new locale."
+msgstr ""
+"Veuillez vous déloguer et vous reloguer une fois pour utiliser la nouvelle "
+"locale."
 
-#: tinyutils/tazlocale:126
-#: tinyutils/tazkeymap:64
+#: tinyutils/tazlocale:126 tinyutils/tazkeymap:64
 msgid "Information"
 msgstr ""
 
-#: tinyutils/tazlocale:136
-#: tinyutils/tazkeymap:42
+#: tinyutils/tazlocale:136 tinyutils/tazkeymap:42
 msgid "Config file:"
 msgstr "Fichier de config :"
 
@@ -84,12 +80,16 @@ msgid "Current keymap:"
 msgstr "Clavier actuel :"
 
 #: tinyutils/tazkeymap:52
-msgid "SliTaz keymap configuration"
+#, fuzzy
+msgid "SliTaz keyboard setting"
 msgstr "Configuration du clavier"
 
 #: tinyutils/tazkeymap:65
-msgid "Please logout of your current session and login again to use new keyboard."
-msgstr "Veuillez vous déloguer et vous reloguer une fois pour utiliser le nouveau clavier."
+msgid ""
+"Please logout of your current session and login again to use new keyboard."
+msgstr ""
+"Veuillez vous déloguer et vous reloguer une fois pour utiliser le nouveau "
+"clavier."
 
 #: tinyutils/setmixer:12
 msgid "Setting default mixer volumes... "
@@ -99,47 +99,36 @@ msgstr "Réglage des volumes par défaut... "
 msgid "Done"
 msgstr "Fait"
 
-#: tinyutils/tazx:122
+#: tinyutils/tazx:131
 msgid "Install Xorg"
 msgstr "Installer Xorg"
 
-#: tinyutils/tazx:123
+#: tinyutils/tazx:132
 msgid "Tazx helps you to select your X driver."
 msgstr "Tazx vous aide à séléctionner votre pilote Xorg."
 
-#: tinyutils/tazx:125
+#: tinyutils/tazx:134
 msgid "driver"
 msgstr "pilote"
 
-#: tinyutils/tazx:126
+#: tinyutils/tazx:135
 msgid "Quit"
 msgstr "Quitter"
 
-#: tinyutils/tazx:155
-msgid "Configure X"
-msgstr "Configurer X"
+#: tinyutils/tazx:163
+#, fuzzy
+msgid "SliTaz Xorg config"
+msgstr "Configuration de la langue"
 
-#: tinyutils/tazx:157
-msgid "Tazx dialog helps you to configure your Xorg server."
-msgstr "Tazx vous aide à configurer votre serveur Xorg."
-
-#: tinyutils/tazx:158
-msgid "Window Manager:"
-msgstr "Gestionnaire de fenêtres :"
-
-#: tinyutils/tazx:159
-msgid "X server:"
-msgstr "Serveur X :"
-
-#: tinyutils/tazx:160
+#: tinyutils/tazx:165
 msgid "Install or reconfigure Xorg"
 msgstr "Installer ou reconfigurer Xorg"
 
-#: tinyutils/tazx:161
-msgid "Install TinyX server Xfbdev"
-msgstr "Installer le serveur TinyX Xfbdev"
+#: tinyutils/tazx:166
+msgid "Install Xorg server (light version)"
+msgstr ""
 
-#: tinyutils/tazx:162
+#: tinyutils/tazx:167
 msgid "Quit Tazx utility"
 msgstr "Quitter l'utilitaire Tazx"
 
@@ -147,8 +136,7 @@ msgstr "Quitter l'utilitaire Tazx"
 msgid "Decode audio and video files"
 msgstr "Décode les fichiers audio et video"
 
-#: tinyutils/decode:31
-#: tinyutils/decode:36
+#: tinyutils/decode:31 tinyutils/decode:36
 msgid "file"
 msgstr "fichier"
 
@@ -156,8 +144,7 @@ msgstr "fichier"
 msgid "URL"
 msgstr "URL"
 
-#: tinyutils/decode:33
-#: tinyutils/frugal:45
+#: tinyutils/decode:33 tinyutils/frugal:45
 msgid "Examples:"
 msgstr "Exemples :"
 
@@ -170,8 +157,7 @@ msgstr "/chemin/vers/fichier/*"
 msgid "Missing decoder: $dec"
 msgstr "Manque le décodeur : $dec"
 
-#: tinyutils/decode:48
-#: tinyutils/decode:80
+#: tinyutils/decode:48 tinyutils/decode:80
 #, sh-format
 msgid "Skipping file: $name"
 msgstr "Fichier ingoré : $name"
@@ -238,8 +224,7 @@ msgstr ""
 msgid "command"
 msgstr ""
 
-#: tinyutils/hwsetup:27
-#: tinyutils/frugal:36
+#: tinyutils/hwsetup:27 tinyutils/frugal:36
 msgid "Commands:"
 msgstr "Commandes:"
 
@@ -298,7 +283,10 @@ msgstr ""
 
 #: tinyutils/hwsetup:98
 #, sh-format
-msgid "Due to a lack of compatible hardware for troubleshooting, this $DEVICE device has not been properly tested. Please report any success, failure, bug to SliTaz Bug tracker or Forum."
+msgid ""
+"Due to a lack of compatible hardware for troubleshooting, this $DEVICE "
+"device has not been properly tested. Please report any success, failure, bug "
+"to SliTaz Bug tracker or Forum."
 msgstr ""
 
 #: tinyutils/hwsetup:107
@@ -456,8 +444,7 @@ msgstr ""
 msgid "<b>Bluetooth</b> interfaces"
 msgstr ""
 
-#: tinyutils/hwsetup:510
-#: tinyutils/hwsetup:527
+#: tinyutils/hwsetup:510 tinyutils/hwsetup:527
 msgid "Following <b>Bluetooth commands</b> may be of help"
 msgstr ""
 
@@ -473,8 +460,7 @@ msgstr ""
 msgid "pairing with remote bluetooth devices..."
 msgstr ""
 
-#: tinyutils/hwsetup:520
-#: tinyutils/hwsetup:541
+#: tinyutils/hwsetup:520 tinyutils/hwsetup:541
 #, sh-format
 msgid "You can manually edit the configuration files in $bt if need be"
 msgstr ""
@@ -514,7 +500,7 @@ msgstr ""
 
 #: tinyutils/hwsetup:568
 #, sh-format
-msgid "Add DNS adress of your provider in $rc"
+msgid "Add DNS address of your provider in $rc"
 msgstr ""
 
 #: tinyutils/hwsetup:577
@@ -533,16 +519,13 @@ msgstr ""
 msgid "Do you want to configure X using non-free nvidia driver"
 msgstr ""
 
-#: tinyutils/hwsetup:610
-#: tinyutils/hwsetup:649
-#: tinyutils/hwsetup:681
+#: tinyutils/hwsetup:610 tinyutils/hwsetup:649 tinyutils/hwsetup:681
 #: tinyutils/hwsetup:714
 #, sh-format
 msgid "Your previous config is in $xorg60"
 msgstr ""
 
-#: tinyutils/hwsetup:611
-#: tinyutils/hwsetup:650
+#: tinyutils/hwsetup:611 tinyutils/hwsetup:650
 #, sh-format
 msgid "If nvidia fails, you can remove $xorg55 to restore previous config."
 msgstr ""
@@ -551,8 +534,7 @@ msgstr ""
 msgid "Adding to xorg.conf:"
 msgstr ""
 
-#: tinyutils/hwsetup:623
-#: tinyutils/hwsetup:659
+#: tinyutils/hwsetup:623 tinyutils/hwsetup:659
 msgid "Checking if nvidia is working..."
 msgstr ""
 
@@ -595,7 +577,8 @@ msgid "Configuration:"
 msgstr ""
 
 #: tinyutils/hwsetup:696
-msgid "Use: aticonfig utility to generate a template configuration file if necessary"
+msgid ""
+"Use: aticonfig utility to generate a template configuration file if necessary"
 msgstr ""
 
 #: tinyutils/hwsetup:711
@@ -680,21 +663,36 @@ msgstr "Nettoyage de:"
 msgid "Unable to find ISO image:"
 msgstr "Impossible de trouver l'image ISO:"
 
-#: tinyutils/frugal:113
+#: tinyutils/frugal:114
 msgid "Mounting ISO image..."
 msgstr "Montage de l'image ISO..."
 
-#: tinyutils/frugal:117
+#: tinyutils/frugal:118
 msgid "Installing the Kernel..."
 msgstr "Installation du noyau Linux..."
 
-#: tinyutils/frugal:120
+#: tinyutils/frugal:121
 msgid "Installing the root filesystem..."
 msgstr "Installation du system de fichiers racine..."
 
-#: tinyutils/frugal:130
+#: tinyutils/frugal:131
 msgid "Unmounting ISO image..."
 msgstr "Démontage de l'image ISO..."
+
+#~ msgid "Configure X"
+#~ msgstr "Configurer X"
+
+#~ msgid "Tazx dialog helps you to configure your Xorg server."
+#~ msgstr "Tazx vous aide à configurer votre serveur Xorg."
+
+#~ msgid "Window Manager:"
+#~ msgstr "Gestionnaire de fenêtres :"
+
+#~ msgid "X server:"
+#~ msgstr "Serveur X :"
+
+#~ msgid "Install TinyX server Xfbdev"
+#~ msgstr "Installer le serveur TinyX Xfbdev"
 
 #~ msgid "You must be root to configure X server."
 #~ msgstr "Vous devez être root pour configurer le serveur X."

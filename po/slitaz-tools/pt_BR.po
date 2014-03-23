@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-02 18:50+0100\n"
+"POT-Creation-Date: 2014-03-23 14:52+0100\n"
 "PO-Revision-Date: 2014-01-15 21:48-0300\n"
 "Last-Translator: Claudinei Pereira <claudinei@slitaz.org>\n"
 "Language-Team: Portuguese <i18n@slitaz.org>\n"
@@ -19,7 +19,8 @@ msgstr ""
 
 #: tinyutils/tazlocale:15
 msgid "SliTaz GNU/Linux locale setting using dialog boxes."
-msgstr "Configuração de locale do SliTaz GNU/Linux utilizando caixas de diálogo."
+msgstr ""
+"Configuração de locale do SliTaz GNU/Linux utilizando caixas de diálogo."
 
 #: tinyutils/tazlocale:17 tinyutils/decode:30 tinyutils/hwsetup:24
 #: tinyutils/frugal:32
@@ -48,10 +49,13 @@ msgstr "Qualquer outra opção considerada como locale - set locale (root)."
 
 #: tinyutils/tazlocale:27
 msgid "Display locale selecting dialog if no option given (root)."
-msgstr "Mostra o diálogo de configuração de locale se nenhuma opção for informada (root)."
+msgstr ""
+"Mostra o diálogo de configuração de locale se nenhuma opção for informada "
+"(root)."
 
 #: tinyutils/tazlocale:105
-msgid "SliTaz language configuration"
+#, fuzzy
+msgid "SliTaz language setting"
 msgstr "Configuração de Linguagem do SliTaz"
 
 #: tinyutils/tazlocale:124
@@ -77,7 +81,8 @@ msgid "Current keymap:"
 msgstr "Mapa de teclado atual:"
 
 #: tinyutils/tazkeymap:52
-msgid "SliTaz keymap configuration"
+#, fuzzy
+msgid "SliTaz keyboard setting"
 msgstr "Configuraçao de Zona Horária do SliTaz"
 
 #: tinyutils/tazkeymap:65
@@ -95,47 +100,36 @@ msgstr "Definindo o volume padrão do mixer..."
 msgid "Done"
 msgstr "Feito"
 
-#: tinyutils/tazx:122
+#: tinyutils/tazx:131
 msgid "Install Xorg"
 msgstr "Instalar Xorg"
 
-#: tinyutils/tazx:123
+#: tinyutils/tazx:132
 msgid "Tazx helps you to select your X driver."
 msgstr "O Tazx ajuda a selecionar o driver gráfico."
 
-#: tinyutils/tazx:125
+#: tinyutils/tazx:134
 msgid "driver"
 msgstr "driver"
 
-#: tinyutils/tazx:126
+#: tinyutils/tazx:135
 msgid "Quit"
 msgstr "Sair"
 
-#: tinyutils/tazx:155
-msgid "Configure X"
-msgstr "Configurar X"
+#: tinyutils/tazx:163
+#, fuzzy
+msgid "SliTaz Xorg config"
+msgstr "Configuração de Linguagem do SliTaz"
 
-#: tinyutils/tazx:157
-msgid "Tazx dialog helps you to configure your Xorg server."
-msgstr "A caixa de diálogo do Tazx ajuda a configurar o servidor gráfico."
-
-#: tinyutils/tazx:158
-msgid "Window Manager:"
-msgstr "Gerenciador de janelas:"
-
-#: tinyutils/tazx:159
-msgid "X server:"
-msgstr "Servidor gráfico:"
-
-#: tinyutils/tazx:160
+#: tinyutils/tazx:165
 msgid "Install or reconfigure Xorg"
 msgstr "Instale ou reconfigure o Xorg"
 
-#: tinyutils/tazx:161
-msgid "Install TinyX server Xfbdev"
-msgstr "Instale o servidor gráfico leve Xfbdev"
+#: tinyutils/tazx:166
+msgid "Install Xorg server (light version)"
+msgstr ""
 
-#: tinyutils/tazx:162
+#: tinyutils/tazx:167
 msgid "Quit Tazx utility"
 msgstr "Sair do utilitário Tazx"
 
@@ -426,7 +420,9 @@ msgstr "Você gostaria de testar a webcam instalando o mplayer-svn"
 
 #: tinyutils/hwsetup:450
 msgid "Webcam is set up; please use mplayer-svn/fswebcam/amsn/skype to view"
-msgstr "A webcam está configurada; utilize mplayer-svn/fswebcam/amsn/skype para visualizar"
+msgstr ""
+"A webcam está configurada; utilize mplayer-svn/fswebcam/amsn/skype para "
+"visualizar"
 
 #: tinyutils/hwsetup:466
 msgid "Do you want to check if gphoto2 can talk to your camera"
@@ -472,7 +468,8 @@ msgstr "pareando com dispositivo bluetooth remoto..."
 #: tinyutils/hwsetup:520 tinyutils/hwsetup:541
 #, sh-format
 msgid "You can manually edit the configuration files in $bt if need be"
-msgstr "Você pode editar o arquivo de configuração manualmente em $bt se necessário"
+msgstr ""
+"Você pode editar o arquivo de configuração manualmente em $bt se necessário"
 
 #: tinyutils/hwsetup:534
 msgid "for starting bluetooth daemon"
@@ -508,8 +505,8 @@ msgid "Edit $wc for phone number, login name, password and pin"
 msgstr "Editar $wc para número de telefone, login, senha e pin"
 
 #: tinyutils/hwsetup:568
-#, sh-format
-msgid "Add DNS adress of your provider in $rc"
+#, fuzzy, sh-format
+msgid "Add DNS address of your provider in $rc"
 msgstr "Adicionar endereço DNS de seu provedor em $rc"
 
 #: tinyutils/hwsetup:577
@@ -522,7 +519,8 @@ msgstr "Procurando portas abertas..."
 
 #: tinyutils/hwsetup:590
 msgid "Adding firewall daemon to start automatically at boot"
-msgstr "Adicionando o daemon do firewall para iniciar automaticamente durante boot"
+msgstr ""
+"Adicionando o daemon do firewall para iniciar automaticamente durante boot"
 
 #: tinyutils/hwsetup:607
 msgid "Do you want to configure X using non-free nvidia driver"
@@ -537,7 +535,9 @@ msgstr "Sua configuração anterior está em $xorg60"
 #: tinyutils/hwsetup:611 tinyutils/hwsetup:650
 #, sh-format
 msgid "If nvidia fails, you can remove $xorg55 to restore previous config."
-msgstr "Se o nvidia falhar, você pode remover $xorg55 para restaurar configuração anterior."
+msgstr ""
+"Se o nvidia falhar, você pode remover $xorg55 para restaurar configuração "
+"anterior."
 
 #: tinyutils/hwsetup:618
 msgid "Adding to xorg.conf:"
@@ -575,7 +575,9 @@ msgstr "Você gostaria de configurar o X usando o driver não-livre ATI (radeon)
 #: tinyutils/hwsetup:682
 #, sh-format
 msgid "If ati fails, you can remove $xorg55 to restore previous config."
-msgstr "Se o ATI falhar, você pode remover $xorg55 para restaurar configuração anterior."
+msgstr ""
+"Se o ATI falhar, você pode remover $xorg55 para restaurar configuração "
+"anterior."
 
 #: tinyutils/hwsetup:691
 msgid "Checking if ati catalyst is working..."
@@ -589,7 +591,8 @@ msgstr "Configuração:"
 msgid ""
 "Use: aticonfig utility to generate a template configuration file if necessary"
 msgstr ""
-"Usar: utilitário aticonfig para gerar template de arquivo de configuração se necessário"
+"Usar: utilitário aticonfig para gerar template de arquivo de configuração se "
+"necessário"
 
 #: tinyutils/hwsetup:711
 msgid "Do you want to configure X using free ATI (radeon) driver"
@@ -598,7 +601,9 @@ msgstr "Você gostaria de configurar o X usando o driver ATI (radeon) livre"
 #: tinyutils/hwsetup:715
 #, sh-format
 msgid "If ATI fails, you can remove $xorg55 to restore previous config."
-msgstr "Se o ATI falhar, você pode remover $xorg55 para restaurar configuração anterior."
+msgstr ""
+"Se o ATI falhar, você pode remover $xorg55 para restaurar configuração "
+"anterior."
 
 #: tinyutils/hwsetup:717
 #, sh-format
@@ -673,21 +678,36 @@ msgstr "Limpando:"
 msgid "Unable to find ISO image:"
 msgstr "Não foi possível encontrar imagem ISO:"
 
-#: tinyutils/frugal:113
+#: tinyutils/frugal:114
 msgid "Mounting ISO image..."
 msgstr "Montando imagem ISO..."
 
-#: tinyutils/frugal:117
+#: tinyutils/frugal:118
 msgid "Installing the Kernel..."
 msgstr "Instalando o kernel..."
 
-#: tinyutils/frugal:120
+#: tinyutils/frugal:121
 msgid "Installing the root filesystem..."
 msgstr "Instalando o sistema de arquivos raiz..."
 
-#: tinyutils/frugal:130
+#: tinyutils/frugal:131
 msgid "Unmounting ISO image..."
 msgstr "Desmontando imagem ISO..."
+
+#~ msgid "Configure X"
+#~ msgstr "Configurar X"
+
+#~ msgid "Tazx dialog helps you to configure your Xorg server."
+#~ msgstr "A caixa de diálogo do Tazx ajuda a configurar o servidor gráfico."
+
+#~ msgid "Window Manager:"
+#~ msgstr "Gerenciador de janelas:"
+
+#~ msgid "X server:"
+#~ msgstr "Servidor gráfico:"
+
+#~ msgid "Install TinyX server Xfbdev"
+#~ msgstr "Instale o servidor gráfico leve Xfbdev"
 
 #~ msgid "You must be root to configure X server."
 #~ msgstr "Você deve ser root para configurar o servidor gráfico."
