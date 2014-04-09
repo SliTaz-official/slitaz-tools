@@ -54,7 +54,6 @@ msgstr ""
 "(root)."
 
 #: tinyutils/tazlocale:105
-#, fuzzy
 msgid "SliTaz language setting"
 msgstr "Configuração de Linguagem do SliTaz"
 
@@ -81,9 +80,8 @@ msgid "Current keymap:"
 msgstr "Mapa de teclado atual:"
 
 #: tinyutils/tazkeymap:52
-#, fuzzy
 msgid "SliTaz keyboard setting"
-msgstr "Configuraçao de Zona Horária do SliTaz"
+msgstr "ConfiguraçaoTeclado do SliTaz"
 
 #: tinyutils/tazkeymap:65
 msgid ""
@@ -117,9 +115,8 @@ msgid "Quit"
 msgstr "Sair"
 
 #: tinyutils/tazx:163
-#, fuzzy
 msgid "SliTaz Xorg config"
-msgstr "Configuração de Linguagem do SliTaz"
+msgstr "Configuraçãdo Xorg do SliTaz"
 
 #: tinyutils/tazx:165
 msgid "Install or reconfigure Xorg"
@@ -127,7 +124,7 @@ msgstr "Instale ou reconfigure o Xorg"
 
 #: tinyutils/tazx:166
 msgid "Install Xorg server (light version)"
-msgstr ""
+msgstr "Instalar o servidor Xorg (vers�o leve)"
 
 #: tinyutils/tazx:167
 msgid "Quit Tazx utility"
@@ -505,7 +502,7 @@ msgid "Edit $wc for phone number, login name, password and pin"
 msgstr "Editar $wc para número de telefone, login, senha e pin"
 
 #: tinyutils/hwsetup:568
-#, fuzzy, sh-format
+#, sh-format
 msgid "Add DNS address of your provider in $rc"
 msgstr "Adicionar endereço DNS de seu provedor em $rc"
 
