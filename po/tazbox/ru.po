@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-29 02:11+0100\n"
-"PO-Revision-Date: 2013-09-04 10:50+0300\n"
+"PO-Revision-Date: 2014-04-12 14:14+0300\n"
 "Last-Translator: Aleksej Bobylev <al.bobylev@gmail.com>\n"
 "Language-Team: \n"
-"Language: \n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -69,8 +69,7 @@ msgstr "Настроить часовой пояс системы (root)"
 
 #: tazbox/tazbox:43
 msgid "System initial setup (locale, keymap & timezone)"
-msgstr ""
-"Начальные установки системы (локаль, раскладка клавиатуры и часовой пояс)"
+msgstr "Начальные установки системы (локаль, раскладка клавиатуры и часовой пояс)"
 
 #: tazbox/tazbox:44
 msgid "Create a new file or folder on the desktop"
@@ -82,7 +81,7 @@ msgstr "Список всех установленных приложений"
 
 #: tazbox/tazbox:46
 msgid "Notify user with a desktop centered box"
-msgstr "Уведомить пользователя при помощи сообщения по центру экрана"
+msgstr "Выдать уведомление по центру экрана"
 
 #: tazbox/tazbox:47
 msgid "Configure SliTaz default applications"
@@ -122,42 +121,42 @@ msgstr "TazBox — вывод команды"
 
 #: tazbox/tazbox:107
 msgid "SliTaz Logout"
-msgstr "Выход из системы SliTaz"
+msgstr "Завершение работы SliTaz"
 
 #: tazbox/tazbox:110
-#, fuzzy
 msgid "SliTaz Logout - Please choose an action:"
 msgstr "Выберите действие:"
 
 #: tazbox/tazbox:112
 msgid "Close X session"
-msgstr "Закрыть сессию X"
+msgstr "Выйти из системы"
 
 #: tazbox/tazbox:113
 msgid "Reboot system"
-msgstr "Перезагрузка"
+msgstr "Перезагрузить"
 
 #: tazbox/tazbox:114
 msgid "Shutdown system"
-msgstr "Выключение"
+msgstr "Выключить"
 
 #: tazbox/tazbox:134
 msgid "SliTaz Initial Setup"
 msgstr "Начальные установки SliTaz"
 
 #: tazbox/tazbox:137
-#, fuzzy
 msgid ""
-"Here you can set your preferences \\n for <b>locale, keymap and timezone</b>."
+"Here you can set your preferences \\n"
+" for <b>locale, keymap and timezone</b>."
 msgstr ""
-"Здесь вы можете установить\\n<b>локаль, раскладку клавиатуры и часовой пояс</"
-"b>."
+"Здесь вы можете установить\\n"
+"<b>локаль, раскладку клавиатуры и часовой пояс</b>."
 
 #: tazbox/tazbox:139
 msgid "Locale"
 msgstr "Локаль"
 
-#: tazbox/tazbox:140 tazbox/tazbox:192
+#: tazbox/tazbox:140
+#: tazbox/tazbox:192
 msgid "Keymap"
 msgstr "Раскладка"
 
@@ -173,7 +172,8 @@ msgstr "Локаль SliTaz"
 msgid "Language configuration"
 msgstr "Настройка языка"
 
-#: tazbox/tazbox:165 tazbox/tazbox:216
+#: tazbox/tazbox:165
+#: tazbox/tazbox:216
 msgid "Name"
 msgstr "Название"
 
@@ -183,7 +183,7 @@ msgstr "Описание"
 
 #: tazbox/tazbox:188
 msgid "SliTaz keymap"
-msgstr "Раскладка клавиатурыь SliTaz"
+msgstr "Раскладка клавиатуры SliTaz"
 
 #: tazbox/tazbox:191
 msgid "Keyboard configuration"
@@ -193,11 +193,17 @@ msgstr "Настройка клавиатуры"
 msgid "Type"
 msgstr "Тип"
 
-#: tazbox/tazbox:211 tazbox/tazbox:234 tazbox/tazbox:246 tazbox/tazbox:259
+#: tazbox/tazbox:211
+#: tazbox/tazbox:234
+#: tazbox/tazbox:246
+#: tazbox/tazbox:259
 msgid "SliTaz TZ"
 msgstr "Часовой пояс SliTaz"
 
-#: tazbox/tazbox:214 tazbox/tazbox:237 tazbox/tazbox:249 tazbox/tazbox:262
+#: tazbox/tazbox:214
+#: tazbox/tazbox:237
+#: tazbox/tazbox:249
+#: tazbox/tazbox:262
 msgid "TimeZone Configuration"
 msgstr "Настройка часового пояса"
 
@@ -259,7 +265,7 @@ msgstr "Все приложения"
 
 #: tazbox/tazbox:411
 msgid "Downloading..."
-msgstr ""
+msgstr "Загрузка…"
 
 #: tazbox/tazbox:463
 msgid "SliTaz default applications"
@@ -288,3 +294,4 @@ msgstr "Терминал:"
 #: tazbox/tazbox:471
 msgid "Window manager:"
 msgstr "Оконный менеджер:"
+

@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-03-23 14:52+0100\n"
-"PO-Revision-Date: 2013-08-31 15:35+0300\n"
+"PO-Revision-Date: 2014-04-12 14:38+0300\n"
 "Last-Translator: Aleksej Bobylev <al.bobylev@gmail.com>\n"
 "Language-Team: \n"
-"Language: \n"
+"Language: Russian\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -23,53 +23,56 @@ msgstr ""
 msgid "SliTaz GNU/Linux locale setting using dialog boxes."
 msgstr "Настройка локали SliTaz GNU/Linux с использованием dialog."
 
-#: tinyutils/tazlocale:17 tinyutils/decode:30 tinyutils/hwsetup:24
+#: tinyutils/tazlocale:17
+#: tinyutils/decode:30
+#: tinyutils/hwsetup:24
 #: tinyutils/frugal:32
 msgid "Usage:"
 msgstr "Использование:"
 
-#: tinyutils/tazlocale:18 tinyutils/decode:31 tinyutils/hwsetup:25
+#: tinyutils/tazlocale:18
+#: tinyutils/decode:31
+#: tinyutils/hwsetup:25
 msgid "option"
 msgstr "параметр"
 
-#: tinyutils/tazlocale:20 tinyutils/hwsetup:40 tinyutils/frugal:41
+#: tinyutils/tazlocale:20
+#: tinyutils/hwsetup:40
+#: tinyutils/frugal:41
 msgid "Options:"
 msgstr "Параметры:"
 
 #: tinyutils/tazlocale:22
 msgid "Show info about config file and current locale."
-msgstr "Информация о конфигурационном файле и текущей локали."
+msgstr "Информация о файле настроек и текущей локали."
 
 #: tinyutils/tazlocale:23
 msgid "Show list of available locales."
 msgstr "Список доступных локалей."
 
 #: tinyutils/tazlocale:26
-#, fuzzy
 msgid "Any other option treated as locale - set locale (root)."
-msgstr "Любой другой параметр считается именем локали — установить локаль."
+msgstr "Любой другой параметр считается именем локали — установить локаль (требуются права root)."
 
 #: tinyutils/tazlocale:27
-#, fuzzy
 msgid "Display locale selecting dialog if no option given (root)."
-msgstr "При отсутствии параметров — показать диалог выбора локали."
+msgstr "При отсутствии параметров — показать диалог выбора локали (требуются права root)."
 
 #: tinyutils/tazlocale:105
-#, fuzzy
 msgid "SliTaz language setting"
-msgstr "Параметры языка SliTaz"
+msgstr "Настройка языка SliTaz"
 
 #: tinyutils/tazlocale:124
-msgid ""
-"Please logout of your current session and login again to use new locale."
-msgstr ""
-"Выйдите из системы и войдите повторно, чтобы использовать новую локаль."
+msgid "Please logout of your current session and login again to use new locale."
+msgstr "Выйдите из системы и войдите повторно, чтобы использовать новую локаль."
 
-#: tinyutils/tazlocale:126 tinyutils/tazkeymap:64
+#: tinyutils/tazlocale:126
+#: tinyutils/tazkeymap:64
 msgid "Information"
 msgstr "Информация"
 
-#: tinyutils/tazlocale:136 tinyutils/tazkeymap:42
+#: tinyutils/tazlocale:136
+#: tinyutils/tazkeymap:42
 msgid "Config file:"
 msgstr "Файл настроек:"
 
@@ -82,20 +85,16 @@ msgid "Current keymap:"
 msgstr "Текущая раскладка:"
 
 #: tinyutils/tazkeymap:52
-#, fuzzy
 msgid "SliTaz keyboard setting"
-msgstr "Параметры клавиатурной раскладки SliTaz"
+msgstr "Настройка клавиатурной раскладки SliTaz"
 
 #: tinyutils/tazkeymap:65
-msgid ""
-"Please logout of your current session and login again to use new keyboard."
-msgstr ""
-"Выйдите из системы и войдите повторно, чтобы использовать новую раскладку "
-"клавиатуры."
+msgid "Please logout of your current session and login again to use new keyboard."
+msgstr "Выйдите из системы и войдите повторно, чтобы использовать новую раскладку клавиатуры."
 
 #: tinyutils/setmixer:12
 msgid "Setting default mixer volumes... "
-msgstr "Установка громкости микшера по умолчанию… "
+msgstr "Установка уровней регулятора громкости по умолчанию… "
 
 #: tinyutils/setmixer:53
 msgid "Done"
@@ -103,11 +102,11 @@ msgstr "Готово"
 
 #: tinyutils/tazx:131
 msgid "Install Xorg"
-msgstr "Установка Xorg"
+msgstr "Установка X.org"
 
 #: tinyutils/tazx:132
 msgid "Tazx helps you to select your X driver."
-msgstr "Tazx поможет вам выбрать драйвер для X."
+msgstr "Tazx поможет вам выбрать драйвер для X.Org."
 
 #: tinyutils/tazx:134
 msgid "driver"
@@ -118,17 +117,16 @@ msgid "Quit"
 msgstr "Выход"
 
 #: tinyutils/tazx:163
-#, fuzzy
 msgid "SliTaz Xorg config"
-msgstr "Параметры языка SliTaz"
+msgstr "Настройка X.Org в SliTaz"
 
 #: tinyutils/tazx:165
 msgid "Install or reconfigure Xorg"
-msgstr "Установить или перенастроить Xorg"
+msgstr "Установить или перенастроить X.org"
 
 #: tinyutils/tazx:166
 msgid "Install Xorg server (light version)"
-msgstr ""
+msgstr "Установка облегченного сервера X.Org"
 
 #: tinyutils/tazx:167
 msgid "Quit Tazx utility"
@@ -138,7 +136,8 @@ msgstr "Выйти из утилиты Tazx"
 msgid "Decode audio and video files"
 msgstr "Преобразование файлов аудио и видео"
 
-#: tinyutils/decode:31 tinyutils/decode:36
+#: tinyutils/decode:31
+#: tinyutils/decode:36
 msgid "file"
 msgstr "файл"
 
@@ -146,7 +145,8 @@ msgstr "файл"
 msgid "URL"
 msgstr "адрес"
 
-#: tinyutils/decode:33 tinyutils/frugal:45
+#: tinyutils/decode:33
+#: tinyutils/frugal:45
 msgid "Examples:"
 msgstr "Примеры:"
 
@@ -159,7 +159,8 @@ msgstr "/путь/к/файлам/*"
 msgid "Missing decoder: $dec"
 msgstr "Отсутствует декодер «$dec»"
 
-#: tinyutils/decode:48 tinyutils/decode:80
+#: tinyutils/decode:48
+#: tinyutils/decode:80
 #, sh-format
 msgid "Skipping file: $name"
 msgstr "Файл «$name» не обработан"
@@ -226,7 +227,8 @@ msgstr "Настройка оборудования SliTaz"
 msgid "command"
 msgstr "команда"
 
-#: tinyutils/hwsetup:27 tinyutils/frugal:36
+#: tinyutils/hwsetup:27
+#: tinyutils/frugal:36
 msgid "Commands:"
 msgstr "Команды:"
 
@@ -284,14 +286,8 @@ msgstr "подтверждать установку дополнительных
 
 #: tinyutils/hwsetup:98
 #, sh-format
-msgid ""
-"Due to a lack of compatible hardware for troubleshooting, this $DEVICE "
-"device has not been properly tested. Please report any success, failure, bug "
-"to SliTaz Bug tracker or Forum."
-msgstr ""
-"Ввиду отсутствия совместимого оборудования для диагностики, это устройство "
-"$DEVICE не было должным образом проверено. Сообщите о ваших успехах, "
-"неудачах, ошибках в баг-трекер SliTaz или на форум."
+msgid "Due to a lack of compatible hardware for troubleshooting, this $DEVICE device has not been properly tested. Please report any success, failure, bug to SliTaz Bug tracker or Forum."
+msgstr "Работа этого устройства $DEVICE не проверялась, его нет у разработчиков SliTaz. Сообщите о ваших успехах, неудачах, ошибках в баг-трекер SliTaz или на форум."
 
 #: tinyutils/hwsetup:107
 #, sh-format
@@ -311,7 +307,7 @@ msgstr "Установить пакет «$pkg»"
 #: tinyutils/hwsetup:148
 #, sh-format
 msgid "adding $user to $grp"
-msgstr "добавление пользователя «$user» в группу «$grp»"
+msgstr "пользователь «$user» добавляется в группу «$grp»"
 
 #: tinyutils/hwsetup:171
 msgid "Detected USB Device : Vendor : Product"
@@ -329,21 +325,19 @@ msgstr "Проверка прав доступа «$DEVICE»"
 #: tinyutils/hwsetup:229
 #, sh-format
 msgid "Your $DEVICE must be in $grp group with rw-rw-rw- permissions"
-msgstr ""
-"Устройство «$DEVICE» должно принадлежать группе $grp и иметь права доступа "
-"rw-rw-rw-"
+msgstr "Устройство «$DEVICE» должно принадлежать группе $grp и иметь права доступа rw-rw-rw-"
 
 #: tinyutils/hwsetup:250
 msgid "New udev rules are added by a package"
-msgstr "Новые правила UDEV добавлены при установке пакета"
+msgstr "При установке пакета добавлены новые правила UDEV"
 
 #: tinyutils/hwsetup:258
 msgid "Auto configuring Xorg..."
-msgstr "Авто-настройка XOrg…"
+msgstr "Авто-настройка X.Org…"
 
 #: tinyutils/hwsetup:261
 msgid "Configuring Xorg..."
-msgstr "Настройка XOrg…"
+msgstr "Настройка X.Org…"
 
 #: tinyutils/hwsetup:292
 msgid "Wvdial Box"
@@ -423,9 +417,7 @@ msgstr "Проверить веб-камеру, установив пакет mp
 
 #: tinyutils/hwsetup:450
 msgid "Webcam is set up; please use mplayer-svn/fswebcam/amsn/skype to view"
-msgstr ""
-"Веб-камера настроена; запустите mplayer-svn, fswebcam, amsn или skype для "
-"проверки"
+msgstr "Веб-камера настроена; запустите mplayer-svn, fswebcam, amsn или skype для проверки"
 
 #: tinyutils/hwsetup:466
 msgid "Do you want to check if gphoto2 can talk to your camera"
@@ -452,7 +444,8 @@ msgstr "Убедиться, работает ли bluetooth"
 msgid "<b>Bluetooth</b> interfaces"
 msgstr "Интерфейсы <b>Bluetooth</b>"
 
-#: tinyutils/hwsetup:510 tinyutils/hwsetup:527
+#: tinyutils/hwsetup:510
+#: tinyutils/hwsetup:527
 msgid "Following <b>Bluetooth commands</b> may be of help"
 msgstr "Следующие <b>команды Bluetooth</b> могут пригодиться"
 
@@ -468,11 +461,11 @@ msgstr "поиск устройств Bluetooth в зоне действия…"
 msgid "pairing with remote bluetooth devices..."
 msgstr "сопряжение с устройством Bluetooth…"
 
-#: tinyutils/hwsetup:520 tinyutils/hwsetup:541
+#: tinyutils/hwsetup:520
+#: tinyutils/hwsetup:541
 #, sh-format
 msgid "You can manually edit the configuration files in $bt if need be"
-msgstr ""
-"Если понадобится, вы можете самостоятельно править файлы настроек в $bt"
+msgstr "Если понадобится, вы можете самостоятельно править файлы настроек в $bt"
 
 #: tinyutils/hwsetup:534
 msgid "for starting bluetooth daemon"
@@ -508,15 +501,13 @@ msgid "Edit $wc for phone number, login name, password and pin"
 msgstr "В файле $wc вы можете изменить номер дозвона, логин, пароль и PIN"
 
 #: tinyutils/hwsetup:568
-#, fuzzy, sh-format
+#, sh-format
 msgid "Add DNS address of your provider in $rc"
 msgstr "Добавьте адрес DNS-сервера вашего провайдера в файл $rc"
 
 #: tinyutils/hwsetup:577
 msgid "Setting IPTABLES_RULES to yes in /etc/slitaz/firewall.conf"
-msgstr ""
-"Установка значения «yes» переменной IPTABLES_RULES в файле /etc/slitaz/"
-"firewall.conf"
+msgstr "Переменной IPTABLES_RULES присваивается значение «yes» в файле /etc/slitaz/firewall.conf"
 
 #: tinyutils/hwsetup:586
 msgid "Probing for open ports..."
@@ -524,30 +515,32 @@ msgstr "Поиск открытых портов…"
 
 #: tinyutils/hwsetup:590
 msgid "Adding firewall daemon to start automatically at boot"
-msgstr "Добавление службы брандмауэра в автоматический запуск при загрузке"
+msgstr "Служба брандмауэра добавляется в автоматический запуск при загрузке"
 
 #: tinyutils/hwsetup:607
 msgid "Do you want to configure X using non-free nvidia driver"
-msgstr "Настроить XOrg, используя несвободный драйвер Nvidia"
+msgstr "Настроить X.Org, используя несвободный драйвер Nvidia"
 
-#: tinyutils/hwsetup:610 tinyutils/hwsetup:649 tinyutils/hwsetup:681
+#: tinyutils/hwsetup:610
+#: tinyutils/hwsetup:649
+#: tinyutils/hwsetup:681
 #: tinyutils/hwsetup:714
 #, sh-format
 msgid "Your previous config is in $xorg60"
 msgstr "Предыдущие настройки находятся в файле $xorg60"
 
-#: tinyutils/hwsetup:611 tinyutils/hwsetup:650
+#: tinyutils/hwsetup:611
+#: tinyutils/hwsetup:650
 #, sh-format
 msgid "If nvidia fails, you can remove $xorg55 to restore previous config."
-msgstr ""
-"Если драйвер ATI не будет корректно работать, вы можете удалить $xorg55, "
-"чтобы вернуться к предыдущим настройкам."
+msgstr "Если драйвер ATI не будет корректно работать, вы можете удалить $xorg55, чтобы вернуться к предыдущим настройкам."
 
 #: tinyutils/hwsetup:618
 msgid "Adding to xorg.conf:"
 msgstr "Добавление в xorg.conf:"
 
-#: tinyutils/hwsetup:623 tinyutils/hwsetup:659
+#: tinyutils/hwsetup:623
+#: tinyutils/hwsetup:659
 msgid "Checking if nvidia is working..."
 msgstr "Проверка того, что драйвер nvidia работает…"
 
@@ -561,13 +554,11 @@ msgstr "проверка Nvidia"
 
 #: tinyutils/hwsetup:635
 msgid "Use: nvidia-settings utility to configure your settings if necessary"
-msgstr ""
-"При необходимости используйте утилиту nvidia-settings для настройки "
-"параметров"
+msgstr "При необходимости запустите утилиту nvidia-settings для настройки параметров"
 
 #: tinyutils/hwsetup:646
 msgid "Do you want to configure X using free nvidia driver"
-msgstr "Настроить XOrg, используя свободный драйвер Nvidia"
+msgstr "Настроить X.Org, используя свободный драйвер Nvidia"
 
 #: tinyutils/hwsetup:652
 #, sh-format
@@ -576,14 +567,12 @@ msgstr "Создание файла «$xorg55short», содержащего н�
 
 #: tinyutils/hwsetup:678
 msgid "Do you want to configure X using non-free catalyst ATI (radeon) driver"
-msgstr "Настроить XOrg, используя несвободный драйвер ATI Catalyst (Radeon)"
+msgstr "Настроить X.Org, используя несвободный драйвер ATI Catalyst (Radeon)"
 
 #: tinyutils/hwsetup:682
 #, sh-format
 msgid "If ati fails, you can remove $xorg55 to restore previous config."
-msgstr ""
-"Если драйвер ATI не будет корректно работать, вы можете удалить $xorg55, "
-"чтобы вернуться к предыдущим настройкам."
+msgstr "Если драйвер ATI не будет корректно работать, вы можете удалить $xorg55, чтобы вернуться к предыдущим настройкам."
 
 #: tinyutils/hwsetup:691
 msgid "Checking if ati catalyst is working..."
@@ -594,22 +583,17 @@ msgid "Configuration:"
 msgstr "Настройка:"
 
 #: tinyutils/hwsetup:696
-msgid ""
-"Use: aticonfig utility to generate a template configuration file if necessary"
-msgstr ""
-"При необходимости используйте утилиту aticonfig для создания файла-шаблона "
-"настроек"
+msgid "Use: aticonfig utility to generate a template configuration file if necessary"
+msgstr "При необходимости запустите утилиту aticonfig для создания файла-шаблона настроек"
 
 #: tinyutils/hwsetup:711
 msgid "Do you want to configure X using free ATI (radeon) driver"
-msgstr "Настроить XOrg, используя свободный драйвер ATI (Radeon)"
+msgstr "Настроить X.Org, используя свободный драйвер ATI (Radeon)"
 
 #: tinyutils/hwsetup:715
 #, sh-format
 msgid "If ATI fails, you can remove $xorg55 to restore previous config."
-msgstr ""
-"Если драйвер ATI не будет корректно работать, вы можете удалить $xorg55, "
-"чтобы вернуться к предыдущим настройкам."
+msgstr "Если драйвер ATI не будет корректно работать, вы можете удалить $xorg55, чтобы вернуться к предыдущим настройкам."
 
 #: tinyutils/hwsetup:717
 #, sh-format
@@ -634,72 +618,71 @@ msgstr "Могут быть установлены следующие допол
 
 #: tinyutils/hwsetup:770
 msgid "Do you want to install all/few/no optional dependencies (all|few|N)? "
-msgstr ""
-"Установить все (all), некоторые (few) или не устанавливать (no) зависимости? "
+msgstr "Установить все (all), некоторые (few) или не устанавливать (no) зависимости? "
 
 #: tinyutils/frugal:34
 msgid "SliTaz frugal installation"
-msgstr ""
+msgstr "Скромная (frugal) установка SliTaz"
 
 #: tinyutils/frugal:37
 msgid "Display install path and size stats"
-msgstr ""
+msgstr "Показать путь установки и размер"
 
 #: tinyutils/frugal:38
 msgid "Remove all frugal files"
-msgstr ""
+msgstr "Удалить все файлы скромной установки"
 
 #: tinyutils/frugal:39
 msgid "Show GRUB configuration example"
-msgstr ""
+msgstr "Показать пример конфигурационного файла GRUB"
 
 #: tinyutils/frugal:42
 msgid "Set root installation path"
-msgstr ""
+msgstr "Указать путь установки"
 
 #: tinyutils/frugal:43
 msgid "Display some useful debug information"
-msgstr ""
+msgstr "Показать некоторую отладочную информацию"
 
 #: tinyutils/frugal:74
 msgid "Frugal system running detected"
-msgstr ""
+msgstr "Обнаружена система, работающая из скромной установки"
 
 #: tinyutils/frugal:77
 msgid "Installation directory:"
-msgstr ""
+msgstr "Установочная папка:"
 
 #: tinyutils/frugal:78
 msgid "Kernel size:"
-msgstr ""
+msgstr "Размер ядра:"
 
 #: tinyutils/frugal:84
 msgid "Rootfs size:"
-msgstr ""
+msgstr "Размер корневой файловой системы:"
 
 #: tinyutils/frugal:93
 msgid "Cleaning:"
-msgstr ""
+msgstr "Очистка:"
 
 #: tinyutils/frugal:109
 msgid "Unable to find ISO image:"
-msgstr ""
+msgstr "Не удалось найти образ ISO:"
 
 #: tinyutils/frugal:114
 msgid "Mounting ISO image..."
-msgstr ""
+msgstr "Подключение образа ISO…"
 
 #: tinyutils/frugal:118
 msgid "Installing the Kernel..."
-msgstr ""
+msgstr "Установка ядра…"
 
 #: tinyutils/frugal:121
 msgid "Installing the root filesystem..."
-msgstr ""
+msgstr "Установка корневой файловой системы…"
 
 #: tinyutils/frugal:131
 msgid "Unmounting ISO image..."
-msgstr ""
+msgstr "Отключение образа ISO…"
 
 #~ msgid "Configure X"
 #~ msgstr "Настройка XOrg"
