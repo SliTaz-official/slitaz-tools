@@ -124,7 +124,7 @@ msgstr "Instale ou reconfigure o Xorg"
 
 #: tinyutils/tazx:166
 msgid "Install Xorg server (light version)"
-msgstr "Instalar o servidor Xorg (vers√o leve)"
+msgstr "Instalar o servidor Xorg (vers√£o leve)"
 
 #: tinyutils/tazx:167
 msgid "Quit Tazx utility"
