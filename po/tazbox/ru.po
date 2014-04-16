@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-29 02:11+0100\n"
-"PO-Revision-Date: 2014-04-12 14:14+0300\n"
+"POT-Creation-Date: 2014-04-16 13:19+0300\n"
+"PO-Revision-Date: 2014-04-16 13:34+0300\n"
 "Last-Translator: Aleksej Bobylev <al.bobylev@gmail.com>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -155,8 +155,7 @@ msgstr ""
 msgid "Locale"
 msgstr "Локаль"
 
-#: tazbox/tazbox:140
-#: tazbox/tazbox:192
+#: tazbox/tazbox:140 tazbox/tazbox:192
 msgid "Keymap"
 msgstr "Раскладка"
 
@@ -173,7 +172,6 @@ msgid "Language configuration"
 msgstr "Настройка языка"
 
 #: tazbox/tazbox:165
-#: tazbox/tazbox:216
 msgid "Name"
 msgstr "Название"
 
@@ -193,105 +191,112 @@ msgstr "Настройка клавиатуры"
 msgid "Type"
 msgstr "Тип"
 
-#: tazbox/tazbox:211
-#: tazbox/tazbox:234
-#: tazbox/tazbox:246
-#: tazbox/tazbox:259
+#: tazbox/tazbox:218 tazbox/tazbox:245 tazbox/tazbox:257 tazbox/tazbox:270
 msgid "SliTaz TZ"
 msgstr "Часовой пояс SliTaz"
 
-#: tazbox/tazbox:214
-#: tazbox/tazbox:237
-#: tazbox/tazbox:249
-#: tazbox/tazbox:262
+#: tazbox/tazbox:221
+msgid "Suggested location:"
+msgstr "Предполагаемое местоположение:"
+
+#: tazbox/tazbox:222
+msgid "Are you agree?"
+msgstr "Вы согласны?"
+
+#: tazbox/tazbox:248 tazbox/tazbox:260 tazbox/tazbox:273
 msgid "TimeZone Configuration"
 msgstr "Настройка часового пояса"
 
-#: tazbox/tazbox:237
+#: tazbox/tazbox:248
 msgid "Select country"
 msgstr "Выберите страну"
 
-#: tazbox/tazbox:239
+#: tazbox/tazbox:250
 msgid "Flag"
 msgstr "флаг"
 
-#: tazbox/tazbox:239
+#: tazbox/tazbox:250
 msgid "Code"
 msgstr "код"
 
-#: tazbox/tazbox:239
+#: tazbox/tazbox:250
 msgid "Country"
 msgstr "страна"
 
-#: tazbox/tazbox:249
+#: tazbox/tazbox:260
 msgid "Select time zone"
 msgstr "Выберите часовой пояс"
 
-#: tazbox/tazbox:262
+#: tazbox/tazbox:273
 msgid "Select location"
 msgstr "Выберите местоположение"
 
-#: tazbox/tazbox:263
+#: tazbox/tazbox:274
 msgid "Location/City"
 msgstr "местность/город"
 
-#: tazbox/tazbox:287
+#: tazbox/tazbox:299
+#, sh-format
+msgid "TimeZone was set to $timezone"
+msgstr "Установлен часовой пояс «$timezone»"
+
+#: tazbox/tazbox:306
 msgid "New file"
 msgstr "Новый файл"
 
-#: tazbox/tazbox:290
+#: tazbox/tazbox:309
 msgid "Create a new file or folder on your desktop"
 msgstr "Создать файл или папку на рабочем столе"
 
-#: tazbox/tazbox:291
+#: tazbox/tazbox:310
 msgid "File name"
 msgstr "Имя файла"
 
-#: tazbox/tazbox:294
+#: tazbox/tazbox:313
 msgid "SHell script"
 msgstr "Скрипт"
 
-#: tazbox/tazbox:295
+#: tazbox/tazbox:314
 msgid "Folder"
 msgstr "Папка"
 
-#: tazbox/tazbox:297
+#: tazbox/tazbox:316
 msgid "File"
 msgstr "Файл"
 
-#: tazbox/tazbox:322
+#: tazbox/tazbox:341
 msgid "All Applications"
 msgstr "Все приложения"
 
-#: tazbox/tazbox:411
+#: tazbox/tazbox:429
 msgid "Downloading..."
 msgstr "Загрузка…"
 
-#: tazbox/tazbox:463
+#: tazbox/tazbox:481
 msgid "SliTaz default applications"
 msgstr "Избранные приложения SliTaz"
 
-#: tazbox/tazbox:465
+#: tazbox/tazbox:483
 msgid "SliTaz default applications configuration"
 msgstr "Настройка избранных приложений SliTaz"
 
-#: tazbox/tazbox:467
+#: tazbox/tazbox:485
 msgid "File manager:"
 msgstr "Файловый менеджер:"
 
-#: tazbox/tazbox:468
+#: tazbox/tazbox:486
 msgid "Web browser:"
 msgstr "Браузер:"
 
-#: tazbox/tazbox:469
+#: tazbox/tazbox:487
 msgid "Text editor:"
 msgstr "Текстовый редактор:"
 
-#: tazbox/tazbox:470
+#: tazbox/tazbox:488
 msgid "Terminal:"
 msgstr "Терминал:"
 
-#: tazbox/tazbox:471
+#: tazbox/tazbox:489
 msgid "Window manager:"
 msgstr "Оконный менеджер:"
 

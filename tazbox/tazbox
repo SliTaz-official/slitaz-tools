@@ -5,6 +5,7 @@
 #
 # Copyright (C) 2011-2014 SliTaz GNU/Linux - GNU GPL v3
 #    - Christophe Lincoln <pankso@slitaz.org>
+#    - Aleksej Bobylev <al.bobylev@gmail.com>
 #
 . /lib/libtaz.sh
 export TEXTDOMAIN='tazbox' # i18n
@@ -12,13 +13,12 @@ export TEXTDOMAIN='tazbox' # i18n
 # download dir (may be in a config file)
 DOWNLOADS=$HOME/Downloads
 
-# icons for most windows
-#icon=/usr/share/pixmaps/slitaz-icon.png
-
 # some constants to be used inside functions
-tmp="/tmp/keymap.list"
-db="/usr/share/i18n/locales"
-zi="/usr/share/zoneinfo/"
+tmp=/tmp/keymap.list
+db=/usr/share/i18n/locales
+zi=/usr/share/zoneinfo/
+ztab=${zi}zone-mini.tab
+csv=/tmp/freegeoip.csv
 
 #
 # Functions
@@ -52,7 +52,7 @@ tazapps		$(_ 'Configure SliTaz default applications')"
 find_icon() {
 	local desktop
 	desktop=$(find $HOME/.local/share/applications /usr/share/applications \
-		-name $1.desktop | head -n1)
+		-name $1.desktop 2&>/dev/null | head -n1)
 	[ x$desktop != x ] && cat $desktop | sed '/\[Desktop\ Entry\]/,/^\[/!d' | \
 		sed '/^Icon=/!d' | head -n1 | cut -d= -f2
 }
@@ -202,33 +202,44 @@ keymap() {
 	[ "$keymap" ] && tazkeymap $keymap
 }
 
+# Free GeoIP service
+# Response: "IP","CountryCode","CountryName", ...
+
+geoip() {
+	[ ! -e $csv ] && wget -q -T3 -O $csv http://freegeoip.net/csv/ 2&>/dev/null
+	[ -e $csv ] && cut -d'"' -f4 $csv
+}
+
 # TZ functions
-tz_main() {
-	icon=config-date
-	for t in $(find $zi -type f | sed s,$zi,,g); do
-		echo -e "$t"
-	done | \
-	yad --title="$(_ 'SliTaz TZ')" --window-icon=$icon \
-		--width=500 --height=380 --sticky --on-top --center \
-		--image=$icon --image-on-top \
-		--text="<b>$(_n 'TimeZone Configuration')</b>" \
-		--list \
-		--column $(_n 'Name')
+tz_suggest() {
+	CountryCode=$(geoip)
+	if [ x$CountryCode != x ]; then
+			CountryName=$(cut -d'"' -f6 $csv)
+			yad --title="$(_ 'SliTaz TZ')" --window-icon=$icon \
+			--on-top --center \
+			--image=$CountryCode --image-on-top \
+			--text="$(_ 'Suggested location:') <b>$CountryName</b>\n
+$(_ 'Are you agree?')" \
+			--button="gtk-yes:0" --button="gtk-no:1" --always-print-result
+			[ $? == 0 ] && echo $CountryCode
+	fi
 }
 
 tz_select() {
-	icon=config-date
-	ZONEINFO=/usr/share/zoneinfo
-	exit_code=0
-
 	case x$1 in
 	x)
 		# first pass - country
-		for CC in $(sed '/^#/d; s|^\([^	]*\).*|\1|' $ZONEINFO/zone.tab | sort -u); do
+		tmpcc=$(mktemp)
+
+		for tzfile in $(find $zi -type f -regex '.*info/[ABCEIMP].*'); do
+			grep -m1 $(basename $tzfile) $ztab
+		done | cut -d'	' -f1 | sort -u > $tmpcc
+
+		for CC in $(cat $tmpcc); do
 			cat << EOT
 $CC
 $CC
-$(gettext iso_3166 "$(sed -n 's|^'$CC'	\(.*\)$|\1|p' $ZONEINFO/iso3166-1.tab)")
+$(gettext iso_3166 "$(grep -m1 "$CC	" ${zi}iso3166-1.tab | cut -d'	' -f2)")
 EOT
 		done | \
 		yad --title="$(_ 'SliTaz TZ')" --window-icon=$icon \
@@ -247,12 +258,12 @@ EOT
 			--width=500 --on-top --center \
 			--image=$icon --image-on-top \
 			--text="<b>$(_ 'TimeZone Configuration')</b>\n$(_ 'Select time zone')" \
-			--form --field=":FL" $ZONEINFO/UTC --separator='' | \
-			sed "s|$ZONEINFO/||"
+			--form --field=":FL" ${zi}UTC --separator='' | \
+			sed "s|$zi||"
 		;;
 	*)
 		# second pass - city/place
-		list=$(cat $ZONEINFO/zone.tab | grep "^$1	" | cut -f3)
+		list=$(cat $ztab | grep "^$1	" | cut -d'	' -f2 | tr ' ' "\n" | sort)
 		icon=$1
 		if [ $(echo "$list" | wc -l) != 1 ]; then
 			echo "$list" | \
@@ -269,16 +280,24 @@ EOT
 }
 
 tz() {
-	timezone=$(tz_select $1)
+	icon=config-date
+	arg=$(tz_suggest)
+
+	timezone=$(tz_select $arg)
 	case $? in
 		1) exit 0 ;;
 		0) [ x$timezone == x ] && exit 0
-			timezone=$(tz_select "$timezone") ;;
+			[ x$arg == x ] && timezone=$(tz_select "$timezone")
+			timezone=$(find $zi -name $timezone -regex '.*info/[ABCEIMP].*' | \
+				sed "s|$zi||") ;;
 		2) timezone=$(tz_select "index") ;;
 	esac
+
 	[ x$timezone == x ] && exit 0
 	echo $timezone > /etc/TZ
 	export TZ=$timezone
+	tazbox notify "$(_ 'TimeZone was set to $timezone')" config-date 3
+	rm -f $tmpcc
 }
 
 # New file functions
@@ -372,7 +391,6 @@ case "$1" in
 		fi
 		# Try to login & execute. If password is wrong execute error dialog
 		SU_CMD_QUOTED="$(echo "$SU_CMD" | sed 's|&|\\&|g')"
-		echo "SU_CMD«$SU_CMD» SU_CMD_QUOTED«$SU_CMD_QUOTED»"
 		echo $main | cut -f 1 -d "|" | su -c "$SU_CMD_QUOTED &" || su_error ;;
 	logout)
 		# Logout window with actions
@@ -417,7 +435,7 @@ case "$1" in
 	keymap)
 		ask_root $@ && keymap ;;
 	tz)
-		ask_root $@ && tz $2;;
+		ask_root $@ && tz ;;
 	setup)
 		ask_root $@ && setup ;;
 	new-file)

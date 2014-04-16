@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-29 02:11+0100\n"
+"POT-Creation-Date: 2014-04-16 13:19+0300\n"
 "PO-Revision-Date: 2012-03-24 14:36+0100\n"
 "Last-Translator: Christophe Lincoln <pankso@slitaz.org>\n"
 "Language-Team: French\n"
@@ -171,7 +171,7 @@ msgstr ""
 msgid "Language configuration"
 msgstr "Configurer la langue"
 
-#: tazbox/tazbox:165 tazbox/tazbox:216
+#: tazbox/tazbox:165
 msgid "Name"
 msgstr "Nom"
 
@@ -191,98 +191,111 @@ msgstr "Configurer le clavier"
 msgid "Type"
 msgstr "Type"
 
-#: tazbox/tazbox:211 tazbox/tazbox:234 tazbox/tazbox:246 tazbox/tazbox:259
+#: tazbox/tazbox:218 tazbox/tazbox:245 tazbox/tazbox:257 tazbox/tazbox:270
 msgid "SliTaz TZ"
 msgstr ""
 
-#: tazbox/tazbox:214 tazbox/tazbox:237 tazbox/tazbox:249 tazbox/tazbox:262
+#: tazbox/tazbox:221
+msgid "Suggested location:"
+msgstr ""
+
+#: tazbox/tazbox:222
+msgid "Are you agree?"
+msgstr ""
+
+#: tazbox/tazbox:248 tazbox/tazbox:260 tazbox/tazbox:273
 msgid "TimeZone Configuration"
 msgstr "Configurer la zone horaire"
 
-#: tazbox/tazbox:237
+#: tazbox/tazbox:248
 msgid "Select country"
 msgstr ""
 
-#: tazbox/tazbox:239
+#: tazbox/tazbox:250
 msgid "Flag"
 msgstr ""
 
-#: tazbox/tazbox:239
+#: tazbox/tazbox:250
 msgid "Code"
 msgstr ""
 
-#: tazbox/tazbox:239
+#: tazbox/tazbox:250
 msgid "Country"
 msgstr ""
 
-#: tazbox/tazbox:249
+#: tazbox/tazbox:260
 msgid "Select time zone"
 msgstr ""
 
-#: tazbox/tazbox:262
+#: tazbox/tazbox:273
 msgid "Select location"
 msgstr ""
 
-#: tazbox/tazbox:263
+#: tazbox/tazbox:274
 msgid "Location/City"
 msgstr ""
 
-#: tazbox/tazbox:287
+#: tazbox/tazbox:299
+#, sh-format
+msgid "TimeZone was set to $timezone"
+msgstr ""
+
+#: tazbox/tazbox:306
 msgid "New file"
 msgstr "Nouveau fichier"
 
-#: tazbox/tazbox:290
+#: tazbox/tazbox:309
 msgid "Create a new file or folder on your desktop"
 msgstr "Créer un nouveau fichier ou dossier sur le bureau"
 
-#: tazbox/tazbox:291
+#: tazbox/tazbox:310
 msgid "File name"
 msgstr "Nom du fichier"
 
-#: tazbox/tazbox:294
+#: tazbox/tazbox:313
 msgid "SHell script"
 msgstr "Script SHell"
 
-#: tazbox/tazbox:295
+#: tazbox/tazbox:314
 msgid "Folder"
 msgstr "Dossier"
 
-#: tazbox/tazbox:297
+#: tazbox/tazbox:316
 msgid "File"
 msgstr "Fichier"
 
-#: tazbox/tazbox:322
+#: tazbox/tazbox:341
 msgid "All Applications"
 msgstr "Toutes les applications"
 
-#: tazbox/tazbox:411
+#: tazbox/tazbox:429
 msgid "Downloading..."
 msgstr ""
 
-#: tazbox/tazbox:463
+#: tazbox/tazbox:481
 msgid "SliTaz default applications"
 msgstr ""
 
-#: tazbox/tazbox:465
+#: tazbox/tazbox:483
 msgid "SliTaz default applications configuration"
 msgstr ""
 
-#: tazbox/tazbox:467
+#: tazbox/tazbox:485
 msgid "File manager:"
 msgstr ""
 
-#: tazbox/tazbox:468
+#: tazbox/tazbox:486
 msgid "Web browser:"
 msgstr ""
 
-#: tazbox/tazbox:469
+#: tazbox/tazbox:487
 msgid "Text editor:"
 msgstr ""
 
-#: tazbox/tazbox:470
+#: tazbox/tazbox:488
 msgid "Terminal:"
 msgstr ""
 
-#: tazbox/tazbox:471
+#: tazbox/tazbox:489
 msgid "Window manager:"
 msgstr ""
