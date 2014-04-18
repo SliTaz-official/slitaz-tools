@@ -79,7 +79,7 @@ main_box() {
 		--menu "" ${height} ${width} 14 \
 "keyboard"       "$(gettext 'System keyboard setting')" \
 "locale"         "$(gettext 'System language setting')" \
-"add-user"    "$(gettext 'Change root password')" \
+"add-user"    "$(gettext 'Add a new user')" \
 "root-passwd"    "$(gettext 'Change root password')" \
 "set-date"       "$(gettext 'Set system date from the web')" \
 "quit"           "$(gettext 'Exit from SliTaz Config')" 2>${tmp}
