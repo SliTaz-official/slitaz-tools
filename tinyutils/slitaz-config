@@ -22,20 +22,50 @@ mkdir -p ${tmpdir}
 # GUI Functions
 #
 
+about_post_install() {
+	#/usr/share/doc/slitaz/post-install.txt
+	dialog --cr-wrap \
+		--title "{ Post Installation }" \
+		--exit-label "Continue" \
+		--textbox "./tinyutils/post-install.txt" ${height} ${width}
+}
+
 # Set root passwd
 root_passwd() {
-	dialog \
-		--inputbox "Enter new root password:" \
-		10 ${width} 2>${tmp}
+	dialog --title "{ Root Password }" \
+		--inputbox "\nEnter new root password:" \
+		12 ${width} 2>${tmp}
     passwd=$(cat $tmp)
     [ "$passwd" == "" ] && return 0
     echo "root:$passwd" | chpasswd --md5
 }
 
+# Add a new user
+add_user() {
+	title="{ Add User }"
+	dialog --title "$title" \
+		--inputbox "\nEnter new user name login:" 12 ${width} 2>${tmp}
+	user=$(cat $tmp)
+	[ "$user" == "" ] && return 0
+	dialog --title "$title" \
+		--inputbox "\nEnter password for $user:" 12 ${width} 2>${tmp}
+	passwd=$(cat $tmp)
+    [ "$passwd" == "" ] && return 0
+    adduser -D -g "SliTaz User" -G users ${user}
+    # User groups
+    for group in audio cdrom video tty; do
+		addgroup ${user} ${group}
+	done
+	# Slim default user on post-install
+	if [ -f "/etc/slim.conf" ] && [ ! -f "/var/lib/slitaz/post-install" ]; then
+		sed -i s"/default_user .*/default_user        $user/" /etc/slim.conf
+	fi
+}
+
 set_date() {
 	clear && newline
 	echo -n "Old date:"; date
-	rdate -s 203.129.68.14 2>/dev/null
+	rdate -s tick.greyware.com 2>/dev/null
 	echo -n "New date:"; date
 	sleep 4
 }
@@ -48,6 +78,7 @@ main_box() {
 		--menu "" ${height} ${width} 14 \
 "keyboard"       "$(gettext 'System keyboard setting')" \
 "locale"         "$(gettext 'System language setting')" \
+"add-user"    "$(gettext 'Change root password')" \
 "root-passwd"    "$(gettext 'Change root password')" \
 "set-date"       "$(gettext 'Set system date from the web')" \
 "quit"           "$(gettext 'Exit from SliTaz Config')" 2>${tmp}
@@ -63,6 +94,7 @@ main_box() {
 	case "$action" in
 		keyboard) tazkeymap ;;
 		locale) tazlocale ;;
+		add-user) add_user ;;
 		root-passwd) root_passwd ;;
 		set-date) set_date ;;
 		quit) rm -rf ${tmpdir} && exit 0 ;;

@@ -1,0 +1,10 @@
+
+Welcome to SliTaz GNU/Linux post installation setup. To offer
+the best experience with the distribution you will be asked
+for basic system settings.
+
+SliTaz Config will let you set system keymap, the root password,
+then add a new user and finally it will configure all packages
+(it may take a while depending on the installed packages set)
+
+SliTaz-config can be run when ever you want from the cmdline.

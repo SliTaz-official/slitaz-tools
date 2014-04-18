@@ -75,7 +75,7 @@ install: msgfmt
 	install -m 0755 -d $(DESTDIR)/etc
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/bin
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/sbin
-	install -m 0755 -d $(DESTDIR)$(PREFIX)/share
+	install -m 0755 -d $(DESTDIR)$(PREFIX)$(DOCDIR)/slitaz
 	cp -a etc $(DESTDIR)/
 
 	# Licenses
@@ -100,7 +100,7 @@ install: msgfmt
 	done;
 
 	# /usr/sbin sound tools.
-	install -m 0755 tinyutils/soundconf $(DESTDIR)$(PREFIX)/sbin
+	#install -m 0755 tinyutils/soundconf $(DESTDIR)$(PREFIX)/sbin
 	install -m 0755 tinyutils/setmixer $(DESTDIR)$(PREFIX)/sbin
 
 	# slitaz-tools i18n
@@ -110,7 +110,9 @@ install: msgfmt
 		install -m 0644 po/mo/$$l/slitaz-tools.mo \
 			$(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
 	done;
-
+	
+	# Documentation
+	cp doc/post-install.txt $(DESTDIR)$(PREFIX)$(DOCDIR)/slitaz
 	# Permissions
 	chmod +x $(DESTDIR)/etc/init.d/*
 
