@@ -75,7 +75,7 @@ install: msgfmt
 	install -m 0755 -d $(DESTDIR)/etc
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/bin
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/sbin
-	install -m 0755 -d $(DESTDIR)$(PREFIX)$(DOCDIR)/slitaz
+	install -m 0755 -d $(DESTDIR)$(DOCDIR)/slitaz
 	cp -a etc $(DESTDIR)/
 
 	# Licenses
@@ -112,7 +112,7 @@ install: msgfmt
 	done;
 	
 	# Documentation
-	cp doc/post-install.txt $(DESTDIR)$(PREFIX)$(DOCDIR)/slitaz
+	cp doc/post-install.txt $(DESTDIR)$(DOCDIR)/slitaz
 	# Permissions
 	chmod +x $(DESTDIR)/etc/init.d/*
 
