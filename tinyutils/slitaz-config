@@ -10,6 +10,7 @@
 check_root
 
 title="{ SliTaz Config }"
+about="/usr/share/doc/slitaz/post-install.txt"
 tmpdir="/tmp/$(basename $0)"
 tmp="$tmpdir/$$"
 height="20"
@@ -22,12 +23,12 @@ mkdir -p ${tmpdir}
 # GUI Functions
 #
 
+# Coded for the ARM first boot settings
 about_post_install() {
-	#/usr/share/doc/slitaz/post-install.txt
 	dialog --cr-wrap \
 		--title "{ Post Installation }" \
 		--exit-label "Continue" \
-		--textbox "./tinyutils/post-install.txt" ${height} ${width}
+		--textbox "$about" ${height} ${width}
 }
 
 # Set root passwd
