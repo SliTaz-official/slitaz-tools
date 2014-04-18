@@ -6,5 +6,5 @@ Name[pt]=Mudar Senha de Usuário
 Name[pt_BR]=Mudar Senha de Usuário
 Name[ru]=Пароль учётной записи
 Exec=terminal -h -T Passwd -geometry 60x10 -e passwd
-Icon=user_auth
+Icon=password
 Categories=ConsoleOnly;Settings;DesktopSettings;
