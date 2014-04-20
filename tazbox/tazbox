@@ -219,7 +219,7 @@ tz_suggest() {
 			--on-top --center \
 			--image=$CountryCode --image-on-top \
 			--text="$(_ 'Suggested location:') <b>$CountryName</b>\n
-$(_ 'Are you agree?')" \
+$(_ 'Are you agreed?')" \
 			--button="gtk-yes:0" --button="gtk-no:1" --always-print-result
 			[ $? == 0 ] && echo $CountryCode
 	fi

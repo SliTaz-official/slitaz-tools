@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
-Name=SliTaz Config dialogs
+Name=SliTaz Config Dialogs
 Exec=terminal -e "su -c slitaz-config"
 Icon=slitaz-icon
 Categories=System;
