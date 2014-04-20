@@ -33,8 +33,8 @@ about_post_install() {
 
 # Set root passwd
 root_passwd() {
-	dialog --title "{ Root Password }" \
-		--inputbox "\nEnter new root password:" \
+	dialog --title "{ Root Password }" --colors \
+		--inputbox "\nEnter new password for \Zb\Z1root" \
 		12 ${width} 2>${tmp}
     passwd=$(cat $tmp)
     [ "$passwd" == "" ] && return 0
@@ -44,12 +44,12 @@ root_passwd() {
 # Add a new user
 add_user() {
 	title="{ Add User }"
-	dialog --title "$title" \
-		--inputbox "\nEnter new user name login:" 12 ${width} 2>${tmp}
+	dialog --title "$title" --colors \
+		--inputbox "\nEnter login name for the new \Zb\Z4user" 12 ${width} 2>${tmp}
 	user=$(cat $tmp)
 	[ "$user" == "" ] && return 0
-	dialog --title "$title" \
-		--inputbox "\nEnter password for $user:" 12 ${width} 2>${tmp}
+	dialog --title "$title" --colors \
+		--inputbox "\nEnter password for user \Zb\Z4${user}" 12 ${width} 2>${tmp}
 	passwd=$(cat $tmp)
     [ "$passwd" == "" ] && return 0
     adduser -D -g "SliTaz User" -G users ${user}
