@@ -72,6 +72,128 @@ set_date() {
 	sleep 4
 }
 
+# Catch ESSIDs and format output for Ncurses Dialog or GTK Yad tree. 
+# We get the list of networks by Cell and without spaces. 
+# Usage: detect_wifi --output=gtk (default output to dialog)
+detect_wifi() {
+	. /etc/network.conf
+	ifconfig $WIFI_INTERFACE up
+	if [ -d /sys/class/net/$WIFI_INTERFACE/wireless ]; then
+		for i in $(iwlist $WIFI_INTERFACE scan | sed s/"Cell "/Cell-/ | grep "Cell-" | awk '{print $1}')
+		do
+			scan=$(iwlist $WIFI_INTERFACE scan last | \
+				awk '/(Cell|ESS|Qual|Encry|IE: WPA|WPA2)/ {print}' | \
+				sed s/"Cell "/Cell-/ | grep -A 5 "$i")
+			essid=$(echo $scan | cut -d '"' -f 2)
+
+			if echo "$scan" | grep -q Quality; then
+				quality=$(echo $scan | sed 's/.*Quality=\([^ ]*\).*/\1/' | sed 's/.*Quality:\([^ ]*\).*/\1/')
+			else
+				quality="$(_n '-----')"
+			fi
+
+			crypto=$(echo $scan | sed 's/.*key:\([^ ]*\).*/\1/')
+			# Check encryption type
+			if echo "$scan" | grep -q WPA*; then
+				crypto="WPA"
+			fi
+
+			# Connected or not connected...
+			if ifconfig | grep -A 1 $WIFI_INTERFACE | \
+				grep -q inet && iwconfig $WIFI_INTERFACE | \
+				grep ESSID | grep -q -w "$essid"; then
+				status=connected
+			else
+				status="--"
+			fi
+			
+			# Output
+			case "$output" in
+				gtk)
+					echo -e "$( _n 'any')\n$(_n 'N/A')\n$(_n 'none')\n$(_n '-')"
+					echo -e "$essid\n$quality\n$crypto\n$status" ;;
+				*) 
+					echo "$essid" "QA_${quality}_KEY_${crypto}_${status}" ;;
+			esac
+		done
+	fi
+}
+
+# Wireless config so users dont have to edit any config files on post
+# install to get connected. If the wired connection is used it will auto
+# connect with DHCP so no need for a dialog frontend.
+wifi_setup() {
+	. /etc/network.conf
+	dialog \
+		--clear --title "$title" \
+		--ok-label "Select" \
+		--menu "\n$(gettext 'Connect to a Wi-Fi network')" \
+		${height} ${width} 14 \
+"any" "Quality_N/A" \
+$(detect_wifi) 2>${tmp}
+	
+	# Handle options
+	case "${?}" in
+		1|255) rm -rf ${tmpdir} && exit 0 ;;
+		0) essid=$(cat $tmp) ;;
+	esac
+	
+	# Check if we need to prompt user for an encrypted network
+	scan=$(iwlist $WIFI_INTERFACE scan | \
+		awk '/(Cell|ESS|Qual|Encry|IE: WPA|WPA2)/ {print}' | \
+		sed s/"Cell "/Cell-/ | grep -A 5 "$essid")
+	if echo "$scan" | sed 's/.*key:\([^ ]*\).*/\1/' | grep -q WPA*; then
+		dialog --title "{ Wi-Fi Password }" --colors \
+			--inputbox "\nEnter wifi key (password) for \Zb\Z4${essid}" \
+			12 ${width} 2>${tmp}
+		key=$(cat $tmp)
+		[ "$key" == "" ] && return 0
+	fi
+	
+	# Configure connection
+	{
+		echo "XXX" && echo 30
+		echo -e "\nShuting down network interfaces..."
+		echo "XXX"
+		stopd network.sh >/dev/null 2>&1 && sleep 2
+		
+		echo "XXX" && echo 30
+		echo -e "\nConfiguring: /etc/network.conf..."
+		echo "XXX"
+		# WIFI_KEY_TYPE=any should work for WEP/WPA*
+		sed -i \
+			-e s"/^WIFI_ESSID=.*/WIFI_ESSID=\"$essid\""/ \
+			-e s"/^WIFI_KEY=.*/WIFI_KEY=\"$key\"/" \
+			-e s"/^WIFI_KEY_TYPE=.*/WIFI_KEY_TYPE=\"any\"/" \
+			/etc/network.conf
+		sleep 1
+		
+		echo "XXX" && echo 60
+		echo -e "\nRestarting wifi interface..."
+		echo "XXX"
+		startd network.sh >/dev/null 2>&1 && sleep 2
+		
+		echo "XXX" && echo 90
+		echo -e "\nChecking connection..."
+		ip=$(ifconfig | fgrep -A 1 "encap:Ethernet" | fgrep "inet" | \
+			cut -d ":" -f 2 | awk '{print $1}')
+		echo "XXX"
+		sleep 1
+		
+		echo "XXX" && echo 100
+		if [ "$ip" ]; then
+			echo -e "\nIP address: $ip"
+		else
+			echo -e "\nUnable to connect..."
+		fi
+		echo "XXX" && sleep 2
+		
+	} | dialog --title "{ Wi-Fi Config }" --gauge "" 8 ${width} 0
+	
+	#iwlist $WIFI_INTERFACE scan essid $essid last
+	echo "CONF: $WIFI_INTERFACE $essid $passwd ${essid_crypto}"
+}
+
 # Main Dialog menu
 main_box() {
 	dialog \
@@ -80,7 +202,8 @@ main_box() {
 		--menu "" ${height} ${width} 14 \
 "keyboard"       "$(gettext 'System keyboard setting')" \
 "locale"         "$(gettext 'System language setting')" \
-"add-user"    "$(gettext 'Add a new user')" \
+"wifi-setup"     "$(gettext 'Wi-Fi network settings')" \
+"add-user"       "$(gettext 'Add a new user')" \
 "root-passwd"    "$(gettext 'Change root password')" \
 "set-date"       "$(gettext 'Set system date from the web')" \
 "quit"           "$(gettext 'Exit from SliTaz Config')" 2>${tmp}
@@ -96,6 +219,7 @@ main_box() {
 	case "$action" in
 		keyboard) tazkeymap ;;
 		locale) tazlocale ;;
+		wifi-setup) wifi_setup ;;
 		add-user) add_user ;;
 		root-passwd) root_passwd ;;
 		set-date) set_date ;;
@@ -118,5 +242,5 @@ case "$1" in
 esac
 
 # Clean exit
-rm -rf ${tmpdir}
+#rm -rf ${tmpdir}
 exit 0
