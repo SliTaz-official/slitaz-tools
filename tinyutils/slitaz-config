@@ -162,6 +162,7 @@ $(detect_wifi) 2>${tmp}
 		echo "XXX"
 		# WIFI_KEY_TYPE=any should work for WEP/WPA*
 		sed -i \
+			-e s"/^WIFI=.*/WIFI=\"yes\"/" \
 			-e s"/^WIFI_ESSID=.*/WIFI_ESSID=\"$essid\""/ \
 			-e s"/^WIFI_KEY=.*/WIFI_KEY=\"$key\"/" \
 			-e s"/^WIFI_KEY_TYPE=.*/WIFI_KEY_TYPE=\"any\"/" \
@@ -189,9 +190,6 @@ $(detect_wifi) 2>${tmp}
 		echo "XXX" && sleep 2
 		
 	} | dialog --title "{ Wi-Fi Config }" --gauge "" 8 ${width} 0
-	
-	#iwlist $WIFI_INTERFACE scan essid $essid last
-	echo "CONF: $WIFI_INTERFACE $essid $passwd ${essid_crypto}"
 }
 
 # Main Dialog menu
