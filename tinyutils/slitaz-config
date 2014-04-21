@@ -38,7 +38,7 @@ root_passwd() {
 		12 ${width} 2>${tmp}
     passwd=$(cat $tmp)
     [ "$passwd" == "" ] && return 0
-    echo "root:$passwd" | chpasswd --md5
+    echo "root:$passwd" | chpasswd --md5 >/dev/null
 }
 
 # Add a new user
@@ -53,7 +53,7 @@ add_user() {
 	passwd=$(cat $tmp)
     [ "$passwd" == "" ] && return 0
     adduser -D -g "SliTaz User" -G users ${user}
-    echo "$user:$passwd" | chpasswd --md5
+    echo "$user:$passwd" | chpasswd --md5 >/dev/null
     # User groups
     for group in audio cdrom video tty; do
 		addgroup ${user} ${group}
