@@ -237,14 +237,14 @@ case "$1" in
 		fi ;;
 	
 	init)
-		# We dont need much config files with last Xorg verrsion, So just
-		# gest files for start a X session and config the keyboard.
+		# We don't need much config files with last Xorg version, So just
+		# get files for starting an X session and config the keyboard.
 		check_root
 		slitaz_apps_conf
 		keyboard_conf 
 		gen_xorg_conf_file ;;
 		
-	keybard)
+	keyboard)
 		echo "Generating: 40-Keyboard.conf"
 		keyboard_conf ;;
 	
