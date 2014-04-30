@@ -41,6 +41,17 @@ save_chunk() {
 		$xorg_config/$1.conf
 }
 
+gen_xorg_conf_file() {
+	# Create a xorg.conf if needed.
+	if [ ! -f /etc/X11/xorg.conf ]; then
+		cat > /etc/X11/xorg.conf << EOT
+# You can put here your own Xorg configurations. This config file is read
+# before all files in /etc/X11/xorg.conf.d and will NOT be erased by any
+# updates.
+EOT
+	fi
+}
+
 # Generate or regenerate 40-Keyboard.conf
 keyboard_conf() {
 	# Configure the keyboard with the right keymap.
@@ -115,17 +126,9 @@ xorg_conf_d() {
 	# Remove the template.
 	rm $xorg_template
 
-	# Keyboard
+	# Keyboard & xorg.conf
 	keyboard_conf
-
-	# Create a xorg.conf if needed.
-	if [ ! -f /etc/X11/xorg.conf ]; then
-	cat > /etc/X11/xorg.conf << EOT
-# You can put here your own Xorg configurations. This config file is read
-# before all files in /etc/X11/xorg.conf.d and will NOT be erased by any
-# updates.
-EOT
-	fi
+	gen_xorg_conf_file
 }
 
 # Install xorg server.
@@ -238,7 +241,8 @@ case "$1" in
 		# gest files for start a X session and config the keyboard.
 		check_root
 		slitaz_apps_conf
-		keyboard_conf ;;
+		keyboard_conf 
+		gen_xorg_conf_file ;;
 		
 	keybard)
 		echo "Generating: 40-Keyboard.conf"
