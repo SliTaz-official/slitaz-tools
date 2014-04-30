@@ -41,32 +41,8 @@ save_chunk() {
 		$xorg_config/$1.conf
 }
 
-# Populate xorg.conf.d.
-xorg_conf_d() {
-	# Define the xorg.conf.d (can be /etc/X11/xorg.conf.d or /usr/share/X11/xorg.conf.d)
-	xorg_config=/etc/X11/xorg.conf.d
-
-	# Define the xorg.conf.new place.
-	xorg_template=/root/xorg.conf.new
-
-	# Obtain a default configuration file from Xorg.
-	Xorg -configure :2
-
-	# Backup existing config.
-	tar -cf $xorg_config/../Previous_xorg.conf.d.tar $xorg_config/ &> /dev/null 
-
-	# Put the different sections in separate files in the config directory.
-	save_chunk 10-ServerLayout
-	sed -i '/Core/d' $xorg_config/10-ServerLayout.conf
-	save_chunk 20-Files
-	save_chunk 30-Module
-	save_chunk 50-Monitor
-	save_chunk 60-Device
-	save_chunk 70-Screen
-
-	# Remove the template.
-	rm $xorg_template
-
+# Generate or regenerate 40-Keyboard.conf
+keyboard_conf() {
 	# Configure the keyboard with the right keymap.
 	keymap=$(cat /etc/keymap.conf)
 	keyboard_config=$xorg_config/40-Keyboard.conf
@@ -111,6 +87,36 @@ Section "InputClass"
 EndSection
 EOC
 	[ x$variant == x ] && sed -i '/XkbVariant/d' $keyboard_config
+}
+
+# Populate xorg.conf.d.
+xorg_conf_d() {
+	# Define the xorg.conf.d (can be /etc/X11/xorg.conf.d or /usr/share/X11/xorg.conf.d)
+	xorg_config=/etc/X11/xorg.conf.d
+
+	# Define the xorg.conf.new place.
+	xorg_template=/root/xorg.conf.new
+
+	# Obtain a default configuration file from Xorg.
+	Xorg -configure :2
+
+	# Backup existing config.
+	tar -cf $xorg_config/../Previous_xorg.conf.d.tar $xorg_config/ &> /dev/null 
+
+	# Put the different sections in separate files in the config directory.
+	save_chunk 10-ServerLayout
+	sed -i '/Core/d' $xorg_config/10-ServerLayout.conf
+	save_chunk 20-Files
+	save_chunk 30-Module
+	save_chunk 50-Monitor
+	save_chunk 60-Device
+	save_chunk 70-Screen
+
+	# Remove the template.
+	rm $xorg_template
+
+	# Keyboard
+	keyboard_conf
 
 	# Create a xorg.conf if needed.
 	if [ ! -f /etc/X11/xorg.conf ]; then
@@ -190,52 +196,22 @@ config_dialog() {
 	esac
 }
 
-# ~/.xinitrc for X login from a DM.
-creat_xinitrc() {
+# ~/.config/slitaz/applications.conf: Missing = failed to login
+slitaz_apps_conf() {
 	apps_conf=/etc/slitaz/applications.conf
 	user_conf="$HOME/.config/slitaz/applications.conf"
-	xinitrc="$HOME/.xinitrc"
-	if [ ! -f "$user_conf" ]; then
-		mkdir -p $(dirname $user_conf); cp ${apps_conf} ${user_conf}
-	fi
-	if [ ! -f "$xinitrc" ]; then
-		cp /etc/skel/.xinitrc ${xinitrc}
-	fi
 
-	# Make .xinitrc and config for /etc/skel so new added user will get
+	# Make users applications.conf in /etc/skel so new added user will get
 	# a working X session.
 	if test $(id -u) = 0; then
 		user_conf="/etc/skel/.config/slitaz/applications.conf"
 		mkdir -p $(dirname $user_conf); cp -f ${apps_conf} ${user_conf}
 	fi
-
-	# In Live mode default user needs a xinitrc, since tazx is executed
-	# only by root.
-	user_conf="/home/$USER/.config/slitaz/applications.conf"
-	xinitrc="/home/$USER/.xinitrc"
+	
+	# If started by: startx and with boot opts screen=text
 	if [ ! -f "$user_conf" ]; then
 		mkdir -p $(dirname $user_conf); cp ${apps_conf} ${user_conf}
-		chown -R $USER.users $(dirname $user_conf)
 	fi
-	if [ ! -f "$xinitrc" ]; then
-		cp -f /etc/skel/.xinitrc ${xinitrc}
-		chown $USER.users ${xinitrc}
-	fi
-}
-
-# Create ~/.xsession to keep the configuration selected (used
-# only by startx, Slim login manager uses .xinitrc).
-creat_xsession() {
-	local xsession=$HOME/.xsession
-	[ -f "$xsession" ] && cp -f ${xsession} ${xsession}.bak
-	cat > ${xsession} << EOT
-# ~/.xsession: Start X session manually on your system with: startx
-#
-Xorg &
-#xterm &
-exec $WM
-EOT
-	chmod 700 ${xsession}
 }
 
 # Commands
@@ -244,29 +220,38 @@ case "$1" in
 	install-xorg)
 		check_root
 		install_xorg
-		creat_xinitrc
-		creat_xsession ;;
+		slitaz_apps_conf ;;
 	
 	config-xorg)
 		check_root
-		creat_xinitrc
-		creat_xsession
+		slitaz_apps_conf
 		xorg_conf_d
 		# Handle live option: screen=
-		if grep -qs screen= /proc/cmdline ; then
+		if grep -qs 'screen=' /proc/cmdline ; then
 			MODE="$(sed 's/.*screen=\([0-9]*x[0-9]*\).*/\1/' < /proc/cmdline)"
 			sed -i "s/.*EndSubSection.*/\\t\\tModes\\t\"$MODE\"\\n&/" \
 				/etc/X11/xorg.conf.d/70-Screen.conf
 		fi ;;
 	
+	init)
+		# We dont need much config files with last Xorg verrsion, So just
+		# gest files for start a X session and config the keyboard.
+		check_root
+		slitaz_apps_conf
+		keyboard_conf ;;
+		
+	keybard)
+		echo "Generating: 40-Keyboard.conf"
+		keyboard_conf ;;
+	
 	*help) 
-		echo "Usage: $(basename $0) [install-xorg|config-xorg|]" ;;
+		echo "Usage: $(basename $0) [install-xorg|config-xorg|init|keyboard]" ;;
 	
 	*)
 		# User can get a new .xinitrc with tazx from cmdline.
 		[ $(id -u) == 0 ] && config_dialog
-		creat_xinitrc
-		creat_xsession ;;
+		slitaz_apps_conf
+		gen_xsession ;;
 esac
 
 exit 0
