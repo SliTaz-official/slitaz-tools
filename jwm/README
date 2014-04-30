@@ -1,0 +1,11 @@
+JWM menu generator
+================================================================================
+
+
+Developped for the needs of SliTaz Raspberry Pi distribution. JWM is faster and
+use less resources than Openbox. And Ob also need a panel, JWM provide a nice
+built-in panel. To generate jwm-menus use XDG standard .desktop file locatedin
+the folder: /usr/share/applications
+
+
+================================================================================

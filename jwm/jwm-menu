@@ -1,0 +1,100 @@
+#!/bin/sh
+#
+# JWM Menus generator
+# (C) 2014 SliTaz GNU/Linux - BSD Licence
+#
+
+menus="/etc/xdg/jwm/menus.jwmrc"
+apps="/usr/share/applications"
+
+categories() {
+	cat << EOT
+Accessories
+Internet
+Graphics
+Multimedia
+Games
+Development
+Documentation
+System
+EOT
+}
+
+header() {
+	cat > ${menus} << EOT
+<?xml version="1.0"?>
+<JWM>
+	<!-- Applications menu -->
+	<RootMenu height="22" onroot="12">
+EOT
+}
+
+footer() {
+	cat >> ${menus} << EOT
+	<!-- System menus -->
+	<RootMenu height="22" onroot="3">
+		<Program icon="terminal.png" label="Terminal Emulator">terminal</Program>
+		<Program icon="file-manager.png" label="File Manager">file-manager</Program>
+		<Separator/>
+		<Restart label="Restart JWM" icon="system-restart.png" />
+		<Exit label="Exit JWM" confirm="true" icon="system-suspend.png" />
+		<Program icon="system-restart.png" label="Reboot system">reboot</Program>
+		<Program icon="system-shut-down.png" label="Shutdown system">poweroff</Program>
+	</RootMenu>
+</JWM>
+EOT
+}	
+
+header
+for cat in $(categories)
+do
+	case "$cat" in
+		Accessories)
+			icon="applications-accessories.png" 
+			name="Utility" not="System" ;;
+		Internet) 
+			icon="applications-internet.png"
+			name="Network" ;;
+		Graphics) 
+			icon="applications-graphics.png"
+			name="$cat" ;;
+		Multimedia)
+			icon="applications-multimedia.png"
+			name="AudioVideo" not="Utility" ;;
+		Games) 
+			icon="applications-games.png"
+			name="Game" ;;
+		Development) 
+			icon="applications-development.png"
+			name="$cat" ;;
+		Documentation)
+			icon="text-x-generic.png"
+			name="$cat" ;;
+		System)
+			cat="System Tools"
+			icon="applications-system.png"
+			name="System" ;;
+	esac
+	echo "	<Menu icon=\"$icon\" label=\"$cat\">" >> ${menus}
+	# Parse *.desktop files
+	for app in $(fgrep -l "${name}" $apps/*.desktop)
+	do
+		# Skipp OnlyShowIn
+		if fgrep -q 'OnlyShowIn=' ${app}; then
+			continue
+		fi
+		# Skip not show in category
+		if fgrep -q "$not" ${app}; then
+			continue
+		fi
+		name="$(grep '^Name=' $app | cut -d '=' -f 2)"
+		icon="$(grep '^Icon=' $app | cut -d '=' -f 2)"
+		exec="$(grep '^Exec=' $app | cut -d '=' -f 2)"
+		echo "		<Program icon=\"$icon\" label=\"$name\">$exec</Program>" \
+			>> ${menus}
+		unset name icon exec
+	done
+	echo '	</Menu>' >> ${menus}
+done
+footer
+exit 0
