@@ -79,11 +79,11 @@ do
 	# Parse *.desktop files
 	for app in $(fgrep -l "${name}" $apps/*.desktop)
 	do
-		# Skipp OnlyShowIn
+		# Skip OnlyShowIn
 		if fgrep -q 'OnlyShowIn=' ${app}; then
 			continue
 		fi
-		# Skip not show in category
+		# Skip not shown in category
 		if fgrep -q "$not" ${app}; then
 			continue
 		fi
