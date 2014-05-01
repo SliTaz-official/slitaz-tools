@@ -202,20 +202,21 @@ config_dialog() {
 }
 
 # ~/.config/slitaz/applications.conf: Missing = failed to login
+# Make users applications.conf in /etc/skel so new added user will get
+# a working X session. Note --> flavors can have a custom config in
+# /etc/slitaz/applications that we must use.
 slitaz_apps_conf() {
 	apps_conf=/etc/slitaz/applications.conf
-	user_conf="$HOME/.config/slitaz/applications.conf"
-
-	# Make users applications.conf in /etc/skel so new added user will get
-	# a working X session. It is gen now --> flavors can have a custom one
-	if test $(id -u) = 0; then
-		conf="/etc/skel/.config/slitaz/applications.conf"
-		mkdir -p $(dirname $user_conf); cp -f ${apps_conf} ${conf}
-	fi
 	
-	# If started by: startx and with boot opts screen=text
-	if [ ! -f "$user_conf" ]; then
-		mkdir -p $(dirname $user_conf); cp ${apps_conf} ${user_conf}
+	if [ "$(id -u)" = 0 ]; then
+		user_conf="/etc/skel/.config/slitaz/applications.conf"
+		mkdir -p $(dirname $user_conf); cp -f ${apps_conf} ${user_conf}
+	else
+		# If started by: startx and with boot opts screen=text
+		user_conf="$HOME/.config/slitaz/applications.conf"
+		if [ ! -f "$user_conf" ]; then
+			mkdir -p $(dirname $user_conf); cp ${apps_conf} ${user_conf}
+		fi
 	fi
 }
 
