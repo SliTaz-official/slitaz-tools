@@ -172,10 +172,11 @@ $(detect_wifi) 2>${tmp}
 		echo "XXX" && echo 60
 		echo -e "\nRestarting wifi interface..."
 		echo "XXX"
-		startd network.sh >/dev/null 2>&1 && sleep 2
+		startd network.sh >/dev/null 2>&1 && sleep 3
 		
 		echo "XXX" && echo 90
 		echo -e "\nChecking connection..."
+		sleep 1
 		ip=$(ifconfig | fgrep -A 1 "encap:Ethernet" | fgrep "inet" | \
 			cut -d ":" -f 2 | awk '{print $1}')
 		echo "XXX"
@@ -188,6 +189,10 @@ $(detect_wifi) 2>${tmp}
 			echo -e "\nUnable to connect..."
 		fi
 		echo "XXX" && sleep 2
+		# Network will be restarted on first boot
+		if [ ! "/var/lib/slitaz/post-install" ]; then
+			stopd network.sh
+		fi
 		
 	} | dialog --title "{ Wi-Fi Config }" --gauge "" 8 ${width} 0
 }
