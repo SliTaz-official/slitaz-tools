@@ -54,10 +54,17 @@ add_user() {
     [ "$passwd" == "" ] && return 0
     adduser -D -g "SliTaz User" -G users ${user}
     echo "$user:$passwd" | chpasswd --md5 >/dev/null
+    
     # User groups
     for group in audio cdrom video tty; do
-		addgroup ${user} ${group}
+		addgroup ${user} ${group} >/dev/null
 	done
+	
+	# Make sure system-wide applications.conf is used
+	config="/home/${user}/.config"
+	mkdir -p ${config}/slitaz
+	cp -f /etc/slitaz/applications.conf ${config}/slitaz
+	
 	# Slim default user on post-install
 	if [ -f "/etc/slim.conf" ] && [ ! -f "/var/lib/slitaz/post-install" ]; then
 		sed -i s"/default_user .*/default_user        $user/" /etc/slim.conf
@@ -189,10 +196,6 @@ $(detect_wifi) 2>${tmp}
 			echo -e "\nUnable to connect..."
 		fi
 		echo "XXX" && sleep 2
-		# Network will be restarted on first boot
-		if [ ! "/var/lib/slitaz/post-install" ]; then
-			stopd network.sh
-		fi
 		
 	} | dialog --title "{ Wi-Fi Config }" --gauge "" 8 ${width} 0
 }

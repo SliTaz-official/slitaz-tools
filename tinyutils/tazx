@@ -56,11 +56,13 @@ EOT
 keyboard_conf() {
 	# Configure the keyboard with the right keymap.
 	keymap=$(cat /etc/keymap.conf)
-	keyboard_config=$xorg_config/40-Keyboard.conf
+	keyboard_config="/etc/X11/xorg.conf.d/40-Keyboard.conf"
 	variant=""
 	# this XkbOption moved from 40-evdev.conf (xorg-xf86-input-evdev)
 	options="terminate:ctrl_alt_bksp"
-	case $keymap in
+	gettext "Creating:"; echo -n " $keyboard_config"
+	mkdir -p $(dirname $keyboard_config)
+	case "$keymap" in
 		fr_CH-latin1)
 			# Swiss FrenCH
 			layout="ch"; variant="fr" ;;
@@ -87,7 +89,6 @@ keyboard_conf() {
 			keymap=${keymap%-lat6}
 			layout=${keymap%-abnt2}
 	esac
-
 	cat > $keyboard_config << EOC
 Section "InputClass"
 	Identifier "Keyboard Defaults"
@@ -97,7 +98,8 @@ Section "InputClass"
 	Option "XkbOptions" "$options"
 EndSection
 EOC
-	[ x$variant == x ] && sed -i '/XkbVariant/d' $keyboard_config
+	status
+	[ x$variant == x ] && sed -i '/XkbVariant/d' ${keyboard_config}
 }
 
 # Populate xorg.conf.d.
@@ -205,10 +207,10 @@ slitaz_apps_conf() {
 	user_conf="$HOME/.config/slitaz/applications.conf"
 
 	# Make users applications.conf in /etc/skel so new added user will get
-	# a working X session.
+	# a working X session. It is gen now --> flavors can have a custom one
 	if test $(id -u) = 0; then
-		user_conf="/etc/skel/.config/slitaz/applications.conf"
-		mkdir -p $(dirname $user_conf); cp -f ${apps_conf} ${user_conf}
+		conf="/etc/skel/.config/slitaz/applications.conf"
+		mkdir -p $(dirname $user_conf); cp -f ${apps_conf} ${conf}
 	fi
 	
 	# If started by: startx and with boot opts screen=text
@@ -237,14 +239,14 @@ case "$1" in
 		fi ;;
 	
 	init)
-		# We don't need much config files with last Xorg version, So just
-		# get files for starting an X session and config the keyboard.
+		# We dont need much config files with last Xorg verrsion, So just
+		# gest files for start a X session and config the keyboard.
 		check_root
 		slitaz_apps_conf
 		keyboard_conf 
 		gen_xorg_conf_file ;;
 		
-	keyboard)
+	keybard)
 		echo "Generating: 40-Keyboard.conf"
 		keyboard_conf ;;
 	
