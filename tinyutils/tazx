@@ -247,7 +247,7 @@ case "$1" in
 		keyboard_conf 
 		gen_xorg_conf_file ;;
 		
-	keybard)
+	keyboard)
 		echo "Generating: 40-Keyboard.conf"
 		keyboard_conf ;;
 	

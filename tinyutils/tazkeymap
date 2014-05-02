@@ -30,11 +30,10 @@ load_keymap() {
 	fi
 }
 
-# Config /etc/keymap.conf
+# Config /etc/keymap.conf and update Xorg keyboard config
 system_config() {
-	#gettext "Setting system keymap to:"; echo -n " $kmap"
 	echo "$kmap" > /etc/keymap.conf
-	#status
+	tazx keyboard
 }
 
 case "$1" in
