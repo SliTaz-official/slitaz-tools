@@ -109,9 +109,9 @@ logout_main() {
 		--image=$icon --image-on-top \
 		--text="<b>$(_n 'SliTaz Logout - Please choose an action:')</b>" \
 		--always-print-result \
-		--button "$(_n 'Close X session'):4" \
-		--button "$(_n 'Reboot system'):3" \
-		--button "$(_n 'Shutdown system'):2"
+		--button "$(_n 'Close X session')!system-log-out:4" \
+		--button "$(_n 'Reboot system')!reload:3" \
+		--button "$(_n 'Shutdown system')!system-shutdown:2"
 }
 
 # generate keymap list
@@ -310,10 +310,10 @@ newfile_main() {
 		--entry --entry-label="$(_n 'File name')" \
 		--ricon=editclear \
 		--always-print-result \
-		--button="$(_n 'SHell script'):4" \
-		--button="$(_n 'Folder'):3" \
+		--button="$(_n 'SHell script')!application-x-shellscript:4" \
+		--button="$(_n 'Folder')!stock_folder:3" \
 		--icon="gtk-new" \
-		--button="$(_n 'File'):2" \
+		--button="$(_n 'File')!application-text:2" \
 		--button="gtk-cancel:1"
 }
 
