@@ -52,7 +52,7 @@ tazapps		$(_ 'Configure SliTaz default applications')"
 find_icon() {
 	local desktop
 	desktop=$(find $HOME/.local/share/applications /usr/share/applications \
-		-name $1.desktop 2&>/dev/null | head -n1)
+		-name ${1##*/}.desktop 2&>/dev/null | head -n1)
 	[ x$desktop != x ] && cat $desktop | sed '/\[Desktop\ Entry\]/,/^\[/!d' | \
 		sed '/^Icon=/!d' | head -n1 | cut -d= -f2
 }
@@ -130,7 +130,7 @@ setup_main() {
 	gen_kmap_list
 	locale=$(ls -1 $db | grep ^[a-z][a-z]_[A-Z][A-Z] | tr "\n" "!")
 	keymap=$(cat $tmp | sort | tr "\n" "!")
-	timezone=$(find $zi -type f | sed s,$zi,,g | tr "\n" "!")
+	timezone=$(find $zi -type f | sed s,$zi,,g | grep -v -F '.tab' | tr "\n" "!")
 	yad --title="$(_n 'SliTaz Initial Setup')" --window-icon=$icon \
 		--width=500 \
 		--image=$icon --image-on-top \
@@ -151,30 +151,43 @@ setup() {
 	[ $timezone ] && echo $timezone > /etc/TZ
 }
 
+
+#
 # Locale functions
+#
+
 locale_main() {
 	icon=preferences-desktop-locale
 	for locale in $(ls -1 $db | grep '[a-z]_[A-Z]'); do
 		desc=$(fgrep -m1 title $db/$locale | cut -d'"' -f2)
-		echo -e "$locale \n $desc"
+		echo -e "${locale##*_}\n$locale\n$desc"
 	done | \
 	yad --title="$(_n 'SliTaz locale')" --window-icon=$icon \
 		--width=600 --height=380 --sticky --on-top --center \
 		--image=$icon --image-on-top \
-		--text="<b>$(_n 'Language configuration')</b>" \
-		--list --column $(_n 'Name') --column $(_n 'Description') \
-		--print-column=1 --separator=''
+		--text="<b>$(_n 'Language configuration')</b> \
+\n\n$(_ 'Tip: manage locale list by installing/removing locale packages.')" \
+		--list --column="$(_n 'Flag'):IMG" --column $(_n 'Name') \
+		--column $(_n 'Description') \
+		--print-column=2 --separator='' \
+		--button="$(_n 'Manage')!stock_properties:2" \
+		--button="gtk-cancel:1" --button="gtk-ok:0"
 }
 
 locale() {
 	locale=$(locale_main)
 	# Deal with --button values
 	case $? in
+		2) tazbox manage_i18n main ;;
 		1) exit 0 ;;
 		*) continue ;;
 	esac
 	# System language configuration.
-	[ "$locale" ] && tazlocale $locale
+	if [ "$locale" ]; then
+		tazlocale $locale
+		tazbox notify "$(_ 'Locale was set to $locale')" \
+			preferences-desktop-locale 3
+	fi
 }
 
 # Keymap functions
@@ -204,24 +217,37 @@ keymap() {
 
 # Free GeoIP service
 # Response: "IP","CountryCode","CountryName", ...
-
 geoip() {
 	[ ! -e $csv ] && wget -q -T3 -O $csv http://freegeoip.net/csv/ 2&>/dev/null
 	[ -e $csv ] && cut -d'"' -f4 $csv
 }
 
+#
 # TZ functions
+#
+
+# list of all existing available locations for country
+tz_list() {
+	find $zi | \
+		grep -E "$(cat $ztab | grep "^$1	" | cut -d'	' -f2 | tr ' ' '|')" | \
+		grep -v -E "posix|right" | \
+		sed 's|.*/||g' | sort
+}
+
+# ask for confirmation only if we have what to choose
 tz_suggest() {
 	CountryCode=$(geoip)
-	if [ x$CountryCode != x ]; then
+	if [ "x$CountryCode" != x ]; then
+		if [ "x$(tz_list $CountryCode)" != x ]; then
 			CountryName=$(cut -d'"' -f6 $csv)
 			yad --title="$(_ 'SliTaz TZ')" --window-icon=$icon \
 			--on-top --center \
 			--image=$CountryCode --image-on-top \
 			--text="$(_ 'Suggested location:') <b>$CountryName</b>\n
 $(_ 'Are you agreed?')" \
-			--button="gtk-yes:0" --button="gtk-no:1" --always-print-result
+			--button="gtk-yes:0" --button="gtk-no:1"
 			[ $? == 0 ] && echo $CountryCode
+		fi
 	fi
 }
 
@@ -239,16 +265,20 @@ tz_select() {
 			cat << EOT
 $CC
 $CC
-$(gettext iso_3166 "$(grep -m1 "$CC	" ${zi}iso3166-1.tab | cut -d'	' -f2)")
+$(grep -m1 "$CC	" ${zi}iso3166.tab | cut -d'	' -f2)
 EOT
 		done | \
 		yad --title="$(_ 'SliTaz TZ')" --window-icon=$icon \
 			--width=500 --height=380 --on-top --center \
 			--image=$icon --image-on-top \
-			--text="<b>$(_ 'TimeZone Configuration')</b>\n$(_ 'Select country')" \
+			--text="<b>$(_ 'TimeZone Configuration')</b> \
+\n$(_ 'Select country and press "Forward" or manual select timezone file.') \
+\n\n$(_ 'Tip: manage timezone list by installing/removing locale packages.')" \
 			--list \
 			--column="$(_n 'Flag'):IMG" --column=$(_n 'Code') --column=$(_n 'Country') \
-			--button="gtk-index:2" --button="gtk-go-forward:0" \
+			--button="$(_n 'Manage')!stock_properties:4" \
+			--button="$(_n 'Manual')!gtk-index:2" \
+			--button="gtk-go-forward:0" \
 			--button="gtk-cancel:1" --always-print-result \
 			--print-column=2 --separator=''
 		;;
@@ -263,7 +293,7 @@ EOT
 		;;
 	*)
 		# second pass - city/place
-		list=$(cat $ztab | grep "^$1	" | cut -d'	' -f2 | tr ' ' "\n" | sort)
+		list=$(tz_list $1)
 		icon=$1
 		if [ $(echo "$list" | wc -l) != 1 ]; then
 			echo "$list" | \
@@ -280,25 +310,169 @@ EOT
 }
 
 tz() {
-	icon=config-date
+	icon=clock
 	arg=$(tz_suggest)
 
 	timezone=$(tz_select $arg)
 	case $? in
 		1) exit 0 ;;
-		0) [ x$timezone == x ] && exit 0
-			[ x$arg == x ] && timezone=$(tz_select "$timezone")
-			timezone=$(find $zi -name $timezone -regex '.*info/[ABCEIMP].*' | \
+		0) [ x$arg == x ] && timezone=$(tz_select "$timezone")
+			[ x$timezone == x ] && exit 0
+			timezone=$(find $zi -name $timezone | grep -v -E "posix|right" | \
 				sed "s|$zi||") ;;
 		2) timezone=$(tz_select "index") ;;
+		4) tazbox manage_i18n main;;
 	esac
 
-	[ x$timezone == x ] && exit 0
+	[ "x$timezone" == x ] && exit 0
 	echo $timezone > /etc/TZ
 	export TZ=$timezone
-	tazbox notify "$(_ 'TimeZone was set to $timezone')" config-date 3
+	tazbox notify "$(_ 'TimeZone was set to $timezone')" $icon 3
 	rm -f $tmpcc
 }
+
+#
+# Manage i18n packages
+#
+
+# if installed
+if_installed() {
+	[ -d /var/lib/tazpkg/installed/$1 ]
+}
+
+# get package's description, install flag and sizes
+desc_etc()
+{
+	INFO="$(grep -m1 -A3 -x -F $1 /var/lib/tazpkg/packages.txt)"
+	DESC=$(echo "$INFO" | sed -n 3p)
+	if if_installed $1; then
+		INST="TRUE"; echo $1 >> $ORIG_LIST
+	else
+		INST="FALSE"
+	fi
+	SIZES=$(echo "$INFO" | sed -n 4p)
+	SIZE1=${SIZES%% *}
+	SIZE2=$(echo $SIZES | cut -d' ' -f2 | tr -d '(')
+	echo -e "$INST\n$1\n$DESC\n${SIZE1//.0}\n${SIZE2//.0}" >> $PKGS_LIST
+}
+
+# remove temp
+rm_temp() {
+	rm -f $PKGS_LIST $ORIG_LIST $ANSWER $NEW_LIST $LIST1 $LIST2
+}
+
+# install/remove locale packages
+manage_i18n() {
+	tazbox notify "$(_ 'Please wait')" appointment-soon &
+
+	PKGS_LIST=$(mktemp)
+	ORIG_LIST=$(mktemp)
+	ANSWER=$(mktemp)
+	NEW_LIST=$(mktemp)
+	LIST1=$(mktemp)
+	LIST2=$(mktemp)
+	PLIST=/var/lib/tazpkg/packages.list
+
+	for i in $(grep -E '^locale' $PLIST | grep -v 'extra' | \
+		sed 's|\(locale-[a-zA-Z_]*\).*|\1|'); do
+		desc_etc $i
+	done
+
+	if [ "x$1" != xmain ]; then
+		for i in $(grep -E '^locale' $PLIST | grep 'extra' | \
+			sed 's|\(locale-[a-zA-Z_]*-extra\).*|\1|'); do
+			desc_etc $i
+		done
+		if if_installed libQtCore; then
+			for i in $(grep -E '^qt-locale' $PLIST | \
+				sed 's|\(qt-locale-[a-zA-Z_]*\).*|\1|'); do
+				desc_etc $i
+			done
+		fi
+		if if_installed razorqt; then
+			for i in $(grep -E '^razorqt-locale' $PLIST | \
+				sed 's|\(razorqt-locale-[a-zA-Z_]*\).*|\1|'); do
+				desc_etc $i
+			done
+		fi
+		if if_installed firefox; then
+			for i in $(grep -E '^firefox-langpack' $PLIST | \
+				sed 's|\(firefox-langpack-[a-zA-Z_]*\).*|\1|'); do
+				desc_etc $i
+			done
+		fi
+		if if_installed thunderbird; then
+			for i in $(grep -E '^thunderbird-langpack' $PLIST | \
+				sed 's|\(thunderbird-langpack-[a-zA-Z_]*\).*|\1|'); do
+				desc_etc $i
+			done
+		fi
+		if if_installed squirrelmail; then
+			for i in $(grep -E '^squirrelmail' $PLIST | \
+				grep -E '^squirrelmail-[a-z][a-z][_-]' | \
+				sed 's|\(squirrelmail-[a-zA-Z_]*\)-.*|\1|'); do
+				desc_etc $i
+			done
+		fi
+		if if_installed aspell; then
+			for i in $(grep -E '^aspell' $PLIST | \
+				grep -E 'aspell-[a-z][a-z][^a-z]' | \
+				sed 's|\(aspell-[a-zA-Z_]*\)-.*|\1|'); do
+				desc_etc $i
+			done
+		fi
+		OTHER_LOCALE="gnome-commander|-i18n gnome-vfs|-i18n gpa|-langpack \
+		gucharmap|-i18n lxterminal|-locales lyx|-locales rox-filer|-locales \
+		ufraw|-locales qupzilla|-locales"
+		for i in $OTHER_LOCALE; do
+			if if_installed ${i%%|*}; then desc_etc ${i/|/}; fi
+		done
+	fi
+
+	icon=stock_properties
+	cat $PKGS_LIST | \
+	{
+		yad --title="$(_n 'Manage locale packages')" --window-icon=$icon \
+		--width=600 --height=400 --on-top --center \
+		--image=$icon --image-on-top \
+		--text="$(_n 'Check only locale packages you need and press "Install/Remove".')" \
+		--list --multiple --ellipsize=END --expand-column=3 \
+		--column="$(_n 'Inst.'):CHK" --column="$(_n 'Package Name'):TEXT" \
+		--column="$(_n 'Description'):TEXT" --column="$(_n 'Size'):TEXT" \
+		--column="$(_n 'Installed'):TEXT" \
+		--button="$(_n 'Recharge list')!reload:tazbox recharge" \
+		--button="$(_n 'Install/Remove')!system-upgrade:2" \
+		--button="gtk-cancel:1" \
+		--print-all
+	} > $ANSWER
+
+	if [ "x$?" == "x1" ]; then rm_temp; exit 0; fi
+
+	grep -e 'TRUE' $ANSWER | cut -d'|' -f2 > $NEW_LIST
+
+	# check difference between ORIG_LIST and NEW_LIST
+	sort -o $LIST1 $ORIG_LIST
+	sort -o $LIST2 $NEW_LIST
+	DIFF=$(diff $LIST1 $LIST2 | sed '/---/d;/+++/d;/@@/d')
+	if [ "x$DIFF" == "x" ]; then rm_temp; exit 0; fi
+
+	# output log to gtk window
+	title="$(_n 'TazPkg log')"; icon="tazpkg"; opts="--tail"
+	{
+		for pkg in $(echo "$DIFF" | grep -e '^-' | sed 's|^-||g'); do
+			_ 'REMOVE: $pkg'
+			yes | tazpkg -r $pkg --output="raw"
+		done
+		for pkg in $(echo "$DIFF" | grep -e '^+' | sed 's|^+||g'); do
+			_ 'INSTALL: $pkg'
+			tazpkg -gi $pkg --output="raw"
+		done
+		echo -e "\n\n$(_n 'Done!')\n"
+	} | output_command
+	rm_temp
+}
+
+
 
 # New file functions
 newfile_main() {
@@ -436,6 +610,10 @@ case "$1" in
 		ask_root $@ && keymap ;;
 	tz)
 		ask_root $@ && tz ;;
+	manage_i18n)
+		ask_root $@ && manage_i18n $2 ;;
+	recharge)
+		ask_root $@; opts="--on-top"; tazpkg recharge | output_command ;;
 	setup)
 		ask_root $@ && setup ;;
 	new-file)

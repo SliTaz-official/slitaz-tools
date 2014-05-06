@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-23 14:52+0100\n"
+"POT-Creation-Date: 2014-05-05 16:00+0300\n"
 "PO-Revision-Date: 2011-08-11 00:08-0300\n"
 "Last-Translator: Lucas Gioia <lucas.lucas.lucas24@gmail.com>\n"
 "Language-Team: \n"
@@ -97,36 +97,40 @@ msgstr "Estableciendo por defecto los volúmenes del mesclador..."
 msgid "Done"
 msgstr "Listo"
 
-#: tinyutils/tazx:131
+#: tinyutils/tazx:63
+msgid "Creating:"
+msgstr ""
+
+#: tinyutils/tazx:142
 msgid "Install Xorg"
 msgstr "Instalar Xorg"
 
-#: tinyutils/tazx:132
+#: tinyutils/tazx:143
 msgid "Tazx helps you to select your X driver."
 msgstr "Tazx le ayudará a seleccionar su controlador X."
 
-#: tinyutils/tazx:134
+#: tinyutils/tazx:145
 msgid "driver"
 msgstr ""
 
-#: tinyutils/tazx:135
+#: tinyutils/tazx:146
 msgid "Quit"
 msgstr ""
 
-#: tinyutils/tazx:163
+#: tinyutils/tazx:174
 #, fuzzy
 msgid "SliTaz Xorg config"
 msgstr "SliTaz configuración del lenguaje"
 
-#: tinyutils/tazx:165
+#: tinyutils/tazx:176
 msgid "Install or reconfigure Xorg"
 msgstr "Instalar o reconfigurar Xorg"
 
-#: tinyutils/tazx:166
+#: tinyutils/tazx:177
 msgid "Install Xorg server (light version)"
 msgstr ""
 
-#: tinyutils/tazx:167
+#: tinyutils/tazx:178
 msgid "Quit Tazx utility"
 msgstr "Salir de la utilidad Tazx"
 

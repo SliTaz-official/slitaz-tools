@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-23 14:52+0100\n"
+"POT-Creation-Date: 2014-05-05 16:00+0300\n"
 "PO-Revision-Date: 2012-12-18 22:06+0300\n"
 "Last-Translator: Constantine Mousafiris <kvisitor@gnugr.org>\n"
 "Language-Team: Kostis Mousafiris\n"
@@ -98,36 +98,40 @@ msgstr "Γίνεται ρύθμιση προεπιλεγμένου επιπέδ�
 msgid "Done"
 msgstr "Ολοκληρώθηκε"
 
-#: tinyutils/tazx:131
+#: tinyutils/tazx:63
+msgid "Creating:"
+msgstr ""
+
+#: tinyutils/tazx:142
 msgid "Install Xorg"
 msgstr "Εγκατάσταση του Xorg"
 
-#: tinyutils/tazx:132
+#: tinyutils/tazx:143
 msgid "Tazx helps you to select your X driver."
 msgstr "Ο Tazx σας βοηθά να επιλέξετε τον οδηγό (driver) για το Χ."
 
-#: tinyutils/tazx:134
+#: tinyutils/tazx:145
 msgid "driver"
 msgstr ""
 
-#: tinyutils/tazx:135
+#: tinyutils/tazx:146
 msgid "Quit"
 msgstr ""
 
-#: tinyutils/tazx:163
+#: tinyutils/tazx:174
 #, fuzzy
 msgid "SliTaz Xorg config"
 msgstr "Ρύθμιση γλώσσας του SliTaz"
 
-#: tinyutils/tazx:165
+#: tinyutils/tazx:176
 msgid "Install or reconfigure Xorg"
 msgstr "Εγκατάσταση ή επαναρύθμιση του X org"
 
-#: tinyutils/tazx:166
+#: tinyutils/tazx:177
 msgid "Install Xorg server (light version)"
 msgstr ""
 
-#: tinyutils/tazx:167
+#: tinyutils/tazx:178
 msgid "Quit Tazx utility"
 msgstr "Κλείστε το βοηθητικό πρόγραμμα Tazx"
 
