@@ -126,8 +126,6 @@ install-boxes:
 	install -m 0755 boxes/* $(DESTDIR)$(PREFIX)/bin
 	install -m 0755 tazbox/tazbox $(DESTDIR)$(PREFIX)/bin
 	install -m 0755 tinyutils/subox $(DESTDIR)$(PREFIX)/bin
-	install -m 0644 tazbox/iso3166-1.tab $(DESTDIR)$(PREFIX)/share/zoneinfo
-	install -m 0644 tazbox/zone-mini.tab $(DESTDIR)$(PREFIX)/share/zoneinfo
 
 	# Desktop files and icons.
 	install -m 0644 applications/* $(DESTDIR)$(PREFIX)/share/applications
