@@ -166,7 +166,7 @@ locale_main() {
 		--width=600 --height=380 --sticky --on-top --center \
 		--image=$icon --image-on-top \
 		--text="<b>$(_n 'Language configuration')</b> \
-\n\n$(_ 'Tip: manage locale list by installing/removing locale packages.')" \
+\n\n$(_ 'Tip: manage locales list by installing/removing locale packages.')" \
 		--list --column="$(_n 'Flag'):IMG" --column $(_n 'Name') \
 		--column $(_n 'Description') \
 		--print-column=2 --separator='' \
@@ -272,8 +272,8 @@ EOT
 			--width=500 --height=380 --on-top --center \
 			--image=$icon --image-on-top \
 			--text="<b>$(_ 'TimeZone Configuration')</b> \
-\n$(_ 'Select country and press "Forward" or manual select timezone file.') \
-\n\n$(_ 'Tip: manage timezone list by installing/removing locale packages.')" \
+\n$(_ 'Select country and press "Forward" or manually select timezone file.') \
+\n\n$(_ 'Tip: manage timezones list by installing/removing locale packages.')" \
 			--list \
 			--column="$(_n 'Flag'):IMG" --column=$(_n 'Code') --column=$(_n 'Country') \
 			--button="$(_n 'Manage')!stock_properties:4" \
