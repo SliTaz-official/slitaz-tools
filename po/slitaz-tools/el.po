@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-05 16:00+0300\n"
+"POT-Creation-Date: 2014-05-23 03:33+0300\n"
 "PO-Revision-Date: 2012-12-18 22:06+0300\n"
 "Last-Translator: Constantine Mousafiris <kvisitor@gnugr.org>\n"
 "Language-Team: Kostis Mousafiris\n"
@@ -62,11 +62,11 @@ msgstr ""
 "Παρακαλώ, αποσυνδεθείτε από την τρέχουσα συνεδρία σας και επανασυνδεθείτε, "
 "για να χρησιμοποιήσετε το νέο locale."
 
-#: tinyutils/tazlocale:126 tinyutils/tazkeymap:64
+#: tinyutils/tazlocale:126 tinyutils/tazkeymap:63
 msgid "Information"
 msgstr ""
 
-#: tinyutils/tazlocale:136 tinyutils/tazkeymap:42
+#: tinyutils/tazlocale:136 tinyutils/tazkeymap:41
 msgid "Config file:"
 msgstr "Αρχείο ρυθμίσεων:"
 
@@ -74,16 +74,16 @@ msgstr "Αρχείο ρυθμίσεων:"
 msgid "Current locale:"
 msgstr "Τρέχον locale:"
 
-#: tinyutils/tazkeymap:43
+#: tinyutils/tazkeymap:42
 msgid "Current keymap:"
 msgstr "Τρέχον keymap:"
 
-#: tinyutils/tazkeymap:52
+#: tinyutils/tazkeymap:51
 #, fuzzy
 msgid "SliTaz keyboard setting"
 msgstr "Ρύθμιση του keymap στο SliTaz"
 
-#: tinyutils/tazkeymap:65
+#: tinyutils/tazkeymap:64
 msgid ""
 "Please logout of your current session and login again to use new keyboard."
 msgstr ""

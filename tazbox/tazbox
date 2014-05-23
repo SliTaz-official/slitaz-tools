@@ -160,7 +160,8 @@ locale_main() {
 	icon=preferences-desktop-locale
 	for locale in $(ls -1 $db | grep '[a-z]_[A-Z]'); do
 		desc=$(fgrep -m1 title $db/$locale | cut -d'"' -f2)
-		echo -e "${locale##*_}\n$locale\n$desc"
+		ll_CC=${locale%%@*}
+		echo -e "${ll_CC##*_}\n$locale\n$desc"
 	done | \
 	yad --title="$(_n 'SliTaz locale')" --window-icon=$icon \
 		--width=600 --height=380 --sticky --on-top --center \

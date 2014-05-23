@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-05 16:00+0300\n"
+"POT-Creation-Date: 2014-05-23 03:33+0300\n"
 "PO-Revision-Date: 2013-07-23 12:35+0100\n"
 "Last-Translator: Paweł Pyrczak <tkr.tkr.pl@gmail.com>\n"
 "Language-Team: Paweł Pyrczak <support@pyrczak.pl>\n"
@@ -66,11 +66,11 @@ msgstr ""
 "Proszę wyloguj się z aktualnej sesji i zaloguj ponownie aby używać nowych "
 "ustawień regionalnych."
 
-#: tinyutils/tazlocale:126 tinyutils/tazkeymap:64
+#: tinyutils/tazlocale:126 tinyutils/tazkeymap:63
 msgid "Information"
 msgstr ""
 
-#: tinyutils/tazlocale:136 tinyutils/tazkeymap:42
+#: tinyutils/tazlocale:136 tinyutils/tazkeymap:41
 msgid "Config file:"
 msgstr "Plik konfiguracyjny:"
 
@@ -78,16 +78,16 @@ msgstr "Plik konfiguracyjny:"
 msgid "Current locale:"
 msgstr "Aktualne ustawienia regionalne:"
 
-#: tinyutils/tazkeymap:43
+#: tinyutils/tazkeymap:42
 msgid "Current keymap:"
 msgstr "Aktualny układ klawiatury:"
 
-#: tinyutils/tazkeymap:52
+#: tinyutils/tazkeymap:51
 #, fuzzy
 msgid "SliTaz keyboard setting"
 msgstr "Konfiguracja układu klawiatury SliTaz"
 
-#: tinyutils/tazkeymap:65
+#: tinyutils/tazkeymap:64
 msgid ""
 "Please logout of your current session and login again to use new keyboard."
 msgstr ""

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-05 16:00+0300\n"
+"POT-Creation-Date: 2014-05-23 03:33+0300\n"
 "PO-Revision-Date: 2012-07-12 12:59-0000\n"
 "Last-Translator: Emil Eklund <emileklund123@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -62,11 +62,11 @@ msgstr ""
 "Var god logga ut från din nuvarande session och logga in igen för att "
 "använda det nya språket."
 
-#: tinyutils/tazlocale:126 tinyutils/tazkeymap:64
+#: tinyutils/tazlocale:126 tinyutils/tazkeymap:63
 msgid "Information"
 msgstr ""
 
-#: tinyutils/tazlocale:136 tinyutils/tazkeymap:42
+#: tinyutils/tazlocale:136 tinyutils/tazkeymap:41
 msgid "Config file:"
 msgstr "Konfigurations fil:"
 
@@ -74,16 +74,16 @@ msgstr "Konfigurations fil:"
 msgid "Current locale:"
 msgstr "Nuvarande språk:"
 
-#: tinyutils/tazkeymap:43
+#: tinyutils/tazkeymap:42
 msgid "Current keymap:"
 msgstr "Nuvarande tangentbords layout:"
 
-#: tinyutils/tazkeymap:52
+#: tinyutils/tazkeymap:51
 #, fuzzy
 msgid "SliTaz keyboard setting"
 msgstr "Slitaz tangentbords layout konfiguration"
 
-#: tinyutils/tazkeymap:65
+#: tinyutils/tazkeymap:64
 msgid ""
 "Please logout of your current session and login again to use new keyboard."
 msgstr ""

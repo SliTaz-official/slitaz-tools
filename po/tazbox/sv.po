@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-06 22:40+0300\n"
+"POT-Creation-Date: 2014-05-23 03:33+0300\n"
 "PO-Revision-Date: 2012-07-12 13:14-0000\n"
 "Last-Translator: Emil Eklund <emileklund123@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -153,7 +153,7 @@ msgstr ""
 msgid "Locale"
 msgstr ""
 
-#: tazbox/tazbox:140 tazbox/tazbox:205
+#: tazbox/tazbox:140 tazbox/tazbox:206
 msgid "Keymap"
 msgstr "Tangentbords layout"
 
@@ -161,214 +161,214 @@ msgstr "Tangentbords layout"
 msgid "Timezone"
 msgstr ""
 
-#: tazbox/tazbox:165
+#: tazbox/tazbox:166
 msgid "SliTaz locale"
 msgstr ""
 
-#: tazbox/tazbox:168
+#: tazbox/tazbox:169
 msgid "Language configuration"
 msgstr "Språk konfiguration"
 
-#: tazbox/tazbox:169
-msgid "Tip: manage locale list by installing/removing locale packages."
+#: tazbox/tazbox:170
+msgid "Tip: manage locales list by installing/removing locale packages."
 msgstr ""
 
-#: tazbox/tazbox:170 tazbox/tazbox:278
+#: tazbox/tazbox:171 tazbox/tazbox:279
 msgid "Flag"
 msgstr ""
 
-#: tazbox/tazbox:170
+#: tazbox/tazbox:171
 msgid "Name"
 msgstr "Namn"
 
-#: tazbox/tazbox:171 tazbox/tazbox:441
+#: tazbox/tazbox:172 tazbox/tazbox:442
 msgid "Description"
 msgstr "Beskrivning"
 
-#: tazbox/tazbox:173 tazbox/tazbox:279
+#: tazbox/tazbox:174 tazbox/tazbox:280
 msgid "Manage"
 msgstr ""
 
-#: tazbox/tazbox:188
+#: tazbox/tazbox:189
 #, sh-format
 msgid "Locale was set to $locale"
 msgstr ""
 
-#: tazbox/tazbox:201
+#: tazbox/tazbox:202
 msgid "SliTaz keymap"
 msgstr ""
 
-#: tazbox/tazbox:204
+#: tazbox/tazbox:205
 msgid "Keyboard configuration"
 msgstr "Tangentbords inställning"
 
-#: tazbox/tazbox:205
+#: tazbox/tazbox:206
 msgid "Type"
 msgstr "Typ"
 
-#: tazbox/tazbox:243 tazbox/tazbox:271 tazbox/tazbox:287 tazbox/tazbox:300
+#: tazbox/tazbox:244 tazbox/tazbox:272 tazbox/tazbox:288 tazbox/tazbox:301
 msgid "SliTaz TZ"
 msgstr ""
 
-#: tazbox/tazbox:246
+#: tazbox/tazbox:247
 msgid "Suggested location:"
 msgstr ""
 
-#: tazbox/tazbox:247
+#: tazbox/tazbox:248
 msgid "Are you agreed?"
 msgstr ""
 
-#: tazbox/tazbox:274 tazbox/tazbox:290 tazbox/tazbox:303
+#: tazbox/tazbox:275 tazbox/tazbox:291 tazbox/tazbox:304
 msgid "TimeZone Configuration"
 msgstr "TidsZon Inställning"
 
-#: tazbox/tazbox:275
-msgid "Select country and press \"Forward\" or manual select timezone file."
-msgstr ""
-
 #: tazbox/tazbox:276
-msgid "Tip: manage timezone list by installing/removing locale packages."
+msgid "Select country and press \"Forward\" or manually select timezone file."
 msgstr ""
 
-#: tazbox/tazbox:278
+#: tazbox/tazbox:277
+msgid "Tip: manage timezones list by installing/removing locale packages."
+msgstr ""
+
+#: tazbox/tazbox:279
 msgid "Code"
 msgstr ""
 
-#: tazbox/tazbox:278
+#: tazbox/tazbox:279
 msgid "Country"
 msgstr ""
 
-#: tazbox/tazbox:280
+#: tazbox/tazbox:281
 msgid "Manual"
 msgstr ""
 
-#: tazbox/tazbox:290
+#: tazbox/tazbox:291
 msgid "Select time zone"
 msgstr ""
 
-#: tazbox/tazbox:303
+#: tazbox/tazbox:304
 msgid "Select location"
 msgstr ""
 
-#: tazbox/tazbox:304
+#: tazbox/tazbox:305
 msgid "Location/City"
 msgstr ""
 
-#: tazbox/tazbox:330
+#: tazbox/tazbox:331
 #, sh-format
 msgid "TimeZone was set to $timezone"
 msgstr ""
 
-#: tazbox/tazbox:366
+#: tazbox/tazbox:367
 msgid "Please wait"
 msgstr ""
 
-#: tazbox/tazbox:435
+#: tazbox/tazbox:436
 msgid "Manage locale packages"
 msgstr ""
 
-#: tazbox/tazbox:438
+#: tazbox/tazbox:439
 msgid "Check only locale packages you need and press \"Install/Remove\"."
 msgstr ""
 
-#: tazbox/tazbox:440
+#: tazbox/tazbox:441
 msgid "Inst."
 msgstr ""
 
-#: tazbox/tazbox:440
+#: tazbox/tazbox:441
 msgid "Package Name"
 msgstr ""
 
-#: tazbox/tazbox:441
+#: tazbox/tazbox:442
 msgid "Size"
 msgstr ""
 
-#: tazbox/tazbox:442
+#: tazbox/tazbox:443
 msgid "Installed"
 msgstr ""
 
-#: tazbox/tazbox:443
+#: tazbox/tazbox:444
 msgid "Recharge list"
 msgstr ""
 
-#: tazbox/tazbox:444
+#: tazbox/tazbox:445
 msgid "Install/Remove"
 msgstr ""
 
-#: tazbox/tazbox:460
+#: tazbox/tazbox:461
 msgid "TazPkg log"
 msgstr ""
 
-#: tazbox/tazbox:463
+#: tazbox/tazbox:464
 #, sh-format
 msgid "REMOVE: $pkg"
 msgstr ""
 
-#: tazbox/tazbox:467
+#: tazbox/tazbox:468
 #, sh-format
 msgid "INSTALL: $pkg"
 msgstr ""
 
-#: tazbox/tazbox:470
+#: tazbox/tazbox:471
 msgid "Done!"
 msgstr ""
 
-#: tazbox/tazbox:480
+#: tazbox/tazbox:481
 msgid "New file"
 msgstr "Ny fil"
 
-#: tazbox/tazbox:483
+#: tazbox/tazbox:484
 msgid "Create a new file or folder on your desktop"
 msgstr "Skapa en ny fil eller mapp på ditt skrivbord"
 
-#: tazbox/tazbox:484
+#: tazbox/tazbox:485
 msgid "File name"
 msgstr "Fil namn"
 
-#: tazbox/tazbox:487
+#: tazbox/tazbox:488
 msgid "SHell script"
 msgstr "SHell skript"
 
-#: tazbox/tazbox:488
+#: tazbox/tazbox:489
 msgid "Folder"
 msgstr "Mapp"
 
-#: tazbox/tazbox:490
+#: tazbox/tazbox:491
 msgid "File"
 msgstr "Fil"
 
-#: tazbox/tazbox:515
+#: tazbox/tazbox:516
 msgid "All Applications"
 msgstr "Alla Applikationer"
 
-#: tazbox/tazbox:603
+#: tazbox/tazbox:604
 msgid "Downloading..."
 msgstr ""
 
-#: tazbox/tazbox:659
+#: tazbox/tazbox:660
 msgid "SliTaz default applications"
 msgstr ""
 
-#: tazbox/tazbox:661
+#: tazbox/tazbox:662
 msgid "SliTaz default applications configuration"
 msgstr ""
 
-#: tazbox/tazbox:663
+#: tazbox/tazbox:664
 msgid "File manager:"
 msgstr ""
 
-#: tazbox/tazbox:664
+#: tazbox/tazbox:665
 msgid "Web browser:"
 msgstr ""
 
-#: tazbox/tazbox:665
+#: tazbox/tazbox:666
 msgid "Text editor:"
 msgstr ""
 
-#: tazbox/tazbox:666
+#: tazbox/tazbox:667
 msgid "Terminal:"
 msgstr ""
 
-#: tazbox/tazbox:667
+#: tazbox/tazbox:668
 msgid "Window manager:"
 msgstr ""

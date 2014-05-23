@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-05 16:00+0300\n"
-"PO-Revision-Date: 2014-04-12 14:38+0300\n"
+"POT-Creation-Date: 2014-05-23 03:33+0300\n"
+"PO-Revision-Date: 2014-05-23 03:28+0300\n"
 "Last-Translator: Aleksej Bobylev <al.bobylev@gmail.com>\n"
 "Language-Team: \n"
 "Language: Russian\n"
@@ -66,11 +66,11 @@ msgid ""
 msgstr ""
 "Выйдите из системы и войдите повторно, чтобы использовать новую локаль."
 
-#: tinyutils/tazlocale:126 tinyutils/tazkeymap:64
+#: tinyutils/tazlocale:126 tinyutils/tazkeymap:63
 msgid "Information"
 msgstr "Информация"
 
-#: tinyutils/tazlocale:136 tinyutils/tazkeymap:42
+#: tinyutils/tazlocale:136 tinyutils/tazkeymap:41
 msgid "Config file:"
 msgstr "Файл настроек:"
 
@@ -78,15 +78,15 @@ msgstr "Файл настроек:"
 msgid "Current locale:"
 msgstr "Текущая локаль:"
 
-#: tinyutils/tazkeymap:43
+#: tinyutils/tazkeymap:42
 msgid "Current keymap:"
 msgstr "Текущая раскладка:"
 
-#: tinyutils/tazkeymap:52
+#: tinyutils/tazkeymap:51
 msgid "SliTaz keyboard setting"
 msgstr "Настройка клавиатурной раскладки SliTaz"
 
-#: tinyutils/tazkeymap:65
+#: tinyutils/tazkeymap:64
 msgid ""
 "Please logout of your current session and login again to use new keyboard."
 msgstr ""
@@ -102,9 +102,8 @@ msgid "Done"
 msgstr "Готово"
 
 #: tinyutils/tazx:63
-#, fuzzy
 msgid "Creating:"
-msgstr "Очистка:"
+msgstr "Создается:"
 
 #: tinyutils/tazx:142
 msgid "Install Xorg"
