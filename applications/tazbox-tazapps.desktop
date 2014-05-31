@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Default applications
+Exec=tazbox su "tazbox tazapps"
+Icon=preferences-desktop-default-applications
+Categories=GTK;Settings;DesktopSettings;
