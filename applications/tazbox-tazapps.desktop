@@ -1,6 +1,9 @@
 [Desktop Entry]
 Type=Application
 Name=Default applications
+Name[ru]=Избранные приложения
+Comment=SliTaz default applications configuration
+Comment[ru]=Настройка избранных приложений SliTaz
 Exec=tazbox su "tazbox tazapps"
 Icon=preferences-desktop-default-applications
 Categories=GTK;Settings;DesktopSettings;
