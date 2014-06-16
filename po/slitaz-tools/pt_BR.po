@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-05-23 03:33+0300\n"
-"PO-Revision-Date: 2014-01-15 21:48-0300\n"
+"PO-Revision-Date: 2014-06-16 20:11-0300\n"
 "Last-Translator: Claudinei Pereira <claudinei@slitaz.org>\n"
 "Language-Team: Portuguese <i18n@slitaz.org>\n"
 "Language: pt_BR\n"
@@ -99,9 +99,8 @@ msgid "Done"
 msgstr "Feito"
 
 #: tinyutils/tazx:63
-#, fuzzy
 msgid "Creating:"
-msgstr "Limpando:"
+msgstr "Criando:"
 
 #: tinyutils/tazx:142
 msgid "Install Xorg"

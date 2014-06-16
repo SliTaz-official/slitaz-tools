@@ -170,7 +170,7 @@ msgstr "Configuração de linguagem"
 
 #: tazbox/tazbox:170
 msgid "Tip: manage locales list by installing/removing locale packages."
-msgstr ""
+msgstr "Dica: gerencie a lista de locales instalando ou removendo pacotes de locales."
 
 #: tazbox/tazbox:171 tazbox/tazbox:279
 msgid "Flag"
@@ -186,12 +186,12 @@ msgstr "Descrição"
 
 #: tazbox/tazbox:174 tazbox/tazbox:280
 msgid "Manage"
-msgstr ""
+msgstr "Gerencie"
 
 #: tazbox/tazbox:189
 #, sh-format
 msgid "Locale was set to $locale"
-msgstr ""
+msgstr "Locale foi definido para $locale"
 
 #: tazbox/tazbox:202
 msgid "SliTaz keymap"
@@ -210,13 +210,12 @@ msgid "SliTaz TZ"
 msgstr "Zona Horária do SliTaz"
 
 #: tazbox/tazbox:247
-#, fuzzy
 msgid "Suggested location:"
-msgstr "Selecionar localidade"
+msgstr "Localidade sugerida:"
 
 #: tazbox/tazbox:248
 msgid "Are you agreed?"
-msgstr ""
+msgstr "Você concorda?"
 
 #: tazbox/tazbox:275 tazbox/tazbox:291 tazbox/tazbox:304
 msgid "TimeZone Configuration"
@@ -225,10 +224,14 @@ msgstr "Configuração de zona horária"
 #: tazbox/tazbox:276
 msgid "Select country and press \"Forward\" or manually select timezone file."
 msgstr ""
+"Selecione o país e pressione \"Forward\" ou selecione manualmente um arquivo "
+"de zona horária."
 
 #: tazbox/tazbox:277
 msgid "Tip: manage timezones list by installing/removing locale packages."
 msgstr ""
+"Dica: gerencie a lista de zonas horárias instalando ou removendo "
+"pacotes de locale."
 
 #: tazbox/tazbox:279
 msgid "Code"
@@ -240,7 +243,7 @@ msgstr "País"
 
 #: tazbox/tazbox:281
 msgid "Manual"
-msgstr ""
+msgstr "Manual"
 
 #: tazbox/tazbox:291
 msgid "Select time zone"
@@ -257,61 +260,63 @@ msgstr "Localidade/Cidade"
 #: tazbox/tazbox:331
 #, sh-format
 msgid "TimeZone was set to $timezone"
-msgstr ""
+msgstr "Zona horária foi definida para $timezone"
 
 #: tazbox/tazbox:367
 msgid "Please wait"
-msgstr ""
+msgstr "Aguarde"
 
 #: tazbox/tazbox:436
 msgid "Manage locale packages"
-msgstr ""
+msgstr "Gerencie pacotes de locale"
 
 #: tazbox/tazbox:439
 msgid "Check only locale packages you need and press \"Install/Remove\"."
 msgstr ""
+"Verifique somente os locales que você necessita clique "
+"em \"Instalar/Remover\"."
 
 #: tazbox/tazbox:441
 msgid "Inst."
-msgstr ""
+msgstr "Inst."
 
 #: tazbox/tazbox:441
 msgid "Package Name"
-msgstr ""
+msgstr "Nome do pacote"
 
 #: tazbox/tazbox:442
 msgid "Size"
-msgstr ""
+msgstr "Tamanho"
 
 #: tazbox/tazbox:443
 msgid "Installed"
-msgstr ""
+msgstr "Instalado"
 
 #: tazbox/tazbox:444
 msgid "Recharge list"
-msgstr ""
+msgstr "Recarregar lista"
 
 #: tazbox/tazbox:445
 msgid "Install/Remove"
-msgstr ""
+msgstr "Instalar/Remover"
 
 #: tazbox/tazbox:461
 msgid "TazPkg log"
-msgstr ""
+msgstr "Log do TazPKG"
 
 #: tazbox/tazbox:464
 #, sh-format
 msgid "REMOVE: $pkg"
-msgstr ""
+msgstr "REMOVER: $pkg"
 
 #: tazbox/tazbox:468
 #, sh-format
 msgid "INSTALL: $pkg"
-msgstr ""
+msgstr "INSTALAR: $pkg"
 
 #: tazbox/tazbox:471
 msgid "Done!"
-msgstr ""
+msgstr "Feito!"
 
 #: tazbox/tazbox:481
 msgid "New file"
