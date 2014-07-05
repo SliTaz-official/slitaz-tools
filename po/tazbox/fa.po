@@ -1,0 +1,378 @@
+# Persian translations for TazBox package.
+# Copyright (C) 2014 SliTaz GNU/Linux
+# This file is distributed under the same license as the TazBox package.
+# Ali Rashidi <alirashidi17@yahoo.com>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: TazBox\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-05-23 03:33+0300\n"
+"PO-Revision-Date: 2014-06-26 19:26+0400\n"
+"Last-Translator: Ali Rashidi <alirashidi17@yahoo.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: fa_IR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 1.6.5\n"
+
+#: tazbox/tazbox:28
+msgid "SliTaz tiny GUI boxes for the desktop"
+msgstr "برای دسکتاپ SliTaz (GUI) جعبه های کوچک با واسط گرافیکی کاربر "
+
+#: tazbox/tazbox:30
+msgid "Usage:"
+msgstr ":طریقه استفاده"
+
+#: tazbox/tazbox:31
+msgid "command"
+msgstr "فرمان"
+
+#: tazbox/tazbox:33
+msgid "Commands:"
+msgstr ":فرامین"
+
+#: tazbox/tazbox:35
+msgid "Display this short help usage"
+msgstr "نمایش این طریقه استفاده کوتاه راهنما"
+
+#: tazbox/tazbox:36
+msgid "Execute a command as super-user"
+msgstr "(super-user) اجرای یک فرمان به عنوان کاربر ریشه"
+
+#: tazbox/tazbox:37
+msgid "Desktop logout box with actions"
+msgstr "جعبه خروج دسکتاپ با اعمال"
+
+#: tazbox/tazbox:38
+msgid "Pipe a command output into a GTK window"
+msgstr "GTK انتقال خروجی یک فرمان با لوله به یک پنجره ی "
+
+#: tazbox/tazbox:39
+msgid "Pipe wget output into a GTK window"
+msgstr "GTK به یک پنجره ی (pipe) با لوله wget انتقال خروجی"
+
+#: tazbox/tazbox:40
+msgid "Configure system language (root)"
+msgstr "(root) پیکربندی زبان سیستم"
+
+#: tazbox/tazbox:41
+msgid "Configure system keymap (root)"
+msgstr "(root) پیکربندی حالت صفحه کلید سیستم"
+
+#: tazbox/tazbox:42
+msgid "Configure system timezone (root)"
+msgstr "(root) پیکربندی منطقه زمانی سیستم"
+
+#: tazbox/tazbox:43
+msgid "System initial setup (locale, keymap & timezone)"
+msgstr "نصب اولیه سیستم (منطقه، حالت صفحه کلید و منطقه زمانی)"
+
+#: tazbox/tazbox:44
+msgid "Create a new file or folder on the desktop"
+msgstr "ایجاد فایل یا پوشه جدید روی دسکتاپ"
+
+#: tazbox/tazbox:45
+msgid "Display icons of all installed applications"
+msgstr "نمایش آیکون همه ی برنامه های نصب شده"
+
+#: tazbox/tazbox:46
+msgid "Notify user with a desktop centered box"
+msgstr "یادآوری به کاربر توسط یک پنجره در وسط دسکتاپ"
+
+#: tazbox/tazbox:47
+msgid "Configure SliTaz default applications"
+msgstr "SliTaz پیکربندی نرم افزار های پیشفرض"
+
+#: tazbox/tazbox:66
+msgid "SliTaz admin password"
+msgstr "SliTaz رمز عبور ادمین (سرپرست)"
+
+#: tazbox/tazbox:69
+msgid "Please enter root password (default root) to execute:"
+msgstr ":را وارد نمایید(root پیشفرض) root لطفا برای اجرا رمز عبور "
+
+#: tazbox/tazbox:72
+msgid "Password:"
+msgstr ":رمز عبور"
+
+#: tazbox/tazbox:73
+msgid "Autosave password"
+msgstr "ذخیره خودکار رمز"
+
+#: tazbox/tazbox:78
+msgid "Error"
+msgstr "خطا"
+
+#: tazbox/tazbox:81
+msgid "Error: wrong password!"
+msgstr "!خطا:رمز نادرست"
+
+#: tazbox/tazbox:88
+msgid "CANCEL"
+msgstr "لغو"
+
+#: tazbox/tazbox:95
+msgid "TazBox Output"
+msgstr "TazBox خروجی"
+
+#: tazbox/tazbox:107
+msgid "SliTaz Logout"
+msgstr "SliTaz خروج از سیستم"
+
+#: tazbox/tazbox:110
+msgid "SliTaz Logout - Please choose an action:"
+msgstr " :- لطفا یک عملیات را انتخاب کنید SliTaz خروج از سیست"
+
+#: tazbox/tazbox:112
+msgid "Close X session"
+msgstr "X بستن جلسه"
+
+#: tazbox/tazbox:113
+msgid "Reboot system"
+msgstr "بوت کردن جدد سیستم"
+
+#: tazbox/tazbox:114
+msgid "Shutdown system"
+msgstr "خاموش کردن سیستم"
+
+#: tazbox/tazbox:134
+msgid "SliTaz Initial Setup"
+msgstr "SliTaz نصب اولیه"
+
+#: tazbox/tazbox:137
+msgid ""
+"Here you can set your preferences \\n for <b>locale, keymap and timezone</b>."
+msgstr ""
+"اینجا میتوانید تنظیمات را انجام دهید\\n</b>منطقه، حالت صفحه کلید و منطقه "
+"زمانی<b>برای"
+
+#: tazbox/tazbox:139
+msgid "Locale"
+msgstr "منطقه"
+
+#: tazbox/tazbox:140 tazbox/tazbox:206
+msgid "Keymap"
+msgstr "حالت صفحه کلید"
+
+#: tazbox/tazbox:141
+msgid "Timezone"
+msgstr "منطقه زمانی"
+
+#: tazbox/tazbox:166
+msgid "SliTaz locale"
+msgstr "SliTaz منطقه"
+
+#: tazbox/tazbox:169
+msgid "Language configuration"
+msgstr "پیکربندی زبان"
+
+#: tazbox/tazbox:170
+msgid "Tip: manage locales list by installing/removing locale packages."
+msgstr ".نکته: منطقه ها را میتوانید با نصب/حذف پکیج های منطقه ای مدیریت کنید"
+
+#: tazbox/tazbox:171 tazbox/tazbox:279
+msgid "Flag"
+msgstr "پرچم"
+
+#: tazbox/tazbox:171
+msgid "Name"
+msgstr "نام"
+
+#: tazbox/tazbox:172 tazbox/tazbox:442
+msgid "Description"
+msgstr "شرح"
+
+#: tazbox/tazbox:174 tazbox/tazbox:280
+msgid "Manage"
+msgstr "مدیریت"
+
+#: tazbox/tazbox:189
+#, sh-format
+msgid "Locale was set to $locale"
+msgstr "تنظیم شد $locale منطقه به"
+
+#: tazbox/tazbox:202
+msgid "SliTaz keymap"
+msgstr "SliTaz حالت صفحه کلید"
+
+#: tazbox/tazbox:205
+msgid "Keyboard configuration"
+msgstr "پیکربندی صفحه کلید"
+
+#: tazbox/tazbox:206
+msgid "Type"
+msgstr "نوع"
+
+#: tazbox/tazbox:244 tazbox/tazbox:272 tazbox/tazbox:288 tazbox/tazbox:301
+msgid "SliTaz TZ"
+msgstr "SliTaz TZ"
+
+#: tazbox/tazbox:247
+msgid "Suggested location:"
+msgstr ":مکان پیشنهاد شده"
+
+#: tazbox/tazbox:248
+msgid "Are you agreed?"
+msgstr "آیا موافقید؟"
+
+#: tazbox/tazbox:275 tazbox/tazbox:291 tazbox/tazbox:304
+msgid "TimeZone Configuration"
+msgstr "پیکربندی منطقه زمانی"
+
+#: tazbox/tazbox:276
+msgid "Select country and press \"Forward\" or manually select timezone file."
+msgstr ""
+".را فشار دهید یا فایل منطقه زمانی را به صورت دستی انتخاب کنید \"Forward\" "
+"کشور را انتخاب کنید و "
+
+#: tazbox/tazbox:277
+msgid "Tip: manage timezones list by installing/removing locale packages."
+msgstr ""
+".نکته: منطقه های زمانی را میتوانید با نصب/حذف پکیج های منطقه ای مدیریت کنید"
+
+#: tazbox/tazbox:279
+msgid "Code"
+msgstr "کد"
+
+#: tazbox/tazbox:279
+msgid "Country"
+msgstr "کشور"
+
+#: tazbox/tazbox:281
+msgid "Manual"
+msgstr "دستی"
+
+#: tazbox/tazbox:291
+msgid "Select time zone"
+msgstr "انتخاب منطقه زمانی"
+
+#: tazbox/tazbox:304
+msgid "Select location"
+msgstr "انتخاب مکان"
+
+#: tazbox/tazbox:305
+msgid "Location/City"
+msgstr "محل سکونت/شهر"
+
+#: tazbox/tazbox:331
+#, sh-format
+msgid "TimeZone was set to $timezone"
+msgstr "$timezone منطقه زمانی تنظیم شد به"
+
+#: tazbox/tazbox:367
+msgid "Please wait"
+msgstr "لطفا صبر کنید"
+
+#: tazbox/tazbox:436
+msgid "Manage locale packages"
+msgstr "مدیریت پکیج های محلی"
+
+#: tazbox/tazbox:439
+msgid "Check only locale packages you need and press \"Install/Remove\"."
+msgstr ""
+".را انتخاب کنید \"Install/Remove\" پکیج های مورد نیاز خود را انتخاب کنید و "
+
+#: tazbox/tazbox:441
+msgid "Inst."
+msgstr "Inst."
+
+#: tazbox/tazbox:441
+msgid "Package Name"
+msgstr "نام پکیج"
+
+#: tazbox/tazbox:442
+msgid "Size"
+msgstr "حجم"
+
+#: tazbox/tazbox:443
+msgid "Installed"
+msgstr "نصب شد"
+
+#: tazbox/tazbox:444
+msgid "Recharge list"
+msgstr "غنی کردن لیست"
+
+#: tazbox/tazbox:445
+msgid "Install/Remove"
+msgstr "Install/Remove"
+
+#: tazbox/tazbox:461
+msgid "TazPkg log"
+msgstr "TazPKG فایل لوگ "
+
+#: tazbox/tazbox:464
+#, sh-format
+msgid "REMOVE: $pkg"
+msgstr "$pkg :حذف"
+
+#: tazbox/tazbox:468
+#, sh-format
+msgid "INSTALL: $pkg"
+msgstr "$pkg :نصب"
+
+#: tazbox/tazbox:471
+msgid "Done!"
+msgstr "!انجام شد"
+
+#: tazbox/tazbox:481
+msgid "New file"
+msgstr "فایل جدید"
+
+#: tazbox/tazbox:484
+msgid "Create a new file or folder on your desktop"
+msgstr "ایجاد فایل یا پوشه جدید روی دسکتاپ"
+
+#: tazbox/tazbox:485
+msgid "File name"
+msgstr "نام فایل"
+
+#: tazbox/tazbox:488
+msgid "SHell script"
+msgstr "(SHell) اسکریپت پوسته"
+
+#: tazbox/tazbox:489
+msgid "Folder"
+msgstr "پوشه"
+
+#: tazbox/tazbox:491
+msgid "File"
+msgstr "فایل"
+
+#: tazbox/tazbox:516
+msgid "All Applications"
+msgstr "همه برنامه ها"
+
+#: tazbox/tazbox:604
+msgid "Downloading..."
+msgstr "...در حال دانلود"
+
+#: tazbox/tazbox:660
+msgid "SliTaz default applications"
+msgstr "SliTaz برنامه های پیشفرض"
+
+#: tazbox/tazbox:662
+msgid "SliTaz default applications configuration"
+msgstr "SliTaz پیکربندی برنامه های پیشفرض"
+
+#: tazbox/tazbox:664
+msgid "File manager:"
+msgstr ":مدیر فایل"
+
+#: tazbox/tazbox:665
+msgid "Web browser:"
+msgstr ":مرورگر وب"
+
+#: tazbox/tazbox:666
+msgid "Text editor:"
+msgstr ":ویرایشگر متن"
+
+#: tazbox/tazbox:667
+msgid "Terminal:"
+msgstr ":ترمینال"
+
+#: tazbox/tazbox:668
+msgid "Window manager:"
+msgstr ":مدیر پنجره"

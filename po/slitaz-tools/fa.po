@@ -1,0 +1,699 @@
+# Persian translations for SliTaz Tools package.
+# Copyright (C) 2014 SliTaz GNU/Linux
+# This file is distributed under the same license as the SliTaz Tools package.
+# Ali Rashidi <alirashidi17@yahoo.com>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: SliTaz Tools\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-05-23 03:33+0300\n"
+"PO-Revision-Date: 2014-06-26 16:08+0400\n"
+"Last-Translator: Ali Rashidi <alirashidi17@yahoo.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.5\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: fa_IR\n"
+
+#: tinyutils/tazlocale:15
+msgid "SliTaz GNU/Linux locale setting using dialog boxes."
+msgstr ":توسط کادر های محاوره SliTaz GNU/Linux تنظیمات منطقه ای"
+
+#: tinyutils/tazlocale:17 tinyutils/decode:30 tinyutils/hwsetup:24
+#: tinyutils/frugal:32
+msgid "Usage:"
+msgstr ":طریقه استفاده"
+
+#: tinyutils/tazlocale:18 tinyutils/decode:31 tinyutils/hwsetup:25
+msgid "option"
+msgstr "گزینه"
+
+#: tinyutils/tazlocale:20 tinyutils/hwsetup:40 tinyutils/frugal:41
+msgid "Options:"
+msgstr ":گزینه ها"
+
+#: tinyutils/tazlocale:22
+msgid "Show info about config file and current locale."
+msgstr ":نمایش اطلاعات در مورد فایل پیکربندی و منطقه کنونی"
+
+#: tinyutils/tazlocale:23
+msgid "Show list of available locales."
+msgstr ".نمایش لیست مناطق موجود"
+
+#: tinyutils/tazlocale:26
+msgid "Any other option treated as locale - set locale (root)."
+msgstr "(root) هر گونه گزینه دیگر به عنوان منطقه تلقی میشود - تنظیم منطقه "
+
+#: tinyutils/tazlocale:27
+msgid "Display locale selecting dialog if no option given (root)."
+msgstr " (root) نمایش گفتوگوی انتخاب منطقه اگر گزینه ای وارد نشود"
+
+#: tinyutils/tazlocale:105
+msgid "SliTaz language setting"
+msgstr "SliTaz تنظیمات زبان"
+
+#: tinyutils/tazlocale:124
+msgid ""
+"Please logout of your current session and login again to use new locale."
+msgstr ""
+".لطفا برای استفاده از منطقه ی جدید از حساب کاربری خارج شوید و مجددا وارد شوید"
+
+#: tinyutils/tazlocale:126 tinyutils/tazkeymap:63
+msgid "Information"
+msgstr "اطلاعات"
+
+#: tinyutils/tazlocale:136 tinyutils/tazkeymap:41
+msgid "Config file:"
+msgstr ":فایل پیکربندی"
+
+#: tinyutils/tazlocale:137
+msgid "Current locale:"
+msgstr ":منطقه فعلی"
+
+#: tinyutils/tazkeymap:42
+msgid "Current keymap:"
+msgstr ":فعلی Keymap"
+
+#: tinyutils/tazkeymap:51
+msgid "SliTaz keyboard setting"
+msgstr "SliTaz تنظیمات صفحه کلید"
+
+#: tinyutils/tazkeymap:64
+msgid ""
+"Please logout of your current session and login again to use new keyboard."
+msgstr ""
+".لطفا برای استفاده از صفحه کلید جدید از حساب خود خارج شوید و مجددا وارد شوید"
+
+#: tinyutils/setmixer:12
+msgid "Setting default mixer volumes... "
+msgstr "...در حال تنظیم صدای پیش فرض"
+
+#: tinyutils/setmixer:53
+msgid "Done"
+msgstr "انجام شد"
+
+#: tinyutils/tazx:63
+msgid "Creating:"
+msgstr ":در حال ایجاد"
+
+#: tinyutils/tazx:142
+msgid "Install Xorg"
+msgstr "Xorg نصب"
+
+#: tinyutils/tazx:143
+msgid "Tazx helps you to select your X driver."
+msgstr "خود را انتخاب نمایید. X به شما کمک میکند تا درایور  Tazx"
+
+#: tinyutils/tazx:145
+msgid "driver"
+msgstr "درایور"
+
+#: tinyutils/tazx:146
+msgid "Quit"
+msgstr "خروج"
+
+#: tinyutils/tazx:174
+msgid "SliTaz Xorg config"
+msgstr "SliTaz Xorg پیکربندی"
+
+#: tinyutils/tazx:176
+msgid "Install or reconfigure Xorg"
+msgstr "Xorg نصب یا پیکربندی مجدد"
+
+#: tinyutils/tazx:177
+msgid "Install Xorg server (light version)"
+msgstr "(نسخه کم حجم) Xorg server نصب"
+
+#: tinyutils/tazx:178
+msgid "Quit Tazx utility"
+msgstr "Tazx خروج از ابزار"
+
+#: tinyutils/decode:28
+msgid "Decode audio and video files"
+msgstr "رمزگشایی فایل های صوتی و تصویری"
+
+#: tinyutils/decode:31 tinyutils/decode:36
+msgid "file"
+msgstr "فایل"
+
+#: tinyutils/decode:31
+msgid "URL"
+msgstr "آدرس اینترنتی"
+
+#: tinyutils/decode:33 tinyutils/frugal:45
+msgid "Examples:"
+msgstr ":مثال ها"
+
+#: tinyutils/decode:35
+msgid "/path/to/files/*"
+msgstr "/path/to/files/*"
+
+#: tinyutils/decode:47
+#, sh-format
+msgid "Missing decoder: $dec"
+msgstr "$dec :گم شده (Decoder) رمز گشای "
+
+#: tinyutils/decode:48 tinyutils/decode:80
+#, sh-format
+msgid "Skipping file: $name"
+msgstr "$name :در حال گذر (نادیده گرفتن) از فایل"
+
+#: tinyutils/decode:51
+#, sh-format
+msgid "Decoding: $name"
+msgstr "$name :در حال رمزگشایی"
+
+#: tinyutils/decode:60
+#, sh-format
+msgid "No file: $file"
+msgstr "$file :فایل موجود نیست"
+
+#: tinyutils/decode:82
+#, sh-format
+msgid "Unsupported file: $file"
+msgstr "$file :فایل پشتیبانی نشده"
+
+#: tinyutils/terminal:10
+msgid "configurable SliTaz wrapper for terminal."
+msgstr "برای ترمینال SliTaz قابل پیکربندی (Wrapper) روپوش"
+
+#: tinyutils/terminal:12
+msgid "Recognized options:"
+msgstr ":گزینه های شناخته شده"
+
+#: tinyutils/terminal:13
+msgid "Print the version number"
+msgstr "چاپ شماره نگارش"
+
+#: tinyutils/terminal:14
+msgid "Print out this message"
+msgstr "چاپ این پیام"
+
+#: tinyutils/terminal:15
+#, sh-format
+msgid "Width and height of terminal window ($GEOMETRY)"
+msgstr "($GEOMETRY) پهنا و ارتفاع پنجره ی ترمینال"
+
+#: tinyutils/terminal:16
+#, sh-format
+msgid "Title name for window (\"$TITLE\")"
+msgstr "(\"$TITLE\") نام عنوان پنجره"
+
+#: tinyutils/terminal:17
+msgid "Don't close terminal after command finished"
+msgstr "لطفا ترمینال را بعد از پایان فرمان نبندید"
+
+#: tinyutils/terminal:18
+msgid "Command to execute (must be last in line)"
+msgstr "فرمان برای اجرا (باید آخرین فرمان در خط باشد)"
+
+#: tinyutils/terminal:21
+#, sh-format
+msgid "Help for $TERMINAL:"
+msgstr ":$TERMINAL راهنمایی درمورد "
+
+#: tinyutils/hwsetup:22
+msgid "SliTaz Setup configuration"
+msgstr "SliTaz پیکربندی نصب "
+
+#: tinyutils/hwsetup:25
+msgid "command"
+msgstr "فرمان"
+
+#: tinyutils/hwsetup:27 tinyutils/frugal:36
+msgid "Commands:"
+msgstr ":فرامین"
+
+#: tinyutils/hwsetup:29
+msgid "Print this short usage."
+msgstr ".چاپ این طریقه استفاده کوتاه"
+
+#: tinyutils/hwsetup:30
+msgid "Parallel and USB Printer setup."
+msgstr ".USB و (Parallel) نصب چاپگر پارالل"
+
+#: tinyutils/hwsetup:31
+msgid "USB Scanner setup."
+msgstr ".USB نصب اسکنر"
+
+#: tinyutils/hwsetup:32
+msgid "Integrated and USB webcam setup."
+msgstr ".USB نصب وب کم جامع و  "
+
+#: tinyutils/hwsetup:33
+msgid "Digital Camera setup."
+msgstr ".نصب دوربین دیجیتال"
+
+#: tinyutils/hwsetup:34
+msgid "Bluetooth setup."
+msgstr ".نصب بلوتوث"
+
+#: tinyutils/hwsetup:35
+msgid "3g-modem setup."
+msgstr ".3g نصب مودم"
+
+#: tinyutils/hwsetup:36
+msgid "Start/stop firewall."
+msgstr ".(FireWall) شروع/توقف دیواره آتش"
+
+#: tinyutils/hwsetup:37
+msgid "Nvidia (non-free/free) setup."
+msgstr ".Nvidia (non-free/free) نصب درایور "
+
+#: tinyutils/hwsetup:38
+msgid "ATI (non-free/free) setup."
+msgstr ".ATI (non-free/free) نصب"
+
+#: tinyutils/hwsetup:42
+msgid "install non-free packages (nvidia, ati)."
+msgstr "(ATI و Nvidia) non-free نصب پکیج های"
+
+#: tinyutils/hwsetup:43
+msgid "auto-install optional dependencies."
+msgstr ".نصب خودکار وابسته های اختیاری "
+
+#: tinyutils/hwsetup:44
+msgid "confirm before installing optional dependencies"
+msgstr ".درخواست تائید قبل از نصب وابسته های اختیاری"
+
+#: tinyutils/hwsetup:98
+#, sh-format
+msgid ""
+"Due to a lack of compatible hardware for troubleshooting, this $DEVICE "
+"device has not been properly tested. Please report any success, failure, bug "
+"to SliTaz Bug tracker or Forum."
+msgstr ""
+".اطلاع دهید SliTaz دستگاه به درستی تست نشده است.لطفا هرگونه موفقیت، شکست یا "
+"باگ در دستگاه را به انجمن یا پیگیری باگ های $DEVICE به علت کمبود سخت افزار "
+"هماهنگ برای عیب یابی، این"
+
+#: tinyutils/hwsetup:107
+#, sh-format
+msgid "Failed to setup $DEVICE"
+msgstr "نشد $DEVICE موفق به نصب "
+
+#: tinyutils/hwsetup:117
+#, sh-format
+msgid "Installing pkg: $pkg"
+msgstr "$pkg :در حال نصب پکیج"
+
+#: tinyutils/hwsetup:131
+#, sh-format
+msgid "Would you like to install pkg: $pkg"
+msgstr "$pkg :آیا مایلید که این پکیج را نصب کنید"
+
+#: tinyutils/hwsetup:148
+#, sh-format
+msgid "adding $user to $grp"
+msgstr "$grpبه $user در حال افزودن "
+
+#: tinyutils/hwsetup:171
+msgid "Detected USB Device : Vendor : Product"
+msgstr ":محصول : فروشنده : USB شناسایی شد دستگاه"
+
+#: tinyutils/hwsetup:213
+msgid "Do you want to use hp-setup utility"
+msgstr "استفاده کنید HP آیا مایلید از ابزار نصب "
+
+#: tinyutils/hwsetup:228
+#, sh-format
+msgid "Verify $DEVICE Permissions"
+msgstr ".را تائید کنید $DEVICE مجوز های "
+
+#: tinyutils/hwsetup:229
+#, sh-format
+msgid "Your $DEVICE must be in $grp group with rw-rw-rw- permissions"
+msgstr "rw-rw-rw باشد با مجوز های $grp شما باید در گروه $DEVICE"
+
+#: tinyutils/hwsetup:250
+msgid "New udev rules are added by a package"
+msgstr ".توسط یک پکیج افزوده شدند udev قواعد جدید "
+
+#: tinyutils/hwsetup:258
+msgid "Auto configuring Xorg..."
+msgstr "...Xorg در حال نصب خودکار "
+
+#: tinyutils/hwsetup:261
+msgid "Configuring Xorg..."
+msgstr "Xorg در حال پیکربندی "
+
+#: tinyutils/hwsetup:292
+msgid "Wvdial Box"
+msgstr "Wvdial Box"
+
+#: tinyutils/hwsetup:295
+msgid "Phone Number:"
+msgstr ":شماره تلفن"
+
+#: tinyutils/hwsetup:296
+msgid "Username:"
+msgstr ":نام کاربری"
+
+#: tinyutils/hwsetup:297
+msgid "Password:"
+msgstr ":رمز عبور"
+
+#: tinyutils/hwsetup:298
+msgid "Pin (if required):"
+msgstr ":کد پین (در صورت نیاز)"
+
+#: tinyutils/hwsetup:299
+msgid "Modem:"
+msgstr ":مودم"
+
+#: tinyutils/hwsetup:300
+msgid "Access Point Name (APN):"
+msgstr ":(APN) نام نقطه دسترسی"
+
+#: tinyutils/hwsetup:301
+msgid "You must save your account info before dialing"
+msgstr ".شما باید اطلاعات حسابتان را قبل از شماره گیری ذخیره کنید"
+
+#: tinyutils/hwsetup:302
+msgid "Edit config file"
+msgstr "ویرایش فایل پیکربندی"
+
+#: tinyutils/hwsetup:303
+msgid "Save Configuration"
+msgstr "ذخیره پیکربندی"
+
+#: tinyutils/hwsetup:304
+msgid "Dial Pin Once"
+msgstr "یکبار شماره گیری پین"
+
+#: tinyutils/hwsetup:380
+msgid "Do you want to start cups"
+msgstr "را اجرا کنید cups آیا مایلید "
+
+#: tinyutils/hwsetup:388
+msgid "Starting <b>cups</b> using:"
+msgstr ":با استفاده از <b>cups</b> در حال شروع"
+
+#: tinyutils/hwsetup:407
+msgid "Do you want to start scanner"
+msgstr "آیا میخواهید اسکنر را راه اندازی کنید"
+
+#: tinyutils/hwsetup:415
+msgid "Following <b>scanner commands</b> may be of help:"
+msgstr ":میتواند کمک باشد </b>فرمان های اسکنر<b>دنبال کردن"
+
+#: tinyutils/hwsetup:416
+msgid "to verify scanner has been found"
+msgstr "برای تائید اینکه اسکنر یافت شده است"
+
+#: tinyutils/hwsetup:417
+msgid "scanner application"
+msgstr "نرم افزار اسکنر"
+
+#: tinyutils/hwsetup:436
+msgid "Would you like to test webcam"
+msgstr "آیا مایلید که وب کم را تست کنید"
+
+#: tinyutils/hwsetup:443
+msgid "Would you like to test webcam by installing mplayer-svn"
+msgstr "تست کنید mplayer-svn آیا مایلید که وب کم را با نصب کردن "
+
+#: tinyutils/hwsetup:450
+msgid "Webcam is set up; please use mplayer-svn/fswebcam/amsn/skype to view"
+msgstr ""
+"برای نمایش استفاده کنید mplayer-svn/fswebcam/amsn/skype وب کم نصب شده است؛ "
+"لطفا از "
+
+#: tinyutils/hwsetup:466
+msgid "Do you want to check if gphoto2 can talk to your camera"
+msgstr ""
+"میتواند با دوربین شما ارتباط برقرار کند gphoto2 میخواهید بررسی کنید که آیا"
+
+#: tinyutils/hwsetup:471
+msgid "Do you want to test importing photos"
+msgstr "آیا میخواهید که وارد کردن تصاویر را تست کنید"
+
+#: tinyutils/hwsetup:481
+msgid "Camera is set up; please use gphoto2 to import photos"
+msgstr "برای وارد کردن عکس استفاده کنید gphoto2 دوربین نصب شده است؛ لطفا از "
+
+#: tinyutils/hwsetup:483
+#, sh-format
+msgid "Quick start guide: $guide_url"
+msgstr "$guide_url :راهنمای شروع سریع"
+
+#: tinyutils/hwsetup:494
+msgid "Do you want to see if the bluetooth is working"
+msgstr "آیا میخواهید ببینید که بلوتوث کار میکند"
+
+#: tinyutils/hwsetup:502
+msgid "<b>Bluetooth</b> interfaces"
+msgstr "</b>بلوتوث<b> واسط های "
+
+#: tinyutils/hwsetup:510 tinyutils/hwsetup:527
+msgid "Following <b>Bluetooth commands</b> may be of help"
+msgstr ": میتواند راهنمایی باشد </b>فرامین بلوتوث<b> دنبال کردن"
+
+#: tinyutils/hwsetup:515
+msgid "checking local bluetooth devices..."
+msgstr "...در حال بررسی دستگاه های محلی بلوتوث"
+
+#: tinyutils/hwsetup:516
+msgid "scanning remote bluetooth devices..."
+msgstr "...در حال جستجوی دستگاه های بلوتوث از راه دور"
+
+#: tinyutils/hwsetup:517
+msgid "pairing with remote bluetooth devices..."
+msgstr "...در حال جفت شدن با دستگاه بلوتوث راه دور"
+
+#: tinyutils/hwsetup:520 tinyutils/hwsetup:541
+#, sh-format
+msgid "You can manually edit the configuration files in $bt if need be"
+msgstr ""
+".به صورت دستی در صورت نیاز ویرایش کنید $bt شما میتوانید فایل های پیکربندی را "
+"در "
+
+#: tinyutils/hwsetup:534
+msgid "for starting bluetooth daemon"
+msgstr "bluetooth daemon برای شروع "
+
+#: tinyutils/hwsetup:536
+msgid "for checking local devices"
+msgstr "برای بررسی دستگاه های محلی"
+
+#: tinyutils/hwsetup:537
+msgid "for scanning remote devices"
+msgstr "برای جستجوی دستگاه های راه دور"
+
+#: tinyutils/hwsetup:538
+msgid "pairing with remote bluetooth devices"
+msgstr "در حال جفت شدن با دستگاه بلوتوث راه دور"
+
+#: tinyutils/hwsetup:552
+msgid "List detected devices"
+msgstr "لیست کردن دستگاه های شناسایی شده"
+
+#: tinyutils/hwsetup:556
+msgid "Detected Modem at:"
+msgstr ":مودم شناسایی شد در"
+
+#: tinyutils/hwsetup:558
+msgid "Do you want to configure wvdial"
+msgstr "را پیکربندی کنید wvdial آیا میخواهید "
+
+#: tinyutils/hwsetup:567
+#, sh-format
+msgid "Edit $wc for phone number, login name, password and pin"
+msgstr "برای شماره تلفن، نام کاربری، رمز عبور و کد پین$wc ویرایش "
+
+#: tinyutils/hwsetup:568
+#, sh-format
+msgid "Add DNS address of your provider in $rc"
+msgstr " اضافه کنید $rc ارائه دهنده خود را در DNS آدرس "
+
+#: tinyutils/hwsetup:577
+msgid "Setting IPTABLES_RULES to yes in /etc/slitaz/firewall.conf"
+msgstr "/etc/slitaz/firewall.conf در yes به IPTABLES_RULES در حال تنظیم"
+
+#: tinyutils/hwsetup:586
+msgid "Probing for open ports..."
+msgstr "...در حال جستجو برای پورت های باز"
+
+#: tinyutils/hwsetup:590
+msgid "Adding firewall daemon to start automatically at boot"
+msgstr ""
+"برای شروع خودکار هنگام بوت (firewall daemon) در حال افزودن اهریمن دیواره آتش "
+
+#: tinyutils/hwsetup:607
+msgid "Do you want to configure X using non-free nvidia driver"
+msgstr "استفاده کنید X برای پیکربندی Nvidia آیا مایلید از درایور غیر آزاد"
+
+#: tinyutils/hwsetup:610 tinyutils/hwsetup:649 tinyutils/hwsetup:681
+#: tinyutils/hwsetup:714
+#, sh-format
+msgid "Your previous config is in $xorg60"
+msgstr "قرار دارد $xorg60 پیکربندی پیشین شما در "
+
+#: tinyutils/hwsetup:611 tinyutils/hwsetup:650
+#, sh-format
+msgid "If nvidia fails, you can remove $xorg55 to restore previous config."
+msgstr ""
+".را حذف کنید تا پیکربندی پیشین شما بازگردانی شود $xorg55 ناموفق بود، شما "
+"میتوانید Nvidia اگر "
+
+#: tinyutils/hwsetup:618
+msgid "Adding to xorg.conf:"
+msgstr ":xorg.conf در حال افزودن به"
+
+#: tinyutils/hwsetup:623 tinyutils/hwsetup:659
+msgid "Checking if nvidia is working..."
+msgstr "...کار میکند Nvidia در حال بررسی اینکه آیا "
+
+#: tinyutils/hwsetup:627
+msgid "Configure nvidia settings:"
+msgstr ":nvidia پیکربندی تنظیمات"
+
+#: tinyutils/hwsetup:634
+msgid "test nvidia"
+msgstr "nvidia آزمایش "
+
+#: tinyutils/hwsetup:635
+msgid "Use: nvidia-settings utility to configure your settings if necessary"
+msgstr ""
+"برای پیکربندی تنظیمات در صورت نیاز استفاده کنید nvidia-settings :از ابزار"
+
+#: tinyutils/hwsetup:646
+msgid "Do you want to configure X using free nvidia driver"
+msgstr "پیکربندی نمایید nvidia را با استفاده از درایور آزاد X آیا میخواهید "
+
+#: tinyutils/hwsetup:652
+#, sh-format
+msgid "Create $xorg55short configured with nv driver."
+msgstr "nv پیکربندی شده با درایور $xorg55short ایجاد "
+
+#: tinyutils/hwsetup:678
+msgid "Do you want to configure X using non-free catalyst ATI (radeon) driver"
+msgstr ""
+"پیکر بندی نمایید ATI (Radeon) را با استفاده از درایور غیر آزاد X آیا مایلید "
+
+#: tinyutils/hwsetup:682
+#, sh-format
+msgid "If ati fails, you can remove $xorg55 to restore previous config."
+msgstr ""
+".را برای بازگردانی پیکربندی قبلی حذف نمایید $xorg55 ناموفق بود، شما میتوانید "
+"ati اگر "
+
+#: tinyutils/hwsetup:691
+msgid "Checking if ati catalyst is working..."
+msgstr "...کار میکند ati (catalyst) در حال بررسی اینکه آیا سازمان دهنده"
+
+#: tinyutils/hwsetup:695
+msgid "Configuration:"
+msgstr ":پیکربندی"
+
+#: tinyutils/hwsetup:696
+msgid ""
+"Use: aticonfig utility to generate a template configuration file if necessary"
+msgstr ""
+"برای تولید یک فایل قالب پیکربندی در صورت نیاز استفاده کنید aticonfig :از "
+"ابزار"
+
+#: tinyutils/hwsetup:711
+msgid "Do you want to configure X using free ATI (radeon) driver"
+msgstr ""
+"پیکر بندی نمایید ATI (Radeon) را با استفاده از درایور آزاد X آیا مایلید "
+
+#: tinyutils/hwsetup:715
+#, sh-format
+msgid "If ATI fails, you can remove $xorg55 to restore previous config."
+msgstr ""
+"را برای بازگردانی پیکربندی پیشین حذف نمایید $xorg55 ناموفق بود، شما میتوانید "
+"ATI اگر"
+
+#: tinyutils/hwsetup:717
+#, sh-format
+msgid "Create $xorg55short configured with radeon driver."
+msgstr ".radeon پیکربندی شده با درایور $xorg55short ایجاد "
+
+#: tinyutils/hwsetup:723
+msgid "Checking if ATI radeon is working..."
+msgstr "...کار میکند ATI radeon در حال بررسی اینکه آیا "
+
+#: tinyutils/hwsetup:739
+msgid "Bringing eth0 down..."
+msgstr "eth0 در حال توقف "
+
+#: tinyutils/hwsetup:740
+msgid "Dialing..."
+msgstr "...در حال شماره گیری"
+
+#: tinyutils/hwsetup:766
+msgid "The following optional packages can be installed:"
+msgstr ":پکیج های اختیاری زیر میتوانند نصب شوند"
+
+#: tinyutils/hwsetup:770
+msgid "Do you want to install all/few/no optional dependencies (all|few|N)? "
+msgstr ""
+"؟(all|few|N) آیا میخواهید که همه/کمی/هیچکدام وابسته های اختیاری را نصب کنید"
+
+#: tinyutils/frugal:34
+msgid "SliTaz frugal installation"
+msgstr "SliTaz (frugal) نصب با صرفه"
+
+#: tinyutils/frugal:37
+msgid "Display install path and size stats"
+msgstr "نمایش مسیر نصب و وضعیت سایز"
+
+#: tinyutils/frugal:38
+msgid "Remove all frugal files"
+msgstr "frugal حذف تمام فایل های "
+
+#: tinyutils/frugal:39
+msgid "Show GRUB configuration example"
+msgstr "GRUB نمایش مثال پیکربندی"
+
+#: tinyutils/frugal:42
+msgid "Set root installation path"
+msgstr "(root) نمایش مسیر نصب ریشه"
+
+#: tinyutils/frugal:43
+msgid "Display some useful debug information"
+msgstr "نمایش برخی اطلاعات مفید عیب یابی"
+
+#: tinyutils/frugal:74
+msgid "Frugal system running detected"
+msgstr "شناسایی شد frugal سیستم "
+
+#: tinyutils/frugal:77
+msgid "Installation directory:"
+msgstr ":دایرکتوری نصب"
+
+#: tinyutils/frugal:78
+msgid "Kernel size:"
+msgstr ":حجم هسته (کرنل)"
+
+#: tinyutils/frugal:84
+msgid "Rootfs size:"
+msgstr ":(rootfs) حجم سیستم فایل ریشه"
+
+#: tinyutils/frugal:93
+msgid "Cleaning:"
+msgstr ":در حال پاکسازی"
+
+#: tinyutils/frugal:109
+msgid "Unable to find ISO image:"
+msgstr ":یافت نشد ISO فایل "
+
+#: tinyutils/frugal:114
+msgid "Mounting ISO image..."
+msgstr "...ISO در حال اتصال فایل "
+
+#: tinyutils/frugal:118
+msgid "Installing the Kernel..."
+msgstr "...در حال نصب هسته (کرنل)"
+
+#: tinyutils/frugal:121
+msgid "Installing the root filesystem..."
+msgstr "...(root) در حال نصب سیستم فایل ریشه"
+
+#: tinyutils/frugal:131
+msgid "Unmounting ISO image..."
+msgstr "...ISO در حال جداسازی فایل "

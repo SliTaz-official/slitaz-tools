@@ -1,0 +1,68 @@
+# Persian translations for TazDrop package.
+# Copyright (C) 2014 SliTaz GNU/Linux
+# This file is distributed under the same license as the TazDrop package.
+# Ali Rashidi <alirashidi17@yahoo.com>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: TazDrop\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-05-23 03:33+0300\n"
+"PO-Revision-Date: 2014-06-26 09:18+0400\n"
+"Last-Translator: Ali Rashidi <alirashidi17@yahoo.com>\n"
+"Language-Team: Ali Rashidi <alirashidi17@yahoo.com>\n"
+"Language: fa_IR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 1.6.5\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#: tazdrop/tazdrop:28
+msgid "SliTaz Drag N Drop tool"
+msgstr "SliTaz ابزار کشیدن و رها کردن"
+
+#: tazdrop/tazdrop:30
+msgid "Usage:"
+msgstr ":طریقه استفاده"
+
+#: tazdrop/tazdrop:31
+msgid "option"
+msgstr "گزینه"
+
+#: tazdrop/tazdrop:31
+msgid "file"
+msgstr "فایل"
+
+#: tazdrop/tazdrop:31
+msgid "URL"
+msgstr "(URL) آدرس اینترنتی"
+
+#: tazdrop/tazdrop:33
+msgid "Options:"
+msgstr ":گزینه ها"
+
+#: tazdrop/tazdrop:35
+msgid "Display this small help"
+msgstr "نمایش این راهنمای کوچک"
+
+#: tazdrop/tazdrop:36
+msgid "Display the desktop Drag N Drop window"
+msgstr "نمایش پنجره ی کشیدن و رها کردن دسکتاپ"
+
+#: tazdrop/tazdrop:37
+msgid "Display the desktop Drag N Drop image"
+msgstr "نمایش تصویر کشیدن و رها کردن دسکتاپ"
+
+#: tazdrop/tazdrop:38
+msgid "Display your dropped text notes"
+msgstr "نمایش یادداشت های متن رها شده شما"
+
+#: tazdrop/tazdrop:82
+msgid "Dropped Notes"
+msgstr "یادداشتهای رها شده"
+
+#: tazdrop/tazdrop:86
+msgid "Edit or clean-up your dropped text notes"
+msgstr "ویرایش یا تمیزکردن یادداشتهای متن رها شده شما"
