@@ -70,7 +70,7 @@ msgfmt:
 
 # Installation
 
-install: msgfmt
+install:
 	install -m 0755 -d $(DESTDIR)/sbin
 	install -m 0755 -d $(DESTDIR)/etc
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/bin
@@ -87,15 +87,13 @@ install: msgfmt
 	done;
 
 	# Declare all config files.
-	for file in etc/locale.conf etc/keymap.conf etc/TZ; \
-	do \
+	for file in etc/locale.conf etc/keymap.conf etc/TZ; do \
 		touch $(DESTDIR)/$$file; \
 	done;
 
 	# /usr/bin tools.
 	for app in tazx startx history editor browser terminal file-manager \
-		decode frugal startd stopd; \
-	do \
+		decode frugal startd stopd; do \
 		install -m 0755 tinyutils/$$app $(DESTDIR)$(PREFIX)/bin; \
 	done;
 
@@ -104,13 +102,14 @@ install: msgfmt
 	install -m 0755 tinyutils/setmixer $(DESTDIR)$(PREFIX)/sbin
 
 	# slitaz-tools i18n
-	for l in $(LINGUAS); \
-	do \
-		install -m 0755 -d $(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
-		install -m 0644 po/mo/$$l/slitaz-tools.mo \
-			$(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
+	for l in $(LINGUAS); do \
+		if [ -f "po/mo/$$l/slitaz-tools.mo" ]; then \
+			install -m 0755 -d $(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
+			install -m 0644 po/mo/$$l/slitaz-tools.mo \
+				$(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
+		fi; \
 	done;
-	
+
 	# Documentation
 	cp doc/post-install.txt $(DESTDIR)$(DOCDIR)/slitaz
 	# Permissions
@@ -132,8 +131,7 @@ install-boxes:
 	install -m 0644 pixmaps/* $(DESTDIR)$(PREFIX)/share/pixmaps
 
 	# i18n.
-	for l in $(LINGUAS); \
-	do \
+	for l in $(LINGUAS); do \
 		install -m 0755 -d $(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
 		install -m 0644 po/mo/$$l/*box* \
 			$(DESTDIR)$(PREFIX)/share/locale/$$l/LC_MESSAGES; \
