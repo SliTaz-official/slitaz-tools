@@ -1,0 +1,682 @@
+# Simplified Chinese translation for SliTaz Tools.
+# Copyright (C) 2014 SliTaz GNU/Linux
+# This file is distributed under the same license as the SliTaz Tools package.
+# 张文宇 <jame987165702@gmail.com>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: SliTaz Tools\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-05-23 03:33+0300\n"
+"PO-Revision-Date: 2014-07-01 18:05+0800\n"
+"Last-Translator: 张文宇 <jame987165702@gmail.com>\n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 1.6.5\n"
+
+#: tinyutils/tazlocale:15
+msgid "SliTaz GNU/Linux locale setting using dialog boxes."
+msgstr "SliTaz GNU / Linux地区设置对话框。"
+
+#: tinyutils/tazlocale:17 tinyutils/decode:30 tinyutils/hwsetup:24
+#: tinyutils/frugal:32
+msgid "Usage:"
+msgstr "用法:"
+
+#: tinyutils/tazlocale:18 tinyutils/decode:31 tinyutils/hwsetup:25
+msgid "option"
+msgstr "选项"
+
+#: tinyutils/tazlocale:20 tinyutils/hwsetup:40 tinyutils/frugal:41
+msgid "Options:"
+msgstr "选项："
+
+#: tinyutils/tazlocale:22
+msgid "Show info about config file and current locale."
+msgstr "显示配置文件和当前区域设置信息。"
+
+#: tinyutils/tazlocale:23
+msgid "Show list of available locales."
+msgstr "显示可用语言列表。"
+
+#: tinyutils/tazlocale:26
+msgid "Any other option treated as locale - set locale (root)."
+msgstr "任何其他的选项作为本地（root）。"
+
+#: tinyutils/tazlocale:27
+msgid "Display locale selecting dialog if no option given (root)."
+msgstr "显示区域选择对话框（如果没有选择）（root）"
+
+#: tinyutils/tazlocale:105
+msgid "SliTaz language setting"
+msgstr "SliTaz语言设置"
+
+#: tinyutils/tazlocale:124
+msgid ""
+"Please logout of your current session and login again to use new locale."
+msgstr "请您的当前会话注销并再次登录来使用新的地区设置。"
+
+#: tinyutils/tazlocale:126 tinyutils/tazkeymap:63
+msgid "Information"
+msgstr "信息"
+
+#: tinyutils/tazlocale:136 tinyutils/tazkeymap:41
+msgid "Config file:"
+msgstr "配置文件："
+
+#: tinyutils/tazlocale:137
+msgid "Current locale:"
+msgstr "区域设置："
+
+#: tinyutils/tazkeymap:42
+msgid "Current keymap:"
+msgstr "键盘映射："
+
+#: tinyutils/tazkeymap:51
+msgid "SliTaz keyboard setting"
+msgstr "SliTaz键盘设置"
+
+#: tinyutils/tazkeymap:64
+msgid ""
+"Please logout of your current session and login again to use new keyboard."
+msgstr "请您的当前会话注销并再次登录来使用新的键盘设置。"
+
+#: tinyutils/setmixer:12
+msgid "Setting default mixer volumes... "
+msgstr "设置默认混合卷中…"
+
+#: tinyutils/setmixer:53
+msgid "Done"
+msgstr "完成!"
+
+#: tinyutils/tazx:63
+msgid "Creating:"
+msgstr "创建："
+
+#: tinyutils/tazx:142
+msgid "Install Xorg"
+msgstr "安装Xorg"
+
+#: tinyutils/tazx:143
+msgid "Tazx helps you to select your X driver."
+msgstr "Tazx帮助你选择你的X驱动程序。"
+
+#: tinyutils/tazx:145
+msgid "driver"
+msgstr "驱动）"
+
+#: tinyutils/tazx:146
+msgid "Quit"
+msgstr "离开"
+
+#: tinyutils/tazx:174
+msgid "SliTaz Xorg config"
+msgstr "SliTaz Xorg配置"
+
+#: tinyutils/tazx:176
+msgid "Install or reconfigure Xorg"
+msgstr "安装或配置Xorg"
+
+#: tinyutils/tazx:177
+msgid "Install Xorg server (light version)"
+msgstr "安装Xorg服务器（简版）"
+
+#: tinyutils/tazx:178
+msgid "Quit Tazx utility"
+msgstr "退出Tazx实用程序"
+
+#: tinyutils/decode:28
+msgid "Decode audio and video files"
+msgstr "音频和视频文件的解码"
+
+#: tinyutils/decode:31 tinyutils/decode:36
+msgid "file"
+msgstr "文件"
+
+#: tinyutils/decode:31
+msgid "URL"
+msgstr "URL"
+
+#: tinyutils/decode:33 tinyutils/frugal:45
+msgid "Examples:"
+msgstr "例子："
+
+#: tinyutils/decode:35
+msgid "/path/to/files/*"
+msgstr "/path/to/files/*"
+
+#: tinyutils/decode:47
+#, sh-format
+msgid "Missing decoder: $dec"
+msgstr "欠缺解码器: $dec"
+
+#: tinyutils/decode:48 tinyutils/decode:80
+#, sh-format
+msgid "Skipping file: $name"
+msgstr "跳过文件：$name"
+
+#: tinyutils/decode:51
+#, sh-format
+msgid "Decoding: $name"
+msgstr "解码$name中"
+
+#: tinyutils/decode:60
+#, sh-format
+msgid "No file: $file"
+msgstr "没有文件：$file"
+
+#: tinyutils/decode:82
+#, sh-format
+msgid "Unsupported file: $file"
+msgstr "不支持的文件：$file"
+
+#: tinyutils/terminal:10
+msgid "configurable SliTaz wrapper for terminal."
+msgstr "终端配置SliTaz壁纸"
+
+#: tinyutils/terminal:12
+msgid "Recognized options:"
+msgstr "识别选项："
+
+#: tinyutils/terminal:13
+msgid "Print the version number"
+msgstr "显示版本号"
+
+#: tinyutils/terminal:14
+msgid "Print out this message"
+msgstr "打印此信息"
+
+#: tinyutils/terminal:15
+#, sh-format
+msgid "Width and height of terminal window ($GEOMETRY)"
+msgstr "终端窗口的宽度和高度($GEOMETRY)"
+
+#: tinyutils/terminal:16
+#, sh-format
+msgid "Title name for window (\"$TITLE\")"
+msgstr "在窗口的标题名称 (\"$TITLE\")"
+
+#: tinyutils/terminal:17
+msgid "Don't close terminal after command finished"
+msgstr "命令完成后不要关闭终端"
+
+#: tinyutils/terminal:18
+msgid "Command to execute (must be last in line)"
+msgstr "要执行的命令（必须在最后一行）"
+
+#: tinyutils/terminal:21
+#, sh-format
+msgid "Help for $TERMINAL:"
+msgstr "$TERMINAL的帮助："
+
+#: tinyutils/hwsetup:22
+msgid "SliTaz Setup configuration"
+msgstr "SliTaz安装配置"
+
+#: tinyutils/hwsetup:25
+msgid "command"
+msgstr "命令"
+
+#: tinyutils/hwsetup:27 tinyutils/frugal:36
+msgid "Commands:"
+msgstr "命令:"
+
+#: tinyutils/hwsetup:29
+msgid "Print this short usage."
+msgstr "打印简短的使用方法。"
+
+#: tinyutils/hwsetup:30
+msgid "Parallel and USB Printer setup."
+msgstr "并行插口和USB打印机设置。"
+
+#: tinyutils/hwsetup:31
+msgid "USB Scanner setup."
+msgstr "USB扫描仪设置。"
+
+#: tinyutils/hwsetup:32
+msgid "Integrated and USB webcam setup."
+msgstr "集成摄像头或USB摄像头的安装。"
+
+#: tinyutils/hwsetup:33
+msgid "Digital Camera setup."
+msgstr "数码相机设置。"
+
+#: tinyutils/hwsetup:34
+msgid "Bluetooth setup."
+msgstr "蓝牙设置。"
+
+#: tinyutils/hwsetup:35
+msgid "3g-modem setup."
+msgstr "3G调制解调器设置。"
+
+#: tinyutils/hwsetup:36
+msgid "Start/stop firewall."
+msgstr "启动/停止防火墙。"
+
+#: tinyutils/hwsetup:37
+msgid "Nvidia (non-free/free) setup."
+msgstr "NVIDIA（非免费/自由）配置。"
+
+#: tinyutils/hwsetup:38
+msgid "ATI (non-free/free) setup."
+msgstr "ATI（非免费/自由）配置。"
+
+#: tinyutils/hwsetup:42
+msgid "install non-free packages (nvidia, ati)."
+msgstr "安装非自由软件包（NVIDIA，ATI）。"
+
+#: tinyutils/hwsetup:43
+msgid "auto-install optional dependencies."
+msgstr "自动安装可选的依赖包。"
+
+#: tinyutils/hwsetup:44
+msgid "confirm before installing optional dependencies"
+msgstr "在安装可选的相关性确认"
+
+#: tinyutils/hwsetup:98
+#, sh-format
+msgid ""
+"Due to a lack of compatible hardware for troubleshooting, this $DEVICE "
+"device has not been properly tested. Please report any success, failure, bug "
+"to SliTaz Bug tracker or Forum."
+msgstr ""
+"由于不兼容的硬件故障，这个 $DEVICE 设备没有得到正确的测试。请报告任何成功，失"
+"败，错误SliTaz bug跟踪或论坛。"
+
+#: tinyutils/hwsetup:107
+#, sh-format
+msgid "Failed to setup $DEVICE"
+msgstr "未能设置$DEVICE"
+
+#: tinyutils/hwsetup:117
+#, sh-format
+msgid "Installing pkg: $pkg"
+msgstr "安装 $pkg包"
+
+#: tinyutils/hwsetup:131
+#, sh-format
+msgid "Would you like to install pkg: $pkg"
+msgstr "要安装PKG：$pkg 吗"
+
+#: tinyutils/hwsetup:148
+#, sh-format
+msgid "adding $user to $grp"
+msgstr "正在加入$user用户到$grp组"
+
+#: tinyutils/hwsetup:171
+msgid "Detected USB Device : Vendor : Product"
+msgstr "检测到USB设备：供应商：产品"
+
+#: tinyutils/hwsetup:213
+msgid "Do you want to use hp-setup utility"
+msgstr "你想使用惠普设置实用程序吗"
+
+#: tinyutils/hwsetup:228
+#, sh-format
+msgid "Verify $DEVICE Permissions"
+msgstr "验证$DEVICE权限"
+
+#: tinyutils/hwsetup:229
+#, sh-format
+msgid "Your $DEVICE must be in $grp group with rw-rw-rw- permissions"
+msgstr "你必须在$grp和拥有rw-rw-rw-权限，才能使用$DEVICE"
+
+#: tinyutils/hwsetup:250
+msgid "New udev rules are added by a package"
+msgstr "新的包增加udev规则"
+
+#: tinyutils/hwsetup:258
+msgid "Auto configuring Xorg..."
+msgstr "自动配置Xorg中…"
+
+#: tinyutils/hwsetup:261
+msgid "Configuring Xorg..."
+msgstr "配置Xorg中…"
+
+#: tinyutils/hwsetup:292
+msgid "Wvdial Box"
+msgstr "Wvdial Box"
+
+#: tinyutils/hwsetup:295
+msgid "Phone Number:"
+msgstr "电话号码："
+
+#: tinyutils/hwsetup:296
+msgid "Username:"
+msgstr "用户名："
+
+#: tinyutils/hwsetup:297
+msgid "Password:"
+msgstr "密码:"
+
+#: tinyutils/hwsetup:298
+msgid "Pin (if required):"
+msgstr "PIN码（如果需要）："
+
+#: tinyutils/hwsetup:299
+msgid "Modem:"
+msgstr "调制解调器："
+
+#: tinyutils/hwsetup:300
+msgid "Access Point Name (APN):"
+msgstr "接入点名称(APN):"
+
+#: tinyutils/hwsetup:301
+msgid "You must save your account info before dialing"
+msgstr "你必须在拨号前保存您的帐户信息"
+
+#: tinyutils/hwsetup:302
+msgid "Edit config file"
+msgstr "更改配置文件"
+
+#: tinyutils/hwsetup:303
+msgid "Save Configuration"
+msgstr "储存配置"
+
+#: tinyutils/hwsetup:304
+msgid "Dial Pin Once"
+msgstr "重新输入PIN一次"
+
+#: tinyutils/hwsetup:380
+msgid "Do you want to start cups"
+msgstr "你要启动cups吗（原文:Do you want to start cups)"
+
+#: tinyutils/hwsetup:388
+msgid "Starting <b>cups</b> using:"
+msgstr "启动 <b>cups</b> 用法:"
+
+#: tinyutils/hwsetup:407
+msgid "Do you want to start scanner"
+msgstr "你想开始扫描吗"
+
+#: tinyutils/hwsetup:415
+msgid "Following <b>scanner commands</b> may be of help:"
+msgstr "以下<b>扫描命令</b>可能是有帮助的："
+
+#: tinyutils/hwsetup:416
+msgid "to verify scanner has been found"
+msgstr "为了验证扫描仪已被发现"
+
+#: tinyutils/hwsetup:417
+msgid "scanner application"
+msgstr "扫描仪应用"
+
+#: tinyutils/hwsetup:436
+msgid "Would you like to test webcam"
+msgstr "你想测试摄像头吗"
+
+#: tinyutils/hwsetup:443
+msgid "Would you like to test webcam by installing mplayer-svn"
+msgstr "你想通过安装Mplayer SVN测试摄像头吗"
+
+#: tinyutils/hwsetup:450
+msgid "Webcam is set up; please use mplayer-svn/fswebcam/amsn/skype to view"
+msgstr "摄像头设置；请使用mplayer SVN / fswebcam / aMSN / Skype  来查看"
+
+#: tinyutils/hwsetup:466
+msgid "Do you want to check if gphoto2 can talk to your camera"
+msgstr "你要检查你的相机使用gphoto2吗"
+
+#: tinyutils/hwsetup:471
+msgid "Do you want to test importing photos"
+msgstr "你想要测试输入照片吗"
+
+#: tinyutils/hwsetup:481
+msgid "Camera is set up; please use gphoto2 to import photos"
+msgstr "请检查相机设置，使用gphoto2"
+
+#: tinyutils/hwsetup:483
+#, sh-format
+msgid "Quick start guide: $guide_url"
+msgstr "快速启动指南：$guide_url"
+
+#: tinyutils/hwsetup:494
+msgid "Do you want to see if the bluetooth is working"
+msgstr "你想看看蓝牙工作状况吗"
+
+#: tinyutils/hwsetup:502
+msgid "<b>Bluetooth</b> interfaces"
+msgstr "<b>蓝牙</b>接口"
+
+#: tinyutils/hwsetup:510 tinyutils/hwsetup:527
+msgid "Following <b>Bluetooth commands</b> may be of help"
+msgstr "以下<b>蓝牙命令</b>可能会有帮助"
+
+#: tinyutils/hwsetup:515
+msgid "checking local bluetooth devices..."
+msgstr "检查本地蓝牙设备中…"
+
+#: tinyutils/hwsetup:516
+msgid "scanning remote bluetooth devices..."
+msgstr "扫描远程蓝牙设备中…"
+
+#: tinyutils/hwsetup:517
+msgid "pairing with remote bluetooth devices..."
+msgstr "配对与远程蓝牙设备中…"
+
+#: tinyutils/hwsetup:520 tinyutils/hwsetup:541
+#, sh-format
+msgid "You can manually edit the configuration files in $bt if need be"
+msgstr "您可以手动编辑配置文件中的$bt ，如果需要"
+
+#: tinyutils/hwsetup:534
+msgid "for starting bluetooth daemon"
+msgstr "启动蓝牙守护进程"
+
+#: tinyutils/hwsetup:536
+msgid "for checking local devices"
+msgstr "检查本地设备"
+
+#: tinyutils/hwsetup:537
+msgid "for scanning remote devices"
+msgstr "扫描远程设备"
+
+#: tinyutils/hwsetup:538
+msgid "pairing with remote bluetooth devices"
+msgstr "配对与远程蓝牙设备"
+
+#: tinyutils/hwsetup:552
+msgid "List detected devices"
+msgstr "检测到的设备清单"
+
+#: tinyutils/hwsetup:556
+msgid "Detected Modem at:"
+msgstr "检测到的调制解调器："
+
+#: tinyutils/hwsetup:558
+msgid "Do you want to configure wvdial"
+msgstr "你要想要配置软件吗？"
+
+#: tinyutils/hwsetup:567
+#, sh-format
+msgid "Edit $wc for phone number, login name, password and pin"
+msgstr "编辑为$wc的电话号码，用户名，密码和PIN"
+
+#: tinyutils/hwsetup:568
+#, sh-format
+msgid "Add DNS address of your provider in $rc"
+msgstr "添加您的供应商DNS地址在$rc"
+
+#: tinyutils/hwsetup:577
+msgid "Setting IPTABLES_RULES to yes in /etc/SliTaz/firewall.conf"
+msgstr "设置 IPTABLES_RULES是在/etc/SliTaz/ firewall.conf"
+
+#: tinyutils/hwsetup:586
+msgid "Probing for open ports..."
+msgstr "探索开放的端口中…"
+
+#: tinyutils/hwsetup:590
+msgid "Adding firewall daemon to start automatically at boot"
+msgstr "添加防火墙后台，开机时自动启动"
+
+#: tinyutils/hwsetup:607
+msgid "Do you want to configure X using non-free nvidia driver"
+msgstr "你要配置X使用非自由nvidia驱动程序吗"
+
+#: tinyutils/hwsetup:610 tinyutils/hwsetup:649 tinyutils/hwsetup:681
+#: tinyutils/hwsetup:714
+#, sh-format
+msgid "Your previous config is in $xorg60"
+msgstr "你以前的配置是$xorg60"
+
+#: tinyutils/hwsetup:611 tinyutils/hwsetup:650
+#, sh-format
+msgid "If nvidia fails, you can remove $xorg55 to restore previous config."
+msgstr "如果nvidia失败，您可以删除$xorg55恢复到以前的配置。"
+
+#: tinyutils/hwsetup:618
+msgid "Adding to xorg.conf:"
+msgstr "增加xorg.conf："
+
+#: tinyutils/hwsetup:623 tinyutils/hwsetup:659
+msgid "Checking if nvidia is working..."
+msgstr "检查Nvidia工作状况中…"
+
+#: tinyutils/hwsetup:627
+msgid "Configure nvidia settings:"
+msgstr "设置NVIDIA配置："
+
+#: tinyutils/hwsetup:634
+msgid "test nvidia"
+msgstr "测试NVIDIA"
+
+#: tinyutils/hwsetup:635
+msgid "Use: nvidia-settings utility to configure your settings if necessary"
+msgstr "使用：NVIDIA设置进行必要的配置设置"
+
+#: tinyutils/hwsetup:646
+msgid "Do you want to configure X using free nvidia driver"
+msgstr "你要配置X使用免费的驱动程序吗"
+
+#: tinyutils/hwsetup:652
+#, sh-format
+msgid "Create $xorg55short configured with nv driver."
+msgstr ""
+"创建$xorg55short配置nvidia显卡驱动。（原文：Create $xorg55short configured "
+"with nv  driver.）"
+
+#: tinyutils/hwsetup:678
+msgid "Do you want to configure X using non-free catalyst ATI (radeon) driver"
+msgstr "你要配置X使用非自由的催化剂（ATI 显卡）驱动程序吗？"
+
+#: tinyutils/hwsetup:682
+#, sh-format
+msgid "If ati fails, you can remove $xorg55 to restore previous config."
+msgstr "如果ATI失败，您可以删除$xorg55恢复到以前的配置。"
+
+#: tinyutils/hwsetup:691
+msgid "Checking if ati catalyst is working..."
+msgstr "进行如果ATI 催化剂工作的检查中…"
+
+#: tinyutils/hwsetup:695
+msgid "Configuration:"
+msgstr "配置："
+
+#: tinyutils/hwsetup:696
+msgid ""
+"Use: aticonfig utility to generate a template configuration file if necessary"
+msgstr "用途：aticonfig是生成模板的配置文件的实用工具，如果必要的话。"
+
+#: tinyutils/hwsetup:711
+msgid "Do you want to configure X using free ATI (radeon) driver"
+msgstr "你要配置X使用免费的ATI显卡驱动吗？"
+
+#: tinyutils/hwsetup:715
+#, sh-format
+msgid "If ATI fails, you can remove $xorg55 to restore previous config."
+msgstr "如果ATI失败，您可以删除$xorg55恢复到以前的配置。"
+
+#: tinyutils/hwsetup:717
+#, sh-format
+msgid "Create $xorg55short configured with radeon driver."
+msgstr ""
+"创建$xorg55short配置显卡驱动。（原文：Create $xorg55short configured with "
+"radeon driver.）"
+
+#: tinyutils/hwsetup:723
+msgid "Checking if ATI radeon is working..."
+msgstr "进行如果ATI 显卡工作的检查中…"
+
+#: tinyutils/hwsetup:739
+msgid "Bringing eth0 down..."
+msgstr "使eth0下来中…（原文：Bringing eth0 down...）（eth0是网络适配器）"
+
+#: tinyutils/hwsetup:740
+msgid "Dialing..."
+msgstr "拨号中…"
+
+#: tinyutils/hwsetup:766
+msgid "The following optional packages can be installed:"
+msgstr "下面的可选包可以安装："
+
+#: tinyutils/hwsetup:770
+msgid "Do you want to install all/few/no optional dependencies (all|few|N)? "
+msgstr "你想如何安装可选的相关性？全部/很少/没有输入：all/few/N"
+
+#: tinyutils/frugal:34
+msgid "SliTaz frugal installation"
+msgstr "SliTaz最小安装"
+
+#: tinyutils/frugal:37
+msgid "Display install path and size stats"
+msgstr "显示安装路径和大小的属性"
+
+#: tinyutils/frugal:38
+msgid "Remove all frugal files"
+msgstr "删除所有文件。"
+
+#: tinyutils/frugal:39
+msgid "Show GRUB configuration example"
+msgstr "显示GRUB的配置实例"
+
+#: tinyutils/frugal:42
+msgid "Set root installation path"
+msgstr "设置根文件系统（root）安装路径"
+
+#: tinyutils/frugal:43
+msgid "Display some useful debug information"
+msgstr "显示一些有用的调试信息"
+
+#: tinyutils/frugal:74
+msgid "Frugal system running detected"
+msgstr "最小系统运行检测中"
+
+#: tinyutils/frugal:77
+msgid "Installation directory:"
+msgstr "安装目录："
+
+#: tinyutils/frugal:78
+msgid "Kernel size:"
+msgstr "内核大小："
+
+#: tinyutils/frugal:84
+msgid "Rootfs size:"
+msgstr "Rootfs大小："
+
+#: tinyutils/frugal:93
+msgid "Cleaning:"
+msgstr "正在清理: "
+
+#: tinyutils/frugal:109
+msgid "Unable to find ISO image:"
+msgstr "无法找到ISO映像："
+
+#: tinyutils/frugal:114
+msgid "Mounting ISO image..."
+msgstr "挂载ISO 映像中"
+
+#: tinyutils/frugal:118
+msgid "Installing the Kernel..."
+msgstr "安装内核中..."
+
+#: tinyutils/frugal:121
+msgid "Installing the root filesystem..."
+msgstr "安装根文件系统中…"
+
+#: tinyutils/frugal:131
+msgid "Unmounting ISO image..."
+msgstr "卸载ISO 映像中..."
