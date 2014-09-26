@@ -6,6 +6,13 @@
 USER_CONFIG="$HOME/.config/slitaz/applications.conf"
 [ -f  $USER_CONFIG ] && . $USER_CONFIG
 
-exec setsid $BROWSER $@ &
+EXEC="exec setsid $BROWSER"
+
+case $BROWSER in
+	*links*|lynx)
+		$EXEC $@ ;;
+	w3m)	$EXEC -N $@ ;;
+	*)	$EXEC $@ & ;;
+esac
 
 exit 0
