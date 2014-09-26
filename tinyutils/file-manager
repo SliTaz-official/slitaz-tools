@@ -6,6 +6,6 @@
 USER_CONFIG="$HOME/.config/slitaz/applications.conf"
 [ -f  $USER_CONFIG ] && . $USER_CONFIG
 
-$FILE_MANAGER $@ &
+exec $FILE_MANAGER $@
 
 exit 0

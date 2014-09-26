@@ -6,6 +6,6 @@
 USER_CONFIG="$HOME/.config/slitaz/applications.conf"
 [ -f  $USER_CONFIG ] && . $USER_CONFIG
 
-$BROWSER $@ &
+exec $BROWSER $@
 
 exit 0
