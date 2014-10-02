@@ -6,6 +6,15 @@
 USER_CONFIG="$HOME/.config/slitaz/applications.conf"
 [ -f  $USER_CONFIG ] && . $USER_CONFIG
 
-exec setsid $EDITOR $@
+if [ ! -z $XAUTHORITY ]; then
+	EXEC="terminal -e $EDITOR";
+else	EXEC="$EDITOR";
+fi
+
+case $EDITOR in
+	emacs|joe|jed|ht|le|nano|vi*) $EXEC $@ ;;
+	mcedit)	$EXEC -a -S nicedark $@ ;;
+	*) exec setsid $EDITOR $@ ;;
+esac
 
 exit 0

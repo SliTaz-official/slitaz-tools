@@ -642,19 +642,20 @@ case "$1" in
 		. $CONFIG
 
 		FILE_MANAGERS=$(gen_alt $FILE_MANAGER \
-			clex emelfm2 mc pathfinder pcmanfm ranger spacefm thunar xfe ytree)
+			clex caja emelfm2 mc pathfinder pcmanfm pcmanfm-qt ranger spacefm \
+			thunar xfe ytree)
 		BROWSERS=$(gen_alt $BROWSER \
 			arora chrome cream dillo elinks firefox iron links lynx midori \
-			netsurf opera retawq seamonkey surf tazweb)
+			netsurf opera QtWeb qupzilla retawq seamonkey surf tazweb)
 		EDITORS=$(gen_alt $EDITOR \
-			adie beaver emacs geany jed joe le leafpad mousepad mp-5 nano \
-			SciTE vi vim xedit xfw zile)
+			adie beaver emacs geany jed joe juffed ht le leafpad mcedit \
+			mousepad mp-5 nano qedit SciTE vi vim xedit xfw zile)
 		TERMINALS=$(gen_alt $TERMINAL \
-			aterm evilvte lxterminal mrxvt sakura stjerm tilda urxvt vte xterm \
-			yeahconsole)
+			aterm evilvte lxterminal mrxvt qterminal sakura stjerm tilda urxvt vte \
+			xterm yeahconsole)
 		WINDOW_MANAGERS=$(gen_alt $WINDOW_MANAGER \
-			awesome blackbox dwm echinus enlightenment fluxbox icewm jwm \
-			karmen matchbox openbox-session pekwm ratpoison xfwm4)
+			awesome blackbox dwm echinus enlightenment fluxbox icewm icewm-session jwm \
+			karmen lxqt matchbox openbox-session pekwm ratpoison xfwm4)
 
 		icon=preferences-desktop-default-applications
 		eval $(yad --title="$(_n 'SliTaz default applications')" \

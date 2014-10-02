@@ -8,11 +8,18 @@ USER_CONFIG="$HOME/.config/slitaz/applications.conf"
 
 EXEC="exec setsid $BROWSER"
 
+if [ ! -z $XAUTHORITY ]; then
+	EXECT="terminal -e $BROWSER";
+	case $BROWSER in links) EXECT="$EXEC -g" ;; esac
+else
+	EXECT="$BROWSER";
+fi
+
 case $BROWSER in
-	*links*|lynx)
-		$EXEC $@ ;;
-	w3m)	$EXEC -N $@ ;;
-	*)	$EXEC $@ & ;;
+	*links*|retawq|lynx)
+		$EXECT $@ ;;
+	w3m)	$EXECT -N $@ ;;
+	*)	$EXEC $@ ;;
 esac
 
 exit 0

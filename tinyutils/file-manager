@@ -6,6 +6,16 @@
 USER_CONFIG="$HOME/.config/slitaz/applications.conf"
 [ -f  $USER_CONFIG ] && . $USER_CONFIG
 
-exec setsid $FILE_MANAGER $@ &
+if [ ! -z $XAUTHORITY ]; then
+	EXEC="terminal -e $FILE_MANAGER" ;
+else	EXEC="$FILE_MANAGER" ;
+fi
+
+case $FILE_MANAGER in
+	clex)	$EXEC ;;
+	ytree)	$EXEC $@ ;;
+	mc)	$EXEC -S gotar -d $@ ;;
+	*) exec setsid $FILE_MANAGER $@ ;;
+esac
 
 exit 0
