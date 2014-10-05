@@ -165,9 +165,17 @@ install_xorg() {
 	esac
 }
 
+install_slim() {
+	[ -d "$installed/slim" ] || tazpkg -gi slim
+	[ -d "$installed/dbus" ] || tazpkg -gi dbus
+}
+
 # Screen configuration dialog. TODO: menus items to enable/disable X on boot
 # and sed /etc/rcS.conf to remove slim from RUN_DAEMONS.
 config_dialog() {
+	. /etc/rcS.conf ; LM="ON"
+	[ $LOGIN_MANAGER = "slim" ] || LM="OFF"
+
 	exec 3>&1
 	value=$($DIALOG \
 		--clear --colors \
@@ -175,6 +183,8 @@ config_dialog() {
 		--menu "" 16 72 10 \
 	"xorg"        "$(_n 'Install or reconfigure Xorg')" \
 	"xorg-light"  "$(_n 'Install Xorg server (light version)')" \
+	"onboot"      "$(_n 'AutoStart Xorg by SLiM on boot') ...| $LM" \
+	"slim"        "$(_n '(Re)Start Simple Login Manager now')" \
 	"quit"        "$(_n 'Quit Tazx utility')" \
 	2>&1 1>&3)
 	retval=$?
@@ -196,6 +206,22 @@ config_dialog() {
 			[ -d "$installed/xorg-xf86-video-fbdev" ] || \
 				tazpkg -gi xorg-xf86-video-fbdev
 			xorg_conf_d ;;
+		onboot)
+			install_slim
+			if [ $LM = "OFF" ] ; then
+				LM=slim
+			else
+				LM=""
+			fi
+			sed '/LOGIN_MANAGER=/s|"\([^"]*\)"|"'$LM'"|' \
+				-i /etc/rcS.conf
+
+			[ $LM = "slim" ] || LM=disabled
+			echo "start X on boot:" $(boldify $LM) ;;
+		slim)
+			install_slim
+			[ ! -z $XAUTHORITY ] || \
+				stopd slim ; sleep 1 ; startd slim ;;
 		*)
 			exit 0 ;;
 	esac
