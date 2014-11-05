@@ -210,7 +210,7 @@ msgstr "Titre de la fenêtre (\"$TITLE\")"
 
 #: tinyutils/terminal:17
 msgid "Don't close terminal after command finished"
-msgstr "Ne fermez pas le terminal une fois la command finie"
+msgstr "Ne fermez pas le terminal une fois la commande finie"
 
 #: tinyutils/terminal:18
 msgid "Command to execute (must be last in line)"
@@ -244,11 +244,11 @@ msgstr "Configuration des imprimantes parallèle et USB"
 
 #: tinyutils/hwsetup:31
 msgid "USB Scanner setup."
-msgstr "Configuration des scanner USB"
+msgstr "Configuration des scanners USB"
 
 #: tinyutils/hwsetup:32
 msgid "Integrated and USB webcam setup."
-msgstr "Configuration des webcams intégrée et USB"
+msgstr "Configuration de la webcam intégrée ou USB"
 
 #: tinyutils/hwsetup:33
 msgid "Digital Camera setup."
