@@ -133,6 +133,16 @@ xorg_conf_d() {
 	gen_xorg_conf_file
 }
 
+dialog_end() {
+	retval=$?
+	exec 3>&-
+	# Continue or exit.
+	case $retval in
+		0) continue ;;
+		1|255) exit 0 ;;
+	esac
+}
+
 # Install xorg server.
 install_xorg() {
 	[ -f "/var/lib/tazpkg/packages.list" ] || tazpkg recharge
@@ -145,33 +155,97 @@ install_xorg() {
 		while read x; do echo $x; _ 'driver'; done) \
 	"quit" "$(_n 'Quit')" \
 	2>&1 1>&3)
-	retval=$?
-	exec 3>&-
-
-	# Continue or exit.
-	case $retval in
-		0) continue ;;
-		1|255) exit 0 ;;
-	esac
+	dialog_end
 
 	# Set selected value.
 	case $value in
 		quit) exit 0 ;;
 		*)
-			[ -d "$installed/xorg-server" ] || tazpkg -gi xorg-server
-			[ -d "$installed/xorg-xf86-video-$value" ] || \
-				tazpkg -gi xorg-xf86-video-$value
+			inst_pkg xorg-server
+			inst_pkg xorg-xf86-video-$value
 			xorg_conf_d ;;
 	esac
 }
 
-install_slim() {
-	[ -d "$installed/slim" ] || tazpkg -gi slim
-	[ -d "$installed/dbus" ] || tazpkg -gi dbus
+inst_pkg() {
+	CMD="sudo tazpkg -gi $@"
+	test $(id -u) = 0 && CMD="tazpkg -gi $@"
+	[ -d "$installed/$@" ] || $CMD
 }
 
-# Screen configuration dialog. TODO: menus items to enable/disable X on boot
-# and sed /etc/rcS.conf to remove slim from RUN_DAEMONS.
+apps_dialog() {
+	. ${user_conf}
+	exec 3>&1
+	app=$($DIALOG --clear --colors \
+		--extra-label "$(_n 'Edit')" \
+		--backtitle "{ $(_n '\Z3SliTaz applications config\Zn') }" \
+		--inputmenu " " 22 52 18 WINDOW_MANAGER $WINDOW_MANAGER \
+	$(for a in EDITOR BROWSER TERMINAL FILE_MANAGER; do
+		eval n=$"$a" ; echo "$a $n";
+	done) 2>&1 1>&3)
+	dialog_end
+	case $app in
+		RENAMED*)
+			appname=$(echo $app | cut -d " " -f3)
+			app=$(echo $app | cut -d " " -f2) ;;
+		*)
+			app_name_dialog only-installed d a-item ;;
+	esac
+	if [ ! $appname = " " ]; then
+		[ ! $appname = show_ALL ] || app_name_dialog full-list d
+		if [ ! $(busybox which ${appname} 2>/dev/null) ]; then
+			inst_pkg $appname
+			if [ ! -d "$installed/$appname" ]; then
+			pknm=$(tazpkg search-pkgname /bin/$appname \
+			| grep -Ev '=|:| |/bin/')
+			inst_pkg $pknm
+			fi
+		else
+		sed '/'${app}'/s|=.*$|="'${appname}'"|' -i ${user_conf}
+		fi
+	fi
+	apps_dialog
+}
+
+app_name_dialog() {
+	bt="" sz=28 ; [ $1 = full-list ] || sz=20 \
+	bt=$(_n 'select "Show_ALL" to install additional programs')
+	exec 3>&1
+	appname=$($DIALOG --clear --colors \
+	--backtitle "\Z1${bt}\Zn" --title "${app}" \
+	--menu "" $sz 50 24 $(gen_applist $app $@) 2>&1 1>&3) \
+	dialog_end
+}
+
+gen_applist() {
+. ${user_conf}
+FILE_MANAGERS=" clex caja emelfm2 mc pathfinder pcmanfm pcmanfm-qt ranger spacefm thunar xfe ytree"
+BROWSERS=" arora chrome cream dillo elinks firefox iron links lynx midori netsurf \
+ opera QtWeb qupzilla retawq seamonkey surf tazweb"
+EDITORS=" adie beaver emacs geany jed joe juffed ht le leafpad mcedit mousepad mp-5 \
+ nano qedit SciTE vi vim xedit xfw zile"
+TERMINALS=" aterm evilvte lxterminal mrxvt qterminal sakura stjerm tilda urxvt vte \
+ xterm yeahconsole"
+WINDOW_MANAGERS=" awesome blackbox dwm echinus enlightenment fluxbox icewm-session jwm \
+ lxde-session karmen matchbox openbox-session pekwm ratpoison startlxqt xfwm4"
+
+	eval list='$'"$1"S
+	eval current='$'"$1"
+for i in $current $(echo $list" " | sed "s| "$current" | |g") $4 ; do
+	t="<--" ; [ $(busybox which $i 2>/dev/null) ] || t=---
+	if [ $2 = only-installed ] && [ $t = --- ]; then
+		case $i in
+		a-item) i=show_ALL t=$(_n 'Get more apps') ;;
+		*) i=" " t=" " ;; esac
+	fi
+	instmsg=$(_n 'install')
+	t=$(echo $t | sed "s|---|$instmsg|g ; s| |_|g")
+	echo "$i"
+	[ $3 = yad ] || echo -e "$t"
+done
+}
+
+# Screen configuration dialog.
 config_dialog() {
 	. /etc/rcS.conf ; LM="ON"
 	[ $LOGIN_MANAGER = "slim" ] || LM="OFF"
@@ -185,43 +259,34 @@ config_dialog() {
 	"xorg-light"  "$(_n 'Install Xorg server (light version)')" \
 	"onboot"      "$(_n 'AutoStart Xorg by SLiM on boot') ...| $LM" \
 	"slim"        "$(_n '(Re)Start Simple Login Manager now')" \
+	"wm_apps"     "$(_n 'Select & install WM|DE + applications')" \
 	"quit"        "$(_n 'Quit Tazx utility')" \
 	2>&1 1>&3)
-	retval=$?
-	exec 3>&-
-
-	# Continue or exit.
-	case $retval in
-		0) continue ;;
-		1|255) exit 0 ;;
-	esac
-
+	dialog_end
 	# Set selected value.
 	case "$value" in
-		xorg) 
+		xorg)
 			install_xorg ;;
 		xorg-light)
-			[ -d "$installed/xorg-server-light" ] || \
-				tazpkg -gi xorg-server-light
-			[ -d "$installed/xorg-xf86-video-fbdev" ] || \
-				tazpkg -gi xorg-xf86-video-fbdev
+			inst_pkg xorg-server-light
+			inst_pkg xorg-xf86-video-fbdev
 			xorg_conf_d ;;
 		onboot)
-			install_slim
+			inst_pkg slim ; inst_pkg dbus
 			if [ $LM = "OFF" ] ; then
 				LM=slim
-			else
-				LM=""
+			else	LM=""
 			fi
-			sed '/LOGIN_MANAGER=/s|"\([^"]*\)"|"'$LM'"|' \
-				-i /etc/rcS.conf
-
+			sed '/LOGIN_MANAGER/s|=.*$|="'$LM'"|' -i /etc/rcS.conf
 			[ $LM = "slim" ] || LM=disabled
 			echo "start X on boot:" $(boldify $LM) ;;
 		slim)
-			install_slim
-			[ ! -z $XAUTHORITY ] || \
-				stopd slim ; sleep 1 ; startd slim ;;
+			inst_pkg slim ; inst_pkg dbus
+			[ ! -z $XAUTHORITY ] || stopd slim ;sleep 2; startd slim ;;
+		wm_apps)
+			slitaz_apps_conf
+			. ${user_conf}
+			apps_dialog ;;
 		*)
 			exit 0 ;;
 	esac
@@ -235,8 +300,9 @@ slitaz_apps_conf() {
 	apps_conf=/etc/slitaz/applications.conf
 	
 	if [ "$(id -u)" = 0 ]; then
-		user_conf="/etc/skel/.config/slitaz/applications.conf"
-		mkdir -p $(dirname $user_conf); cp -f ${apps_conf} ${user_conf}
+		user_conf=${apps_conf}
+		new_user_conf="/etc/skel/.config/slitaz/applications.conf"
+		mkdir -p $(dirname $user_conf); cp -f ${apps_conf} ${new_user_conf}
 	else
 		# If started by: startx and with boot opts screen=text
 		user_conf="$HOME/.config/slitaz/applications.conf"
@@ -279,12 +345,18 @@ case "$1" in
 	
 	*help) 
 		echo "Usage: $(basename $0) [install-xorg|config-xorg|init|keyboard]" ;;
+		
 	
+	get-applist)
+		slitaz_apps_conf
+		gen_applist $2 $3 $4 ;;
 	*)
 		# User can get a new .xinitrc with tazx from cmdline.
-		[ $(id -u) == 0 ] && config_dialog
-		slitaz_apps_conf
-		gen_xsession ;;
+		if [ $(id -u) == 0 ]; then config_dialog
+		else	slitaz_apps_conf ; apps_dialog
+		fi
+		# gen_xsession
+		;;
 esac
 
 exit 0

@@ -520,17 +520,6 @@ all_apps() {
 		--button="gtk-close:0"
 }
 
-# Generate alternatives list: first - current choice, following - existing apps
-gen_alt() {
-	alts="$@"
-	current=$(echo $alts | cut -d' ' -f1)
-	alts=$(echo $alts | sed "s|$current||g")
-	for alt in $alts; do
-		[ ! $(busybox which $alt) ] && alts=$(echo $alts | sed "s|$alt||")
-	done
-	echo $current $alts | tr ' ' '!'
-}
-
 # Ask root permissions for system settings
 ask_root() {
 	if [ $(id -u) != 0 ]; then
@@ -565,7 +554,7 @@ case "$1" in
 			cat /dev/null > $HOME/.config/slitaz/subox.conf
 		fi
 		# Try to login & execute. If password is wrong execute error dialog
-		SU_CMD_QUOTED="$(echo "dbus-launch $SU_CMD" | sed 's|&|\\&|g')"
+		SU_CMD_QUOTED="$(echo "dbus-launch $SU_CMD" --exit-with-session | sed 's|&|\\&|g')"
 		echo $main | cut -f 1 -d "|" | su -c "$SU_CMD_QUOTED &" || su_error ;;
 	logout)
 		# Logout window with actions
@@ -635,27 +624,19 @@ case "$1" in
 		# is /etc/slitaz/applications.conf and each user can have personal
 		# settings. System wide for root and personal config for user.
 		export CONFIG="$HOME/.config/slitaz/applications.conf"
-		if [ ! -f $CONFIG ]; then
-			mkdir -p $HOME/.config/slitaz
-			cp /etc/slitaz/applications.conf $CONFIG
+		if [ "$(id -u)" = 0 ]; then
+			[ ! -f $CONFIG ] || mv -f $CONFIG /etc/slitaz/applications.conf
+			export CONFIG="/etc/slitaz/applications.conf"
 		fi
-		. $CONFIG
 
-		FILE_MANAGERS=$(gen_alt $FILE_MANAGER \
-			clex caja emelfm2 mc pathfinder pcmanfm pcmanfm-qt ranger spacefm \
-			thunar xfe ytree)
-		BROWSERS=$(gen_alt $BROWSER \
-			arora chrome cream dillo elinks firefox iron links lynx midori \
-			netsurf opera QtWeb qupzilla retawq seamonkey surf tazweb)
-		EDITORS=$(gen_alt $EDITOR \
-			adie beaver emacs geany jed joe juffed ht le leafpad mcedit \
-			mousepad mp-5 nano qedit SciTE vi vim xedit xfw zile)
-		TERMINALS=$(gen_alt $TERMINAL \
-			aterm evilvte lxterminal mrxvt qterminal sakura stjerm tilda urxvt vte \
-			xterm yeahconsole)
-		WINDOW_MANAGERS=$(gen_alt $WINDOW_MANAGER \
-			awesome blackbox dwm echinus enlightenment fluxbox icewm icewm-session jwm \
-			karmen lxqt matchbox openbox-session pekwm ratpoison xfwm4)
+		for a in FILE_MANAGERS BROWSERS EDITORS TERMINALS WINDOW_MANAGERS;
+		do
+			eval $(expr $a=$(echo $(/usr/bin/tazx get-applist ${a%%S} \
+			only-installed yad) | sed 's/ /!/g ; s/!!//g; s/ //g'))
+		done
+
+		# Missing file was created by slitaz_apps_conf function from tazx
+		. $CONFIG
 
 		icon=preferences-desktop-default-applications
 		eval $(yad --title="$(_n 'SliTaz default applications')" \
