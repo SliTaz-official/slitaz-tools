@@ -554,7 +554,7 @@ case "$1" in
 			cat /dev/null > $HOME/.config/slitaz/subox.conf
 		fi
 		# Try to login & execute. If password is wrong execute error dialog
-		SU_CMD_QUOTED="$(echo "dbus-launch $SU_CMD" --exit-with-session | sed 's|&|\\&|g')"
+		SU_CMD_QUOTED="$(echo "dbus-launch --exit-with-session $SU_CMD" | sed 's|&|\\&|g')"
 		echo $main | cut -f 1 -d "|" | su -c "$SU_CMD_QUOTED &" || su_error ;;
 	logout)
 		# Logout window with actions
