@@ -273,7 +273,7 @@ esac
 # cfgfile = base config file to remove/update the sound setting
 cfgfile="/etc/sound.conf"
 
-DIALOG=dialog
+DIALOG='dialog --timeout 60'
 
 #
 # remove the previous configuration by alsaconf

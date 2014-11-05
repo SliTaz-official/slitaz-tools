@@ -19,7 +19,7 @@ msgstr ""
 
 #: tazdrop/tazdrop:28
 msgid "SliTaz Drag N Drop tool"
-msgstr ""
+msgstr "Outil SliTaz de Drag N Drop"
 
 #: tazdrop/tazdrop:30
 msgid "Usage:"
@@ -31,7 +31,7 @@ msgstr ""
 
 #: tazdrop/tazdrop:31
 msgid "file"
-msgstr ""
+msgstr "fichier"
 
 #: tazdrop/tazdrop:31
 msgid "URL"
@@ -59,7 +59,7 @@ msgstr "Affiche vos prises de notes"
 
 #: tazdrop/tazdrop:82
 msgid "Dropped Notes"
-msgstr ""
+msgstr "Notes déposées"
 
 #: tazdrop/tazdrop:86
 msgid "Edit or clean-up your dropped text notes"

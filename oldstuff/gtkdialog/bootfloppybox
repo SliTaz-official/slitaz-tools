@@ -722,7 +722,7 @@ isiso()
 
 dialogfloppyset()
 {
-	: ${DIALOG=dialog}
+	: ${DIALOG=dialog --timeout 60}
 	while true; do
 	exec 3>&1
 	KERNEL=`$DIALOG --title " Select a Linux kernel or a SliTaz iso " \
@@ -1160,7 +1160,7 @@ fi
 
 if [ -z "$XAUTHORITY" ]; then
 
-    : ${DIALOG=dialog}
+    : ${DIALOG=dialog --timeout 60}
     
     DEVICE=/dev/fd0
     list_floppy check || DEVICE="floppy"

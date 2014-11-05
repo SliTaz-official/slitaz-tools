@@ -146,7 +146,7 @@ $i	$desc"
 		optlist "$list" ;;
 	"")
 		# No args: display Ncurses dialog.
-		: ${DIALOG=dialog}
+		: ${DIALOG=dialog --timeout 60}
 		check_root $@
 		dialog_menu ;;
 	*)

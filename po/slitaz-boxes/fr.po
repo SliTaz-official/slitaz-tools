@@ -19,7 +19,7 @@ msgstr ""
 
 #: boxes/wifi-box:15
 msgid "Small Wi-Fi utility to quickly connect to a network."
-msgstr ""
+msgstr "Petit utilitaire Wi-Fi pour se connecter rapidement."
 
 #: boxes/wifi-box:16
 #: boxes/burn-box:33
@@ -33,7 +33,7 @@ msgstr "interface"
 
 #: boxes/wifi-box:38
 msgid "any"
-msgstr ""
+msgstr "n'importe quel"
 
 #: boxes/wifi-box:38
 msgid "N/A"
@@ -63,7 +63,7 @@ msgstr "Connection Wi-Fi"
 
 #: boxes/wifi-box:85
 msgid "Connection to:"
-msgstr "Se connecter à:"
+msgstr "Se connecter à :"
 
 #: boxes/wifi-box:115
 msgid "Wi-Fi network"
@@ -134,7 +134,7 @@ msgstr "Crée et grave un CD audio"
 
 #: boxes/burn-box:41
 msgid "Erase a RW disk"
-msgstr ""
+msgstr "Efface un disque RW"
 
 #: boxes/burn-box:43
 #: boxes/scp-box:42
@@ -253,27 +253,27 @@ msgstr "<b>Copie sécurisée</b> - Copie de fichiers distants avec scp"
 
 #: boxes/scp-box:67
 msgid "User name:"
-msgstr "Nom d'utilisateur:"
+msgstr "Nom d'utilisateur :"
 
 #: boxes/scp-box:68
 msgid "Hostname:"
-msgstr "Nom d'hôte:"
+msgstr "Nom d'hôte :"
 
 #: boxes/scp-box:69
 msgid "Known hosts:"
-msgstr "Hôtes connu:"
+msgstr "Hôtes connu :"
 
 #: boxes/scp-box:71
 msgid "Local file:"
-msgstr "Fichiers local:"
+msgstr "Fichiers local :"
 
 #: boxes/scp-box:72
 msgid "Local directory:"
-msgstr "Dossier local:"
+msgstr "Dossier local :"
 
 #: boxes/scp-box:73
 msgid "Remote path:"
-msgstr "Chemin distant:"
+msgstr "Chemin distant :"
 
 #: boxes/scp-box:74
 msgid "Download"

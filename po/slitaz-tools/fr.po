@@ -110,7 +110,7 @@ msgstr "Installer Xorg"
 
 #: tinyutils/tazx:143
 msgid "Tazx helps you to select your X driver."
-msgstr "Tazx vous aide à séléctionner votre pilote Xorg."
+msgstr "Tazx vous aide à sélectionner votre pilote Xorg."
 
 #: tinyutils/tazx:145
 msgid "driver"
@@ -131,7 +131,7 @@ msgstr "Installer ou reconfigurer Xorg"
 
 #: tinyutils/tazx:177
 msgid "Install Xorg server (light version)"
-msgstr ""
+msgstr "Installer le serveur Xorg (version light)"
 
 #: tinyutils/tazx:178
 msgid "Quit Tazx utility"
@@ -184,7 +184,7 @@ msgstr "Fichier pas supporté : $file"
 
 #: tinyutils/terminal:10
 msgid "configurable SliTaz wrapper for terminal."
-msgstr ""
+msgstr "raccourci SliTaz configurable vers le terminal."
 
 #: tinyutils/terminal:12
 msgid "Recognized options:"
@@ -201,33 +201,33 @@ msgstr "Affiche ce message"
 #: tinyutils/terminal:15
 #, sh-format
 msgid "Width and height of terminal window ($GEOMETRY)"
-msgstr ""
+msgstr "Largeur et hauteur du terminal ($GEOMETRY)""
 
 #: tinyutils/terminal:16
 #, sh-format
 msgid "Title name for window (\"$TITLE\")"
-msgstr ""
+msgstr "Titre de la fenêtre (\"$TITLE\")"
 
 #: tinyutils/terminal:17
 msgid "Don't close terminal after command finished"
-msgstr ""
+msgstr "Ne fermez pas le terminal une fois la command finie"
 
 #: tinyutils/terminal:18
 msgid "Command to execute (must be last in line)"
-msgstr ""
+msgstr "Command à lancer (doit être la dernière ligne)"
 
 #: tinyutils/terminal:21
 #, sh-format
 msgid "Help for $TERMINAL:"
-msgstr ""
+msgstr "Aide pour $TERMINAL:"
 
 #: tinyutils/hwsetup:22
 msgid "SliTaz Setup configuration"
-msgstr ""
+msgstr "Configuration de SliTaz"
 
 #: tinyutils/hwsetup:25
 msgid "command"
-msgstr ""
+msgstr "commande"
 
 #: tinyutils/hwsetup:27 tinyutils/frugal:36
 msgid "Commands:"
@@ -240,51 +240,51 @@ msgstr "Affiche cette petite aide"
 
 #: tinyutils/hwsetup:30
 msgid "Parallel and USB Printer setup."
-msgstr ""
+msgstr "Configuration des imprimantes parallèle et USB"
 
 #: tinyutils/hwsetup:31
 msgid "USB Scanner setup."
-msgstr ""
+msgstr "Configuration des scanner USB"
 
 #: tinyutils/hwsetup:32
 msgid "Integrated and USB webcam setup."
-msgstr ""
+msgstr "Configuration des webcams intégrée et USB"
 
 #: tinyutils/hwsetup:33
 msgid "Digital Camera setup."
-msgstr ""
+msgstr "Configuration des caméras numériques"
 
 #: tinyutils/hwsetup:34
 msgid "Bluetooth setup."
-msgstr ""
+msgstr "Configuration Bluetooth"
 
 #: tinyutils/hwsetup:35
 msgid "3g-modem setup."
-msgstr ""
+msgstr "Configuration des modems 3G"
 
 #: tinyutils/hwsetup:36
 msgid "Start/stop firewall."
-msgstr ""
+msgstr "Démarrage/Arrêt du firewall"
 
 #: tinyutils/hwsetup:37
 msgid "Nvidia (non-free/free) setup."
-msgstr ""
+msgstr "Configuration Nvidia (non-libre/libre)"
 
 #: tinyutils/hwsetup:38
 msgid "ATI (non-free/free) setup."
-msgstr ""
+msgstr "Configuration ATI (non-libre/libre)"
 
 #: tinyutils/hwsetup:42
 msgid "install non-free packages (nvidia, ati)."
-msgstr ""
+msgstr "installe les paquets non libres (nvidia, ati)."
 
 #: tinyutils/hwsetup:43
 msgid "auto-install optional dependencies."
-msgstr ""
+msgstr "auto-installe les dépendances optionnelles"
 
 #: tinyutils/hwsetup:44
 msgid "confirm before installing optional dependencies"
-msgstr ""
+msgstr "vous confirmez l'installtion des dépendances optionnelles"
 
 #: tinyutils/hwsetup:98
 #, sh-format
@@ -293,64 +293,67 @@ msgid ""
 "device has not been properly tested. Please report any success, failure, bug "
 "to SliTaz Bug tracker or Forum."
 msgstr ""
+"A cause du manque de matériels pour la mise au point, ce périphérique "
+"$DEVICE n'a pas été correctement testé. Veuillez reporter les succés, "
+"échecs, et bugs sur les SliTaz Bug tracker ou Forum."
 
 #: tinyutils/hwsetup:107
 #, sh-format
 msgid "Failed to setup $DEVICE"
-msgstr ""
+msgstr "Echec de la configuration de $DEVICE"
 
 #: tinyutils/hwsetup:117
 #, sh-format
 msgid "Installing pkg: $pkg"
-msgstr ""
+msgstr "Installation du paquet : $pkg"
 
 #: tinyutils/hwsetup:131
 #, sh-format
 msgid "Would you like to install pkg: $pkg"
-msgstr ""
+msgstr "Voulez vous installer le paquet : $pkg"
 
 #: tinyutils/hwsetup:148
 #, sh-format
 msgid "adding $user to $grp"
-msgstr ""
+msgstr "ajoute $user dans $grp"
 
 #: tinyutils/hwsetup:171
 msgid "Detected USB Device : Vendor : Product"
-msgstr ""
+msgstr "Périphérique USB détecté : Vendor : Product"
 
 #: tinyutils/hwsetup:213
 msgid "Do you want to use hp-setup utility"
-msgstr ""
+msgstr "Voulez vous utiliser l'utilitaire hp-setup"
 
 #: tinyutils/hwsetup:228
 #, sh-format
 msgid "Verify $DEVICE Permissions"
-msgstr ""
+msgstr "Vérifie les permissions de $DEVICE"
 
 #: tinyutils/hwsetup:229
 #, sh-format
 msgid "Your $DEVICE must be in $grp group with rw-rw-rw- permissions"
-msgstr ""
+msgstr "Votre $DEVICE doit être dans le groupe $grp avec les droits rw-rw-rw-"
 
 #: tinyutils/hwsetup:250
 msgid "New udev rules are added by a package"
-msgstr ""
+msgstr "Des nouvelles régles sont ajoutées par le paquet"
 
 #: tinyutils/hwsetup:258
 msgid "Auto configuring Xorg..."
-msgstr ""
+msgstr "Auto configuration de Xorg..."
 
 #: tinyutils/hwsetup:261
 msgid "Configuring Xorg..."
-msgstr ""
+msgstr "Configuration de Xorg..."
 
 #: tinyutils/hwsetup:292
 msgid "Wvdial Box"
-msgstr ""
+msgstr "Box Wvdial"
 
 #: tinyutils/hwsetup:295
 msgid "Phone Number:"
-msgstr ""
+msgstr "Numéro de téléphone :" 
 
 #: tinyutils/hwsetup:296
 msgid "Username:"
@@ -362,7 +365,7 @@ msgstr "Mot de passe:"
 
 #: tinyutils/hwsetup:298
 msgid "Pin (if required):"
-msgstr ""
+msgstr "Code PIN (si besion) :"
 
 #: tinyutils/hwsetup:299
 msgid "Modem:"
@@ -374,178 +377,178 @@ msgstr ""
 
 #: tinyutils/hwsetup:301
 msgid "You must save your account info before dialing"
-msgstr ""
+msgstr "Vous devez sauvagarder votre compte avant de numéroter"
 
 #: tinyutils/hwsetup:302
 msgid "Edit config file"
-msgstr ""
+msgstr "Edition du fichier de config"
 
 #: tinyutils/hwsetup:303
 msgid "Save Configuration"
-msgstr ""
+msgstr "Sauvegarde de la configuration"
 
 #: tinyutils/hwsetup:304
 msgid "Dial Pin Once"
-msgstr ""
+msgstr "Compose de code PIN"
 
 #: tinyutils/hwsetup:380
 msgid "Do you want to start cups"
-msgstr ""
+msgstr "Voulez vous lancer cups"
 
 #: tinyutils/hwsetup:388
 msgid "Starting <b>cups</b> using:"
-msgstr ""
+msgstr "Lancement de <b>cups</b> avec :"
 
 #: tinyutils/hwsetup:407
 msgid "Do you want to start scanner"
-msgstr ""
+msgstr "Voulez vous lancer le scanner"
 
 #: tinyutils/hwsetup:415
 msgid "Following <b>scanner commands</b> may be of help:"
-msgstr ""
+msgstr "Suivre <b>commandes scanner</b> peut aider :"
 
 #: tinyutils/hwsetup:416
 msgid "to verify scanner has been found"
-msgstr ""
+msgstr "pour voir si le scanner a été trouvé"
 
 #: tinyutils/hwsetup:417
 msgid "scanner application"
-msgstr ""
+msgstr "application scanner"
 
 #: tinyutils/hwsetup:436
 msgid "Would you like to test webcam"
-msgstr ""
+msgstr "voulez vous tester la webcam"
 
 #: tinyutils/hwsetup:443
 msgid "Would you like to test webcam by installing mplayer-svn"
-msgstr ""
+msgstr "voulez vous tester la webcam en installant mplayer-svn""
 
 #: tinyutils/hwsetup:450
 msgid "Webcam is set up; please use mplayer-svn/fswebcam/amsn/skype to view"
-msgstr ""
+msgstr "la webcam est active ; veuillez utiliser mplayer-svn/fswebcam/amsn/skype pour voir"
 
 #: tinyutils/hwsetup:466
 msgid "Do you want to check if gphoto2 can talk to your camera"
-msgstr ""
+msgstr "Voulez vous voir si gphoto2 peut dialoguer avec votre caméra"
 
 #: tinyutils/hwsetup:471
 msgid "Do you want to test importing photos"
-msgstr ""
+msgstr "Voulez vous tester l'importation de photos"
 
 #: tinyutils/hwsetup:481
 msgid "Camera is set up; please use gphoto2 to import photos"
-msgstr ""
+msgstr "la webcam est active ; veuillez utiliser gphoto2 pour importer des photos"
 
 #: tinyutils/hwsetup:483
 #, sh-format
 msgid "Quick start guide: $guide_url"
-msgstr ""
+msgstr "Guide succinct : $guide_url""
 
 #: tinyutils/hwsetup:494
 msgid "Do you want to see if the bluetooth is working"
-msgstr ""
+msgstr "Voulez vous voir si le bluetooth fonctionne"
 
 #: tinyutils/hwsetup:502
 msgid "<b>Bluetooth</b> interfaces"
-msgstr ""
+msgstr "Interface <b>Bluetooth</b>"
 
 #: tinyutils/hwsetup:510 tinyutils/hwsetup:527
 msgid "Following <b>Bluetooth commands</b> may be of help"
-msgstr ""
+msgstr "Suivre <b>commandes Bluetooth</b> peut aider :"
 
 #: tinyutils/hwsetup:515
 msgid "checking local bluetooth devices..."
-msgstr ""
+msgstr "vérifie les périphériques bluetooth locaux..."
 
 #: tinyutils/hwsetup:516
 msgid "scanning remote bluetooth devices..."
-msgstr ""
+msgstr "Recherche des périphériques bluetooth distants..."
 
 #: tinyutils/hwsetup:517
 msgid "pairing with remote bluetooth devices..."
-msgstr ""
+msgstr "Association avec les périphériques distants..."
 
 #: tinyutils/hwsetup:520 tinyutils/hwsetup:541
 #, sh-format
 msgid "You can manually edit the configuration files in $bt if need be"
-msgstr ""
+msgstr "Vous pouvez éditer les fichiers de configuration dans $bt"
 
 #: tinyutils/hwsetup:534
 msgid "for starting bluetooth daemon"
-msgstr ""
+msgstr "Pour démarrer le daemon bluetooth"
 
 #: tinyutils/hwsetup:536
 msgid "for checking local devices"
-msgstr ""
+msgstr "Pour vérifier les périphériques locaux"
 
 #: tinyutils/hwsetup:537
 msgid "for scanning remote devices"
-msgstr ""
+msgstr "Pour rechercher des périphériques distants"
 
 #: tinyutils/hwsetup:538
 msgid "pairing with remote bluetooth devices"
-msgstr ""
+msgstr "Association avec les périphériques distants"
 
 #: tinyutils/hwsetup:552
 msgid "List detected devices"
-msgstr ""
+msgstr "Liste des périphériques détectés"
 
 #: tinyutils/hwsetup:556
 msgid "Detected Modem at:"
-msgstr ""
+msgstr "Modem détecté en :"
 
 #: tinyutils/hwsetup:558
 msgid "Do you want to configure wvdial"
-msgstr ""
+msgstr "Voulez vous configurer wvdial""
 
 #: tinyutils/hwsetup:567
 #, sh-format
 msgid "Edit $wc for phone number, login name, password and pin"
-msgstr ""
+msgstr "Edition du numéro de téléphone et des login, mot de passe et code pin dans $wc"
 
 #: tinyutils/hwsetup:568
 #, sh-format
 msgid "Add DNS address of your provider in $rc"
-msgstr ""
+msgstr "Ajout de l'adresse DNS de votre provide dans $rc"
 
 #: tinyutils/hwsetup:577
 msgid "Setting IPTABLES_RULES to yes in /etc/slitaz/firewall.conf"
-msgstr ""
+msgstr "Mise à yes de IPTABLES_RULES dans /etc/slitaz/firewall.conf"
 
 #: tinyutils/hwsetup:586
 msgid "Probing for open ports..."
-msgstr ""
+msgstr "Détection des ports ouverts..."
 
 #: tinyutils/hwsetup:590
 msgid "Adding firewall daemon to start automatically at boot"
-msgstr ""
+msgstr "Activation du démarrage automatique au boot du firewall"
 
 #: tinyutils/hwsetup:607
 msgid "Do you want to configure X using non-free nvidia driver"
-msgstr ""
+msgstr "Voulez vous configurer X avec le pilote nvidia non-libre"
 
 #: tinyutils/hwsetup:610 tinyutils/hwsetup:649 tinyutils/hwsetup:681
 #: tinyutils/hwsetup:714
 #, sh-format
 msgid "Your previous config is in $xorg60"
-msgstr ""
+msgstr "La config précédante est dans $xorg60"
 
 #: tinyutils/hwsetup:611 tinyutils/hwsetup:650
 #, sh-format
 msgid "If nvidia fails, you can remove $xorg55 to restore previous config."
-msgstr ""
+msgstr "Si nvidia se plante, retirez $xorg55 pour restorer la config précédante."
 
 #: tinyutils/hwsetup:618
 msgid "Adding to xorg.conf:"
-msgstr ""
+msgstr "Ajoute à xorg.conf :"
 
 #: tinyutils/hwsetup:623 tinyutils/hwsetup:659
 msgid "Checking if nvidia is working..."
-msgstr ""
+msgstr "Vérifie le fonctionnement de nvidia..."
 
 #: tinyutils/hwsetup:627
 msgid "Configure nvidia settings:"
-msgstr ""
+msgstr "Configure les paramètres nvdia :"
 
 #: tinyutils/hwsetup:634
 msgid "test nvidia"
@@ -553,68 +556,69 @@ msgstr ""
 
 #: tinyutils/hwsetup:635
 msgid "Use: nvidia-settings utility to configure your settings if necessary"
-msgstr ""
+msgstr "Utilse: nvidia-settings to configure vos paramètres si besion"
 
 #: tinyutils/hwsetup:646
 msgid "Do you want to configure X using free nvidia driver"
-msgstr ""
+msgstr "Voulez vous configurer X avec le pilote nvidia libre"
 
 #: tinyutils/hwsetup:652
 #, sh-format
 msgid "Create $xorg55short configured with nv driver."
-msgstr ""
+msgstr "Crée $xorg55short pour le pilote nv."
 
 #: tinyutils/hwsetup:678
 msgid "Do you want to configure X using non-free catalyst ATI (radeon) driver"
-msgstr ""
+msgstr "Voulez vous configurer X avec le pilote catalyst ATI (radeon) non-libre"
 
 #: tinyutils/hwsetup:682
 #, sh-format
 msgid "If ati fails, you can remove $xorg55 to restore previous config."
-msgstr ""
+msgstr "Si ATI se plante, retirez $xorg55 pour restorer la config précédante."
 
 #: tinyutils/hwsetup:691
 msgid "Checking if ati catalyst is working..."
-msgstr ""
+msgstr "Vérifie le fonctionnement de ati catalyst..."
 
 #: tinyutils/hwsetup:695
 msgid "Configuration:"
-msgstr ""
+msgstr "Configuration :"
 
 #: tinyutils/hwsetup:696
 msgid ""
 "Use: aticonfig utility to generate a template configuration file if necessary"
 msgstr ""
+"Utilise: aticonfig pour créer un modèle de fichier de config si besion"
 
 #: tinyutils/hwsetup:711
 msgid "Do you want to configure X using free ATI (radeon) driver"
-msgstr ""
+msgstr "Voulez vous configurer X avec le pilote libre ATI (radeon)"
 
 #: tinyutils/hwsetup:715
 #, sh-format
 msgid "If ATI fails, you can remove $xorg55 to restore previous config."
-msgstr ""
+msgstr "Si ATI se plante, retirez $xorg55 pour restorer la config précédante."
 
 #: tinyutils/hwsetup:717
 #, sh-format
 msgid "Create $xorg55short configured with radeon driver."
-msgstr ""
+msgstr "Création de $xorg55short avec le pilote radeon."
 
 #: tinyutils/hwsetup:723
 msgid "Checking if ATI radeon is working..."
-msgstr ""
+msgstr "Vérifie le fonctionnement de la radeon ATI... "
 
 #: tinyutils/hwsetup:739
 msgid "Bringing eth0 down..."
-msgstr ""
+msgstr "Arrêt de eth0..."
 
 #: tinyutils/hwsetup:740
 msgid "Dialing..."
-msgstr ""
+msgstr "Appel..."
 
 #: tinyutils/hwsetup:766
 msgid "The following optional packages can be installed:"
-msgstr ""
+msgstr "Les paquets optionnels suivants peuvent être installés :"
 
 #: tinyutils/hwsetup:770
 msgid "Do you want to install all/few/no optional dependencies (all|few|N)? "
@@ -646,7 +650,7 @@ msgstr "Affiche des infos de déboguage"
 
 #: tinyutils/frugal:74
 msgid "Frugal system running detected"
-msgstr "Un système fruga est en cours d'exécution"
+msgstr "Un système frugal est en cours d'exécution"
 
 #: tinyutils/frugal:77
 msgid "Installation directory:"
@@ -678,7 +682,7 @@ msgstr "Installation du noyau Linux..."
 
 #: tinyutils/frugal:121
 msgid "Installing the root filesystem..."
-msgstr "Installation du system de fichiers racine..."
+msgstr "Installation du système de fichiers racine..."
 
 #: tinyutils/frugal:131
 msgid "Unmounting ISO image..."

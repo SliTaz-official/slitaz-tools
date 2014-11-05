@@ -21,7 +21,7 @@
 installed="$PKGS_DB/installed"
 
 export TEXTDOMAIN='slitaz-tools' #i18n
-: ${DIALOG=dialog}
+: ${DIALOG=dialog --timeout 60}
 
 # Default value.
 WM=${WINDOW_MANAGER}

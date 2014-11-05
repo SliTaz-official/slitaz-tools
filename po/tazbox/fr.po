@@ -19,7 +19,7 @@ msgstr ""
 
 #: tazbox/tazbox:28
 msgid "SliTaz tiny GUI boxes for the desktop"
-msgstr ""
+msgstr "Petites interfaces graphiques SliTaz pour le bureau"
 
 #: tazbox/tazbox:30
 msgid "Usage:"
@@ -27,7 +27,7 @@ msgstr "Utilisation:"
 
 #: tazbox/tazbox:31
 msgid "command"
-msgstr ""
+msgstr "commande"
 
 #: tazbox/tazbox:33
 msgid "Commands:"
@@ -83,7 +83,7 @@ msgstr "Notifie l'utilisateur avec une box centrée sur le bureau"
 
 #: tazbox/tazbox:47
 msgid "Configure SliTaz default applications"
-msgstr ""
+msgstr "Configure les applications SliTaz par défaut"
 
 #: tazbox/tazbox:66
 #, fuzzy
@@ -112,11 +112,11 @@ msgstr "Erreur: mauvais mot de passe!"
 
 #: tazbox/tazbox:88
 msgid "CANCEL"
-msgstr ""
+msgstr "ANNULER"
 
 #: tazbox/tazbox:95
 msgid "TazBox Output"
-msgstr ""
+msgstr "sortie TazBox"
 
 #: tazbox/tazbox:107
 msgid "SliTaz Logout"
@@ -153,7 +153,7 @@ msgstr ""
 
 #: tazbox/tazbox:139
 msgid "Locale"
-msgstr ""
+msgstr "Localisation"
 
 #: tazbox/tazbox:140 tazbox/tazbox:206
 msgid "Keymap"
@@ -161,11 +161,11 @@ msgstr "Clavier"
 
 #: tazbox/tazbox:141
 msgid "Timezone"
-msgstr ""
+msgstr "Fuseau horaire"
 
 #: tazbox/tazbox:166
 msgid "SliTaz locale"
-msgstr ""
+msgstr "Localisation de SliTaz"
 
 #: tazbox/tazbox:169
 msgid "Language configuration"
@@ -173,11 +173,11 @@ msgstr "Configurer la langue"
 
 #: tazbox/tazbox:170
 msgid "Tip: manage locales list by installing/removing locale packages."
-msgstr ""
+msgstr "Info: fixe les localisations en ajoutant/retirant des paquets."
 
 #: tazbox/tazbox:171 tazbox/tazbox:279
 msgid "Flag"
-msgstr ""
+msgstr "Fanion"
 
 #: tazbox/tazbox:171
 msgid "Name"
@@ -189,7 +189,7 @@ msgstr "Description"
 
 #: tazbox/tazbox:174 tazbox/tazbox:280
 msgid "Manage"
-msgstr ""
+msgstr "Gère"
 
 #: tazbox/tazbox:189
 #, sh-format
@@ -198,7 +198,7 @@ msgstr ""
 
 #: tazbox/tazbox:202
 msgid "SliTaz keymap"
-msgstr ""
+msgstr "clavier SliTaz"
 
 #: tazbox/tazbox:205
 msgid "Keyboard configuration"
@@ -210,15 +210,15 @@ msgstr "Type"
 
 #: tazbox/tazbox:244 tazbox/tazbox:272 tazbox/tazbox:288 tazbox/tazbox:301
 msgid "SliTaz TZ"
-msgstr ""
+msgstr "TZ SliTaz"
 
 #: tazbox/tazbox:247
 msgid "Suggested location:"
-msgstr ""
+msgstr "Localisation proposée"
 
 #: tazbox/tazbox:248
 msgid "Are you agreed?"
-msgstr ""
+msgstr "D'accord ?"
 
 #: tazbox/tazbox:275 tazbox/tazbox:291 tazbox/tazbox:304
 msgid "TimeZone Configuration"
@@ -226,11 +226,11 @@ msgstr "Configurer la zone horaire"
 
 #: tazbox/tazbox:276
 msgid "Select country and press \"Forward\" or manually select timezone file."
-msgstr ""
+msgstr "Choisissez le pays et pressez \"suivant\" ou choissez un fichier de zone horaire."
 
 #: tazbox/tazbox:277
 msgid "Tip: manage timezones list by installing/removing locale packages."
-msgstr ""
+msgstr "Info: fixe les zones horaires en ajoutant/retirant des paquets."
 
 #: tazbox/tazbox:279
 msgid "Code"
@@ -238,40 +238,40 @@ msgstr ""
 
 #: tazbox/tazbox:279
 msgid "Country"
-msgstr ""
+msgstr "Pays"
 
 #: tazbox/tazbox:281
 msgid "Manual"
-msgstr ""
+msgstr "Manuel"
 
 #: tazbox/tazbox:291
 msgid "Select time zone"
-msgstr ""
+msgstr "Choisissez une zone horaire"
 
 #: tazbox/tazbox:304
 msgid "Select location"
-msgstr ""
+msgstr "Choisissez la localisation"
 
 #: tazbox/tazbox:305
 msgid "Location/City"
-msgstr ""
+msgstr "Location/Ville"
 
 #: tazbox/tazbox:331
 #, sh-format
 msgid "TimeZone was set to $timezone"
-msgstr ""
+msgstr "Le fuseau horaire était $timezone"
 
 #: tazbox/tazbox:367
 msgid "Please wait"
-msgstr ""
+msgstr "Veuillez patienter"
 
 #: tazbox/tazbox:436
 msgid "Manage locale packages"
-msgstr ""
+msgstr "Gère les paquets de localisation"
 
 #: tazbox/tazbox:439
 msgid "Check only locale packages you need and press \"Install/Remove\"."
-msgstr ""
+msgstr "Sélectionnez seulement les paquets nécéssaires et pressez \"Ajoute/Retire\"."
 
 #: tazbox/tazbox:441
 msgid "Inst."
@@ -279,23 +279,23 @@ msgstr ""
 
 #: tazbox/tazbox:441
 msgid "Package Name"
-msgstr ""
+msgstr "Nom du paquet"
 
 #: tazbox/tazbox:442
 msgid "Size"
-msgstr ""
+msgstr "Taille"
 
 #: tazbox/tazbox:443
 msgid "Installed"
-msgstr ""
+msgstr "Installé"
 
 #: tazbox/tazbox:444
 msgid "Recharge list"
-msgstr ""
+msgstr "Recharge les listes"
 
 #: tazbox/tazbox:445
 msgid "Install/Remove"
-msgstr ""
+msgstr "Ajoute/Retire"
 
 #: tazbox/tazbox:461
 msgid "TazPkg log"
@@ -304,16 +304,16 @@ msgstr ""
 #: tazbox/tazbox:464
 #, sh-format
 msgid "REMOVE: $pkg"
-msgstr ""
+msgstr "RETIRE: $pkg"
 
 #: tazbox/tazbox:468
 #, sh-format
 msgid "INSTALL: $pkg"
-msgstr ""
+msgstr "AJOUTE: $pkg"
 
 #: tazbox/tazbox:471
 msgid "Done!"
-msgstr ""
+msgstr "Fait !"
 
 #: tazbox/tazbox:481
 msgid "New file"
@@ -345,32 +345,33 @@ msgstr "Toutes les applications"
 
 #: tazbox/tazbox:604
 msgid "Downloading..."
-msgstr ""
+msgstr "Télécharge..."
 
 #: tazbox/tazbox:660
 msgid "SliTaz default applications"
 msgstr ""
+msgstr "Applications SliTaz par défaut"
 
 #: tazbox/tazbox:662
 msgid "SliTaz default applications configuration"
-msgstr ""
+msgstr "Configuration des applications SliTaz par défaut"
 
 #: tazbox/tazbox:664
 msgid "File manager:"
-msgstr ""
+msgstr "Gestionnaire de fichiers :"
 
 #: tazbox/tazbox:665
 msgid "Web browser:"
-msgstr ""
+msgstr "Navigateur WEB :"
 
 #: tazbox/tazbox:666
 msgid "Text editor:"
-msgstr ""
+msgstr "Editeur de textes :"
 
 #: tazbox/tazbox:667
 msgid "Terminal:"
-msgstr ""
+msgstr "Terminal :"
 
 #: tazbox/tazbox:668
 msgid "Window manager:"
-msgstr ""
+msgstr "Gestionnaire de fenêtres :"
