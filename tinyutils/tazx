@@ -172,7 +172,7 @@ install_xorg() {
 autoselect_driver() {
 	inst_pkg pciutils
 for v in AMD ATI Intel NVIDIA SiS VMware; do
-	hw=$(echo $(lspci | grep VGA | grep $v | sed s/[^aA-zZ]//g)--)
+	hw=$(echo $(lspci | grep VGA | grep $v |LC_ALL=C sed 's/[^aA-zZ]//g')--)
 	if [ ! $hw = -- ]; then case $v in
 		AMD|ATI)d=ati;;
 		Intel)	d=intel;;
@@ -189,7 +189,7 @@ done
 }
 
 inst_pkg() {
-	pkg="$@" && colorize 5 $(_ 'Installing pkg: $pkg')
+	pkg="$@" && colorize 3 $(_ 'Installing pkg: $pkg')
 	CMD="sudo tazpkg -gi $@"
 	test $(id -u) = 0 && CMD="tazpkg -gi $@"
 	[ -d "$installed/$@" ] || $CMD

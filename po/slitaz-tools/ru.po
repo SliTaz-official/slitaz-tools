@@ -119,7 +119,7 @@ msgstr "Tazx поможет вам выбрать драйвер для X.Org."
 
 #: tinyutils/tazx:154 tinyutils/hwsetup:258
 msgid "Auto configuring Xorg..."
-msgstr "Авто-настройка X.Org…"
+msgstr "Авто-настройка Xorg…"
 
 #: tinyutils/tazx:156 tinyutils/tazx:184
 msgid "driver"
