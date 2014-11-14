@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-23 03:33+0300\n"
+"POT-Creation-Date: 2014-11-14 21:22+0000\n"
 "PO-Revision-Date: 2014-05-23 03:28+0300\n"
 "Last-Translator: Aleksej Bobylev <al.bobylev@gmail.com>\n"
 "Language-Team: \n"
@@ -101,41 +101,76 @@ msgstr "Установка уровней регулятора громкост�
 msgid "Done"
 msgstr "Готово"
 
+#: tinyutils/tazx:26
+msgid "Window Manager:"
+msgstr "Менеджер окон:"
+
+#: tinyutils/tazx:27 tinyutils/tazx:152
+msgid "Install Xorg"
+msgstr "Установка X.org"
+
 #: tinyutils/tazx:63
 msgid "Creating:"
 msgstr "Создается:"
 
-#: tinyutils/tazx:142
-msgid "Install Xorg"
-msgstr "Установка X.org"
-
-#: tinyutils/tazx:143
+#: tinyutils/tazx:153
 msgid "Tazx helps you to select your X driver."
 msgstr "Tazx поможет вам выбрать драйвер для X.Org."
 
-#: tinyutils/tazx:145
+#: tinyutils/tazx:154 tinyutils/hwsetup:258
+msgid "Auto configuring Xorg..."
+msgstr "Авто-настройка X.Org…"
+
+#: tinyutils/tazx:156 tinyutils/tazx:184
 msgid "driver"
 msgstr "драйвер"
 
-#: tinyutils/tazx:146
+#: tinyutils/tazx:157
 msgid "Quit"
 msgstr "Выход"
 
-#: tinyutils/tazx:174
+#: tinyutils/tazx:186 tinyutils/hwsetup:107
+#, sh-format
+msgid "Failed to setup $DEVICE"
+msgstr "Не удалось настроить $DEVICE"
+
+#: tinyutils/tazx:192 tinyutils/hwsetup:117
+#, sh-format
+msgid "Installing pkg: $pkg"
+msgstr "Установка пакета «$pkg»"
+
+#: tinyutils/tazx:202 tinyutils/tazx:276
+#, sh-format
+msgid "${INST_i18n}: ${WM_i18n} + applications"
+msgstr "${INST_i18n}: ${WM_i18n}+программы"
+
+#: tinyutils/tazx:270
 msgid "SliTaz Xorg config"
 msgstr "Настройка X.Org в SliTaz"
 
-#: tinyutils/tazx:176
+#: tinyutils/tazx:272
 msgid "Install or reconfigure Xorg"
 msgstr "Установить или перенастроить X.org"
 
-#: tinyutils/tazx:177
+#: tinyutils/tazx:273
 msgid "Install Xorg server (light version)"
 msgstr "Установка облегченного сервера X.Org"
 
-#: tinyutils/tazx:178
+#: tinyutils/tazx:274
+msgid "AutoStart Xorg by SLiM on boot"
+msgstr ""
+
+#: tinyutils/tazx:275
+msgid "(Re)Start Simple Login Manager now"
+msgstr ""
+
+#: tinyutils/tazx:277
 msgid "Quit Tazx utility"
 msgstr "Выйти из утилиты Tazx"
+
+#: tinyutils/tazx:384
+msgid "Run tazx as root if you need to configure xorg"
+msgstr ""
 
 #: tinyutils/decode:28
 msgid "Decode audio and video files"
@@ -296,16 +331,6 @@ msgstr ""
 "SliTaz. Сообщите о ваших успехах, неудачах, ошибках в баг-трекер SliTaz или "
 "на форум."
 
-#: tinyutils/hwsetup:107
-#, sh-format
-msgid "Failed to setup $DEVICE"
-msgstr "Не удалось настроить $DEVICE"
-
-#: tinyutils/hwsetup:117
-#, sh-format
-msgid "Installing pkg: $pkg"
-msgstr "Установка пакета «$pkg»"
-
 #: tinyutils/hwsetup:131
 #, sh-format
 msgid "Would you like to install pkg: $pkg"
@@ -339,10 +364,6 @@ msgstr ""
 #: tinyutils/hwsetup:250
 msgid "New udev rules are added by a package"
 msgstr "При установке пакета добавлены новые правила UDEV"
-
-#: tinyutils/hwsetup:258
-msgid "Auto configuring Xorg..."
-msgstr "Авто-настройка X.Org…"
 
 #: tinyutils/hwsetup:261
 msgid "Configuring Xorg..."
@@ -708,9 +729,6 @@ msgstr "Отключение образа ISO…"
 
 #~ msgid "Tazx dialog helps you to configure your Xorg server."
 #~ msgstr "Диалог Tazx поможет вам настроить сервер Xorg."
-
-#~ msgid "Window Manager:"
-#~ msgstr "Менеджер окон:"
 
 #~ msgid "X server:"
 #~ msgstr "X-сервер:"

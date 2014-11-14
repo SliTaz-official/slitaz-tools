@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-23 03:33+0300\n"
+"POT-Creation-Date: 2014-11-14 21:22+0000\n"
 "PO-Revision-Date: 2014-07-01 18:05+0800\n"
 "Last-Translator: 张文宇 <jame987165702@gmail.com>\n"
 "Language-Team: \n"
@@ -93,41 +93,76 @@ msgstr "设置默认混合卷中…"
 msgid "Done"
 msgstr "完成!"
 
+#: tinyutils/tazx:26
+msgid "Window Manager:"
+msgstr ""
+
+#: tinyutils/tazx:27 tinyutils/tazx:152
+msgid "Install Xorg"
+msgstr "安装Xorg"
+
 #: tinyutils/tazx:63
 msgid "Creating:"
 msgstr "创建："
 
-#: tinyutils/tazx:142
-msgid "Install Xorg"
-msgstr "安装Xorg"
-
-#: tinyutils/tazx:143
+#: tinyutils/tazx:153
 msgid "Tazx helps you to select your X driver."
 msgstr "Tazx帮助你选择你的X驱动程序。"
 
-#: tinyutils/tazx:145
+#: tinyutils/tazx:154 tinyutils/hwsetup:258
+msgid "Auto configuring Xorg..."
+msgstr "自动配置Xorg中…"
+
+#: tinyutils/tazx:156 tinyutils/tazx:184
 msgid "driver"
 msgstr "驱动）"
 
-#: tinyutils/tazx:146
+#: tinyutils/tazx:157
 msgid "Quit"
 msgstr "离开"
 
-#: tinyutils/tazx:174
+#: tinyutils/tazx:186 tinyutils/hwsetup:107
+#, sh-format
+msgid "Failed to setup $DEVICE"
+msgstr "未能设置$DEVICE"
+
+#: tinyutils/tazx:192 tinyutils/hwsetup:117
+#, sh-format
+msgid "Installing pkg: $pkg"
+msgstr "安装 $pkg包"
+
+#: tinyutils/tazx:202 tinyutils/tazx:276
+#, sh-format
+msgid "${INST_i18n}: ${WM_i18n} + applications"
+msgstr ""
+
+#: tinyutils/tazx:270
 msgid "SliTaz Xorg config"
 msgstr "SliTaz Xorg配置"
 
-#: tinyutils/tazx:176
+#: tinyutils/tazx:272
 msgid "Install or reconfigure Xorg"
 msgstr "安装或配置Xorg"
 
-#: tinyutils/tazx:177
+#: tinyutils/tazx:273
 msgid "Install Xorg server (light version)"
 msgstr "安装Xorg服务器（简版）"
 
-#: tinyutils/tazx:178
+#: tinyutils/tazx:274
+msgid "AutoStart Xorg by SLiM on boot"
+msgstr ""
+
+#: tinyutils/tazx:275
+msgid "(Re)Start Simple Login Manager now"
+msgstr ""
+
+#: tinyutils/tazx:277
 msgid "Quit Tazx utility"
 msgstr "退出Tazx实用程序"
+
+#: tinyutils/tazx:384
+msgid "Run tazx as root if you need to configure xorg"
+msgstr ""
 
 #: tinyutils/decode:28
 msgid "Decode audio and video files"
@@ -287,16 +322,6 @@ msgstr ""
 "由于不兼容的硬件故障，这个 $DEVICE 设备没有得到正确的测试。请报告任何成功，失"
 "败，错误SliTaz bug跟踪或论坛。"
 
-#: tinyutils/hwsetup:107
-#, sh-format
-msgid "Failed to setup $DEVICE"
-msgstr "未能设置$DEVICE"
-
-#: tinyutils/hwsetup:117
-#, sh-format
-msgid "Installing pkg: $pkg"
-msgstr "安装 $pkg包"
-
 #: tinyutils/hwsetup:131
 #, sh-format
 msgid "Would you like to install pkg: $pkg"
@@ -328,10 +353,6 @@ msgstr "你必须在$grp和拥有rw-rw-rw-权限，才能使用$DEVICE"
 #: tinyutils/hwsetup:250
 msgid "New udev rules are added by a package"
 msgstr "新的包增加udev规则"
-
-#: tinyutils/hwsetup:258
-msgid "Auto configuring Xorg..."
-msgstr "自动配置Xorg中…"
 
 #: tinyutils/hwsetup:261
 msgid "Configuring Xorg..."
@@ -502,7 +523,8 @@ msgid "Add DNS address of your provider in $rc"
 msgstr "添加您的供应商DNS地址在$rc"
 
 #: tinyutils/hwsetup:577
-msgid "Setting IPTABLES_RULES to yes in /etc/SliTaz/firewall.conf"
+#, fuzzy
+msgid "Setting IPTABLES_RULES to yes in /etc/slitaz/firewall.conf"
 msgstr "设置 IPTABLES_RULES是在/etc/SliTaz/ firewall.conf"
 
 #: tinyutils/hwsetup:586

@@ -266,7 +266,6 @@ config_dialog() {
 	exec 3>&1
 	value=$($DIALOG \
 		--clear --colors \
-		--shadow \
 		--title "{ $(_n 'SliTaz Xorg config') }" \
 		--menu "" 16 72 10 \
 	"xorg"        "$(_n 'Install or reconfigure Xorg')" \

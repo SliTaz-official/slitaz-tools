@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-23 03:33+0300\n"
+"POT-Creation-Date: 2014-11-14 21:22+0000\n"
 "PO-Revision-Date: 2014-06-26 16:08+0400\n"
 "Last-Translator: Ali Rashidi <alirashidi17@yahoo.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: fa_IR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.6.5\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"Language: fa_IR\n"
 
 #: tinyutils/tazlocale:15
 msgid "SliTaz GNU/Linux locale setting using dialog boxes."
@@ -95,41 +95,76 @@ msgstr "...در حال تنظیم صدای پیش فرض"
 msgid "Done"
 msgstr "انجام شد"
 
+#: tinyutils/tazx:26
+msgid "Window Manager:"
+msgstr ""
+
+#: tinyutils/tazx:27 tinyutils/tazx:152
+msgid "Install Xorg"
+msgstr "Xorg نصب"
+
 #: tinyutils/tazx:63
 msgid "Creating:"
 msgstr ":در حال ایجاد"
 
-#: tinyutils/tazx:142
-msgid "Install Xorg"
-msgstr "Xorg نصب"
-
-#: tinyutils/tazx:143
+#: tinyutils/tazx:153
 msgid "Tazx helps you to select your X driver."
 msgstr "خود را انتخاب نمایید. X به شما کمک میکند تا درایور  Tazx"
 
-#: tinyutils/tazx:145
+#: tinyutils/tazx:154 tinyutils/hwsetup:258
+msgid "Auto configuring Xorg..."
+msgstr "...Xorg در حال نصب خودکار "
+
+#: tinyutils/tazx:156 tinyutils/tazx:184
 msgid "driver"
 msgstr "درایور"
 
-#: tinyutils/tazx:146
+#: tinyutils/tazx:157
 msgid "Quit"
 msgstr "خروج"
 
-#: tinyutils/tazx:174
+#: tinyutils/tazx:186 tinyutils/hwsetup:107
+#, sh-format
+msgid "Failed to setup $DEVICE"
+msgstr "نشد $DEVICE موفق به نصب "
+
+#: tinyutils/tazx:192 tinyutils/hwsetup:117
+#, sh-format
+msgid "Installing pkg: $pkg"
+msgstr "$pkg :در حال نصب پکیج"
+
+#: tinyutils/tazx:202 tinyutils/tazx:276
+#, sh-format
+msgid "${INST_i18n}: ${WM_i18n} + applications"
+msgstr ""
+
+#: tinyutils/tazx:270
 msgid "SliTaz Xorg config"
 msgstr "SliTaz Xorg پیکربندی"
 
-#: tinyutils/tazx:176
+#: tinyutils/tazx:272
 msgid "Install or reconfigure Xorg"
 msgstr "Xorg نصب یا پیکربندی مجدد"
 
-#: tinyutils/tazx:177
+#: tinyutils/tazx:273
 msgid "Install Xorg server (light version)"
 msgstr "(نسخه کم حجم) Xorg server نصب"
 
-#: tinyutils/tazx:178
+#: tinyutils/tazx:274
+msgid "AutoStart Xorg by SLiM on boot"
+msgstr ""
+
+#: tinyutils/tazx:275
+msgid "(Re)Start Simple Login Manager now"
+msgstr ""
+
+#: tinyutils/tazx:277
 msgid "Quit Tazx utility"
 msgstr "Tazx خروج از ابزار"
+
+#: tinyutils/tazx:384
+msgid "Run tazx as root if you need to configure xorg"
+msgstr ""
 
 #: tinyutils/decode:28
 msgid "Decode audio and video files"
@@ -290,16 +325,6 @@ msgstr ""
 "باگ در دستگاه را به انجمن یا پیگیری باگ های $DEVICE به علت کمبود سخت افزار "
 "هماهنگ برای عیب یابی، این"
 
-#: tinyutils/hwsetup:107
-#, sh-format
-msgid "Failed to setup $DEVICE"
-msgstr "نشد $DEVICE موفق به نصب "
-
-#: tinyutils/hwsetup:117
-#, sh-format
-msgid "Installing pkg: $pkg"
-msgstr "$pkg :در حال نصب پکیج"
-
 #: tinyutils/hwsetup:131
 #, sh-format
 msgid "Would you like to install pkg: $pkg"
@@ -331,10 +356,6 @@ msgstr "rw-rw-rw باشد با مجوز های $grp شما باید در گرو�
 #: tinyutils/hwsetup:250
 msgid "New udev rules are added by a package"
 msgstr ".توسط یک پکیج افزوده شدند udev قواعد جدید "
-
-#: tinyutils/hwsetup:258
-msgid "Auto configuring Xorg..."
-msgstr "...Xorg در حال نصب خودکار "
 
 #: tinyutils/hwsetup:261
 msgid "Configuring Xorg..."
