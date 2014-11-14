@@ -201,7 +201,7 @@ msgstr "Affiche ce message"
 #: tinyutils/terminal:15
 #, sh-format
 msgid "Width and height of terminal window ($GEOMETRY)"
-msgstr "Largeur et hauteur du terminal ($GEOMETRY)""
+msgstr "Largeur et hauteur du terminal ($GEOMETRY)"
 
 #: tinyutils/terminal:16
 #, sh-format
@@ -421,7 +421,7 @@ msgstr "voulez vous tester la webcam"
 
 #: tinyutils/hwsetup:443
 msgid "Would you like to test webcam by installing mplayer-svn"
-msgstr "voulez vous tester la webcam en installant mplayer-svn""
+msgstr "voulez vous tester la webcam en installant mplayer-svn"
 
 #: tinyutils/hwsetup:450
 msgid "Webcam is set up; please use mplayer-svn/fswebcam/amsn/skype to view"
@@ -442,7 +442,7 @@ msgstr "la webcam est active ; veuillez utiliser gphoto2 pour importer des photo
 #: tinyutils/hwsetup:483
 #, sh-format
 msgid "Quick start guide: $guide_url"
-msgstr "Guide succinct : $guide_url""
+msgstr "Guide succinct : $guide_url"
 
 #: tinyutils/hwsetup:494
 msgid "Do you want to see if the bluetooth is working"
@@ -499,7 +499,7 @@ msgstr "Modem détecté en :"
 
 #: tinyutils/hwsetup:558
 msgid "Do you want to configure wvdial"
-msgstr "Voulez vous configurer wvdial""
+msgstr "Voulez vous configurer wvdial"
 
 #: tinyutils/hwsetup:567
 #, sh-format

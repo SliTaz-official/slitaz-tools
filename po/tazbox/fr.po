@@ -349,7 +349,6 @@ msgstr "Télécharge..."
 
 #: tazbox/tazbox:660
 msgid "SliTaz default applications"
-msgstr ""
 msgstr "Applications SliTaz par défaut"
 
 #: tazbox/tazbox:662

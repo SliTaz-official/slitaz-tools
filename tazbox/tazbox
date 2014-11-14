@@ -631,7 +631,7 @@ case "$1" in
 
 		for a in FILE_MANAGERS BROWSERS EDITORS TERMINALS WINDOW_MANAGERS;
 		do
-			eval $(expr $a=$(echo $(/usr/bin/tazx get-applist ${a%%S} \
+			eval $(expr $a=$(echo $(LC_ALL=C tazx get-applist ${a%%S} \
 			only-installed yad) | sed 's/ /!/g ; s/!!//g; s/ //g'))
 		done
 

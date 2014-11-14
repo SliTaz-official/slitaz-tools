@@ -23,8 +23,8 @@ installed="$PKGS_DB/installed"
 export TEXTDOMAIN='slitaz-tools' #i18n
 : ${DIALOG=dialog --timeout 60}
 
-# Default value.
-WM=${WINDOW_MANAGER}
+WM_i18n=$(_n 'Window Manager:'| sed s/://)
+INST_i18n=$(_n 'Install Xorg' | sed 's|Xorg||;s|X.org||;s| ||')
 
 # Default user for config files in Live mode, id is 1000 since it is
 # created by /etc/init.d/bootopts.sh.
@@ -138,7 +138,7 @@ dialog_end() {
 	exec 3>&-
 	# Continue or exit.
 	case $retval in
-		0) continue ;;
+		0|3) continue ;;
 		1|255) exit 0 ;;
 	esac
 }
@@ -148,9 +148,10 @@ install_xorg() {
 	[ -f "/var/lib/tazpkg/packages.list" ] || tazpkg recharge
 	exec 3>&1
 	value=$($DIALOG \
-		--clear --colors \
+		--clear --colors --scrollbar --default-item "$1" \
 		--title " $(_n 'Install Xorg') " \
 		--menu "$(_n 'Tazx helps you to select your X driver.')" 16 70 8 \
+		Auto_select "$(_n 'Auto configuring Xorg...' | sed 's/X//;s/org//;s|...$||;s| |_|')" \
 	$(fgrep xorg-xf86-video /var/lib/tazpkg/packages.list | cut -d- -f4 | \
 		while read x; do echo $x; _ 'driver'; done) \
 	"quit" "$(_n 'Quit')" \
@@ -161,13 +162,34 @@ install_xorg() {
 	case $value in
 		quit) exit 0 ;;
 		*)
+			[ ! $value = Auto_select ] || autoselect_driver IN_List
 			inst_pkg xorg-server
 			inst_pkg xorg-xf86-video-$value
 			xorg_conf_d ;;
 	esac
 }
 
+autoselect_driver() {
+	inst_pkg pciutils
+for v in AMD ATI Intel NVIDIA SiS VMware; do
+	hw=$(echo $(lspci | grep VGA | grep $v | sed s/[^aA-zZ]//g)--)
+	if [ ! $hw = -- ]; then case $v in
+		AMD|ATI)d=ati;;
+		Intel)	d=intel;;
+		NVIDIA)	d=nouveau;;
+		SiS)	d=sis;;
+		VMware)	d=vmware;;
+	esac ; fi
+done
+	DEVICE=$(_ 'driver')
+	[ ! $(echo $d | wc -w) = 0 ] || \
+	$DIALOG --colors --msgbox "\Z1 $(_n 'Failed to setup $DEVICE') \Zn (unknown hardware)" 5 68
+
+	[ $1 = sh ] || install_xorg $d
+}
+
 inst_pkg() {
+	pkg="$@" && colorize 5 $(_ 'Installing pkg: $pkg')
 	CMD="sudo tazpkg -gi $@"
 	test $(id -u) = 0 && CMD="tazpkg -gi $@"
 	[ -d "$installed/$@" ] || $CMD
@@ -176,17 +198,15 @@ inst_pkg() {
 apps_dialog() {
 	. ${user_conf}
 	exec 3>&1
-	app=$($DIALOG --clear --colors \
-		--extra-label "$(_n 'Edit')" \
-		--backtitle "{ $(_n '\Z3SliTaz applications config\Zn') }" \
-		--inputmenu " " 22 52 18 WINDOW_MANAGER $WINDOW_MANAGER \
-	$(for a in EDITOR BROWSER TERMINAL FILE_MANAGER; do
-		eval n=$"$a" ; echo "$a $n";
+	app=$($DIALOG --clear --colors --backtitle "$msg" \
+		--title "{\Z3 $(_n '${INST_i18n}: ${WM_i18n} + applications') \Zn}" \
+		--inputmenu "" 21 52 18 \
+	$(for a in WINDOW_MANAGER EDITOR BROWSER TERMINAL FILE_MANAGER; do
+		eval n='$'"$a" ; echo "$a $n";
 	done) 2>&1 1>&3)
 	dialog_end
 	case $app in
-		RENAMED*)
-			appname=$(echo $app | cut -d " " -f3)
+		RENAME*)appname=$(echo $app | cut -d " " -f3)
 			app=$(echo $app | cut -d " " -f2) ;;
 		*)
 			app_name_dialog only-installed d a-item ;;
@@ -195,53 +215,46 @@ apps_dialog() {
 		[ ! $appname = show_ALL ] || app_name_dialog full-list d
 		if [ ! $(busybox which ${appname} 2>/dev/null) ]; then
 			inst_pkg $appname
-			if [ ! -d "$installed/$appname" ]; then
-			pknm=$(tazpkg search-pkgname /bin/$appname \
-			| grep -Ev '=|:| |/bin/')
-			inst_pkg $pknm
-			fi
+		[ -d "$installed/$appname" ] || inst_pkg \
+		$(tazpkg search-pkgname /bin/$appname | grep -Ev '=|:| |/bin/')
 		else
-		sed '/'${app}'/s|=.*$|="'${appname}'"|' -i ${user_conf}
+			sed '/'${app}'/s|=.*$|="'${appname}'"|' -i ${user_conf}
 		fi
 	fi
-	apps_dialog
+	msg=''; apps_dialog
 }
 
 app_name_dialog() {
-	bt="" sz=28 ; [ $1 = full-list ] || sz=20 \
-	bt=$(_n 'select "Show_ALL" to install additional programs')
+	sz=28 ; [ $1 = full-list ] || sz=18
 	exec 3>&1
-	appname=$($DIALOG --clear --colors \
-	--backtitle "\Z1${bt}\Zn" --title "${app}" \
+	appname=$($DIALOG --clear --colors --title "${app}" \
 	--menu "" $sz 50 24 $(gen_applist $app $@) 2>&1 1>&3) \
 	dialog_end
 }
 
 gen_applist() {
 . ${user_conf}
-FILE_MANAGERS=" clex caja emelfm2 mc pathfinder pcmanfm pcmanfm-qt ranger spacefm thunar xfe ytree"
-BROWSERS=" arora chrome cream dillo elinks firefox iron links lynx midori netsurf \
- opera QtWeb qupzilla retawq seamonkey surf tazweb"
-EDITORS=" adie beaver emacs geany jed joe juffed ht le leafpad mcedit mousepad mp-5 \
+FILE_MANAGERS="clex caja emelfm2 mc pathfinder pcmanfm pcmanfm-qt ranger spacefm thunar xfe ytree"
+BROWSERS="arora chrome cream dillo elinks firefox firefox-official iron links lynx \
+ midori netsurf opera QtWeb qupzilla retawq seamonkey surf tazweb"
+EDITORS="adie beaver emacs geany jed joe juffed ht le leafpad mcedit mousepad mp-5 \
  nano qedit SciTE vi vim xedit xfw zile"
-TERMINALS=" aterm evilvte lxterminal mrxvt qterminal sakura stjerm tilda urxvt vte \
+TERMINALS="aterm evilvte lxterminal mrxvt qterminal sakura stjerm tilda urxvt vte \
  xterm yeahconsole"
-WINDOW_MANAGERS=" awesome blackbox dwm echinus enlightenment fluxbox icewm-session jwm \
- lxde-session karmen matchbox openbox-session pekwm ratpoison startlxqt xfwm4"
+WINDOW_MANAGERS="awesome blackbox compiz dwm echinus enlightenment fluxbox icewm jwm \
+ lxde-session lxqt karmen matchbox openbox-session pekwm ratpoison xfwm4"
 
 	eval list='$'"$1"S
 	eval current='$'"$1"
-for i in $current $(echo $list" " | sed "s| "$current" | |g") $4 ; do
+for i in $current $(echo ' '$list' ' | sed "s| "$current" | |g") $4 ; do
 	t="<--" ; [ $(busybox which $i 2>/dev/null) ] || t=---
 	if [ $2 = only-installed ] && [ $t = --- ]; then
 		case $i in
-		a-item) i=show_ALL t=$(_n 'Get more apps') ;;
+		a-item) i=show_ALL t="+"${INST_i18n};;
 		*) i=" " t=" " ;; esac
 	fi
-	instmsg=$(_n 'install')
-	t=$(echo $t | sed "s|---|$instmsg|g ; s| |_|g")
 	echo "$i"
-	[ $3 = yad ] || echo -e "$t"
+	[ $3 = yad ] || echo -e "$(echo $t | sed "s|---|${INST_i18n}|g ; s| ||g")"
 done
 }
 
@@ -253,13 +266,14 @@ config_dialog() {
 	exec 3>&1
 	value=$($DIALOG \
 		--clear --colors \
+		--shadow \
 		--title "{ $(_n 'SliTaz Xorg config') }" \
 		--menu "" 16 72 10 \
 	"xorg"        "$(_n 'Install or reconfigure Xorg')" \
 	"xorg-light"  "$(_n 'Install Xorg server (light version)')" \
-	"onboot"      "$(_n 'AutoStart Xorg by SLiM on boot') ...| $LM" \
+	"onboot"      "$(_n 'AutoStart Xorg by SLiM on boot') ...| \Z5$LM\Zn" \
 	"slim"        "$(_n '(Re)Start Simple Login Manager now')" \
-	"wm_apps"     "$(_n 'Select & install WM|DE + applications')" \
+	"wm_apps"     "$(_n '${INST_i18n}: ${WM_i18n} + applications')" \
 	"quit"        "$(_n 'Quit Tazx utility')" \
 	2>&1 1>&3)
 	dialog_end
@@ -310,6 +324,7 @@ slitaz_apps_conf() {
 			mkdir -p $(dirname $user_conf); cp ${apps_conf} ${user_conf}
 		fi
 	fi
+	[ -f "$HOME/.xinitrc" ] || inst_pkg slitaz-configs-base --forced
 }
 
 # Commands
@@ -343,17 +358,32 @@ case "$1" in
 		echo "Generating: 40-Keyboard.conf"
 		keyboard_conf ;;
 	
-	*help) 
-		echo "Usage: $(basename $0) [install-xorg|config-xorg|init|keyboard]" ;;
-		
-	
 	get-applist)
 		slitaz_apps_conf
 		gen_applist $2 $3 $4 ;;
+	auto)
+		autoselect_driver sh
+		inst_pkg xorg-server
+		inst_pkg xorg-xf86-video-${d} ;;
+	bpp)
+		check_root
+		xorg_conf_d
+		case "$2" in 8|15|16|24) colors=$2 ;;
+		*)	exec 3>&1 && colors=$($DIALOG --menu " " 12 12 12 \
+			24 truecolor 16 hicolor 15 hicolor 8 256colors 2>&1 1>&3) ; dialog_end ;;
+		esac
+		sed 's|Monitor.*"$|&\n\tDefaultDepth '$colors'|' -i ${xorg_config}/70-Screen.conf
+		;;
+	*help)
+		echo "Usage: $(basename $0) [install-xorg|bpp|auto|config-xorg|init|keyboard]" ;;
 	*)
 		# User can get a new .xinitrc with tazx from cmdline.
-		if [ $(id -u) == 0 ]; then config_dialog
-		else	slitaz_apps_conf ; apps_dialog
+		if [ $(id -u) == 0 ]; then
+			slitaz_apps_conf
+			config_dialog
+		else	msg="\Z1 $(_n 'Run tazx as root if you need to configure xorg') \Zn"
+			slitaz_apps_conf
+			apps_dialog
 		fi
 		# gen_xsession
 		;;
