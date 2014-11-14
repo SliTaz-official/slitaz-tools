@@ -19,7 +19,7 @@ case $BROWSER in
 	*links*|retawq|lynx)
 		$EXECT $@ ;;
 	w3m)	$EXECT -N $@ ;;
-	qupzil*)$EXEC -pb -ow $@ ;;
+	qupzil*)$EXEC -ow $@ ;;
 	*)	$EXEC $@ ;;
 esac
 
