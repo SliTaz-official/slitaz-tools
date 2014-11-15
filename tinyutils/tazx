@@ -161,15 +161,19 @@ install_xorg() {
 	# Set selected value.
 	case $value in
 		quit) exit 0 ;;
+		Auto_select) autoselect_driver ;;
 		*)
-			[ ! $value = Auto_select ] || autoselect_driver IN_List
 			inst_pkg xorg-server
 			inst_pkg xorg-xf86-video-$value
 			xorg_conf_d ;;
 	esac
 }
 
+
+# Auto-select and install Xorg driver
 autoselect_driver() {
+	inst_pkg xorg-server
+
 	DEVICE="$(_ 'driver')"
 	for VID in $(busybox lspci | grep 'Class 03' | cut -c21-24 | sort -u); do
 		case $VID in
@@ -178,11 +182,13 @@ autoselect_driver() {
 			10de) d=nouveau ;;
 			1039) d=sis ;;
 			15ad) d=vmware ;;
-			*) $DIALOG --colors --msgbox \
+			*) d=''; $DIALOG --colors --msgbox \
 				"\Z1 $(_n 'Failed to setup $DEVICE') \Zn (unknown hardware)" 5 68 ;;
 		esac
-	[ $1 = sh ] || install_xorg $d
+	[ -n "$d" ] && inst_pkg xorg-xf86-video-$d
 	done
+
+	xorg_conf_d
 }
 
 inst_pkg() {
@@ -356,9 +362,7 @@ case "$1" in
 		slitaz_apps_conf
 		gen_applist $2 $3 $4 ;;
 	auto)
-		autoselect_driver sh
-		inst_pkg xorg-server
-		inst_pkg xorg-xf86-video-${d} ;;
+		autoselect_driver ;;
 	bpp)
 		check_root
 		xorg_conf_d
