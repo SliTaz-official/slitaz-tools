@@ -170,22 +170,19 @@ install_xorg() {
 }
 
 autoselect_driver() {
-	inst_pkg pciutils
-for v in AMD ATI Intel NVIDIA SiS VMware; do
-	hw=$(echo $(lspci | grep VGA | grep $v |LC_ALL=C sed 's/[^aA-zZ]//g')--)
-	if [ ! $hw = -- ]; then case $v in
-		AMD|ATI)d=ati;;
-		Intel)	d=intel;;
-		NVIDIA)	d=nouveau;;
-		SiS)	d=sis;;
-		VMware)	d=vmware;;
-	esac ; fi
-done
-	DEVICE=$(_ 'driver')
-	[ ! $(echo $d | wc -w) = 0 ] || \
-	$DIALOG --colors --msgbox "\Z1 $(_n 'Failed to setup $DEVICE') \Zn (unknown hardware)" 5 68
-
+	DEVICE="$(_ 'driver')"
+	for VID in $(busybox lspci | grep 'Class 03' | cut -c21-24 | sort -u); do
+		case $VID in
+			1022|1002) d=ati ;;
+			8086) d=intel ;;
+			10de) d=nouveau ;;
+			1039) d=sis ;;
+			15ad) d=vmware ;;
+			*) $DIALOG --colors --msgbox \
+				"\Z1 $(_n 'Failed to setup $DEVICE') \Zn (unknown hardware)" 5 68 ;;
+		esac
 	[ $1 = sh ] || install_xorg $d
+	done
 }
 
 inst_pkg() {
