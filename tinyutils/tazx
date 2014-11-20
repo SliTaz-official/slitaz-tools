@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # Tazx - Ncurses X configuration for SliTaz GNU/Linux using Dialog boxes.
-# This tinyutil is part of slitaz-tools. Tazx can configure Xorg with 
+# This tinyutil is part of slitaz-tools. Tazx can configure Xorg with
 # several Window Managers. The GTK interface to configure X is in tazbox.
 #
 # (c) 2011-2014 SliTaz GNU/Linux - GNU GPL v3.
@@ -18,31 +18,32 @@
 . /etc/slitaz/slitaz.conf
 . /etc/slitaz/applications.conf
 
-installed="$PKGS_DB/installed"
-
 export TEXTDOMAIN='slitaz-tools' #i18n
 : ${DIALOG=dialog --timeout 60}
 
-WM_i18n=$(_n 'Window Manager:'| sed s/://)
-INST_i18n=$(_n 'Install Xorg' | sed 's|Xorg||;s|X.org||;s| ||')
-
 # Default user for config files in Live mode, id is 1000 since it is
 # created by /etc/init.d/bootopts.sh.
-USER=$(cat /etc/passwd | grep 1000 | cut -d ":" -f 1)
+
+USER=$(awk -F: '/1000/{print $1}' /etc/passwd)
+
 
 #
 # Functions
 #
 
+
 # Save chunk of xorg.conf into specified file
+
 save_chunk() {
 	sed -e '/Section "'${1#*-}'"/,/EndSection/!d' \
-		-e "s/EndSection/EndSection\n/" $xorg_template > \
+		-e "s/EndSection/&\n/" $xorg_template > \
 		$xorg_config/$1.conf
 }
 
+
+# Create a xorg.conf if needed
+
 gen_xorg_conf_file() {
-	# Create a xorg.conf if needed.
 	if [ ! -f /etc/X11/xorg.conf ]; then
 		cat > /etc/X11/xorg.conf << EOT
 # You can put here your own Xorg configurations. This config file is read
@@ -52,16 +53,94 @@ EOT
 	fi
 }
 
+
+# Add or remove xkb applet from lxpanel
+
+xkb() {
+	case $(id -u) in
+		0)
+			# Empty if lxpanel not running, else something like:
+			# tux lxpanel -p slitaz
+			LXPS=$(ps -ouser,args | sed -n '/[l]xpanel/ s|  *| |p' | \
+				fgrep -v '[' | fgrep -v 'xkb' | fgrep -v 'sh')
+
+			# Stop lxpanel
+			if [ -n "$LXPS" ]; then
+				lxpanelctl exit
+				killall lxpanel
+			fi
+
+			# For all human users
+			for USER in $(awk -F: '/\/home\//{print $1}' /etc/passwd); do
+				su $USER -c '. ~/.profile; tazx xkb'
+			done
+
+			# Re-run lxpanel
+			[ -n "$LXPS" ] && su ${LXPS%% *} -c "exec ${LXPS#* }" &
+			;;
+
+		*)
+			DOTCONFIG=${XDG_CONFIG_HOME:-$HOME/.config}
+			CFG_LXPANEL=$DOTCONFIG/lxpanel
+
+			if [ ! -d $CFG_LXPANEL ]; then
+				mkdir -p $DOTCONFIG
+				cp -r /etc/lxpanel $DOTCONFIG
+			fi
+
+			case $(fgrep 'XkbLayout' /etc/X11/xorg.conf.d/40-Keyboard.conf | \
+				fgrep -o ',') in
+				'')
+					for CFG in $(find $CFG_LXPANEL -type f -name panel); do
+						if [ -n "$(grep 'type = xkb' $CFG)" ]; then
+							echo "Remove xkb applet from $CFG"
+							sed -i "$(grep -n -e "^Plugin {" -e "^}" -e "xkb" \
+								$CFG | grep -C 1 xkb | grep -v xkb | cut -d: \
+								-f1 | tr '\n' ' ' | sed 's| |,|')d" $CFG
+						fi
+					done ;;
+				',')
+					for CFG in $(find $CFG_LXPANEL -type f -name panel); do
+						if [ -z "$(grep 'type = xkb' $CFG)" ]; then
+							echo "Add xkb applet to $CFG"
+							XKB='Plugin {\
+    type = xkb\
+    Config {\
+        DisplayType=0\
+        PerWinLayout=0\
+        NoResetOpt=0\
+        KeepSysLayouts=1\
+        Model=pc105\
+        LayoutsList=us\
+        VariantsList=,\
+        ToggleOpt=shift_caps_toggle\
+        FlagSize=4\
+    }\
+}\
+'
+							sed -i "$(grep -n -e "^Plugin {" -e "tray" $CFG | \
+								grep -B1 tray | head -n1 | cut -d: -f1) i\\
+$XKB" $CFG
+						fi
+					done ;;
+			esac ;;
+	esac
+}
+
+
 # Generate or regenerate 40-Keyboard.conf
+
 keyboard_conf() {
-	# Configure the keyboard with the right keymap.
+	# Configure the keyboard with the right keymap
 	keymap=$(cat /etc/keymap.conf)
 	keyboard_config="/etc/X11/xorg.conf.d/40-Keyboard.conf"
 	variant=""
+
 	# this XkbOption moved from 40-evdev.conf (xorg-xf86-input-evdev)
 	options="terminate:ctrl_alt_bksp"
-	gettext "Creating:"; echo -n " $keyboard_config"
+	_n 'Creating:'; echo -n " $keyboard_config"
 	mkdir -p $(dirname $keyboard_config)
+
 	case "$keymap" in
 		fr_CH-latin1)
 			# Swiss FrenCH
@@ -72,11 +151,11 @@ keyboard_conf() {
 		ru)
 			# Russian
 			layout="us,ru"
-			options="grp:ctrl_shift_toggle, grp_led:scroll, $options" ;;
+			options="grp:ctrl_shift_toggle, grp_led:scroll, compose:ralt, $options" ;;
 		ua)
 			# Ukrainian
 			layout="us,ua,ru"
-			options="grp:ctrl_shift_toggle, $options" ;;
+			options="grp:ctrl_shift_toggle, compose:ralt, $options" ;;
 		slovene)
 			# Slovenian
 			layout="si"; options="grp:alt_shift_toggle, $options" ;;
@@ -89,6 +168,7 @@ keyboard_conf() {
 			keymap=${keymap%-lat6}
 			layout=${keymap%-abnt2}
 	esac
+
 	cat > $keyboard_config << EOC
 Section "InputClass"
 	Identifier "Keyboard Defaults"
@@ -98,11 +178,15 @@ Section "InputClass"
 	Option "XkbOptions" "$options"
 EndSection
 EOC
+
 	status
-	[ x$variant == x ] && sed -i '/XkbVariant/d' ${keyboard_config}
+	[ -z "$variant" ] && sed -i '/XkbVariant/d' $keyboard_config
+	xkb
 }
 
-# Populate xorg.conf.d.
+
+# Populate xorg.conf.d
+
 xorg_conf_d() {
 	# Define the xorg.conf.d (can be /etc/X11/xorg.conf.d or /usr/share/X11/xorg.conf.d)
 	xorg_config=/etc/X11/xorg.conf.d
@@ -114,7 +198,7 @@ xorg_conf_d() {
 	Xorg -configure :2
 
 	# Backup existing config.
-	tar -cf $xorg_config/../Previous_xorg.conf.d.tar $xorg_config/ &> /dev/null 
+	tar -cf $xorg_config/../Previous_xorg.conf.d.tar $xorg_config/ &> /dev/null
 
 	# Put the different sections in separate files in the config directory.
 	save_chunk 10-ServerLayout
@@ -133,48 +217,54 @@ xorg_conf_d() {
 	gen_xorg_conf_file
 }
 
+
+# Process dialog's return code.
+
 dialog_end() {
 	retval=$?
 	exec 3>&-
 	# Continue or exit.
 	case $retval in
-		0|3) continue ;;
-		1|255) exit 0 ;;
+		0|3)   continue ;;
+		1|255) exit 0   ;;
 	esac
 }
 
+
 # Install xorg server.
+
 install_xorg() {
-	[ -f "/var/lib/tazpkg/packages.list" ] || tazpkg recharge
+	[ -f "$PKGS_DB/packages.list" ] || tazpkg recharge
+
 	exec 3>&1
-	value=$($DIALOG \
-		--clear --colors --scrollbar --default-item "$1" \
-		--title " $(_n 'Install Xorg') " \
-		--menu "$(_n 'Tazx helps you to select your X driver.')" 16 70 8 \
-		Auto_select "$(_n 'Auto configuring Xorg...' | sed 's/X//;s/org//;s|...$||;s| |_|')" \
-	$(fgrep xorg-xf86-video /var/lib/tazpkg/packages.list | cut -d- -f4 | \
-		while read x; do echo $x; _ 'driver'; done) \
-	"quit" "$(_n 'Quit')" \
-	2>&1 1>&3)
+
+	driver=$($DIALOG \
+		--clear --colors --scrollbar --title " $(_ 'Install Xorg') " \
+		--menu "$(_ 'Tazx helps you to select your X driver.')" 16 70 9 \
+		'auto' "$(_ 'Auto configuring')" \
+		$(fgrep xorg-xf86-video- $PKGS_DB/packages.list | cut -d- -f4 | \
+			sed "s|.*|& $(_ 'driver')|") \
+		'quit' "$(_ 'Quit')" \
+		2>&1 1>&3)
+
 	dialog_end
 
-	# Set selected value.
-	case $value in
+	case $driver in
 		quit) exit 0 ;;
-		Auto_select) autoselect_driver ;;
+		auto) autoselect_driver ;;
 		*)
 			inst_pkg xorg-server
-			inst_pkg xorg-xf86-video-$value
+			inst_pkg xorg-xf86-video-$driver
 			xorg_conf_d ;;
 	esac
 }
 
 
-# Auto-select and install Xorg driver
+# Auto-select and install Xorg driver.
+
 autoselect_driver() {
 	inst_pkg xorg-server
 
-	DEVICE="$(_ 'driver')"
 	for VID in $(busybox lspci | grep 'Class 03' | cut -c21-24 | sort -u); do
 		case $VID in
 			1022|1002) d=ati ;;
@@ -183,7 +273,7 @@ autoselect_driver() {
 			1039) d=sis ;;
 			15ad) d=vmware ;;
 			*) d=''; $DIALOG --colors --msgbox \
-				"\Z1 $(_n 'Failed to setup $DEVICE') \Zn (unknown hardware)" 5 68 ;;
+				"\n\Z1$(_n 'Failed to setup driver')\Zn $(_ '(unknown hardware)')" 7 68 ;;
 		esac
 	[ -n "$d" ] && inst_pkg xorg-xf86-video-$d
 	done
@@ -191,141 +281,215 @@ autoselect_driver() {
 	xorg_conf_d
 }
 
+
+# Install specified package.
+
 inst_pkg() {
-	pkg="$@" && colorize 3 $(_ 'Installing pkg: $pkg')
-	CMD="sudo tazpkg -gi $@"
-	test $(id -u) = 0 && CMD="tazpkg -gi $@"
-	[ -d "$installed/$@" ] || $CMD
+	pkg="$@"
+	colorize 3 $(_ 'Installing pkg: $pkg')
+
+	case $(id -u) in
+		0) CMD="tazpkg -gi $@" ;;
+		*) CMD="sudo tazpkg -gi $@" ;;
+	esac
+	[ -d "$INSTALLED/$@" ] || $CMD
 }
+
+
+# Select/install Window Manager and favorite applications.
 
 apps_dialog() {
-	. ${user_conf}
+	. $user_conf
+
 	exec 3>&1
+
 	app=$($DIALOG --clear --colors --backtitle "$msg" \
-		--title "{\Z3 $(_n '${INST_i18n}: ${WM_i18n} + applications') \Zn}" \
+		--title "{\Z3 $(_n 'Install Window Manager and applications') \Zn}" \
 		--inputmenu "" 21 52 18 \
-	$(for a in WINDOW_MANAGER EDITOR BROWSER TERMINAL FILE_MANAGER; do
-		eval n='$'"$a" ; echo "$a $n";
-	done) 2>&1 1>&3)
+		$(for a in WINDOW_MANAGER EDITOR BROWSER TERMINAL FILE_MANAGER; do
+			eval n='$'$a; echo $a $n;
+		done) 2>&1 1>&3)
 	dialog_end
+
 	case $app in
-		RENAME*)appname=$(echo $app | cut -d " " -f3)
-			app=$(echo $app | cut -d " " -f2) ;;
+		RENAMED) # like: RENAMED EDITOR myeditor
+			appname=$(echo $app | cut -d" " -f3)
+			    app=$(echo $app | cut -d" " -f2) ;;
 		*)
-			app_name_dialog only-installed d a-item ;;
+			app_name_dialog only-installed ;;
 	esac
-	if [ ! $appname = " " ]; then
-		[ ! $appname = show_ALL ] || app_name_dialog full-list d
-		if [ ! $(busybox which ${appname} 2>/dev/null) ]; then
-			inst_pkg $appname
-		[ -d "$installed/$appname" ] || inst_pkg \
-		$(tazpkg search-pkgname /bin/$appname | grep -Ev '=|:| |/bin/')
-		else
-			sed '/'${app}'/s|=.*$|="'${appname}'"|' -i ${user_conf}
+
+	if [ $appname != " " ]; then
+		if [ $appname = show_ALL ]; then
+			app_name_dialog full-list
 		fi
+		if [ -z $(busybox which $appname) ]; then
+			inst_pkg $(lzcat $PKGS_DB/files.list.lzma | fgrep /bin/$appname | head -n1 | cut -d: -f1)
+		fi
+		sed -i "/$app/ s|=.*$|=$appname|" $user_conf
 	fi
-	msg=''; apps_dialog
+
+	msg=''; apps_dialog # loop
 }
+
+
+# Show list of applications to choose.
 
 app_name_dialog() {
-	sz=28 ; [ $1 = full-list ] || sz=18
+	case $1 in
+		full-list) height=24 ;;
+		*)         height=18 ;;
+	esac
+
 	exec 3>&1
-	appname=$($DIALOG --clear --colors --title "${app}" \
-	--menu "" $sz 50 24 $(gen_applist $app $@) 2>&1 1>&3) \
+
+	appname=$($DIALOG --clear --colors --title "$app" \
+		--menu '' $height 50 24 $(gen_applist $app $@) 2>&1 1>&3)
 	dialog_end
 }
 
+
+# Generate application list for Dialog or Yad.
+
 gen_applist() {
-. ${user_conf}
-FILE_MANAGERS="clex caja emelfm2 mc pathfinder pcmanfm pcmanfm-qt ranger spacefm thunar xfe ytree"
-BROWSERS="arora chrome cream dillo elinks firefox firefox-official iron links lynx \
- midori netsurf opera QtWeb qupzilla retawq seamonkey surf tazweb"
-EDITORS="adie beaver emacs geany jed joe juffed ht le leafpad mcedit mousepad mp-5 \
- nano qedit SciTE vi vim xedit xfw zile"
-TERMINALS="aterm evilvte lxterminal mrxvt qterminal sakura stjerm tilda urxvt vte \
- xterm yeahconsole"
-WINDOW_MANAGERS="awesome blackbox compiz dwm echinus enlightenment fluxbox icewm jwm \
- lxde-session lxqt karmen matchbox openbox-session pekwm ratpoison xfwm4"
+	# $1 = [ FILE_MANAGER | BROWSER | EDITOR | TERMINAL | WINDOW_MANAGER ]
+	# $2 = [ only-installed | full-list ]
+	# $3 = [ yad | * ]
+
+	. $user_conf
+
+	FILE_MANAGERS="clex caja emelfm2 mc pathfinder pcmanfm pcmanfm-qt ranger \
+spacefm thunar xfe ytree"
+
+	BROWSERS="arora chrome cream dillo elinks firefox firefox-official iron \
+links lynx midori netsurf opera QtWeb qupzilla retawq seamonkey surf tazweb"
+
+	EDITORS="adie beaver emacs geany jed joe juffed ht le leafpad mcedit \
+mousepad mp-5 nano qedit SciTE vi vim xedit xfw zile"
+
+	TERMINALS="aterm evilvte lxterminal mrxvt qterminal sakura stjerm tilda \
+urxvt vte xterm yeahconsole"
+
+	WINDOW_MANAGERS="awesome blackbox compiz dwm echinus enlightenment fluxbox \
+icewm jwm lxde-session lxqt karmen matchbox openbox-session pekwm ratpoison \
+xfwm4"
 
 	eval list='$'"$1"S
 	eval current='$'"$1"
-for i in $current $(echo ' '$list' ' | sed "s| "$current" | |g") $4 ; do
-	t="<--" ; [ $(busybox which $i 2>/dev/null) ] || t=---
-	if [ $2 = only-installed ] && [ $t = --- ]; then
-		case $i in
-		a-item) i=show_ALL t="+"${INST_i18n};;
-		*) i=" " t=" " ;; esac
+
+	for i in $current $(echo " $list " | sed "s| $current | |g"); do
+
+		case $(busybox which $i) in
+			'') # not installed
+				t='---' ;;
+			*)  # installed
+				t='<--' ;;
+		esac
+
+		if [ "$2" == 'full-list' ] || [ "$t" == '<--' ]; then
+			echo "$i"
+
+			if [ "$3" != 'yad' ]; then
+				echo "$(echo $t | sed "s|---|$(_n 'Install')|g")"
+			fi
+		fi
+	done
+
+	if [ "$2" == 'only-installed' ] && [ "$3" != 'yad' ]; then
+		echo 'show_ALL' "+$(_n 'Install')"
 	fi
-	echo "$i"
-	[ $3 = yad ] || echo -e "$(echo $t | sed "s|---|${INST_i18n}|g ; s| ||g")"
-done
 }
 
+
 # Screen configuration dialog.
+
 config_dialog() {
-	. /etc/rcS.conf ; LM="ON"
-	[ $LOGIN_MANAGER = "slim" ] || LM="OFF"
+	. /etc/rcS.conf
+	case $LOGIN_MANAGER in
+		slim) LM="$(_ 'ON')"  ;;
+		*)    LM="$(_ 'OFF')" ;;
+	esac
 
 	exec 3>&1
+
 	value=$($DIALOG \
 		--clear --colors \
 		--title "{ $(_n 'SliTaz Xorg config') }" \
 		--menu "" 16 72 10 \
 	"xorg"        "$(_n 'Install or reconfigure Xorg')" \
 	"xorg-light"  "$(_n 'Install Xorg server (light version)')" \
-	"onboot"      "$(_n 'AutoStart Xorg by SLiM on boot') ...| \Z5$LM\Zn" \
+	"onboot"      "$(_n 'AutoStart Xorg by SLiM on boot'): \Z5$LM\Zn" \
 	"slim"        "$(_n '(Re)Start Simple Login Manager now')" \
-	"wm_apps"     "$(_n '${INST_i18n}: ${WM_i18n} + applications')" \
+	"wm_apps"     "$(_n 'Install Window Manager and applications')" \
 	"quit"        "$(_n 'Quit Tazx utility')" \
 	2>&1 1>&3)
 	dialog_end
-	# Set selected value.
+
 	case "$value" in
 		xorg)
 			install_xorg ;;
+
 		xorg-light)
 			inst_pkg xorg-server-light
 			inst_pkg xorg-xf86-video-fbdev
 			xorg_conf_d ;;
+
 		onboot)
-			inst_pkg slim ; inst_pkg dbus
-			if [ $LM = "OFF" ] ; then
-				LM=slim
-			else	LM=""
+			inst_pkg slim
+			inst_pkg dbus
+
+			if [ $LM == "$(_ 'OFF')" ]; then
+				LM='slim'
+			else
+				LM=''
 			fi
-			sed '/LOGIN_MANAGER/s|=.*$|="'$LM'"|' -i /etc/rcS.conf
-			[ $LM = "slim" ] || LM=disabled
-			echo "start X on boot:" $(boldify $LM) ;;
+			sed -i "/LOGIN_MANAGER/ s|=.*$|=$LM|" /etc/rcS.conf
+
+			[ -z "$LM" ] && LM='disabled'
+			_n "Start X on boot:"; boldify " $LM" ;;
+
 		slim)
-			inst_pkg slim ; inst_pkg dbus
-			[ ! -z $XAUTHORITY ] || stopd slim ;sleep 2; startd slim ;;
+			inst_pkg slim
+			inst_pkg dbus
+			if [ -z $XAUTHORITY ]; then
+				stopd slim; sleep 2; startd slim
+			fi ;;
+
 		wm_apps)
-			slitaz_apps_conf ; apps_dialog ;;
+			slitaz_apps_conf
+			apps_dialog ;;
+
 		*)
 			exit 0 ;;
 	esac
 }
 
+
 # ~/.config/slitaz/applications.conf: Missing = failed to login
 # Make users applications.conf in /etc/skel so new added user will get
 # a working X session. Note --> flavors can have a custom config in
 # /etc/slitaz/applications that we must use.
+
 slitaz_apps_conf() {
 	apps_conf=/etc/slitaz/applications.conf
-	
+
 	if [ "$(id -u)" = 0 ]; then
-		user_conf=${apps_conf}
+		user_conf=$apps_conf
 		new_user_conf="/etc/skel/.config/slitaz/applications.conf"
-		mkdir -p $(dirname $user_conf); cp -f ${apps_conf} ${new_user_conf}
+		mkdir -p $(dirname $new_user_conf)
+		cp -f $apps_conf $new_user_conf
 	else
 		# If started by: startx and with boot opts screen=text
-		user_conf="$HOME/.config/slitaz/applications.conf"
+		user_conf="${XDG_CONFIG_HOME:-$HOME/.config}/slitaz/applications.conf"
 		if [ ! -f "$user_conf" ]; then
-			mkdir -p $(dirname $user_conf); cp ${apps_conf} ${user_conf}
+			mkdir -p $(dirname $user_conf)
+			cp $apps_conf $user_conf
 		fi
 	fi
+
 	[ -f "$HOME/.xinitrc" ] || inst_pkg slitaz-configs-base --forced
 }
+
 
 # Commands
 
@@ -334,7 +498,7 @@ case "$1" in
 		check_root
 		install_xorg
 		slitaz_apps_conf ;;
-	
+
 	config-xorg)
 		check_root
 		slitaz_apps_conf
@@ -345,44 +509,70 @@ case "$1" in
 			sed -i "s/.*EndSubSection.*/\\t\\tModes\\t\"$MODE\"\\n&/" \
 				/etc/X11/xorg.conf.d/70-Screen.conf
 		fi ;;
-	
+
 	init)
 		# We don't need much config files with last Xorg version, So just
 		# get files for starting an X session and config the keyboard.
 		check_root
 		slitaz_apps_conf
-		keyboard_conf 
+		keyboard_conf
 		gen_xorg_conf_file ;;
-		
+
 	keyboard)
-		echo "Generating: 40-Keyboard.conf"
 		keyboard_conf ;;
-	
+
 	get-applist)
 		slitaz_apps_conf
 		gen_applist $2 $3 $4 ;;
+
 	auto)
 		autoselect_driver ;;
+
 	bpp)
 		check_root
 		xorg_conf_d
-		case "$2" in 8|15|16|24) colors=$2 ;;
-		*)	exec 3>&1 && colors=$($DIALOG --menu " " 12 12 12 \
-			24 truecolor 16 hicolor 15 hicolor 8 256colors 2>&1 1>&3) ; dialog_end ;;
+		case "$2" in
+			8|15|16|24)
+				colors=$2 ;;
+			*)
+				exec 3>&1
+				colors=$($DIALOG --menu " " 12 12 12 \
+				24 truecolor 16 hicolor 15 hicolor 8 256colors 2>&1 1>&3)
+				dialog_end ;;
 		esac
 		sed 's|Monitor.*"$|&\n\tDefaultDepth '$colors'|' \
 		-i ${xorg_config}/70-Screen.conf ;;
+
+	xkb)
+		xkb ;;
+
 	*help)
-		echo "Usage: $(basename $0) [install-xorg|bpp|auto|config-xorg|init|keyboard]" ;;
+		emsg "
+<b>tazx</b> - $(_ 'configuration tool for SliTaz GNU/Linux')
+
+<c 33>$(_ 'Usage:')</c> <b>tazx</b> <c 34>$(_ 'command')</c> $(_ 'parameter')
+
+<c 34>$(_ 'Commands:')</c>
+install-xorg  $(_ 'Install Xorg and selected Xorg driver')
+config-xorg   $(_ 'Configure Xorg, generate configuration files')
+bpp           $(_ 'Set monitor default depth (valid parameters: 8, 15, 16 or 24)')
+auto          $(_ 'Auto-select and install Xorg driver')
+init          $(_ 'Get files for starting an X session and config the keyboard')
+keyboard      $(_ 'Generate or regenerate Xorg keyboard config')
+"
+		;;
+
 	*)
 		# User can get a new .xinitrc with tazx from cmdline.
-		if [ $(id -u) == 0 ]; then
-			slitaz_apps_conf
-			config_dialog
-		else	msg="\Z1 $(_n 'Run tazx as root if you need to configure xorg') \Zn"
-			slitaz_apps_conf
-			apps_dialog
-		fi
+		case $(id -u) in
+			0)
+				slitaz_apps_conf
+				config_dialog ;;
+			*)
+				msg="\Z1 $(_n 'Run tazx as root if you need to configure xorg') \Zn"
+				slitaz_apps_conf
+				apps_dialog ;;
+		esac
 		# gen_xsession
 		;;
 esac

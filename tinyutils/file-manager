@@ -3,18 +3,21 @@
 #
 . /etc/slitaz/applications.conf
 
-USER_CONFIG="$HOME/.config/slitaz/applications.conf"
+USER_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/slitaz/applications.conf"
 [ -f  $USER_CONFIG ] && . $USER_CONFIG
 
-if [ ! -z $XAUTHORITY ]; then
-	EXEC="terminal -e $FILE_MANAGER" ;
-else	EXEC="$FILE_MANAGER" ;
+if [ -z "$XAUTHORITY" ]; then
+	# console session
+	EXEC="$FILE_MANAGER"
+else
+	# Xorg session
+	EXEC="terminal -e $FILE_MANAGER"
 fi
 
 case $FILE_MANAGER in
-	clex)	$EXEC ;;
-	ytree)	$EXEC $@ ;;
-	mc)	$EXEC -S gotar -d $@ ;;
+	clex)  $EXEC ;;
+	ytree) $EXEC $@ ;;
+	mc)    $EXEC -S gotar -d $@ ;;
 	*) exec setsid $FILE_MANAGER $@ ;;
 esac
 

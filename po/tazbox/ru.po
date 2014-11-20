@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-23 03:33+0300\n"
+"POT-Creation-Date: 2014-11-18 20:10+0200\n"
 "PO-Revision-Date: 2014-05-23 03:34+0300\n"
 "Last-Translator: Aleksej Bobylev <al.bobylev@gmail.com>\n"
 "Language-Team: \n"
@@ -17,7 +17,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Russian\n"
 "X-Poedit-Basepath: ../../\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Language: ru\n"
 "X-Source-Language: en\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -72,7 +73,8 @@ msgstr "Настроить часовой пояс системы (root)"
 
 #: tazbox/tazbox:43
 msgid "System initial setup (locale, keymap & timezone)"
-msgstr "Начальные установки системы (локаль, раскладка клавиатуры и часовой пояс)"
+msgstr ""
+"Начальные установки системы (локаль, раскладка клавиатуры и часовой пояс)"
 
 #: tazbox/tazbox:44
 msgid "Create a new file or folder on the desktop"
@@ -148,18 +150,16 @@ msgstr "Начальные установки SliTaz"
 
 #: tazbox/tazbox:137
 msgid ""
-"Here you can set your preferences \\n"
-" for <b>locale, keymap and timezone</b>."
+"Here you can set your preferences \\n for <b>locale, keymap and timezone</b>."
 msgstr ""
-"Здесь вы можете установить\\n"
-"<b>локаль, раскладку клавиатуры и часовой пояс</b>."
+"Здесь вы можете установить\\n<b>локаль, раскладку клавиатуры и часовой пояс</"
+"b>."
 
 #: tazbox/tazbox:139
 msgid "Locale"
 msgstr "Локаль"
 
-#: tazbox/tazbox:140
-#: tazbox/tazbox:206
+#: tazbox/tazbox:140 tazbox/tazbox:206
 msgid "Keymap"
 msgstr "Раскладка"
 
@@ -177,10 +177,11 @@ msgstr "Настройка языка"
 
 #: tazbox/tazbox:170
 msgid "Tip: manage locales list by installing/removing locale packages."
-msgstr "Подсказка: вы можете управлять списком локалей, устанавливая и удаляя пакеты локалей."
+msgstr ""
+"Подсказка: вы можете управлять списком локалей, устанавливая и удаляя пакеты "
+"локалей."
 
-#: tazbox/tazbox:171
-#: tazbox/tazbox:279
+#: tazbox/tazbox:171 tazbox/tazbox:279
 msgid "Flag"
 msgstr "флаг"
 
@@ -188,13 +189,11 @@ msgstr "флаг"
 msgid "Name"
 msgstr "Название"
 
-#: tazbox/tazbox:172
-#: tazbox/tazbox:442
+#: tazbox/tazbox:172 tazbox/tazbox:442
 msgid "Description"
 msgstr "Описание"
 
-#: tazbox/tazbox:174
-#: tazbox/tazbox:280
+#: tazbox/tazbox:174 tazbox/tazbox:280
 msgid "Manage"
 msgstr "Пакеты"
 
@@ -215,10 +214,7 @@ msgstr "Настройка клавиатуры"
 msgid "Type"
 msgstr "Тип"
 
-#: tazbox/tazbox:244
-#: tazbox/tazbox:272
-#: tazbox/tazbox:288
-#: tazbox/tazbox:301
+#: tazbox/tazbox:244 tazbox/tazbox:272 tazbox/tazbox:288 tazbox/tazbox:301
 msgid "SliTaz TZ"
 msgstr "Часовой пояс SliTaz"
 
@@ -230,19 +226,20 @@ msgstr "Предполагаемое местоположение:"
 msgid "Are you agreed?"
 msgstr "Вы согласны?"
 
-#: tazbox/tazbox:275
-#: tazbox/tazbox:291
-#: tazbox/tazbox:304
+#: tazbox/tazbox:275 tazbox/tazbox:291 tazbox/tazbox:304
 msgid "TimeZone Configuration"
 msgstr "Настройка часового пояса"
 
 #: tazbox/tazbox:276
 msgid "Select country and press \"Forward\" or manually select timezone file."
-msgstr "Выберите страну и нажмите «Вперёд» или вручную выберите файл часового пояса."
+msgstr ""
+"Выберите страну и нажмите «Вперёд» или вручную выберите файл часового пояса."
 
 #: tazbox/tazbox:277
 msgid "Tip: manage timezones list by installing/removing locale packages."
-msgstr "Подсказка: вы можете управлять списком часовых поясов, устанавливая и удаляя пакеты локалей."
+msgstr ""
+"Подсказка: вы можете управлять списком часовых поясов, устанавливая и удаляя "
+"пакеты локалей."
 
 #: tazbox/tazbox:279
 msgid "Code"
@@ -283,7 +280,8 @@ msgstr "Управление пакетами локалей"
 
 #: tazbox/tazbox:439
 msgid "Check only locale packages you need and press \"Install/Remove\"."
-msgstr "Отметьте только пакеты с нужными вам локалями и нажмите «Установить/удалить»."
+msgstr ""
+"Отметьте только пакеты с нужными вам локалями и нажмите «Установить/удалить»."
 
 #: tazbox/tazbox:441
 msgid "Inst."
@@ -355,35 +353,34 @@ msgstr "Файл"
 msgid "All Applications"
 msgstr "Все приложения"
 
-#: tazbox/tazbox:604
+#: tazbox/tazbox:593
 msgid "Downloading..."
 msgstr "Загрузка…"
 
-#: tazbox/tazbox:660
+#: tazbox/tazbox:642
 msgid "SliTaz default applications"
 msgstr "Избранные приложения SliTaz"
 
-#: tazbox/tazbox:662
+#: tazbox/tazbox:644
 msgid "SliTaz default applications configuration"
 msgstr "Настройка избранных приложений SliTaz"
 
-#: tazbox/tazbox:664
+#: tazbox/tazbox:646
 msgid "File manager:"
 msgstr "Файловый менеджер:"
 
-#: tazbox/tazbox:665
+#: tazbox/tazbox:647
 msgid "Web browser:"
 msgstr "Браузер:"
 
-#: tazbox/tazbox:666
+#: tazbox/tazbox:648
 msgid "Text editor:"
 msgstr "Текстовый редактор:"
 
-#: tazbox/tazbox:667
+#: tazbox/tazbox:649
 msgid "Terminal:"
 msgstr "Терминал:"
 
-#: tazbox/tazbox:668
+#: tazbox/tazbox:650
 msgid "Window manager:"
 msgstr "Оконный менеджер:"
-

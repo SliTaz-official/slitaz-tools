@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-23 03:33+0300\n"
+"POT-Creation-Date: 2014-11-18 20:10+0200\n"
 "PO-Revision-Date: 2012-03-24 14:36+0100\n"
 "Last-Translator: Christophe Lincoln <pankso@slitaz.org>\n"
 "Language-Team: French\n"
@@ -226,7 +226,9 @@ msgstr "Configurer la zone horaire"
 
 #: tazbox/tazbox:276
 msgid "Select country and press \"Forward\" or manually select timezone file."
-msgstr "Choisissez le pays et pressez \"suivant\" ou choissez un fichier de zone horaire."
+msgstr ""
+"Choisissez le pays et pressez \"suivant\" ou choissez un fichier de zone "
+"horaire."
 
 #: tazbox/tazbox:277
 msgid "Tip: manage timezones list by installing/removing locale packages."
@@ -271,7 +273,8 @@ msgstr "Gère les paquets de localisation"
 
 #: tazbox/tazbox:439
 msgid "Check only locale packages you need and press \"Install/Remove\"."
-msgstr "Sélectionnez seulement les paquets nécéssaires et pressez \"Ajoute/Retire\"."
+msgstr ""
+"Sélectionnez seulement les paquets nécéssaires et pressez \"Ajoute/Retire\"."
 
 #: tazbox/tazbox:441
 msgid "Inst."
@@ -343,34 +346,34 @@ msgstr "Fichier"
 msgid "All Applications"
 msgstr "Toutes les applications"
 
-#: tazbox/tazbox:604
+#: tazbox/tazbox:593
 msgid "Downloading..."
 msgstr "Télécharge..."
 
-#: tazbox/tazbox:660
+#: tazbox/tazbox:642
 msgid "SliTaz default applications"
 msgstr "Applications SliTaz par défaut"
 
-#: tazbox/tazbox:662
+#: tazbox/tazbox:644
 msgid "SliTaz default applications configuration"
 msgstr "Configuration des applications SliTaz par défaut"
 
-#: tazbox/tazbox:664
+#: tazbox/tazbox:646
 msgid "File manager:"
 msgstr "Gestionnaire de fichiers :"
 
-#: tazbox/tazbox:665
+#: tazbox/tazbox:647
 msgid "Web browser:"
 msgstr "Navigateur WEB :"
 
-#: tazbox/tazbox:666
+#: tazbox/tazbox:648
 msgid "Text editor:"
 msgstr "Editeur de textes :"
 
-#: tazbox/tazbox:667
+#: tazbox/tazbox:649
 msgid "Terminal:"
 msgstr "Terminal :"
 
-#: tazbox/tazbox:668
+#: tazbox/tazbox:650
 msgid "Window manager:"
 msgstr "Gestionnaire de fenêtres :"

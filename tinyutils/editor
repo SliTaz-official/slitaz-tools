@@ -3,17 +3,20 @@
 #
 . /etc/slitaz/applications.conf
 
-USER_CONFIG="$HOME/.config/slitaz/applications.conf"
+USER_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/slitaz/applications.conf"
 [ -f  $USER_CONFIG ] && . $USER_CONFIG
 
-if [ ! -z $XAUTHORITY ]; then
-	EXEC="terminal -e $EDITOR";
-else	EXEC="$EDITOR";
+if [ -z "$XAUTHORITY" ]; then
+	# console session
+	EXEC="$EDITOR"
+else
+	# Xorg session
+	EXEC="terminal -e $EDITOR"
 fi
 
 case $EDITOR in
 	emacs|joe|jed|ht|le|nano|vi*) $EXEC $@ ;;
-	mcedit)	$EXEC -a -S nicedark $@ ;;
+	mcedit) $EXEC -a -S nicedark $@ ;;
 	*) exec setsid $EDITOR $@ ;;
 esac
 

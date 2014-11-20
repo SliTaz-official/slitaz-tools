@@ -23,7 +23,7 @@ tools-pot:
 		--package-name="SliTaz Tools" \
 		./tinyutils/tazlocale ./tinyutils/tazkeymap ./tinyutils/setmixer \
 		./tinyutils/tazx ./tinyutils/decode ./tinyutils/terminal \
-		./tinyutils/hwsetup ./tinyutils/frugal
+		./tinyutils/hwsetup ./tinyutils/frugal ./tinyutils/slitaz-config
 	@echo "done"
 
 boxes-pot:

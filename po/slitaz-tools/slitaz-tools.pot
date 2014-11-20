@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-14 21:22+0000\n"
+"POT-Creation-Date: 2014-11-20 05:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,8 +21,8 @@ msgstr ""
 msgid "SliTaz GNU/Linux locale setting using dialog boxes."
 msgstr ""
 
-#: tinyutils/tazlocale:17 tinyutils/decode:30 tinyutils/hwsetup:24
-#: tinyutils/frugal:32
+#: tinyutils/tazlocale:17 tinyutils/tazx:553 tinyutils/decode:30
+#: tinyutils/hwsetup:24 tinyutils/frugal:32
 msgid "Usage:"
 msgstr ""
 
@@ -92,74 +92,128 @@ msgstr ""
 msgid "Done"
 msgstr ""
 
-#: tinyutils/tazx:26
-msgid "Window Manager:"
-msgstr ""
-
-#: tinyutils/tazx:27 tinyutils/tazx:152
-msgid "Install Xorg"
-msgstr ""
-
-#: tinyutils/tazx:63
+#: tinyutils/tazx:141
 msgid "Creating:"
 msgstr ""
 
-#: tinyutils/tazx:153
+#: tinyutils/tazx:242
+msgid "Install Xorg"
+msgstr ""
+
+#: tinyutils/tazx:243
 msgid "Tazx helps you to select your X driver."
 msgstr ""
 
-#: tinyutils/tazx:154 tinyutils/hwsetup:258
-msgid "Auto configuring Xorg..."
+#: tinyutils/tazx:244
+msgid "Auto configuring"
 msgstr ""
 
-#: tinyutils/tazx:156 tinyutils/tazx:184
+#: tinyutils/tazx:246
 msgid "driver"
 msgstr ""
 
-#: tinyutils/tazx:157
+#: tinyutils/tazx:247 tinyutils/slitaz-config:233
 msgid "Quit"
 msgstr ""
 
-#: tinyutils/tazx:186 tinyutils/hwsetup:107
-#, sh-format
-msgid "Failed to setup $DEVICE"
+#: tinyutils/tazx:276
+msgid "Failed to setup driver"
 msgstr ""
 
-#: tinyutils/tazx:192 tinyutils/hwsetup:117
+#: tinyutils/tazx:276
+msgid "(unknown hardware)"
+msgstr ""
+
+#: tinyutils/tazx:289 tinyutils/hwsetup:117
 #, sh-format
 msgid "Installing pkg: $pkg"
 msgstr ""
 
-#: tinyutils/tazx:202 tinyutils/tazx:276
-#, sh-format
-msgid "${INST_i18n}: ${WM_i18n} + applications"
+#: tinyutils/tazx:307 tinyutils/tazx:423
+msgid "Install Window Manager and applications"
 msgstr ""
 
-#: tinyutils/tazx:270
+#: tinyutils/tazx:393 tinyutils/tazx:399
+msgid "Install"
+msgstr ""
+
+#: tinyutils/tazx:409
+msgid "ON"
+msgstr ""
+
+#: tinyutils/tazx:410 tinyutils/tazx:441
+msgid "OFF"
+msgstr ""
+
+#: tinyutils/tazx:417
 msgid "SliTaz Xorg config"
 msgstr ""
 
-#: tinyutils/tazx:272
+#: tinyutils/tazx:419
 msgid "Install or reconfigure Xorg"
 msgstr ""
 
-#: tinyutils/tazx:273
+#: tinyutils/tazx:420
 msgid "Install Xorg server (light version)"
 msgstr ""
 
-#: tinyutils/tazx:274
+#: tinyutils/tazx:421
 msgid "AutoStart Xorg by SLiM on boot"
 msgstr ""
 
-#: tinyutils/tazx:275
+#: tinyutils/tazx:422
 msgid "(Re)Start Simple Login Manager now"
 msgstr ""
 
-#: tinyutils/tazx:277
+#: tinyutils/tazx:424
 msgid "Quit Tazx utility"
 msgstr ""
 
-#: tinyutils/tazx:384
+#: tinyutils/tazx:449
+msgid "Start X on boot:"
+msgstr ""
+
+#: tinyutils/tazx:551
+msgid "configuration tool for SliTaz GNU/Linux"
+msgstr ""
+
+#: tinyutils/tazx:553 tinyutils/hwsetup:25
+msgid "command"
+msgstr ""
+
+#: tinyutils/tazx:553
+msgid "parameter"
+msgstr ""
+
+#: tinyutils/tazx:555 tinyutils/hwsetup:27 tinyutils/frugal:36
+msgid "Commands:"
+msgstr ""
+
+#: tinyutils/tazx:556
+msgid "Install Xorg and selected Xorg driver"
+msgstr ""
+
+#: tinyutils/tazx:557
+msgid "Configure Xorg, generate configuration files"
+msgstr ""
+
+#: tinyutils/tazx:558
+msgid "Set monitor default depth (valid parameters: 8, 15, 16 or 24)"
+msgstr ""
+
+#: tinyutils/tazx:559
+msgid "Auto-select and install Xorg driver"
+msgstr ""
+
+#: tinyutils/tazx:560
+msgid "Get files for starting an X session and config the keyboard"
+msgstr ""
+
+#: tinyutils/tazx:561
+msgid "Generate or regenerate Xorg keyboard config"
+msgstr ""
+
+#: tinyutils/tazx:572
 msgid "Run tazx as root if you need to configure xorg"
 msgstr ""
 
@@ -251,14 +305,6 @@ msgstr ""
 msgid "SliTaz Setup configuration"
 msgstr ""
 
-#: tinyutils/hwsetup:25
-msgid "command"
-msgstr ""
-
-#: tinyutils/hwsetup:27 tinyutils/frugal:36
-msgid "Commands:"
-msgstr ""
-
 #: tinyutils/hwsetup:29
 msgid "Print this short usage."
 msgstr ""
@@ -319,6 +365,11 @@ msgid ""
 "to SliTaz Bug tracker or Forum."
 msgstr ""
 
+#: tinyutils/hwsetup:107
+#, sh-format
+msgid "Failed to setup $DEVICE"
+msgstr ""
+
 #: tinyutils/hwsetup:131
 #, sh-format
 msgid "Would you like to install pkg: $pkg"
@@ -349,6 +400,10 @@ msgstr ""
 
 #: tinyutils/hwsetup:250
 msgid "New udev rules are added by a package"
+msgstr ""
+
+#: tinyutils/hwsetup:258
+msgid "Auto configuring Xorg..."
 msgstr ""
 
 #: tinyutils/hwsetup:261
@@ -693,4 +748,147 @@ msgstr ""
 
 #: tinyutils/frugal:131
 msgid "Unmounting ISO image..."
+msgstr ""
+
+#: tinyutils/slitaz-config:14
+msgid "SliTaz Config"
+msgstr ""
+
+#: tinyutils/slitaz-config:36
+msgid "Post Installation"
+msgstr ""
+
+#: tinyutils/slitaz-config:37
+msgid "Continue"
+msgstr ""
+
+#: tinyutils/slitaz-config:43
+msgid "Root Password"
+msgstr ""
+
+#: tinyutils/slitaz-config:44
+msgid "Enter new password for \\Zb\\Z1root"
+msgstr ""
+
+#: tinyutils/slitaz-config:53
+msgid "Add User"
+msgstr ""
+
+#: tinyutils/slitaz-config:56
+msgid "Enter login name for the new \\Zb\\Z4user"
+msgstr ""
+
+#: tinyutils/slitaz-config:61
+#, sh-format
+msgid "Enter password for user \\Zb\\Z4$user"
+msgstr ""
+
+#: tinyutils/slitaz-config:121
+msgid "connected"
+msgstr ""
+
+#: tinyutils/slitaz-config:136
+msgid "Quality"
+msgstr ""
+
+#: tinyutils/slitaz-config:136
+msgid "Key"
+msgstr ""
+
+#: tinyutils/slitaz-config:140 tinyutils/slitaz-config:169
+msgid "hidden.network"
+msgstr ""
+
+#: tinyutils/slitaz-config:140
+msgid "Connect.to.a.hidden.network"
+msgstr ""
+
+#: tinyutils/slitaz-config:156
+msgid "Select"
+msgstr ""
+
+#: tinyutils/slitaz-config:157
+msgid "Connect to a Wi-Fi network"
+msgstr ""
+
+#: tinyutils/slitaz-config:159
+msgid "Connect.to.any.network"
+msgstr ""
+
+#: tinyutils/slitaz-config:170
+msgid "Wi-Fi ESSID"
+msgstr ""
+
+#: tinyutils/slitaz-config:171
+msgid "Enter Wi-Fi access point ESSID (name)"
+msgstr ""
+
+#: tinyutils/slitaz-config:176 tinyutils/slitaz-config:187
+msgid "Wi-Fi Password"
+msgstr ""
+
+#: tinyutils/slitaz-config:177 tinyutils/slitaz-config:188
+#, sh-format
+msgid "Enter Wi-Fi key (password) for \\Zb\\Z4$essid"
+msgstr ""
+
+#: tinyutils/slitaz-config:197
+msgid "Shutting down network interfaces..."
+msgstr ""
+
+#: tinyutils/slitaz-config:201
+msgid "Configuring: /etc/network.conf..."
+msgstr ""
+
+#: tinyutils/slitaz-config:211
+msgid "Restarting Wi-Fi interface..."
+msgstr ""
+
+#: tinyutils/slitaz-config:215
+msgid "Checking connection..."
+msgstr ""
+
+#: tinyutils/slitaz-config:220
+#, sh-format
+msgid "IP address: $ip"
+msgstr ""
+
+#: tinyutils/slitaz-config:222
+msgid "Unable to connect..."
+msgstr ""
+
+#: tinyutils/slitaz-config:226
+msgid "Wi-Fi Config"
+msgstr ""
+
+#: tinyutils/slitaz-config:233
+msgid "Exec"
+msgstr ""
+
+#: tinyutils/slitaz-config:235
+msgid "System keyboard setting"
+msgstr ""
+
+#: tinyutils/slitaz-config:236
+msgid "System language setting"
+msgstr ""
+
+#: tinyutils/slitaz-config:237
+msgid "Wi-Fi network settings"
+msgstr ""
+
+#: tinyutils/slitaz-config:238
+msgid "Add a new user"
+msgstr ""
+
+#: tinyutils/slitaz-config:239
+msgid "Change root password"
+msgstr ""
+
+#: tinyutils/slitaz-config:240
+msgid "Set system date from the web"
+msgstr ""
+
+#: tinyutils/slitaz-config:241
+msgid "Exit from SliTaz Config"
 msgstr ""

@@ -7,9 +7,11 @@
 # Author: Christophe Lincoln <pankso@slitaz.org>
 #
 . /lib/libtaz.sh
+export TEXTDOMAIN='slitaz-tools' #i18n
+
 check_root
 
-title="{ SliTaz Config }"
+title="{ $(_ 'SliTaz Config') }"
 about="/usr/share/doc/slitaz/post-install.txt"
 tmpdir="/tmp/$(basename $0)"
 tmp="$tmpdir/$$"
@@ -17,7 +19,12 @@ height="20"
 width="72"
 
 # Use a tmp directory
-mkdir -p ${tmpdir}
+mkdir -p $tmpdir
+
+quit() {
+	rm -rf $tmpdir; exit 0
+}
+
 
 #
 # GUI Functions
@@ -26,45 +33,48 @@ mkdir -p ${tmpdir}
 # Coded for the ARM first boot settings
 about_post_install() {
 	dialog --cr-wrap \
-		--title "{ Post Installation }" \
-		--exit-label "Continue" \
-		--textbox "$about" ${height} ${width}
+		--title "{ $(_ 'Post Installation') }" \
+		--exit-label "$(_ 'Continue')" \
+		--textbox "$about" $height $width
 }
 
 # Set root passwd
 root_passwd() {
-	dialog --title "{ Root Password }" --colors \
-		--inputbox "\nEnter new password for \Zb\Z1root" \
-		12 ${width} 2>${tmp}
-    passwd=$(cat $tmp)
-    [ "$passwd" == "" ] && return 0
-    echo "root:$passwd" | chpasswd --md5 >/dev/null
+	dialog --title "{ $(_ 'Root Password') }" --colors \
+		--inputbox "\n$(_ 'Enter new password for \Zb\Z1root')" \
+		12 $width 2>$tmp
+	passwd=$(cat $tmp)
+	[ -z "$passwd" ] && return 0
+	echo "root:$passwd" | chpasswd --md5 >/dev/null
 }
 
 # Add a new user
 add_user() {
-	title="{ Add User }"
-	dialog --title "$title" --colors \
-		--inputbox "\nEnter login name for the new \Zb\Z4user" 12 ${width} 2>${tmp}
+	title2="{ $(_ 'Add User') }"
+
+	dialog --title "$title2" --colors \
+		--inputbox "\n$(_ 'Enter login name for the new \Zb\Z4user')" 12 $width 2>$tmp
 	user=$(cat $tmp)
-	[ "$user" == "" ] && return 0
-	dialog --title "$title" --colors \
-		--inputbox "\nEnter password for user \Zb\Z4${user}" 12 ${width} 2>${tmp}
+	[ -z "$user" ] && return 0
+
+	dialog --title "$title2" --colors \
+		--inputbox "\n$(_ 'Enter password for user \Zb\Z4$user')" 12 $width 2>$tmp
 	passwd=$(cat $tmp)
-    [ "$passwd" == "" ] && return 0
-    adduser -D -g "SliTaz User" -G users ${user}
-    echo "$user:$passwd" | chpasswd --md5 >/dev/null
-    
-    # User groups
-    for group in audio cdrom video tty; do
-		addgroup ${user} ${group} >/dev/null
+	[ -z "$passwd" ] && return 0
+
+	adduser -D -g "SliTaz User" -G users $user
+	echo "$user:$passwd" | chpasswd --md5 >/dev/null
+
+	# User groups
+	for group in audio cdrom video tty; do
+		addgroup $user $group >/dev/null
 	done
-	
+
 	# Make sure system-wide applications.conf is used
-	config="/home/${user}/.config"
-	mkdir -p ${config}/slitaz
-	cp -f /etc/slitaz/applications.conf ${config}/slitaz
-	
+	config="/home/$user/.config"
+	mkdir -p $config/slitaz
+	cp -f /etc/slitaz/applications.conf $config/slitaz
+
 	# Slim default user on post-install
 	if [ -f "/etc/slim.conf" ] && [ ! -f "/var/lib/slitaz/post-install" ]; then
 		sed -i s"/default_user .*/default_user        $user/" /etc/slim.conf
@@ -72,101 +82,124 @@ add_user() {
 }
 
 set_date() {
-	clear && newline
-	echo -n "Old date:"; date
+	clear; newline
+	echo "Old date: $(date)"
 	rdate -s tick.greyware.com 2>/dev/null
-	echo -n "New date:"; date
+	echo "New date: $(date)"
 	sleep 4
 }
 
-# Catch ESSIDs and format output for Ncurses Dialog or GTK Yad tree. 
-# We get the list of networks by Cell and without spaces. 
+# Catch ESSIDs and format output for Ncurses Dialog or GTK Yad tree.
+# We get the list of networks by Cell and without spaces.
 # Usage: detect_wifi --output=gtk (default output to dialog)
 detect_wifi() {
 	. /etc/network.conf
 	ifconfig $WIFI_INTERFACE up
+
 	if [ -d /sys/class/net/$WIFI_INTERFACE/wireless ]; then
-		for i in $(iwlist $WIFI_INTERFACE scan | sed s/"Cell "/Cell-/ | grep "Cell-" | awk '{print $1}')
-		do
+		IFS=$'\n'; hidden=''
+		for i in $(iwlist $WIFI_INTERFACE scan | grep -Eo 'Cell [0-9]*'); do
 			scan=$(iwlist $WIFI_INTERFACE scan last | \
 				awk '/(Cell|ESS|Qual|Encry|IE: WPA|WPA2)/ {print}' | \
-				sed s/"Cell "/Cell-/ | grep -A 5 "$i")
+				sed "/$i/,/Cell/ !d")
+
 			essid=$(echo $scan | cut -d '"' -f 2)
 
-			if echo "$scan" | grep -q Quality; then
-				quality=$(echo $scan | sed 's/.*Quality=\([^ ]*\).*/\1/' | sed 's/.*Quality:\([^ ]*\).*/\1/')
-			else
-				quality="$(_n '-----')"
-			fi
+			quality=$(echo $scan | grep -Eo 'Quality[:=][^ ]*' | tr -cd '0-9/')
+			[ -z "$quality" ] && quality='-----'
 
-			crypto=$(echo $scan | sed 's/.*key:\([^ ]*\).*/\1/')
+			crypto="$(echo $scan | sed 's/.*key:\([^ ]*\).*/\1/')"
+
 			# Check encryption type
 			if echo "$scan" | grep -q WPA*; then
 				crypto="WPA"
 			fi
 
 			# Connected or not connected...
-			if ifconfig | grep -A 1 $WIFI_INTERFACE | \
-				grep -q inet && iwconfig $WIFI_INTERFACE | \
-				grep ESSID | grep -q -w "$essid"; then
-				status=connected
+			if ifconfig | grep -A1 $WIFI_INTERFACE | grep -qF 'inet' && \
+				iwconfig $WIFI_INTERFACE | grep ESSID | grep -qwF "$essid"; then
+				status="..$(_ 'connected')"
 			else
-				status="--"
+				status=''
 			fi
-			
+
 			# Output
-			case "$output" in
-				gtk)
-					echo -e "$( _n 'any')\n$(_n 'N/A')\n$(_n 'none')\n$(_n '-')"
-					echo -e "$essid\n$quality\n$crypto\n$status" ;;
-				*) 
-					echo "$essid" "QA_${quality}_KEY_${crypto}_${status}" ;;
-			esac
+			if [ -z "$essid" ]; then
+				hidden='yes'
+			else
+				case "$output" in
+					gtk)
+						#echo -e "$(_n 'any')\n$(_n 'N/A')\n$(_n 'none')\n$(_n '-')"
+						echo -e "$essid\n$quality\n$crypto\n$status" ;;
+					*)
+						echo "$essid"
+						echo "$(_ 'Quality'):${quality}..$(_ 'Key'):${crypto}${status}" ;;
+				esac
+			fi
 		done
+		[ -n "$hidden" ] && echo "$(_ 'hidden.network')" "$(_ 'Connect.to.a.hidden.network')"
 	fi
 }
 
-# Wireless config so users dont have to edit any config files on post
+# Show message and percentage on the dialog gauge
+msg() {
+	sleep 1; echo -e "XXX\n$1\n$MSG\nXXX"
+}
+
+# Wireless config so users don't have to edit any config files on post
 # install to get connected. If the wired connection is used it will auto
 # connect with DHCP so no need for a dialog frontend.
 wifi_setup() {
 	. /etc/network.conf
 	dialog \
 		--clear --title "$title" \
-		--ok-label "Select" \
-		--menu "\n$(gettext 'Connect to a Wi-Fi network')" \
-		${height} ${width} 14 \
-"any" "Quality_N/A" \
-$(detect_wifi) 2>${tmp}
-	
+		--ok-label "$(_ 'Select')" \
+		--menu "\n$(_ 'Connect to a Wi-Fi network')" \
+		$height $width 14 \
+"any" "$(_ 'Connect.to.any.network')" \
+$(detect_wifi) 2>$tmp
+
 	# Handle options
-	case "${?}" in
-		1|255) rm -rf ${tmpdir} && exit 0 ;;
+	case "$?" in
+		1|255) quit ;;
 		0) essid=$(cat $tmp) ;;
 	esac
-	
-	# Check if we need to prompt user for an encrypted network
-	scan=$(iwlist $WIFI_INTERFACE scan | \
-		awk '/(Cell|ESS|Qual|Encry|IE: WPA|WPA2)/ {print}' | \
-		sed s/"Cell "/Cell-/ | grep -A 5 "$essid")
-	if echo "$scan" | sed 's/.*key:\([^ ]*\).*/\1/' | grep -q WPA*; then
-		dialog --title "{ Wi-Fi Password }" --colors \
-			--inputbox "\nEnter wifi key (password) for \Zb\Z4${essid}" \
-			12 ${width} 2>${tmp}
+
+	# Connect to hidden network
+	if [ "$essid" == "$(_ 'hidden.network')" ]; then
+		dialog --title "{ $(_ 'Wi-Fi ESSID') }" \
+			--inputbox "\n$(_ 'Enter Wi-Fi access point ESSID (name)')" \
+			12 $width 2>$tmp
+		essid=$(cat $tmp)
+		[ -z "$essid" ] && exit 0
+
+		dialog --title "{ $(_ 'Wi-Fi Password') }" --colors \
+			--inputbox "\n$(_ 'Enter Wi-Fi key (password) for \Zb\Z4$essid')" \
+			12 $width 2>$tmp
 		key=$(cat $tmp)
-		[ "$key" == "" ] && return 0
+	else
+
+		# Check if we need to prompt user for an encrypted network
+		key=$(iwlist $WIFI_INTERFACE scan last | grep -E 'Cell |Encryption|ESSID' | \
+			grep -C1 "$essid" | sed -n 's|.*key:\(.*\)|\1|p')
+
+		if [ "$key" == "on" ]; then
+			dialog --title "{ $(_ 'Wi-Fi Password') }" --colors \
+				--inputbox "\n$(_ 'Enter Wi-Fi key (password) for \Zb\Z4$essid')" \
+				12 $width 2>$tmp
+			key=$(cat $tmp)
+			[ -z "$key" ] && exit 0
+		fi
 	fi
-	
+
 	# Configure connection
 	{
-		echo "XXX" && echo 30
-		echo -e "\nShuting down network interfaces..."
-		echo "XXX"
-		stopd network.sh >/dev/null 2>&1 && sleep 2
-		
-		echo "XXX" && echo 30
-		echo -e "\nConfiguring: /etc/network.conf..."
-		echo "XXX"
+		MSG="\n$(_ 'Shutting down network interfaces...')"
+		msg 0; stopd network.sh >/dev/null 2>&1
+		msg 10
+
+		MSG="\n$(_ 'Configuring: /etc/network.conf...')"
+		msg 20
 		# WIFI_KEY_TYPE=any should work for WEP/WPA*
 		sed -i \
 			-e s"/^WIFI=.*/WIFI=\"yes\"/" \
@@ -174,62 +207,55 @@ $(detect_wifi) 2>${tmp}
 			-e s"/^WIFI_KEY=.*/WIFI_KEY=\"$key\"/" \
 			-e s"/^WIFI_KEY_TYPE=.*/WIFI_KEY_TYPE=\"any\"/" \
 			/etc/network.conf
-		sleep 1
-		
-		echo "XXX" && echo 60
-		echo -e "\nRestarting wifi interface..."
-		echo "XXX"
-		startd network.sh >/dev/null 2>&1 && sleep 3
-		
-		echo "XXX" && echo 90
-		echo -e "\nChecking connection..."
-		sleep 1
-		ip=$(ifconfig | fgrep -A 1 "encap:Ethernet" | fgrep "inet" | \
-			cut -d ":" -f 2 | awk '{print $1}')
-		echo "XXX"
-		sleep 1
-		
-		echo "XXX" && echo 100
+
+		MSG="\n$(_ 'Restarting Wi-Fi interface...')"
+		msg 30; startd network.sh >/dev/null 2>&1
+		msg 40; msg 50; msg 60; msg 70; msg 80
+
+		MSG="\n$(_ 'Checking connection...')"
+		msg 90; sleep 2
+		ip="$(ifconfig $WIFI_INTERFACE | fgrep 'inet addr' | sed 's|.*:\([^ ]*\) .*|\1|')"
+
 		if [ "$ip" ]; then
-			echo -e "\nIP address: $ip"
+			MSG="\n$(_ 'IP address: $ip')"
 		else
-			echo -e "\nUnable to connect..."
+			MSG="\n$(_ 'Unable to connect...')"
 		fi
-		echo "XXX" && sleep 2
-		
-	} | dialog --title "{ Wi-Fi Config }" --gauge "" 8 ${width} 0
+		msg 100; sleep 2
+
+	} | dialog --title "{ $(_ 'Wi-Fi Config') }" --gauge "" 8 $width 0
 }
 
 # Main Dialog menu
 main_box() {
 	dialog \
 		--clear --title "$title" \
-		--ok-label "Exec" --cancel-label "Quit" \
-		--menu "" ${height} ${width} 14 \
-"keyboard"       "$(gettext 'System keyboard setting')" \
-"locale"         "$(gettext 'System language setting')" \
-"wifi-setup"     "$(gettext 'Wi-Fi network settings')" \
-"add-user"       "$(gettext 'Add a new user')" \
-"root-passwd"    "$(gettext 'Change root password')" \
-"set-date"       "$(gettext 'Set system date from the web')" \
-"quit"           "$(gettext 'Exit from SliTaz Config')" 2>${tmp}
-	
+		--ok-label "$(_ 'Exec')" --cancel-label "$(_ 'Quit')" \
+		--menu "" $height $width 14 \
+"keyboard"    "$(_ 'System keyboard setting')"      \
+"locale"      "$(_ 'System language setting')"      \
+"wifi-setup"  "$(_ 'Wi-Fi network settings')"       \
+"add-user"    "$(_ 'Add a new user')"               \
+"root-passwd" "$(_ 'Change root password')"         \
+"set-date"    "$(_ 'Set system date from the web')" \
+"quit"        "$(_ 'Exit from SliTaz Config')"      2>$tmp
+
 	# Handle options
-	opt=${?}
+	opt="$?"
 	case "$opt" in
-		1|255) rm -rf ${tmpdir} && exit 0 ;;
+		1|255) quit ;;
 	esac
-	
+
 	# Handle actions
 	action=$(cat $tmp)
 	case "$action" in
-		keyboard) tazkeymap ;;
-		locale) tazlocale ;;
-		wifi-setup) wifi_setup ;;
-		add-user) add_user ;;
+		keyboard)    tazkeymap   ;;
+		locale)      tazlocale   ;;
+		wifi-setup)  wifi_setup  ;;
+		add-user)    add_user    ;;
 		root-passwd) root_passwd ;;
-		set-date) set_date ;;
-		quit) rm -rf ${tmpdir} && exit 0 ;;
+		set-date)    set_date    ;;
+		quit)        quit        ;;
 	esac
 }
 
@@ -238,8 +264,8 @@ main_box() {
 #
 
 case "$1" in
-	*_*) 
-		# Execute functions 
+	*_*)
+		# Execute functions
 		$@ ;;
 	*)
 		while true; do

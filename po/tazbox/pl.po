@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-23 03:33+0300\n"
+"POT-Creation-Date: 2014-11-18 20:10+0200\n"
 "PO-Revision-Date: 2013-07-23 12:35+0100\n"
 "Last-Translator: Paweł Pyrczak <tkr.tkr.pl@gmail.com>\n"
 "Language-Team: Paweł Pyrczak <support@pyrczak.pl>\n"
@@ -345,34 +345,34 @@ msgstr "Plik"
 msgid "All Applications"
 msgstr "Wszystkie aplikacje"
 
-#: tazbox/tazbox:604
+#: tazbox/tazbox:593
 msgid "Downloading..."
 msgstr ""
 
-#: tazbox/tazbox:660
+#: tazbox/tazbox:642
 msgid "SliTaz default applications"
 msgstr "Domyślne aplikacjie SliTaz"
 
-#: tazbox/tazbox:662
+#: tazbox/tazbox:644
 msgid "SliTaz default applications configuration"
 msgstr "Domyślna konfiguracja aplikacji SliTaz"
 
-#: tazbox/tazbox:664
+#: tazbox/tazbox:646
 msgid "File manager:"
 msgstr "Menadżer plików:"
 
-#: tazbox/tazbox:665
+#: tazbox/tazbox:647
 msgid "Web browser:"
 msgstr "Przeglądarka internetowa:"
 
-#: tazbox/tazbox:666
+#: tazbox/tazbox:648
 msgid "Text editor:"
 msgstr "Edytor textowy:"
 
-#: tazbox/tazbox:667
+#: tazbox/tazbox:649
 msgid "Terminal:"
 msgstr "Terminal:"
 
-#: tazbox/tazbox:668
+#: tazbox/tazbox:650
 msgid "Window manager:"
 msgstr "Menadżer okien:"

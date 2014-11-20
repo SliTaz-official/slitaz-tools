@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-14 21:22+0000\n"
-"PO-Revision-Date: 2014-05-23 03:28+0300\n"
+"POT-Creation-Date: 2014-11-20 05:20+0200\n"
+"PO-Revision-Date: 2014-11-20 05:30+0300\n"
 "Last-Translator: Aleksej Bobylev <al.bobylev@gmail.com>\n"
 "Language-Team: \n"
 "Language: Russian\n"
@@ -23,8 +23,8 @@ msgstr ""
 msgid "SliTaz GNU/Linux locale setting using dialog boxes."
 msgstr "Настройка локали SliTaz GNU/Linux с использованием dialog."
 
-#: tinyutils/tazlocale:17 tinyutils/decode:30 tinyutils/hwsetup:24
-#: tinyutils/frugal:32
+#: tinyutils/tazlocale:17 tinyutils/tazx:553 tinyutils/decode:30
+#: tinyutils/hwsetup:24 tinyutils/frugal:32
 msgid "Usage:"
 msgstr "Использование:"
 
@@ -101,76 +101,130 @@ msgstr "Установка уровней регулятора громкост�
 msgid "Done"
 msgstr "Готово"
 
-#: tinyutils/tazx:26
-msgid "Window Manager:"
-msgstr "Менеджер окон:"
-
-#: tinyutils/tazx:27 tinyutils/tazx:152
-msgid "Install Xorg"
-msgstr "Установка X.org"
-
-#: tinyutils/tazx:63
+#: tinyutils/tazx:141
 msgid "Creating:"
 msgstr "Создается:"
 
-#: tinyutils/tazx:153
+#: tinyutils/tazx:242
+msgid "Install Xorg"
+msgstr "Установка Xorg"
+
+#: tinyutils/tazx:243
 msgid "Tazx helps you to select your X driver."
-msgstr "Tazx поможет вам выбрать драйвер для X.Org."
+msgstr "Tazx поможет вам выбрать драйвер для Xorg."
 
-#: tinyutils/tazx:154 tinyutils/hwsetup:258
-msgid "Auto configuring Xorg..."
-msgstr "Авто-настройка Xorg…"
+#: tinyutils/tazx:244
+msgid "Auto configuring"
+msgstr "Авто-настройка"
 
-#: tinyutils/tazx:156 tinyutils/tazx:184
+#: tinyutils/tazx:246
 msgid "driver"
 msgstr "драйвер"
 
-#: tinyutils/tazx:157
+#: tinyutils/tazx:247 tinyutils/slitaz-config:233
 msgid "Quit"
 msgstr "Выход"
 
-#: tinyutils/tazx:186 tinyutils/hwsetup:107
-#, sh-format
-msgid "Failed to setup $DEVICE"
-msgstr "Не удалось настроить $DEVICE"
+#: tinyutils/tazx:276
+msgid "Failed to setup driver"
+msgstr "Не удалось установить драйвер"
 
-#: tinyutils/tazx:192 tinyutils/hwsetup:117
+#: tinyutils/tazx:276
+msgid "(unknown hardware)"
+msgstr "(неизвестное оборудование)"
+
+#: tinyutils/tazx:289 tinyutils/hwsetup:117
 #, sh-format
 msgid "Installing pkg: $pkg"
 msgstr "Установка пакета «$pkg»"
 
-#: tinyutils/tazx:202 tinyutils/tazx:276
-#, sh-format
-msgid "${INST_i18n}: ${WM_i18n} + applications"
-msgstr "${INST_i18n}: ${WM_i18n}+программы"
+#: tinyutils/tazx:307 tinyutils/tazx:423
+msgid "Install Window Manager and applications"
+msgstr "Установка менеджера окон и приложений"
 
-#: tinyutils/tazx:270
+#: tinyutils/tazx:393 tinyutils/tazx:399
+msgid "Install"
+msgstr "Установить"
+
+#: tinyutils/tazx:409
+msgid "ON"
+msgstr "ВКЛ"
+
+#: tinyutils/tazx:410 tinyutils/tazx:441
+msgid "OFF"
+msgstr "ОТКЛ"
+
+#: tinyutils/tazx:417
 msgid "SliTaz Xorg config"
-msgstr "Настройка X.Org в SliTaz"
+msgstr "Настройка Xorg в SliTaz"
 
-#: tinyutils/tazx:272
+#: tinyutils/tazx:419
 msgid "Install or reconfigure Xorg"
-msgstr "Установить или перенастроить X.org"
+msgstr "Установить или перенастроить Xorg"
 
-#: tinyutils/tazx:273
+#: tinyutils/tazx:420
 msgid "Install Xorg server (light version)"
-msgstr "Установка облегченного сервера X.Org"
+msgstr "Установить облегченный сервер Xorg"
 
-#: tinyutils/tazx:274
+#: tinyutils/tazx:421
 msgid "AutoStart Xorg by SLiM on boot"
-msgstr ""
+msgstr "Автозапуск Xorg через SLiM при старте системы"
 
-#: tinyutils/tazx:275
+#: tinyutils/tazx:422
 msgid "(Re)Start Simple Login Manager now"
-msgstr ""
+msgstr "(Пере)запустить простой менеджер входа SLiM сейчас"
 
-#: tinyutils/tazx:277
+#: tinyutils/tazx:424
 msgid "Quit Tazx utility"
 msgstr "Выйти из утилиты Tazx"
 
-#: tinyutils/tazx:384
+#: tinyutils/tazx:449
+msgid "Start X on boot:"
+msgstr "Запуск X при старте системы:"
+
+#: tinyutils/tazx:551
+msgid "configuration tool for SliTaz GNU/Linux"
+msgstr "утилита настройки SliTaz GNU/Linux"
+
+#: tinyutils/tazx:553 tinyutils/hwsetup:25
+msgid "command"
+msgstr "команда"
+
+#: tinyutils/tazx:553
+msgid "parameter"
+msgstr "параметр"
+
+#: tinyutils/tazx:555 tinyutils/hwsetup:27 tinyutils/frugal:36
+msgid "Commands:"
+msgstr "Команды:"
+
+#: tinyutils/tazx:556
+msgid "Install Xorg and selected Xorg driver"
+msgstr "Установить Xorg и выбранный драйвер Xorg"
+
+#: tinyutils/tazx:557
+msgid "Configure Xorg, generate configuration files"
+msgstr "Настроить Xorg, создать конфигурационные файлы"
+
+#: tinyutils/tazx:558
+msgid "Set monitor default depth (valid parameters: 8, 15, 16 or 24)"
+msgstr "Установить глубину цвета монитора (параметр: 8, 15, 16 или 24)"
+
+#: tinyutils/tazx:559
+msgid "Auto-select and install Xorg driver"
+msgstr "Автоматически выбрать и установить драйвер Xorg"
+
+#: tinyutils/tazx:560
+msgid "Get files for starting an X session and config the keyboard"
+msgstr "Создать файлы для запуска X-сессии и настроить клавиатуру"
+
+#: tinyutils/tazx:561
+msgid "Generate or regenerate Xorg keyboard config"
+msgstr "Создать конфигурационный файл клавиатуры для Xorg"
+
+#: tinyutils/tazx:572
 msgid "Run tazx as root if you need to configure xorg"
-msgstr ""
+msgstr "Если нужно настроить Xorg — запустите tazx от имени root"
 
 #: tinyutils/decode:28
 msgid "Decode audio and video files"
@@ -260,14 +314,6 @@ msgstr "Справка программы $TERMINAL:"
 msgid "SliTaz Setup configuration"
 msgstr "Настройка оборудования SliTaz"
 
-#: tinyutils/hwsetup:25
-msgid "command"
-msgstr "команда"
-
-#: tinyutils/hwsetup:27 tinyutils/frugal:36
-msgid "Commands:"
-msgstr "Команды:"
-
 #: tinyutils/hwsetup:29
 msgid "Print this short usage."
 msgstr "Вывести эту справку"
@@ -302,7 +348,7 @@ msgstr "Запуск/остановка брандмауэра"
 
 #: tinyutils/hwsetup:37
 msgid "Nvidia (non-free/free) setup."
-msgstr "Настройка видео-карты Nvidia (свободные и несвободные драйверы)."
+msgstr "Настройка видео-карты nVidia (свободные и несвободные драйверы)."
 
 #: tinyutils/hwsetup:38
 msgid "ATI (non-free/free) setup."
@@ -330,6 +376,11 @@ msgstr ""
 "Работа этого устройства $DEVICE не проверялась, его нет у разработчиков "
 "SliTaz. Сообщите о ваших успехах, неудачах, ошибках в баг-трекер SliTaz или "
 "на форум."
+
+#: tinyutils/hwsetup:107
+#, sh-format
+msgid "Failed to setup $DEVICE"
+msgstr "Не удалось настроить $DEVICE"
 
 #: tinyutils/hwsetup:131
 #, sh-format
@@ -364,6 +415,10 @@ msgstr ""
 #: tinyutils/hwsetup:250
 msgid "New udev rules are added by a package"
 msgstr "При установке пакета добавлены новые правила UDEV"
+
+#: tinyutils/hwsetup:258
+msgid "Auto configuring Xorg..."
+msgstr "Авто-настройка Xorg…"
 
 #: tinyutils/hwsetup:261
 msgid "Configuring Xorg..."
@@ -590,7 +645,7 @@ msgstr ""
 
 #: tinyutils/hwsetup:646
 msgid "Do you want to configure X using free nvidia driver"
-msgstr "Настроить X.Org, используя свободный драйвер Nvidia"
+msgstr "Настроить Xorg, используя свободный драйвер nVidia"
 
 #: tinyutils/hwsetup:652
 #, sh-format
@@ -599,7 +654,7 @@ msgstr "Создание файла «$xorg55short», содержащего н�
 
 #: tinyutils/hwsetup:678
 msgid "Do you want to configure X using non-free catalyst ATI (radeon) driver"
-msgstr "Настроить X.Org, используя несвободный драйвер ATI Catalyst (Radeon)"
+msgstr "Настроить Xorg, используя несвободный драйвер ATI Catalyst (Radeon)"
 
 #: tinyutils/hwsetup:682
 #, sh-format
@@ -625,7 +680,7 @@ msgstr ""
 
 #: tinyutils/hwsetup:711
 msgid "Do you want to configure X using free ATI (radeon) driver"
-msgstr "Настроить X.Org, используя свободный драйвер ATI (Radeon)"
+msgstr "Настроить Xorg, используя свободный драйвер ATI (Radeon)"
 
 #: tinyutils/hwsetup:715
 #, sh-format
@@ -724,45 +779,145 @@ msgstr "Установка корневой файловой системы…"
 msgid "Unmounting ISO image..."
 msgstr "Отключение образа ISO…"
 
-#~ msgid "Configure X"
-#~ msgstr "Настройка XOrg"
+#: tinyutils/slitaz-config:14
+msgid "SliTaz Config"
+msgstr "Настройка SliTaz"
 
-#~ msgid "Tazx dialog helps you to configure your Xorg server."
-#~ msgstr "Диалог Tazx поможет вам настроить сервер Xorg."
+#: tinyutils/slitaz-config:36
+msgid "Post Installation"
+msgstr "После установки"
 
-#~ msgid "X server:"
-#~ msgstr "X-сервер:"
+#: tinyutils/slitaz-config:37
+msgid "Continue"
+msgstr "Продолжить"
 
-#~ msgid "Install TinyX server Xfbdev"
-#~ msgstr "Установить сервер TinyX: Xfbdev"
+#: tinyutils/slitaz-config:43
+msgid "Root Password"
+msgstr "Пароль root"
 
-#~ msgid "You must be root to configure X server."
-#~ msgstr "Вы должны быть администратором для настройки X-сервера."
+#: tinyutils/slitaz-config:44
+msgid "Enter new password for \\Zb\\Z1root"
+msgstr "Введите новый пароль для \\Zb\\Z1root"
 
-#~ msgid ""
-#~ "Your previous config is in /etc/X11/xorg.conf.d/60-Device.conf\n"
-#~ "If nvidia fails, you can remove /etc/X11/xorg.conf.d/55-DeviceTweaks.conf "
-#~ "to restore previous config."
-#~ msgstr ""
-#~ "Предыдущие настройки находятся в файле /etc/X11/xorg.conf.d/60-Device."
-#~ "conf\n"
-#~ "Если драйвер nvidia не будет корректно работать, вы можете удалить /etc/"
-#~ "X11/xorg.conf.d/55-DeviceTweaks.conf, чтобы вернуться к предыдущим "
-#~ "настройкам."
+#: tinyutils/slitaz-config:53
+msgid "Add User"
+msgstr "Добавить пользователя"
 
-#~ msgid ""
-#~ "Quick start guide: http://www.gphoto.org/doc/manual/using-gphoto2.html"
-#~ msgstr ""
-#~ "Краткое руководство пользователя: http://www.gphoto.org/doc/manual/using-"
-#~ "gphoto2.html"
+#: tinyutils/slitaz-config:56
+msgid "Enter login name for the new \\Zb\\Z4user"
+msgstr "Введите логин нового \\Zb\\Z4пользователя"
 
-#~ msgid "You must be root to run $command with this option."
-#~ msgstr ""
-#~ "Вы должны быть администратором, чтобы запустить $command с этим "
-#~ "параметром."
+#: tinyutils/slitaz-config:61
+#, sh-format
+msgid "Enter password for user \\Zb\\Z4$user"
+msgstr "Введите пароль для пользователя \\Zb\\Z4$user"
 
-#~ msgid "Please use 'su' and root password to become super-user."
-#~ msgstr "Введите «su» и пароль root, чтобы стать администратором."
+#: tinyutils/slitaz-config:121
+msgid "connected"
+msgstr "подключено"
 
-#~ msgid "Setting system locale to: $locale"
-#~ msgstr "Установка системной локали «$locale»"
+#: tinyutils/slitaz-config:136
+msgid "Quality"
+msgstr "Уровень"
+
+#: tinyutils/slitaz-config:136
+msgid "Key"
+msgstr "Безопасность"
+
+#: tinyutils/slitaz-config:140 tinyutils/slitaz-config:169
+msgid "hidden.network"
+msgstr "скрытая.сеть"
+
+#: tinyutils/slitaz-config:140
+msgid "Connect.to.a.hidden.network"
+msgstr "Соединиться.со.скрытой.сетью"
+
+#: tinyutils/slitaz-config:156
+msgid "Select"
+msgstr "Выбрать"
+
+#: tinyutils/slitaz-config:157
+msgid "Connect to a Wi-Fi network"
+msgstr "Соединение с сетью Wi-Fi"
+
+#: tinyutils/slitaz-config:159
+msgid "Connect.to.any.network"
+msgstr "Соединиться.с.любой.сетью"
+
+#: tinyutils/slitaz-config:170
+msgid "Wi-Fi ESSID"
+msgstr "ESSID Wi-Fi"
+
+#: tinyutils/slitaz-config:171
+msgid "Enter Wi-Fi access point ESSID (name)"
+msgstr "Введите ESSID (имя) точки доступа Wi-Fi"
+
+#: tinyutils/slitaz-config:176 tinyutils/slitaz-config:187
+msgid "Wi-Fi Password"
+msgstr "Пароль Wi-Fi"
+
+#: tinyutils/slitaz-config:177 tinyutils/slitaz-config:188
+#, sh-format
+msgid "Enter Wi-Fi key (password) for \\Zb\\Z4$essid"
+msgstr "Введите пароль Wi-Fi для \\Zb\\Z4$essid"
+
+#: tinyutils/slitaz-config:197
+msgid "Shutting down network interfaces..."
+msgstr "Выключение сетевых интерфейсов…"
+
+#: tinyutils/slitaz-config:201
+msgid "Configuring: /etc/network.conf..."
+msgstr "Настройка /etc/network.conf…"
+
+#: tinyutils/slitaz-config:211
+msgid "Restarting Wi-Fi interface..."
+msgstr "Перезапуск интерфейса Wi-Fi…"
+
+#: tinyutils/slitaz-config:215
+msgid "Checking connection..."
+msgstr "Проверка соединения…"
+
+#: tinyutils/slitaz-config:220
+#, sh-format
+msgid "IP address: $ip"
+msgstr "IP-адрес: $ip"
+
+#: tinyutils/slitaz-config:222
+msgid "Unable to connect..."
+msgstr "Не удалось соединиться…"
+
+#: tinyutils/slitaz-config:226
+msgid "Wi-Fi Config"
+msgstr "Параметры Wi-Fi"
+
+#: tinyutils/slitaz-config:233
+msgid "Exec"
+msgstr "Пуск"
+
+#: tinyutils/slitaz-config:235
+msgid "System keyboard setting"
+msgstr "Настройка клавиатурной раскладки"
+
+#: tinyutils/slitaz-config:236
+msgid "System language setting"
+msgstr "Настройка языка системы"
+
+#: tinyutils/slitaz-config:237
+msgid "Wi-Fi network settings"
+msgstr "Настройка подключения Wi-Fi"
+
+#: tinyutils/slitaz-config:238
+msgid "Add a new user"
+msgstr "Добавить пользователя"
+
+#: tinyutils/slitaz-config:239
+msgid "Change root password"
+msgstr "Изменить пароль root"
+
+#: tinyutils/slitaz-config:240
+msgid "Set system date from the web"
+msgstr "Установить системную дату по интернету"
+
+#: tinyutils/slitaz-config:241
+msgid "Exit from SliTaz Config"
+msgstr "Выйти из настройки SliTaz"

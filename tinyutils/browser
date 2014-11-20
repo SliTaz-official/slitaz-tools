@@ -3,24 +3,27 @@
 #
 . /etc/slitaz/applications.conf
 
-USER_CONFIG="$HOME/.config/slitaz/applications.conf"
+USER_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/slitaz/applications.conf"
 [ -f  $USER_CONFIG ] && . $USER_CONFIG
 
 EXEC="exec setsid $BROWSER"
 
-if [ ! -z $XAUTHORITY ]; then
-	EXECT="terminal -e $BROWSER";
-	case $BROWSER in links) EXECT="$EXEC -g" ;; esac
+if [ -z "$XAUTHORITY" ]; then
+	# console session
+	EXECT="$BROWSER"
 else
-	EXECT="$BROWSER";
+	# Xorg session
+	case $BROWSER in
+		links) EXECT="$EXEC -g" ;;
+		*)     EXECT="terminal -e $BROWSER" ;;
+	esac
 fi
 
 case $BROWSER in
-	*links*|retawq|lynx)
-		$EXECT $@ ;;
-	w3m)	$EXECT -N $@ ;;
-	qupzil*)$EXEC -ow $@ ;;
-	*)	$EXEC $@ ;;
+	*links*|retawq|lynx) $EXECT    $@ ;;
+	w3m)                 $EXECT -N $@ ;;
+	qupzil*)             $EXEC -ow $@ ;;
+	*)                   $EXEC     $@ ;;
 esac
 
 exit 0
