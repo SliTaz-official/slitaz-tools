@@ -45,11 +45,11 @@ msgstr "Afficher la liste des locales disponibles."
 
 #: tinyutils/tazlocale:26
 msgid "Any other option treated as locale - set locale (root)."
-msgstr ""
+msgstr "Toute autre option traitée comme locale - set locale (root)."
 
 #: tinyutils/tazlocale:27
 msgid "Display locale selecting dialog if no option given (root)."
-msgstr ""
+msgstr "Sans option, lance dialog pour choisir une locale (root)."
 
 #: tinyutils/tazlocale:105
 #, fuzzy
@@ -132,7 +132,7 @@ msgstr "Echec de la configuration de $DEVICE"
 
 #: tinyutils/tazx:276
 msgid "(unknown hardware)"
-msgstr ""
+msgstr "(matériel inconnu)"
 
 #: tinyutils/tazx:289 tinyutils/hwsetup:117
 #, sh-format
@@ -172,11 +172,11 @@ msgstr "Installer le serveur Xorg (version light)"
 
 #: tinyutils/tazx:421
 msgid "AutoStart Xorg by SLiM on boot"
-msgstr ""
+msgstr "Lancer automatiquement Xorg par SLiM au démarrage"
 
 #: tinyutils/tazx:422
 msgid "(Re)Start Simple Login Manager now"
-msgstr ""
+msgstr "(Re)démarrer SLiM maintenant""
 
 #: tinyutils/tazx:424
 msgid "Quit Tazx utility"
@@ -184,11 +184,11 @@ msgstr "Quitter l'utilitaire Tazx"
 
 #: tinyutils/tazx:449
 msgid "Start X on boot:"
-msgstr ""
+msgstr "Lancer X au démarrage"
 
 #: tinyutils/tazx:551
 msgid "configuration tool for SliTaz GNU/Linux"
-msgstr ""
+msgstr "Outil de configuration pour SliTaz GNU/Linux"
 
 #: tinyutils/tazx:553 tinyutils/hwsetup:25
 msgid "command"
@@ -196,7 +196,7 @@ msgstr "commande"
 
 #: tinyutils/tazx:553
 msgid "parameter"
-msgstr ""
+msgstr "paramètre"
 
 #: tinyutils/tazx:555 tinyutils/hwsetup:27 tinyutils/frugal:36
 msgid "Commands:"
@@ -214,23 +214,23 @@ msgstr "Utilise: aticonfig pour créer un modèle de fichier de config si besion
 
 #: tinyutils/tazx:558
 msgid "Set monitor default depth (valid parameters: 8, 15, 16 or 24)"
-msgstr ""
+msgstr "Nombre de bits par pixel par défaut (8, 15, 16 ou 24)"
 
 #: tinyutils/tazx:559
 msgid "Auto-select and install Xorg driver"
-msgstr ""
+msgstr "Sélection automatique et installation du driver Xorg"
 
 #: tinyutils/tazx:560
 msgid "Get files for starting an X session and config the keyboard"
-msgstr ""
+msgstr "Récupère les fichiers pour démarrer une session X et configurer le clavier"
 
 #: tinyutils/tazx:561
 msgid "Generate or regenerate Xorg keyboard config"
-msgstr ""
+msgstr "Crée ou recrée la configuration clavier de Xorg"
 
 #: tinyutils/tazx:572
 msgid "Run tazx as root if you need to configure xorg"
-msgstr ""
+msgstr "Lancez tazx par root si vous devez configurer xorg"
 
 #: tinyutils/decode:28
 msgid "Decode audio and video files"
@@ -455,7 +455,7 @@ msgstr ""
 
 #: tinyutils/hwsetup:300
 msgid "Access Point Name (APN):"
-msgstr ""
+msgstr "Nom de point d'accés (APN) :"
 
 #: tinyutils/hwsetup:301
 msgid "You must save your account info before dialing"
@@ -714,7 +714,7 @@ msgstr ""
 
 #: tinyutils/frugal:34
 msgid "SliTaz frugal installation"
-msgstr ""
+msgstr "Installation SliTaz frugale"
 
 #: tinyutils/frugal:37
 msgid "Display install path and size stats"
@@ -797,32 +797,32 @@ msgstr "Mot de passe:"
 
 #: tinyutils/slitaz-config:44
 msgid "Enter new password for \\Zb\\Z1root"
-msgstr ""
+msgstr "Entrez le nouveau mot de passe de \\Zb\\Z1root"
 
 #: tinyutils/slitaz-config:53
 msgid "Add User"
-msgstr ""
+msgstr "Ajoute un utilisateur"
 
 #: tinyutils/slitaz-config:56
 msgid "Enter login name for the new \\Zb\\Z4user"
-msgstr ""
+msgstr "Entrez l'identifiant du nouvel utilisateur \\Zb\\Z4utilisateur"
 
 #: tinyutils/slitaz-config:61
 #, sh-format
 msgid "Enter password for user \\Zb\\Z4$user"
-msgstr ""
+msgstr "Entrez le mot de passe de l'utilisateur \\Zb\\Z4$user"
 
 #: tinyutils/slitaz-config:121
 msgid "connected"
-msgstr ""
+msgstr "connecté"
 
 #: tinyutils/slitaz-config:136
 msgid "Quality"
-msgstr ""
+msgstr "Qualité"
 
 #: tinyutils/slitaz-config:136
 msgid "Key"
-msgstr ""
+msgstr "Clé"
 
 #: tinyutils/slitaz-config:140 tinyutils/slitaz-config:169
 msgid "hidden.network"
@@ -834,11 +834,11 @@ msgstr ""
 
 #: tinyutils/slitaz-config:156
 msgid "Select"
-msgstr ""
+msgstr "Choisir"
 
 #: tinyutils/slitaz-config:157
 msgid "Connect to a Wi-Fi network"
-msgstr ""
+msgstr "Connexion à un réseau Wi-Fi"
 
 #: tinyutils/slitaz-config:159
 msgid "Connect.to.any.network"
@@ -846,11 +846,11 @@ msgstr ""
 
 #: tinyutils/slitaz-config:170
 msgid "Wi-Fi ESSID"
-msgstr ""
+msgstr "ESSID Wi-Fi"
 
 #: tinyutils/slitaz-config:171
 msgid "Enter Wi-Fi access point ESSID (name)"
-msgstr ""
+msgstr "Entrez le ESSID du point d'accés Wi-Fi (son nom)"
 
 #: tinyutils/slitaz-config:176 tinyutils/slitaz-config:187
 #, fuzzy
@@ -860,11 +860,11 @@ msgstr "Mot de passe:"
 #: tinyutils/slitaz-config:177 tinyutils/slitaz-config:188
 #, sh-format
 msgid "Enter Wi-Fi key (password) for \\Zb\\Z4$essid"
-msgstr ""
+msgstr "Enterz la clé (ou mot de passe) Wi-Fi pour \\Zb\\Z4$essid"
 
 #: tinyutils/slitaz-config:197
 msgid "Shutting down network interfaces..."
-msgstr ""
+msgstr "Arrêt des interfaces réseau..."
 
 #: tinyutils/slitaz-config:201
 #, fuzzy
@@ -873,24 +873,24 @@ msgstr "Configuration de Xorg..."
 
 #: tinyutils/slitaz-config:211
 msgid "Restarting Wi-Fi interface..."
-msgstr ""
+msgstr "Redémarre l'interface Wi-Fi..."
 
 #: tinyutils/slitaz-config:215
 msgid "Checking connection..."
-msgstr ""
+msgstr "Vérifie la connexion..."
 
 #: tinyutils/slitaz-config:220
 #, sh-format
 msgid "IP address: $ip"
-msgstr ""
+msgstr "Adresse IP : $ip"
 
 #: tinyutils/slitaz-config:222
 msgid "Unable to connect..."
-msgstr ""
+msgstr "Connexion impossible..."
 
 #: tinyutils/slitaz-config:226
 msgid "Wi-Fi Config"
-msgstr ""
+msgstr "Configuration Wi-Fi"
 
 #: tinyutils/slitaz-config:233
 msgid "Exec"
@@ -908,23 +908,23 @@ msgstr "Configuration de la langue"
 
 #: tinyutils/slitaz-config:237
 msgid "Wi-Fi network settings"
-msgstr ""
+msgstr "Paramètres du réeseau Wi-Fi"
 
 #: tinyutils/slitaz-config:238
 msgid "Add a new user"
-msgstr ""
+msgstr "Ajoute un nouvel utilisateur"
 
 #: tinyutils/slitaz-config:239
 msgid "Change root password"
-msgstr ""
+msgstr "Change le mot de passe root" 
 
 #: tinyutils/slitaz-config:240
 msgid "Set system date from the web"
-msgstr ""
+msgstr "Mise à l'heure par Internet"
 
 #: tinyutils/slitaz-config:241
 msgid "Exit from SliTaz Config"
-msgstr ""
+msgstr "Sortie de SliTaz Config"
 
 #~ msgid "Window Manager:"
 #~ msgstr "Gestionnaire de fenêtres :"
