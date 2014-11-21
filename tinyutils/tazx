@@ -548,7 +548,7 @@ case "$1" in
 
 	*help)
 		emsg "
-<b>tazx</b> - $(_ 'configuration tool for SliTaz GNU/Linux')
+<b>tazx</b> - $(_ 'Configuration tool for SliTaz GNU/Linux')
 
 <c 33>$(_ 'Usage:')</c> <b>tazx</b> <c 34>$(_ 'command')</c> $(_ 'parameter')
 
