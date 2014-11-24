@@ -187,7 +187,7 @@ msgid "Start X on boot:"
 msgstr "Lancer X au démarrage"
 
 #: tinyutils/tazx:551
-msgid "configuration tool for SliTaz GNU/Linux"
+msgid "Configuration tool for SliTaz GNU/Linux"
 msgstr "Outil de configuration pour SliTaz GNU/Linux"
 
 #: tinyutils/tazx:553 tinyutils/hwsetup:25
