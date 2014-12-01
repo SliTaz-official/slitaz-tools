@@ -16,7 +16,6 @@
 
 . /lib/libtaz.sh
 . /etc/slitaz/slitaz.conf
-. /etc/slitaz/applications.conf
 
 export TEXTDOMAIN='slitaz-tools' #i18n
 : ${DIALOG=dialog --timeout 60}
@@ -299,6 +298,7 @@ inst_pkg() {
 # Select/install Window Manager and favorite applications.
 
 apps_dialog() {
+	slitaz_apps_conf
 	. $user_conf
 
 	exec 3>&1
@@ -322,11 +322,12 @@ apps_dialog() {
 	if [ $appname != " " ]; then
 		if [ $appname = show_ALL ]; then
 			app_name_dialog full-list
+			inst_pkg $appname
 		fi
 		if [ -z $(busybox which $appname) ]; then
 			inst_pkg $(lzcat $PKGS_DB/files.list.lzma | fgrep /bin/$appname | head -n1 | cut -d: -f1)
 		fi
-		sed -i "/$app/ s|=.*$|=$appname|" $user_conf
+		sed -i "/$app/ s|=.*$|=\"$appname\"|" $user_conf
 	fi
 
 	msg=''; apps_dialog # loop
@@ -362,13 +363,13 @@ gen_applist() {
 spacefm thunar xfe ytree"
 
 	BROWSERS="arora chrome cream dillo elinks firefox firefox-official iron \
-links lynx midori netsurf opera QtWeb qupzilla retawq seamonkey surf tazweb"
+links lynx midori netsurf opera QtWeb qupzilla retawq seamonkey surf tazweb w3m xombrero"
 
-	EDITORS="adie beaver emacs geany jed joe juffed ht le leafpad mcedit \
-mousepad mp-5 nano qedit SciTE vi vim xedit xfw zile"
+	EDITORS="adie beaver bluefish emacs geany jed joe juffed ht le leafpad \
+mcedit mousepad mp-5 nano qedit SciTE tea vi vim xedit xfw zile"
 
 	TERMINALS="aterm evilvte lxterminal mrxvt qterminal sakura stjerm tilda \
-urxvt vte xterm yeahconsole"
+urxvt vte xfce4-terminal xterm yeahconsole"
 
 	WINDOW_MANAGERS="awesome blackbox compiz dwm echinus enlightenment fluxbox \
 icewm jwm lxde-session lxqt karmen matchbox openbox-session pekwm ratpoison \
@@ -456,7 +457,6 @@ config_dialog() {
 			fi ;;
 
 		wm_apps)
-			slitaz_apps_conf
 			apps_dialog ;;
 
 		*)
@@ -472,6 +472,7 @@ config_dialog() {
 
 slitaz_apps_conf() {
 	apps_conf=/etc/slitaz/applications.conf
+	[ -f $apps_conf ] || inst_pkg slitaz-configs --forced
 
 	if [ "$(id -u)" = 0 ]; then
 		user_conf=$apps_conf
@@ -566,11 +567,9 @@ keyboard      $(_ 'Generate or regenerate Xorg keyboard config')
 		# User can get a new .xinitrc with tazx from cmdline.
 		case $(id -u) in
 			0)
-				slitaz_apps_conf
 				config_dialog ;;
 			*)
 				msg="\Z1 $(_n 'Run tazx as root if you need to configure xorg') \Zn"
-				slitaz_apps_conf
 				apps_dialog ;;
 		esac
 		# gen_xsession
