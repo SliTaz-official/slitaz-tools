@@ -180,7 +180,7 @@ EOC
 
 	status
 	[ -z "$variant" ] && sed -i '/XkbVariant/d' $keyboard_config
-	xkb
+	[ -z $(busybox which lxpanel) ] || xkb
 }
 
 
@@ -472,8 +472,8 @@ config_dialog() {
 
 slitaz_apps_conf() {
 	apps_conf=/etc/slitaz/applications.conf
-	[ -f $apps_conf ] || inst_pkg slitaz-configs --forced
 
+if [ -f $apps_conf ]; then
 	if [ "$(id -u)" = 0 ]; then
 		user_conf=$apps_conf
 		new_user_conf="/etc/skel/.config/slitaz/applications.conf"
@@ -487,6 +487,9 @@ slitaz_apps_conf() {
 			cp $apps_conf $user_conf
 		fi
 	fi
+else
+	[ "$1" == 'init' ] || inst_pkg slitaz-configs --forced
+fi
 
 	[ -f "$HOME/.xinitrc" ] || inst_pkg slitaz-configs-base --forced
 }
@@ -515,7 +518,7 @@ case "$1" in
 		# We don't need much config files with last Xorg version, So just
 		# get files for starting an X session and config the keyboard.
 		check_root
-		slitaz_apps_conf
+		slitaz_apps_conf init
 		keyboard_conf
 		gen_xorg_conf_file ;;
 
