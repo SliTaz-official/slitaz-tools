@@ -473,7 +473,8 @@ config_dialog() {
 slitaz_apps_conf() {
 	apps_conf=/etc/slitaz/applications.conf
 
-if [ -f $apps_conf ]; then
+	[ -f $apps_conf ] || inst_pkg slitaz-configs --forced
+
 	if [ "$(id -u)" = 0 ]; then
 		user_conf=$apps_conf
 		new_user_conf="/etc/skel/.config/slitaz/applications.conf"
@@ -487,12 +488,39 @@ if [ -f $apps_conf ]; then
 			cp $apps_conf $user_conf
 		fi
 	fi
-else
-	[ "$1" == 'init' ] || inst_pkg slitaz-configs --forced
-fi
-
 	[ -f "$HOME/.xinitrc" ] || inst_pkg slitaz-configs-base --forced
 }
+
+
+# Handle live options: screen= video=
+proc_cmdline()
+{
+	if grep -qs 'screen=' /proc/cmdline ; then
+		MODE="$(sed 's/.*screen=\([0-9]*x[0-9]*\).*/\1/' < /proc/cmdline)"
+		sed "s/.*EndSubSection.*/\\t\\tModes\\t\"$MODE\"\\n&/" \
+			-i ${xorg_config}/70-Screen.conf
+	elif grep -qs 'video=' /proc/cmdline ; then
+		MODE="$(sed 's/.*video=\([0-9]*x[0-9]*\).*/\1/' < /proc/cmdline)"
+		DEPTH=$(sed 's/.*video=.*-\([0-9]*\).*/\1/' < /proc/cmdline)
+		sed "s/.*EndSubSection.*/\\t\\tModes\\t\"$MODE\"\\n&/" \
+			-i ${xorg_config}/70-Screen.conf
+		set_depth $DEPTH
+	fi
+}
+
+set_depth()
+{
+	case "$1" in
+		8|15|16|24)	colors=$1 ;;
+		*)
+			exec 3>&1
+			colors=$($DIALOG --menu " " 12 12 12 \
+			24 truecolor 16 hicolor 15 hicolor 8 256colors 2>&1 1>&3)
+			dialog_end ;;
+	esac
+	sed 's|Monitor.*"$|&\n\tDefaultDepth '$colors'|' -i ${xorg_config}/70-Screen.conf
+}
+
 
 
 # Commands
@@ -507,18 +535,13 @@ case "$1" in
 		check_root
 		slitaz_apps_conf
 		xorg_conf_d
-		# Handle live option: screen=
-		if grep -qs 'screen=' /proc/cmdline ; then
-			MODE="$(sed 's/.*screen=\([0-9]*x[0-9]*\).*/\1/' < /proc/cmdline)"
-			sed -i "s/.*EndSubSection.*/\\t\\tModes\\t\"$MODE\"\\n&/" \
-				/etc/X11/xorg.conf.d/70-Screen.conf
-		fi ;;
+		proc_cmdline ;;
 
 	init)
 		# We don't need much config files with last Xorg version, So just
 		# get files for starting an X session and config the keyboard.
 		check_root
-		slitaz_apps_conf init
+		slitaz_apps_conf
 		keyboard_conf
 		gen_xorg_conf_file ;;
 
@@ -535,22 +558,12 @@ case "$1" in
 	bpp)
 		check_root
 		xorg_conf_d
-		case "$2" in
-			8|15|16|24)
-				colors=$2 ;;
-			*)
-				exec 3>&1
-				colors=$($DIALOG --menu " " 12 12 12 \
-				24 truecolor 16 hicolor 15 hicolor 8 256colors 2>&1 1>&3)
-				dialog_end ;;
-		esac
-		sed 's|Monitor.*"$|&\n\tDefaultDepth '$colors'|' \
-		-i ${xorg_config}/70-Screen.conf ;;
+		set_depth $2 ;;
 
 	xkb)
 		xkb ;;
 
-	*help)
+	*help|-h|-?)
 		emsg "
 <b>tazx</b> - $(_ 'Configuration tool for SliTaz GNU/Linux')
 
