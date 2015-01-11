@@ -276,8 +276,6 @@ autoselect_driver() {
 		esac
 	[ -n "$d" ] && inst_pkg xorg-xf86-video-$d
 	done
-
-	xorg_conf_d
 }
 
 
