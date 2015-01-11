@@ -312,7 +312,7 @@ apps_dialog() {
 	dialog_end
 
 	case $app in
-		RENAMED) # like: RENAMED EDITOR myeditor
+		RENAMED*) # like: RENAMED EDITOR myeditor
 			appname=$(echo $app | cut -d" " -f3)
 			    app=$(echo $app | cut -d" " -f2) ;;
 		*)
@@ -325,6 +325,7 @@ apps_dialog() {
 			inst_pkg $appname
 		fi
 		if [ -z $(busybox which $appname) ]; then
+			inst_pkg $appname
 			inst_pkg $(lzcat $PKGS_DB/files.list.lzma | fgrep /bin/$appname | head -n1 | cut -d: -f1)
 		fi
 		sed -i "/$app/ s|=.*$|=\"$appname\"|" $user_conf
@@ -511,11 +512,11 @@ proc_cmdline()
 set_depth()
 {
 	case "$1" in
-		8|15|16|24)	colors=$1 ;;
+		8|15|16|24|32)	colors=$1 ;;
 		*)
 			exec 3>&1
 			colors=$($DIALOG --menu " " 12 12 12 \
-			24 truecolor 16 hicolor 15 hicolor 8 256colors 2>&1 1>&3)
+			32 truecolor 24 truecolor 16 hicolor 15 hicolor 8 256colors 2>&1 1>&3)
 			dialog_end ;;
 	esac
 	sed 's|Monitor.*"$|&\n\tDefaultDepth '$colors'|' -i ${xorg_config}/70-Screen.conf
@@ -558,10 +559,12 @@ case "$1" in
 	bpp)
 		check_root
 		xorg_conf_d
+		proc_cmdline
 		set_depth $2 ;;
 
 	xkb)
 		xkb ;;
+
 
 	*help|-h|-?)
 		emsg "
