@@ -217,10 +217,10 @@ keymap() {
 }
 
 # Free GeoIP service
-# Response: "IP","CountryCode","CountryName", ...
+# Response: IP,CountryCode,CountryName, ...
 geoip() {
 	[ ! -e $csv ] && wget -q -T3 -O $csv http://freegeoip.net/csv/ 2&>/dev/null
-	[ -e $csv ] && cut -d'"' -f4 $csv
+	[ -e $csv ] && cut -d, -f2 $csv
 }
 
 #
