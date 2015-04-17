@@ -17,5 +17,5 @@ Name[ru]=Выйти
 Name[zh_CN]=注销
 Name[zh_TW]=登出
 Exec=tazbox logout
-Icon=slitaz-logout
+Icon=system-shutdown-panel-restart
 StartupNotify=false

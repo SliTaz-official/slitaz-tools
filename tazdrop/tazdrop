@@ -4,13 +4,16 @@
 # or the expanded panel and it will deal with it. Or at least it will
 # try, since we are in the first stages of the tool.
 #
-# Copyright (C) 2011-2014 SliTaz GNU/linux - BSD License
+# Copyright (C) 2011-2015 SliTaz GNU/linux - BSD License
 #    - Christophe Lincoln <pankso@slitaz.org>
 #
+
 . /lib/libtaz.sh
 export TEXTDOMAIN='tazdrop' # i18n
 
+
 # Follow XDG standards
+
 CONFIG=$HOME/.config/slitaz/tazdrop.conf
 NOTES=$HOME/.cache/tazdrop.notes
 
@@ -39,7 +42,9 @@ usage() {
 	newline
 }
 
+
 # Write notes content type to a file
+
 write_drop() {
 	sed "s/$(echo -en '\r') /\n/g" >> $NOTES << EOT
 ====[ $(date '+%x %X') ]====
@@ -47,7 +52,9 @@ $drop
 EOT
 }
 
+
 # Get and install a package from an URL
+
 get_install_pkg() {
 	tmp=$DOWNLOADS/$$
 	mkdir -p $tmp
@@ -56,7 +63,9 @@ get_install_pkg() {
 	su -c "tazpkg install *.tazpkg && mv *.tazpkg .. && cd .. && rm -rf $tmp"
 }
 
+
 # Main GUI function
+
 drop_main() {
 	yad --geometry="$DROP_SIZE$DROP_GEOM" \
 		--sticky --on-top --skip-taskbar --undecorated --no-buttons \
@@ -66,7 +75,9 @@ drop_main() {
 		--command="$0"
 }
 
+
 # Image GUI function
+
 drop_image() {
 	yad --geometry="$DROP_IMAGE_GEOM" \
 		--sticky --on-top --skip-taskbar --undecorated --no-buttons \
@@ -76,9 +87,11 @@ drop_image() {
 		--command="$0"
 }
 
+
 # Notes GUI function
+
 drop_notes() {
-	icon=text-editor
+	icon='text-editor'
 	yad --title="$(_ 'Dropped Notes')" --window-icon=$icon \
 		--width=500 --height=400 --margins=5 \
 		--image=$icon --image-on-top \
@@ -89,9 +102,11 @@ drop_notes() {
 		--button="gtk-close:1"
 }
 
+
 #
 # We may have args on cmdline, execute cmd & and exit.
 #
+
 case "$1" in
 	--usage|-h|--help)
 		usage && exit 0 ;;
@@ -116,12 +131,14 @@ case "$1" in
 		drop="$1" && continue ;;
 esac
 
+
 #
 # Drag and drop handler, uritype first filetype after.
 #
 # Use 'xdg-open' & 'xdg-mime query filetype /path/to/file',
 # both need xprop (on slitaz we have obxprop from openbox)?
 #
+
 case "$drop" in
 	file:///*)
 		# Handle local files

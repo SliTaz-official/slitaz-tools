@@ -3,14 +3,17 @@
 # Tazkeymap - SliTaz GNU/Linux keymap config using loadkeys and dialog boxes.
 # Configuration file is: /etc/keymap.conf
 #
-# Copyright (C) 2008-2014 SliTaz GNU/Linux - BSD License
+# Copyright (C) 2008-2015 SliTaz GNU/Linux - BSD License
 #
 # Author: Christophe Lincoln <pankso@slitaz.org>
 #
+
 . /lib/libtaz.sh
 export TEXTDOMAIN='slitaz-tools' #i18n
 
+
 # List all keymaps.
+
 list_keymaps() {
 	cd /usr/share/kbd/keymaps/i386
 	# We first need a list to sort and then use \n for Yad list.
@@ -21,7 +24,9 @@ list_keymaps() {
 	done
 }
 
+
 # Load the selected kmap file from /usr/share/kbd/keymaps or Busybox kmaps.
+
 load_keymap() {
 	if [ -x /bin/loadkeys ]; then
 		loadkeys $kmap
@@ -30,11 +35,14 @@ load_keymap() {
 	fi
 }
 
+
 # Config /etc/keymap.conf and update Xorg keyboard config
+
 system_config() {
 	echo "$kmap" > /etc/keymap.conf
 	tazx keyboard
 }
+
 
 case "$1" in
 	info)

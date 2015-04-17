@@ -1,23 +1,118 @@
+#
+# applications
+#
+
 # slitaz-logout.desktop
-system-log-out: menu
+system-shutdown-panel-restart: panel(22)
+
 # burn-box.desktop
-media-optical-burn: menu
+burn-box: menu(16) big(48)
+
 # burn-iso.desktop
-iso-image-burn: menu
+iso-image-burn: context-menu(16) big(48)?
+
 # scp-box.desktop
-folder-remote: menu
+folder-remote: menu(16) big(48)
+
+# tazbox-tazapps.desktop
+preferences-desktop-default-applications: menu(16) big(48)
+
+# slitaz-cofig.desktop
+slitaz-icon: menu(16) big(48)
+
 # wifi-box.desktop
-network-wireless: menu
+network-wireless: menu(16) big(48)
+
 # gpl-license.desktop
-text-x-readme: menu
+text-x-readme: menu(16) big(48)
+
 # passwd.desktop
-user_auth: menu
+user_auth: menu(16) big(48)
+
 # tazbox-keymap.desktop
-preferences-desktop-keyboard: menu
-# tazbox-tz.desktop
-preferences-system-time: menu
+preferences-desktop-keyboard: menu(16) big(48)
+
 # tazbox-locale.desktop
-preferences-desktop-locale: menu
+preferences-desktop-locale: menu(16) big(48)
+
+# tazbox-tz.desktop
+preferences-system-time: menu(16) big(48)
+
+
+#
+# boxes
+#
 
 # burn-box
-media-optical-dvd-rw: window big
+media-optical-dvd-rw: title(16) big(48)
+
+# scp-box
+folder-remote: title(16) big(48)
+gtk-close: button(16)
+
+# wifi-box
+network-wireless: title(16) big(48)
+gtk-preferences(16)
+gtk-close(16)
+
+
+#
+# jwm
+#
+
+# jwm-menu
+applications-accessories.png
+applications-internet.png
+applications-graphics.png
+applications-multimedia.png
+applications-games.png
+applications-development.png
+text-x-generic.png
+applications-system.png
+
+
+#
+# tazbox
+#
+
+# tazbox
+dialog-password: title(16) big(48)
+dialog-error: title(16) big(48)
+gtk-close: button(16)
+dialog-information: title(16)
+/usr/share/pixmaps/slitaz-icon.png: title(16) big(48)
+system-log-out: button(16)
+system-reboot: button(16)
+system-shutdown: button(16)
+locale: title(16) big(48)
+preferences-desktop-locale: title(16) big(48)
+gtk-cancel: button(16)
+gtk-ok: button(16)
+preferences-desktop-keyboard: title(16) big(48)
+gtk-go-forward: button(16)
+appointment-soon: big(48)
+stock_properties: title(16) big(48)
+reload: button(16)
+system-upgrade: button(16)
+tazpkg: title(16)
+gtk-new: title(16) big(48)
+editclear: button(16)
+application-x-shellscript: button(16)
+folder: button(16)
+empty: button(16)
+stock_bookmark: title(16)
+folder-downloads: title(16)
+preferences-desktop-default-applications: title(16) big(48)
+text-x-generic: title(16)
+/usr/share/pixmaps/gpl3.png
+
+
+#
+# tazdrop
+#
+
+# tazdrop
+text-editor: title(16) big(48)
+gtk-remove: button(16)
+gtk-save: button(16)
+gtk-close: button(16)

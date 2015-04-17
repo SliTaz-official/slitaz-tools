@@ -2,29 +2,36 @@
 #
 # Frugal is a tiny tool to handle SliTaz frugal installation.
 #
-# Copyright (C) 2013 SliTaz GNU/Linux - BSD License
+# Copyright (C) 2013-2015 SliTaz GNU/Linux - BSD License
 #
 # Author: Christophe Lincoln <pankso@slitaz.org>
 #
+
 . /lib/libtaz.sh
 
 [ "$root" ] || root="/boot/frugal"
+
 
 # NOTES:
 #	Have a --web option to dl ISO ?
 #	Auto configure GRUB ?
 #
 
+
 # Internationalization
+
 . /usr/bin/gettext.sh
 TEXTDOMAIN='slitaz-tools'
 export TEXTDOMAIN
+
 
 #
 # Functions
 #
 
+
 # Small help and usage.
+
 usage() {
 	name=$(basename $0)
 	cat << EOT
@@ -49,7 +56,9 @@ $(boldify $(gettext "Examples:"))
 EOT
 }
 
+
 # GRUB config example.
+
 grub_example() {
 	cat << EOT
 title SliTaz GNU/Linux (frugal)
@@ -58,6 +67,7 @@ kernel /boot/frugal/bzImage root=/dev/null lang=en kmap=us
 initrd /boot/frugal/rootfs.gz
 EOT
 }
+
 
 #
 # Commands
@@ -69,6 +79,7 @@ case "$1" in
 		newline
 		boldify "Frugal info"
 		separator 
+
 		# First check if we are running in frugal mode
 		if fgrep -q 'root=/dev/null' /proc/cmdline; then
 			gettext "Frugal system running detected"; newline
@@ -127,6 +138,7 @@ case "$1" in
 			cp -a ${loop}/boot/rootfs.gz ${root}
 		fi
 		status
+
 		# Umount the loop device
 		gettext "Unmounting ISO image..."
 		sleep 1

@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # JWM Menus generator
-# (C) 2014 SliTaz GNU/Linux - BSD Licence
+# (C) 2014-2015 SliTaz GNU/Linux - BSD Licence
 #
 
 menus="/etc/xdg/jwm/menus.jwmrc"

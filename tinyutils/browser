@@ -1,6 +1,7 @@
 #!/bin/sh
 # Launch SliTaz default Web browser.
 #
+
 . /etc/slitaz/applications.conf
 
 USER_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/slitaz/applications.conf"

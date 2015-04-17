@@ -1,6 +1,7 @@
 #!/bin/sh
 # Launch SliTaz default X Terminal.
 #
+
 . /etc/slitaz/applications.conf
 . /lib/libtaz.sh
 export TEXTDOMAIN='slitaz-tools' #i18n

@@ -3,5 +3,5 @@ Type=Application
 Name=Manage locale packages
 Name[ru]=Управление пакетами локалей
 Exec=tazbox su "tazbox manage_i18n"
-Icon=config-language
+Icon=preferences-desktop-locale
 Categories=GTK;Settings;DesktopSettings;

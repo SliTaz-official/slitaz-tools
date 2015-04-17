@@ -3,22 +3,28 @@
 # SliTaz tiny GUI boxes for the desktop (su, logout, locale, etc)
 # and as usual, please: KISS
 #
-# Copyright (C) 2011-2014 SliTaz GNU/Linux - GNU GPL v3
+# Copyright (C) 2011-2015 SliTaz GNU/Linux - GNU GPL v3
 #    - Christophe Lincoln <pankso@slitaz.org>
 #    - Aleksej Bobylev <al.bobylev@gmail.com>
 #
+
 . /lib/libtaz.sh
 export TEXTDOMAIN='tazbox' # i18n
 
+
 # download dir (may be in a config file)
+
 DOWNLOADS=$HOME/Downloads
 
+
 # some constants to be used inside functions
+
 tmp=/tmp/keymap.list
 db=/usr/share/i18n/locales
 zi=/usr/share/zoneinfo/
 ztab=${zi}zone-mini.tab
 csv=/tmp/freegeoip.csv
+
 
 #
 # Functions
@@ -48,20 +54,26 @@ tazapps		$(_ 'Configure SliTaz default applications')"
 	newline
 }
 
+
 # try to find icon in .desktop files
+
 find_icon() {
-	local desktop
-	desktop=$(find $HOME/.local/share/applications /usr/share/applications \
+	local_desktop=$(find $HOME/.local/share/applications
 		-name ${1##*/}.desktop 2&>/dev/null | head -n1)
-	[ x$desktop != x ] && cat $desktop | sed '/\[Desktop\ Entry\]/,/^\[/!d' | \
+	system_desktop=$(find /usr/share/applications \
+		-name ${1##*/}.desktop 2&>/dev/null | head -n1)
+	desktop="${local_desktop:-$system_desktop}"
+	[ -n "$desktop" ] && cat $desktop | sed '/\[Desktop\ Entry\]/,/^\[/!d' | \
 		sed '/^Icon=/!d' | head -n1 | cut -d= -f2
 }
 
+
 # su frontend GUIs
+
 su_main() {
 	CMD1="$1"; shift; CMD2="$(echo $@ | sed 's|&|&amp;|g')"
 	: ${icon=$(find_icon $CMD1)}
-	[ x$icon == x ] && icon=gtk-dialog-authentication
+	icon="${icon:-dialog-password}"
 
 	yad --title="$(_n 'SliTaz admin password')" --window-icon=$icon \
 		--width=520 --on-top --center \
@@ -73,8 +85,9 @@ su_main() {
 		--field="$(_n 'Autosave password'):CHK" $CHECKED
 }
 
+
 su_error() {
-	icon=gtk-dialog-error
+	icon='dialog-error'
 	yad --title="$(_n 'Error')" --window-icon=$icon \
 		--width=320 --on-top --center \
 		--image=$icon --image-on-top \
@@ -82,7 +95,9 @@ su_error() {
 		--button="gtk-close:1"
 }
 
+
 # user may press cancel on download.
+
 cancel_dl() {
 	if [ "$?" == 1 ]; then
 		_ "CANCEL"
@@ -90,10 +105,12 @@ cancel_dl() {
 	fi
 }
 
+
 # output a command in a GTK window
+
 output_command() {
 	: ${title=$(_n 'TazBox Output')}
-	: ${icon=gtk-dialog-info}
+	: ${icon=dialog-information}
 
 	yad --title="$title" --window-icon=$icon \
 		--geometry="600x220+0-24" --fore="#ffffff" --back="#000000" \
@@ -101,20 +118,24 @@ output_command() {
 		--button="gtk-close:1"
 }
 
+
 # logout GUI function
+
 logout_main() {
-	icon=/usr/share/pixmaps/slitaz-icon.png
+	icon='/usr/share/pixmaps/slitaz-icon.png'
 	yad --title="$(_n 'SliTaz Logout')" --window-icon=$icon \
 		--on-top --center --height=130 \
 		--image=$icon --image-on-top \
 		--text="<b>$(_n 'SliTaz Logout - Please choose an action:')</b>" \
 		--always-print-result \
 		--button "$(_n 'Close X session')!system-log-out:4" \
-		--button "$(_n 'Reboot system')!reload:3" \
+		--button "$(_n 'Reboot system')!system-reboot:3" \
 		--button "$(_n 'Shutdown system')!system-shutdown:2"
 }
 
+
 # generate keymap list
+
 gen_kmap_list() {
 	echo > $tmp
 	cd /usr/share/kbd/keymaps/i386
@@ -124,9 +145,11 @@ gen_kmap_list() {
 	done
 }
 
+
 # Initial Config functions
+
 setup_main() {
-	icon=locale
+	icon='locale'
 	gen_kmap_list
 	locale=$(ls -1 $db | grep ^[a-z][a-z]_[A-Z][A-Z] | tr "\n" "!")
 	keymap=$(cat $tmp | sort | tr "\n" "!")
@@ -140,6 +163,7 @@ setup_main() {
 		--field "$(_n 'Keymap'):CB" $keymap \
 		--field "$(_n 'Timezone'):CB" $timezone
 }
+
 
 setup() {
 	choices=$(setup_main)
@@ -157,7 +181,7 @@ setup() {
 #
 
 locale_main() {
-	icon=preferences-desktop-locale
+	icon='preferences-desktop-locale'
 	for locale in $(ls -1 $db | grep '[a-z]_[A-Z]'); do
 		desc=$(fgrep -m1 title $db/$locale | cut -d'"' -f2)
 		ll_CC=${locale%%@*}
@@ -175,6 +199,7 @@ locale_main() {
 		--button="gtk-cancel:1" --button="gtk-ok:0"
 }
 
+
 locale() {
 	locale=$(locale_main)
 	# Deal with --button values
@@ -191,10 +216,11 @@ locale() {
 	fi
 }
 
+
 # Keymap functions
+
 keymap_main() {
-	#icon=preferences-desktop-keyboard
-	icon=input-keyboard
+	icon='preferences-desktop-keyboard'
 	gen_kmap_list
 	for i in $(sort $tmp); do
 		echo "$i" | tr '|' '\n'
@@ -208,6 +234,7 @@ keymap_main() {
 	rm -f $tmp
 }
 
+
 keymap() {
 	keymap=$(keymap_main)
 	# Deal with --button values
@@ -216,18 +243,23 @@ keymap() {
 	[ "$keymap" ] && tazkeymap $keymap
 }
 
+
 # Free GeoIP service
 # Response: IP,CountryCode,CountryName, ...
+
 geoip() {
 	[ ! -e $csv ] && wget -q -T3 -O $csv http://freegeoip.net/csv/ 2&>/dev/null
 	[ -e $csv ] && cut -d, -f2 $csv
 }
 
+
 #
 # TZ functions
 #
 
+
 # list of all existing available locations for country
+
 tz_list() {
 	find $zi | \
 		grep -E "$(cat $ztab | grep "^$1	" | cut -d'	' -f2 | tr ' ' '|')" | \
@@ -235,12 +267,14 @@ tz_list() {
 		sed 's|.*/||g' | sort
 }
 
+
 # ask for confirmation only if we have what to choose
+
 tz_suggest() {
 	CountryCode=$(geoip)
 	if [ "x$CountryCode" != x ]; then
 		if [ "x$(tz_list $CountryCode)" != x ]; then
-			CountryName=$(cut -d'"' -f6 $csv)
+			CountryName=$(cut -d, -f3 $csv)
 			yad --title="$(_ 'SliTaz TZ')" --window-icon=$icon \
 			--on-top --center \
 			--image=$CountryCode --image-on-top \
@@ -251,6 +285,7 @@ $(_ 'Are you agreed?')" \
 		fi
 	fi
 }
+
 
 tz_select() {
 	case x$1 in
@@ -310,6 +345,7 @@ EOT
 	esac
 }
 
+
 tz() {
 	icon=clock
 	arg=$(tz_suggest)
@@ -332,16 +368,21 @@ tz() {
 	rm -f $tmpcc
 }
 
+
 #
 # Manage i18n packages
 #
 
+
 # if installed
+
 if_installed() {
 	[ -d /var/lib/tazpkg/installed/$1 ]
 }
 
+
 # get package's description, install flag and sizes
+
 desc_etc()
 {
 	INFO="$(grep -m1 -A3 -x -F $1 /var/lib/tazpkg/packages.txt)"
@@ -357,12 +398,16 @@ desc_etc()
 	echo -e "$INST\n$1\n$DESC\n${SIZE1//.0}\n${SIZE2//.0}" >> $PKGS_LIST
 }
 
+
 # remove temp
+
 rm_temp() {
 	rm -f $PKGS_LIST $ORIG_LIST $ANSWER $NEW_LIST $LIST1 $LIST2
 }
 
+
 # install/remove locale packages
+
 manage_i18n() {
 	tazbox notify "$(_ 'Please wait')" appointment-soon &
 
@@ -430,7 +475,7 @@ manage_i18n() {
 		done
 	fi
 
-	icon=stock_properties
+	icon='stock_properties'
 	cat $PKGS_LIST | \
 	{
 		yad --title="$(_n 'Manage locale packages')" --window-icon=$icon \
@@ -476,21 +521,23 @@ manage_i18n() {
 
 
 # New file functions
+
 newfile_main() {
-	icon=gtk-new
+	icon='gtk-new'
 	yad --title="$(_n 'New file')" --window-icon=$icon \
 		--width=460 --height=160 --on-top --center \
 		--image=$icon --image-on-top \
+		--icon=$icon \
 		--text="<b>$(_n 'Create a new file or folder on your desktop')</b>" \
 		--entry --entry-label="$(_n 'File name')" \
 		--ricon=editclear \
 		--always-print-result \
 		--button="$(_n 'SHell script')!application-x-shellscript:4" \
-		--button="$(_n 'Folder')!stock_folder:3" \
-		--icon="gtk-new" \
-		--button="$(_n 'File')!application-text:2" \
+		--button="$(_n 'Folder')!folder:3" \
+		--button="$(_n 'File')!empty:2" \
 		--button="gtk-cancel:1"
 }
+
 
 newfile() {
 	file=$(newfile_main)
@@ -510,9 +557,11 @@ EOT
 	esac
 }
 
+
 # All applications
+
 all_apps() {
-	icon=stock_bookmark
+	icon='stock_bookmark'
 	yad --title="$(_n 'All Applications')" --window-icon=$icon \
 		--width=400 --height=400 \
 		--icons --compact \
@@ -520,7 +569,9 @@ all_apps() {
 		--button="gtk-close:0"
 }
 
+
 # Ask root permissions for system settings
+
 ask_root() {
 	if [ $(id -u) != 0 ]; then
 		exec tazbox su $0 $@
@@ -528,24 +579,30 @@ ask_root() {
 	fi
 }
 
+
 #
 # Commands
 #
+
 case "$1" in
 	su)
 		# Don't show dialog if we are root
 		test $(id -u) = 0 && exec ${@:2}
 		SU_CMD="${@:2}"
+
 		# Check if a password has been saved before launching main dialog
 		if [ -s $HOME/.config/slitaz/subox.conf ]; then
 			PASSWD=$(cat $HOME/.config/slitaz/subox.conf)
 			CHECKED="TRUE"
 		fi
+
 		# Display the main dialog (ask for password)
 		main=$(su_main $SU_CMD)
+
 		# Deal with --button values and exit if cancelled to avoid erasing
 		# saved password.
 		[ $? == 1 ] && exit 0
+
 		# Save or erase Autosaved password
 		if [ $(echo $main | cut -f2 -d"|") == "TRUE" ]; then
 			echo $main | cut -f 1 -d "|" > $HOME/.config/slitaz/subox.conf
@@ -553,6 +610,7 @@ case "$1" in
 		else
 			cat /dev/null > $HOME/.config/slitaz/subox.conf
 		fi
+
 		# Try to login & execute. If password is wrong execute error dialog
 		SU_CMD_QUOTED="$(echo "dbus-launch --exit-with-session $SU_CMD" | sed 's|&|\\&|g')"
 		echo $main | cut -f 1 -d "|" | su -c "$SU_CMD_QUOTED &" || su_error ;;
@@ -563,6 +621,7 @@ case "$1" in
 		else
 			logout_main; answer=$?
 		fi
+
 		# Deal with --button values
 		# DE and WM started with a custom -session script should export
 		# XDG_CURRENT_DESKTOP
@@ -590,7 +649,7 @@ case "$1" in
 	out-dl)
 		# A tiny GTK window for Busybox wget output
 		url=$2; opts="--tail --button=gtk-cancel:1"
-		icon=folder-downloads; title="$(_ 'Downloading...')"
+		icon='folder-downloads'; title="$(_ 'Downloading...')"
 		[ -d $DOWNLOADS ] || mkdir -p $DOWNLOADS
 		busybox wget -c -P $DOWNLOADS $url 2>&1 | output_command
 		cancel_dl ;;
@@ -638,7 +697,7 @@ case "$1" in
 		# Missing file was created by slitaz_apps_conf function from tazx
 		. $CONFIG
 
-		icon=preferences-desktop-default-applications
+		icon='preferences-desktop-default-applications'
 		eval $(yad --title="$(_n 'SliTaz default applications')" \
 			--window-icon=$icon --image=$icon --image-on-top \
 			--text="<b>$(_n 'SliTaz default applications configuration')</b>" \

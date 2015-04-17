@@ -2,32 +2,40 @@
 #
 # SCP Box - Small front end to the secure file copy utility.
 #
-# Copyright (C) 2008-2014 SliTaz GNU/Linux - BSD License
+# Copyright (C) 2008-2015 SliTaz GNU/Linux - BSD License
 #
 # Author: Christophe Lincoln <pankso@slitaz.org>
 #
+
 . /lib/libtaz.sh
 export TEXTDOMAIN='slitaz-boxes' # i18n
 
 [ "$file" ] || file="$HOME"
 [ "$dir" ] || dir="$HOME"
 
+
 # Internal variables (we need a space before options).
+
 config=$HOME/.config/scpbox
 term="terminal -geometry 80x16"
 scpopts=" -r -P 22"
 
+
 # Make sure we have config files.
+
 if [ ! -d "$config" ] || [ -f "$config/hosts" ]; then
 	mkdir -p $config
 	touch $config/hosts && chmod 0600 $config/hosts
 fi
 
+
 #
 # Functions
 #
 
+
 # Help and usage
+
 usage() {
 	cat << EOT
 
@@ -49,16 +57,20 @@ $(boldify "$(_ 'Examples:')")
 EOT
 }
 
+
 # List last used hosts.
+
 list_hosts() {
 	for h in $(cat $config/hosts); do
 		echo -n "!$h"
 	done
 }
 
+
 # Main GUI box function with pure Yad spec
+
 scpbox_main() {
-	icon=folder-remote
+	icon='folder-remote'
 	yad --title="$(_n 'SCP Box')" --window-icon=$icon \
 		--width=400 \
 		--image=$icon --image-on-top \
@@ -76,7 +88,9 @@ scpbox_main() {
 		--button="gtk-close:1"
 }
 
+
 # Main function
+
 scpbox() {
 	# Store box results
 	main=$(scpbox_main)
@@ -128,6 +142,7 @@ scpbox() {
 			exit 0 ;;
 	esac
 }
+
 
 #
 # Commands

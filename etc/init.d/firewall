@@ -4,6 +4,7 @@
 # Configuration file   : /etc/slitaz/firewall.conf
 # Firewall script      : /etc/slitaz/firewall.sh
 #
+
 . /etc/init.d/rc.functions
 . /etc/slitaz/firewall.conf
 
@@ -13,6 +14,7 @@ case "$1" in
 		#
 		if [ "$KERNEL_SECURITY" = "yes" ] ; then
 			echo -n "Setting up kernel security rules... "
+
 			# ICMP redirects acceptance.
 			for conf in /proc/sys/net/ipv4/conf/*/accept_redirects ; do
 				echo "0" > $conf
@@ -20,14 +22,17 @@ case "$1" in
 			for conf in /proc/sys/net/ipv4/conf/*/secure_redirects ; do
 				echo "0" > $conf
 			done
+
 			# IP source routing.
 			for conf in /proc/sys/net/ipv4/conf/*/accept_source_route ; do
 				echo "0" > $conf
 			done
+
 			# Log impossible addresses.
 			for conf in /proc/sys/net/ipv4/conf/*/log_martians ; do
 				echo "1" > $conf
 			done
+
 			# Ip spoofing protection
 			for conf in /proc/sys/net/ipv4/conf/*/rp_filter; do
 				echo "1" > $conf

@@ -4,7 +4,7 @@
 # This tinyutil is part of slitaz-tools. Tazx can configure Xorg with
 # several Window Managers. The GTK interface to configure X is in tazbox.
 #
-# (c) 2011-2014 SliTaz GNU/Linux - GNU GPL v3.
+# (c) 2011-2015 SliTaz GNU/Linux - GNU GPL v3.
 # Authors: Christophe Lincoln <pankso@slitaz.org>
 #          Pascal Bellard <pascal.bellard@slitaz.org>
 #
@@ -19,6 +19,7 @@
 
 export TEXTDOMAIN='slitaz-tools' #i18n
 : ${DIALOG=dialog --timeout 60}
+
 
 # Default user for config files in Live mode, id is 1000 since it is
 # created by /etc/init.d/bootopts.sh.
@@ -492,6 +493,7 @@ slitaz_apps_conf() {
 
 
 # Handle live options: screen= video=
+
 proc_cmdline()
 {
 	if grep -qs 'screen=' /proc/cmdline ; then
@@ -506,6 +508,7 @@ proc_cmdline()
 		set_depth $DEPTH
 	fi
 }
+
 
 set_depth()
 {

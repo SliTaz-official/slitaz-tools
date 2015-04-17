@@ -3,12 +3,14 @@
 # Tazlocale: SliTaz GNU/Linux locale setting using dialog boxes.
 # Configuration file is: /etc/locale.conf
 #
-# Copyright (C) 2008-2014 SliTaz GNU/Linux - BSD License
+# Copyright (C) 2008-2015 SliTaz GNU/Linux - BSD License
 #
 # Author: Christophe Lincoln <pankso@slitaz.org>
 #
+
 . /lib/libtaz.sh
 export TEXTDOMAIN='slitaz-tools' #i18n
+
 
 usage() {
 	newline
@@ -28,9 +30,11 @@ list	$(_ 'Show list of available locales.')"
 	newline
 }
 
+
 # Make symlink to file, substitute "%%" to "ll_CC", "ll" or "en" according to
 # current language settings and file existence
 # (where "ll_CC" - full locale format (lang and country, and maybe, modifier).
+
 make_i18n_link() {
 	if [ -d $(dirname ${1/.%%/}) ]; then
 		cd $(dirname ${1/.%%/})
@@ -47,33 +51,44 @@ make_i18n_link() {
 	fi
 }
 
+
 # Create symlink to translated files provided by SliTaz language pack,
 # doc and config files.
+
 link_language_files() {
 	. /etc/locale.conf
 	LANGUAGE=${LANG%_*}
 	[ "$LANG" == "POSIX" ] && LANGUAGE="en"
+
 	# Openbox menu
 	make_i18n_link /etc/xdg/openbox/menu.%%.xml
+
 	# Documentation
 	make_i18n_link /usr/share/doc/slitaz/index.%%.html
+
 	# SliTaz Software Manuals
 	for soft in tazpkg tazlito tazusb tazwok tazweb cookutils; do
 		make_i18n_link /usr/share/doc/$soft/$soft.%%.html
 	done
+
 	# SliTaz TazWeb "My Web Home"
 	make_i18n_link /usr/share/tazweb/home.%%.html
+
 	# SliTaz WebHome
 	make_i18n_link /usr/share/webhome/index.%%.html
+
 	# TazPanel Doc under www
 	make_i18n_link /var/www/tazpanel/doc/tazpanel.%%.html
+
 	# SliTaz Tools Manuals
 	for soft in burnbox tazinst; do
 		make_i18n_link /usr/share/doc/slitaz-tools/$soft.%%.html
 	done
 }
 
+
 # Locale name displayed.
+
 get_locale_name() {
 	for i in $(ls -1 /usr/share/i18n/locales | grep [a-z]_[A-Z]); do
 		#desc=$(grep ^title /usr/share/i18n/locales/$i | cut -d '"' -f 2)
@@ -81,14 +96,18 @@ get_locale_name() {
 	done
 }
 
+
 # We have no locale files in /usr/lib/locale by default.
 # Run localedef in background to have a faster boot.
+
 gen_utf8_locale() {
 	[ -e /usr/lib/locale/$locale ] || \
 		localedef -i $locale -c -f UTF-8 /usr/lib/locale/$locale &
 }
 
+
 # Config /etc/locale.conf
+
 system_config() {
 	export LC_ALL=$locale
 	_n "Setting system locale to: $locale"
@@ -98,7 +117,9 @@ system_config() {
 	link_language_files
 }
 
+
 # Dialog menu.
+
 dialog_menu() {
 	exec 3>&1
 	locale=$($DIALOG  --clear \

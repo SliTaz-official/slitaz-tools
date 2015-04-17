@@ -4,30 +4,38 @@
 # window uncluttered and use a wizard to create audio/video/data CD/DVD.
 # The main box lets users burn an ISO and audio files from a single directory.
 #
-# Copyright (C) 2012-2014 SliTaz GNU/Linux - BSD License
+# Copyright (C) 2012-2015 SliTaz GNU/Linux - BSD License
 #
 # Author: Christophe Lincoln <pankso@slitaz.org>
 #
+
 . /lib/libtaz.sh
 export TEXTDOMAIN='slitaz-boxes' # i18n
 
+
 # LibTaz parser and store options. Burn-box can be used with an ISO image
 # or an audio directory in option: burn-box --iso=/path/to/image.iso
+
 [ "$iso" ] || iso=" "
 [ "$audio" ] || audio="$HOME"
 
+
 # Internal variables
+
 boxopts="--height=300 --width=620"
 icon=media-optical-dvd-rw
 options="-eject -multi"
 speed=$(fgrep "drive speed" /proc/sys/dev/cdrom/info | cut -f3)
 tmpdir=$(mktemp -d)
 
+
 #
 # Functions
 #
 
+
 # Help and usage
+
 usage() {
 	newline; _ 'Burn-box a small front end to cdrkit powered by Yad/GTK.'
 	newline; boldify $(_ 'Usage:')
@@ -52,14 +60,18 @@ blank			$(_n 'Erase a RW disk')"
 	newline
 }
 
+
 # Ouput a command to a Yad/GTK box. Usage: cmd | out --title="Title" --tail
+
 gtkout() {
 	yad --window-icon=$icon $boxopts \
 		--margins=4 --fontname=monospace \
 		--text-info "$@" --button="gtk-close:1"
 }
 
+
 # Decode audio files with: decode [file]
+
 decode_audio() {
 	_ 'Decoding files from: $audio'
 	for f in "$audio"/*.*
@@ -78,7 +90,9 @@ decode_audio() {
 	done
 }
 
+
 # Burn an ISO image.
+
 burn_iso() {
 	if [ "${iso##*.}" != "iso" ]; then
 		_ 'Not an ISO image: "$iso"'; exit 1
@@ -86,7 +100,9 @@ burn_iso() {
 	wodim -v speed=$speed $options "$iso"
 }
 
+
 # Burn some audio tracks from a directory.
+
 burn_audio() {
 	decode_audio
 	echo "TODO: check_size"
@@ -95,7 +111,9 @@ burn_audio() {
 	rm -rf $tmpdir
 }
 
+
 # Main GUI box function with pure Yad spec
+
 burn_main() {
 	yad --title="$(_ 'Burn-box')" --window-icon=$icon $boxopts \
 		--image=$icon --image-on-top \
@@ -111,7 +129,9 @@ burn_main() {
 		--button="gtk-close:1"
 }
 
+
 # Main function
+
 burn() {
 	# Store box results
 	main=$(burn_main)
@@ -137,6 +157,7 @@ burn() {
 		burn_audio 2>&1 | gtkout --title="$(_n 'Burning Audio')" --tail
 	fi
 }
+
 
 #
 # Commands

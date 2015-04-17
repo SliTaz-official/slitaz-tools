@@ -2,6 +2,7 @@
 #
 # Stopd - Small wrapper to stop daemons on SliTaz.
 #
+
 . /lib/libtaz.sh
 check_root
 

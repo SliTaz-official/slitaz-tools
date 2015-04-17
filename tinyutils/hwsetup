@@ -2,9 +2,10 @@
 # usage: hwsetup [device]
 # e.g.,  hwsetup printer
 # #
-# Copyright (C) 2009-2014 SliTaz GNU/Linux - GNU GPL v3
+# Copyright (C) 2009-2015 SliTaz GNU/Linux - GNU GPL v3
 # Authors : Rohit Joshi <jozee@slitaz.org>
 #
+
 . /lib/libtaz.sh
 . /etc/slitaz/slitaz.conf
 export TEXTDOMAIN='slitaz-tools' #i18n
@@ -16,6 +17,7 @@ CONFIRM_SUGGESTED="no"
 NON_FREE="no"
 DETECTED="no"
 USB_IDS=/usr/share/misc/usb.ids.gz
+
 
 usage() {
 	newline
@@ -45,6 +47,7 @@ ati			$(_n 'ATI (non-free/free) setup.')"
 	newline
 }
 
+
 run_daemon_startup() {
 	# Add server to rcS.conf and avoid duplication.
 	. /etc/rcS.conf
@@ -52,6 +55,7 @@ run_daemon_startup() {
 		sed -i "s/^RUN_DAEMONS=\"\(.*\)\"/RUN_DAEMONS=\"\1 $1\"/" /etc/rcS.conf
 	fi
 }
+
 
 device() {
 	SUGGESTED=""
@@ -93,6 +97,7 @@ device() {
 	esac
 }
 
+
 untested() {
 	newline; separator
 	longline $(_ "Due to a lack of compatible hardware for troubleshooting, \
@@ -102,6 +107,7 @@ failure, bug to SliTaz Bug tracker or Forum.")
 	sleep 1
 }
 
+
 failed() {
 	newline; separator
 	_ 'Failed to setup $DEVICE'
@@ -109,7 +115,9 @@ failed() {
 	sleep 1
 }
 
+
 # Install DEPENDS and/or SUGGESTED
+
 install() {
 	for pkg in $1 ; do
 		# Avoid reinstall
@@ -123,7 +131,9 @@ install() {
 	done
 }
 
+
 # Install DEPENDS and/or SUGGESTED
+
 confirm_install() {
 	for pkg in $1 ; do
 		# Avoid reinstall
@@ -139,6 +149,7 @@ confirm_install() {
 	done
 }
 
+
 add_all_user_to_group() {
 	USERS=$(grep /home /etc/passwd | cut -d: -f1)
 	#echo "checking $USERS in $GROUP"
@@ -151,6 +162,7 @@ add_all_user_to_group() {
 		done
 	done
 }
+
 
 find_usb_device() {
 	case "$DEVICE" in
@@ -188,6 +200,7 @@ find_usb_device() {
 	fi
 }
 
+
 confirm_device() {
 	_ "Which no. is your $DEVICE shown in the above lines (1,2,3,none)? "; read choice
 	case "$choice" in
@@ -206,6 +219,7 @@ confirm_device() {
 	esac
 }
 
+
 hputil() {
 	if [ "$HP" == "1" ]; then
 		install "hplip"
@@ -217,7 +231,9 @@ hputil() {
 	fi
 }
 
+
 # udev now should do this correctly
+
 fix_usb_permissions() {
 	grp=$1
 	if [ "$DETECTED" == "yes" ]; then
@@ -233,17 +249,20 @@ fix_usb_permissions() {
 	fi
 }
 
+
 fix_parallel_permissions() {
 	if [ -f /usr/lib/cups/backend/parallel ] ; then
 		chmod 0755 /usr/lib/cups/backend/parallel
 	fi
 }
 
+
 load_modules() {
 	tazhw detect-pci
 	tazhw detect-usb
 	sleep 1
 }
+
 
 udev() {
 	if [ "$UDEV_RULES" == "yes" ]; then
@@ -253,9 +272,11 @@ udev() {
 	fi
 }
 
+
 xorg() {
 	[ -x /usr/bin/Xorg ] || install "xorg"
 	_ 'Auto configuring Xorg...'
+
 	# Xorg auto configuration.
 	if [ ! -d /etc/X11/xorg.conf.d -a -x /usr/bin/Xorg ]; then
 		_ 'Configuring Xorg...'
@@ -265,6 +286,7 @@ xorg() {
 		tazx config-xorg
 	fi
 }
+
 
 get_wvdial_vars() {
 	PHONE=$(   grep ^Phone         $CONF | cut -d= -f2 | tr -d '[" ]')
@@ -277,6 +299,7 @@ get_wvdial_vars() {
 	[ "x$PASSWORD" == "x''" ] && PASSWORD=
 }
 
+
 set_wvdial_vars() {
 	# wvdial needs something right the equal sign
 	[ x$USERNAME == x ] && USERNAME="''"
@@ -286,6 +309,7 @@ set_wvdial_vars() {
 	s|.*AT+CGDCONT=.*|Init3 = AT+CGDCONT=1,"IP", "'$APN'"|; \
 	s|^Modem.*/dev.*|Modem = '$MODEM'|' -i $CONF
 }
+
 
 wvdialbox_main() {
 	icon=network-transmit-receive
@@ -305,6 +329,7 @@ wvdialbox_main() {
 		--button="gtk-connect:3"
 		# --always-print-result
 }
+
 
 wvdialbox() {
 	# setup your modem
@@ -366,6 +391,7 @@ setup() {
 		printer)
 			load_modules
 			udev
+
 			# check parallel or usb printer
 			if [ -f /proc/sys/dev/parport/parport*/autoprobe* ] ; then
 				fix_parallel_permissions
@@ -374,6 +400,7 @@ setup() {
 				find_usb_device
 				fix_usb_permissions "lp"
 			fi
+
 			#lpinfo -v
 			if [ "$DETECTED" == "yes" ]; then
 				newline
@@ -487,6 +514,7 @@ setup() {
 				failed
 			fi
 			;;
+
 		bluetooth)
 			load_modules
 			udev
@@ -494,6 +522,7 @@ setup() {
 			_n 'Do you want to see if the bluetooth is working'; confirm
 			if [ $? == 0 ]; then
 				newline
+
 				# sanity check: btusb is not loaded automagically for unknown reasons
 				if ! lsmod | grep -q btusb ; then
 					modprobe btusb
@@ -502,6 +531,7 @@ setup() {
 				emsg "$(_n '<b>Bluetooth</b> interfaces')"
 				newline
 				lsusb | grep Bluetooth
+
 				# udev should run bluetoothd automatically
 				bluetoothd
 				sleep 1
@@ -729,7 +759,9 @@ EOT
 	esac
 }
 
+
 # What to do.
+
 case "$1" in
 	-h|--help|help|usage)	usage ;;
 	wvdial)		wvdialbox ;;

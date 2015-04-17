@@ -4,10 +4,11 @@
 # is most important, this tool provides a quick way to connect or change Wi-Fi
 # settings while full network configuration is done in TazPanel.
 #
-# Copyright (C) 2012-2014 SliTaz GNU/Linux - GNU GPL v2
+# Copyright (C) 2012-2015 SliTaz GNU/Linux - GNU GPL v2
 #
 # Authors: Christophe Lincoln <pankso@slitaz.org>
 #
+
 . /lib/libtaz.sh
 export TEXTDOMAIN='slitaz-boxes' #i18n
 
@@ -18,7 +19,9 @@ usage() {
 	newline
 }
 
+
 # Start a Wi-Fi connection
+
 start_wifi() {
 	sed -i \
 		-e s'/^DHCP=.*/DHCP="yes"/' \
@@ -30,8 +33,10 @@ start_wifi() {
 	/etc/init.d/network.sh start
 }
 
+
 # Catch ESSIDs and format output for GTK tree. We get the list of
 # networks by Cell and without spaces.
+
 detect_wifi() {
 	if [ -d /sys/class/net/$WIFI_INTERFACE/wireless ]; then
 		ifconfig $WIFI_INTERFACE up
@@ -69,7 +74,9 @@ detect_wifi() {
 	fi
 }
 
+
 # Prompt for password or connect
+
 connect_main() {
 	case $keytype in
 		WPA)	label="$(_n 'WPA Password:')" ;;
@@ -78,7 +85,7 @@ connect_main() {
 	esac
 	case $keytype in
 		WPA|WEP)
-			icon=network-wireless
+			icon='network-wireless'
 			yad --title="$(_n 'Wi-Fi connection')" --window-icon=$icon \
 				--width=520 --height=140 --on-top --center \
 				--image=$icon --image-on-top \
@@ -89,6 +96,7 @@ connect_main() {
 		*) exit 0 ;;
 	esac
 }
+
 
 connect() {
 	main=$(connect_main)
@@ -109,9 +117,11 @@ connect() {
 	start_wifi
 }
 
+
 # Main GUI box function with pure Yad spec
+
 wifi_main() {
-	icon=network-wireless
+	icon='network-wireless'
 	detect_wifi | yad --title="$(_n 'Wi-Fi network')" --window-icon=$icon \
 		--width=520 --height=300 --on-top --center \
 		--image=$icon --image-on-top \
@@ -123,7 +133,9 @@ wifi_main() {
 		--button="gtk-preferences:2" --button="gtk-close:1"
 }
 
+
 # Main function
+
 wifi() {
 	# Store box results
 	main=$(wifi_main)
@@ -142,6 +154,7 @@ wifi() {
 		connect
 	fi
 }
+
 
 #
 # Script commands

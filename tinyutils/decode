@@ -3,12 +3,14 @@
 # Decode is a cmdline tool to decode all kinds of files such as audio or video.
 # Lets you decode a single file, many files on cmdline or a full directory.
 #
-# Copyright (C) 2012-2014 SliTaz GNU/Linux - BSD License
+# Copyright (C) 2012-2015 SliTaz GNU/Linux - BSD License
 #
 # Author: Christophe Lincoln <pankso@slitaz.org>
 #
+
 . /lib/libtaz.sh
 export TEXTDOMAIN='slitaz-tools' #i18n
+
 
 # NOTES:
 #	Do we need a --out=/output/path option ?
@@ -21,7 +23,9 @@ export TEXTDOMAIN='slitaz-tools' #i18n
 # Functions
 #
 
+
 # Small help and usage.
+
 usage() {
 	cat << EOT
 
@@ -38,8 +42,10 @@ $(boldify "$(_ 'Examples:')")
 EOT
 }
 
+
 # Check if a tool is installed. Don't force users and auto install package
 # Decode is a cmdline line tool, let's have auto install option in GUI.
+
 check_tool() {
 	dec=$1
 	name="$(basename "$file")"
@@ -53,7 +59,9 @@ check_tool() {
 	fi
 }
 
+
 # Decode a file.
+
 decoder() {
 	newline; separator; newline
 	if [ ! -f "$file" ]; then
@@ -82,6 +90,7 @@ decoder() {
 		*) _ 'Unsupported file: $file' ;;
 	esac
 }
+
 
 #
 # Commands

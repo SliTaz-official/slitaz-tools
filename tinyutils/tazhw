@@ -6,11 +6,12 @@
 # option --get-firmware to force installation. GUI uses Yad and is
 # called by args such as all box functions.
 #
-# (c) 2009-2014 SliTaz GNU/Linux - GNU GPL v3
+# (c) 2009-2015 SliTaz GNU/Linux - GNU GPL v3
 #
 # Authors: Christophe Lincoln <pankso@slitaz.org>
 #          Rohit Joshi <jozee@slitaz.org>
 #
+
 . /lib/libtaz.sh
 export TEXTDOMAIN='slitaz-tools' # i18n text mode
 
@@ -35,6 +36,7 @@ $(boldify "$(_n 'Options:')")
 EOT
 }
 
+
 check_firmware() {
 	if [ -x /usr/bin/get-$mod-firmware ]; then
 		if [ ! -d /var/lib/tazpkg/installed/$mod-firmware ]; then
@@ -56,6 +58,7 @@ check_firmware() {
 		fi
 	fi
 }
+
 
 load_module() {
 	if ! lsmod | grep -q "^$mod"; then
@@ -86,8 +89,10 @@ load_module() {
 	. /etc/rcS.conf
 }
 
+
 # Detect PCI devices and load kernel module only at first boot,
 # in LiveCD mode or with the command 'detect-pci'.
+
 detect_pci_devices() {
 	if [ ! -s /var/lib/detected-modules ]; then
 		. /etc/rcS.conf
@@ -102,7 +107,9 @@ detect_pci_devices() {
 	fi
 }
 
+
 # Detect all USB devices.
+
 detect_usb_devices() {
 	if [ -e /sys/bus/usb/devices/usb/usb1 ]; then
 		for product in /sys/bus/usb/devices/*/product
@@ -119,12 +126,16 @@ detect_usb_devices() {
 	fi
 }
 
+
 # Get firmware used by check_firmware()
+
 if [ "$2" == "--get-firmware" ]; then
 	firmware='get'
 fi
 
+
 # What to do.
+
 case "$1" in
 	-i|init)
 		check_root

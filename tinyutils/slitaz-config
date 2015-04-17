@@ -3,9 +3,10 @@
 # SliTaz Config - A tool with all SliTaz Ncurses configs in one place for
 # text mode systems (server, ARM devices)
 #
-# Copyright (C) 2014 SliTaz ARM - BSD License
+# Copyright (C) 2014-2015 SliTaz ARM - BSD License
 # Author: Christophe Lincoln <pankso@slitaz.org>
 #
+
 . /lib/libtaz.sh
 export TEXTDOMAIN='slitaz-tools' #i18n
 
@@ -18,7 +19,9 @@ tmp="$tmpdir/$$"
 height="20"
 width="72"
 
+
 # Use a tmp directory
+
 mkdir -p $tmpdir
 
 quit() {
@@ -30,7 +33,9 @@ quit() {
 # GUI Functions
 #
 
+
 # Coded for the ARM first boot settings
+
 about_post_install() {
 	dialog --cr-wrap \
 		--title "{ $(_ 'Post Installation') }" \
@@ -38,7 +43,9 @@ about_post_install() {
 		--textbox "$about" $height $width
 }
 
+
 # Set root passwd
+
 root_passwd() {
 	dialog --title "{ $(_ 'Root Password') }" --colors \
 		--inputbox "\n$(_ 'Enter new password for \Zb\Z1root')" \
@@ -48,7 +55,9 @@ root_passwd() {
 	echo "root:$passwd" | chpasswd --md5 >/dev/null
 }
 
+
 # Add a new user
+
 add_user() {
 	title2="{ $(_ 'Add User') }"
 
@@ -81,6 +90,7 @@ add_user() {
 	fi
 }
 
+
 set_date() {
 	clear; newline
 	echo "Old date: $(date)"
@@ -89,9 +99,11 @@ set_date() {
 	sleep 4
 }
 
+
 # Catch ESSIDs and format output for Ncurses Dialog or GTK Yad tree.
 # We get the list of networks by Cell and without spaces.
 # Usage: detect_wifi --output=gtk (default output to dialog)
+
 detect_wifi() {
 	. /etc/network.conf
 	ifconfig $WIFI_INTERFACE up
@@ -141,14 +153,18 @@ detect_wifi() {
 	fi
 }
 
+
 # Show message and percentage on the dialog gauge
+
 msg() {
 	sleep 1; echo -e "XXX\n$1\n$MSG\nXXX"
 }
 
+
 # Wireless config so users don't have to edit any config files on post
 # install to get connected. If the wired connection is used it will auto
 # connect with DHCP so no need for a dialog frontend.
+
 wifi_setup() {
 	. /etc/network.conf
 	dialog \
@@ -226,7 +242,9 @@ $(detect_wifi) 2>$tmp
 	} | dialog --title "{ $(_ 'Wi-Fi Config') }" --gauge "" 8 $width 0
 }
 
+
 # Main Dialog menu
+
 main_box() {
 	dialog \
 		--clear --title "$title" \
@@ -259,6 +277,7 @@ main_box() {
 	esac
 }
 
+
 #
 # Handle commands
 #
@@ -273,6 +292,8 @@ case "$1" in
 		done ;;
 esac
 
+
 # Clean exit
+
 #rm -rf ${tmpdir}
 exit 0

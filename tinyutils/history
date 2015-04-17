@@ -2,6 +2,7 @@
 # 
 # Fake history command for Ash.
 #
+
 . /lib/libtaz.sh
 export TEXTDOMAIN='slitaz-tools' #i18n
 
