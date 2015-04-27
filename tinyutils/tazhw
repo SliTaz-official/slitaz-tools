@@ -90,6 +90,20 @@ load_module() {
 }
 
 
+module_name()
+{
+	local mod mod2
+	while read mod; do
+		if [ -d /sys/module -a ! -d /sys/module/$mod ]; then
+			mod2=$(ls -d /sys/module/*/drivers/*:$mod 2>/dev/null | \
+				sed 's|/sys/module/\(.*\)/drivers/.*|\1|')
+			[ "$mod2" ] && mod=$mod2
+		fi
+		echo ${mod//-/_}
+	done
+}
+
+
 # Detect PCI devices and load kernel module only at first boot,
 # in LiveCD mode or with the command 'detect-pci'.
 
@@ -97,7 +111,7 @@ detect_pci_devices() {
 	if [ ! -s /var/lib/detected-modules ]; then
 		. /etc/rcS.conf
 		# We need module_name to match output of lsmod.
-		list=$(lspci -k | grep "driver" | cut -d ":" -f 2 | sed s/-/_/g)
+		list=$(lspci -k | grep "driver" | cut -d ":" -f 2 | module_name)
 		echo "$list" > /var/lib/detected-modules
 		for mod in $(cat /var/lib/detected-modules | uniq)
 		do
