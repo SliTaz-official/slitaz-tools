@@ -94,7 +94,7 @@ module_name()
 {
 	local mod mod2
 	while read mod; do
-		if [ -d /sys/module -a ! -d /sys/module/$mod ]; then
+		if [ -d /sys/module -a ! -d /sys/module/${mod//-/_} ]; then
 			mod2=$(ls -d /sys/module/*/drivers/*:$mod 2>/dev/null | \
 				sed 's|/sys/module/\(.*\)/drivers/.*|\1|')
 			[ "$mod2" ] && mod=$mod2
@@ -113,7 +113,7 @@ detect_pci_devices() {
 		# We need module_name to match output of lsmod.
 		list=$(lspci -k | grep "driver" | cut -d ":" -f 2 | module_name)
 		echo "$list" > /var/lib/detected-modules
-		for mod in $(cat /var/lib/detected-modules | uniq)
+		for mod in $(sort < /var/lib/detected-modules | uniq)
 		do
 			check_firmware
 			load_module
