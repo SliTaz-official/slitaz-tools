@@ -9,6 +9,11 @@ USER_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/slitaz/applications.conf"
 
 EXEC="exec setsid $BROWSER"
 
+[ "$(which $BROWSER)" ] || case "$1" in
+file://*)
+	exec xterm -e "sh -c \"sed 's/<[^>]*>//g;s/&lt;/</g;s/&gt;/>/g;s/&amp;/\\&/g' < ${1#file://} | uniq | less\""
+esac
+
 if [ -z "$XAUTHORITY" ]; then
 	# console session
 	EXECT="$BROWSER"
