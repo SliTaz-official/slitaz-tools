@@ -73,7 +73,7 @@ gtkout() {
 # Decode audio files with: decode [file]
 
 decode_audio() {
-	_ 'Decoding files from: $audio'
+	_ 'Decoding files from: %s' "$audio"
 	for f in "$audio"/*.*
 	do
 		debug "handling $f"
@@ -95,7 +95,7 @@ decode_audio() {
 
 burn_iso() {
 	if [ "${iso##*.}" != "iso" ]; then
-		_ 'Not an ISO image: "$iso"'; exit 1
+		_ 'Not an ISO image: "%s"' "$iso"; exit 1
 	fi
 	wodim -v speed=$speed $options "$iso"
 }
@@ -172,7 +172,7 @@ case "$1" in
 		# Let burn an ISO from cmdline: burn-box -i /path/to/image.iso
 		[ "$iso" == " " ] && iso="$2"
 		if [ ! -f "$iso" ]; then
-			_ 'Missing ISO image "$iso"'; exit 1
+			_ 'Missing ISO image "%s"' "$iso"; exit 1
 		fi
 		burn_iso ;;
 	audio|-a)
@@ -180,7 +180,7 @@ case "$1" in
 		[ "$2" ] && audio="$2"
 		[ "$audio" == "$HOME" ] && unset audio
 		if [ ! -d "$audio" ]; then
-			_ 'Missing audio directory "$audio"'; exit 1
+			_ 'Missing audio directory "%s"' "$audio"; exit 1
 		fi
 		burn_audio ;;
 	blank)

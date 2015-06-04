@@ -66,16 +66,16 @@ msgid "Information"
 msgstr "اطلاعات"
 
 #: tinyutils/tazlocale:136 tinyutils/tazkeymap:41
-msgid "Config file:"
-msgstr ":فایل پیکربندی"
+msgid "Config file: %s"
+msgstr "%s :فایل پیکربندی"
 
 #: tinyutils/tazlocale:137
-msgid "Current locale:"
-msgstr ":منطقه فعلی"
+msgid "Current locale: %s"
+msgstr "%s :منطقه فعلی"
 
 #: tinyutils/tazkeymap:42
-msgid "Current keymap:"
-msgstr ":فعلی Keymap"
+msgid "Current keymap: %s"
+msgstr "%s :فعلی Keymap"
 
 #: tinyutils/tazkeymap:51
 msgid "SliTaz keyboard setting"
@@ -123,16 +123,15 @@ msgstr "خروج"
 #: tinyutils/tazx:276
 #, fuzzy
 msgid "Failed to setup driver"
-msgstr "نشد $DEVICE موفق به نصب "
+msgstr "نشد %s موفق به نصب "
 
 #: tinyutils/tazx:276
 msgid "(unknown hardware)"
 msgstr ""
 
 #: tinyutils/tazx:289 tinyutils/hwsetup:117
-#, sh-format
-msgid "Installing pkg: $pkg"
-msgstr "$pkg :در حال نصب پکیج"
+msgid "Installing pkg: %s"
+msgstr "%s :در حال نصب پکیج"
 
 #: tinyutils/tazx:307 tinyutils/tazx:423
 #, fuzzy
@@ -249,29 +248,24 @@ msgid "/path/to/files/*"
 msgstr "/path/to/files/*"
 
 #: tinyutils/decode:47
-#, sh-format
-msgid "Missing decoder: $dec"
-msgstr "$dec :گم شده (Decoder) رمز گشای "
+msgid "Missing decoder: %s"
+msgstr "%s :گم شده (Decoder) رمز گشای "
 
 #: tinyutils/decode:48 tinyutils/decode:80
-#, sh-format
-msgid "Skipping file: $name"
-msgstr "$name :در حال گذر (نادیده گرفتن) از فایل"
+msgid "Skipping file: %s"
+msgstr "%s :در حال گذر (نادیده گرفتن) از فایل"
 
 #: tinyutils/decode:51
-#, sh-format
-msgid "Decoding: $name"
-msgstr "$name :در حال رمزگشایی"
+msgid "Decoding: %s"
+msgstr "%s :در حال رمزگشایی"
 
 #: tinyutils/decode:60
-#, sh-format
-msgid "No file: $file"
-msgstr "$file :فایل موجود نیست"
+msgid "No file: %s"
+msgstr "%s :فایل موجود نیست"
 
 #: tinyutils/decode:82
-#, sh-format
-msgid "Unsupported file: $file"
-msgstr "$file :فایل پشتیبانی نشده"
+msgid "Unsupported file: %s"
+msgstr "%s :فایل پشتیبانی نشده"
 
 #: tinyutils/terminal:10
 msgid "configurable SliTaz wrapper for terminal."
@@ -290,14 +284,12 @@ msgid "Print out this message"
 msgstr "چاپ این پیام"
 
 #: tinyutils/terminal:15
-#, sh-format
-msgid "Width and height of terminal window ($GEOMETRY)"
-msgstr "($GEOMETRY) پهنا و ارتفاع پنجره ی ترمینال"
+msgid "Width and height of terminal window (%s)"
+msgstr "(%s) پهنا و ارتفاع پنجره ی ترمینال"
 
 #: tinyutils/terminal:16
-#, sh-format
-msgid "Title name for window (\"$TITLE\")"
-msgstr "(\"$TITLE\") نام عنوان پنجره"
+msgid "Title name for window (\"%s\")"
+msgstr "(\"%s\") نام عنوان پنجره"
 
 #: tinyutils/terminal:17
 msgid "Don't close terminal after command finished"
@@ -308,9 +300,8 @@ msgid "Command to execute (must be last in line)"
 msgstr "فرمان برای اجرا (باید آخرین فرمان در خط باشد)"
 
 #: tinyutils/terminal:21
-#, sh-format
-msgid "Help for $TERMINAL:"
-msgstr ":$TERMINAL راهنمایی درمورد "
+msgid "Help for %s:"
+msgstr ":%s راهنمایی درمورد "
 
 #: tinyutils/hwsetup:22
 msgid "SliTaz Setup configuration"
@@ -369,30 +360,26 @@ msgid "confirm before installing optional dependencies"
 msgstr ".درخواست تائید قبل از نصب وابسته های اختیاری"
 
 #: tinyutils/hwsetup:98
-#, sh-format
 msgid ""
-"Due to a lack of compatible hardware for troubleshooting, this $DEVICE "
+"Due to a lack of compatible hardware for troubleshooting, this %s "
 "device has not been properly tested. Please report any success, failure, bug "
 "to SliTaz Bug tracker or Forum."
 msgstr ""
 ".اطلاع دهید SliTaz دستگاه به درستی تست نشده است.لطفا هرگونه موفقیت، شکست یا "
-"باگ در دستگاه را به انجمن یا پیگیری باگ های $DEVICE به علت کمبود سخت افزار "
+"باگ در دستگاه را به انجمن یا پیگیری باگ های %s به علت کمبود سخت افزار "
 "هماهنگ برای عیب یابی، این"
 
 #: tinyutils/hwsetup:107
-#, sh-format
-msgid "Failed to setup $DEVICE"
-msgstr "نشد $DEVICE موفق به نصب "
+msgid "Failed to setup %s"
+msgstr "نشد %s موفق به نصب "
 
 #: tinyutils/hwsetup:131
-#, sh-format
-msgid "Would you like to install pkg: $pkg"
-msgstr "$pkg :آیا مایلید که این پکیج را نصب کنید"
+msgid "Would you like to install pkg: %s"
+msgstr "%s :آیا مایلید که این پکیج را نصب کنید"
 
 #: tinyutils/hwsetup:148
-#, sh-format
-msgid "adding $user to $grp"
-msgstr "$grpبه $user در حال افزودن "
+msgid "adding %s to %s"
+msgstr "%sبه %s در حال افزودن "
 
 #: tinyutils/hwsetup:171
 msgid "Detected USB Device : Vendor : Product"
@@ -403,14 +390,12 @@ msgid "Do you want to use hp-setup utility"
 msgstr "استفاده کنید HP آیا مایلید از ابزار نصب "
 
 #: tinyutils/hwsetup:228
-#, sh-format
-msgid "Verify $DEVICE Permissions"
-msgstr ".را تائید کنید $DEVICE مجوز های "
+msgid "Verify %s Permissions"
+msgstr ".را تائید کنید %s مجوز های "
 
 #: tinyutils/hwsetup:229
-#, sh-format
-msgid "Your $DEVICE must be in $grp group with rw-rw-rw- permissions"
-msgstr "rw-rw-rw باشد با مجوز های $grp شما باید در گروه $DEVICE"
+msgid "Your %s must be in %s group with rw-rw-rw- permissions"
+msgstr "rw-rw-rw باشد با مجوز های %s شما باید در گروه %s"
 
 #: tinyutils/hwsetup:250
 msgid "New udev rules are added by a package"
@@ -520,9 +505,8 @@ msgid "Camera is set up; please use gphoto2 to import photos"
 msgstr "برای وارد کردن عکس استفاده کنید gphoto2 دوربین نصب شده است؛ لطفا از "
 
 #: tinyutils/hwsetup:483
-#, sh-format
-msgid "Quick start guide: $guide_url"
-msgstr "$guide_url :راهنمای شروع سریع"
+msgid "Quick start guide: %s"
+msgstr "%s :راهنمای شروع سریع"
 
 #: tinyutils/hwsetup:494
 msgid "Do you want to see if the bluetooth is working"
@@ -549,10 +533,9 @@ msgid "pairing with remote bluetooth devices..."
 msgstr "...در حال جفت شدن با دستگاه بلوتوث راه دور"
 
 #: tinyutils/hwsetup:520 tinyutils/hwsetup:541
-#, sh-format
-msgid "You can manually edit the configuration files in $bt if need be"
+msgid "You can manually edit the configuration files in %s if need be"
 msgstr ""
-".به صورت دستی در صورت نیاز ویرایش کنید $bt شما میتوانید فایل های پیکربندی را "
+".به صورت دستی در صورت نیاز ویرایش کنید %s شما میتوانید فایل های پیکربندی را "
 "در "
 
 #: tinyutils/hwsetup:534
@@ -584,14 +567,12 @@ msgid "Do you want to configure wvdial"
 msgstr "را پیکربندی کنید wvdial آیا میخواهید "
 
 #: tinyutils/hwsetup:567
-#, sh-format
-msgid "Edit $wc for phone number, login name, password and pin"
-msgstr "برای شماره تلفن، نام کاربری، رمز عبور و کد پین$wc ویرایش "
+msgid "Edit %s for phone number, login name, password and pin"
+msgstr "برای شماره تلفن، نام کاربری، رمز عبور و کد پین%s ویرایش "
 
 #: tinyutils/hwsetup:568
-#, sh-format
-msgid "Add DNS address of your provider in $rc"
-msgstr " اضافه کنید $rc ارائه دهنده خود را در DNS آدرس "
+msgid "Add DNS address of your provider in %s"
+msgstr " اضافه کنید %s ارائه دهنده خود را در DNS آدرس "
 
 #: tinyutils/hwsetup:577
 msgid "Setting IPTABLES_RULES to yes in /etc/slitaz/firewall.conf"
@@ -612,15 +593,13 @@ msgstr "استفاده کنید X برای پیکربندی Nvidia آیا مای
 
 #: tinyutils/hwsetup:610 tinyutils/hwsetup:649 tinyutils/hwsetup:681
 #: tinyutils/hwsetup:714
-#, sh-format
-msgid "Your previous config is in $xorg60"
-msgstr "قرار دارد $xorg60 پیکربندی پیشین شما در "
+msgid "Your previous config is in %s"
+msgstr "قرار دارد %s پیکربندی پیشین شما در "
 
 #: tinyutils/hwsetup:611 tinyutils/hwsetup:650
-#, sh-format
-msgid "If nvidia fails, you can remove $xorg55 to restore previous config."
+msgid "If nvidia fails, you can remove %s to restore previous config."
 msgstr ""
-".را حذف کنید تا پیکربندی پیشین شما بازگردانی شود $xorg55 ناموفق بود، شما "
+".را حذف کنید تا پیکربندی پیشین شما بازگردانی شود %s ناموفق بود، شما "
 "میتوانید Nvidia اگر "
 
 #: tinyutils/hwsetup:618
@@ -649,9 +628,8 @@ msgid "Do you want to configure X using free nvidia driver"
 msgstr "پیکربندی نمایید nvidia را با استفاده از درایور آزاد X آیا میخواهید "
 
 #: tinyutils/hwsetup:652
-#, sh-format
-msgid "Create $xorg55short configured with nv driver."
-msgstr "nv پیکربندی شده با درایور $xorg55short ایجاد "
+msgid "Create %s configured with nv driver."
+msgstr "nv پیکربندی شده با درایور %s ایجاد "
 
 #: tinyutils/hwsetup:678
 msgid "Do you want to configure X using non-free catalyst ATI (radeon) driver"
@@ -659,10 +637,9 @@ msgstr ""
 "پیکر بندی نمایید ATI (Radeon) را با استفاده از درایور غیر آزاد X آیا مایلید "
 
 #: tinyutils/hwsetup:682
-#, sh-format
-msgid "If ati fails, you can remove $xorg55 to restore previous config."
+msgid "If ati fails, you can remove %s to restore previous config."
 msgstr ""
-".را برای بازگردانی پیکربندی قبلی حذف نمایید $xorg55 ناموفق بود، شما میتوانید "
+".را برای بازگردانی پیکربندی قبلی حذف نمایید %s ناموفق بود، شما میتوانید "
 "ati اگر "
 
 #: tinyutils/hwsetup:691
@@ -686,16 +663,14 @@ msgstr ""
 "پیکر بندی نمایید ATI (Radeon) را با استفاده از درایور آزاد X آیا مایلید "
 
 #: tinyutils/hwsetup:715
-#, sh-format
-msgid "If ATI fails, you can remove $xorg55 to restore previous config."
+msgid "If ATI fails, you can remove %s to restore previous config."
 msgstr ""
-"را برای بازگردانی پیکربندی پیشین حذف نمایید $xorg55 ناموفق بود، شما میتوانید "
+"را برای بازگردانی پیکربندی پیشین حذف نمایید %s ناموفق بود، شما میتوانید "
 "ATI اگر"
 
 #: tinyutils/hwsetup:717
-#, sh-format
-msgid "Create $xorg55short configured with radeon driver."
-msgstr ".radeon پیکربندی شده با درایور $xorg55short ایجاد "
+msgid "Create %s configured with radeon driver."
+msgstr ".radeon پیکربندی شده با درایور %s ایجاد "
 
 #: tinyutils/hwsetup:723
 msgid "Checking if ATI radeon is working..."
@@ -802,7 +777,7 @@ msgid "Root Password"
 msgstr ":رمز عبور"
 
 #: tinyutils/slitaz-config:44
-msgid "Enter new password for \\Zb\\Z1root"
+msgid "Enter new password for %s"
 msgstr ""
 
 #: tinyutils/slitaz-config:53
@@ -814,8 +789,7 @@ msgid "Enter login name for the new \\Zb\\Z4user"
 msgstr ""
 
 #: tinyutils/slitaz-config:61
-#, sh-format
-msgid "Enter password for user \\Zb\\Z4$user"
+msgid "Enter password for user \\Zb\\Z4%s"
 msgstr ""
 
 #: tinyutils/slitaz-config:121
@@ -864,8 +838,7 @@ msgid "Wi-Fi Password"
 msgstr ":رمز عبور"
 
 #: tinyutils/slitaz-config:177 tinyutils/slitaz-config:188
-#, sh-format
-msgid "Enter Wi-Fi key (password) for \\Zb\\Z4$essid"
+msgid "Enter Wi-Fi key (password) for \\Zb\\Z4%s"
 msgstr ""
 
 #: tinyutils/slitaz-config:197
@@ -874,7 +847,7 @@ msgstr ""
 
 #: tinyutils/slitaz-config:201
 #, fuzzy
-msgid "Configuring: /etc/network.conf..."
+msgid "Configuring: %s..."
 msgstr "Xorg در حال پیکربندی "
 
 #: tinyutils/slitaz-config:211
@@ -886,8 +859,7 @@ msgid "Checking connection..."
 msgstr ""
 
 #: tinyutils/slitaz-config:220
-#, sh-format
-msgid "IP address: $ip"
+msgid "IP address: %s"
 msgstr ""
 
 #: tinyutils/slitaz-config:222

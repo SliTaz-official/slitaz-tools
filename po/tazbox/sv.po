@@ -190,8 +190,7 @@ msgid "Manage"
 msgstr ""
 
 #: tazbox/tazbox:189
-#, sh-format
-msgid "Locale was set to $locale"
+msgid "Locale was set to %s"
 msgstr ""
 
 #: tazbox/tazbox:202
@@ -255,8 +254,7 @@ msgid "Location/City"
 msgstr ""
 
 #: tazbox/tazbox:331
-#, sh-format
-msgid "TimeZone was set to $timezone"
+msgid "TimeZone was set to %s"
 msgstr ""
 
 #: tazbox/tazbox:367
@@ -300,13 +298,11 @@ msgid "TazPkg log"
 msgstr ""
 
 #: tazbox/tazbox:464
-#, sh-format
-msgid "REMOVE: $pkg"
+msgid "REMOVE: %s"
 msgstr ""
 
 #: tazbox/tazbox:468
-#, sh-format
-msgid "INSTALL: $pkg"
+msgid "INSTALL: %s"
 msgstr ""
 
 #: tazbox/tazbox:471

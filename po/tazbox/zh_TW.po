@@ -187,9 +187,8 @@ msgid "Manage"
 msgstr "管理"
 
 #: tazbox/tazbox:189
-#, sh-format
-msgid "Locale was set to $locale"
-msgstr "Locale已設為 $locale"
+msgid "Locale was set to %s"
+msgstr "Locale已設為 %s"
 
 #: tazbox/tazbox:202
 msgid "SliTaz keymap"
@@ -252,9 +251,8 @@ msgid "Location/City"
 msgstr "所在地/城市"
 
 #: tazbox/tazbox:331
-#, sh-format
-msgid "TimeZone was set to $timezone"
-msgstr "時區已設為 $timezone"
+msgid "TimeZone was set to %s"
+msgstr "時區已設為 %s"
 
 #: tazbox/tazbox:367
 msgid "Please wait"
@@ -297,14 +295,12 @@ msgid "TazPkg log"
 msgstr "TazPkg 紀錄"
 
 #: tazbox/tazbox:464
-#, sh-format
-msgid "REMOVE: $pkg"
-msgstr "移除: $pkg"
+msgid "REMOVE: %s"
+msgstr "移除: %s"
 
 #: tazbox/tazbox:468
-#, sh-format
-msgid "INSTALL: $pkg"
-msgstr "安裝: $pkg"
+msgid "INSTALL: %s"
+msgstr "安裝: %s"
 
 #: tazbox/tazbox:471
 msgid "Done!"

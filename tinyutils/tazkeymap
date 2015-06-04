@@ -46,8 +46,8 @@ system_config() {
 
 case "$1" in
 	info)
-		_n 'Config file:'; echo " /etc/keymap.conf"
-		_n 'Current keymap:'; echo " $(cat /etc/keymap.conf)" ;;
+		_ 'Config file: %s' '/etc/keymap.conf'
+		_ 'Current keymap: %s' "$(cat /etc/keymap.conf)" ;;
 	list)
 		list_keymaps | sort ;;
 	"")

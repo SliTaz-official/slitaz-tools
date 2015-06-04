@@ -20,9 +20,7 @@
 
 # Internationalization
 
-. /usr/bin/gettext.sh
-TEXTDOMAIN='slitaz-tools'
-export TEXTDOMAIN
+export TEXTDOMAIN='slitaz-tools'
 
 
 #
@@ -36,20 +34,20 @@ usage() {
 	name=$(basename $0)
 	cat << EOT
 
-$(boldify $(gettext "Usage:")) $name [iso|command] [--options]
+$(boldify $(_n 'Usage:')) $name [iso|command] [--options]
 
-$(gettext "SliTaz frugal installation")
+$(_n 'SliTaz frugal installation')
 
-$(boldify $(gettext "Commands:"))
-  info        $(gettext "Display install path and size stats")
-  clean       $(gettext "Remove all frugal files")
-  grub-ex     $(gettext "Show GRUB configuration example")
+$(boldify $(_n 'Commands:'))
+  info        $(_n 'Display install path and size stats')
+  clean       $(_n 'Remove all frugal files')
+  grub-ex     $(_n 'Show GRUB configuration example')
 
-$(boldify $(gettext "Options:"))
-  --root=     $(gettext "Set root installation path")
-  --debug     $(gettext "Display some useful debug information")
+$(boldify $(_n 'Options:'))
+  --root=     $(_n 'Set root installation path')
+  --debug     $(_n 'Display some useful debug information')
 
-$(boldify $(gettext "Examples:"))
+$(boldify $(_n 'Examples:'))
   $name slitaz-rolling.iso
   $name slitaz-5.0.iso --root=/boot/frugal
 
@@ -60,7 +58,7 @@ EOT
 # GRUB config example.
 
 grub_example() {
-	cat << EOT
+	cat <<EOT
 title SliTaz GNU/Linux (frugal)
 root (hd0,0)
 kernel /boot/frugal/bzImage root=/dev/null lang=en kmap=us
@@ -76,60 +74,56 @@ EOT
 case "$1" in
 	"") usage ;;
 	info)
-		newline
-		boldify "Frugal info"
-		separator 
+		title 'Frugal info'
 
 		# First check if we are running in frugal mode
 		if fgrep -q 'root=/dev/null' /proc/cmdline; then
-			gettext "Frugal system running detected"; newline
-			separator && newline && exit 0
+			_ 'Frugal system running detected'
+			footer; exit 0
 		fi
-		gettext "Installation directory:"; indent 30 $(colorize 36 "$root")
-		gettext "Kernel size:"
+		_n 'Installation directory:'; indent 30 $(colorize 36 "$root")
+		_n 'Kernel size:'
 		if [ -f "${root}/bzImage" ]; then
 			indent 30 $(du -sh ${root}/bzImage | awk '{print $1}')
 		else
-			indent 30 $(boldify "N/A")
+			indent 30 $(boldify 'N/A')
 		fi
-		gettext "Rootfs size:"
+		_n 'Rootfs size:'
 		if [ -f "${root}/rootfs.gz" ]; then
 			indent 30 $(du -sh ${root}/rootfs.gz | awk '{print $1}')
 		else
-			indent 30 $(boldify "N/A")
+			indent 30 $(boldify 'N/A')
 		fi
-		separator && newline ;;
+		footer ;;
 	clean)
 		check_root
-		gettext "Cleaning:"; echo " $root"
+		_n 'Cleaning:'; echo " $root"
 		rm -rf ${root}/* ;;
 	grub-ex)
-		newline
-		boldify "GRUB config example"
-		separator
+		title 'GRUB config example'
 		grub_example
-		separator && newline ;;
+		footer ;;
 	*)
 		iso="$1"
 		loop="/tmp/frugal-$$"
 		check_root
-		newline
-		boldify "SliTaz Frugal"
-		separator
+		title 'SliTaz Frugal'
 		if [ ! -f "$iso" ]; then
-			gettext "Unable to find ISO image:"; colorize 31 " $iso"
-			newline && return 1
+			_n 'Unable to find ISO image:'; colorize 31 " $iso"
+			newline; return 1
 		fi
 		mkdir -p ${root}
 		debug "$iso $root"
-		gettext "Mounting ISO image..."
+		_n 'Mounting ISO image...'
 		mkdir -p ${loop}
 		mount -o loop "$iso" ${loop} 2>/dev/null
 		status
-		gettext "Installing the Kernel..."
+
+		_n 'Installing the Kernel...'
 		cp -a ${loop}/boot/bzImage ${root}
 		status
-		gettext "Installing the root filesystem..."
+
+		_n 'Installing the root filesystem...'
 		if [ -f ${loop}/boot/rootfs1.gz ]; then
 			cd ${loop}/boot
 			cat $(ls -r rootfs*.gz) > ${root}/rootfs.gz
@@ -140,11 +134,12 @@ case "$1" in
 		status
 
 		# Umount the loop device
-		gettext "Unmounting ISO image..."
+		_n 'Unmounting ISO image...'
 		sleep 1
 		umount ${loop} && rm -rf ${loop}
 		status
-		separator && newline ;;
+
+		footer ;;
 esac
 
 exit 0

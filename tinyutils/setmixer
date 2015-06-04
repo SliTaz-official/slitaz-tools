@@ -7,12 +7,11 @@
 
 # Internationalization
 
-. /usr/bin/gettext.sh
-TEXTDOMAIN='slitaz-tools'
-export TEXTDOMAIN
+. /lib/libtaz.sh
+export TEXTDOMAIN='slitaz-tools'
 
 
-gettext "Setting default mixer volumes... "
+_n 'Setting default mixer volumes... '
 
 amixer -s -q <<EOF
 set Master 75% unmute
@@ -61,7 +60,7 @@ set "SB Live Analog/Digital Output Jack" off
 set "Audigy Analog/Digital Output Jack" off
 EOF
 
-gettext "Done"; echo
+status
 
 # Store config
 alsactl store

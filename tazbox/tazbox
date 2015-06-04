@@ -14,16 +14,16 @@ export TEXTDOMAIN='tazbox' # i18n
 
 # download dir (may be in a config file)
 
-DOWNLOADS=$HOME/Downloads
+DOWNLOADS="$HOME/Downloads"
 
 
 # some constants to be used inside functions
 
-tmp=/tmp/keymap.list
-db=/usr/share/i18n/locales
-zi=/usr/share/zoneinfo/
-ztab=${zi}zone-mini.tab
-csv=/tmp/freegeoip.csv
+tmp='/tmp/keymap.list'
+db='/usr/share/i18n/locales'
+zi='/usr/share/zoneinfo/'
+ztab="${zi}zone-mini.tab"
+csv='/tmp/freegeoip.csv'
 
 
 #
@@ -58,7 +58,7 @@ tazapps		$(_ 'Configure SliTaz default applications')"
 # try to find icon in .desktop files
 
 find_icon() {
-	local_desktop=$(find $HOME/.local/share/applications
+	local_desktop=$(find $HOME/.local/share/applications \
 		-name ${1##*/}.desktop 2&>/dev/null | head -n1)
 	system_desktop=$(find /usr/share/applications \
 		-name ${1##*/}.desktop 2&>/dev/null | head -n1)
@@ -71,7 +71,7 @@ find_icon() {
 # su frontend GUIs
 
 su_main() {
-	CMD1="$1"; shift; CMD2="$(echo $@ | sed 's|&|&amp;|g')"
+	CMD1="${1%% *}"; CMD2="$(echo "${1#* }" | sed 's|&|&amp;|g')"
 	: ${icon=$(find_icon $CMD1)}
 	icon="${icon:-dialog-password}"
 
@@ -99,7 +99,7 @@ su_error() {
 # user may press cancel on download.
 
 cancel_dl() {
-	if [ "$?" == 1 ]; then
+	if [ "$?" -eq 1 ]; then
 		_ "CANCEL"
 		rm -f $DOWNLOADS/$(basename $url)
 	fi
@@ -112,10 +112,10 @@ output_command() {
 	: ${title=$(_n 'TazBox Output')}
 	: ${icon=dialog-information}
 
-	yad --title="$title" --window-icon=$icon \
-		--geometry="600x220+0-24" --fore="#ffffff" --back="#000000" \
+	yad --title="$title" --window-icon="$icon" \
+		--geometry='600x220+0-24' --fore='#ffffff' --back='#000000' \
 		--text-info --fontname=monospace --wrap $opts \
-		--button="gtk-close:1"
+		--button='gtk-close:1'
 }
 
 
@@ -123,9 +123,9 @@ output_command() {
 
 logout_main() {
 	icon='/usr/share/pixmaps/slitaz-icon.png'
-	yad --title="$(_n 'SliTaz Logout')" --window-icon=$icon \
-		--on-top --center --height=130 \
-		--image=$icon --image-on-top \
+	yad --title="$(_n 'SliTaz Logout')" --window-icon="$icon" \
+		--on-top --center --height='130' \
+		--image="$icon" --image-on-top \
 		--text="<b>$(_n 'SliTaz Logout - Please choose an action:')</b>" \
 		--always-print-result \
 		--button "$(_n 'Close X session')!system-log-out:4" \
@@ -155,8 +155,8 @@ setup_main() {
 	keymap=$(cat $tmp | sort | tr "\n" "!")
 	timezone=$(find $zi -type f | sed s,$zi,,g | grep -v -F '.tab' | tr "\n" "!")
 	yad --title="$(_n 'SliTaz Initial Setup')" --window-icon=$icon \
-		--width=500 \
-		--image=$icon --image-on-top \
+		--width='500' \
+		--image="$icon" --image-on-top \
 		--text="<big>$(_n 'Here you can set your preferences \n for <b>locale, keymap and timezone</b>.')</big>" \
 		--form \
 		--field "$(_n 'Locale'):CB" $locale \
@@ -167,12 +167,12 @@ setup_main() {
 
 setup() {
 	choices=$(setup_main)
-	locale=$(echo $choices | cut -d"|" -f1)
-	keymap=$(echo $choices | cut -d"|" -f2)
-	timezone=$(echo $choices | cut -d"|" -f3)
-	[ $locale ] && tazlocale init $locale
-	[ $keymap ] && tazkeymap init $keymap
-	[ $timezone ] && echo $timezone > /etc/TZ
+	locale=$(  echo $choices | cut -d'|' -f1)
+	keymap=$(  echo $choices | cut -d'|' -f2)
+	timezone=$(echo $choices | cut -d'|' -f3)
+	[ -n "$locale" ] && tazlocale init $locale
+	[ -n "$keymap" ] && tazkeymap init $keymap
+	[ -n "$timezone" ] && echo $timezone > /etc/TZ
 }
 
 
@@ -187,14 +187,14 @@ locale_main() {
 		ll_CC=${locale%%@*}
 		echo -e "${ll_CC##*_}\n$locale\n$desc"
 	done | \
-	yad --title="$(_n 'SliTaz locale')" --window-icon=$icon \
-		--width=600 --height=380 --sticky --on-top --center \
-		--image=$icon --image-on-top \
+	yad --title="$(_n 'SliTaz locale')" --window-icon="$icon" \
+		--width='600' --height='380' --sticky --on-top --center \
+		--image="$icon" --image-on-top \
 		--text="<b>$(_n 'Language configuration')</b> \
 \n\n$(_ 'Tip: manage locales list by installing/removing locale packages.')" \
 		--list --column="$(_n 'Flag'):IMG" --column $(_n 'Name') \
 		--column $(_n 'Description') \
-		--print-column=2 --separator='' \
+		--print-column='2' --separator='' \
 		--button="$(_n 'Manage')!stock_properties:2" \
 		--button="gtk-cancel:1" --button="gtk-ok:0"
 }
@@ -211,7 +211,7 @@ locale() {
 	# System language configuration.
 	if [ "$locale" ]; then
 		tazlocale $locale
-		tazbox notify "$(_ 'Locale was set to $locale')" \
+		tazbox notify "$(_ 'Locale was set to %s' "$locale")" \
 			preferences-desktop-locale 3
 	fi
 }
@@ -238,9 +238,9 @@ keymap_main() {
 keymap() {
 	keymap=$(keymap_main)
 	# Deal with --button values
-	[ x$? == x1 ] && exit 0
+	[ "$?" -eq 1 ] && exit 0
 	# System keymap configuration
-	[ "$keymap" ] && tazkeymap $keymap
+	[ -n "$keymap" ] && tazkeymap $keymap
 }
 
 
@@ -272,16 +272,16 @@ tz_list() {
 
 tz_suggest() {
 	CountryCode=$(geoip)
-	if [ "x$CountryCode" != x ]; then
-		if [ "x$(tz_list $CountryCode)" != x ]; then
+	if [ -n "$CountryCode" ]; then
+		if [ -n "$(tz_list $CountryCode)" ]; then
 			CountryName=$(cut -d, -f3 $csv)
-			yad --title="$(_ 'SliTaz TZ')" --window-icon=$icon \
+			yad --title="$(_ 'SliTaz TZ')" --window-icon="$icon" \
 			--on-top --center \
-			--image=$CountryCode --image-on-top \
+			--image="$CountryCode" --image-on-top \
 			--text="$(_ 'Suggested location:') <b>$CountryName</b>\n
 $(_ 'Are you agreed?')" \
-			--button="gtk-yes:0" --button="gtk-no:1"
-			[ $? == 0 ] && echo $CountryCode
+			--button='gtk-yes:0' --button='gtk-no:1'
+			[ "$?" -eq 0 ] && echo $CountryCode
 		fi
 	fi
 }
@@ -295,18 +295,18 @@ tz_select() {
 
 		for tzfile in $(find $zi -type f -regex '.*info/[ABCEIMP].*'); do
 			grep -m1 $(basename $tzfile) $ztab
-		done | cut -d'	' -f1 | sort -u > $tmpcc
+		done | cut -d$'\t' -f1 | sort -u > $tmpcc
 
 		for CC in $(cat $tmpcc); do
 			cat << EOT
 $CC
 $CC
-$(grep -m1 "$CC	" ${zi}iso3166.tab | cut -d'	' -f2)
+$(grep -m1 "$CC	" ${zi}iso3166.tab | cut -d$'\t' -f2)
 EOT
 		done | \
-		yad --title="$(_ 'SliTaz TZ')" --window-icon=$icon \
-			--width=500 --height=380 --on-top --center \
-			--image=$icon --image-on-top \
+		yad --title="$(_ 'SliTaz TZ')" --window-icon="$icon" \
+			--width='500' --height='380' --on-top --center \
+			--image="$icon" --image-on-top \
 			--text="<b>$(_ 'TimeZone Configuration')</b> \
 \n$(_ 'Select country and press "Forward" or manually select timezone file.') \
 \n\n$(_ 'Tip: manage timezones list by installing/removing locale packages.')" \
@@ -316,13 +316,13 @@ EOT
 			--button="$(_n 'Manual')!gtk-index:2" \
 			--button="gtk-go-forward:0" \
 			--button="gtk-cancel:1" --always-print-result \
-			--print-column=2 --separator=''
+			--print-column='2' --separator=''
 		;;
 	xindex)
 		# manual selection of file with timezone info
-		yad --title="$(_ 'SliTaz TZ')" --window-icon=$icon \
-			--width=500 --on-top --center \
-			--image=$icon --image-on-top \
+		yad --title="$(_ 'SliTaz TZ')" --window-icon="$icon" \
+			--width='500' --on-top --center \
+			--image="$icon" --image-on-top \
 			--text="<b>$(_ 'TimeZone Configuration')</b>\n$(_ 'Select time zone')" \
 			--form --field=":FL" ${zi}UTC --separator='' | \
 			sed "s|$zi||"
@@ -330,12 +330,12 @@ EOT
 	*)
 		# second pass - city/place
 		list=$(tz_list $1)
-		icon=$1
+		icon="$1"
 		if [ $(echo "$list" | wc -l) != 1 ]; then
 			echo "$list" | \
-			yad --title="$(_ 'SliTaz TZ')" --window-icon=$icon \
-				--width=500 --height=380 --on-top --center \
-				--image=$icon --image-on-top \
+			yad --title="$(_ 'SliTaz TZ')" --window-icon="$icon" \
+				--width='500' --height='380' --on-top --center \
+				--image="$icon" --image-on-top \
 				--text="<b>$(_ 'TimeZone Configuration')</b>\n$(_ 'Select location')" \
 				--list --column $(_n 'Location/City') --separator=''
 		else
@@ -347,24 +347,24 @@ EOT
 
 
 tz() {
-	icon=clock
+	icon='clock'
 	arg=$(tz_suggest)
 
 	timezone=$(tz_select $arg)
 	case $? in
 		1) exit 0 ;;
-		0) [ x$arg == x ] && timezone=$(tz_select "$timezone")
-			[ x$timezone == x ] && exit 0
+		0) [ -n "$arg" ] && timezone=$(tz_select "$timezone")
+			[ -z "$timezone" ] && exit 0
 			timezone=$(find $zi -name $timezone | grep -v -E "posix|right" | \
 				sed "s|$zi||") ;;
 		2) timezone=$(tz_select "index") ;;
 		4) tazbox manage_i18n main;;
 	esac
 
-	[ "x$timezone" == x ] && exit 0
+	[ -z "$timezone" ] && exit 0
 	echo $timezone > /etc/TZ
 	export TZ=$timezone
-	tazbox notify "$(_ 'TimeZone was set to $timezone')" $icon 3
+	tazbox notify "$(_ 'TimeZone was set to %s' "$timezone")" $icon 3
 	rm -f $tmpcc
 }
 
@@ -383,19 +383,17 @@ if_installed() {
 
 # get package's description, install flag and sizes
 
-desc_etc()
-{
-	INFO="$(grep -m1 -A3 -x -F $1 /var/lib/tazpkg/packages.txt)"
-	DESC=$(echo "$INFO" | sed -n 3p)
-	if if_installed $1; then
-		INST="TRUE"; echo $1 >> $ORIG_LIST
+desc_etc() {
+	if grep -q "^$1"$'\t' /var/lib/tazpkg/installed.info; then
+		echo 'TRUE' >> $PKGS_LIST; echo $1 >> $ORIG_LIST
 	else
-		INST="FALSE"
+		echo 'FALSE' >> $PKGS_LIST
 	fi
-	SIZES=$(echo "$INFO" | sed -n 4p)
-	SIZE1=${SIZES%% *}
-	SIZE2=$(echo $SIZES | cut -d' ' -f2 | tr -d '(')
-	echo -e "$INST\n$1\n$DESC\n${SIZE1//.0}\n${SIZE2//.0}" >> $PKGS_LIST
+	awk -F$'\t' -vp="$1" '
+		($1==p){
+			split($7, s, " ");
+			printf "%s\n%s\n%s\n%s\n", $1, $4, s[1], s[2];
+		}' /var/lib/tazpkg/packages.info >> $PKGS_LIST
 }
 
 
@@ -417,56 +415,54 @@ manage_i18n() {
 	NEW_LIST=$(mktemp)
 	LIST1=$(mktemp)
 	LIST2=$(mktemp)
-	PLIST=/var/lib/tazpkg/packages.list
+	PLIST='/var/lib/tazpkg/packages.list'
+	PINFO='/vat/lib/tazpkg/packages.info'
 
-	for i in $(grep -E '^locale' $PLIST | grep -v 'extra' | \
-		sed 's|\(locale-[a-zA-Z_]*\).*|\1|'); do
+	for i in $(awk -F$'\t' '$1~/^locale-[a-z_A-Z]+$/{print $1}' $PINFO); do
 		desc_etc $i
 	done
 
-	if [ "x$1" != xmain ]; then
-		for i in $(grep -E '^locale' $PLIST | grep 'extra' | \
-			sed 's|\(locale-[a-zA-Z_]*-extra\).*|\1|'); do
+	if [ "$1" != 'main' ]; then
+		for i in $(awk -F$'\t' '$1~/^locale-[a-z_A-Z]+-extra$/{print $1}' $PINFO); do
 			desc_etc $i
 		done
+
 		if if_installed libQtCore; then
-			for i in $(grep -E '^qt-locale' $PLIST | \
-				sed 's|\(qt-locale-[a-zA-Z_]*\).*|\1|'); do
+			for i in $(awk -F$'\t' '$1~/^qt-locale/{print $1}' $PINFO); do
 				desc_etc $i
 			done
 		fi
+
 		if if_installed razorqt; then
-			for i in $(grep -E '^razorqt-locale' $PLIST | \
-				sed 's|\(razorqt-locale-[a-zA-Z_]*\).*|\1|'); do
+			for i in $(awk -F$'\t' '$1~/^razorqt-locale/{print $1}' $PINFO); do
 				desc_etc $i
 			done
 		fi
+
 		if if_installed firefox; then
-			for i in $(grep -E '^firefox-langpack' $PLIST | \
-				sed 's|\(firefox-langpack-[a-zA-Z_]*\).*|\1|'); do
+			for i in $(awk -F$'\t' '$1~/^firefox-langpack/{print $1}' $PINFO); do
 				desc_etc $i
 			done
 		fi
+
 		if if_installed thunderbird; then
-			for i in $(grep -E '^thunderbird-langpack' $PLIST | \
-				sed 's|\(thunderbird-langpack-[a-zA-Z_]*\).*|\1|'); do
+			for i in $(awk -F$'\t' '$1~/^thunderbird-langpack/{print $1}' $PINFO); do
 				desc_etc $i
 			done
 		fi
+
 		if if_installed squirrelmail; then
-			for i in $(grep -E '^squirrelmail' $PLIST | \
-				grep -E '^squirrelmail-[a-z][a-z][_-]' | \
-				sed 's|\(squirrelmail-[a-zA-Z_]*\)-.*|\1|'); do
+			for i in $(awk -F$'\t' '$1~/^squirrelmail-[a-z][a-z][_-]/{print $1}' $PINFO); do
 				desc_etc $i
 			done
 		fi
+
 		if if_installed aspell; then
-			for i in $(grep -E '^aspell' $PLIST | \
-				grep -E 'aspell-[a-z][a-z][^a-z]' | \
-				sed 's|\(aspell-[a-zA-Z_]*\)-.*|\1|'); do
+			for i in $(awk -F$'\t' '$1~/^aspell-[a-z][a-z]_?[A-Z]?[A-Z]?$/{print $1}' $PINFO); do
 				desc_etc $i
 			done
 		fi
+
 		OTHER_LOCALE="gnome-commander|-i18n gnome-vfs|-i18n gpa|-langpack \
 		gucharmap|-i18n lxterminal|-locales lyx|-locales rox-filer|-locales \
 		ufraw|-locales qupzilla|-locales"
@@ -478,11 +474,11 @@ manage_i18n() {
 	icon='stock_properties'
 	cat $PKGS_LIST | \
 	{
-		yad --title="$(_n 'Manage locale packages')" --window-icon=$icon \
-		--width=600 --height=400 --on-top --center \
-		--image=$icon --image-on-top \
+		yad --title="$(_n 'Manage locale packages')" --window-icon="$icon" \
+		--width='600' --height='400' --on-top --center \
+		--image="$icon" --image-on-top \
 		--text="$(_n 'Check only locale packages you need and press "Install/Remove".')" \
-		--list --multiple --ellipsize=END --expand-column=3 \
+		--list --multiple --ellipsize='END' --expand-column='3' \
 		--column="$(_n 'Inst.'):CHK" --column="$(_n 'Package Name'):TEXT" \
 		--column="$(_n 'Description'):TEXT" --column="$(_n 'Size'):TEXT" \
 		--column="$(_n 'Installed'):TEXT" \
@@ -492,7 +488,7 @@ manage_i18n() {
 		--print-all
 	} > $ANSWER
 
-	if [ "x$?" == "x1" ]; then rm_temp; exit 0; fi
+	if [ "$?" -eq 1 ]; then rm_temp; exit 0; fi
 
 	grep -e 'TRUE' $ANSWER | cut -d'|' -f2 > $NEW_LIST
 
@@ -500,18 +496,18 @@ manage_i18n() {
 	sort -o $LIST1 $ORIG_LIST
 	sort -o $LIST2 $NEW_LIST
 	DIFF=$(diff $LIST1 $LIST2 | sed '/---/d;/+++/d;/@@/d')
-	if [ "x$DIFF" == "x" ]; then rm_temp; exit 0; fi
+	if [ -z "$DIFF" ]; then rm_temp; exit 0; fi
 
 	# output log to gtk window
-	title="$(_n 'TazPkg log')"; icon="tazpkg"; opts="--tail"
+	title="$(_n 'TazPkg log')"; icon='tazpkg'; opts='--tail'
 	{
 		for pkg in $(echo "$DIFF" | grep -e '^-' | sed 's|^-||g'); do
-			_ 'REMOVE: $pkg'
-			yes | tazpkg -r $pkg --output="raw"
+			_ 'REMOVE: %s' "$pkg"
+			yes | tazpkg -r $pkg --output='raw'
 		done
 		for pkg in $(echo "$DIFF" | grep -e '^+' | sed 's|^+||g'); do
-			_ 'INSTALL: $pkg'
-			tazpkg -gi $pkg --output="raw"
+			_ 'INSTALL: %s' "$pkg"
+			tazpkg -gi $pkg --output='raw'
 		done
 		echo -e "\n\n$(_n 'Done!')\n"
 	} | output_command
@@ -524,35 +520,35 @@ manage_i18n() {
 
 newfile_main() {
 	icon='gtk-new'
-	yad --title="$(_n 'New file')" --window-icon=$icon \
-		--width=460 --height=160 --on-top --center \
-		--image=$icon --image-on-top \
-		--icon=$icon \
+	yad --title="$(_n 'New file')" --window-icon="$icon" \
+		--width='460' --height='160' --on-top --center \
+		--image="$icon" --image-on-top \
+		--icon="$icon" \
 		--text="<b>$(_n 'Create a new file or folder on your desktop')</b>" \
 		--entry --entry-label="$(_n 'File name')" \
-		--ricon=editclear \
+		--ricon='editclear' \
 		--always-print-result \
 		--button="$(_n 'SHell script')!application-x-shellscript:4" \
 		--button="$(_n 'Folder')!folder:3" \
 		--button="$(_n 'File')!empty:2" \
-		--button="gtk-cancel:1"
+		--button='gtk-cancel:1'
 }
 
 
 newfile() {
 	file=$(newfile_main)
 	ret=$?
-	[ "$file" ] || exit 0
+	[ -z "$file" ] && exit 0
 	case $ret in
 		4)
-			cat > $HOME/Desktop/$file << EOT
+			cat > "$HOME/Desktop/$file" << EOT
 #!/bin/sh
 #
 
 EOT
-			chmod +x $HOME/Desktop/$file ;;
-		3) mkdir -p $HOME/Desktop/$file ;;
-		2) touch $HOME/Desktop/$file ;;
+			chmod +x "$HOME/Desktop/$file" ;;
+		3) mkdir -p "$HOME/Desktop/$file" ;;
+		2) touch "$HOME/Desktop/$file" ;;
 		1) exit 0 ;;
 	esac
 }
@@ -562,18 +558,18 @@ EOT
 
 all_apps() {
 	icon='stock_bookmark'
-	yad --title="$(_n 'All Applications')" --window-icon=$icon \
-		--width=400 --height=400 \
+	yad --title="$(_n 'All Applications')" --window-icon="$icon" \
+		--width='400' --height='400' \
 		--icons --compact \
-		--read-dir=/usr/share/applications \
-		--button="gtk-close:0"
+		--read-dir='/usr/share/applications' \
+		--button='gtk-close:0'
 }
 
 
 # Ask root permissions for system settings
 
 ask_root() {
-	if [ $(id -u) != 0 ]; then
+	if [ "$(id -u)" -ne 0 ]; then
 		exec tazbox su $0 $@
 		exit 0
 	fi
@@ -586,37 +582,41 @@ ask_root() {
 
 case "$1" in
 	su)
+		shift
 		# Don't show dialog if we are root
-		test $(id -u) = 0 && exec ${@:2}
-		SU_CMD="${@:2}"
+		[ "$(id -u)" -eq 0 ] && exec "$@"
+		SU_CMD="$@"
+		SUBOX_CONF="$HOME/.config/slitaz/subox.conf"
 
 		# Check if a password has been saved before launching main dialog
-		if [ -s $HOME/.config/slitaz/subox.conf ]; then
-			PASSWD=$(cat $HOME/.config/slitaz/subox.conf)
-			CHECKED="TRUE"
+		if [ -s "$SUBOX_CONF" ]; then
+			PASSWD="$(cat $SUBOX_CONF)"
+			CHECKED='TRUE'
 		fi
 
 		# Display the main dialog (ask for password)
-		main=$(su_main $SU_CMD)
+		main="$(su_main "$SU_CMD")"
 
 		# Deal with --button values and exit if cancelled to avoid erasing
 		# saved password.
-		[ $? == 1 ] && exit 0
+		[ "$?" -eq 1 ] && exit 0
 
 		# Save or erase Autosaved password
-		if [ $(echo $main | cut -f2 -d"|") == "TRUE" ]; then
-			echo $main | cut -f 1 -d "|" > $HOME/.config/slitaz/subox.conf
-			chmod 0600 $HOME/.config/slitaz/subox.conf
+		if [ $(echo "$main" | cut -d"|" -f2) == 'TRUE' ]; then
+			echo "$main" | cut -d"|" -f1 > $SUBOX_CONF
+			chmod 0600 $SUBOX_CONF
 		else
-			cat /dev/null > $HOME/.config/slitaz/subox.conf
+			cat /dev/null > $SUBOX_CONF
 		fi
 
 		# Try to login & execute. If password is wrong execute error dialog
 		SU_CMD_QUOTED="$(echo "dbus-launch --exit-with-session $SU_CMD" | sed 's|&|\\&|g')"
-		echo $main | cut -f 1 -d "|" | su -c "$SU_CMD_QUOTED &" || su_error ;;
+		echo $main | cut -d"|" -f1 | su -c "$SU_CMD_QUOTED &" || su_error
+		;;
+
 	logout)
 		# Logout window with actions
-		if [ "$oldstyle" ]; then
+		if [ -n "$oldstyle" ]; then
 			answer=$(logout_oldstyle)
 		else
 			logout_main; answer=$?
@@ -629,8 +629,8 @@ case "$1" in
 			4|*exit)
 				case $XDG_CURRENT_DESKTOP in
 					LXDE)
-						[ "$_LXSESSION_PID" ] && kill $_LXSESSION_PID
-						[ "$DESKTOP_SESSION" == "compiz" ] && killall compiz
+						[ -n "$_LXSESSION_PID" ] && kill $_LXSESSION_PID
+						[ "$DESKTOP_SESSION" == 'compiz' ] && killall compiz
 						openbox --exit ;;
 					openbox) openbox --exit ;;
 					compiz) killall compiz ;;
@@ -642,54 +642,77 @@ case "$1" in
 				reboot || reboot -f ;;
 			2|*halt)
 				poweroff ;;
-		esac ;;
+		esac
+		;;
+
 	out)
 		# Pipe a command into a GTK window
-		sed 's|\[.m||g; s|\[[0-9][0-9]*G|	|g' | output_command ;;
+		sed 's|\[.m||g; s|\[[0-9][0-9]*G|	|g' | output_command
+		;;
+
 	out-dl)
 		# A tiny GTK window for Busybox wget output
-		url=$2; opts="--tail --button=gtk-cancel:1"
+		url="$2"; opts='--tail --button=gtk-cancel:1'
 		icon='folder-downloads'; title="$(_ 'Downloading...')"
 		[ -d $DOWNLOADS ] || mkdir -p $DOWNLOADS
 		busybox wget -c -P $DOWNLOADS $url 2>&1 | output_command
-		cancel_dl ;;
+		cancel_dl
+		;;
+
 	locale)
-		ask_root $@ && locale ;;
+		ask_root $@ && locale
+		;;
+
 	keymap)
-		ask_root $@ && keymap ;;
+		ask_root $@ && keymap
+		;;
+
 	tz)
-		ask_root $@ && tz ;;
+		ask_root $@ && tz
+		;;
+
 	manage_i18n)
-		ask_root $@ && manage_i18n $2 ;;
+		ask_root $@ && manage_i18n $2
+		;;
+
 	recharge)
-		ask_root $@; opts="--on-top"; tazpkg recharge | output_command ;;
+		ask_root $@; opts='--on-top'; tazpkg recharge | output_command
+		;;
+
 	setup)
-		ask_root $@ && setup ;;
+		ask_root $@ && setup
+		;;
+
 	new-file)
-		newfile ;;
+		newfile
+		;;
+
 	all-apps)
-		all_apps ;;
+		all_apps
+		;;
+
 	notify|-n)
 		# On screen notification box.
 		icon="$3"
 		time="$4"
-		[ "$icon" ] || icon=info
-		[ "$time" ] || time=4
-		yad --width=520 --height=80 --timeout=$time --timeout-indicator=right \
-			--on-top --center --no-buttons --borders=12 --undecorated \
-			--skip-taskbar --image=$icon --image-on-top --text="<b>$2</b>" ;;
+		[ -z "$icon" ] && icon='info'
+		[ -z "$time" ] && time='4'
+		yad --width='520' --height='80' --timeout="$time" --timeout-indicator='right' \
+			--on-top --center --no-buttons --borders='12' --undecorated \
+			--skip-taskbar --image="$icon" --image-on-top --text="<b>$2</b>"
+		;;
+
 	tazapps)
 		# Default applications configuration script. System wide config file
 		# is /etc/slitaz/applications.conf and each user can have personal
 		# settings. System wide for root and personal config for user.
 		export CONFIG="$HOME/.config/slitaz/applications.conf"
-		if [ "$(id -u)" = 0 ]; then
+		if [ "$(id -u)" -eq 0 ]; then
 			[ ! -f $CONFIG ] || mv -f $CONFIG /etc/slitaz/applications.conf
-			export CONFIG="/etc/slitaz/applications.conf"
+			export CONFIG='/etc/slitaz/applications.conf'
 		fi
 
-		for a in FILE_MANAGERS BROWSERS EDITORS TERMINALS WINDOW_MANAGERS;
-		do
+		for a in FILE_MANAGERS BROWSERS EDITORS TERMINALS WINDOW_MANAGERS; do
 			eval $(expr $a=$(echo $(LC_ALL=C tazx get-applist ${a%%S} \
 			only-installed yad) | sed 's/ /!/g ; s/!!//g; s/ //g'))
 		done
@@ -699,7 +722,7 @@ case "$1" in
 
 		icon='preferences-desktop-default-applications'
 		eval $(yad --title="$(_n 'SliTaz default applications')" \
-			--window-icon=$icon --image=$icon --image-on-top \
+			--window-icon="$icon" --image="$icon" --image-on-top \
 			--text="<b>$(_n 'SliTaz default applications configuration')</b>" \
 			--form \
 			--field="$(_n 'File manager:'):CBE" "$FILE_MANAGERS" \
@@ -715,17 +738,22 @@ TERMINAL=\"%s\"\nWINDOW_MANAGER=\"%s\"\n", $1, $2, $3, $4, $5}')
 			/EDITOR=/s|"\([^"]*\)"|"'$EDITOR'"|; \
 			/TERMINAL=/s|"\([^"]*\)"|"'$TERMINAL'"|; \
 			/WINDOW_MANAGER=/s|"\([^"]*\)"|"'$WINDOW_MANAGER'"|' \
-			-i $CONFIG ;;
+			-i $CONFIG
+		;;
+
 	gpl)
-		yad --title="GNU General Public License" --window-icon=text-x-generic \
-			--geometry="650x500" \
-			--image=/usr/share/pixmaps/gpl3.png --image-on-top \
+		yad --title='GNU General Public License' --window-icon='text-x-generic' \
+			--geometry='650x500' \
+			--image='/usr/share/pixmaps/gpl3.png' --image-on-top \
 			--center \
 			--text-info \
-			--fontname=monospace \
-			--button "OK" < /usr/share/licenses/gpl.txt ;;
+			--fontname='monospace' \
+			--button 'OK' < /usr/share/licenses/gpl.txt
+		;;
+
 	*)
-		usage ;;
+		usage
+		;;
 esac
 
 exit 0

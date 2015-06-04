@@ -6,7 +6,7 @@
 . /lib/libtaz.sh
 check_root
 
-[ ! "$1" ] && echo "Usage: stopd [daemon]" && exit 0
+[ -z "$1" ] && echo "Usage: stopd [daemon]" && exit 0
 
 if [ -x /etc/init.d/$1 ]; then
 	/etc/init.d/$1 stop

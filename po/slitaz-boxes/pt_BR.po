@@ -146,14 +146,12 @@ msgid "Examples:"
 msgstr "Exemplos:"
 
 #: boxes/burn-box:64
-#, sh-format
-msgid "Decoding files from: $audio"
-msgstr "Decodificando arquivos de: $audio"
+msgid "Decoding files from: %s"
+msgstr "Decodificando arquivos de: %s"
 
 #: boxes/burn-box:84
-#, sh-format
-msgid "Not an ISO image: \"$iso\""
-msgstr "Imagem ISO \"$iso\" inválida"
+msgid "Not an ISO image: \"%s\""
+msgstr "Imagem ISO \"%s\" inválida"
 
 #: boxes/burn-box:100
 msgid "Burn-box"
@@ -204,14 +202,12 @@ msgid "Wodim Help"
 msgstr "Ajuda do Wodim"
 
 #: boxes/burn-box:154
-#, sh-format
-msgid "Missing ISO image \"$iso\""
-msgstr "Imagem ISO \"$iso\" não encontrada"
+msgid "Missing ISO image \"%s\""
+msgstr "Imagem ISO \"%s\" não encontrada"
 
 #: boxes/burn-box:162
-#, sh-format
-msgid "Missing audio directory \"$audio\""
-msgstr "Diretório com áudio \"$audio\" não encontrado"
+msgid "Missing audio directory \"%s\""
+msgstr "Diretório com áudio \"%s\" não encontrado"
 
 #: boxes/burn-box:166
 msgid "Blank disk"

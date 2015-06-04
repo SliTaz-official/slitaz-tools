@@ -54,7 +54,7 @@ check_firmware() {
 				_ '* No active connection to get and install firmware.'
 			fi
 		else
-			_ '> Firmware in use: $mod-firmware'
+			_ '> Firmware in use: %s' "$mod-firmware"
 		fi
 	fi
 }
@@ -65,21 +65,21 @@ load_module() {
 		# Check if builtin, loaded or missing
 		if modprobe $mod 2>/dev/null; then
 			if zcat /proc/config.gz | fgrep -i $mod | fgrep -q '=y'; then
-				_ '* Builtin module : $mod'
+				_ '* Builtin module : %s' "$mod"
 				unset mod
 			else
-				_ "* Loaded module  : $mod"
+				_ '* Loaded module  : %s' "$mod"
 			fi
 		else
 			if zcat /proc/config.gz | fgrep -i $mod | fgrep -q '=y'; then
-				_ '* Builtin module : $mod'
+				_ '* Builtin module : %s' "$mod"
 				unset mod
 			else
-				_ '! Missing module : $mod'
+				_ '! Missing module : %s' "$mod"
 			fi
 		fi
 	else
-		_ '> Module in use  : $mod'
+		_ '> Module in use  : %s' "$mod"
 	fi
 	# Add it to load automatically at next boot.
 	if ! echo "$LOAD_MODULES" | grep -q "$mod"; then
@@ -111,7 +111,7 @@ detect_pci_devices() {
 	if [ ! -s /var/lib/detected-modules ]; then
 		. /etc/rcS.conf
 		# We need module_name to match output of lsmod.
-		list=$(lspci -k | grep "driver" | cut -d ":" -f 2 | module_name)
+		list=$(lspci -k | grep 'driver' | cut -d: -f2 | module_name)
 		echo "$list" > /var/lib/detected-modules
 		for mod in $(sort < /var/lib/detected-modules | uniq)
 		do
@@ -159,25 +159,25 @@ case "$1" in
 		detect_usb_devices ;;
 	-dp|detect-pci)
 		check_root
-		newline; _ 'Detected PCI devices Kernel modules'; separator
+		title 'Detected PCI devices Kernel modules'
 		rm -f /var/lib/detected-modules
 		detect_pci_devices
-		separator; newline ;;
+		footer ;;
 	-du|detect-usb)
 		check_root
-		newline; _ 'Detected USB devices Kernel modules'; separator
+		title 'Detected USB devices Kernel modules'
 		rm -f /var/lib/detected-usb-modules
 		detect_usb_devices
-		separator; newline ;;
+		footer ;;
 	-s|setup)
 		SETUP_OPTIONS=$(echo "$@" | sed 's/setup//')
 		check_root
 		hwsetup $SETUP_OPTIONS ;;
 	-dm|detected-modules)
-		newline; _ 'Detected PCI and USB modules'; separator
+		title 'Detected PCI and USB modules'
 		cat /var/lib/detected-modules
 		cat /var/lib/detected-usb-modules 2>/dev/null
-		separator; newline ;;
+		footer ;;
 	*) 
 		usage ;;
 esac

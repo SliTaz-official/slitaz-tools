@@ -147,14 +147,12 @@ msgid "Examples:"
 msgstr "例子："
 
 #: boxes/burn-box:64
-#, sh-format
-msgid "Decoding files from: $audio"
-msgstr "解码文件：$audio"
+msgid "Decoding files from: %s"
+msgstr "解码文件：%s"
 
 #: boxes/burn-box:84
-#, sh-format
-msgid "Not an ISO image: \"$iso\""
-msgstr "不是一个ISO映像：\"$iso\""
+msgid "Not an ISO image: \"%s\""
+msgstr "不是一个ISO映像：\"%s\""
 
 #: boxes/burn-box:100
 msgid "Burn-box"
@@ -205,14 +203,12 @@ msgid "Wodim Help"
 msgstr "Wodim帮助讯息"
 
 #: boxes/burn-box:154
-#, sh-format
-msgid "Missing ISO image \"$iso\""
-msgstr "丢失（找不到）的ISO映像\"$iso\""
+msgid "Missing ISO image \"%s\""
+msgstr "丢失（找不到）的ISO映像\"%s\""
 
 #: boxes/burn-box:162
-#, sh-format
-msgid "Missing audio directory \"$audio\""
-msgstr "丢失（找不到）的音频目录（或文件） \"$audio\""
+msgid "Missing audio directory \"%s\""
+msgstr "丢失（找不到）的音频目录（或文件） \"%s\""
 
 #: boxes/burn-box:166
 msgid "Blank disk"

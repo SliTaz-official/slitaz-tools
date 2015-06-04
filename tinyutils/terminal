@@ -13,13 +13,13 @@ $(boldify terminal): $(_n 'configurable SliTaz wrapper for terminal.')
 $(boldify $(_n 'Recognized options:'))
 -v -version  --version        $(_n 'Print the version number')
    -help     --help           $(_n 'Print out this message')
-   -geometry --geometry       $(_n 'Width and height of terminal window ($GEOMETRY)')
--t -title -T --title          $(_n 'Title name for window ("$TITLE")')
+   -geometry --geometry       $(_n 'Width and height of terminal window (%s)' "$GEOMETRY")
+-t -title -T --title          $(_n 'Title name for window ("%s")' "$TITLE")
 -h -hold                      $(_n "Don't close terminal after command finished")
 -e           --xterm-execute  $(_n 'Command to execute (must be last in line)')
 
 
-$(boldify $(_n 'Help for $TERMINAL:'))
+$(boldify $(_n 'Help for %s:' "$TERMINAL"))
 
 EOT
 	$TERMINAL $OPT_HELP
@@ -29,16 +29,16 @@ EOT
 USER_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/slitaz/applications.conf"
 [ -f  $USER_CONFIG ] && . $USER_CONFIG
 
-local PARAMS="" GEOMETRY="80x24" TITLE="SliTaz $(cat /etc/slitaz-release)" COMMAND
+local PARAMS='' GEOMETRY='80x24' TITLE="SliTaz $(cat /etc/slitaz-release)" COMMAND
 
 case $TERMINAL in
 	sakura)
-		OPT_TITLE="-t"; OPT_GEOM="--geometry"; OPT_HELP="-?"; OPT_HOLD="-h";;
+		OPT_TITLE='-t'; OPT_GEOM='--geometry'; OPT_HELP='-?'; OPT_HOLD='-h';;
 	xterm|*)
-		OPT_TITLE="-T"; OPT_GEOM="-geometry"; OPT_HELP="-help"; OPT_HOLD="-hold";;
+		OPT_TITLE='-T'; OPT_GEOM='-geometry'; OPT_HELP='-help'; OPT_HOLD='-hold';;
 esac
 
-until [ $# == 0 ]; do
+until [ $# -eq 0 ]; do
 	PARAM="$1"
 	case "$PARAM" in
 		-version|--version|-v)	$TERMINAL -v; exit 0;;

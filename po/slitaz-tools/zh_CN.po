@@ -65,16 +65,16 @@ msgid "Information"
 msgstr "信息"
 
 #: tinyutils/tazlocale:136 tinyutils/tazkeymap:41
-msgid "Config file:"
-msgstr "配置文件："
+msgid "Config file: %s"
+msgstr "配置文件：%s"
 
 #: tinyutils/tazlocale:137
-msgid "Current locale:"
-msgstr "区域设置："
+msgid "Current locale: %s"
+msgstr "区域设置：%s"
 
 #: tinyutils/tazkeymap:42
-msgid "Current keymap:"
-msgstr "键盘映射："
+msgid "Current keymap: %s"
+msgstr "键盘映射：%s"
 
 #: tinyutils/tazkeymap:51
 msgid "SliTaz keyboard setting"
@@ -121,16 +121,15 @@ msgstr "离开"
 #: tinyutils/tazx:276
 #, fuzzy
 msgid "Failed to setup driver"
-msgstr "未能设置$DEVICE"
+msgstr "未能设置%s"
 
 #: tinyutils/tazx:276
 msgid "(unknown hardware)"
 msgstr ""
 
 #: tinyutils/tazx:289 tinyutils/hwsetup:117
-#, sh-format
-msgid "Installing pkg: $pkg"
-msgstr "安装 $pkg包"
+msgid "Installing pkg: %s"
+msgstr "安装 %s包"
 
 #: tinyutils/tazx:307 tinyutils/tazx:423
 #, fuzzy
@@ -245,29 +244,24 @@ msgid "/path/to/files/*"
 msgstr "/path/to/files/*"
 
 #: tinyutils/decode:47
-#, sh-format
-msgid "Missing decoder: $dec"
-msgstr "欠缺解码器: $dec"
+msgid "Missing decoder: %s"
+msgstr "欠缺解码器: %s"
 
 #: tinyutils/decode:48 tinyutils/decode:80
-#, sh-format
-msgid "Skipping file: $name"
-msgstr "跳过文件：$name"
+msgid "Skipping file: %s"
+msgstr "跳过文件：%s"
 
 #: tinyutils/decode:51
-#, sh-format
-msgid "Decoding: $name"
-msgstr "解码$name中"
+msgid "Decoding: %s"
+msgstr "解码%s中"
 
 #: tinyutils/decode:60
-#, sh-format
-msgid "No file: $file"
-msgstr "没有文件：$file"
+msgid "No file: %s"
+msgstr "没有文件：%s"
 
 #: tinyutils/decode:82
-#, sh-format
-msgid "Unsupported file: $file"
-msgstr "不支持的文件：$file"
+msgid "Unsupported file: %s"
+msgstr "不支持的文件：%s"
 
 #: tinyutils/terminal:10
 msgid "configurable SliTaz wrapper for terminal."
@@ -286,14 +280,12 @@ msgid "Print out this message"
 msgstr "打印此信息"
 
 #: tinyutils/terminal:15
-#, sh-format
-msgid "Width and height of terminal window ($GEOMETRY)"
-msgstr "终端窗口的宽度和高度($GEOMETRY)"
+msgid "Width and height of terminal window (%s)"
+msgstr "终端窗口的宽度和高度(%s)"
 
 #: tinyutils/terminal:16
-#, sh-format
-msgid "Title name for window (\"$TITLE\")"
-msgstr "在窗口的标题名称 (\"$TITLE\")"
+msgid "Title name for window (\"%s\")"
+msgstr "在窗口的标题名称 (\"%s\")"
 
 #: tinyutils/terminal:17
 msgid "Don't close terminal after command finished"
@@ -304,9 +296,8 @@ msgid "Command to execute (must be last in line)"
 msgstr "要执行的命令（必须在最后一行）"
 
 #: tinyutils/terminal:21
-#, sh-format
-msgid "Help for $TERMINAL:"
-msgstr "$TERMINAL的帮助："
+msgid "Help for %s:"
+msgstr "%s的帮助："
 
 #: tinyutils/hwsetup:22
 msgid "SliTaz Setup configuration"
@@ -365,29 +356,25 @@ msgid "confirm before installing optional dependencies"
 msgstr "在安装可选的相关性确认"
 
 #: tinyutils/hwsetup:98
-#, sh-format
 msgid ""
-"Due to a lack of compatible hardware for troubleshooting, this $DEVICE "
+"Due to a lack of compatible hardware for troubleshooting, this %s "
 "device has not been properly tested. Please report any success, failure, bug "
 "to SliTaz Bug tracker or Forum."
 msgstr ""
-"由于不兼容的硬件故障，这个 $DEVICE 设备没有得到正确的测试。请报告任何成功，失"
+"由于不兼容的硬件故障，这个 %s 设备没有得到正确的测试。请报告任何成功，失"
 "败，错误SliTaz bug跟踪或论坛。"
 
 #: tinyutils/hwsetup:107
-#, sh-format
-msgid "Failed to setup $DEVICE"
-msgstr "未能设置$DEVICE"
+msgid "Failed to setup %s"
+msgstr "未能设置%s"
 
 #: tinyutils/hwsetup:131
-#, sh-format
-msgid "Would you like to install pkg: $pkg"
-msgstr "要安装PKG：$pkg 吗"
+msgid "Would you like to install pkg: %s"
+msgstr "要安装PKG：%s 吗"
 
 #: tinyutils/hwsetup:148
-#, sh-format
-msgid "adding $user to $grp"
-msgstr "正在加入$user用户到$grp组"
+msgid "adding %s to %s"
+msgstr "正在加入%s用户到%s组"
 
 #: tinyutils/hwsetup:171
 msgid "Detected USB Device : Vendor : Product"
@@ -398,14 +385,12 @@ msgid "Do you want to use hp-setup utility"
 msgstr "你想使用惠普设置实用程序吗"
 
 #: tinyutils/hwsetup:228
-#, sh-format
-msgid "Verify $DEVICE Permissions"
-msgstr "验证$DEVICE权限"
+msgid "Verify %s Permissions"
+msgstr "验证%s权限"
 
 #: tinyutils/hwsetup:229
-#, sh-format
-msgid "Your $DEVICE must be in $grp group with rw-rw-rw- permissions"
-msgstr "你必须在$grp和拥有rw-rw-rw-权限，才能使用$DEVICE"
+msgid "Your %s must be in %s group with rw-rw-rw- permissions"
+msgstr "你必须在%s和拥有rw-rw-rw-权限，才能使用%s"
 
 #: tinyutils/hwsetup:250
 msgid "New udev rules are added by a package"
@@ -512,9 +497,8 @@ msgid "Camera is set up; please use gphoto2 to import photos"
 msgstr "请检查相机设置，使用gphoto2"
 
 #: tinyutils/hwsetup:483
-#, sh-format
-msgid "Quick start guide: $guide_url"
-msgstr "快速启动指南：$guide_url"
+msgid "Quick start guide: %s"
+msgstr "快速启动指南：%s"
 
 #: tinyutils/hwsetup:494
 msgid "Do you want to see if the bluetooth is working"
@@ -541,9 +525,8 @@ msgid "pairing with remote bluetooth devices..."
 msgstr "配对与远程蓝牙设备中…"
 
 #: tinyutils/hwsetup:520 tinyutils/hwsetup:541
-#, sh-format
-msgid "You can manually edit the configuration files in $bt if need be"
-msgstr "您可以手动编辑配置文件中的$bt ，如果需要"
+msgid "You can manually edit the configuration files in %s if need be"
+msgstr "您可以手动编辑配置文件中的%s ，如果需要"
 
 #: tinyutils/hwsetup:534
 msgid "for starting bluetooth daemon"
@@ -574,14 +557,12 @@ msgid "Do you want to configure wvdial"
 msgstr "你要想要配置软件吗？"
 
 #: tinyutils/hwsetup:567
-#, sh-format
-msgid "Edit $wc for phone number, login name, password and pin"
-msgstr "编辑为$wc的电话号码，用户名，密码和PIN"
+msgid "Edit %s for phone number, login name, password and pin"
+msgstr "编辑为%s的电话号码，用户名，密码和PIN"
 
 #: tinyutils/hwsetup:568
-#, sh-format
-msgid "Add DNS address of your provider in $rc"
-msgstr "添加您的供应商DNS地址在$rc"
+msgid "Add DNS address of your provider in %s"
+msgstr "添加您的供应商DNS地址在%s"
 
 #: tinyutils/hwsetup:577
 #, fuzzy
@@ -602,14 +583,12 @@ msgstr "你要配置X使用非自由nvidia驱动程序吗"
 
 #: tinyutils/hwsetup:610 tinyutils/hwsetup:649 tinyutils/hwsetup:681
 #: tinyutils/hwsetup:714
-#, sh-format
-msgid "Your previous config is in $xorg60"
-msgstr "你以前的配置是$xorg60"
+msgid "Your previous config is in %s"
+msgstr "你以前的配置是%s"
 
 #: tinyutils/hwsetup:611 tinyutils/hwsetup:650
-#, sh-format
-msgid "If nvidia fails, you can remove $xorg55 to restore previous config."
-msgstr "如果nvidia失败，您可以删除$xorg55恢复到以前的配置。"
+msgid "If nvidia fails, you can remove %s to restore previous config."
+msgstr "如果nvidia失败，您可以删除%s恢复到以前的配置。"
 
 #: tinyutils/hwsetup:618
 msgid "Adding to xorg.conf:"
@@ -636,20 +615,17 @@ msgid "Do you want to configure X using free nvidia driver"
 msgstr "你要配置X使用免费的驱动程序吗"
 
 #: tinyutils/hwsetup:652
-#, sh-format
-msgid "Create $xorg55short configured with nv driver."
+msgid "Create %s configured with nv driver."
 msgstr ""
-"创建$xorg55short配置nvidia显卡驱动。（原文：Create $xorg55short configured "
-"with nv  driver.）"
+"创建%s配置nvidia显卡驱动。（原文：Create configured with nv driver.）"
 
 #: tinyutils/hwsetup:678
 msgid "Do you want to configure X using non-free catalyst ATI (radeon) driver"
 msgstr "你要配置X使用非自由的催化剂（ATI 显卡）驱动程序吗？"
 
 #: tinyutils/hwsetup:682
-#, sh-format
-msgid "If ati fails, you can remove $xorg55 to restore previous config."
-msgstr "如果ATI失败，您可以删除$xorg55恢复到以前的配置。"
+msgid "If ati fails, you can remove %s to restore previous config."
+msgstr "如果ATI失败，您可以删除%s恢复到以前的配置。"
 
 #: tinyutils/hwsetup:691
 msgid "Checking if ati catalyst is working..."
@@ -669,16 +645,13 @@ msgid "Do you want to configure X using free ATI (radeon) driver"
 msgstr "你要配置X使用免费的ATI显卡驱动吗？"
 
 #: tinyutils/hwsetup:715
-#, sh-format
-msgid "If ATI fails, you can remove $xorg55 to restore previous config."
-msgstr "如果ATI失败，您可以删除$xorg55恢复到以前的配置。"
+msgid "If ATI fails, you can remove %s to restore previous config."
+msgstr "如果ATI失败，您可以删除%s恢复到以前的配置。"
 
 #: tinyutils/hwsetup:717
-#, sh-format
-msgid "Create $xorg55short configured with radeon driver."
+msgid "Create %s configured with radeon driver."
 msgstr ""
-"创建$xorg55short配置显卡驱动。（原文：Create $xorg55short configured with "
-"radeon driver.）"
+"创建%s配置显卡驱动。（原文：Create configured with radeon driver.）"
 
 #: tinyutils/hwsetup:723
 msgid "Checking if ATI radeon is working..."
@@ -784,7 +757,7 @@ msgid "Root Password"
 msgstr "密码:"
 
 #: tinyutils/slitaz-config:44
-msgid "Enter new password for \\Zb\\Z1root"
+msgid "Enter new password for %s"
 msgstr ""
 
 #: tinyutils/slitaz-config:53
@@ -796,8 +769,7 @@ msgid "Enter login name for the new \\Zb\\Z4user"
 msgstr ""
 
 #: tinyutils/slitaz-config:61
-#, sh-format
-msgid "Enter password for user \\Zb\\Z4$user"
+msgid "Enter password for user \\Zb\\Z4%s"
 msgstr ""
 
 #: tinyutils/slitaz-config:121
@@ -846,8 +818,7 @@ msgid "Wi-Fi Password"
 msgstr "密码:"
 
 #: tinyutils/slitaz-config:177 tinyutils/slitaz-config:188
-#, sh-format
-msgid "Enter Wi-Fi key (password) for \\Zb\\Z4$essid"
+msgid "Enter Wi-Fi key (password) for \\Zb\\Z4%s"
 msgstr ""
 
 #: tinyutils/slitaz-config:197
@@ -856,7 +827,7 @@ msgstr ""
 
 #: tinyutils/slitaz-config:201
 #, fuzzy
-msgid "Configuring: /etc/network.conf..."
+msgid "Configuring: %s..."
 msgstr "配置Xorg中…"
 
 #: tinyutils/slitaz-config:211
@@ -868,8 +839,7 @@ msgid "Checking connection..."
 msgstr ""
 
 #: tinyutils/slitaz-config:220
-#, sh-format
-msgid "IP address: $ip"
+msgid "IP address: %s"
 msgstr ""
 
 #: tinyutils/slitaz-config:222

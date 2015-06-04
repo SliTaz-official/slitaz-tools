@@ -68,16 +68,16 @@ msgid "Information"
 msgstr ""
 
 #: tinyutils/tazlocale:136 tinyutils/tazkeymap:41
-msgid "Config file:"
-msgstr "Fichier de config :"
+msgid "Config file: %s"
+msgstr "Fichier de config : %s"
 
 #: tinyutils/tazlocale:137
-msgid "Current locale:"
-msgstr "Locale actuelle :"
+msgid "Current locale: %s"
+msgstr "Locale actuelle : %s"
 
 #: tinyutils/tazkeymap:42
-msgid "Current keymap:"
-msgstr "Clavier actuel :"
+msgid "Current keymap: %s"
+msgstr "Clavier actuel : %s"
 
 #: tinyutils/tazkeymap:51
 #, fuzzy
@@ -128,16 +128,15 @@ msgstr "Quitter"
 #: tinyutils/tazx:276
 #, fuzzy
 msgid "Failed to setup driver"
-msgstr "Echec de la configuration de $DEVICE"
+msgstr "Echec de la configuration de %s"
 
 #: tinyutils/tazx:276
 msgid "(unknown hardware)"
 msgstr "(matériel inconnu)"
 
 #: tinyutils/tazx:289 tinyutils/hwsetup:117
-#, sh-format
-msgid "Installing pkg: $pkg"
-msgstr "Installation du paquet : $pkg"
+msgid "Installing pkg: %s"
+msgstr "Installation du paquet : %s"
 
 #: tinyutils/tazx:307 tinyutils/tazx:423
 #, fuzzy
@@ -176,7 +175,7 @@ msgstr "Lancer automatiquement Xorg par SLiM au démarrage"
 
 #: tinyutils/tazx:422
 msgid "(Re)Start Simple Login Manager now"
-msgstr "(Re)démarrer SLiM maintenant""
+msgstr "(Re)démarrer SLiM maintenant"
 
 #: tinyutils/tazx:424
 msgid "Quit Tazx utility"
@@ -253,29 +252,24 @@ msgid "/path/to/files/*"
 msgstr "/chemin/vers/fichier/*"
 
 #: tinyutils/decode:47
-#, sh-format
-msgid "Missing decoder: $dec"
-msgstr "Manque le décodeur : $dec"
+msgid "Missing decoder: %s"
+msgstr "Manque le décodeur : %s"
 
 #: tinyutils/decode:48 tinyutils/decode:80
-#, sh-format
-msgid "Skipping file: $name"
-msgstr "Fichier ingoré : $name"
+msgid "Skipping file: %s"
+msgstr "Fichier ingoré : %s"
 
 #: tinyutils/decode:51
-#, sh-format
-msgid "Decoding: $name"
-msgstr "Décodage de : $name"
+msgid "Decoding: %s"
+msgstr "Décodage de : %s"
 
 #: tinyutils/decode:60
-#, sh-format
-msgid "No file: $file"
-msgstr "Pas de fichier : $file"
+msgid "No file: %s"
+msgstr "Pas de fichier : %s"
 
 #: tinyutils/decode:82
-#, sh-format
-msgid "Unsupported file: $file"
-msgstr "Fichier pas supporté : $file"
+msgid "Unsupported file: %s"
+msgstr "Fichier pas supporté : %s"
 
 #: tinyutils/terminal:10
 msgid "configurable SliTaz wrapper for terminal."
@@ -294,14 +288,12 @@ msgid "Print out this message"
 msgstr "Affiche ce message"
 
 #: tinyutils/terminal:15
-#, sh-format
-msgid "Width and height of terminal window ($GEOMETRY)"
-msgstr "Largeur et hauteur du terminal ($GEOMETRY)"
+msgid "Width and height of terminal window (%s)"
+msgstr "Largeur et hauteur du terminal (%s)"
 
 #: tinyutils/terminal:16
-#, sh-format
-msgid "Title name for window (\"$TITLE\")"
-msgstr "Titre de la fenêtre (\"$TITLE\")"
+msgid "Title name for window (\"%s\")"
+msgstr "Titre de la fenêtre (\"%s\")"
 
 #: tinyutils/terminal:17
 msgid "Don't close terminal after command finished"
@@ -312,9 +304,8 @@ msgid "Command to execute (must be last in line)"
 msgstr "Command à lancer (doit être la dernière ligne)"
 
 #: tinyutils/terminal:21
-#, sh-format
-msgid "Help for $TERMINAL:"
-msgstr "Aide pour $TERMINAL:"
+msgid "Help for %s:"
+msgstr "Aide pour %s:"
 
 #: tinyutils/hwsetup:22
 msgid "SliTaz Setup configuration"
@@ -374,30 +365,26 @@ msgid "confirm before installing optional dependencies"
 msgstr "vous confirmez l'installtion des dépendances optionnelles"
 
 #: tinyutils/hwsetup:98
-#, sh-format
 msgid ""
-"Due to a lack of compatible hardware for troubleshooting, this $DEVICE "
+"Due to a lack of compatible hardware for troubleshooting, this %s "
 "device has not been properly tested. Please report any success, failure, bug "
 "to SliTaz Bug tracker or Forum."
 msgstr ""
 "A cause du manque de matériels pour la mise au point, ce périphérique "
-"$DEVICE n'a pas été correctement testé. Veuillez reporter les succés, "
+"%s n'a pas été correctement testé. Veuillez reporter les succés, "
 "échecs, et bugs sur les SliTaz Bug tracker ou Forum."
 
 #: tinyutils/hwsetup:107
-#, sh-format
-msgid "Failed to setup $DEVICE"
-msgstr "Echec de la configuration de $DEVICE"
+msgid "Failed to setup %s"
+msgstr "Echec de la configuration de %s"
 
 #: tinyutils/hwsetup:131
-#, sh-format
-msgid "Would you like to install pkg: $pkg"
-msgstr "Voulez vous installer le paquet : $pkg"
+msgid "Would you like to install pkg: %s"
+msgstr "Voulez vous installer le paquet : %s"
 
 #: tinyutils/hwsetup:148
-#, sh-format
-msgid "adding $user to $grp"
-msgstr "ajoute $user dans $grp"
+msgid "adding %s to %s"
+msgstr "ajoute %s dans %s"
 
 #: tinyutils/hwsetup:171
 msgid "Detected USB Device : Vendor : Product"
@@ -408,14 +395,12 @@ msgid "Do you want to use hp-setup utility"
 msgstr "Voulez vous utiliser l'utilitaire hp-setup"
 
 #: tinyutils/hwsetup:228
-#, sh-format
-msgid "Verify $DEVICE Permissions"
-msgstr "Vérifie les permissions de $DEVICE"
+msgid "Verify %s Permissions"
+msgstr "Vérifie les permissions de %s"
 
 #: tinyutils/hwsetup:229
-#, sh-format
-msgid "Your $DEVICE must be in $grp group with rw-rw-rw- permissions"
-msgstr "Votre $DEVICE doit être dans le groupe $grp avec les droits rw-rw-rw-"
+msgid "Your %s must be in %s group with rw-rw-rw- permissions"
+msgstr "Votre %s doit être dans le groupe %s avec les droits rw-rw-rw-"
 
 #: tinyutils/hwsetup:250
 msgid "New udev rules are added by a package"
@@ -525,9 +510,8 @@ msgstr ""
 "la webcam est active ; veuillez utiliser gphoto2 pour importer des photos"
 
 #: tinyutils/hwsetup:483
-#, sh-format
-msgid "Quick start guide: $guide_url"
-msgstr "Guide succinct : $guide_url"
+msgid "Quick start guide: %s"
+msgstr "Guide succinct : %s"
 
 #: tinyutils/hwsetup:494
 msgid "Do you want to see if the bluetooth is working"
@@ -554,9 +538,8 @@ msgid "pairing with remote bluetooth devices..."
 msgstr "Association avec les périphériques distants..."
 
 #: tinyutils/hwsetup:520 tinyutils/hwsetup:541
-#, sh-format
-msgid "You can manually edit the configuration files in $bt if need be"
-msgstr "Vous pouvez éditer les fichiers de configuration dans $bt"
+msgid "You can manually edit the configuration files in %s if need be"
+msgstr "Vous pouvez éditer les fichiers de configuration dans %s"
 
 #: tinyutils/hwsetup:534
 msgid "for starting bluetooth daemon"
@@ -587,16 +570,14 @@ msgid "Do you want to configure wvdial"
 msgstr "Voulez vous configurer wvdial"
 
 #: tinyutils/hwsetup:567
-#, sh-format
-msgid "Edit $wc for phone number, login name, password and pin"
+msgid "Edit %s for phone number, login name, password and pin"
 msgstr ""
 "Edition du numéro de téléphone et des login, mot de passe et code pin dans "
-"$wc"
+"%s"
 
 #: tinyutils/hwsetup:568
-#, sh-format
-msgid "Add DNS address of your provider in $rc"
-msgstr "Ajout de l'adresse DNS de votre provide dans $rc"
+msgid "Add DNS address of your provider in %s"
+msgstr "Ajout de l'adresse DNS de votre provide dans %s"
 
 #: tinyutils/hwsetup:577
 msgid "Setting IPTABLES_RULES to yes in /etc/slitaz/firewall.conf"
@@ -616,15 +597,13 @@ msgstr "Voulez vous configurer X avec le pilote nvidia non-libre"
 
 #: tinyutils/hwsetup:610 tinyutils/hwsetup:649 tinyutils/hwsetup:681
 #: tinyutils/hwsetup:714
-#, sh-format
-msgid "Your previous config is in $xorg60"
-msgstr "La config précédante est dans $xorg60"
+msgid "Your previous config is in %s"
+msgstr "La config précédante est dans %s"
 
 #: tinyutils/hwsetup:611 tinyutils/hwsetup:650
-#, sh-format
-msgid "If nvidia fails, you can remove $xorg55 to restore previous config."
+msgid "If nvidia fails, you can remove %s to restore previous config."
 msgstr ""
-"Si nvidia se plante, retirez $xorg55 pour restorer la config précédante."
+"Si nvidia se plante, retirez %s pour restorer la config précédante."
 
 #: tinyutils/hwsetup:618
 msgid "Adding to xorg.conf:"
@@ -651,9 +630,8 @@ msgid "Do you want to configure X using free nvidia driver"
 msgstr "Voulez vous configurer X avec le pilote nvidia libre"
 
 #: tinyutils/hwsetup:652
-#, sh-format
-msgid "Create $xorg55short configured with nv driver."
-msgstr "Crée $xorg55short pour le pilote nv."
+msgid "Create %s configured with nv driver."
+msgstr "Crée %s pour le pilote nv."
 
 #: tinyutils/hwsetup:678
 msgid "Do you want to configure X using non-free catalyst ATI (radeon) driver"
@@ -661,9 +639,8 @@ msgstr ""
 "Voulez vous configurer X avec le pilote catalyst ATI (radeon) non-libre"
 
 #: tinyutils/hwsetup:682
-#, sh-format
-msgid "If ati fails, you can remove $xorg55 to restore previous config."
-msgstr "Si ATI se plante, retirez $xorg55 pour restorer la config précédante."
+msgid "If ati fails, you can remove %s to restore previous config."
+msgstr "Si ATI se plante, retirez %s pour restorer la config précédante."
 
 #: tinyutils/hwsetup:691
 msgid "Checking if ati catalyst is working..."
@@ -683,14 +660,12 @@ msgid "Do you want to configure X using free ATI (radeon) driver"
 msgstr "Voulez vous configurer X avec le pilote libre ATI (radeon)"
 
 #: tinyutils/hwsetup:715
-#, sh-format
-msgid "If ATI fails, you can remove $xorg55 to restore previous config."
-msgstr "Si ATI se plante, retirez $xorg55 pour restorer la config précédante."
+msgid "If ATI fails, you can remove %s to restore previous config."
+msgstr "Si ATI se plante, retirez %s pour restorer la config précédante."
 
 #: tinyutils/hwsetup:717
-#, sh-format
-msgid "Create $xorg55short configured with radeon driver."
-msgstr "Création de $xorg55short avec le pilote radeon."
+msgid "Create %s configured with radeon driver."
+msgstr "Création de %s avec le pilote radeon."
 
 #: tinyutils/hwsetup:723
 msgid "Checking if ATI radeon is working..."
@@ -796,8 +771,8 @@ msgid "Root Password"
 msgstr "Mot de passe:"
 
 #: tinyutils/slitaz-config:44
-msgid "Enter new password for \\Zb\\Z1root"
-msgstr "Entrez le nouveau mot de passe de \\Zb\\Z1root"
+msgid "Enter new password for %s"
+msgstr "Entrez le nouveau mot de passe de %s"
 
 #: tinyutils/slitaz-config:53
 msgid "Add User"
@@ -808,9 +783,8 @@ msgid "Enter login name for the new \\Zb\\Z4user"
 msgstr "Entrez l'identifiant du nouvel utilisateur \\Zb\\Z4utilisateur"
 
 #: tinyutils/slitaz-config:61
-#, sh-format
-msgid "Enter password for user \\Zb\\Z4$user"
-msgstr "Entrez le mot de passe de l'utilisateur \\Zb\\Z4$user"
+msgid "Enter password for user \\Zb\\Z4%s"
+msgstr "Entrez le mot de passe de l'utilisateur \\Zb\\Z4%s"
 
 #: tinyutils/slitaz-config:121
 msgid "connected"
@@ -858,9 +832,8 @@ msgid "Wi-Fi Password"
 msgstr "Mot de passe:"
 
 #: tinyutils/slitaz-config:177 tinyutils/slitaz-config:188
-#, sh-format
-msgid "Enter Wi-Fi key (password) for \\Zb\\Z4$essid"
-msgstr "Enterz la clé (ou mot de passe) Wi-Fi pour \\Zb\\Z4$essid"
+msgid "Enter Wi-Fi key (password) for \\Zb\\Z4%s"
+msgstr "Enterz la clé (ou mot de passe) Wi-Fi pour \\Zb\\Z4%s"
 
 #: tinyutils/slitaz-config:197
 msgid "Shutting down network interfaces..."
@@ -868,7 +841,7 @@ msgstr "Arrêt des interfaces réseau..."
 
 #: tinyutils/slitaz-config:201
 #, fuzzy
-msgid "Configuring: /etc/network.conf..."
+msgid "Configuring: %s..."
 msgstr "Configuration de Xorg..."
 
 #: tinyutils/slitaz-config:211
@@ -880,9 +853,8 @@ msgid "Checking connection..."
 msgstr "Vérifie la connexion..."
 
 #: tinyutils/slitaz-config:220
-#, sh-format
-msgid "IP address: $ip"
-msgstr "Adresse IP : $ip"
+msgid "IP address: %s"
+msgstr "Adresse IP : %s"
 
 #: tinyutils/slitaz-config:222
 msgid "Unable to connect..."
@@ -944,8 +916,8 @@ msgstr "Sortie de SliTaz Config"
 #~ msgid "You must be root to configure X server."
 #~ msgstr "Vous devez être root pour configurer le serveur X."
 
-#~ msgid "Setting system locale to: $locale"
-#~ msgstr "Paramétrage de la langue du système : $locale"
+#~ msgid "Setting system locale to: %s"
+#~ msgstr "Paramétrage de la langue du système : %s"
 
 #~ msgid "You must be root to run:"
 #~ msgstr "Vous devez être root pour lancer:"

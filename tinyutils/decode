@@ -50,11 +50,11 @@ check_tool() {
 	dec=$1
 	name="$(basename "$file")"
 	if [ ! -x /usr/bin/$1 ]; then
-		_ 'Missing decoder: $dec'
-		_ 'Skipping file: $name'
+		_ 'Missing decoder: %s' "$dec"
+		_ 'Skipping file: %s' "$name"
 		continue
 	else
-		_ 'Decoding: $name'
+		_ 'Decoding: %s' "$name"
 		newline
 	fi
 }
@@ -65,7 +65,7 @@ check_tool() {
 decoder() {
 	newline; separator; newline
 	if [ ! -f "$file" ]; then
-		_ 'No file: $file'
+		_ 'No file: %s' "$file"
 		continue
 	fi
 	ext=$(echo ${file##*.} | tr '[A-Z]' '[a-z]')
@@ -85,9 +85,9 @@ decoder() {
 		wav|mpg|--*)
 			# Skip decoded files and --options.
 			name="$(basename "$file")"
-			_ 'Skipping file: $name'
+			_ 'Skipping file: %s' "$name"
 			continue ;;
-		*) _ 'Unsupported file: $file' ;;
+		*) _ 'Unsupported file: %s' "$file" ;;
 	esac
 }
 

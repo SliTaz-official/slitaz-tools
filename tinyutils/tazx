@@ -284,7 +284,7 @@ autoselect_driver() {
 
 inst_pkg() {
 	pkg="$@"
-	colorize 3 $(_ 'Installing pkg: $pkg')
+	colorize 3 $(_ 'Installing pkg: %s' "$pkg")
 
 	case $(id -u) in
 		0) CMD="tazpkg -gi $@" ;;
@@ -318,8 +318,8 @@ apps_dialog() {
 			app_name_dialog only-installed ;;
 	esac
 
-	if [ $appname != " " ]; then
-		if [ $appname = show_ALL ]; then
+	if [ "$appname" != " " ]; then
+		if [ "$appname" == 'show_ALL' ]; then
 			app_name_dialog full-list
 			inst_pkg $appname
 		fi
@@ -338,8 +338,8 @@ apps_dialog() {
 
 app_name_dialog() {
 	case $1 in
-		full-list) height=24 ;;
-		*)         height=18 ;;
+		full-list) height='24' ;;
+		*)         height='18' ;;
 	esac
 
 	exec 3>&1
@@ -363,7 +363,8 @@ gen_applist() {
 spacefm thunar xfe ytree"
 
 	BROWSERS="arora chrome cream dillo elinks firefox firefox-official iron \
-links lynx midori netsurf opera QtWeb qupzilla retawq seamonkey surf tazweb w3m xombrero"
+links lynx midori netsurf opera QtWeb qupzilla retawq seamonkey surf tazweb \
+w3m xombrero"
 
 	EDITORS="adie beaver bluefish emacs geany jed joe juffed ht le leafpad \
 mcedit mousepad mp-5 nano qedit SciTE tea vi vim xedit xfw zile"
@@ -475,9 +476,9 @@ slitaz_apps_conf() {
 
 	[ -f $apps_conf ] || inst_pkg slitaz-configs --forced
 
-	if [ "$(id -u)" = 0 ]; then
-		user_conf=$apps_conf
-		new_user_conf="/etc/skel/.config/slitaz/applications.conf"
+	if [ "$(id -u)" -eq 0 ]; then
+		user_conf="$apps_conf"
+		new_user_conf='/etc/skel/.config/slitaz/applications.conf'
 		mkdir -p $(dirname $new_user_conf)
 		cp -f $apps_conf $new_user_conf
 	else

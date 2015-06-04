@@ -58,7 +58,7 @@ make_i18n_link() {
 link_language_files() {
 	. /etc/locale.conf
 	LANGUAGE=${LANG%_*}
-	[ "$LANG" == "POSIX" ] && LANGUAGE="en"
+	[ "$LANG" == 'POSIX' ] && LANGUAGE='en'
 
 	# Openbox menu
 	make_i18n_link /etc/xdg/openbox/menu.%%.xml
@@ -110,7 +110,7 @@ gen_utf8_locale() {
 
 system_config() {
 	export LC_ALL=$locale
-	_n "Setting system locale to: $locale"
+	_n 'Setting system locale to: %s' "$locale"
 	echo -e "LANG=$locale\nLC_ALL=$locale" > /etc/locale.conf
 	status
 	gen_utf8_locale
@@ -135,9 +135,9 @@ $(get_locale_name) \
 		1|255) exit 0 ;;
 	esac
 
-	# Default: POSIX = English
-	[ "$locale" = "en" ] && locale="en_US"
-	[ -s /etc/locale.conf ] && RECONFIG="yes"
+	# Default: POSIX => English
+	[ "$locale" = 'en' ] && locale='en_US'
+	[ -s /etc/locale.conf ] && RECONFIG='yes'
 
 	# If it's a reconfiguration give an info message.
 	if [ -n "$RECONFIG" ]; then
@@ -153,9 +153,8 @@ case "$1" in
 	--help|-h)
 		usage ;;
 	info)
-		optlist "\
-$(_ 'Config file:')		/etc/locale.conf
-$(_ 'Current locale:')	$LANG"
+		_ 'Config file: %s' '/etc/locale.conf'
+		_ 'Current locale: %s' "$LANG"
 		;;
 	list)
 		list=

@@ -13,11 +13,11 @@ export TEXTDOMAIN='slitaz-tools' #i18n
 check_root
 
 title="{ $(_ 'SliTaz Config') }"
-about="/usr/share/doc/slitaz/post-install.txt"
+about='/usr/share/doc/slitaz/post-install.txt'
 tmpdir="/tmp/$(basename $0)"
 tmp="$tmpdir/$$"
-height="20"
-width="72"
+height='20'
+width='72'
 
 
 # Use a tmp directory
@@ -48,7 +48,7 @@ about_post_install() {
 
 root_passwd() {
 	dialog --title "{ $(_ 'Root Password') }" --colors \
-		--inputbox "\n$(_ 'Enter new password for \Zb\Z1root')" \
+		--inputbox "\n$(_ 'Enter new password for %s' '\Zb\Z1root')" \
 		12 $width 2>$tmp
 	passwd=$(cat $tmp)
 	[ -z "$passwd" ] && return 0
@@ -67,7 +67,7 @@ add_user() {
 	[ -z "$user" ] && return 0
 
 	dialog --title "$title2" --colors \
-		--inputbox "\n$(_ 'Enter password for user \Zb\Z4$user')" 12 $width 2>$tmp
+		--inputbox "\n$(_ 'Enter password for user \Zb\Z4%s' "$user")" 12 $width 2>$tmp
 	passwd=$(cat $tmp)
 	[ -z "$passwd" ] && return 0
 
@@ -190,7 +190,7 @@ $(detect_wifi) 2>$tmp
 		[ -z "$essid" ] && exit 0
 
 		dialog --title "{ $(_ 'Wi-Fi Password') }" --colors \
-			--inputbox "\n$(_ 'Enter Wi-Fi key (password) for \Zb\Z4$essid')" \
+			--inputbox "\n$(_ 'Enter Wi-Fi key (password) for \Zb\Z4%s' "$essid")" \
 			12 $width 2>$tmp
 		key=$(cat $tmp)
 	else
@@ -201,7 +201,7 @@ $(detect_wifi) 2>$tmp
 
 		if [ "$key" == "on" ]; then
 			dialog --title "{ $(_ 'Wi-Fi Password') }" --colors \
-				--inputbox "\n$(_ 'Enter Wi-Fi key (password) for \Zb\Z4$essid')" \
+				--inputbox "\n$(_ 'Enter Wi-Fi key (password) for \Zb\Z4%s' "$essid")" \
 				12 $width 2>$tmp
 			key=$(cat $tmp)
 			[ -z "$key" ] && exit 0
@@ -214,7 +214,7 @@ $(detect_wifi) 2>$tmp
 		msg 0; stopd network.sh >/dev/null 2>&1
 		msg 10
 
-		MSG="\n$(_ 'Configuring: /etc/network.conf...')"
+		MSG="\n$(_ 'Configuring: %s...' '/etc/network.conf')"
 		msg 20
 		# WIFI_KEY_TYPE=any should work for WEP/WPA*
 		sed -i \
@@ -232,8 +232,8 @@ $(detect_wifi) 2>$tmp
 		msg 90; sleep 2
 		ip="$(ifconfig $WIFI_INTERFACE | fgrep 'inet addr' | sed 's|.*:\([^ ]*\) .*|\1|')"
 
-		if [ "$ip" ]; then
-			MSG="\n$(_ 'IP address: $ip')"
+		if [ -n "$ip" ]; then
+			MSG="\n$(_ 'IP address: %s' "$ip")"
 		else
 			MSG="\n$(_ 'Unable to connect...')"
 		fi

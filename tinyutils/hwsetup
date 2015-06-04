@@ -101,8 +101,8 @@ device() {
 untested() {
 	newline; separator
 	longline $(_ "Due to a lack of compatible hardware for troubleshooting, \
-this \$DEVICE device has not been properly tested. Please report any success, \
-failure, bug to SliTaz Bug tracker or Forum.")
+this %s device has not been properly tested. Please report any success, \
+failure, bug to SliTaz Bug tracker or Forum." "$DEVICE")
 	separator; newline
 	sleep 1
 }
@@ -110,7 +110,7 @@ failure, bug to SliTaz Bug tracker or Forum.")
 
 failed() {
 	newline; separator
-	_ 'Failed to setup $DEVICE'
+	_ 'Failed to setup %s' "$DEVICE"
 	separator; newline
 	sleep 1
 }
@@ -122,7 +122,7 @@ install() {
 	for pkg in $1 ; do
 		# Avoid reinstall
 		if [ ! -d "$INSTALLED/$pkg" ]; then
-			_ 'Installing pkg: $pkg'
+			_ 'Installing pkg: %s' "$pkg"
 			tazpkg get-install "$pkg"
 			if tazpkg list-files "$pkg" | grep -q "/etc/udev" ; then
 				UDEV_RULES="yes"
@@ -138,7 +138,7 @@ confirm_install() {
 	for pkg in $1 ; do
 		# Avoid reinstall
 		if [ ! -d "$INSTALLED/$pkg" ]; then
-			_n 'Would you like to install pkg: $pkg'; confirm
+			_n 'Would you like to install pkg: %s' "$pkg"; confirm
 			if [ $? == 0 ]; then
 				tazpkg get-install "$pkg" --forced
 				if tazpkg list-files "$pkg" | grep -q "/etc/udev" ; then
@@ -156,7 +156,7 @@ add_all_user_to_group() {
 	for grp in $GROUP ; do
 		for user in $USERS ; do
 			if ! grep -q "$grp.*$user.*" /etc/group ; then
-				_ 'adding $user to $grp'
+				_ 'adding %s to %s' "$user" "$grp"
 				addgroup "$user" "$grp"
 			fi
 		done
@@ -190,8 +190,8 @@ find_usb_device() {
 			vendor=$(zcat $USB_IDS | grep $vendorid | head -1)
 			product=$(zcat $USB_IDS | grep $productid | head -2 | \
 				awk ' { print $1,$2,$3,$4} ' | sed -e :a -e '$!N;s/\n/ ; /;ta')
-			_ " $count) Vendor  : $vendor "
-			_ "    Product : $product"
+			_ ' %s) Vendor  : %s ' "$count" "$vendor"
+			_ '    Product : %s' "$product"
 			separator
 			count=$(expr $count + 1)
 		done
@@ -202,7 +202,8 @@ find_usb_device() {
 
 
 confirm_device() {
-	_ "Which no. is your $DEVICE shown in the above lines (1,2,3,none)? "; read choice
+	_n 'Which no. is your %s shown in the above lines (1,2,3,none)? ' "$DEVICE"
+	read choice
 	case "$choice" in
 		1|2|3)
 			dev=$(echo "$DEVICES_LIST" | head -$choice | tail -1)
@@ -241,8 +242,8 @@ fix_usb_permissions() {
 			chmod 666 /dev/bus/usb/*$busno/*$deviceno
 			chgrp $grp /dev/bus/usb/*$busno/*$deviceno
 			newline; separator
-			boldify "$(_ 'Verify $DEVICE Permissions')"
-			_ 'Your $DEVICE must be in $grp group with rw-rw-rw- permissions'
+			boldify "$(_ 'Verify %s Permissions' "$DEVICE")"
+			_ 'Your %s must be in %s group with rw-rw-rw- permissions' "$DEVICE" "$grp"
 			ls -l /dev/bus/usb/*$busno/*$deviceno
 			separator; newline
 		fi
@@ -344,7 +345,7 @@ wvdialbox() {
 		PASSWORD="passwd"
 		PIN="9999"
 		[ -n "$MODEM" ] || MODEM="/dev/ttyUSB0"
-		cat > $CONF << EOT
+		cat > $CONF <<EOT
 [Dialer slitaz]
 Phone = $PHONE
 Username = $USERNAME
@@ -506,8 +507,7 @@ setup() {
 				else
 					newline; separator
 					_ 'Camera is set up; please use gphoto2 to import photos'
-					guide_url='http://www.gphoto.org/doc/manual/using-gphoto2.html'
-					_ 'Quick start guide: $guide_url'
+					_ 'Quick start guide: %s' 'http://www.gphoto.org/doc/manual/using-gphoto2.html'
 					separator; newline
 				fi
 			else
@@ -548,7 +548,7 @@ bluez-simple-agent	$(_n 'pairing with remote bluetooth devices...')"
 					newline
 					bt=$(emsg '<b>/etc/bluetooth</b>')
 					longline $(_ "You can manually edit the configuration \
-files in \$bt if need be")
+files in %s if need be" "$bt")
 					separator; newline
 				fi
 			else
@@ -569,7 +569,7 @@ bluez-simple-agent	$(_n 'pairing with remote bluetooth devices')"
 				newline
 				bt=$(emsg '<b>/etc/bluetooth</b>')
 				longline $(_ "You can manually edit the configuration files \
-in \$bt if need be")
+in %s if need be" "$bt")
 				newline; separator
 			fi
 			;;
@@ -591,11 +591,9 @@ in \$bt if need be")
 				else
 					#nameserver `tail -30 /var/log/messages| grep DNS| sed 's/*\([.0-9]*\)$/\1/'` >/etc/resolv.conf
 					newline; separator
-					wc=$(boldify '/etc/wvdial.conf')
-					rc=$(boldify '/etc/resolv.conf')
 					optlist "\
-wvdialconf	$(_ 'Edit $wc for phone number, login name, password and pin')
-wvdial		$(_ 'Add DNS address of your provider in $rc')"
+wvdialconf	$(_ 'Edit %s for phone number, login name, password and pin' "$(boldify '/etc/wvdial.conf')")
+wvdial		$(_ 'Add DNS address of your provider in %s' "$(boldify '/etc/resolv.conf')")"
 					separator
 				fi
 			else
@@ -613,11 +611,11 @@ wvdial		$(_ 'Add DNS address of your provider in $rc')"
 				/etc/init.d/firewall start
 				if [ -d $INSTALLED/nmap ]; then
 					separator
-					_ "Probing for open ports..."
+					_ 'Probing for open ports...'
 					nmap localhost
 					separator
 				fi
-				_ "Adding firewall daemon to start automatically at boot"
+				_ 'Adding firewall daemon to start automatically at boot'
 				run_daemon_startup "firewall"
 				separator
 			fi
@@ -637,8 +635,8 @@ wvdial		$(_ 'Add DNS address of your provider in $rc')"
 				_n 'Do you want to configure X using non-free nvidia driver'; confirm
 				if [ $? == 0 ]; then
 					newline
-					_ 'Your previous config is in $xorg60'
-					_ 'If nvidia fails, you can remove $xorg55 to restore previous config.'
+					_ 'Your previous config is in %s' "$xorg60"
+					_ 'If nvidia fails, you can remove %s to restore previous config.' "$xorg55"
 					Xorg -configure :1 > /dev/null
 					nvidia-xconfig -c /root/xorg.conf.new -o /tmp/xorg.conf.nvidia
 					sed -e '/Section "Device"/,/EndSection/!d' -e "s/EndSection/EndSection\n/" /tmp/xorg.conf.nvidia > $xorg55
@@ -660,7 +658,7 @@ wvdial		$(_ 'Add DNS address of your provider in $rc')"
 				else
 					newline; separator
 					xcmd='Xorg -configure :1 && nvidia-xconfig -c /root/xorg.conf.new -o /tmp/xorg.conf.nvidia'
-					_ "Use '$xcmd' to generate a template configuration file."
+					_ "Use '%s' to generate a template configuration file." "$xcmd"
 					echo 'glxinfo | grep rendering #' $(_n 'test nvidia')
 					_ 'Use: nvidia-settings utility to configure your settings if necessary'
 					echo 'Option "NoLogo" "True"'
@@ -676,10 +674,10 @@ wvdial		$(_ 'Add DNS address of your provider in $rc')"
 				_n 'Do you want to configure X using free nvidia driver'; confirm
 				if [ $? == 0 ]; then
 					newline; separator
-					_ 'Your previous config is in $xorg60'
-					_ 'If nvidia fails, you can remove $xorg55 to restore previous config.'
+					_ 'Your previous config is in %s' "$xorg60"
+					_ 'If nvidia fails, you can remove %s to restore previous config.' "$xorg55"
 					newline
-					_ 'Create $xorg55short configured with nv driver.'
+					_ 'Create %s configured with nv driver.' "$xorg55short"
 
 					# free nvidia driver is called nv
 					cp -a $xorg60 $xorg55
@@ -708,8 +706,8 @@ wvdial		$(_ 'Add DNS address of your provider in $rc')"
 				_n 'Do you want to configure X using non-free catalyst ATI (radeon) driver'; confirm
 				if [ $? == 0 ]; then
 					newline
-					_ 'Your previous config is in $xorg60'
-					_ 'If ati fails, you can remove $xorg55 to restore previous config.'
+					_ 'Your previous config is in %s' "$xorg60"
+					_ 'If ati fails, you can remove %s to restore previous config.' "$xorg55"
 
 					# add fglrx driver to xorg.conf
 					Xorg -configure :1 > /dev/null
@@ -741,10 +739,10 @@ EOT
 				_n 'Do you want to configure X using free ATI (radeon) driver'; confirm
 				if [ $? == 0 ]; then
 					newline; separator
-					_ 'Your previous config is in $xorg60'
-					_ 'If ATI fails, you can remove $xorg55 to restore previous config.'
+					_ 'Your previous config is in %s' "$xorg60"
+					_ 'If ATI fails, you can remove %s to restore previous config.' "$xorg55"
 					newline
-					_ 'Create $xorg55short configured with radeon driver.'
+					_ 'Create %s configured with radeon driver.' "$xorg55short"
 
 					# free ati driver is called radeon
 					cp -a /etc/X11/xorg.conf.d/60-Device.conf /etc/X11/xorg.conf.d/55-DeviceTweaks.conf
@@ -787,7 +785,7 @@ case "$1" in
 
 		device
 		#untested
-		if [ ! "$NON_FREE_DEPENDS" == "" -a "$NON_FREE" == "yes" ]; then
+		if [ -n "$NON_FREE_DEPENDS" -a "$NON_FREE" == "yes" ]; then
 			DEPENDS="$NON_FREE_DEPENDS"
 		fi
 
