@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-11-20 05:20+0200\n"
-"PO-Revision-Date: 2014-07-01 18:05+0800\n"
-"Last-Translator: 张文宇 <jame987165702@gmail.com>\n"
+"PO-Revision-Date: 2015-07-10 16:32+0800\n"
+"Last-Translator: Wenyu Zhang <jame987165702@gmail.com>\n"
 "Language-Team: \n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.6.5\n"
+"X-Generator: Poedit 1.8.2\n"
 
 #: tinyutils/tazlocale:15
 msgid "SliTaz GNU/Linux locale setting using dialog boxes."
@@ -106,7 +106,6 @@ msgid "Tazx helps you to select your X driver."
 msgstr "Tazx帮助你选择你的X驱动程序。"
 
 #: tinyutils/tazx:244
-#, fuzzy
 msgid "Auto configuring"
 msgstr "自动配置Xorg中…"
 
@@ -119,35 +118,32 @@ msgid "Quit"
 msgstr "离开"
 
 #: tinyutils/tazx:276
-#, fuzzy
 msgid "Failed to setup driver"
-msgstr "未能设置%s"
+msgstr "无法安装驱动程序"
 
 #: tinyutils/tazx:276
 msgid "(unknown hardware)"
-msgstr ""
+msgstr "（未知硬件）"
 
 #: tinyutils/tazx:289 tinyutils/hwsetup:117
 msgid "Installing pkg: %s"
 msgstr "安装 %s包"
 
 #: tinyutils/tazx:307 tinyutils/tazx:423
-#, fuzzy
 msgid "Install Window Manager and applications"
-msgstr "扫描仪应用"
+msgstr "安装窗口管理器和应用程序"
 
 #: tinyutils/tazx:393 tinyutils/tazx:399
-#, fuzzy
 msgid "Install"
-msgstr "安装Xorg"
+msgstr "安装"
 
 #: tinyutils/tazx:409
 msgid "ON"
-msgstr ""
+msgstr "开"
 
 #: tinyutils/tazx:410 tinyutils/tazx:441
 msgid "OFF"
-msgstr ""
+msgstr "关"
 
 #: tinyutils/tazx:417
 msgid "SliTaz Xorg config"
@@ -163,11 +159,11 @@ msgstr "安装Xorg服务器（简版）"
 
 #: tinyutils/tazx:421
 msgid "AutoStart Xorg by SLiM on boot"
-msgstr ""
+msgstr "开机自动启动Xorg by SLiM"
 
 #: tinyutils/tazx:422
 msgid "(Re)Start Simple Login Manager now"
-msgstr ""
+msgstr "重启简单登录管理器"
 
 #: tinyutils/tazx:424
 msgid "Quit Tazx utility"
@@ -175,11 +171,11 @@ msgstr "退出Tazx实用程序"
 
 #: tinyutils/tazx:449
 msgid "Start X on boot:"
-msgstr ""
+msgstr "启动X在开机时："
 
 #: tinyutils/tazx:551
 msgid "Configuration tool for SliTaz GNU/Linux"
-msgstr ""
+msgstr "Slitaz GNU / Linux配置工具"
 
 #: tinyutils/tazx:553 tinyutils/hwsetup:25
 msgid "command"
@@ -187,45 +183,43 @@ msgstr "命令"
 
 #: tinyutils/tazx:553
 msgid "parameter"
-msgstr ""
+msgstr "参数"
 
 #: tinyutils/tazx:555 tinyutils/hwsetup:27 tinyutils/frugal:36
 msgid "Commands:"
 msgstr "命令:"
 
 #: tinyutils/tazx:556
-#, fuzzy
 msgid "Install Xorg and selected Xorg driver"
-msgstr "安装Xorg服务器（简版）"
+msgstr "安装Xorg和选择Xorg的驱动程序"
 
 #: tinyutils/tazx:557
-#, fuzzy
 msgid "Configure Xorg, generate configuration files"
-msgstr "用途：aticonfig是生成模板的配置文件的实用工具，如果必要的话。"
+msgstr "配置Xorg，生成的配置文件"
 
 #: tinyutils/tazx:558
 msgid "Set monitor default depth (valid parameters: 8, 15, 16 or 24)"
-msgstr ""
+msgstr "设置显示器默认色深（有效参数：8，15，16或24）"
 
 #: tinyutils/tazx:559
 msgid "Auto-select and install Xorg driver"
-msgstr ""
+msgstr "自动选择并安装Xorg驱动程序"
 
 #: tinyutils/tazx:560
 msgid "Get files for starting an X session and config the keyboard"
-msgstr ""
+msgstr "获取文件用以启动X会话和配置键盘"
 
 #: tinyutils/tazx:561
 msgid "Generate or regenerate Xorg keyboard config"
-msgstr ""
+msgstr "生成或重新生成Xorg的键盘配置"
 
 #: tinyutils/tazx:572
 msgid "Run tazx as root if you need to configure xorg"
-msgstr ""
+msgstr "以root用户运行tazx，如果你需要配置xorg"
 
 #: tinyutils/decode:28
 msgid "Decode audio and video files"
-msgstr "音频和视频文件的解码"
+msgstr "解码音频和视频文件"
 
 #: tinyutils/decode:31 tinyutils/decode:36
 msgid "file"
@@ -357,12 +351,12 @@ msgstr "在安装可选的相关性确认"
 
 #: tinyutils/hwsetup:98
 msgid ""
-"Due to a lack of compatible hardware for troubleshooting, this %s "
-"device has not been properly tested. Please report any success, failure, bug "
-"to SliTaz Bug tracker or Forum."
+"Due to a lack of compatible hardware for troubleshooting, this %s device has "
+"not been properly tested. Please report any success, failure, bug to SliTaz "
+"Bug tracker or Forum."
 msgstr ""
-"由于不兼容的硬件故障，这个 %s 设备没有得到正确的测试。请报告任何成功，失"
-"败，错误SliTaz bug跟踪或论坛。"
+"由于不兼容的硬件故障，这个 %s 设备没有得到正确的测试。请报告任何成功，失败，"
+"错误SliTaz bug跟踪或论坛。"
 
 #: tinyutils/hwsetup:107
 msgid "Failed to setup %s"
@@ -565,9 +559,8 @@ msgid "Add DNS address of your provider in %s"
 msgstr "添加您的供应商DNS地址在%s"
 
 #: tinyutils/hwsetup:577
-#, fuzzy
 msgid "Setting IPTABLES_RULES to yes in /etc/slitaz/firewall.conf"
-msgstr "设置 IPTABLES_RULES是在/etc/SliTaz/ firewall.conf"
+msgstr "在/etc/slitaz/firewall.conf中设置IPTABLES_RULES为yes "
 
 #: tinyutils/hwsetup:586
 msgid "Probing for open ports..."
@@ -616,8 +609,7 @@ msgstr "你要配置X使用免费的驱动程序吗"
 
 #: tinyutils/hwsetup:652
 msgid "Create %s configured with nv driver."
-msgstr ""
-"创建%s配置nvidia显卡驱动。（原文：Create configured with nv driver.）"
+msgstr "创建%s配置nvidia显卡驱动。（原文：Create configured with nv driver.）"
 
 #: tinyutils/hwsetup:678
 msgid "Do you want to configure X using non-free catalyst ATI (radeon) driver"
@@ -650,8 +642,7 @@ msgstr "如果ATI失败，您可以删除%s恢复到以前的配置。"
 
 #: tinyutils/hwsetup:717
 msgid "Create %s configured with radeon driver."
-msgstr ""
-"创建%s配置显卡驱动。（原文：Create configured with radeon driver.）"
+msgstr "创建%s配置显卡驱动。（原文：Create configured with radeon driver.）"
 
 #: tinyutils/hwsetup:723
 msgid "Checking if ATI radeon is working..."
@@ -738,148 +729,141 @@ msgid "Unmounting ISO image..."
 msgstr "卸载ISO 映像中..."
 
 #: tinyutils/slitaz-config:14
-#, fuzzy
 msgid "SliTaz Config"
-msgstr "SliTaz Xorg配置"
+msgstr "SliTaz配置"
 
 #: tinyutils/slitaz-config:36
-#, fuzzy
 msgid "Post Installation"
-msgstr "设置根文件系统（root）安装路径"
+msgstr "安装后"
 
 #: tinyutils/slitaz-config:37
 msgid "Continue"
-msgstr ""
+msgstr "继续"
 
 #: tinyutils/slitaz-config:43
-#, fuzzy
 msgid "Root Password"
-msgstr "密码:"
+msgstr "Root密码"
 
 #: tinyutils/slitaz-config:44
 msgid "Enter new password for %s"
-msgstr ""
+msgstr "输入%s的新密码"
 
 #: tinyutils/slitaz-config:53
 msgid "Add User"
-msgstr ""
+msgstr "新建用户"
 
 #: tinyutils/slitaz-config:56
 msgid "Enter login name for the new \\Zb\\Z4user"
-msgstr ""
+msgstr "为新的\\Zb\\Z4用户输入登录名"
 
 #: tinyutils/slitaz-config:61
 msgid "Enter password for user \\Zb\\Z4%s"
-msgstr ""
+msgstr "为新的\\Zb\\Z4用户%s输入密码"
 
 #: tinyutils/slitaz-config:121
 msgid "connected"
-msgstr ""
+msgstr "已连接"
 
 #: tinyutils/slitaz-config:136
 msgid "Quality"
-msgstr ""
+msgstr "质量"
 
 #: tinyutils/slitaz-config:136
 msgid "Key"
-msgstr ""
+msgstr "键"
 
 #: tinyutils/slitaz-config:140 tinyutils/slitaz-config:169
 msgid "hidden.network"
-msgstr ""
+msgstr "隐藏的网络"
 
 #: tinyutils/slitaz-config:140
 msgid "Connect.to.a.hidden.network"
-msgstr ""
+msgstr "连接到一个隐藏的网络"
 
 #: tinyutils/slitaz-config:156
 msgid "Select"
-msgstr ""
+msgstr "选择"
 
 #: tinyutils/slitaz-config:157
 msgid "Connect to a Wi-Fi network"
-msgstr ""
+msgstr "连接到Wi-Fi网络"
 
 #: tinyutils/slitaz-config:159
 msgid "Connect.to.any.network"
-msgstr ""
+msgstr "连接到任何网络"
 
 #: tinyutils/slitaz-config:170
 msgid "Wi-Fi ESSID"
-msgstr ""
+msgstr "无线网络名称(ESSID)："
 
 #: tinyutils/slitaz-config:171
 msgid "Enter Wi-Fi access point ESSID (name)"
-msgstr ""
+msgstr "输入Wi-Fi接入点的ESSID（名称）"
 
 #: tinyutils/slitaz-config:176 tinyutils/slitaz-config:187
-#, fuzzy
 msgid "Wi-Fi Password"
-msgstr "密码:"
+msgstr "Wi-Fi密码"
 
 #: tinyutils/slitaz-config:177 tinyutils/slitaz-config:188
 msgid "Enter Wi-Fi key (password) for \\Zb\\Z4%s"
-msgstr ""
+msgstr "对于\\Zb\\Z4%s输入无线网络密钥（密码）"
 
 #: tinyutils/slitaz-config:197
 msgid "Shutting down network interfaces..."
-msgstr ""
+msgstr "关闭网络接口..."
 
 #: tinyutils/slitaz-config:201
-#, fuzzy
 msgid "Configuring: %s..."
-msgstr "配置Xorg中…"
+msgstr "配置：%s..."
 
 #: tinyutils/slitaz-config:211
 msgid "Restarting Wi-Fi interface..."
-msgstr ""
+msgstr "重新启动Wi-Fi接口..."
 
 #: tinyutils/slitaz-config:215
 msgid "Checking connection..."
-msgstr ""
+msgstr "检查连接..."
 
 #: tinyutils/slitaz-config:220
 msgid "IP address: %s"
-msgstr ""
+msgstr "IP地址: %s"
 
 #: tinyutils/slitaz-config:222
 msgid "Unable to connect..."
-msgstr ""
+msgstr "无法连接"
 
 #: tinyutils/slitaz-config:226
 msgid "Wi-Fi Config"
-msgstr ""
+msgstr "无线网络配置"
 
 #: tinyutils/slitaz-config:233
 msgid "Exec"
-msgstr ""
+msgstr "执行"
 
 #: tinyutils/slitaz-config:235
-#, fuzzy
 msgid "System keyboard setting"
-msgstr "SliTaz键盘设置"
+msgstr "系统键盘设置"
 
 #: tinyutils/slitaz-config:236
-#, fuzzy
 msgid "System language setting"
-msgstr "SliTaz语言设置"
+msgstr "系统语言设置"
 
 #: tinyutils/slitaz-config:237
 msgid "Wi-Fi network settings"
-msgstr ""
+msgstr "Wi-Fi网络设置"
 
 #: tinyutils/slitaz-config:238
 msgid "Add a new user"
-msgstr ""
+msgstr "添加一个新用户"
 
 #: tinyutils/slitaz-config:239
 msgid "Change root password"
-msgstr ""
+msgstr "更改密码"
 
 #: tinyutils/slitaz-config:240
 msgid "Set system date from the web"
-msgstr ""
+msgstr "从web获取系统日期"
 
 #: tinyutils/slitaz-config:241
 msgid "Exit from SliTaz Config"
-msgstr ""
+msgstr "从Slitaz里配置退出"
