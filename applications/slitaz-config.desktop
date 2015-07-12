@@ -1,6 +1,7 @@
 [Desktop Entry]
 Type=Application
 Name=SliTaz Config Dialogs
+Name=Configuration de SliTaz
 Name[ru]=Настройка SliTaz
 Exec=terminal -e "su -c slitaz-config"
 Icon=slitaz-icon

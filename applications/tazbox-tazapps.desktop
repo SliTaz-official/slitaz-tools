@@ -1,6 +1,7 @@
 [Desktop Entry]
 Type=Application
 Name=Default applications
+Name[fr]=Applications par défaut
 Name[ru]=Избранные приложения
 Comment=SliTaz default applications configuration
 Comment[ru]=Настройка избранных приложений SliTaz
