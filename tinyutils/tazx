@@ -148,6 +148,10 @@ keyboard_conf() {
 		uk)
 			# English UK
 			layout="gb" ;;
+		gr)
+			# Greek
+			layout="us,gr"
+			options="grp:ctrl_shift_toggle, grp_led:scroll, compose:ralt, $options" ;;
 		ru)
 			# Russian
 			layout="us,ru"
