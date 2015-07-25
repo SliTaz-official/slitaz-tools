@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-11-20 05:20+0200\n"
-"PO-Revision-Date: 2015-07-10 16:32+0800\n"
+"PO-Revision-Date: 2015-07-25 13:09+0800\n"
 "Last-Translator: Wenyu Zhang <jame987165702@gmail.com>\n"
 "Language-Team: \n"
 "Language: zh_CN\n"
@@ -770,7 +770,7 @@ msgstr "质量"
 
 #: tinyutils/slitaz-config:136
 msgid "Key"
-msgstr "键"
+msgstr "密钥"
 
 #: tinyutils/slitaz-config:140 tinyutils/slitaz-config:169
 msgid "hidden.network"
@@ -866,4 +866,4 @@ msgstr "从web获取系统日期"
 
 #: tinyutils/slitaz-config:241
 msgid "Exit from SliTaz Config"
-msgstr "从Slitaz里配置退出"
+msgstr "从Slitaz配置里退出"
