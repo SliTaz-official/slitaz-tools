@@ -141,30 +141,48 @@ keyboard_conf() {
 	_n 'Creating:'; echo -n " $keyboard_config"
 	mkdir -p $(dirname $keyboard_config)
 
+	# Reference: syslinux receipt; LXPanel keyboard layout switcher
 	case "$keymap" in
-		fr_CH-latin1)
-			# Swiss FrenCH
-			layout="ch"; variant="fr" ;;
-		uk)
-			# English UK
-			layout="gb" ;;
-		gr)
-			# Greek
-			layout="us,gr"
+		# Swiss FrenCH
+		fr_CH-latin1)	layout='ch'; variant='fr' ;;
+		# English UK
+		uk)				layout='gb' ;;
+		# Greek
+		gr)				layout='us,gr'
 			options="grp:ctrl_shift_toggle, grp_led:scroll, compose:ralt, $options" ;;
-		ru)
-			# Russian
-			layout="us,ru"
+		# Russian
+		ru)				layout='us,ru'
 			options="grp:ctrl_shift_toggle, grp_led:scroll, compose:ralt, $options" ;;
-		ua)
-			# Ukrainian
-			layout="us,ua,ru"
+		# Ukrainian
+		ua)				layout='us,ua,ru'
 			options="grp:ctrl_shift_toggle, compose:ralt, $options" ;;
-		slovene)
-			# Slovenian
-			layout="si"; options="grp:alt_shift_toggle, $options" ;;
-		us-acentos)
-			layout="us"; variant="intl" ;;
+		# Slovenian
+		slovene)		layout='si' ;;
+		# Brasil (us-acentos); English US (acentos)
+		us-acentos)		layout='us'; variant='intl' ;;
+		# Deutsch Schweiz
+		de_CH-latin1)	layout='ch' ;;
+		# Deutsch Schweiz (sg) in syslinux menu
+		sg-latin1)
+			# I can't guess appropriate layout for this one
+			;;
+		# Dvorak
+		dvorak)			layout='us'; variant='dvorak'   ;;
+		dvorak-l)		layout='us'; variant='dvorak-l' ;;
+		dvorak-r)		layout='us'; variant='dvorak-r' ;;
+		# French (Canada)
+		cf)				layout='ca' ;;
+		# Croatian
+		hr,croat|croat)	layout='hr' ;;
+		# Japanese
+		jp106)			layout='jp' ;; # is ok?
+		# Dutch
+		nl2)			layout='nl' ;;
+		# Polish
+		pl2)			layout='pl' ;;
+		# Turkish
+		trq)			layout='tr' ;;
+		tr_q-latin5)	layout='tr'; variant='ku' ;; # is ok?
 		*)
 			# Use clean /etc/keymap.conf value.
 			keymap=${keymap%-latin1}
