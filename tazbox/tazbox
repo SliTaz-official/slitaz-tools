@@ -12,6 +12,11 @@
 export TEXTDOMAIN='tazbox' # i18n
 
 
+# Get SliTaz settings
+
+. /etc/slitaz/slitaz.conf
+
+
 # download dir (may be in a config file)
 
 DOWNLOADS="$HOME/Downloads"
@@ -377,14 +382,14 @@ tz() {
 # if installed
 
 if_installed() {
-	[ -d /var/lib/tazpkg/installed/$1 ]
+	[ -d "$INSTALLED/$1" ]
 }
 
 
 # get package's description, install flag and sizes
 
 desc_etc() {
-	if grep -q "^$1"$'\t' /var/lib/tazpkg/installed.info; then
+	if grep -q "^$1"$'\t' "$PKGS_DB/installed.info"; then
 		echo 'TRUE' >> $PKGS_LIST; echo $1 >> $ORIG_LIST
 	else
 		echo 'FALSE' >> $PKGS_LIST
@@ -393,7 +398,7 @@ desc_etc() {
 		($1==p){
 			split($7, s, " ");
 			printf "%s\n%s\n%s\n%s\n", $1, $4, s[1], s[2];
-		}' /var/lib/tazpkg/packages.info >> $PKGS_LIST
+		}' "$PKGS_DB/packages.info" >> $PKGS_LIST
 }
 
 
@@ -407,16 +412,30 @@ rm_temp() {
 # install/remove locale packages
 
 manage_i18n() {
-	tazbox notify "$(_ 'Please wait')" appointment-soon &
-
 	PKGS_LIST=$(mktemp)
 	ORIG_LIST=$(mktemp)
 	ANSWER=$(mktemp)
 	NEW_LIST=$(mktemp)
 	LIST1=$(mktemp)
 	LIST2=$(mktemp)
-	PLIST='/var/lib/tazpkg/packages.list'
-	PINFO='/vat/lib/tazpkg/packages.info'
+	PINFO="$PKGS_DB/packages.info"
+
+	if [ ! -e "$PINFO" ]; then
+		icon='dialog-warning'
+		yad --title="$(_n 'Manage locale packages')" --window-icon="$icon" \
+			--width='400' --on-top --center \
+			--image="$icon" --image-on-top \
+			--text="$(_n 'Please, recharge packages database.')" \
+			--button="$(_n 'Recharge list')!reload:2" \
+			--button="gtk-cancel:1"
+
+		case "$?" in
+			1) rm_tmp; return;;
+			2) tazbox recharge;;
+		esac
+	fi
+
+	tazbox notify "$(_ 'Please wait')" appointment-soon &
 
 	for i in $(awk -F$'\t' '$1~/^locale-[a-z_A-Z]+$/{print $1}' $PINFO); do
 		desc_etc $i
@@ -482,13 +501,16 @@ manage_i18n() {
 		--column="$(_n 'Inst.'):CHK" --column="$(_n 'Package Name'):TEXT" \
 		--column="$(_n 'Description'):TEXT" --column="$(_n 'Size'):TEXT" \
 		--column="$(_n 'Installed'):TEXT" \
-		--button="$(_n 'Recharge list')!reload:tazbox recharge" \
+		--button="$(_n 'Recharge list')!reload:4" \
 		--button="$(_n 'Install/Remove')!system-upgrade:2" \
 		--button="gtk-cancel:1" \
 		--print-all
 	} > $ANSWER
 
-	if [ "$?" -eq 1 ]; then rm_temp; exit 0; fi
+	case "$?" in
+		1) rm_temp; exit 0;;
+		4) tazbox recharge; rm_tmp; tazbox manage_i18n; exit 0;;
+	esac
 
 	grep -e 'TRUE' $ANSWER | cut -d'|' -f2 > $NEW_LIST
 
@@ -676,7 +698,7 @@ case "$1" in
 		;;
 
 	recharge)
-		ask_root $@; opts='--on-top'; tazpkg recharge | output_command
+		ask_root $@; opts='--on-top'; output=raw tazpkg recharge | output_command
 		;;
 
 	setup)
