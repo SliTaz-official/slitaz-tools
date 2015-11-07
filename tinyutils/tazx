@@ -106,7 +106,7 @@ xkb() {
 							XKB='Plugin {\
     type = xkb\
     Config {\
-        DisplayType=0\
+        DisplayType=1\
         PerWinLayout=0\
         NoResetOpt=0\
         KeepSysLayouts=1\
@@ -183,6 +183,9 @@ keyboard_conf() {
 		# Turkish
 		trq)			layout='tr' ;;
 		tr_q-latin5)	layout='tr'; variant='ku' ;; # is ok?
+		# Persian(Farsi) (Iran)
+		ir)				layout='us,ir'
+			options="grp:alt_shift_toggle, grp_led:scroll, $options" ;;
 		*)
 			# Use clean /etc/keymap.conf value.
 			keymap=${keymap%-latin1}
