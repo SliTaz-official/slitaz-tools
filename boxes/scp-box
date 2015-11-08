@@ -83,8 +83,8 @@ scpbox_main() {
 		--field="$(_n 'Local file:'):FL" "$file" \
 		--field="$(_n 'Local directory:'):DIR" "$dir" \
 		--field="$(_n 'Remote path:')" "" \
-		--button="$(_n 'Download'):2" \
-		--button="$(_n 'Upload'):0" \
+		--button="$(_n 'Download')!go-down:2" \
+		--button="$(_n 'Upload')!go-up:0" \
 		--button="gtk-close:1"
 }
 

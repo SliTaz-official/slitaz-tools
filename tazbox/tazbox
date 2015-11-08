@@ -200,7 +200,7 @@ locale_main() {
 		--list --column="$(_n 'Flag'):IMG" --column $(_n 'Name') \
 		--column $(_n 'Description') \
 		--print-column='2' --separator='' \
-		--button="$(_n 'Manage')!stock_properties:2" \
+		--button="$(_n 'Manage')!document-properties:2" \
 		--button="gtk-cancel:1" --button="gtk-ok:0"
 }
 
@@ -267,7 +267,7 @@ geoip() {
 
 tz_list() {
 	find $zi | \
-		grep -E "$(cat $ztab | grep "^$1	" | cut -d'	' -f2 | tr ' ' '|')" | \
+		grep -E "$(awk -F$'\t' -vv="$1" '{if ($1 == v || $2 ~ v) print $2}' $ztab | tr ' ' '|')" | \
 		grep -v -E "posix|right" | \
 		sed 's|.*/||g' | sort
 }
@@ -306,7 +306,7 @@ tz_select() {
 			cat << EOT
 $CC
 $CC
-$(grep -m1 "$CC	" ${zi}iso3166.tab | cut -d$'\t' -f2)
+$(grep -m1 "$CC	" ${zi}iso3166.tab | cut -d$'\t' -f2 | sed 's|\&|&amp;|g')
 EOT
 		done | \
 		yad --title="$(_ 'SliTaz TZ')" --window-icon="$icon" \
@@ -317,7 +317,7 @@ EOT
 \n\n$(_ 'Tip: manage timezones list by installing/removing locale packages.')" \
 			--list \
 			--column="$(_n 'Flag'):IMG" --column=$(_n 'Code') --column=$(_n 'Country') \
-			--button="$(_n 'Manage')!stock_properties:4" \
+			--button="$(_n 'Manage')!document-properties:4" \
 			--button="$(_n 'Manual')!gtk-index:2" \
 			--button="gtk-go-forward:0" \
 			--button="gtk-cancel:1" --always-print-result \
@@ -352,16 +352,18 @@ EOT
 
 
 tz() {
-	icon='clock'
+	icon='preferences-system-time'
 	arg=$(tz_suggest)
 
 	timezone=$(tz_select $arg)
 	case $? in
 		1) exit 0 ;;
-		0) [ -n "$arg" ] && timezone=$(tz_select "$timezone")
+		0)
+			[ -n "$timezone" ] && timezone=$(tz_select "$timezone")
 			[ -z "$timezone" ] && exit 0
 			timezone=$(find $zi -name $timezone | grep -v -E "posix|right" | \
-				sed "s|$zi||") ;;
+				sed "s|$zi||")
+			;;
 		2) timezone=$(tz_select "index") ;;
 		4) tazbox manage_i18n main;;
 	esac
@@ -426,11 +428,11 @@ manage_i18n() {
 			--width='400' --on-top --center \
 			--image="$icon" --image-on-top \
 			--text="$(_n 'Please, recharge packages database.')" \
-			--button="$(_n 'Recharge list')!reload:2" \
+			--button="$(_n 'Recharge list')!view-refresh:2" \
 			--button="gtk-cancel:1"
 
 		case "$?" in
-			1) rm_tmp; return;;
+			1) rm_temp; return;;
 			2) tazbox recharge;;
 		esac
 	fi
@@ -490,7 +492,7 @@ manage_i18n() {
 		done
 	fi
 
-	icon='stock_properties'
+	icon='preferences-desktop-locale'
 	cat $PKGS_LIST | \
 	{
 		yad --title="$(_n 'Manage locale packages')" --window-icon="$icon" \
@@ -501,15 +503,15 @@ manage_i18n() {
 		--column="$(_n 'Inst.'):CHK" --column="$(_n 'Package Name'):TEXT" \
 		--column="$(_n 'Description'):TEXT" --column="$(_n 'Size'):TEXT" \
 		--column="$(_n 'Installed'):TEXT" \
-		--button="$(_n 'Recharge list')!reload:4" \
-		--button="$(_n 'Install/Remove')!system-upgrade:2" \
+		--button="$(_n 'Recharge list')!view-refresh:4" \
+		--button="$(_n 'Install/Remove')!gtk-execute:2" \
 		--button="gtk-cancel:1" \
 		--print-all
 	} > $ANSWER
 
 	case "$?" in
 		1) rm_temp; exit 0;;
-		4) tazbox recharge; rm_tmp; tazbox manage_i18n; exit 0;;
+		4) tazbox recharge; rm_temp; tazbox manage_i18n; exit 0;;
 	esac
 
 	grep -e 'TRUE' $ANSWER | cut -d'|' -f2 > $NEW_LIST
@@ -521,7 +523,7 @@ manage_i18n() {
 	if [ -z "$DIFF" ]; then rm_temp; exit 0; fi
 
 	# output log to gtk window
-	title="$(_n 'TazPkg log')"; icon='tazpkg'; opts='--tail'
+	title="$(_n 'TazPkg log')"; icon='system-software-update'; opts='--tail'
 	{
 		for pkg in $(echo "$DIFF" | grep -e '^-' | sed 's|^-||g'); do
 			_ 'REMOVE: %s' "$pkg"
@@ -541,14 +543,14 @@ manage_i18n() {
 # New file functions
 
 newfile_main() {
-	icon='gtk-new'
+	icon='document-new'
 	yad --title="$(_n 'New file')" --window-icon="$icon" \
 		--width='460' --height='160' --on-top --center \
 		--image="$icon" --image-on-top \
 		--icon="$icon" \
 		--text="<b>$(_n 'Create a new file or folder on your desktop')</b>" \
 		--entry --entry-label="$(_n 'File name')" \
-		--ricon='editclear' \
+		--ricon='edit-clear' \
 		--always-print-result \
 		--button="$(_n 'SHell script')!application-x-shellscript:4" \
 		--button="$(_n 'Folder')!folder:3" \
@@ -579,7 +581,7 @@ EOT
 # All applications
 
 all_apps() {
-	icon='stock_bookmark'
+	icon='user-bookmarks'
 	yad --title="$(_n 'All Applications')" --window-icon="$icon" \
 		--width='400' --height='400' \
 		--icons --compact \
@@ -675,7 +677,7 @@ case "$1" in
 	out-dl)
 		# A tiny GTK window for Busybox wget output
 		url="$2"; opts='--tail --button=gtk-cancel:1'
-		icon='folder-downloads'; title="$(_ 'Downloading...')"
+		icon='folder-download'; title="$(_ 'Downloading...')"
 		[ -d $DOWNLOADS ] || mkdir -p $DOWNLOADS
 		busybox wget -c -P $DOWNLOADS $url 2>&1 | output_command
 		cancel_dl
@@ -717,7 +719,7 @@ case "$1" in
 		# On screen notification box.
 		icon="$3"
 		time="$4"
-		[ -z "$icon" ] && icon='info'
+		[ -z "$icon" ] && icon='dialog-information'
 		[ -z "$time" ] && time='4'
 		yad --width='520' --height='80' --timeout="$time" --timeout-indicator='right' \
 			--on-top --center --no-buttons --borders='12' --undecorated \
@@ -764,7 +766,7 @@ TERMINAL=\"%s\"\nWINDOW_MANAGER=\"%s\"\n", $1, $2, $3, $4, $5}')
 		;;
 
 	gpl)
-		yad --title='GNU General Public License' --window-icon='text-x-generic' \
+		yad --title='GNU General Public License' --window-icon='text-x-copying' \
 			--geometry='650x500' \
 			--image='/usr/share/pixmaps/gpl3.png' --image-on-top \
 			--center \

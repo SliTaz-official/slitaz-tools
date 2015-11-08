@@ -29,7 +29,7 @@ list_keymaps() {
 
 load_keymap() {
 	if [ -x /bin/loadkeys ]; then
-		loadkeys $kmap
+		loadkeys -u $kmap
 	else
 		loadkmap < /usr/share/kmap/$kmap.kmap
 	fi
