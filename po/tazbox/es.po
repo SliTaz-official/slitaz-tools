@@ -301,11 +301,11 @@ msgstr "Registro de TazPkg"
 
 #: tazbox/tazbox:464
 msgid "REMOVE: %s"
-msgstr "DESINSTALA"
+msgstr "DESINSTALA: %s"
 
 #: tazbox/tazbox:468
 msgid "INSTALL: %s"
-msgstr "INSTALA"
+msgstr "INSTALA: %s"
 
 #: tazbox/tazbox:471
 msgid "Done!"
