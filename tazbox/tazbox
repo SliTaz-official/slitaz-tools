@@ -154,7 +154,7 @@ gen_kmap_list() {
 # Initial Config functions
 
 setup_main() {
-	icon='locale'
+	icon='preferences-desktop-locale'
 	gen_kmap_list
 	locale=$(ls -1 $db | grep ^[a-z][a-z]_[A-Z][A-Z] | tr "\n" "!")
 	keymap=$(cat $tmp | sort | tr "\n" "!")
@@ -253,7 +253,9 @@ keymap() {
 # Response: IP,CountryCode,CountryName, ...
 
 geoip() {
-	[ ! -e $csv ] && wget -q -T3 -O $csv http://freegeoip.net/csv/ 2&>/dev/null
+	# freegeoip.net can be in the blocked hosts list. Return only correct answer or nothing
+	[ ! -e $csv ] && wget -q -T3 -O - http://freegeoip.net/csv/ 2&>/dev/null | \
+		grep '[0-9.]*,.*,.*,.*,.*,.*,.*,.*,[0-9.]*,[0-9.]*' > $csv
 	[ -e $csv ] && cut -d, -f2 $csv
 }
 
