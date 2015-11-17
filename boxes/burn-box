@@ -23,7 +23,7 @@ export TEXTDOMAIN='slitaz-boxes' # i18n
 # Internal variables
 
 boxopts="--height=300 --width=620"
-icon=media-optical-dvd-rw
+icon='drive-optical'
 options="-eject -multi"
 speed=$(fgrep "drive speed" /proc/sys/dev/cdrom/info | cut -f3)
 tmpdir=$(mktemp -d)

@@ -225,7 +225,7 @@ msgstr "Configuración Zona Horaria"
 
 #: tazbox/tazbox:276
 msgid "Select country and press \"Forward\" or manually select timezone file."
-msgstr "Elija país y presione \"Adelante"\ o elija manualmente fichero de zona horaria."
+msgstr "Elija país y presione \"Adelante\" o elija manualmente fichero de zona horaria."
 
 #: tazbox/tazbox:277
 msgid "Tip: manage timezones list by installing/removing locale packages."
