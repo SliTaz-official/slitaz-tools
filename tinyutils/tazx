@@ -194,7 +194,17 @@ keyboard_conf() {
 			layout=${keymap%-abnt2}
 	esac
 
-	cat > $keyboard_config << EOC
+	update_conf=''
+	if [ -e "$keyboard_config" ]; then
+		actual_layout="$(awk 'BEGIN{FS="\""}{if($2=="XkbLayout")print $4}' $keyboard_config)"
+		# config not matched '/etc/keymap.conf', update
+		[ "$layout" != "$actual_layout" ] && update_conf='1'
+	else
+		# config absent, create
+		update_conf='1'
+	fi
+
+	[ -n "$update_conf" ] && cat > $keyboard_config << EOC
 Section "InputClass"
 	Identifier "Keyboard Defaults"
 	MatchIsKeyboard "yes"
