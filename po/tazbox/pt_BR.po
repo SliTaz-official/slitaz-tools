@@ -75,7 +75,7 @@ msgstr "Cria um novo arquivo ou pasta na área de trabalho"
 
 #: tazbox/tazbox:45
 msgid "Display icons of all installed applications"
-msgstr "Ícones de todos os aplicativos instalados."
+msgstr "Ícones de todos os aplicativos instalados"
 
 #: tazbox/tazbox:46
 msgid "Notify user with a desktop centered box"
@@ -145,8 +145,8 @@ msgstr "Configuração Inicial do SliTaz"
 msgid ""
 "Here you can set your preferences \\n for <b>locale, keymap and timezone</b>."
 msgstr ""
-"Aqui você pode definir suas preferências\\npara <b>localização, mapa de "
-"teclado e zona horária</b>"
+"Aqui você pode definir suas preferências \\n para <b>localização, mapa de "
+"teclado e zona horária</b>."
 
 #: tazbox/tazbox:139
 msgid "Locale"

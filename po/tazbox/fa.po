@@ -124,7 +124,7 @@ msgstr "SliTaz خروج از سیستم"
 
 #: tazbox/tazbox:110
 msgid "SliTaz Logout - Please choose an action:"
-msgstr " :- لطفا یک عملیات را انتخاب کنید SliTaz خروج از سیست"
+msgstr ": لطفا یک عملیات را انتخاب کنید SliTaz خروج از سیست"
 
 #: tazbox/tazbox:112
 msgid "Close X session"
@@ -146,8 +146,8 @@ msgstr "SliTaz نصب اولیه"
 msgid ""
 "Here you can set your preferences \\n for <b>locale, keymap and timezone</b>."
 msgstr ""
-"اینجا میتوانید تنظیمات را انجام دهید\\n</b>منطقه، حالت صفحه کلید و منطقه "
-"زمانی<b>برای"
+"اینجا میتوانید تنظیمات را انجام دهید منطقه، حالت صفحه کلید و منطقه "
+"زمانی برای"
 
 #: tazbox/tazbox:139
 msgid "Locale"

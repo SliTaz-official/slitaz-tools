@@ -26,7 +26,7 @@ msgstr "Χρήση:"
 
 #: tazbox/tazbox:31
 msgid "command"
-msgstr ""
+msgstr "εντολή"
 
 #: tazbox/tazbox:33
 msgid "Commands:"
@@ -113,7 +113,7 @@ msgstr "Σφάλμα: λάθος κωδικός πρόσβασης!"
 
 #: tazbox/tazbox:88
 msgid "CANCEL"
-msgstr ""
+msgstr "ΜΑΤΑΊΩΣΗ"
 
 #: tazbox/tazbox:95
 msgid "TazBox Output"
@@ -124,7 +124,6 @@ msgid "SliTaz Logout"
 msgstr "Αποσύνδεση από το SliTaz"
 
 #: tazbox/tazbox:110
-#, fuzzy
 msgid "SliTaz Logout - Please choose an action:"
 msgstr "Παρακαλώ, επιλέξτε μια ενέργεια:"
 
@@ -145,11 +144,10 @@ msgid "SliTaz Initial Setup"
 msgstr "Αρχικές ρυθμίσεις του SliTaz"
 
 #: tazbox/tazbox:137
-#, fuzzy
 msgid ""
 "Here you can set your preferences \\n for <b>locale, keymap and timezone</b>."
 msgstr ""
-"Εδώ, μπορείτε να ορίσετε τις προτιμήσεις σας\\nγια το <b>locale, το keymap "
+"Εδώ, μπορείτε να ορίσετε τις προτιμήσεις σας \\n για το <b>locale, το keymap "
 "και τη ζώνη ώρας</b>."
 
 #: tazbox/tazbox:139

@@ -23,7 +23,7 @@ msgstr "Petites interfaces graphiques SliTaz pour le bureau"
 
 #: tazbox/tazbox:30
 msgid "Usage:"
-msgstr "Utilisation:"
+msgstr "Utilisation :"
 
 #: tazbox/tazbox:31
 msgid "command"
@@ -31,7 +31,7 @@ msgstr "commande"
 
 #: tazbox/tazbox:33
 msgid "Commands:"
-msgstr "Commandes:"
+msgstr "Commandes :"
 
 #: tazbox/tazbox:35
 msgid "Display this short help usage"
@@ -86,17 +86,16 @@ msgid "Configure SliTaz default applications"
 msgstr "Configure les applications SliTaz par défaut"
 
 #: tazbox/tazbox:66
-#, fuzzy
 msgid "SliTaz admin password"
 msgstr "Mot de passe administrateur"
 
 #: tazbox/tazbox:69
 msgid "Please enter root password (default root) to execute:"
-msgstr "Veuillez entre le mot de passe root (defaut root)  pour exécuter:"
+msgstr "Veuillez entre le mot de passe root (defaut root) pour exécuter :"
 
 #: tazbox/tazbox:72
 msgid "Password:"
-msgstr "Mot de passe:"
+msgstr "Mot de passe :"
 
 #: tazbox/tazbox:73
 msgid "Autosave password"
@@ -108,7 +107,7 @@ msgstr "Erreur"
 
 #: tazbox/tazbox:81
 msgid "Error: wrong password!"
-msgstr "Erreur: mauvais mot de passe!"
+msgstr "Erreur: mauvais mot de passe !"
 
 #: tazbox/tazbox:88
 msgid "CANCEL"
@@ -123,9 +122,8 @@ msgid "SliTaz Logout"
 msgstr "Déconnexion"
 
 #: tazbox/tazbox:110
-#, fuzzy
 msgid "SliTaz Logout - Please choose an action:"
-msgstr "Veuillez choisir une action:"
+msgstr "Fermeture de SliTaz - Veuillez sélectionner votre choix :"
 
 #: tazbox/tazbox:112
 msgid "Close X session"
@@ -144,11 +142,10 @@ msgid "SliTaz Initial Setup"
 msgstr "Réglages initiale de SliTaz"
 
 #: tazbox/tazbox:137
-#, fuzzy
 msgid ""
 "Here you can set your preferences \\n for <b>locale, keymap and timezone</b>."
 msgstr ""
-"Ici vous pouver régler vos préférences\\npour <b>la langue, le clavier et la "
+"Ici vous pouver régler vos préférences \\n pour <b>la langue, le clavier et la "
 "zone horaire</b>"
 
 #: tazbox/tazbox:139

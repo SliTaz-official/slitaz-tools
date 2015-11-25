@@ -121,7 +121,6 @@ msgid "SliTaz Logout"
 msgstr "SliTaz utloggning"
 
 #: tazbox/tazbox:110
-#, fuzzy
 msgid "SliTaz Logout - Please choose an action:"
 msgstr "Var god välj ett alternativ:"
 
@@ -142,11 +141,10 @@ msgid "SliTaz Initial Setup"
 msgstr "SliTaz Första Inställning"
 
 #: tazbox/tazbox:137
-#, fuzzy
 msgid ""
 "Here you can set your preferences \\n for <b>locale, keymap and timezone</b>."
 msgstr ""
-"Här kan du ställa dina inställningar\\nför <b>språk, tangentbord och "
+"Här kan du ställa dina inställningar \\n för <b>språk, tangentbord och "
 "tidszon</b>."
 
 #: tazbox/tazbox:139

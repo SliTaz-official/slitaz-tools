@@ -74,9 +74,8 @@ msgid "Create a new file or folder on the desktop"
 msgstr "Crea nuevo fichero o carpeta en el escritorio"
 
 #: tazbox/tazbox:45
-#, fuzzy
 msgid "Display icons of all installed applications"
-msgstr "Mostrar íconos de todas las aplicaciónes instaladas."
+msgstr "Mostrar íconos de todas las aplicaciónes instaladas"
 
 #: tazbox/tazbox:46
 msgid "Notify user with a desktop centered box"
@@ -123,7 +122,6 @@ msgid "SliTaz Logout"
 msgstr "Salir de SliTaz"
 
 #: tazbox/tazbox:110
-#, fuzzy
 msgid "SliTaz Logout - Please choose an action:"
 msgstr "Por favor seleccione una acción:"
 
@@ -144,12 +142,11 @@ msgid "SliTaz Initial Setup"
 msgstr "Configuración inicial de SliTaz"
 
 #: tazbox/tazbox:137
-#, fuzzy
 msgid ""
 "Here you can set your preferences \\n for <b>locale, keymap and timezone</b>."
 msgstr ""
 "Aquí puede configurar sus preferencias \\n for <b>localización, teclado, zona "
-"horaria</b>"
+"horaria</b>."
 
 #: tazbox/tazbox:139
 msgid "Locale"
@@ -173,7 +170,7 @@ msgstr "Configuración de idioma"
 
 #: tazbox/tazbox:170
 msgid "Tip: manage locales list by installing/removing locale packages."
-msgstr "Consejo: maneje listas de localización (des)instalando paquetes de locale"
+msgstr "Consejo: maneje listas de localización (des)instalando paquetes de locale."
 
 #: tazbox/tazbox:171 tazbox/tazbox:279
 msgid "Flag"
@@ -213,7 +210,7 @@ msgstr "Zona Horaria"
 
 #: tazbox/tazbox:247
 msgid "Suggested location:"
-msgstr "Ubicación sugerida"
+msgstr "Ubicación sugerida:"
 
 #: tazbox/tazbox:248
 msgid "Are you agreed?"
@@ -229,7 +226,7 @@ msgstr "Elija país y presione \"Adelante\" o elija manualmente fichero de zona 
 
 #: tazbox/tazbox:277
 msgid "Tip: manage timezones list by installing/removing locale packages."
-msgstr "Consejo: maneje zonas horarias (des)instalando paquetes de locale"
+msgstr "Consejo: maneje zonas horarias (des)instalando paquetes de locale."
 
 #: tazbox/tazbox:279
 msgid "Code"
@@ -293,7 +290,7 @@ msgstr "Recargar lista"
 
 #: tazbox/tazbox:445
 msgid "Install/Remove"
-msgstr "(des)instalar"
+msgstr "(Des)instalar"
 
 #: tazbox/tazbox:461
 msgid "TazPkg log"
@@ -353,20 +350,20 @@ msgstr "Configuración de las aplicaciones estándar de SliTaz"
 
 #: tazbox/tazbox:646
 msgid "File manager:"
-msgstr "Administrador de ficheros"
+msgstr "Administrador de ficheros:"
 
 #: tazbox/tazbox:647
 msgid "Web browser:"
-msgstr "Navegador Web"
+msgstr "Navegador Web:"
 
 #: tazbox/tazbox:648
 msgid "Text editor:"
-msgstr "Editor de texto"
+msgstr "Editor de texto:"
 
 #: tazbox/tazbox:649
 msgid "Terminal:"
-msgstr "Terminal"
+msgstr "Terminal:"
 
 #: tazbox/tazbox:650
 msgid "Window manager:"
-msgstr "Administrador de ventanas"
+msgstr "Administrador de ventanas:"
