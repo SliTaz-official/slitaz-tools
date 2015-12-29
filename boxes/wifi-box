@@ -145,7 +145,7 @@ wifi() {
 		1) exit 0 ;;
 		2) tazweb --notoolbar http://tazpanel:82/network.cgi?wifi && exit 0 ;;
 		3) /etc/init.d/network.sh stop && exit 0 ;;
-		3) start_wifi && exit 0 ;;
+		4) start_wifi && exit 0 ;;
 		*) continue ;;
 	esac
 	if [ -n "$main" ]; then
