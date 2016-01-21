@@ -157,6 +157,11 @@ case "$1" in
 		detect_pci_devices
 		_ 'Detecting USB devices Kernel modules...'
 		detect_usb_devices ;;
+		[ -e /sys/class/thermal/thermal_zone0/mode ] &&
+		_ 'Enable fan control...' &&
+		for zone in /sys/class/thermal/thermal_zone*/mode; do
+			echo -n enabled > $zone
+		done ;;
 	-dp|detect-pci)
 		check_root
 		title 'Detected PCI devices Kernel modules'
