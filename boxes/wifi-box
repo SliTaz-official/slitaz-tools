@@ -54,10 +54,10 @@ detect_wifi() {
 				quality="$(_n '-')"
 			fi
 
-			cryto=$(echo $scan | sed 's/.*key:\([^ ]*\).*/\1/')
+			crypto=$(echo $scan | sed 's/.*key:\([^ ]*\).*/\1/')
 			# Check encryption type
 			if echo "$scan" | grep -q WPA*; then
-				cryto="WPA"
+				crypto="WPA"
 			fi
 
 			# Connected or not connected...
@@ -69,7 +69,7 @@ detect_wifi() {
 				status="$(_n '-')"
 			fi
 
-			echo -e "$essid\n$quality\n$cryto\n$status"
+			echo -e "$essid\n$quality\n${crypto/off/NONE}\n$status"
 		done
 	fi
 }
