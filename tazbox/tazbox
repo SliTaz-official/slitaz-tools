@@ -55,7 +55,8 @@ setup		$(_ 'System initial setup (locale, keymap & timezone)')
 new-file	$(_ 'Create a new file or folder on the desktop')
 all-apps	$(_ 'Display icons of all installed applications')
 notify		$(_ 'Notify user with a desktop centered box')
-tazapps		$(_ 'Configure SliTaz default applications')"
+tazapps		$(_ 'Configure SliTaz default applications')
+vnc		$(_ 'Launch a framebuffer VNC viewer')"
 	newline
 }
 
@@ -602,6 +603,42 @@ ask_root() {
 }
 
 
+vnc_main() {
+	icon='video-display'
+	yad --title="$(_n 'Framebuffer VNC viewer')" --window-icon="$icon" \
+		--width='460' --height='160' --on-top --center \
+		--image="$icon" --image-on-top \
+		--icon="$icon" \
+		--text="<b>$(_n 'Remote display connection')</b>" \
+		--entry --entry-label="$(_n 'Server')" \
+		--always-print-result \
+		--button="$(_n 'Via a SSH tunnel')!application-x-shellscript:2" \
+		--button="$(_n 'On this console')!xterm:1" \
+		--button="$(_n 'In a new console')!computer:0"
+}
+
+
+newvt()
+{
+	ask_root newvt $@ || return
+	openvt -sw $@
+	deallocvt
+}
+
+
+vnc() { 
+	server=$(vnc_main)
+	status=$?
+	# Deal with --button values
+	[ -n "$server" ] &&
+	case "$status$server" in
+	2*|*@*)	newvt sshfbvnc $server ;;
+	1*)	fbvnc $server ;;
+	0*)	newvt fbvnc $server ;;
+	esac
+}
+
+
 #
 # Commands
 #
@@ -775,6 +812,14 @@ TERMINAL=\"%s\"\nWINDOW_MANAGER=\"%s\"\n", $1, $2, $3, $4, $5}')
 			--text-info \
 			--fontname='monospace' \
 			--button 'OK' < /usr/share/licenses/gpl.txt
+		;;
+
+	vnc)
+		vnc
+		;;
+
+	newvt)
+		$@
 		;;
 
 	*)
