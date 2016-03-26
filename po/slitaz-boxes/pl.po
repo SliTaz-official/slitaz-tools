@@ -47,6 +47,9 @@ msgstr ""
 msgid "-"
 msgstr ""
 
+msgid "connected"
+msgstr "połączony"
+
 #: boxes/wifi-box:75
 #, fuzzy
 msgid "WPA Password:"

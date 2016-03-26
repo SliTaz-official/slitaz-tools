@@ -4,7 +4,7 @@
 # is most important, this tool provides a quick way to connect or change Wi-Fi
 # settings while full network configuration is done in TazPanel.
 #
-# Copyright (C) 2012-2015 SliTaz GNU/Linux - GNU GPL v2
+# Copyright (C) 2012-2016 SliTaz GNU/Linux - GNU GPL v2
 #
 # Authors: Christophe Lincoln <pankso@slitaz.org>
 #
@@ -64,7 +64,7 @@ detect_wifi() {
 			if ifconfig | grep -A 1 $WIFI_INTERFACE | \
 				grep -q inet && iwconfig $WIFI_INTERFACE | \
 				grep ESSID | grep -q -w "$essid"; then
-				status=connected
+				status="$(_n 'connected')"
 			else
 				status="$(_n '-')"
 			fi
@@ -122,14 +122,21 @@ connect() {
 
 wifi_main() {
 	icon='network-wireless'
+	if iwconfig 2>/dev/null | grep -q 'Tx-Power=off'; then
+		startstop="$(_n 'Start Wi-Fi')!media-playback-start:4"
+		refresh=''
+	else
+		startstop="$(_n 'Stop Wi-Fi')!media-playback-stop:3"
+		refresh="--button=gtk-refresh:5"
+	fi
 	detect_wifi | yad --title="$(_n 'Wi-Fi network')" --window-icon=$icon \
-		--width=520 --height=300 --on-top --center \
+		--width=520 --height=300 --center \
 		--image=$icon --image-on-top \
 		--text="$(_n '<b>Connect to a Wi-Fi network</b> (Double click to connect)')" \
 		--list \
 		--column "$(_n 'ESSID Name')" --column "$(_n 'Quality')" \
 		--column "$(_n 'Encryption')" --column "$(_n 'Status')" \
-		--button="$(_n 'Start Wi-Fi'):4" --button="$(_n 'Stop Wi-Fi'):3" \
+		--button="$startstop" $refresh \
 		--button="gtk-preferences:2" --button="gtk-close:1"
 }
 
@@ -143,10 +150,10 @@ wifi() {
 	# Deal with --button values
 	case $ret in
 		1) exit 0 ;;
-		2) tazweb --notoolbar http://tazpanel:82/network.cgi?wifi && exit 0 ;;
-		3) /etc/init.d/network.sh stop && exit 0 ;;
-		4) start_wifi && exit 0 ;;
-		*) continue ;;
+		2) tazpanel network#wifi; exit 0 ;;
+		3) /etc/init.d/network.sh stop; $0 ;;
+		4) start_wifi; $0 ;;
+		5) $0 ;;
 	esac
 	if [ -n "$main" ]; then
 		essid=$(echo "$main" | cut -d "|" -f 1)
@@ -165,7 +172,7 @@ case "$1" in
 		usage ;;
 	*)
 		# Only for root.
-		if [ $(id -u) != 0 ]; then
+		if [ $(id -u) -ne 0 ]; then
 			exec tazbox su $0 $@
 			exit 0
 		fi

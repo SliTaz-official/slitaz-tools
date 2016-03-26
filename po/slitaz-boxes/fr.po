@@ -49,6 +49,9 @@ msgstr "aucune"
 msgid "-"
 msgstr ""
 
+msgid "connected"
+msgstr "connecté"
+
 #: boxes/wifi-box:75
 msgid "WPA Password:"
 msgstr "Mot de passe WPA:"

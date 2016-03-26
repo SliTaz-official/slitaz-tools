@@ -50,6 +50,9 @@ msgstr "нет"
 msgid "-"
 msgstr "—"
 
+msgid "connected"
+msgstr "соединено"
+
 #: boxes/wifi-box:75
 msgid "WPA Password:"
 msgstr "Пароль WPA:"
