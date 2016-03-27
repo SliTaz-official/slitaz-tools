@@ -369,7 +369,7 @@ msgstr "Sur cette console"
 
 #: tazbox/tazbox:617
 msgid "In a new console"
-msgstr "Dans une nouvelle console"
+msgstr "Nouvelle console"
 
 #: tazbox/tazbox:722
 msgid "Downloading..."
