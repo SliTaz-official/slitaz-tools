@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazDrop\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-06 02:11+0300\n"
+"POT-Creation-Date: 2016-03-27 10:56+0200\n"
 "PO-Revision-Date: 2013-02-20 10:21+0100\n"
 "Last-Translator: Stanislas Leduc <shann@slitaz.org>\n"
 "Language-Team: French\n"
@@ -17,50 +17,50 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: tazdrop/tazdrop:28
+#: tazdrop/tazdrop:31
 msgid "SliTaz Drag N Drop tool"
 msgstr "Outil SliTaz de Drag N Drop"
 
-#: tazdrop/tazdrop:30
+#: tazdrop/tazdrop:33
 msgid "Usage:"
 msgstr "Utilisation:"
 
-#: tazdrop/tazdrop:31
+#: tazdrop/tazdrop:34
 msgid "option"
 msgstr ""
 
-#: tazdrop/tazdrop:31
+#: tazdrop/tazdrop:34
 msgid "file"
 msgstr "fichier"
 
-#: tazdrop/tazdrop:31
+#: tazdrop/tazdrop:34
 msgid "URL"
 msgstr ""
 
-#: tazdrop/tazdrop:33
+#: tazdrop/tazdrop:36
 msgid "Options:"
 msgstr "Options:"
 
-#: tazdrop/tazdrop:35
+#: tazdrop/tazdrop:38
 msgid "Display this small help"
 msgstr "Affiche cette courte aide"
 
-#: tazdrop/tazdrop:36
+#: tazdrop/tazdrop:39
 msgid "Display the desktop Drag N Drop window"
 msgstr "Affiche la fenêtre de drag n' drop"
 
-#: tazdrop/tazdrop:37
+#: tazdrop/tazdrop:40
 msgid "Display the desktop Drag N Drop image"
 msgstr "Affiche la fenêtre de drag n' drop pour les images"
 
-#: tazdrop/tazdrop:38
+#: tazdrop/tazdrop:41
 msgid "Display your dropped text notes"
 msgstr "Affiche vos prises de notes"
 
-#: tazdrop/tazdrop:82
+#: tazdrop/tazdrop:95
 msgid "Dropped Notes"
 msgstr "Notes déposées"
 
-#: tazdrop/tazdrop:86
+#: tazdrop/tazdrop:99
 msgid "Edit or clean-up your dropped text notes"
 msgstr "Editer ou supprimer vos prises de notes"

@@ -1,6 +1,7 @@
 [Desktop Entry]
 Type=Application
 Name=VNC viewer
+Name[fr]=Visionneuse VNC
 Exec=tazbox vnc
 Icon=video-display
 Categories=Utility;

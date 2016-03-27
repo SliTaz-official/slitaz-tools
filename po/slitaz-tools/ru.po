@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-20 05:20+0200\n"
+"POT-Creation-Date: 2016-03-27 10:56+0200\n"
 "PO-Revision-Date: 2014-11-20 05:30+0300\n"
 "Last-Translator: Aleksej Bobylev <al.bobylev@gmail.com>\n"
 "Language-Team: \n"
@@ -19,876 +19,892 @@ msgstr ""
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: tinyutils/tazlocale:15
+#: tinyutils/tazlocale:17
 msgid "SliTaz GNU/Linux locale setting using dialog boxes."
 msgstr "Настройка локали SliTaz GNU/Linux с использованием dialog."
 
-#: tinyutils/tazlocale:17 tinyutils/tazx:553 tinyutils/decode:30
-#: tinyutils/hwsetup:24 tinyutils/frugal:32
+#: tinyutils/tazlocale:19 tinyutils/tazx:610 tinyutils/decode:34
+#: tinyutils/hwsetup:26 tinyutils/frugal:37
 msgid "Usage:"
 msgstr "Использование:"
 
-#: tinyutils/tazlocale:18 tinyutils/decode:31 tinyutils/hwsetup:25
+#: tinyutils/tazlocale:20 tinyutils/decode:35 tinyutils/hwsetup:27
 msgid "option"
 msgstr "параметр"
 
-#: tinyutils/tazlocale:20 tinyutils/hwsetup:40 tinyutils/frugal:41
+#: tinyutils/tazlocale:22 tinyutils/hwsetup:42 tinyutils/frugal:46
 msgid "Options:"
 msgstr "Параметры:"
 
-#: tinyutils/tazlocale:22
+#: tinyutils/tazlocale:24
 msgid "Show info about config file and current locale."
 msgstr "Информация о файле настроек и текущей локали."
 
-#: tinyutils/tazlocale:23
+#: tinyutils/tazlocale:25
 msgid "Show list of available locales."
 msgstr "Список доступных локалей."
 
-#: tinyutils/tazlocale:26
+#: tinyutils/tazlocale:28
 msgid "Any other option treated as locale - set locale (root)."
 msgstr ""
 "Любой другой параметр считается именем локали — установить локаль (требуются "
 "права root)."
 
-#: tinyutils/tazlocale:27
+#: tinyutils/tazlocale:29
 msgid "Display locale selecting dialog if no option given (root)."
 msgstr ""
 "При отсутствии параметров — показать диалог выбора локали (требуются права "
 "root)."
 
-#: tinyutils/tazlocale:105
+#: tinyutils/tazlocale:136
 msgid "SliTaz language setting"
 msgstr "Настройка языка SliTaz"
 
-#: tinyutils/tazlocale:124
+#: tinyutils/tazlocale:155
 msgid ""
 "Please logout of your current session and login again to use new locale."
 msgstr ""
 "Выйдите из системы и войдите повторно, чтобы использовать новую локаль."
 
-#: tinyutils/tazlocale:126 tinyutils/tazkeymap:63
+#: tinyutils/tazlocale:157 tinyutils/tazkeymap:71
 msgid "Information"
 msgstr "Информация"
 
-#: tinyutils/tazlocale:136 tinyutils/tazkeymap:41
+#: tinyutils/tazlocale:167 tinyutils/tazkeymap:49
 msgid "Config file: %s"
 msgstr "Файл настроек: %s"
 
-#: tinyutils/tazlocale:137
+#: tinyutils/tazlocale:168
 msgid "Current locale: %s"
 msgstr "Текущая локаль: %s"
 
-#: tinyutils/tazkeymap:42
+#: tinyutils/tazkeymap:50
 msgid "Current keymap: %s"
 msgstr "Текущая раскладка: %s"
 
-#: tinyutils/tazkeymap:51
+#: tinyutils/tazkeymap:59
 msgid "SliTaz keyboard setting"
 msgstr "Настройка клавиатурной раскладки SliTaz"
 
-#: tinyutils/tazkeymap:64
+#: tinyutils/tazkeymap:72
 msgid ""
 "Please logout of your current session and login again to use new keyboard."
 msgstr ""
 "Выйдите из системы и войдите повторно, чтобы использовать новую раскладку "
 "клавиатуры."
 
-#: tinyutils/setmixer:12
+#: tinyutils/setmixer:14
 msgid "Setting default mixer volumes... "
 msgstr "Установка уровней регулятора громкости по умолчанию… "
-
-#: tinyutils/setmixer:53
-msgid "Done"
-msgstr "Готово"
 
 #: tinyutils/tazx:141
 msgid "Creating:"
 msgstr "Создается:"
 
-#: tinyutils/tazx:242
+#: tinyutils/tazx:277
 msgid "Install Xorg"
 msgstr "Установка Xorg"
 
-#: tinyutils/tazx:243
+#: tinyutils/tazx:278
 msgid "Tazx helps you to select your X driver."
 msgstr "Tazx поможет вам выбрать драйвер для Xorg."
 
-#: tinyutils/tazx:244
+#: tinyutils/tazx:279
 msgid "Auto configuring"
 msgstr "Авто-настройка"
 
-#: tinyutils/tazx:246
+#: tinyutils/tazx:281
 msgid "driver"
 msgstr "драйвер"
 
-#: tinyutils/tazx:247 tinyutils/slitaz-config:233
+#: tinyutils/tazx:282 tinyutils/slitaz-config:251
 msgid "Quit"
 msgstr "Выход"
 
-#: tinyutils/tazx:276
+#: tinyutils/tazx:311
 msgid "Failed to setup driver"
 msgstr "Не удалось установить драйвер"
 
-#: tinyutils/tazx:276
+#: tinyutils/tazx:311
 msgid "(unknown hardware)"
 msgstr "(неизвестное оборудование)"
 
-#: tinyutils/tazx:289 tinyutils/hwsetup:117
+#: tinyutils/tazx:322 tinyutils/hwsetup:125
 msgid "Installing pkg: %s"
 msgstr "Установка пакета «%s»"
 
-#: tinyutils/tazx:307 tinyutils/tazx:423
+#: tinyutils/tazx:341 tinyutils/tazx:460
 msgid "Install Window Manager and applications"
 msgstr "Установка менеджера окон и приложений"
 
-#: tinyutils/tazx:393 tinyutils/tazx:399
+#: tinyutils/tazx:430 tinyutils/tazx:436
 msgid "Install"
 msgstr "Установить"
 
-#: tinyutils/tazx:409
+#: tinyutils/tazx:446
 msgid "ON"
 msgstr "ВКЛ"
 
-#: tinyutils/tazx:410 tinyutils/tazx:441
+#: tinyutils/tazx:447 tinyutils/tazx:478
 msgid "OFF"
 msgstr "ОТКЛ"
 
-#: tinyutils/tazx:417
+#: tinyutils/tazx:454
 msgid "SliTaz Xorg config"
 msgstr "Настройка Xorg в SliTaz"
 
-#: tinyutils/tazx:419
+#: tinyutils/tazx:456
 msgid "Install or reconfigure Xorg"
 msgstr "Установить или перенастроить Xorg"
 
-#: tinyutils/tazx:420
+#: tinyutils/tazx:457
 msgid "Install Xorg server (light version)"
 msgstr "Установить облегченный сервер Xorg"
 
-#: tinyutils/tazx:421
+#: tinyutils/tazx:458
 msgid "AutoStart Xorg by SLiM on boot"
 msgstr "Автозапуск Xorg через SLiM при старте системы"
 
-#: tinyutils/tazx:422
+#: tinyutils/tazx:459
 msgid "(Re)Start Simple Login Manager now"
 msgstr "(Пере)запустить простой менеджер входа SLiM сейчас"
 
-#: tinyutils/tazx:424
+#: tinyutils/tazx:461
 msgid "Quit Tazx utility"
 msgstr "Выйти из утилиты Tazx"
 
-#: tinyutils/tazx:449
+#: tinyutils/tazx:486
 msgid "Start X on boot:"
 msgstr "Запуск X при старте системы:"
 
-#: tinyutils/tazx:551
+#: tinyutils/tazx:608
 msgid "Configuration tool for SliTaz GNU/Linux"
 msgstr "утилита настройки SliTaz GNU/Linux"
 
-#: tinyutils/tazx:553 tinyutils/hwsetup:25
+#: tinyutils/tazx:610 tinyutils/hwsetup:27
 msgid "command"
 msgstr "команда"
 
-#: tinyutils/tazx:553
+#: tinyutils/tazx:610
 msgid "parameter"
 msgstr "параметр"
 
-#: tinyutils/tazx:555 tinyutils/hwsetup:27 tinyutils/frugal:36
+#: tinyutils/tazx:612 tinyutils/hwsetup:29 tinyutils/frugal:41
 msgid "Commands:"
 msgstr "Команды:"
 
-#: tinyutils/tazx:556
+#: tinyutils/tazx:613
 msgid "Install Xorg and selected Xorg driver"
 msgstr "Установить Xorg и выбранный драйвер Xorg"
 
-#: tinyutils/tazx:557
+#: tinyutils/tazx:614
 msgid "Configure Xorg, generate configuration files"
 msgstr "Настроить Xorg, создать конфигурационные файлы"
 
-#: tinyutils/tazx:558
+#: tinyutils/tazx:615
 msgid "Set monitor default depth (valid parameters: 8, 15, 16 or 24)"
 msgstr "Установить глубину цвета монитора (параметр: 8, 15, 16 или 24)"
 
-#: tinyutils/tazx:559
+#: tinyutils/tazx:616
 msgid "Auto-select and install Xorg driver"
 msgstr "Автоматически выбрать и установить драйвер Xorg"
 
-#: tinyutils/tazx:560
+#: tinyutils/tazx:617
 msgid "Get files for starting an X session and config the keyboard"
 msgstr "Создать файлы для запуска X-сессии и настроить клавиатуру"
 
-#: tinyutils/tazx:561
+#: tinyutils/tazx:618
 msgid "Generate or regenerate Xorg keyboard config"
 msgstr "Создать конфигурационный файл клавиатуры для Xorg"
 
-#: tinyutils/tazx:572
+#: tinyutils/tazx:628
 msgid "Run tazx as root if you need to configure xorg"
 msgstr "Если нужно настроить Xorg — запустите tazx от имени root"
 
-#: tinyutils/decode:28
+#: tinyutils/decode:32
 msgid "Decode audio and video files"
 msgstr "Преобразование файлов аудио и видео"
 
-#: tinyutils/decode:31 tinyutils/decode:36
+#: tinyutils/decode:35 tinyutils/decode:40
 msgid "file"
 msgstr "файл"
 
-#: tinyutils/decode:31
+#: tinyutils/decode:35
 msgid "URL"
 msgstr "адрес"
 
-#: tinyutils/decode:33 tinyutils/frugal:45
+#: tinyutils/decode:37 tinyutils/frugal:50
 msgid "Examples:"
 msgstr "Примеры:"
 
-#: tinyutils/decode:35
+#: tinyutils/decode:39
 msgid "/path/to/files/*"
 msgstr "/путь/к/файлам/*"
 
-#: tinyutils/decode:47
+#: tinyutils/decode:53
 msgid "Missing decoder: %s"
 msgstr "Отсутствует декодер «%s»"
 
-#: tinyutils/decode:48 tinyutils/decode:80
+#: tinyutils/decode:54 tinyutils/decode:88
 msgid "Skipping file: %s"
 msgstr "Файл «%s» не обработан"
 
-#: tinyutils/decode:51
+#: tinyutils/decode:57
 msgid "Decoding: %s"
 msgstr "Преобразование «%s»"
 
-#: tinyutils/decode:60
+#: tinyutils/decode:68
 msgid "No file: %s"
 msgstr "Файл «%s» отсутствует"
 
-#: tinyutils/decode:82
+#: tinyutils/decode:90
 msgid "Unsupported file: %s"
 msgstr "Файл «%s» не поддерживается"
 
-#: tinyutils/terminal:10
+#: tinyutils/terminal:11
 msgid "configurable SliTaz wrapper for terminal."
 msgstr "настраиваемая обёртка SliTaz для терминала."
 
-#: tinyutils/terminal:12
+#: tinyutils/terminal:13
 msgid "Recognized options:"
 msgstr "Поддерживаемые параметры:"
 
-#: tinyutils/terminal:13
+#: tinyutils/terminal:14
 msgid "Print the version number"
 msgstr "Информация о версии"
 
-#: tinyutils/terminal:14
+#: tinyutils/terminal:15
 msgid "Print out this message"
 msgstr "Вывести эту справку"
 
-#: tinyutils/terminal:15
+#: tinyutils/terminal:16
 msgid "Width and height of terminal window (%s)"
 msgstr "Ширина и высота окна терминала (%s)"
 
-#: tinyutils/terminal:16
+#: tinyutils/terminal:17
 msgid "Title name for window (\"%s\")"
 msgstr "Заголовок окна (\"%s\")"
 
-#: tinyutils/terminal:17
+#: tinyutils/terminal:18
 msgid "Don't close terminal after command finished"
 msgstr "Не закрывать терминал после завершения команды"
 
-#: tinyutils/terminal:18
+#: tinyutils/terminal:19
 msgid "Command to execute (must be last in line)"
 msgstr "Выполнить команду (должна быть последней в строке)"
 
-#: tinyutils/terminal:21
+#: tinyutils/terminal:22
 msgid "Help for %s:"
 msgstr "Справка программы %s:"
 
-#: tinyutils/hwsetup:22
+#: tinyutils/hwsetup:24
 msgid "SliTaz Setup configuration"
 msgstr "Настройка оборудования SliTaz"
 
-#: tinyutils/hwsetup:29
+#: tinyutils/hwsetup:31
 msgid "Print this short usage."
 msgstr "Вывести эту справку"
 
-#: tinyutils/hwsetup:30
+#: tinyutils/hwsetup:32
 msgid "Parallel and USB Printer setup."
 msgstr "Настройка параллельного принтера и USB-принтера"
 
-#: tinyutils/hwsetup:31
+#: tinyutils/hwsetup:33
 msgid "USB Scanner setup."
 msgstr "Настройка USB-принтера"
 
-#: tinyutils/hwsetup:32
+#: tinyutils/hwsetup:34
 msgid "Integrated and USB webcam setup."
 msgstr "Настройка встроенной камеры и USB-камеры"
 
-#: tinyutils/hwsetup:33
+#: tinyutils/hwsetup:35
 msgid "Digital Camera setup."
 msgstr "Настройка цифрового фотоаппарата"
 
-#: tinyutils/hwsetup:34
+#: tinyutils/hwsetup:36
 msgid "Bluetooth setup."
 msgstr "Настройка Bluetooth"
 
-#: tinyutils/hwsetup:35
+#: tinyutils/hwsetup:37
 msgid "3g-modem setup."
 msgstr "Настройка 3G-модема"
 
-#: tinyutils/hwsetup:36
+#: tinyutils/hwsetup:38
 msgid "Start/stop firewall."
 msgstr "Запуск/остановка брандмауэра"
 
-#: tinyutils/hwsetup:37
+#: tinyutils/hwsetup:39
 msgid "Nvidia (non-free/free) setup."
 msgstr "Настройка видео-карты nVidia (свободные и несвободные драйверы)."
 
-#: tinyutils/hwsetup:38
+#: tinyutils/hwsetup:40
 msgid "ATI (non-free/free) setup."
 msgstr "Настройка видео-карты ATI (свободные и несвободные драйверы)."
 
-#: tinyutils/hwsetup:42
+#: tinyutils/hwsetup:44
 msgid "install non-free packages (nvidia, ati)."
 msgstr "устанавливать несвободные пакеты (для nvidia, ati)."
 
-#: tinyutils/hwsetup:43
+#: tinyutils/hwsetup:45
 msgid "auto-install optional dependencies."
 msgstr "автоматическая установка дополнительных зависимостей"
 
-#: tinyutils/hwsetup:44
+#: tinyutils/hwsetup:46
 msgid "confirm before installing optional dependencies"
 msgstr "подтверждать установку дополнительных зависимостей"
 
-#: tinyutils/hwsetup:98
+#: tinyutils/hwsetup:103
 msgid ""
-"Due to a lack of compatible hardware for troubleshooting, this %s "
-"device has not been properly tested. Please report any success, failure, bug "
-"to SliTaz Bug tracker or Forum."
+"Due to a lack of compatible hardware for troubleshooting, this %s device has "
+"not been properly tested. Please report any success, failure, bug to SliTaz "
+"Bug tracker or Forum."
 msgstr ""
-"Работа этого устройства %s не проверялась, его нет у разработчиков "
-"SliTaz. Сообщите о ваших успехах, неудачах, ошибках в баг-трекер SliTaz или "
-"на форум."
+"Работа этого устройства %s не проверялась, его нет у разработчиков SliTaz. "
+"Сообщите о ваших успехах, неудачах, ошибках в баг-трекер SliTaz или на форум."
 
-#: tinyutils/hwsetup:107
+#: tinyutils/hwsetup:113
 msgid "Failed to setup %s"
 msgstr "Не удалось настроить %s"
 
-#: tinyutils/hwsetup:131
+#: tinyutils/hwsetup:141
 msgid "Would you like to install pkg: %s"
 msgstr "Установить пакет «%s»"
 
-#: tinyutils/hwsetup:148
+#: tinyutils/hwsetup:159
 msgid "adding %s to %s"
 msgstr "пользователь «%s» добавляется в группу «%s»"
 
-#: tinyutils/hwsetup:171
+#: tinyutils/hwsetup:183
 msgid "Detected USB Device : Vendor : Product"
 msgstr "Обнаруженные устройства USB : Производитель : Изделие"
 
-#: tinyutils/hwsetup:213
+#: tinyutils/hwsetup:193
+msgid " %s) Vendor  : %s "
+msgstr ""
+
+#: tinyutils/hwsetup:194
+msgid "    Product : %s"
+msgstr ""
+
+#: tinyutils/hwsetup:205
+msgid "Which no. is your %s shown in the above lines (1,2,3,none)? "
+msgstr ""
+
+#: tinyutils/hwsetup:228
 msgid "Do you want to use hp-setup utility"
 msgstr "Использовать утилиту hp-setup"
 
-#: tinyutils/hwsetup:228
+#: tinyutils/hwsetup:245
 msgid "Verify %s Permissions"
 msgstr "Проверка прав доступа «%s»"
 
-#: tinyutils/hwsetup:229
+#: tinyutils/hwsetup:246
 msgid "Your %s must be in %s group with rw-rw-rw- permissions"
 msgstr ""
 "Устройство «%s» должно принадлежать группе %s и иметь права доступа rw-rw-rw-"
 
-#: tinyutils/hwsetup:250
+#: tinyutils/hwsetup:270
 msgid "New udev rules are added by a package"
 msgstr "При установке пакета добавлены новые правила UDEV"
 
-#: tinyutils/hwsetup:258
+#: tinyutils/hwsetup:279
 msgid "Auto configuring Xorg..."
 msgstr "Авто-настройка Xorg…"
 
-#: tinyutils/hwsetup:261
+#: tinyutils/hwsetup:283
 msgid "Configuring Xorg..."
 msgstr "Настройка X.Org…"
 
-#: tinyutils/hwsetup:292
+#: tinyutils/hwsetup:317
 msgid "Wvdial Box"
 msgstr "Настроки wvdial"
 
-#: tinyutils/hwsetup:295
+#: tinyutils/hwsetup:320
 msgid "Phone Number:"
 msgstr "Номер телефона:"
 
-#: tinyutils/hwsetup:296
+#: tinyutils/hwsetup:321
 msgid "Username:"
 msgstr "Имя пользователя:"
 
-#: tinyutils/hwsetup:297
+#: tinyutils/hwsetup:322
 msgid "Password:"
 msgstr "Пароль:"
 
-#: tinyutils/hwsetup:298
+#: tinyutils/hwsetup:323
 msgid "Pin (if required):"
 msgstr "PIN (при необходимости):"
 
-#: tinyutils/hwsetup:299
+#: tinyutils/hwsetup:324
 msgid "Modem:"
 msgstr "Модем:"
 
-#: tinyutils/hwsetup:300
+#: tinyutils/hwsetup:325
 msgid "Access Point Name (APN):"
 msgstr "Точка доступа (APN):"
 
-#: tinyutils/hwsetup:301
+#: tinyutils/hwsetup:326
 msgid "You must save your account info before dialing"
 msgstr "Вы должны сохранить изменения перед набором номера"
 
-#: tinyutils/hwsetup:302
+#: tinyutils/hwsetup:327
 msgid "Edit config file"
 msgstr "Правка файла настроек"
 
-#: tinyutils/hwsetup:303
+#: tinyutils/hwsetup:328
 msgid "Save Configuration"
 msgstr "Сохранить параметры"
 
-#: tinyutils/hwsetup:304
+#: tinyutils/hwsetup:329
 msgid "Dial Pin Once"
 msgstr "Набрать PIN"
 
-#: tinyutils/hwsetup:380
+#: tinyutils/hwsetup:408
 msgid "Do you want to start cups"
 msgstr "Запустить CUPS"
 
-#: tinyutils/hwsetup:388
+#: tinyutils/hwsetup:416
 msgid "Starting <b>cups</b> using:"
 msgstr "Запуск <b>cups</b> используя:"
 
-#: tinyutils/hwsetup:407
+#: tinyutils/hwsetup:435
 msgid "Do you want to start scanner"
 msgstr "Запустить сканер"
 
-#: tinyutils/hwsetup:415
+#: tinyutils/hwsetup:443
 msgid "Following <b>scanner commands</b> may be of help:"
 msgstr "Следующие <b>команды сканера</b> могут пригодиться:"
 
-#: tinyutils/hwsetup:416
+#: tinyutils/hwsetup:444
 msgid "to verify scanner has been found"
 msgstr "убедиться, что сканер был обнаружен"
 
-#: tinyutils/hwsetup:417
+#: tinyutils/hwsetup:445
 msgid "scanner application"
 msgstr "приложение для работы со сканером"
 
-#: tinyutils/hwsetup:436
+#: tinyutils/hwsetup:464
 msgid "Would you like to test webcam"
 msgstr "Проверить веб-камеру"
 
-#: tinyutils/hwsetup:443
+#: tinyutils/hwsetup:471
 msgid "Would you like to test webcam by installing mplayer-svn"
 msgstr "Проверить веб-камеру, установив пакет mplayer-svn"
 
-#: tinyutils/hwsetup:450
+#: tinyutils/hwsetup:478
 msgid "Webcam is set up; please use mplayer-svn/fswebcam/amsn/skype to view"
 msgstr ""
 "Веб-камера настроена; запустите mplayer-svn, fswebcam, amsn или skype для "
 "проверки"
 
-#: tinyutils/hwsetup:466
+#: tinyutils/hwsetup:494
 msgid "Do you want to check if gphoto2 can talk to your camera"
 msgstr "Проверить, сможет ли gphoto2 получить ответ от вашего фотоаппарата"
 
-#: tinyutils/hwsetup:471
+#: tinyutils/hwsetup:499
 msgid "Do you want to test importing photos"
 msgstr "Проверить импорт фотографий"
 
-#: tinyutils/hwsetup:481
+#: tinyutils/hwsetup:509
 msgid "Camera is set up; please use gphoto2 to import photos"
 msgstr "Камера настроена; запустите gphoto2 для импорта фотографий"
 
-#: tinyutils/hwsetup:483
+#: tinyutils/hwsetup:510
 msgid "Quick start guide: %s"
 msgstr "Краткое руководство: %s"
 
-#: tinyutils/hwsetup:494
+#: tinyutils/hwsetup:522
 msgid "Do you want to see if the bluetooth is working"
 msgstr "Убедиться, работает ли bluetooth"
 
-#: tinyutils/hwsetup:502
+#: tinyutils/hwsetup:531
 msgid "<b>Bluetooth</b> interfaces"
 msgstr "Интерфейсы <b>Bluetooth</b>"
 
-#: tinyutils/hwsetup:510 tinyutils/hwsetup:527
+#: tinyutils/hwsetup:540 tinyutils/hwsetup:557
 msgid "Following <b>Bluetooth commands</b> may be of help"
 msgstr "Следующие <b>команды Bluetooth</b> могут пригодиться"
 
-#: tinyutils/hwsetup:515
+#: tinyutils/hwsetup:545
 msgid "checking local bluetooth devices..."
 msgstr "поиск оборудования Bluetooth…"
 
-#: tinyutils/hwsetup:516
+#: tinyutils/hwsetup:546
 msgid "scanning remote bluetooth devices..."
 msgstr "поиск устройств Bluetooth в зоне действия…"
 
-#: tinyutils/hwsetup:517
+#: tinyutils/hwsetup:547
 msgid "pairing with remote bluetooth devices..."
 msgstr "сопряжение с устройством Bluetooth…"
 
-#: tinyutils/hwsetup:520 tinyutils/hwsetup:541
+#: tinyutils/hwsetup:550 tinyutils/hwsetup:571
 msgid "You can manually edit the configuration files in %s if need be"
-msgstr ""
-"Если понадобится, вы можете самостоятельно править файлы настроек в %s"
+msgstr "Если понадобится, вы можете самостоятельно править файлы настроек в %s"
 
-#: tinyutils/hwsetup:534
+#: tinyutils/hwsetup:564
 msgid "for starting bluetooth daemon"
 msgstr "для запуска службы Bluetooth"
 
-#: tinyutils/hwsetup:536
+#: tinyutils/hwsetup:566
 msgid "for checking local devices"
 msgstr "для проверки локальных устройств"
 
-#: tinyutils/hwsetup:537
+#: tinyutils/hwsetup:567
 msgid "for scanning remote devices"
 msgstr "для поиска устройств в зоне действия"
 
-#: tinyutils/hwsetup:538
+#: tinyutils/hwsetup:568
 msgid "pairing with remote bluetooth devices"
 msgstr "сопряжение с устройством Bluetooth"
 
-#: tinyutils/hwsetup:552
+#: tinyutils/hwsetup:582
 msgid "List detected devices"
 msgstr "Список найденных устройств"
 
-#: tinyutils/hwsetup:556
+#: tinyutils/hwsetup:586
 msgid "Detected Modem at:"
 msgstr "Обнаруженные модемы:"
 
-#: tinyutils/hwsetup:558
+#: tinyutils/hwsetup:588
 msgid "Do you want to configure wvdial"
 msgstr "Хотите ли вы настроить wvdial"
 
-#: tinyutils/hwsetup:567
+#: tinyutils/hwsetup:595
 msgid "Edit %s for phone number, login name, password and pin"
 msgstr "В файле %s вы можете изменить номер дозвона, логин, пароль и PIN"
 
-#: tinyutils/hwsetup:568
+#: tinyutils/hwsetup:596
 msgid "Add DNS address of your provider in %s"
 msgstr "Добавьте адрес DNS-сервера вашего провайдера в файл %s"
 
-#: tinyutils/hwsetup:577
+#: tinyutils/hwsetup:605
 msgid "Setting IPTABLES_RULES to yes in /etc/slitaz/firewall.conf"
 msgstr ""
 "Переменной IPTABLES_RULES присваивается значение «yes» в файле /etc/slitaz/"
 "firewall.conf"
 
-#: tinyutils/hwsetup:586
+#: tinyutils/hwsetup:614
 msgid "Probing for open ports..."
 msgstr "Поиск открытых портов…"
 
-#: tinyutils/hwsetup:590
+#: tinyutils/hwsetup:618
 msgid "Adding firewall daemon to start automatically at boot"
 msgstr "Служба брандмауэра добавляется в автоматический запуск при загрузке"
 
-#: tinyutils/hwsetup:607
+#: tinyutils/hwsetup:635
 msgid "Do you want to configure X using non-free nvidia driver"
 msgstr "Настроить X.Org, используя несвободный драйвер Nvidia"
 
-#: tinyutils/hwsetup:610 tinyutils/hwsetup:649 tinyutils/hwsetup:681
-#: tinyutils/hwsetup:714
+#: tinyutils/hwsetup:638 tinyutils/hwsetup:677 tinyutils/hwsetup:709
+#: tinyutils/hwsetup:742
 msgid "Your previous config is in %s"
 msgstr "Предыдущие настройки находятся в файле %s"
 
-#: tinyutils/hwsetup:611 tinyutils/hwsetup:650
+#: tinyutils/hwsetup:639 tinyutils/hwsetup:678
 msgid "If nvidia fails, you can remove %s to restore previous config."
 msgstr ""
-"Если драйвер ATI не будет корректно работать, вы можете удалить %s, "
-"чтобы вернуться к предыдущим настройкам."
+"Если драйвер ATI не будет корректно работать, вы можете удалить %s, чтобы "
+"вернуться к предыдущим настройкам."
 
-#: tinyutils/hwsetup:618
+#: tinyutils/hwsetup:646
 msgid "Adding to xorg.conf:"
 msgstr "Добавление в xorg.conf:"
 
-#: tinyutils/hwsetup:623 tinyutils/hwsetup:659
+#: tinyutils/hwsetup:651 tinyutils/hwsetup:687
 msgid "Checking if nvidia is working..."
 msgstr "Проверка того, что драйвер nvidia работает…"
 
-#: tinyutils/hwsetup:627
+#: tinyutils/hwsetup:655
 msgid "Configure nvidia settings:"
 msgstr "Настройка параметров драйвера nvidia:"
 
-#: tinyutils/hwsetup:634
+#: tinyutils/hwsetup:661
+#, fuzzy
+msgid "Use '%s' to generate a template configuration file."
+msgstr ""
+"При необходимости запустите утилиту aticonfig для создания файла-шаблона "
+"настроек"
+
+#: tinyutils/hwsetup:662
 msgid "test nvidia"
 msgstr "проверка Nvidia"
 
-#: tinyutils/hwsetup:635
+#: tinyutils/hwsetup:663
 msgid "Use: nvidia-settings utility to configure your settings if necessary"
 msgstr ""
 "При необходимости запустите утилиту nvidia-settings для настройки параметров"
 
-#: tinyutils/hwsetup:646
+#: tinyutils/hwsetup:674
 msgid "Do you want to configure X using free nvidia driver"
 msgstr "Настроить Xorg, используя свободный драйвер nVidia"
 
-#: tinyutils/hwsetup:652
+#: tinyutils/hwsetup:680
 msgid "Create %s configured with nv driver."
 msgstr "Создание файла «%s», содержащего настройки драйвера Radeon."
 
-#: tinyutils/hwsetup:678
+#: tinyutils/hwsetup:706
 msgid "Do you want to configure X using non-free catalyst ATI (radeon) driver"
 msgstr "Настроить Xorg, используя несвободный драйвер ATI Catalyst (Radeon)"
 
-#: tinyutils/hwsetup:682
+#: tinyutils/hwsetup:710
 msgid "If ati fails, you can remove %s to restore previous config."
 msgstr ""
-"Если драйвер ATI не будет корректно работать, вы можете удалить %s, "
-"чтобы вернуться к предыдущим настройкам."
+"Если драйвер ATI не будет корректно работать, вы можете удалить %s, чтобы "
+"вернуться к предыдущим настройкам."
 
-#: tinyutils/hwsetup:691
+#: tinyutils/hwsetup:719
 msgid "Checking if ati catalyst is working..."
 msgstr "Проверка того, что драйвер ATI Catalyst работает…"
 
-#: tinyutils/hwsetup:695
+#: tinyutils/hwsetup:723
 msgid "Configuration:"
 msgstr "Настройка:"
 
-#: tinyutils/hwsetup:696
+#: tinyutils/hwsetup:724
 msgid ""
 "Use: aticonfig utility to generate a template configuration file if necessary"
 msgstr ""
 "При необходимости запустите утилиту aticonfig для создания файла-шаблона "
 "настроек"
 
-#: tinyutils/hwsetup:711
+#: tinyutils/hwsetup:739
 msgid "Do you want to configure X using free ATI (radeon) driver"
 msgstr "Настроить Xorg, используя свободный драйвер ATI (Radeon)"
 
-#: tinyutils/hwsetup:715
+#: tinyutils/hwsetup:743
 msgid "If ATI fails, you can remove %s to restore previous config."
 msgstr ""
-"Если драйвер ATI не будет корректно работать, вы можете удалить %s, "
-"чтобы вернуться к предыдущим настройкам."
+"Если драйвер ATI не будет корректно работать, вы можете удалить %s, чтобы "
+"вернуться к предыдущим настройкам."
 
-#: tinyutils/hwsetup:717
+#: tinyutils/hwsetup:745
 msgid "Create %s configured with radeon driver."
 msgstr "Создание файла «%s», содержащего настройки драйвера Radeon."
 
-#: tinyutils/hwsetup:723
+#: tinyutils/hwsetup:751
 msgid "Checking if ATI radeon is working..."
 msgstr "Проверка того, что драйвер ATI Radeon работает…"
 
-#: tinyutils/hwsetup:739
+#: tinyutils/hwsetup:769
 msgid "Bringing eth0 down..."
 msgstr "Отключение eth0…"
 
-#: tinyutils/hwsetup:740
+#: tinyutils/hwsetup:770
 msgid "Dialing..."
 msgstr "Набор номера…"
 
-#: tinyutils/hwsetup:766
+#: tinyutils/hwsetup:796
 msgid "The following optional packages can be installed:"
 msgstr "Могут быть установлены следующие дополнительные пакеты:"
 
-#: tinyutils/hwsetup:770
+#: tinyutils/hwsetup:800
 msgid "Do you want to install all/few/no optional dependencies (all|few|N)? "
 msgstr ""
 "Установить все (all), некоторые (few) или не устанавливать (no) зависимости? "
 
-#: tinyutils/frugal:34
+#: tinyutils/frugal:39
 msgid "SliTaz frugal installation"
 msgstr "Скромная (frugal) установка SliTaz"
 
-#: tinyutils/frugal:37
+#: tinyutils/frugal:42
 msgid "Display install path and size stats"
 msgstr "Показать путь установки и размер"
 
-#: tinyutils/frugal:38
+#: tinyutils/frugal:43
 msgid "Remove all frugal files"
 msgstr "Удалить все файлы скромной установки"
 
-#: tinyutils/frugal:39
+#: tinyutils/frugal:44
 msgid "Show GRUB configuration example"
 msgstr "Показать пример конфигурационного файла GRUB"
 
-#: tinyutils/frugal:42
+#: tinyutils/frugal:47
 msgid "Set root installation path"
 msgstr "Указать путь установки"
 
-#: tinyutils/frugal:43
+#: tinyutils/frugal:48
 msgid "Display some useful debug information"
 msgstr "Показать некоторую отладочную информацию"
 
-#: tinyutils/frugal:74
+#: tinyutils/frugal:81
 msgid "Frugal system running detected"
 msgstr "Обнаружена система, работающая из скромной установки"
 
-#: tinyutils/frugal:77
+#: tinyutils/frugal:84
 msgid "Installation directory:"
 msgstr "Установочная папка:"
 
-#: tinyutils/frugal:78
+#: tinyutils/frugal:85
 msgid "Kernel size:"
 msgstr "Размер ядра:"
 
-#: tinyutils/frugal:84
+#: tinyutils/frugal:91
 msgid "Rootfs size:"
 msgstr "Размер корневой файловой системы:"
 
-#: tinyutils/frugal:93
+#: tinyutils/frugal:100
 msgid "Cleaning:"
 msgstr "Очистка:"
 
-#: tinyutils/frugal:109
+#: tinyutils/frugal:112
 msgid "Unable to find ISO image:"
 msgstr "Не удалось найти образ ISO:"
 
-#: tinyutils/frugal:114
+#: tinyutils/frugal:117
 msgid "Mounting ISO image..."
 msgstr "Подключение образа ISO…"
 
-#: tinyutils/frugal:118
+#: tinyutils/frugal:122
 msgid "Installing the Kernel..."
 msgstr "Установка ядра…"
 
-#: tinyutils/frugal:121
+#: tinyutils/frugal:126
 msgid "Installing the root filesystem..."
 msgstr "Установка корневой файловой системы…"
 
-#: tinyutils/frugal:131
+#: tinyutils/frugal:137
 msgid "Unmounting ISO image..."
 msgstr "Отключение образа ISO…"
 
-#: tinyutils/slitaz-config:14
+#: tinyutils/slitaz-config:15
 msgid "SliTaz Config"
 msgstr "Настройка SliTaz"
 
-#: tinyutils/slitaz-config:36
+#: tinyutils/slitaz-config:41
 msgid "Post Installation"
 msgstr "После установки"
 
-#: tinyutils/slitaz-config:37
+#: tinyutils/slitaz-config:42
 msgid "Continue"
 msgstr "Продолжить"
 
-#: tinyutils/slitaz-config:43
+#: tinyutils/slitaz-config:50
 msgid "Root Password"
 msgstr "Пароль root"
 
-#: tinyutils/slitaz-config:44
+#: tinyutils/slitaz-config:51
 msgid "Enter new password for %s"
 msgstr "Введите новый пароль для %s"
 
-#: tinyutils/slitaz-config:53
+#: tinyutils/slitaz-config:62
 msgid "Add User"
 msgstr "Добавить пользователя"
 
-#: tinyutils/slitaz-config:56
+#: tinyutils/slitaz-config:65
 msgid "Enter login name for the new \\Zb\\Z4user"
 msgstr "Введите логин нового \\Zb\\Z4пользователя"
 
-#: tinyutils/slitaz-config:61
+#: tinyutils/slitaz-config:70
 msgid "Enter password for user \\Zb\\Z4%s"
 msgstr "Введите пароль для пользователя \\Zb\\Z4%s"
 
-#: tinyutils/slitaz-config:121
+#: tinyutils/slitaz-config:133
 msgid "connected"
 msgstr "подключено"
 
-#: tinyutils/slitaz-config:136
+#: tinyutils/slitaz-config:148
 msgid "Quality"
 msgstr "Уровень"
 
-#: tinyutils/slitaz-config:136
+#: tinyutils/slitaz-config:148
 msgid "Key"
 msgstr "Безопасность"
 
-#: tinyutils/slitaz-config:140 tinyutils/slitaz-config:169
+#: tinyutils/slitaz-config:152 tinyutils/slitaz-config:185
 msgid "hidden.network"
 msgstr "скрытая.сеть"
 
-#: tinyutils/slitaz-config:140
+#: tinyutils/slitaz-config:152
 msgid "Connect.to.a.hidden.network"
 msgstr "Соединиться.со.скрытой.сетью"
 
-#: tinyutils/slitaz-config:156
+#: tinyutils/slitaz-config:172
 msgid "Select"
 msgstr "Выбрать"
 
-#: tinyutils/slitaz-config:157
+#: tinyutils/slitaz-config:173
 msgid "Connect to a Wi-Fi network"
 msgstr "Соединение с сетью Wi-Fi"
 
-#: tinyutils/slitaz-config:159
+#: tinyutils/slitaz-config:175
 msgid "Connect.to.any.network"
 msgstr "Соединиться.с.любой.сетью"
 
-#: tinyutils/slitaz-config:170
+#: tinyutils/slitaz-config:186
 msgid "Wi-Fi ESSID"
 msgstr "ESSID Wi-Fi"
 
-#: tinyutils/slitaz-config:171
+#: tinyutils/slitaz-config:187
 msgid "Enter Wi-Fi access point ESSID (name)"
 msgstr "Введите ESSID (имя) точки доступа Wi-Fi"
 
-#: tinyutils/slitaz-config:176 tinyutils/slitaz-config:187
+#: tinyutils/slitaz-config:192 tinyutils/slitaz-config:203
 msgid "Wi-Fi Password"
 msgstr "Пароль Wi-Fi"
 
-#: tinyutils/slitaz-config:177 tinyutils/slitaz-config:188
+#: tinyutils/slitaz-config:193 tinyutils/slitaz-config:204
 msgid "Enter Wi-Fi key (password) for \\Zb\\Z4%s"
 msgstr "Введите пароль Wi-Fi для \\Zb\\Z4%s"
 
-#: tinyutils/slitaz-config:197
+#: tinyutils/slitaz-config:213
 msgid "Shutting down network interfaces..."
 msgstr "Выключение сетевых интерфейсов…"
 
-#: tinyutils/slitaz-config:201
+#: tinyutils/slitaz-config:217
 msgid "Configuring: %s..."
 msgstr "Настройка %s…"
 
-#: tinyutils/slitaz-config:211
+#: tinyutils/slitaz-config:227
 msgid "Restarting Wi-Fi interface..."
 msgstr "Перезапуск интерфейса Wi-Fi…"
 
-#: tinyutils/slitaz-config:215
+#: tinyutils/slitaz-config:231
 msgid "Checking connection..."
 msgstr "Проверка соединения…"
 
-#: tinyutils/slitaz-config:220
+#: tinyutils/slitaz-config:236
 msgid "IP address: %s"
 msgstr "IP-адрес: %s"
 
-#: tinyutils/slitaz-config:222
+#: tinyutils/slitaz-config:238
 msgid "Unable to connect..."
 msgstr "Не удалось соединиться…"
 
-#: tinyutils/slitaz-config:226
+#: tinyutils/slitaz-config:242
 msgid "Wi-Fi Config"
 msgstr "Параметры Wi-Fi"
 
-#: tinyutils/slitaz-config:233
+#: tinyutils/slitaz-config:251
 msgid "Exec"
 msgstr "Пуск"
 
-#: tinyutils/slitaz-config:235
+#: tinyutils/slitaz-config:253
 msgid "System keyboard setting"
 msgstr "Настройка клавиатурной раскладки"
 
-#: tinyutils/slitaz-config:236
+#: tinyutils/slitaz-config:254
 msgid "System language setting"
 msgstr "Настройка языка системы"
 
-#: tinyutils/slitaz-config:237
+#: tinyutils/slitaz-config:255
 msgid "Wi-Fi network settings"
 msgstr "Настройка подключения Wi-Fi"
 
-#: tinyutils/slitaz-config:238
+#: tinyutils/slitaz-config:256
 msgid "Add a new user"
 msgstr "Добавить пользователя"
 
-#: tinyutils/slitaz-config:239
+#: tinyutils/slitaz-config:257
 msgid "Change root password"
 msgstr "Изменить пароль root"
 
-#: tinyutils/slitaz-config:240
+#: tinyutils/slitaz-config:258
 msgid "Set system date from the web"
 msgstr "Установить системную дату по интернету"
 
-#: tinyutils/slitaz-config:241
+#: tinyutils/slitaz-config:259
 msgid "Exit from SliTaz Config"
 msgstr "Выйти из настройки SliTaz"
+
+#~ msgid "Done"
+#~ msgstr "Готово"

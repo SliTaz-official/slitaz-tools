@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tazdrop\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-06 02:11+0300\n"
+"POT-Creation-Date: 2016-03-27 10:56+0200\n"
 "PO-Revision-Date: 2014-01-15 22:34-0300\n"
 "Last-Translator: Claudinei Pereira <claudinei@slitaz.org>\n"
 "Language-Team: Brazilian Portuguese <i18n@slitaz.org>\n"
@@ -17,50 +17,50 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: tazdrop/tazdrop:28
+#: tazdrop/tazdrop:31
 msgid "SliTaz Drag N Drop tool"
 msgstr "Ferramenta Arrastar & Soltar do SliTaz"
 
-#: tazdrop/tazdrop:30
+#: tazdrop/tazdrop:33
 msgid "Usage:"
 msgstr "Utilização:"
 
-#: tazdrop/tazdrop:31
+#: tazdrop/tazdrop:34
 msgid "option"
 msgstr "opção"
 
-#: tazdrop/tazdrop:31
+#: tazdrop/tazdrop:34
 msgid "file"
 msgstr "arquivo"
 
-#: tazdrop/tazdrop:31
+#: tazdrop/tazdrop:34
 msgid "URL"
 msgstr "URL"
 
-#: tazdrop/tazdrop:33
+#: tazdrop/tazdrop:36
 msgid "Options:"
 msgstr "Opções:"
 
-#: tazdrop/tazdrop:35
+#: tazdrop/tazdrop:38
 msgid "Display this small help"
 msgstr "Mostra esta utilização"
 
-#: tazdrop/tazdrop:36
+#: tazdrop/tazdrop:39
 msgid "Display the desktop Drag N Drop window"
 msgstr "Mostra a janela de Arrastar e Largar do desktop"
 
-#: tazdrop/tazdrop:37
+#: tazdrop/tazdrop:40
 msgid "Display the desktop Drag N Drop image"
 msgstr "Mostra a imagem de Arrastar e Largar do desktop"
 
-#: tazdrop/tazdrop:38
+#: tazdrop/tazdrop:41
 msgid "Display your dropped text notes"
 msgstr "Mostra suas notas de texto"
 
-#: tazdrop/tazdrop:82
+#: tazdrop/tazdrop:95
 msgid "Dropped Notes"
 msgstr "Notas deixadas"
 
-#: tazdrop/tazdrop:86
+#: tazdrop/tazdrop:99
 msgid "Edit or clean-up your dropped text notes"
 msgstr "Edita ou limpa suas notas de texto"

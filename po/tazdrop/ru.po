@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazDrop\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-06 01:33+0300\n"
+"POT-Creation-Date: 2016-03-27 10:56+0200\n"
 "PO-Revision-Date: 2013-09-06 01:35+0300\n"
 "Last-Translator: Aleksej Bobylev <al.bobylev@gmail.com>\n"
 "Language-Team: Russian\n"
@@ -18,51 +18,50 @@ msgstr ""
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: tazdrop/tazdrop:28
+#: tazdrop/tazdrop:31
 msgid "SliTaz Drag N Drop tool"
 msgstr "Утилита «тяни-и-бросай» для SliTaz"
 
-#: tazdrop/tazdrop:30
+#: tazdrop/tazdrop:33
 msgid "Usage:"
 msgstr "Использование:"
 
-#: tazdrop/tazdrop:31
+#: tazdrop/tazdrop:34
 msgid "option"
 msgstr "параметр"
 
-#: tazdrop/tazdrop:31
+#: tazdrop/tazdrop:34
 msgid "file"
 msgstr "файл"
 
-#: tazdrop/tazdrop:31
+#: tazdrop/tazdrop:34
 msgid "URL"
 msgstr "адрес"
 
-#: tazdrop/tazdrop:33
+#: tazdrop/tazdrop:36
 msgid "Options:"
 msgstr "Параметры:"
 
-#: tazdrop/tazdrop:35
+#: tazdrop/tazdrop:38
 msgid "Display this small help"
 msgstr "Показать эту короткую справку"
 
-#: tazdrop/tazdrop:36
+#: tazdrop/tazdrop:39
 msgid "Display the desktop Drag N Drop window"
 msgstr "Показать окно тяни-и-бросай"
 
-#: tazdrop/tazdrop:37
+#: tazdrop/tazdrop:40
 msgid "Display the desktop Drag N Drop image"
 msgstr "Показать изображение тяни-и-бросай"
 
-#: tazdrop/tazdrop:38
+#: tazdrop/tazdrop:41
 msgid "Display your dropped text notes"
 msgstr "Показать брошенные текстовые заметки"
 
-#: tazdrop/tazdrop:82
+#: tazdrop/tazdrop:95
 msgid "Dropped Notes"
 msgstr "Накопленные записи"
 
-#: tazdrop/tazdrop:86
+#: tazdrop/tazdrop:99
 msgid "Edit or clean-up your dropped text notes"
 msgstr "Правка и очистка брошенных текстовых заметок"
-

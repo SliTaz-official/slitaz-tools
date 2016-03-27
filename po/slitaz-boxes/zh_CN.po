@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Boxes\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-23 03:33+0300\n"
+"POT-Creation-Date: 2016-03-27 10:56+0200\n"
 "PO-Revision-Date: 2014-07-02 12:34+0800\n"
 "Last-Translator: 张文宇 <jame987165702@gmail.com>\n"
 "Language-Team: \n"
@@ -18,253 +18,254 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Poedit 1.6.5\n"
 
-#: boxes/wifi-box:15
+#: boxes/wifi-box:16
 msgid "Small Wi-Fi utility to quickly connect to a network."
 msgstr "实用小Wi-Fi快速连接软件。"
 
-#: boxes/wifi-box:16 boxes/burn-box:33 boxes/scp-box:36
+#: boxes/wifi-box:17 boxes/burn-box:41 boxes/scp-box:44
 msgid "Usage:"
 msgstr "用法:"
 
-#: boxes/wifi-box:17
+#: boxes/wifi-box:18
 msgid "interface"
 msgstr "接口"
 
-#: boxes/wifi-box:38
+#: boxes/wifi-box:43
 msgid "any"
 msgstr "任何"
 
-#: boxes/wifi-box:38
+#: boxes/wifi-box:43
 msgid "N/A"
 msgstr "N/A"
 
-#: boxes/wifi-box:38
+#: boxes/wifi-box:43
 msgid "none"
 msgstr "没有"
 
-#: boxes/wifi-box:38 boxes/wifi-box:49 boxes/wifi-box:64
+#: boxes/wifi-box:43 boxes/wifi-box:54 boxes/wifi-box:69
 msgid "-"
 msgstr "-"
 
+#: boxes/wifi-box:67
 msgid "connected"
 msgstr "已连接"
 
-#: boxes/wifi-box:75
+#: boxes/wifi-box:82
 msgid "WPA Password:"
 msgstr "WPA密码："
 
-#: boxes/wifi-box:76
+#: boxes/wifi-box:83
 msgid "WEP Password:"
 msgstr "WEP密码:"
 
-#: boxes/wifi-box:82
+#: boxes/wifi-box:89
 msgid "Wi-Fi connection"
 msgstr "Wi-Fi连接"
 
-#: boxes/wifi-box:85
+#: boxes/wifi-box:92
 msgid "Connection to:"
 msgstr "连接到："
 
-#: boxes/wifi-box:115
-msgid "Wi-Fi network"
-msgstr "Wi-Fi网络"
-
-#: boxes/wifi-box:118
-msgid "<b>Connect to a Wi-Fi network</b> (Double click to connect)"
-msgstr "<b>连接到Wi-Fi网络</b>（双击连接）"
-
-#: boxes/wifi-box:120
-msgid "ESSID Name"
-msgstr "无线网络名称："
-
-#: boxes/wifi-box:120
-msgid "Quality"
-msgstr "质量"
-
-#: boxes/wifi-box:121
-msgid "Encryption"
-msgstr "加密"
-
-#: boxes/wifi-box:121
-msgid "Status"
-msgstr "现状"
-
-#: boxes/wifi-box:122
+#: boxes/wifi-box:126
 msgid "Start Wi-Fi"
 msgstr "启动Wi-Fi"
 
-#: boxes/wifi-box:122
+#: boxes/wifi-box:129
 msgid "Stop Wi-Fi"
 msgstr "停止Wi-Fi"
 
-#: boxes/burn-box:32
+#: boxes/wifi-box:132
+msgid "Wi-Fi network"
+msgstr "Wi-Fi网络"
+
+#: boxes/wifi-box:135
+msgid "<b>Connect to a Wi-Fi network</b> (Double click to connect)"
+msgstr "<b>连接到Wi-Fi网络</b>（双击连接）"
+
+#: boxes/wifi-box:137
+msgid "ESSID Name"
+msgstr "无线网络名称："
+
+#: boxes/wifi-box:137
+msgid "Quality"
+msgstr "质量"
+
+#: boxes/wifi-box:138
+msgid "Encryption"
+msgstr "加密"
+
+#: boxes/wifi-box:138
+msgid "Status"
+msgstr "现状"
+
+#: boxes/burn-box:40
 msgid "Burn-box a small front end to cdrkit powered by Yad/GTK."
 msgstr "Burn-box是小的前端光盘制作软件。（Powered by Yad/GTK.）"
 
-#: boxes/burn-box:34 boxes/scp-box:37
+#: boxes/burn-box:42 boxes/scp-box:45
 msgid "command"
 msgstr "命令"
 
-#: boxes/burn-box:34 boxes/scp-box:37
+#: boxes/burn-box:42 boxes/scp-box:45
 msgid "option"
 msgstr "选项"
 
-#: boxes/burn-box:34
+#: boxes/burn-box:42
 msgid "file"
 msgstr "文件"
 
-#: boxes/burn-box:36 boxes/scp-box:39
+#: boxes/burn-box:44 boxes/scp-box:47
 msgid "Commands:"
 msgstr "命令:"
 
-#: boxes/burn-box:38
+#: boxes/burn-box:46
 msgid "Show all Wodim options"
 msgstr "显示所有的wodim选项"
 
-#: boxes/burn-box:39
+#: boxes/burn-box:47
 msgid "Burn an ISO image"
 msgstr "刻录ISO镜像"
 
-#: boxes/burn-box:40
+#: boxes/burn-box:48
 msgid "Create and burn an audio CD"
 msgstr "创建和刻录音频CD"
 
-#: boxes/burn-box:41
+#: boxes/burn-box:49
 msgid "Erase a RW disk"
 msgstr "擦除刻录盘"
 
-#: boxes/burn-box:43 boxes/scp-box:42 boxes/scp-box:70
+#: boxes/burn-box:51 boxes/scp-box:50 boxes/scp-box:82
 msgid "Options:"
 msgstr "选项："
 
-#: boxes/burn-box:45 boxes/burn-box:50 boxes/burn-box:51
+#: boxes/burn-box:53 boxes/burn-box:58 boxes/burn-box:59
 msgid "/path/to/image.iso"
 msgstr "/path/to/image.iso"
 
-#: boxes/burn-box:46 boxes/scp-box:44
+#: boxes/burn-box:54 boxes/scp-box:52
 msgid "/path/to/directory"
 msgstr "/path/to/directory"
 
-#: boxes/burn-box:48 boxes/scp-box:46
+#: boxes/burn-box:56 boxes/scp-box:54
 msgid "Examples:"
 msgstr "例子："
 
-#: boxes/burn-box:64
+#: boxes/burn-box:76
 msgid "Decoding files from: %s"
 msgstr "解码文件：%s"
 
-#: boxes/burn-box:84
+#: boxes/burn-box:98
 msgid "Not an ISO image: \"%s\""
 msgstr "不是一个ISO映像：\"%s\""
 
-#: boxes/burn-box:100
+#: boxes/burn-box:118
 msgid "Burn-box"
 msgstr "Burn-box"
 
-#: boxes/burn-box:102
+#: boxes/burn-box:120
 msgid "Burn ISO images and audio files [data in next releases]"
 msgstr "刻录ISO图像和音频文件[数据在下一个版本]"
 
-#: boxes/burn-box:104
+#: boxes/burn-box:122
 msgid "Drive speed:"
 msgstr "驱动器速度："
 
-#: boxes/burn-box:105
+#: boxes/burn-box:123
 msgid "Wodim options:"
 msgstr "Wodim选项："
 
-#: boxes/burn-box:106
+#: boxes/burn-box:124
 msgid "ISO image:"
 msgstr "ISO镜像："
 
-#: boxes/burn-box:107
+#: boxes/burn-box:125
 msgid "Audio files:"
 msgstr "音频文件："
 
-#: boxes/burn-box:108
+#: boxes/burn-box:126
 msgid "Wodim help"
 msgstr "Wodim帮助讯息"
 
-#: boxes/burn-box:109
+#: boxes/burn-box:127
 msgid "Blank CD"
 msgstr "空白光盘"
 
-#: boxes/burn-box:110
+#: boxes/burn-box:128
 msgid "Burn"
 msgstr "刻录"
 
-#: boxes/burn-box:132
+#: boxes/burn-box:152
 msgid "Burning ISO"
 msgstr "烧录ISO中"
 
-#: boxes/burn-box:137
+#: boxes/burn-box:157
 msgid "Burning Audio"
 msgstr "刻录音频中"
 
-#: boxes/burn-box:149
+#: boxes/burn-box:170
 msgid "Wodim Help"
 msgstr "Wodim帮助讯息"
 
-#: boxes/burn-box:154
+#: boxes/burn-box:175
 msgid "Missing ISO image \"%s\""
 msgstr "丢失（找不到）的ISO映像\"%s\""
 
-#: boxes/burn-box:162
+#: boxes/burn-box:183
 msgid "Missing audio directory \"%s\""
 msgstr "丢失（找不到）的音频目录（或文件） \"%s\""
 
-#: boxes/burn-box:166
+#: boxes/burn-box:187
 msgid "Blank disk"
 msgstr "空白磁盘"
 
-#: boxes/scp-box:34
+#: boxes/scp-box:42
 msgid "SCP Box - Small front end to the secure file copy utility."
 msgstr "小型前端安全的文件复制工具。"
 
-#: boxes/scp-box:40
+#: boxes/scp-box:48
 msgid "List all known hosts"
 msgstr "列出所有已知主机"
 
-#: boxes/scp-box:43 boxes/scp-box:47
+#: boxes/scp-box:51 boxes/scp-box:55
 msgid "/path/to/file"
 msgstr "/path/to/file"
 
-#: boxes/scp-box:62
+#: boxes/scp-box:74
 msgid "SCP Box"
 msgstr "SCP Box"
 
-#: boxes/scp-box:65
+#: boxes/scp-box:77
 msgid "<b>Secure copy</b> - Copy files remotely with scp"
 msgstr "<b>安全复制</b>远程SCP文件拷贝"
 
-#: boxes/scp-box:67
+#: boxes/scp-box:79
 msgid "User name:"
 msgstr "用户名称："
 
-#: boxes/scp-box:68
+#: boxes/scp-box:80
 msgid "Hostname:"
 msgstr "主机名："
 
-#: boxes/scp-box:69
+#: boxes/scp-box:81
 msgid "Known hosts:"
 msgstr "已知 hosts:"
 
-#: boxes/scp-box:71
+#: boxes/scp-box:83
 msgid "Local file:"
 msgstr "本地文件："
 
-#: boxes/scp-box:72
+#: boxes/scp-box:84
 msgid "Local directory:"
 msgstr "本地目录："
 
-#: boxes/scp-box:73
+#: boxes/scp-box:85
 msgid "Remote path:"
 msgstr "远程路径："
 
-#: boxes/scp-box:74
+#: boxes/scp-box:86
 msgid "Download"
 msgstr "下载"
 
-#: boxes/scp-box:75
+#: boxes/scp-box:87
 msgid "Upload"
 msgstr "上传"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Boxes\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-23 03:33+0300\n"
+"POT-Creation-Date: 2016-03-27 10:56+0200\n"
 "PO-Revision-Date: 2014-06-26 09:19+0400\n"
 "Last-Translator: Ali Rashidi <alirashidi17@yahoo.com>\n"
 "Language-Team: Ali Rashidi <alirashidi17@yahoo.com>\n"
@@ -19,250 +19,254 @@ msgstr ""
 "X-Generator: Poedit 1.6.5\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: boxes/wifi-box:15
+#: boxes/wifi-box:16
 msgid "Small Wi-Fi utility to quickly connect to a network."
 msgstr "ابزار کوچک وای-فای برای اتصال سریع به شبکه"
 
-#: boxes/wifi-box:16 boxes/burn-box:33 boxes/scp-box:36
+#: boxes/wifi-box:17 boxes/burn-box:41 boxes/scp-box:44
 msgid "Usage:"
 msgstr ":طریقه استفاده"
 
-#: boxes/wifi-box:17
+#: boxes/wifi-box:18
 msgid "interface"
 msgstr "واسط"
 
-#: boxes/wifi-box:38
+#: boxes/wifi-box:43
 msgid "any"
 msgstr "هر"
 
-#: boxes/wifi-box:38
+#: boxes/wifi-box:43
 msgid "N/A"
 msgstr "N/A"
 
-#: boxes/wifi-box:38
+#: boxes/wifi-box:43
 msgid "none"
 msgstr "هیچکدام"
 
-#: boxes/wifi-box:38 boxes/wifi-box:49 boxes/wifi-box:64
+#: boxes/wifi-box:43 boxes/wifi-box:54 boxes/wifi-box:69
 msgid "-"
 msgstr "-"
 
-#: boxes/wifi-box:75
+#: boxes/wifi-box:67
+msgid "connected"
+msgstr ""
+
+#: boxes/wifi-box:82
 msgid "WPA Password:"
 msgstr ":WPA رمز"
 
-#: boxes/wifi-box:76
+#: boxes/wifi-box:83
 msgid "WEP Password:"
 msgstr ":WER رمز"
 
-#: boxes/wifi-box:82
+#: boxes/wifi-box:89
 msgid "Wi-Fi connection"
 msgstr "اتصال وای-فای"
 
-#: boxes/wifi-box:85
+#: boxes/wifi-box:92
 msgid "Connection to:"
 msgstr ":اتصال به"
 
-#: boxes/wifi-box:115
-msgid "Wi-Fi network"
-msgstr "شبکه وای-فای"
-
-#: boxes/wifi-box:118
-msgid "<b>Connect to a Wi-Fi network</b> (Double click to connect)"
-msgstr "<b>اتصال به یک شبکه وای-فای</b> (برای اتصال دو بار کلیک کنید.)"
-
-#: boxes/wifi-box:120
-msgid "ESSID Name"
-msgstr "ESSID نام"
-
-#: boxes/wifi-box:120
-msgid "Quality"
-msgstr "کیفیت"
-
-#: boxes/wifi-box:121
-msgid "Encryption"
-msgstr "پنهان کردن"
-
-#: boxes/wifi-box:121
-msgid "Status"
-msgstr "وضعیت"
-
-#: boxes/wifi-box:122
+#: boxes/wifi-box:126
 msgid "Start Wi-Fi"
 msgstr "آغاز وای-فای"
 
-#: boxes/wifi-box:122
+#: boxes/wifi-box:129
 msgid "Stop Wi-Fi"
 msgstr "توقف وای-فای"
 
-#: boxes/burn-box:32
+#: boxes/wifi-box:132
+msgid "Wi-Fi network"
+msgstr "شبکه وای-فای"
+
+#: boxes/wifi-box:135
+msgid "<b>Connect to a Wi-Fi network</b> (Double click to connect)"
+msgstr "<b>اتصال به یک شبکه وای-فای</b> (برای اتصال دو بار کلیک کنید.)"
+
+#: boxes/wifi-box:137
+msgid "ESSID Name"
+msgstr "ESSID نام"
+
+#: boxes/wifi-box:137
+msgid "Quality"
+msgstr "کیفیت"
+
+#: boxes/wifi-box:138
+msgid "Encryption"
+msgstr "پنهان کردن"
+
+#: boxes/wifi-box:138
+msgid "Status"
+msgstr "وضعیت"
+
+#: boxes/burn-box:40
 msgid "Burn-box a small front end to cdrkit powered by Yad/GTK."
 msgstr "Yad/GTK قدرت گرفته از cdrkit یک نرم افزار نهایی است برای BurnBox"
 
-#: boxes/burn-box:34 boxes/scp-box:37
+#: boxes/burn-box:42 boxes/scp-box:45
 msgid "command"
 msgstr "فرمان"
 
-#: boxes/burn-box:34 boxes/scp-box:37
+#: boxes/burn-box:42 boxes/scp-box:45
 msgid "option"
 msgstr "گزینه"
 
-#: boxes/burn-box:34
+#: boxes/burn-box:42
 msgid "file"
 msgstr "فایل"
 
-#: boxes/burn-box:36 boxes/scp-box:39
+#: boxes/burn-box:44 boxes/scp-box:47
 msgid "Commands:"
 msgstr ":فرمان ها"
 
-#: boxes/burn-box:38
+#: boxes/burn-box:46
 msgid "Show all Wodim options"
 msgstr "Wodim نمایش تمام گزینه های"
 
-#: boxes/burn-box:39
+#: boxes/burn-box:47
 msgid "Burn an ISO image"
 msgstr "ISO رایت کردن فایل"
 
-#: boxes/burn-box:40
+#: boxes/burn-box:48
 msgid "Create and burn an audio CD"
 msgstr "ایجاد و رایت سی دی صوتی"
 
-#: boxes/burn-box:41
+#: boxes/burn-box:49
 msgid "Erase a RW disk"
 msgstr "RW پاک کردن دیسک"
 
-#: boxes/burn-box:43 boxes/scp-box:42 boxes/scp-box:70
+#: boxes/burn-box:51 boxes/scp-box:50 boxes/scp-box:82
 msgid "Options:"
 msgstr ":گزینه ها"
 
-#: boxes/burn-box:45 boxes/burn-box:50 boxes/burn-box:51
+#: boxes/burn-box:53 boxes/burn-box:58 boxes/burn-box:59
 msgid "/path/to/image.iso"
 msgstr "/path/to/image.iso"
 
-#: boxes/burn-box:46 boxes/scp-box:44
+#: boxes/burn-box:54 boxes/scp-box:52
 msgid "/path/to/directory"
 msgstr "/path/to/directory"
 
-#: boxes/burn-box:48 boxes/scp-box:46
+#: boxes/burn-box:56 boxes/scp-box:54
 msgid "Examples:"
 msgstr ":مثال ها"
 
-#: boxes/burn-box:64
+#: boxes/burn-box:76
 msgid "Decoding files from: %s"
 msgstr "%s رمز گشایی فایل ها از"
 
-#: boxes/burn-box:84
+#: boxes/burn-box:98
 msgid "Not an ISO image: \"%s\""
 msgstr "یک فایل ایزو نیست \"%s\""
 
-#: boxes/burn-box:100
+#: boxes/burn-box:118
 msgid "Burn-box"
 msgstr "Burn-Box"
 
-#: boxes/burn-box:102
+#: boxes/burn-box:120
 msgid "Burn ISO images and audio files [data in next releases]"
 msgstr "را رایت کنید .[اطلاعات (دیتا) در انتشار بعدی]ISO فایل های صوتی و"
 
-#: boxes/burn-box:104
+#: boxes/burn-box:122
 msgid "Drive speed:"
 msgstr ":سرعت درایو"
 
-#: boxes/burn-box:105
+#: boxes/burn-box:123
 msgid "Wodim options:"
 msgstr ":Wodim گزینه های"
 
-#: boxes/burn-box:106
+#: boxes/burn-box:124
 msgid "ISO image:"
 msgstr ":ISO فایل"
 
-#: boxes/burn-box:107
+#: boxes/burn-box:125
 msgid "Audio files:"
 msgstr ":فایل صوتی"
 
-#: boxes/burn-box:108
+#: boxes/burn-box:126
 msgid "Wodim help"
 msgstr "Wodim راهنمای"
 
-#: boxes/burn-box:109
+#: boxes/burn-box:127
 msgid "Blank CD"
 msgstr "سی دی خام"
 
-#: boxes/burn-box:110
+#: boxes/burn-box:128
 msgid "Burn"
 msgstr "رایت کردن"
 
-#: boxes/burn-box:132
+#: boxes/burn-box:152
 msgid "Burning ISO"
 msgstr "ISO رایت کردن"
 
-#: boxes/burn-box:137
+#: boxes/burn-box:157
 msgid "Burning Audio"
 msgstr "رایت کردن صوت"
 
-#: boxes/burn-box:149
+#: boxes/burn-box:170
 msgid "Wodim Help"
 msgstr "Wodim راهنمای"
 
-#: boxes/burn-box:154
+#: boxes/burn-box:175
 msgid "Missing ISO image \"%s\""
 msgstr "فایل ایزو گمشده است. \"%s\""
 
-#: boxes/burn-box:162
+#: boxes/burn-box:183
 msgid "Missing audio directory \"%s\""
 msgstr ".دایرکتوری صوتی گمشده است \"%s\""
 
-#: boxes/burn-box:166
+#: boxes/burn-box:187
 msgid "Blank disk"
 msgstr "دیسک خالی"
 
-#: boxes/scp-box:34
+#: boxes/scp-box:42
 msgid "SCP Box - Small front end to the secure file copy utility."
 msgstr "SCP Box نرم افزار نهایی کوچک کپی امن فایل ها - "
 
-#: boxes/scp-box:40
+#: boxes/scp-box:48
 msgid "List all known hosts"
 msgstr "لیست کردن تمامی هاست (میزبان) های شناخته شده"
 
-#: boxes/scp-box:43 boxes/scp-box:47
+#: boxes/scp-box:51 boxes/scp-box:55
 msgid "/path/to/file"
 msgstr "/path/to/file"
 
-#: boxes/scp-box:62
+#: boxes/scp-box:74
 msgid "SCP Box"
 msgstr "SCP Box"
 
-#: boxes/scp-box:65
+#: boxes/scp-box:77
 msgid "<b>Secure copy</b> - Copy files remotely with scp"
 msgstr "<b>کپی امن</b> - SCP کپی فایل ها از راه دور با"
 
-#: boxes/scp-box:67
+#: boxes/scp-box:79
 msgid "User name:"
 msgstr ":نام کاربری"
 
-#: boxes/scp-box:68
+#: boxes/scp-box:80
 msgid "Hostname:"
 msgstr ":نام میزبان (هاست)"
 
-#: boxes/scp-box:69
+#: boxes/scp-box:81
 msgid "Known hosts:"
 msgstr ":میزبان (هاست) های شناخته شده"
 
-#: boxes/scp-box:71
+#: boxes/scp-box:83
 msgid "Local file:"
 msgstr ": (Local)فایل محلی"
 
-#: boxes/scp-box:72
+#: boxes/scp-box:84
 msgid "Local directory:"
 msgstr ":دایرکتوری محلی"
 
-#: boxes/scp-box:73
+#: boxes/scp-box:85
 msgid "Remote path:"
 msgstr ":مسیر راه دور"
 
-#: boxes/scp-box:74
+#: boxes/scp-box:86
 msgid "Download"
 msgstr "دانلود"
 
-#: boxes/scp-box:75
+#: boxes/scp-box:87
 msgid "Upload"
 msgstr "آپلود"

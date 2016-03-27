@@ -606,15 +606,15 @@ ask_root() {
 vnc_main() {
 	icon='video-display'
 	yad --title="$(_n 'Framebuffer VNC viewer')" --window-icon="$icon" \
-		--width='460' --height='160' --on-top --center \
-		--image="$icon" --image-on-top \
-		--icon="$icon" \
-		--text="<b>$(_n 'Remote display connection')</b>" \
-		--entry --entry-label="$(_n 'Server')" \
+		--width='250' --height='160' --on-top --center \
+		--image="$icon" --image-on-top --icon="$icon" \
+		--form \
+		--text="<b>$(_n 'Remote display connection')</b>" "localhost 5900" \
+		--field="$(_n 'VNC Server')" \
+		--field="$(_n 'Via a SSH tunnel'):CHK" \
 		--always-print-result \
-		--button="$(_n 'Via a SSH tunnel')!application-x-shellscript:2" \
-		--button="$(_n 'On this console')!xterm:1" \
-		--button="$(_n 'In a new console')!computer:0"
+		--button="$(_n 'On this console'):1" \
+		--button="$(_n 'In a new console'):0"
 }
 
 
@@ -630,11 +630,14 @@ vnc() {
 	server=$(vnc_main)
 	status=$?
 	# Deal with --button values
-	[ -n "$server" ] &&
-	case "$status$server" in
-	2*|*@*)	newvt sshfbvnc $server ;;
-	1*)	fbvnc $server ;;
-	0*)	newvt fbvnc $server ;;
+	[ "$server" ] || return
+	case "$server" in
+	*TRUE\|)	fbvnc=sshfbvnc ;;
+	*)		fbvnc=fbvnc ;;
+	esac
+	case "$status" in
+	1)	$fbvnc ${server%%|*} ;;
+	0)	newvt $fbvnc ${server%%|*} ;;
 	esac
 }
 

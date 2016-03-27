@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-18 20:10+0200\n"
+"POT-Creation-Date: 2016-03-27 10:56+0200\n"
 "PO-Revision-Date: 2014-06-08 02:35+0800\n"
 "Last-Translator: <lunglungyu2004@gmail.com>\n"
 "Language-Team: \n"
@@ -17,351 +17,383 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "\n"
 
-#: tazbox/tazbox:28
+#: tazbox/tazbox:39
 msgid "SliTaz tiny GUI boxes for the desktop"
 msgstr "SliTaz迷你GUI桌面圖示"
 
-#: tazbox/tazbox:30
+#: tazbox/tazbox:41
 msgid "Usage:"
 msgstr "用法:"
 
-#: tazbox/tazbox:31
+#: tazbox/tazbox:42
 msgid "command"
 msgstr "命令"
 
-#: tazbox/tazbox:33
+#: tazbox/tazbox:44
 msgid "Commands:"
 msgstr "命令:"
 
-#: tazbox/tazbox:35
+#: tazbox/tazbox:46
 msgid "Display this short help usage"
 msgstr "顯示簡短幫助訊息"
 
-#: tazbox/tazbox:36
+#: tazbox/tazbox:47
 msgid "Execute a command as super-user"
 msgstr "用超級權限執行命令"
 
-#: tazbox/tazbox:37
+#: tazbox/tazbox:48
 msgid "Desktop logout box with actions"
 msgstr "桌面登出圖示"
 
-#: tazbox/tazbox:38
+#: tazbox/tazbox:49
 msgid "Pipe a command output into a GTK window"
 msgstr "透過管道(pipe)發送命令輸出到GTK窗口"
 
-#: tazbox/tazbox:39
+#: tazbox/tazbox:50
 msgid "Pipe wget output into a GTK window"
 msgstr "透過管道(pipe)發送wget輸出到GTK窗口"
 
-#: tazbox/tazbox:40
+#: tazbox/tazbox:51
 msgid "Configure system language (root)"
 msgstr "配置系統語言(root)"
 
-#: tazbox/tazbox:41
+#: tazbox/tazbox:52
 msgid "Configure system keymap (root)"
 msgstr "配置系統鍵映射(root)"
 
-#: tazbox/tazbox:42
+#: tazbox/tazbox:53
 msgid "Configure system timezone (root)"
 msgstr "配置系統時區(root)"
 
-#: tazbox/tazbox:43
+#: tazbox/tazbox:54
 msgid "System initial setup (locale, keymap & timezone)"
 msgstr "系統初始設定(locale,鍵映射及時區)"
 
-#: tazbox/tazbox:44
+#: tazbox/tazbox:55
 msgid "Create a new file or folder on the desktop"
 msgstr "在桌面上新增文件或文件夾"
 
-#: tazbox/tazbox:45
+#: tazbox/tazbox:56
 msgid "Display icons of all installed applications"
 msgstr "顯示所有已安裝程式圖示"
 
-#: tazbox/tazbox:46
+#: tazbox/tazbox:57
 msgid "Notify user with a desktop centered box"
 msgstr "以桌面罝中盒子通知用戶"
 
-#: tazbox/tazbox:47
+#: tazbox/tazbox:58
 msgid "Configure SliTaz default applications"
 msgstr "配置SliTaz預設應用程式"
 
-#: tazbox/tazbox:66
+#: tazbox/tazbox:59
+msgid "Launch a framebuffer VNC viewer"
+msgstr ""
+
+#: tazbox/tazbox:84
 msgid "SliTaz admin password"
 msgstr "SliTaz管理員密碼"
 
-#: tazbox/tazbox:69
+#: tazbox/tazbox:87
 msgid "Please enter root password (default root) to execute:"
 msgstr "請輸入root密碼(預設為root)以執行:"
 
-#: tazbox/tazbox:72
+#: tazbox/tazbox:90
 msgid "Password:"
 msgstr "密碼:"
 
-#: tazbox/tazbox:73
+#: tazbox/tazbox:91
 msgid "Autosave password"
 msgstr "自動儲存密碼"
 
-#: tazbox/tazbox:78
+#: tazbox/tazbox:97
 msgid "Error"
 msgstr "錯誤"
 
-#: tazbox/tazbox:81
+#: tazbox/tazbox:100
 msgid "Error: wrong password!"
 msgstr "錯誤: 密碼錯誤"
 
-#: tazbox/tazbox:88
+#: tazbox/tazbox:109
 msgid "CANCEL"
 msgstr "取消"
 
-#: tazbox/tazbox:95
+#: tazbox/tazbox:118
 msgid "TazBox Output"
 msgstr "TazBox輸出"
 
-#: tazbox/tazbox:107
+#: tazbox/tazbox:132
 msgid "SliTaz Logout"
 msgstr "SliTaz登出"
 
-#: tazbox/tazbox:110
+#: tazbox/tazbox:135
 msgid "SliTaz Logout - Please choose an action:"
 msgstr "SliTaz登出 - 請選擇動作:"
 
-#: tazbox/tazbox:112
+#: tazbox/tazbox:137
 msgid "Close X session"
 msgstr "關閉X會話"
 
-#: tazbox/tazbox:113
+#: tazbox/tazbox:138
 msgid "Reboot system"
 msgstr "重新啟動"
 
-#: tazbox/tazbox:114
+#: tazbox/tazbox:139
 msgid "Shutdown system"
 msgstr "關機"
 
-#: tazbox/tazbox:134
+#: tazbox/tazbox:163
 msgid "SliTaz Initial Setup"
 msgstr "SliTaz初始設定"
 
-#: tazbox/tazbox:137
+#: tazbox/tazbox:166
 msgid ""
 "Here you can set your preferences \\n for <b>locale, keymap and timezone</b>."
 msgstr "你可以在這裏設定 \\n <b>locale,鍵映射及時區</b>的偏好."
 
-#: tazbox/tazbox:139
+#: tazbox/tazbox:168
 msgid "Locale"
 msgstr "Locale"
 
-#: tazbox/tazbox:140 tazbox/tazbox:206
+#: tazbox/tazbox:169 tazbox/tazbox:238
 msgid "Keymap"
 msgstr "鍵映射"
 
-#: tazbox/tazbox:141
+#: tazbox/tazbox:170
 msgid "Timezone"
 msgstr "時區"
 
-#: tazbox/tazbox:166
+#: tazbox/tazbox:196
 msgid "SliTaz locale"
 msgstr "SliTaz locale"
 
-#: tazbox/tazbox:169
+#: tazbox/tazbox:199
 msgid "Language configuration"
 msgstr "語言配置"
 
-#: tazbox/tazbox:170
+#: tazbox/tazbox:200
 msgid "Tip: manage locales list by installing/removing locale packages."
 msgstr "提示: 安裝locale包以管理locales列表."
 
-#: tazbox/tazbox:171 tazbox/tazbox:279
+#: tazbox/tazbox:201 tazbox/tazbox:322
 msgid "Flag"
 msgstr "旗標"
 
-#: tazbox/tazbox:171
+#: tazbox/tazbox:201
 msgid "Name"
 msgstr "名稱"
 
-#: tazbox/tazbox:172 tazbox/tazbox:442
+#: tazbox/tazbox:202 tazbox/tazbox:507
 msgid "Description"
 msgstr "描述"
 
-#: tazbox/tazbox:174 tazbox/tazbox:280
+#: tazbox/tazbox:204 tazbox/tazbox:323
 msgid "Manage"
 msgstr "管理"
 
-#: tazbox/tazbox:189
+#: tazbox/tazbox:220
 msgid "Locale was set to %s"
 msgstr "Locale已設為 %s"
 
-#: tazbox/tazbox:202
+#: tazbox/tazbox:234
 msgid "SliTaz keymap"
 msgstr "SliTaz 鍵映射"
 
-#: tazbox/tazbox:205
+#: tazbox/tazbox:237
 msgid "Keyboard configuration"
 msgstr "鍵盤配置"
 
-#: tazbox/tazbox:206
+#: tazbox/tazbox:238
 msgid "Type"
 msgstr "類型"
 
-#: tazbox/tazbox:244 tazbox/tazbox:272 tazbox/tazbox:288 tazbox/tazbox:301
+#: tazbox/tazbox:286 tazbox/tazbox:315 tazbox/tazbox:331 tazbox/tazbox:344
 msgid "SliTaz TZ"
 msgstr "SliTaz TZ"
 
-#: tazbox/tazbox:247
+#: tazbox/tazbox:289
 msgid "Suggested location:"
 msgstr "建議地區:"
 
-#: tazbox/tazbox:248
+#: tazbox/tazbox:290
 msgid "Are you agreed?"
 msgstr "你同意嗎?"
 
-#: tazbox/tazbox:275 tazbox/tazbox:291 tazbox/tazbox:304
+#: tazbox/tazbox:318 tazbox/tazbox:334 tazbox/tazbox:347
 msgid "TimeZone Configuration"
 msgstr "時區配置."
 
-#: tazbox/tazbox:276
+#: tazbox/tazbox:319
 msgid "Select country and press \"Forward\" or manually select timezone file."
 msgstr "選擇國家並按\"前進\"或手動選擇時區文件."
 
-#: tazbox/tazbox:277
+#: tazbox/tazbox:320
 msgid "Tip: manage timezones list by installing/removing locale packages."
 msgstr "提示: 安裝locale包以管理時區列表."
 
-#: tazbox/tazbox:279
+#: tazbox/tazbox:322
 msgid "Code"
 msgstr "代碼"
 
-#: tazbox/tazbox:279
+#: tazbox/tazbox:322
 msgid "Country"
 msgstr "國家"
 
-#: tazbox/tazbox:281
+#: tazbox/tazbox:324
 msgid "Manual"
 msgstr "手冊"
 
-#: tazbox/tazbox:291
+#: tazbox/tazbox:334
 msgid "Select time zone"
 msgstr "選擇時區"
 
-#: tazbox/tazbox:304
+#: tazbox/tazbox:347
 msgid "Select location"
 msgstr "選擇所在地"
 
-#: tazbox/tazbox:305
+#: tazbox/tazbox:348
 msgid "Location/City"
 msgstr "所在地/城市"
 
-#: tazbox/tazbox:331
+#: tazbox/tazbox:377
 msgid "TimeZone was set to %s"
 msgstr "時區已設為 %s"
 
-#: tazbox/tazbox:367
-msgid "Please wait"
-msgstr "請稍等"
-
-#: tazbox/tazbox:436
+#: tazbox/tazbox:430 tazbox/tazbox:501
 msgid "Manage locale packages"
 msgstr "管理locale包"
 
-#: tazbox/tazbox:439
-msgid "Check only locale packages you need and press \"Install/Remove\"."
-msgstr "只檢查你需要的locale包,並按\"安裝/移除\"."
+#: tazbox/tazbox:433
+msgid "Please, recharge packages database."
+msgstr ""
 
-#: tazbox/tazbox:441
-msgid "Inst."
-msgstr "安裝."
-
-#: tazbox/tazbox:441
-msgid "Package Name"
-msgstr "包名稱"
-
-#: tazbox/tazbox:442
-msgid "Size"
-msgstr "大小"
-
-#: tazbox/tazbox:443
-msgid "Installed"
-msgstr "已安裝"
-
-#: tazbox/tazbox:444
+#: tazbox/tazbox:434 tazbox/tazbox:509
 msgid "Recharge list"
 msgstr "更新列表"
 
-#: tazbox/tazbox:445
+#: tazbox/tazbox:443
+msgid "Please wait"
+msgstr "請稍等"
+
+#: tazbox/tazbox:504
+msgid "Check only locale packages you need and press \"Install/Remove\"."
+msgstr "只檢查你需要的locale包,並按\"安裝/移除\"."
+
+#: tazbox/tazbox:506
+msgid "Inst."
+msgstr "安裝."
+
+#: tazbox/tazbox:506
+msgid "Package Name"
+msgstr "包名稱"
+
+#: tazbox/tazbox:507
+msgid "Size"
+msgstr "大小"
+
+#: tazbox/tazbox:508
+msgid "Installed"
+msgstr "已安裝"
+
+#: tazbox/tazbox:510
 msgid "Install/Remove"
 msgstr "安裝/移濃密度"
 
-#: tazbox/tazbox:461
+#: tazbox/tazbox:529
 msgid "TazPkg log"
 msgstr "TazPkg 紀錄"
 
-#: tazbox/tazbox:464
+#: tazbox/tazbox:532
 msgid "REMOVE: %s"
 msgstr "移除: %s"
 
-#: tazbox/tazbox:468
+#: tazbox/tazbox:536
 msgid "INSTALL: %s"
 msgstr "安裝: %s"
 
-#: tazbox/tazbox:471
+#: tazbox/tazbox:539
 msgid "Done!"
 msgstr "完成!"
 
-#: tazbox/tazbox:481
+#: tazbox/tazbox:550
 msgid "New file"
 msgstr "新文件"
 
-#: tazbox/tazbox:484
+#: tazbox/tazbox:554
 msgid "Create a new file or folder on your desktop"
 msgstr "在桌面上創建新的文件或文件夾"
 
-#: tazbox/tazbox:485
+#: tazbox/tazbox:555
 msgid "File name"
 msgstr "文件名"
 
-#: tazbox/tazbox:488
+#: tazbox/tazbox:558
 msgid "SHell script"
 msgstr "SHell腳本"
 
-#: tazbox/tazbox:489
+#: tazbox/tazbox:559
 msgid "Folder"
 msgstr "文件夾"
 
-#: tazbox/tazbox:491
+#: tazbox/tazbox:560
 msgid "File"
 msgstr "文件"
 
-#: tazbox/tazbox:516
+#: tazbox/tazbox:588
 msgid "All Applications"
 msgstr "所有程式"
 
-#: tazbox/tazbox:593
+#: tazbox/tazbox:608
+msgid "Framebuffer VNC viewer"
+msgstr ""
+
+#: tazbox/tazbox:612
+msgid "Remote display connection"
+msgstr ""
+
+#: tazbox/tazbox:613
+msgid "VNC Server"
+msgstr ""
+
+#: tazbox/tazbox:614
+msgid "Via a SSH tunnel"
+msgstr ""
+
+#: tazbox/tazbox:616
+msgid "On this console"
+msgstr ""
+
+#: tazbox/tazbox:617
+msgid "In a new console"
+msgstr ""
+
+#: tazbox/tazbox:722
 msgid "Downloading..."
 msgstr "正在下載..."
 
-#: tazbox/tazbox:642
+#: tazbox/tazbox:790
 msgid "SliTaz default applications"
 msgstr "SliTaz 預設應用程式"
 
-#: tazbox/tazbox:644
+#: tazbox/tazbox:792
 msgid "SliTaz default applications configuration"
 msgstr "SliTaz 預設應用程式配置"
 
-#: tazbox/tazbox:646
+#: tazbox/tazbox:794
 msgid "File manager:"
 msgstr "文件管理器"
 
-#: tazbox/tazbox:647
+#: tazbox/tazbox:795
 msgid "Web browser:"
 msgstr "網頁瀏覽器:"
 
-#: tazbox/tazbox:648
+#: tazbox/tazbox:796
 msgid "Text editor:"
 msgstr "文字編輯器:"
 
-#: tazbox/tazbox:649
+#: tazbox/tazbox:797
 msgid "Terminal:"
 msgstr "終端:"
 
-#: tazbox/tazbox:650
+#: tazbox/tazbox:798
 msgid "Window manager:"
 msgstr "窗口管理員"
