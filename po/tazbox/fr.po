@@ -87,7 +87,7 @@ msgstr "Configure les applications SliTaz par défaut"
 
 #: tazbox/tazbox:59
 msgid "Launch a framebuffer VNC viewer"
-msgstr "Afficheur VNC en incrustation"
+msgstr "Visionneuse VNC en incrustation"
 
 #: tazbox/tazbox:84
 msgid "SliTaz admin password"
@@ -349,11 +349,11 @@ msgstr "Toutes les applications"
 
 #: tazbox/tazbox:608
 msgid "Framebuffer VNC viewer"
-msgstr "Afficheur VNC"
+msgstr "Visionneuse VNC"
 
 #: tazbox/tazbox:612
 msgid "Remote display connection"
-msgstr "Connexion à une console distante"
+msgstr "Connexion à une console"
 
 #: tazbox/tazbox:613
 msgid "VNC Server"

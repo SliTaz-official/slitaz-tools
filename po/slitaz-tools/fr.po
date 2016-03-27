@@ -397,7 +397,7 @@ msgstr ""
 
 #: tinyutils/hwsetup:205
 msgid "Which no. is your %s shown in the above lines (1,2,3,none)? "
-msgstr ""
+msgstr "Dans quel cas est votre %s selon ce qui précède (1,2,3,none) ?"
 
 #: tinyutils/hwsetup:228
 msgid "Do you want to use hp-setup utility"
@@ -697,7 +697,7 @@ msgstr "Les paquets optionnels suivants peuvent être installés :"
 
 #: tinyutils/hwsetup:800
 msgid "Do you want to install all/few/no optional dependencies (all|few|N)? "
-msgstr ""
+msgstr "Voulez vous installer des paquets optionnels (all:tous|few:certains|N) ?)"
 
 #: tinyutils/frugal:39
 msgid "SliTaz frugal installation"
@@ -812,11 +812,11 @@ msgstr "Clé"
 
 #: tinyutils/slitaz-config:152 tinyutils/slitaz-config:185
 msgid "hidden.network"
-msgstr ""
+msgstr "réseau.caché"
 
 #: tinyutils/slitaz-config:152
 msgid "Connect.to.a.hidden.network"
-msgstr ""
+msgstr "Se.connecter.à.un.réseau.caché"
 
 #: tinyutils/slitaz-config:172
 msgid "Select"
@@ -828,7 +828,7 @@ msgstr "Connexion à un réseau Wi-Fi"
 
 #: tinyutils/slitaz-config:175
 msgid "Connect.to.any.network"
-msgstr ""
+msgstr "Se.connecter.à.tout.réseau"
 
 #: tinyutils/slitaz-config:186
 msgid "Wi-Fi ESSID"
