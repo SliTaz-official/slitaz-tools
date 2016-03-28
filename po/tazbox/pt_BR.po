@@ -8,14 +8,15 @@ msgstr ""
 "Project-Id-Version: tazbox\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-27 10:56+0200\n"
-"PO-Revision-Date: 2014-03-06 22:12-0300\n"
-"Last-Translator: Claudinei Pereira <claudinei@slitaz.org>\n"
+"PO-Revision-Date: 2016-03-28 03:32-0300\n"
+"Last-Translator: Leonardo Laporte <hackdorte@sapo.pt>\n"
 "Language-Team: Brazilian Portuguese <i18n@slitaz.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 1.8.6\n"
 
 #: tazbox/tazbox:39
 msgid "SliTaz tiny GUI boxes for the desktop"
@@ -87,7 +88,7 @@ msgstr "Configura os aplicativos padrão do SliTaz"
 
 #: tazbox/tazbox:59
 msgid "Launch a framebuffer VNC viewer"
-msgstr ""
+msgstr "Lançar o VNC para visualizar saída framebuffer"
 
 #: tazbox/tazbox:84
 msgid "SliTaz admin password"
@@ -271,7 +272,7 @@ msgstr "Gerencie pacotes de locale"
 
 #: tazbox/tazbox:433
 msgid "Please, recharge packages database."
-msgstr ""
+msgstr "Por favor, recarregue o banco de dados dos pacotes."
 
 #: tazbox/tazbox:434 tazbox/tazbox:509
 msgid "Recharge list"
@@ -353,27 +354,27 @@ msgstr "Todos os aplicativos"
 
 #: tazbox/tazbox:608
 msgid "Framebuffer VNC viewer"
-msgstr ""
+msgstr "Visualizador VNC"
 
 #: tazbox/tazbox:612
 msgid "Remote display connection"
-msgstr ""
+msgstr "Visualizador de conexão remota"
 
 #: tazbox/tazbox:613
 msgid "VNC Server"
-msgstr ""
+msgstr "Servidor VNC"
 
 #: tazbox/tazbox:614
 msgid "Via a SSH tunnel"
-msgstr ""
+msgstr "Através do túnel SSH"
 
 #: tazbox/tazbox:616
 msgid "On this console"
-msgstr ""
+msgstr "Sobre este console"
 
 #: tazbox/tazbox:617
 msgid "In a new console"
-msgstr ""
+msgstr "Em um novo console"
 
 #: tazbox/tazbox:722
 msgid "Downloading..."
