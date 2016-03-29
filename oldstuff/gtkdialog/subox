@@ -7,7 +7,7 @@ VERSION=20100324
 
 # Usage.
 if [ -z "$1" ]; then
-    echo "Slitaz subox version : $VERSION"
+    echo "SliTaz subox version : $VERSION"
     echo -e "\nUsage : subox program\n"
     exit 0
 fi

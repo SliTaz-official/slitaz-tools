@@ -148,20 +148,20 @@ title Windows (example on /dev/hda1)
 	chainloader +1
 	$SAVEDEFAULT
 
-title Slitaz Frugal (example on /dev/hda1)
+title SliTaz Frugal (example on /dev/hda1)
 	root (hd0,0)
 	kernel /boot/bzImage rw root=/dev/null vga=normal
 	initrd /boot/rootfs.gz
 	$SAVEDEFAULT
 
-title Slitaz Installed (example on /dev/hda2)
+title SliTaz Installed (example on /dev/hda2)
 	root (hd0,1)
 	kernel /boot/bzImage ro root=/dev/hda2 vga=normal
 	$SAVEDEFAULT
 
 EOT
 [ "$1" = "grub4dos" ] && entry=$(($entry + 1)) && cat >> /tmp/floppybox.grub.menu <<EOT
-title Slitaz cdrom image (example on /dev/hda1, DEFRAGMENTED)
+title SliTaz CD-ROM image (example on /dev/hda1, DEFRAGMENTED)
         map (hd0,0)/boot/slitaz-cooking.iso (hd1)
         map --hook
         kernel (hd1)/boot/bzImage rw root=/dev/null vga=normal
@@ -774,23 +774,23 @@ export IMAGE_SET='
 "
       </label>
     </text>
-    <notebook labels="Slitaz only|Any Linux">
-    <frame Slitaz only (no size limit)>
+    <notebook labels="SliTaz only|Any Linux">
+    <frame SliTaz only (no size limit)>
     <vbox>
     <text wrap="false" width-chars="44" use-markup="true">
       <label>
 "
-Slitaz uses a floppy boot flavor as a first
+SliTaz uses a floppy boot flavor as a first
 stage boot to break the tiny loader 15MB limit.
 "
       </label>
     </text>
     <hbox>
       <text use-markup="true">
-        <label>"<b>Slitaz ISO : </b>"</label>
+        <label>"<b>SliTaz ISO : </b>"</label>
       </text>
       <entry accept="filename">
-        <label>Select a Slitaz ISO image</label>
+        <label>Select a SliTaz ISO image</label>
         <variable>ISO</variable>
       </entry>
       <button>
@@ -1173,7 +1173,7 @@ if [ -z "$XAUTHORITY" ]; then
 Create a floppy or a cdrom to boot a LiveCD in a PXE network...
 May need a floppy disk in drive. Erase the whole floppy disk.
 		" 18 70 50\
-		FloppySet	"Boot Slitaz with floppies only." on \
+		FloppySet	"Boot SliTaz with floppies only." on \
 		SmartBtmgr	"Boot any partition or ATAPI CD-ROM." off \
 		Plop		"Boot USB harddisk floppy or CD/DVD." off \
 		Etherboot	"Replacement for proprietary PXE ROMs." off \
@@ -1307,7 +1307,7 @@ tmp='
 "
 Only people without a CD-ROM, USB and Network should use a floppy set. 
 The images are built from an ISO boot or from a Linux kernel, an initramfs
-and a boot command line. Non Slitaz boot floppy sets are limited to 15MB.
+and a boot command line. Non SliTaz boot floppy sets are limited to 15MB.
 "
           </label>
         </text>

@@ -171,7 +171,7 @@ msgstr "启动X在开机时："
 
 #: tinyutils/tazx:608
 msgid "Configuration tool for SliTaz GNU/Linux"
-msgstr "Slitaz GNU / Linux配置工具"
+msgstr "SliTaz GNU / Linux配置工具"
 
 #: tinyutils/tazx:610 tinyutils/hwsetup:27
 msgid "command"
@@ -879,7 +879,7 @@ msgstr "从web获取系统日期"
 
 #: tinyutils/slitaz-config:259
 msgid "Exit from SliTaz Config"
-msgstr "从Slitaz配置里退出"
+msgstr "从SliTaz配置里退出"
 
 #~ msgid "Done"
 #~ msgstr "完成!"

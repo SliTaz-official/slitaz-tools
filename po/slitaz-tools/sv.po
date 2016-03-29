@@ -53,7 +53,7 @@ msgstr ""
 #: tinyutils/tazlocale:136
 #, fuzzy
 msgid "SliTaz language setting"
-msgstr "Slitaz språk konfiguration"
+msgstr "SliTaz språk konfiguration"
 
 #: tinyutils/tazlocale:155
 msgid ""
@@ -81,7 +81,7 @@ msgstr "Nuvarande tangentbords layout: %s"
 #: tinyutils/tazkeymap:59
 #, fuzzy
 msgid "SliTaz keyboard setting"
-msgstr "Slitaz tangentbords layout konfiguration"
+msgstr "SliTaz tangentbords layout konfiguration"
 
 #: tinyutils/tazkeymap:72
 msgid ""
@@ -150,7 +150,7 @@ msgstr ""
 #: tinyutils/tazx:454
 #, fuzzy
 msgid "SliTaz Xorg config"
-msgstr "Slitaz språk konfiguration"
+msgstr "SliTaz språk konfiguration"
 
 #: tinyutils/tazx:456
 msgid "Install or reconfigure Xorg"
@@ -748,7 +748,7 @@ msgstr ""
 #: tinyutils/slitaz-config:15
 #, fuzzy
 msgid "SliTaz Config"
-msgstr "Slitaz språk konfiguration"
+msgstr "SliTaz språk konfiguration"
 
 #: tinyutils/slitaz-config:41
 msgid "Post Installation"
@@ -861,12 +861,12 @@ msgstr ""
 #: tinyutils/slitaz-config:253
 #, fuzzy
 msgid "System keyboard setting"
-msgstr "Slitaz tangentbords layout konfiguration"
+msgstr "SliTaz tangentbords layout konfiguration"
 
 #: tinyutils/slitaz-config:254
 #, fuzzy
 msgid "System language setting"
-msgstr "Slitaz språk konfiguration"
+msgstr "SliTaz språk konfiguration"
 
 #: tinyutils/slitaz-config:255
 msgid "Wi-Fi network settings"

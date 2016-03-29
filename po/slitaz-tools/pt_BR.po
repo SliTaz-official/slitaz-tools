@@ -177,7 +177,7 @@ msgstr "Iniciar X no boot:"
 
 #: tinyutils/tazx:608
 msgid "Configuration tool for SliTaz GNU/Linux"
-msgstr "Ferramenta de configuração para Slitaz GNU/Linux"
+msgstr "Ferramenta de configuração para SliTaz GNU/Linux"
 
 #: tinyutils/tazx:610 tinyutils/hwsetup:27
 msgid "command"
@@ -898,7 +898,7 @@ msgstr "Definir a data do sistema pela web"
 
 #: tinyutils/slitaz-config:259
 msgid "Exit from SliTaz Config"
-msgstr "Fechar configuração do Slitaz"
+msgstr "Fechar configuração do SliTaz"
 
 #~ msgid "Done"
 #~ msgstr "Feito"

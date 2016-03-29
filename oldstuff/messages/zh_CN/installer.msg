@@ -16,7 +16,7 @@ ASK_FOR_TARGET_DEV_MSG="\n
 
 # ask_for_mkfs_target_dev
 ASK_FOR_MKFS_TARGET_DEV_MSG="\n
-Slitaz将被安装在这个分区里 : $TARGET_DEV\n\n
+SliTaz将被安装在这个分区里 : $TARGET_DEV\n\n
  . Ext3 是健壮, \
 稳定的日志文件系统. 若分区已经格式化， 你 \
 可以跳过这一步, 否则请选是. 警告： 格式化分区将 \
@@ -34,7 +34,7 @@ GRUB_INSTALL_MSG="\n
 GRUB 启动引导工具， \
 可以引导启动绝大多数操作系统. 如果你已经安装过了 \
 请跳过这一步，添加几行内容至 \
-配置文件(menu.lst). 注意Slitaz安装工具 \
+配置文件(menu.lst). 注意SliTaz安装工具 \
 会自动生成配置文件样例，放在安装分区上。 \
 (/mnt/target/boot/grub/menu.lst).\n\n
 \Z2安装Gurb到: $TARGET_DISK ?\Zn" 

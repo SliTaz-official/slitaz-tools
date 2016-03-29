@@ -2,7 +2,7 @@
 
 # start_install
 START_INSTALL_MSG="\n
-Üdvözöljük a Slitaz Telepítõben\n\n
+Üdvözöljük a SliTaz Telepítõben\n\n
 \Z2Új installálás vagy frissítés ?\Zn"
 
 # mount_cdrom
@@ -16,7 +16,7 @@ Kérjük adja meg a célpartíciót!\n\n
 
 # ask_for_mkfs_target_dev
 ASK_FOR_MKFS_TARGET_DEV_MSG="\n
-A Slitaz erre a partícióra települ : $TARGET_DEV\n\n
+A SliTaz erre a partícióra települ : $TARGET_DEV\n\n
 A következõ lépéssel a célpartíció ext3-ra formázható. Az ext3 egy fejlett, \
 stabil naplózó fájlrendszer. Ha a partíciót már megformázta, akkor \
 kihagyhatja ezt a lépést, ha nem, formázza meg. Figyelmeztetjük, hogy a formázás \
