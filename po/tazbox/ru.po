@@ -8,19 +8,19 @@ msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-27 10:56+0200\n"
-"PO-Revision-Date: 2014-05-23 03:34+0300\n"
+"PO-Revision-Date: 2016-04-20 16:17+0300\n"
 "Last-Translator: Aleksej Bobylev <al.bobylev@gmail.com>\n"
 "Language-Team: \n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Russian\n"
-"X-Poedit-Basepath: ../../\n"
+"X-Poedit-Basepath: ../..\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Language: ru\n"
 "X-Source-Language: en\n"
+"X-Generator: Poedit 1.8.6\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: tazbox/tazbox:39
@@ -94,7 +94,7 @@ msgstr "Настроить избранные приложения SliTaz"
 
 #: tazbox/tazbox:59
 msgid "Launch a framebuffer VNC viewer"
-msgstr ""
+msgstr "Запустить VNC-клиент"
 
 #: tazbox/tazbox:84
 msgid "SliTaz admin password"
@@ -278,7 +278,7 @@ msgstr "Управление пакетами локалей"
 
 #: tazbox/tazbox:433
 msgid "Please, recharge packages database."
-msgstr ""
+msgstr "Пожалуйста, обновите базу данных пакетов."
 
 #: tazbox/tazbox:434 tazbox/tazbox:509
 msgid "Recharge list"
@@ -359,27 +359,27 @@ msgstr "Все приложения"
 
 #: tazbox/tazbox:608
 msgid "Framebuffer VNC viewer"
-msgstr ""
+msgstr "VNC-клиент"
 
 #: tazbox/tazbox:612
 msgid "Remote display connection"
-msgstr ""
+msgstr "Подключение к удаленному рабочему столу"
 
 #: tazbox/tazbox:613
 msgid "VNC Server"
-msgstr ""
+msgstr "Сервер VNC"
 
 #: tazbox/tazbox:614
 msgid "Via a SSH tunnel"
-msgstr ""
+msgstr "Через SSH-туннель"
 
 #: tazbox/tazbox:616
 msgid "On this console"
-msgstr ""
+msgstr "В этой консоли"
 
 #: tazbox/tazbox:617
 msgid "In a new console"
-msgstr ""
+msgstr "В новой консоли"
 
 #: tazbox/tazbox:722
 msgid "Downloading..."
