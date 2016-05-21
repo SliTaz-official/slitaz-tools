@@ -89,8 +89,13 @@ link_language_files() {
 
 # Locale name displayed.
 
+locale_names() {
+	[ -d /usr/share/i18n/locales ] &&
+	ls -1 /usr/share/i18n/locales | grep [a-z]_[A-Z]
+}
+
 get_locale_name() {
-	for i in $(ls -1 /usr/share/i18n/locales | grep [a-z]_[A-Z]); do
+	for i in $(locale_names); do
 		echo -n "$i "
 		desc=$(grep ^title /usr/share/i18n/locales/$i | cut -d '"' -f 2)
 		if [ -n "$desc" ]; then
@@ -169,7 +174,7 @@ case "$1" in
 		;;
 	list)
 		list=
-		for i in $(ls -1 /usr/share/i18n/locales | grep '[a-z]_[A-Z]'); do
+		for i in $(locale_names); do
 			desc=$(fgrep -m1 title /usr/share/i18n/locales/$i | cut -d'"' -f2)
 			list="$list
 $i	$desc"
