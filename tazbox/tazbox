@@ -676,7 +676,7 @@ case "$1" in
 		fi
 
 		# Try to login & execute. If password is wrong execute error dialog
-		SU_CMD_QUOTED="$(echo "dbus-launch --exit-with-session $SU_CMD" | sed 's|&|\\&|g')"
+		SU_CMD_QUOTED="$(echo "$SU_CMD" | sed 's|&|\\&|g')"
 		echo $main | cut -d"|" -f1 | su -c "$SU_CMD_QUOTED &" || su_error
 		;;
 

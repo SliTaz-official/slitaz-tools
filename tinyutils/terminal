@@ -33,6 +33,7 @@ local PARAMS='' GEOMETRY='80x24' TITLE="SliTaz $(cat /etc/slitaz-release)" COMMA
 
 case $TERMINAL in
 	sakura)
+		(grep -q 'Unloading fbdev' /var/log/Xorg.0.log) || TERMINAL="sakura --sync"
 		OPT_TITLE='-t'; OPT_GEOM='--geometry'; OPT_HELP='-?'; OPT_HOLD='-h';;
 	xterm|*)
 		OPT_TITLE='-T'; OPT_GEOM='-geometry'; OPT_HELP='-help'; OPT_HOLD='-hold';;

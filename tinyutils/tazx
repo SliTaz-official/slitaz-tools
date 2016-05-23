@@ -311,6 +311,7 @@ autoselect_driver() {
 				"\n\Z1$(_n 'Failed to setup driver')\Zn $(_ '(unknown hardware)')" 7 68 ;;
 		esac
 	[ -n "$d" ] && inst_pkg xorg-xf86-video-$d
+	[ -n "$d" ] && inst_pkg mesa-dri-$d
 	done
 }
 
@@ -337,7 +338,7 @@ apps_dialog() {
 
 	exec 3>&1
 
-	app=$($DIALOG --clear --colors --backtitle "$msg" \
+	app=$($DIALOG --clear --colors --backtitle "$msg" --ok-label " $(_n 'Install')..." \
 		--title "{\Z3 $(_n 'Install Window Manager and applications') \Zn}" \
 		--inputmenu "" 21 52 18 \
 		$(for a in WINDOW_MANAGER EDITOR BROWSER TERMINAL FILE_MANAGER; do
@@ -398,8 +399,8 @@ gen_applist() {
 spacefm thunar xfe ytree"
 
 	BROWSERS="arora chrome cream dillo elinks firefox firefox-official iron \
-links lynx midori netsurf opera QtWeb qupzilla retawq seamonkey surf tazweb \
-w3m xombrero"
+links lynx midori netsurf opera palemoon QtWeb qupzilla retawq seamonkey surf \
+tazweb w3m xombrero"
 
 	EDITORS="adie beaver bluefish emacs geany jed joe juffed ht le leafpad \
 mcedit mousepad mp-5 nano qedit SciTE tea vi vim xedit xfw zile"
@@ -556,6 +557,7 @@ set_depth()
 			32 truecolor 24 truecolor 16 hicolor 15 hicolor 8 256colors 2>&1 1>&3)
 			dialog_end ;;
 	esac
+	(grep -q 'DefaultDepth' ${xorg_config}/70-Screen.conf) || \
 	sed 's|Monitor.*"$|&\n\tDefaultDepth '$colors'|' -i ${xorg_config}/70-Screen.conf
 }
 
