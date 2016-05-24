@@ -618,6 +618,49 @@ vnc_main() {
 }
 
 
+video() {
+	icon='video-x-generic'
+
+	# Get filename
+	[ "$1" ] && file="$PWD/$(basename "$1")"
+	[ -s "$file" ] || file="$(yad --file --width='500' --height='400' \
+		--window-icon $icon --title "Video file" --center)"
+
+	# Extra parameters
+	text=
+	attr='autoplay="true"'
+	for i in png jpg jpeg ; do
+		[ -s ${file%.*}.$i ] &&
+		attr="poster=\"file://${file%.*}.$i\"" && break
+	done
+	for i in ${file%.*}_${LANG%.*}.vtt ${file%.*}_${LANG%_*}.vtt \
+		 ${file%.*}.vtt ; do
+		[ -s $i ] && text="
+<track kind=\"captions\" label=\"*\" src=\"file://$i\" 
+       srclang=\"${LANG%_*}\" default>"
+	done
+
+	# Build the html5 page
+	tmp=/tmp/video-player-$$.html
+	cat > $tmp <<EOT
+<html>
+<head>
+	<title>$(basename "$file")</title>
+</head>
+<body>
+<video controls="controls" $attr>
+	<source src="file://$file" />$text
+	Unsupported video file format
+</video>
+</body>
+</html>
+EOT
+
+	tazweb --notoolbar file://$tmp || browser file://$tmp
+	rm -f $tmp
+}
+
+
 newvt()
 {
 	ask_root newvt $@ || return
@@ -819,6 +862,10 @@ TERMINAL=\"%s\"\nWINDOW_MANAGER=\"%s\"\n", $1, $2, $3, $4, $5}')
 
 	vnc)
 		vnc
+		;;
+
+	video)
+		video "$@"
 		;;
 
 	newvt)

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Video player
+Name[fr]=Afficheur video
+Comment=Versatile HTML5 video player
+Comment[fr]=Lecteur video HTML5 versatile
+Exec=tazbox video
+Icon=video-x-generic
+Categories=AudioVideo;Video;Player;
