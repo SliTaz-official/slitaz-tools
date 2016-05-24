@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-27 10:56+0200\n"
+"POT-Creation-Date: 2016-05-24 22:14+0200\n"
 "PO-Revision-Date: 2016-04-20 16:17+0300\n"
 "Last-Translator: Aleksej Bobylev <al.bobylev@gmail.com>\n"
 "Language-Team: \n"
@@ -381,34 +381,39 @@ msgstr "В этой консоли"
 msgid "In a new console"
 msgstr "В новой консоли"
 
-#: tazbox/tazbox:722
+#: tazbox/tazbox:627
+#, fuzzy
+msgid "Select the video file"
+msgstr "Выберите часовой пояс"
+
+#: tazbox/tazbox:763
 msgid "Downloading..."
 msgstr "Загрузка…"
 
-#: tazbox/tazbox:790
+#: tazbox/tazbox:831
 msgid "SliTaz default applications"
 msgstr "Избранные приложения SliTaz"
 
-#: tazbox/tazbox:792
+#: tazbox/tazbox:833
 msgid "SliTaz default applications configuration"
 msgstr "Настройка избранных приложений SliTaz"
 
-#: tazbox/tazbox:794
+#: tazbox/tazbox:835
 msgid "File manager:"
 msgstr "Файловый менеджер:"
 
-#: tazbox/tazbox:795
+#: tazbox/tazbox:836
 msgid "Web browser:"
 msgstr "Браузер:"
 
-#: tazbox/tazbox:796
+#: tazbox/tazbox:837
 msgid "Text editor:"
 msgstr "Текстовый редактор:"
 
-#: tazbox/tazbox:797
+#: tazbox/tazbox:838
 msgid "Terminal:"
 msgstr "Терминал:"
 
-#: tazbox/tazbox:798
+#: tazbox/tazbox:839
 msgid "Window manager:"
 msgstr "Оконный менеджер:"

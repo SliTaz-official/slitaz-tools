@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-27 10:56+0200\n"
+"POT-Creation-Date: 2016-05-24 22:14+0200\n"
 "PO-Revision-Date: 2011-08-11 00:21-0300\n"
 "Last-Translator: Robertux <precisionorte@gmail.com>\n"
 "Language-Team: \n"
@@ -375,34 +375,39 @@ msgstr ""
 msgid "In a new console"
 msgstr ""
 
-#: tazbox/tazbox:722
+#: tazbox/tazbox:627
+#, fuzzy
+msgid "Select the video file"
+msgstr "Elija zona horaria"
+
+#: tazbox/tazbox:763
 msgid "Downloading..."
 msgstr "Descargando..."
 
-#: tazbox/tazbox:790
+#: tazbox/tazbox:831
 msgid "SliTaz default applications"
 msgstr "Aplicaciones estándar de SliTaz"
 
-#: tazbox/tazbox:792
+#: tazbox/tazbox:833
 msgid "SliTaz default applications configuration"
 msgstr "Configuración de las aplicaciones estándar de SliTaz"
 
-#: tazbox/tazbox:794
+#: tazbox/tazbox:835
 msgid "File manager:"
 msgstr "Administrador de ficheros:"
 
-#: tazbox/tazbox:795
+#: tazbox/tazbox:836
 msgid "Web browser:"
 msgstr "Navegador Web:"
 
-#: tazbox/tazbox:796
+#: tazbox/tazbox:837
 msgid "Text editor:"
 msgstr "Editor de texto:"
 
-#: tazbox/tazbox:797
+#: tazbox/tazbox:838
 msgid "Terminal:"
 msgstr "Terminal:"
 
-#: tazbox/tazbox:798
+#: tazbox/tazbox:839
 msgid "Window manager:"
 msgstr "Administrador de ventanas:"

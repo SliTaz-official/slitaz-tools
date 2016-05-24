@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-27 10:56+0200\n"
-"PO-Revision-Date: 2012-03-24 14:36+0100\n"
+"POT-Creation-Date: 2016-05-24 22:14+0200\n"
+"PO-Revision-Date: 2016-05-24 22:36+0200\n"
 "Last-Translator: Christophe Lincoln <pankso@slitaz.org>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -35,7 +35,7 @@ msgstr "Commandes :"
 
 #: tazbox/tazbox:46
 msgid "Display this short help usage"
-msgstr "Affiche cette petite aide"
+msgstr "Affiche cette aide succinte"
 
 #: tazbox/tazbox:47
 msgid "Execute a command as super-user"
@@ -95,7 +95,7 @@ msgstr "Mot de passe administrateur"
 
 #: tazbox/tazbox:87
 msgid "Please enter root password (default root) to execute:"
-msgstr "Veuillez entre le mot de passe root (defaut root) pour exécuter :"
+msgstr "Veuillez entrer le mot de passe root (defaut root) pour exécuter :"
 
 #: tazbox/tazbox:90
 msgid "Password:"
@@ -143,7 +143,7 @@ msgstr "Eteindre le système"
 
 #: tazbox/tazbox:163
 msgid "SliTaz Initial Setup"
-msgstr "Réglages initiale de SliTaz"
+msgstr "Réglages initiaux de SliTaz"
 
 #: tazbox/tazbox:166
 msgid ""
@@ -236,7 +236,7 @@ msgstr "Info: fixe les zones horaires en ajoutant/retirant des paquets."
 
 #: tazbox/tazbox:322
 msgid "Code"
-msgstr ""
+msgstr "Code"
 
 #: tazbox/tazbox:322
 msgid "Country"
@@ -305,7 +305,7 @@ msgstr "Ajoute/Retire"
 
 #: tazbox/tazbox:529
 msgid "TazPkg log"
-msgstr ""
+msgstr "Journal de TazPkg"
 
 #: tazbox/tazbox:532
 msgid "REMOVE: %s"
@@ -371,34 +371,38 @@ msgstr "Sur cette console"
 msgid "In a new console"
 msgstr "Nouvelle console"
 
-#: tazbox/tazbox:722
+#: tazbox/tazbox:627
+msgid "Select the video file"
+msgstr "Choisissez le fichier vidéo"
+
+#: tazbox/tazbox:763
 msgid "Downloading..."
 msgstr "Télécharge..."
 
-#: tazbox/tazbox:790
+#: tazbox/tazbox:831
 msgid "SliTaz default applications"
 msgstr "Applications SliTaz par défaut"
 
-#: tazbox/tazbox:792
+#: tazbox/tazbox:833
 msgid "SliTaz default applications configuration"
 msgstr "Configuration des applications SliTaz par défaut"
 
-#: tazbox/tazbox:794
+#: tazbox/tazbox:835
 msgid "File manager:"
 msgstr "Gestionnaire de fichiers :"
 
-#: tazbox/tazbox:795
+#: tazbox/tazbox:836
 msgid "Web browser:"
 msgstr "Navigateur WEB :"
 
-#: tazbox/tazbox:796
+#: tazbox/tazbox:837
 msgid "Text editor:"
 msgstr "Editeur de textes :"
 
-#: tazbox/tazbox:797
+#: tazbox/tazbox:838
 msgid "Terminal:"
 msgstr "Terminal :"
 
-#: tazbox/tazbox:798
+#: tazbox/tazbox:839
 msgid "Window manager:"
 msgstr "Gestionnaire de fenêtres :"

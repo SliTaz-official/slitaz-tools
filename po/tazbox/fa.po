@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-27 10:56+0200\n"
+"POT-Creation-Date: 2016-05-24 22:14+0200\n"
 "PO-Revision-Date: 2014-06-26 19:26+0400\n"
 "Last-Translator: Ali Rashidi <alirashidi17@yahoo.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -372,34 +372,39 @@ msgstr ""
 msgid "In a new console"
 msgstr ""
 
-#: tazbox/tazbox:722
+#: tazbox/tazbox:627
+#, fuzzy
+msgid "Select the video file"
+msgstr "انتخاب منطقه زمانی"
+
+#: tazbox/tazbox:763
 msgid "Downloading..."
 msgstr "...در حال دانلود"
 
-#: tazbox/tazbox:790
+#: tazbox/tazbox:831
 msgid "SliTaz default applications"
 msgstr "SliTaz برنامه های پیشفرض"
 
-#: tazbox/tazbox:792
+#: tazbox/tazbox:833
 msgid "SliTaz default applications configuration"
 msgstr "SliTaz پیکربندی برنامه های پیشفرض"
 
-#: tazbox/tazbox:794
+#: tazbox/tazbox:835
 msgid "File manager:"
 msgstr ":مدیر فایل"
 
-#: tazbox/tazbox:795
+#: tazbox/tazbox:836
 msgid "Web browser:"
 msgstr ":مرورگر وب"
 
-#: tazbox/tazbox:796
+#: tazbox/tazbox:837
 msgid "Text editor:"
 msgstr ":ویرایشگر متن"
 
-#: tazbox/tazbox:797
+#: tazbox/tazbox:838
 msgid "Terminal:"
 msgstr ":ترمینال"
 
-#: tazbox/tazbox:798
+#: tazbox/tazbox:839
 msgid "Window manager:"
 msgstr ":مدیر پنجره"

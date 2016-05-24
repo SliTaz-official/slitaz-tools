@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-27 10:56+0200\n"
+"POT-Creation-Date: 2016-05-24 22:14+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -366,34 +366,38 @@ msgstr ""
 msgid "In a new console"
 msgstr ""
 
-#: tazbox/tazbox:722
+#: tazbox/tazbox:627
+msgid "Select the video file"
+msgstr ""
+
+#: tazbox/tazbox:763
 msgid "Downloading..."
 msgstr ""
 
-#: tazbox/tazbox:790
+#: tazbox/tazbox:831
 msgid "SliTaz default applications"
 msgstr ""
 
-#: tazbox/tazbox:792
+#: tazbox/tazbox:833
 msgid "SliTaz default applications configuration"
 msgstr ""
 
-#: tazbox/tazbox:794
+#: tazbox/tazbox:835
 msgid "File manager:"
 msgstr ""
 
-#: tazbox/tazbox:795
+#: tazbox/tazbox:836
 msgid "Web browser:"
 msgstr ""
 
-#: tazbox/tazbox:796
+#: tazbox/tazbox:837
 msgid "Text editor:"
 msgstr ""
 
-#: tazbox/tazbox:797
+#: tazbox/tazbox:838
 msgid "Terminal:"
 msgstr ""
 
-#: tazbox/tazbox:798
+#: tazbox/tazbox:839
 msgid "Window manager:"
 msgstr ""

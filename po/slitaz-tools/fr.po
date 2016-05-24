@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-27 10:56+0200\n"
+"POT-Creation-Date: 2016-05-24 22:14+0200\n"
 "PO-Revision-Date: 2014-01-02 19:14+0100\n"
 "Last-Translator: Christophe Lincoln <pankso@slitaz.org>\n"
 "Language-Team: French\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "SliTaz GNU/Linux locale setting using dialog boxes."
 msgstr "Configuration de la langue via des boîtes GTK"
 
-#: tinyutils/tazlocale:19 tinyutils/tazx:610 tinyutils/decode:34
+#: tinyutils/tazlocale:19 tinyutils/tazx:612 tinyutils/decode:34
 #: tinyutils/hwsetup:26 tinyutils/frugal:37
 msgid "Usage:"
 msgstr "Utilisation :"
@@ -51,27 +51,27 @@ msgstr "Toute autre option traitée comme locale - set locale (root)."
 msgid "Display locale selecting dialog if no option given (root)."
 msgstr "Sans option, lance dialog pour choisir une locale (root)."
 
-#: tinyutils/tazlocale:136
+#: tinyutils/tazlocale:141
 #, fuzzy
 msgid "SliTaz language setting"
 msgstr "Configuration de la langue"
 
-#: tinyutils/tazlocale:155
+#: tinyutils/tazlocale:160
 msgid ""
 "Please logout of your current session and login again to use new locale."
 msgstr ""
 "Veuillez vous déloguer et vous reloguer une fois pour utiliser la nouvelle "
 "locale."
 
-#: tinyutils/tazlocale:157 tinyutils/tazkeymap:71
+#: tinyutils/tazlocale:162 tinyutils/tazkeymap:71
 msgid "Information"
 msgstr ""
 
-#: tinyutils/tazlocale:167 tinyutils/tazkeymap:49
+#: tinyutils/tazlocale:172 tinyutils/tazkeymap:49
 msgid "Config file: %s"
 msgstr "Fichier de config : %s"
 
-#: tinyutils/tazlocale:168
+#: tinyutils/tazlocale:173
 msgid "Current locale: %s"
 msgstr "Locale actuelle : %s"
 
@@ -130,101 +130,101 @@ msgstr "Echec de la configuration de %s"
 msgid "(unknown hardware)"
 msgstr "(matériel inconnu)"
 
-#: tinyutils/tazx:322 tinyutils/hwsetup:125
+#: tinyutils/tazx:323 tinyutils/hwsetup:125
 msgid "Installing pkg: %s"
 msgstr "Installation du paquet : %s"
 
-#: tinyutils/tazx:341 tinyutils/tazx:460
-#, fuzzy
-msgid "Install Window Manager and applications"
-msgstr "application scanner"
-
-#: tinyutils/tazx:430 tinyutils/tazx:436
+#: tinyutils/tazx:341 tinyutils/tazx:431 tinyutils/tazx:437
 #, fuzzy
 msgid "Install"
 msgstr "Installer Xorg"
 
-#: tinyutils/tazx:446
+#: tinyutils/tazx:342 tinyutils/tazx:461
+#, fuzzy
+msgid "Install Window Manager and applications"
+msgstr "application scanner"
+
+#: tinyutils/tazx:447
 msgid "ON"
 msgstr ""
 
-#: tinyutils/tazx:447 tinyutils/tazx:478
+#: tinyutils/tazx:448 tinyutils/tazx:479
 msgid "OFF"
 msgstr ""
 
-#: tinyutils/tazx:454
+#: tinyutils/tazx:455
 #, fuzzy
 msgid "SliTaz Xorg config"
 msgstr "Configuration de la langue"
 
-#: tinyutils/tazx:456
+#: tinyutils/tazx:457
 msgid "Install or reconfigure Xorg"
 msgstr "Installer ou reconfigurer Xorg"
 
-#: tinyutils/tazx:457
+#: tinyutils/tazx:458
 msgid "Install Xorg server (light version)"
 msgstr "Installer le serveur Xorg (version light)"
 
-#: tinyutils/tazx:458
+#: tinyutils/tazx:459
 msgid "AutoStart Xorg by SLiM on boot"
 msgstr "Lancer automatiquement Xorg par SLiM au démarrage"
 
-#: tinyutils/tazx:459
+#: tinyutils/tazx:460
 msgid "(Re)Start Simple Login Manager now"
 msgstr "(Re)démarrer SLiM maintenant"
 
-#: tinyutils/tazx:461
+#: tinyutils/tazx:462
 msgid "Quit Tazx utility"
 msgstr "Quitter l'utilitaire Tazx"
 
-#: tinyutils/tazx:486
+#: tinyutils/tazx:487
 msgid "Start X on boot:"
 msgstr "Lancer X au démarrage"
 
-#: tinyutils/tazx:608
+#: tinyutils/tazx:610
 msgid "Configuration tool for SliTaz GNU/Linux"
 msgstr "Outil de configuration pour SliTaz GNU/Linux"
 
-#: tinyutils/tazx:610 tinyutils/hwsetup:27
+#: tinyutils/tazx:612 tinyutils/hwsetup:27
 msgid "command"
 msgstr "commande"
 
-#: tinyutils/tazx:610
+#: tinyutils/tazx:612
 msgid "parameter"
 msgstr "paramètre"
 
-#: tinyutils/tazx:612 tinyutils/hwsetup:29 tinyutils/frugal:41
+#: tinyutils/tazx:614 tinyutils/hwsetup:29 tinyutils/frugal:41
 msgid "Commands:"
 msgstr "Commandes:"
 
-#: tinyutils/tazx:613
+#: tinyutils/tazx:615
 #, fuzzy
 msgid "Install Xorg and selected Xorg driver"
 msgstr "Installer le serveur Xorg (version light)"
 
-#: tinyutils/tazx:614
+#: tinyutils/tazx:616
 #, fuzzy
 msgid "Configure Xorg, generate configuration files"
 msgstr "Utilise: aticonfig pour créer un modèle de fichier de config si besion"
 
-#: tinyutils/tazx:615
+#: tinyutils/tazx:617
 msgid "Set monitor default depth (valid parameters: 8, 15, 16 or 24)"
 msgstr "Nombre de bits par pixel par défaut (8, 15, 16 ou 24)"
 
-#: tinyutils/tazx:616
+#: tinyutils/tazx:618
 msgid "Auto-select and install Xorg driver"
 msgstr "Sélection automatique et installation du driver Xorg"
 
-#: tinyutils/tazx:617
+#: tinyutils/tazx:619
 msgid "Get files for starting an X session and config the keyboard"
 msgstr ""
 "Récupère les fichiers pour démarrer une session X et configurer le clavier"
 
-#: tinyutils/tazx:618
+#: tinyutils/tazx:620
 msgid "Generate or regenerate Xorg keyboard config"
 msgstr "Crée ou recrée la configuration clavier de Xorg"
 
-#: tinyutils/tazx:628
+#: tinyutils/tazx:630
 msgid "Run tazx as root if you need to configure xorg"
 msgstr "Lancez tazx par root si vous devez configurer xorg"
 
@@ -697,7 +697,8 @@ msgstr "Les paquets optionnels suivants peuvent être installés :"
 
 #: tinyutils/hwsetup:800
 msgid "Do you want to install all/few/no optional dependencies (all|few|N)? "
-msgstr "Voulez vous installer des paquets optionnels (all:tous|few:certains|N) ? "
+msgstr ""
+"Voulez vous installer des paquets optionnels (all:tous|few:certains|N) ? "
 
 #: tinyutils/frugal:39
 msgid "SliTaz frugal installation"

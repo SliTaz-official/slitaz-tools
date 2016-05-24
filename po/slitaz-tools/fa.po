@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-27 10:56+0200\n"
+"POT-Creation-Date: 2016-05-24 22:14+0200\n"
 "PO-Revision-Date: 2014-06-26 16:08+0400\n"
 "Last-Translator: Ali Rashidi <alirashidi17@yahoo.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "SliTaz GNU/Linux locale setting using dialog boxes."
 msgstr ":توسط کادر های محاوره SliTaz GNU/Linux تنظیمات منطقه ای"
 
-#: tinyutils/tazlocale:19 tinyutils/tazx:610 tinyutils/decode:34
+#: tinyutils/tazlocale:19 tinyutils/tazx:612 tinyutils/decode:34
 #: tinyutils/hwsetup:26 tinyutils/frugal:37
 msgid "Usage:"
 msgstr ":طریقه استفاده"
@@ -51,25 +51,25 @@ msgstr "(root) هر گونه گزینه دیگر به عنوان منطقه تل
 msgid "Display locale selecting dialog if no option given (root)."
 msgstr " (root) نمایش گفتوگوی انتخاب منطقه اگر گزینه ای وارد نشود"
 
-#: tinyutils/tazlocale:136
+#: tinyutils/tazlocale:141
 msgid "SliTaz language setting"
 msgstr "SliTaz تنظیمات زبان"
 
-#: tinyutils/tazlocale:155
+#: tinyutils/tazlocale:160
 msgid ""
 "Please logout of your current session and login again to use new locale."
 msgstr ""
 ".لطفا برای استفاده از منطقه ی جدید از حساب کاربری خارج شوید و مجددا وارد شوید"
 
-#: tinyutils/tazlocale:157 tinyutils/tazkeymap:71
+#: tinyutils/tazlocale:162 tinyutils/tazkeymap:71
 msgid "Information"
 msgstr "اطلاعات"
 
-#: tinyutils/tazlocale:167 tinyutils/tazkeymap:49
+#: tinyutils/tazlocale:172 tinyutils/tazkeymap:49
 msgid "Config file: %s"
 msgstr "%s :فایل پیکربندی"
 
-#: tinyutils/tazlocale:168
+#: tinyutils/tazlocale:173
 msgid "Current locale: %s"
 msgstr "%s :منطقه فعلی"
 
@@ -125,101 +125,101 @@ msgstr "نشد %s موفق به نصب "
 msgid "(unknown hardware)"
 msgstr ""
 
-#: tinyutils/tazx:322 tinyutils/hwsetup:125
+#: tinyutils/tazx:323 tinyutils/hwsetup:125
 msgid "Installing pkg: %s"
 msgstr "%s :در حال نصب پکیج"
 
-#: tinyutils/tazx:341 tinyutils/tazx:460
-#, fuzzy
-msgid "Install Window Manager and applications"
-msgstr "نرم افزار اسکنر"
-
-#: tinyutils/tazx:430 tinyutils/tazx:436
+#: tinyutils/tazx:341 tinyutils/tazx:431 tinyutils/tazx:437
 #, fuzzy
 msgid "Install"
 msgstr "Xorg نصب"
 
-#: tinyutils/tazx:446
+#: tinyutils/tazx:342 tinyutils/tazx:461
+#, fuzzy
+msgid "Install Window Manager and applications"
+msgstr "نرم افزار اسکنر"
+
+#: tinyutils/tazx:447
 msgid "ON"
 msgstr ""
 
-#: tinyutils/tazx:447 tinyutils/tazx:478
+#: tinyutils/tazx:448 tinyutils/tazx:479
 msgid "OFF"
 msgstr ""
 
-#: tinyutils/tazx:454
+#: tinyutils/tazx:455
 msgid "SliTaz Xorg config"
 msgstr "SliTaz Xorg پیکربندی"
 
-#: tinyutils/tazx:456
+#: tinyutils/tazx:457
 msgid "Install or reconfigure Xorg"
 msgstr "Xorg نصب یا پیکربندی مجدد"
 
-#: tinyutils/tazx:457
+#: tinyutils/tazx:458
 msgid "Install Xorg server (light version)"
 msgstr "(نسخه کم حجم) Xorg server نصب"
 
-#: tinyutils/tazx:458
+#: tinyutils/tazx:459
 msgid "AutoStart Xorg by SLiM on boot"
 msgstr ""
 
-#: tinyutils/tazx:459
+#: tinyutils/tazx:460
 msgid "(Re)Start Simple Login Manager now"
 msgstr ""
 
-#: tinyutils/tazx:461
+#: tinyutils/tazx:462
 msgid "Quit Tazx utility"
 msgstr "Tazx خروج از ابزار"
 
-#: tinyutils/tazx:486
+#: tinyutils/tazx:487
 msgid "Start X on boot:"
 msgstr ""
 
-#: tinyutils/tazx:608
+#: tinyutils/tazx:610
 msgid "Configuration tool for SliTaz GNU/Linux"
 msgstr ""
 
-#: tinyutils/tazx:610 tinyutils/hwsetup:27
+#: tinyutils/tazx:612 tinyutils/hwsetup:27
 msgid "command"
 msgstr "فرمان"
 
-#: tinyutils/tazx:610
+#: tinyutils/tazx:612
 msgid "parameter"
 msgstr ""
 
-#: tinyutils/tazx:612 tinyutils/hwsetup:29 tinyutils/frugal:41
+#: tinyutils/tazx:614 tinyutils/hwsetup:29 tinyutils/frugal:41
 msgid "Commands:"
 msgstr ":فرامین"
 
-#: tinyutils/tazx:613
+#: tinyutils/tazx:615
 #, fuzzy
 msgid "Install Xorg and selected Xorg driver"
 msgstr "(نسخه کم حجم) Xorg server نصب"
 
-#: tinyutils/tazx:614
+#: tinyutils/tazx:616
 #, fuzzy
 msgid "Configure Xorg, generate configuration files"
 msgstr ""
 "برای تولید یک فایل قالب پیکربندی در صورت نیاز استفاده کنید aticonfig :از "
 "ابزار"
 
-#: tinyutils/tazx:615
+#: tinyutils/tazx:617
 msgid "Set monitor default depth (valid parameters: 8, 15, 16 or 24)"
 msgstr ""
 
-#: tinyutils/tazx:616
+#: tinyutils/tazx:618
 msgid "Auto-select and install Xorg driver"
 msgstr ""
 
-#: tinyutils/tazx:617
+#: tinyutils/tazx:619
 msgid "Get files for starting an X session and config the keyboard"
 msgstr ""
 
-#: tinyutils/tazx:618
+#: tinyutils/tazx:620
 msgid "Generate or regenerate Xorg keyboard config"
 msgstr ""
 
-#: tinyutils/tazx:628
+#: tinyutils/tazx:630
 msgid "Run tazx as root if you need to configure xorg"
 msgstr ""
 

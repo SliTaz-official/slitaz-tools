@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 Name=Video player
-Name[fr]=Afficheur video
+Name[fr]=Lecteur video
 Comment=Versatile HTML5 video player
 Comment[fr]=Lecteur video HTML5 versatile
 Exec=tazbox video

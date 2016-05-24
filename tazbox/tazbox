@@ -624,7 +624,7 @@ video() {
 	# Get filename
 	[ "$1" ] && file="$PWD/$(basename "$1")"
 	[ -s "$file" ] || file="$(yad --file --width='500' --height='400' \
-		--window-icon $icon --title "Video file" --center)"
+	  --window-icon $icon --title "$(_ "Select the video file")" --center)"
 
 	# Extra parameters
 	text=
@@ -636,8 +636,7 @@ video() {
 	for i in ${file%.*}_${LANG%.*}.vtt ${file%.*}_${LANG%_*}.vtt \
 		 ${file%.*}.vtt ; do
 		[ -s $i ] && text="
-<track kind=\"captions\" label=\"*\" src=\"file://$i\" 
-       srclang=\"${LANG%_*}\" default>"
+<track kind=\"captions\" src=\"file://$i\" srclang=\"${LANG%_*}\" default>"
 	done
 
 	# Build the html5 page
@@ -648,8 +647,7 @@ video() {
 	<title>$(basename "$file")</title>
 </head>
 <body>
-<video controls="controls" $attr>
-	<source src="file://$file" />$text
+<video src="file://$file" controls $attr>$text
 	Unsupported video file format
 </video>
 </body>

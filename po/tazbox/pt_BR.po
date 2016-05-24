@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tazbox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-27 10:56+0200\n"
+"POT-Creation-Date: 2016-05-24 22:14+0200\n"
 "PO-Revision-Date: 2016-03-28 03:32-0300\n"
 "Last-Translator: Leonardo Laporte <hackdorte@sapo.pt>\n"
 "Language-Team: Brazilian Portuguese <i18n@slitaz.org>\n"
@@ -376,35 +376,40 @@ msgstr "Sobre este console"
 msgid "In a new console"
 msgstr "Em um novo console"
 
-#: tazbox/tazbox:722
+#: tazbox/tazbox:627
+#, fuzzy
+msgid "Select the video file"
+msgstr "Selecionar zona horária"
+
+#: tazbox/tazbox:763
 msgid "Downloading..."
 msgstr "Baixando..."
 
-#: tazbox/tazbox:790
+#: tazbox/tazbox:831
 msgid "SliTaz default applications"
 msgstr "Aplicativos padrão do SliTaz"
 
-#: tazbox/tazbox:792
+#: tazbox/tazbox:833
 msgid "SliTaz default applications configuration"
 msgstr "Configuração dos aplicativos padrão do SliTaz"
 
-#: tazbox/tazbox:794
+#: tazbox/tazbox:835
 msgid "File manager:"
 msgstr "Gerenciador de arquivos:"
 
-#: tazbox/tazbox:795
+#: tazbox/tazbox:836
 msgid "Web browser:"
 msgstr "Navegador web:"
 
-#: tazbox/tazbox:796
+#: tazbox/tazbox:837
 msgid "Text editor:"
 msgstr "Editor de texto:"
 
-#: tazbox/tazbox:797
+#: tazbox/tazbox:838
 msgid "Terminal:"
 msgstr "Terminal:"
 
-#: tazbox/tazbox:798
+#: tazbox/tazbox:839
 msgid "Window manager:"
 msgstr "Gerenciador de janelas:"
 

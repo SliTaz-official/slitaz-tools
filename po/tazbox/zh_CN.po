@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-27 10:56+0200\n"
+"POT-Creation-Date: 2016-05-24 22:14+0200\n"
 "PO-Revision-Date: 2014-06-26 15:06+0800\n"
 "Last-Translator: 张文宇 <jame987165702@gmail.com>\n"
 "Language-Team: 张文宇 <jame987165702@gmail.com>\n"
@@ -367,34 +367,39 @@ msgstr ""
 msgid "In a new console"
 msgstr ""
 
-#: tazbox/tazbox:722
+#: tazbox/tazbox:627
+#, fuzzy
+msgid "Select the video file"
+msgstr "选择时区"
+
+#: tazbox/tazbox:763
 msgid "Downloading..."
 msgstr "正在下载..."
 
-#: tazbox/tazbox:790
+#: tazbox/tazbox:831
 msgid "SliTaz default applications"
 msgstr "SliTaz 预设应用程式"
 
-#: tazbox/tazbox:792
+#: tazbox/tazbox:833
 msgid "SliTaz default applications configuration"
 msgstr "SliTaz 预设应用程式配置"
 
-#: tazbox/tazbox:794
+#: tazbox/tazbox:835
 msgid "File manager:"
 msgstr "文件管理器"
 
-#: tazbox/tazbox:795
+#: tazbox/tazbox:836
 msgid "Web browser:"
 msgstr "网页瀏览器:"
 
-#: tazbox/tazbox:796
+#: tazbox/tazbox:837
 msgid "Text editor:"
 msgstr "文字编辑器:"
 
-#: tazbox/tazbox:797
+#: tazbox/tazbox:838
 msgid "Terminal:"
 msgstr "终端:"
 
-#: tazbox/tazbox:798
+#: tazbox/tazbox:839
 msgid "Window manager:"
 msgstr "窗口管理员"
