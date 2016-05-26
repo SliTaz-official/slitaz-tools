@@ -625,6 +625,7 @@ video() {
 	[ "$1" ] && file="$PWD/$(basename "$1")"
 	[ -s "$file" ] || file="$(yad --file --width='500' --height='400' \
 	  --window-icon $icon --title "$(_ "Select the video file")" --center)"
+	[ -s "$file" ] || return
 
 	# Extra parameters
 	text=
