@@ -648,7 +648,7 @@ video() {
 	<title>$(basename "$file")</title>
 </head>
 <body>
-<video width="100%" height="97%" src="file://$file" controls $attr>$text
+<video width="100%" src="file://$file" controls $attr>$text
 	Unsupported video file format
 </video>
 </body>
