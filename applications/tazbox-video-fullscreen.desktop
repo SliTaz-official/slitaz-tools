@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Video player (fullscreen)
+Name[fr]=Lecteur video (plein écran)
+Comment=Versatile HTML5 video player
+Comment[fr]=Lecteur video HTML5 versatile
+Exec=tazbox video --fullscreen
+Icon=video-x-generic
+Categories=AudioVideo;Video;Player;
