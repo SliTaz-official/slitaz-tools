@@ -626,7 +626,7 @@ video() {
 	while true ; do
 		case "$1" in
 		--fullscreen) 	tazwebargs="$tazwebargs --kiosk"
-				dpmsoff=yes ;;
+				dpmstimeout=$(xset q | grep timeout | cut -d' ' -f5) ;;
 		--loop)		loop="loop" ;;
 		*) break
 		esac
@@ -682,9 +682,9 @@ Retry with <a href="http://127.0.0.1:82/user/pkgs.cgi?info=vlc">vlc</a>,
 </html>
 EOT
 
-	[ -n "dmpsoff" ] && xset -dpms
+	[ -n "$dpmstimeout" ] && xset dpms 0 0 0 s 0 0
 	tazweb $tazwebargs file://$tmp || browser file://$tmp
-	[ -n "dmpsoff" ] && xset +dpms
+	[ -n "$dpmstimeout" ] && xset dpms $dpmstimeout $dpmstimeout $dpmstimeout s $dpmstimeout $dpmstimeout
 	rm -f $tmp
 }
 
