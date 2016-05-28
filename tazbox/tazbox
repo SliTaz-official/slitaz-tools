@@ -642,14 +642,13 @@ video() {
 	# Extra parameters
 	text=
 	attr='autoplay="true"'
-	for i in png jpg jpeg ; do
+	for i in jpg jpeg ; do
 		[ -s ${file%.*}.$i ] &&
 		attr="poster=\"file://${file%.*}.$i\"" && break
 	done
-	for i in ${file%.*}_${LANG%.*}.vtt ${file%.*}_${LANG%_*}.vtt \
-		 ${file%.*}.vtt ; do
+	for i in ${file%.*}_${LANG%%[._]*}.vtt ${file%.*}.vtt ; do
 		[ -s $i ] && text="
-<track kind=\"captions\" src=\"file://$i\" srclang=\"${LANG%_*}\" default>"
+<track kind=\"captions\" src=\"file://$i\" srclang=\"${LANG%%[._]*}\" default>"
 	done
 
 	# Build the html5 page
@@ -669,8 +668,14 @@ body {
 	</style>
 </head>
 <body>
-<video width="100%" src="file://$file" controls $attr$loop>$text
-	Unsupported video file format
+<video width="100%" height="100%" src="file://$file" controls $attr$loop>$text
+Unsupported video file format. 
+Retry with <a href="http://127.0.0.1:82/user/pkgs.cgi?info=vlc">vlc</a>,
+<a href="http://127.0.0.1:82/user/pkgs.cgi?info=gnome-mplayer">mplayer</a>,
+<a href="http://127.0.0.1:82/user/pkgs.cgi?info=mplayer">mplayer</a>,
+<a href="http://127.0.0.1:82/user/pkgs.cgi?info=gxine">gxine</a> or
+<a href="http://127.0.0.1:82/user/pkgs.cgi?info=xine-ui">xine</a> or
+<a href="http://127.0.0.1:82/user/pkgs.cgi?info=ffplay">ffplay</a>
 </video>
 </body>
 </html>
