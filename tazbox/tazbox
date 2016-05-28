@@ -625,8 +625,9 @@ video() {
 	tazwebargs="--notoolbar"
 	while true ; do
 		case "$1" in
-		--fullscreen) tazwebargs="$tazwebargs --kiosk" ;;
-		--loop) loop="loop" ;;
+		--fullscreen) 	tazwebargs="$tazwebargs --kiosk"
+				dpmsoff=yes ;;
+		--loop)		loop="loop" ;;
 		*) break
 		esac
 		shift
@@ -673,7 +674,7 @@ Unsupported video file format.
 Retry with <a href="http://127.0.0.1:82/user/pkgs.cgi?info=vlc">vlc</a>,
 <a href="http://127.0.0.1:82/user/pkgs.cgi?info=gnome-mplayer">mplayer</a>,
 <a href="http://127.0.0.1:82/user/pkgs.cgi?info=mplayer">mplayer</a>,
-<a href="http://127.0.0.1:82/user/pkgs.cgi?info=gxine">gxine</a> or
+<a href="http://127.0.0.1:82/user/pkgs.cgi?info=gxine">gxine</a>,
 <a href="http://127.0.0.1:82/user/pkgs.cgi?info=xine-ui">xine</a> or
 <a href="http://127.0.0.1:82/user/pkgs.cgi?info=ffplay">ffplay</a>
 </video>
@@ -681,7 +682,9 @@ Retry with <a href="http://127.0.0.1:82/user/pkgs.cgi?info=vlc">vlc</a>,
 </html>
 EOT
 
+	[ -n "dmpsoff" ] && xset -dpms
 	tazweb $tazwebargs file://$tmp || browser file://$tmp
+	[ -n "dmpsoff" ] && xset +dpms
 	rm -f $tmp
 }
 
