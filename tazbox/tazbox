@@ -658,12 +658,9 @@ video() {
 <html>
 <head>
 	<title>$(basename "$file")</title>
-	<style text/css>
-html {
-	backgound-color: black;
-}
-
+	<style "text/css">
 body {
+	background-color: black;
 	margin: 0 0 0 0;
 }
 	</style>
