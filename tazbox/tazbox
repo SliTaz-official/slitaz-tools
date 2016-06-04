@@ -638,7 +638,7 @@ video() {
 	[ "${1:0:1}" == "/" ] && file="$1"
 	[ -s "$file" ] || file="$(yad --file --width='600' --height='500' --add-preview \
 		--window-icon $icon --title "$(_ 'Select the video file')" --center \
-		--file-filter="$(_ 'All video files')|*.mp4 *.m4v *.webm *.ogg *.ogv" \
+		--file-filter="$(_ 'All video files')|*.mp4 *.m4v *.webm *.ogg *.ogv *.flv *.avi" \
 		--file-filter="$(_ 'All files')|*")"
 	[ -s "$file" ] || return
 
@@ -679,7 +679,7 @@ $(IFS=$'\n'; _ 'Retry with %s, %s, %s, %s, %s or %s.' \
 </body>
 </html>
 EOT
-
+	unset IFS
 	[ -n "$dpmstimeout" ] && xset dpms 0 0 0 s 0 0
 	tazweb $tazwebargs file://$tmp || browser file://$tmp
 	[ -n "$dpmstimeout" ] && xset dpms $dpmstimeout $dpmstimeout $dpmstimeout s $dpmstimeout $dpmstimeout

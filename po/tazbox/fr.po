@@ -376,22 +376,20 @@ msgid "Select the video file"
 msgstr "Choisissez le fichier vidéo"
 
 #: tazbox/tazbox:641
-#, fuzzy
 msgid "All video files"
-msgstr "Choisissez le fichier vidéo"
+msgstr "Tous les fichiers vidéo"
 
 #: tazbox/tazbox:642
-#, fuzzy
 msgid "All files"
-msgstr "Choisissez le fichier vidéo"
+msgstr "Tous les fichiers"
 
 #: tazbox/tazbox:673
 msgid "Unsupported video file format."
-msgstr ""
+msgstr "Format de fichier vidéo non supporté."
 
 #: tazbox/tazbox:674
 msgid "Retry with %s, %s, %s, %s, %s or %s."
-msgstr ""
+msgstr "Réessayez avec %s, %s, %s, %s, %s ou %s."
 
 #: tazbox/tazbox:791
 msgid "Downloading..."
