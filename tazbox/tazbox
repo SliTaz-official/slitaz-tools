@@ -636,17 +636,20 @@ video() {
 	# Get filename
 	[ "$1" ] && file="$PWD/$(basename "$1")"
 	[ "${1:0:1}" == "/" ] && file="$1"
-	[ -s "$file" ] || file="$(yad --file --width='500' --height='400' \
-	  --window-icon $icon --title "$(_ "Select the video file")" --center)"
+	[ -s "$file" ] || file="$(yad --file --width='600' --height='500' --add-preview \
+		--window-icon $icon --title "$(_ 'Select the video file')" --center \
+		--file-filter="$(_ 'All video files')|*.mp4 *.m4v *.webm *.ogg *.ogv" \
+		--file-filter="$(_ 'All files')|*")"
 	[ -s "$file" ] || return
 
 	# Extra parameters
 	text=
 	attr='autoplay="true"'
 	for i in jpg jpeg ; do
-		[ -s ${file%.*}.$i ] &&
+		[ -s "${file%.*}.$i" ] &&
 		attr="poster=\"file://${file%.*}.$i\"" && break
 	done
+	IFS=$'\n'
 	for i in ${file%.*}_${LANG%%[._]*}.vtt ${file%.*}.vtt ; do
 		[ -s $i ] && text="
 <track kind=\"captions\" src=\"file://$i\" srclang=\"${LANG%%[._]*}\" default>"
@@ -657,23 +660,21 @@ video() {
 	cat > $tmp <<EOT
 <html>
 <head>
+	<meta charset="UTF-8">
 	<title>$(basename "$file")</title>
-	<style "text/css">
-body {
-	background-color: black;
-	margin: 0 0 0 0;
-}
+	<style>
+		body{background:#000;color:#FFF;margin:0}
+		a{color:#29F}
+		div{position:absolute;bottom:2em;left:0;right:0;text-align:center}
 	</style>
 </head>
 <body>
 <video width="100%" height="100%" src="file://$file" controls $attr$loop>$text
-Unsupported video file format. 
-Retry with <a href="http://127.0.0.1:82/user/pkgs.cgi?info=vlc">vlc</a>,
-<a href="http://127.0.0.1:82/user/pkgs.cgi?info=gnome-mplayer">mplayer</a>,
-<a href="http://127.0.0.1:82/user/pkgs.cgi?info=mplayer">mplayer</a>,
-<a href="http://127.0.0.1:82/user/pkgs.cgi?info=gxine">gxine</a>,
-<a href="http://127.0.0.1:82/user/pkgs.cgi?info=xine-ui">xine</a> or
-<a href="http://127.0.0.1:82/user/pkgs.cgi?info=ffplay">ffplay</a>
+<div>$(_ 'Unsupported video file format.')<br>
+$(IFS=$'\n'; _ 'Retry with %s, %s, %s, %s, %s or %s.' \
+	$(printf '<a href="http://127.0.0.1:82/user/pkgs.cgi?info=%s">%s</a>\n' \
+	vlc VLC   gnome-mplayer 'GNOME MPlayer'   mplayer MPlayer   gxine gxine   xine-ui xine   ffplay ffplay))
+</div>
 </video>
 </body>
 </html>

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-24 22:14+0200\n"
-"PO-Revision-Date: 2016-04-20 16:17+0300\n"
+"POT-Creation-Date: 2016-06-04 13:59+0300\n"
+"PO-Revision-Date: 2016-06-04 14:00+0300\n"
 "Last-Translator: Aleksej Bobylev <al.bobylev@gmail.com>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -381,39 +381,54 @@ msgstr "В этой консоли"
 msgid "In a new console"
 msgstr "В новой консоли"
 
-#: tazbox/tazbox:627
-#, fuzzy
+#: tazbox/tazbox:640
 msgid "Select the video file"
-msgstr "Выберите часовой пояс"
+msgstr "Выберите видеофайл"
 
-#: tazbox/tazbox:763
+#: tazbox/tazbox:641
+msgid "All video files"
+msgstr "Все видеофайлы"
+
+#: tazbox/tazbox:642
+msgid "All files"
+msgstr "Все файлы"
+
+#: tazbox/tazbox:673
+msgid "Unsupported video file format."
+msgstr "Неподдерживаемый формат видеофайла."
+
+#: tazbox/tazbox:674
+msgid "Retry with %s, %s, %s, %s, %s or %s."
+msgstr "Попробуйте %s, %s, %s, %s, %s или %s."
+
+#: tazbox/tazbox:791
 msgid "Downloading..."
 msgstr "Загрузка…"
 
-#: tazbox/tazbox:831
+#: tazbox/tazbox:859
 msgid "SliTaz default applications"
 msgstr "Избранные приложения SliTaz"
 
-#: tazbox/tazbox:833
+#: tazbox/tazbox:861
 msgid "SliTaz default applications configuration"
 msgstr "Настройка избранных приложений SliTaz"
 
-#: tazbox/tazbox:835
+#: tazbox/tazbox:863
 msgid "File manager:"
 msgstr "Файловый менеджер:"
 
-#: tazbox/tazbox:836
+#: tazbox/tazbox:864
 msgid "Web browser:"
 msgstr "Браузер:"
 
-#: tazbox/tazbox:837
+#: tazbox/tazbox:865
 msgid "Text editor:"
 msgstr "Текстовый редактор:"
 
-#: tazbox/tazbox:838
+#: tazbox/tazbox:866
 msgid "Terminal:"
 msgstr "Терминал:"
 
-#: tazbox/tazbox:839
+#: tazbox/tazbox:867
 msgid "Window manager:"
 msgstr "Оконный менеджер:"

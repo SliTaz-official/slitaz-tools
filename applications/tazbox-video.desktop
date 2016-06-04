@@ -2,8 +2,11 @@
 Type=Application
 Name=Video player
 Name[fr]=Lecteur video
+Name[ru]=Проигрыватель видео
 Comment=Versatile HTML5 video player
 Comment[fr]=Lecteur video HTML5 versatile
+Comment[ru]=Просмотр видео HTML5
 Exec=tazbox video
-Icon=video-x-generic
+Icon=multimedia-video-player
 Categories=AudioVideo;Video;Player;
+MimeType=video/mp4;video/webm;video/ogg;

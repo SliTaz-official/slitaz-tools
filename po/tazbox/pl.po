@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-24 22:14+0200\n"
+"POT-Creation-Date: 2016-06-04 13:59+0300\n"
 "PO-Revision-Date: 2013-07-23 12:35+0100\n"
 "Last-Translator: Paweł Pyrczak <tkr.tkr.pl@gmail.com>\n"
 "Language-Team: Paweł Pyrczak <support@pyrczak.pl>\n"
@@ -371,38 +371,54 @@ msgstr ""
 msgid "In a new console"
 msgstr ""
 
-#: tazbox/tazbox:627
+#: tazbox/tazbox:640
 msgid "Select the video file"
 msgstr ""
 
-#: tazbox/tazbox:763
+#: tazbox/tazbox:641
+msgid "All video files"
+msgstr ""
+
+#: tazbox/tazbox:642
+msgid "All files"
+msgstr ""
+
+#: tazbox/tazbox:673
+msgid "Unsupported video file format."
+msgstr ""
+
+#: tazbox/tazbox:674
+msgid "Retry with %s, %s, %s, %s, %s or %s."
+msgstr ""
+
+#: tazbox/tazbox:791
 msgid "Downloading..."
 msgstr ""
 
-#: tazbox/tazbox:831
+#: tazbox/tazbox:859
 msgid "SliTaz default applications"
 msgstr "Domyślne aplikacjie SliTaz"
 
-#: tazbox/tazbox:833
+#: tazbox/tazbox:861
 msgid "SliTaz default applications configuration"
 msgstr "Domyślna konfiguracja aplikacji SliTaz"
 
-#: tazbox/tazbox:835
+#: tazbox/tazbox:863
 msgid "File manager:"
 msgstr "Menadżer plików:"
 
-#: tazbox/tazbox:836
+#: tazbox/tazbox:864
 msgid "Web browser:"
 msgstr "Przeglądarka internetowa:"
 
-#: tazbox/tazbox:837
+#: tazbox/tazbox:865
 msgid "Text editor:"
 msgstr "Edytor textowy:"
 
-#: tazbox/tazbox:838
+#: tazbox/tazbox:866
 msgid "Terminal:"
 msgstr "Terminal:"
 
-#: tazbox/tazbox:839
+#: tazbox/tazbox:867
 msgid "Window manager:"
 msgstr "Menadżer okien:"
