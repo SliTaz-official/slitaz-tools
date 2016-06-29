@@ -63,20 +63,13 @@ check_firmware() {
 load_module() {
 	if ! lsmod | grep -q "^$mod"; then
 		# Check if builtin, loaded or missing
-		if modprobe $mod 2>/dev/null; then
-			if zcat /proc/config.gz | fgrep -i $mod | fgrep -q '=y'; then
-				_ '* Builtin module : %s' "$mod"
-				unset mod
-			else
-				_ '* Loaded module  : %s' "$mod"
-			fi
+		if zcat /proc/config.gz | fgrep -i $mod | fgrep -q '=y'; then
+			_ '* Builtin module : %s' "$mod"
+			unset mod
+		elif modprobe $mod 2>/dev/null; then
+			_ '* Loaded module  : %s' "$mod"
 		else
-			if zcat /proc/config.gz | fgrep -i $mod | fgrep -q '=y'; then
-				_ '* Builtin module : %s' "$mod"
-				unset mod
-			else
-				_ '! Missing module : %s' "$mod"
-			fi
+			_ '! Missing module : %s' "$mod"
 		fi
 	else
 		_ '> Module in use  : %s' "$mod"
@@ -111,7 +104,7 @@ detect_pci_devices() {
 	if [ ! -s /var/lib/detected-modules ]; then
 		. /etc/rcS.conf
 		# We need module_name to match output of lsmod.
-		list=$(lspci -k | grep 'driver' | cut -d: -f2 | module_name)
+		list=$(sed '/^DRIVER=/!d;s/.*=/ /' /sys/bus/pci/devices/*/uevent| module_name)
 		echo "$list" > /var/lib/detected-modules
 		for mod in $(sort < /var/lib/detected-modules | uniq)
 		do
@@ -180,8 +173,7 @@ case "$1" in
 		hwsetup $SETUP_OPTIONS ;;
 	-dm|detected-modules)
 		title 'Detected PCI and USB modules'
-		cat /var/lib/detected-modules
-		cat /var/lib/detected-usb-modules 2>/dev/null
+		cat /var/lib/detected-modules /var/lib/detected-usb-modules 2>/dev/null
 		footer ;;
 	*) 
 		usage ;;
