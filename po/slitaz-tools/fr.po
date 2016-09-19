@@ -193,7 +193,6 @@ msgid "Install Xorg and selected Xorg driver"
 msgstr "Installer le serveur Xorg et le pilote sélectionné"
 
 #: tinyutils/tazx:616
-#, fuzzy
 msgid "Configure Xorg, generate configuration files"
 msgstr "Configure Xorg, génère les fichiers de configuration"
 
