@@ -300,7 +300,7 @@ msgstr "Configuration de SliTaz"
 
 #: tinyutils/hwsetup:31
 msgid "Print this short usage."
-msgstr "Affiche cette aide succinte."
+msgstr "Affiche cette aide succincte."
 
 #: tinyutils/hwsetup:32
 msgid "Parallel and USB Printer setup."
@@ -574,7 +574,7 @@ msgstr ""
 
 #: tinyutils/hwsetup:596
 msgid "Add DNS address of your provider in %s"
-msgstr "Ajout de l'adresse DNS de votre provide dans %s"
+msgstr "Ajout de l'adresse DNS de votre fournisseur d'accés dans %s"
 
 #: tinyutils/hwsetup:605
 msgid "Setting IPTABLES_RULES to yes in /etc/slitaz/firewall.conf"
@@ -595,11 +595,11 @@ msgstr "Voulez vous configurer X avec le pilote nvidia non-libre"
 #: tinyutils/hwsetup:638 tinyutils/hwsetup:677 tinyutils/hwsetup:709
 #: tinyutils/hwsetup:742
 msgid "Your previous config is in %s"
-msgstr "La config précédante est dans %s"
+msgstr "La config précédente est dans %s"
 
 #: tinyutils/hwsetup:639 tinyutils/hwsetup:678
 msgid "If nvidia fails, you can remove %s to restore previous config."
-msgstr "Si nvidia se plante, retirez %s pour restorer la config précédante."
+msgstr "Si nvidia se plante, retirez %s pour restorer la config précédente."
 
 #: tinyutils/hwsetup:646
 msgid "Adding to xorg.conf:"
@@ -640,7 +640,7 @@ msgstr ""
 
 #: tinyutils/hwsetup:710
 msgid "If ati fails, you can remove %s to restore previous config."
-msgstr "Si ATI se plante, retirez %s pour restorer la config précédante."
+msgstr "Si ATI se plante, retirez %s pour restorer la config précédente."
 
 #: tinyutils/hwsetup:719
 msgid "Checking if ati catalyst is working..."
@@ -662,7 +662,7 @@ msgstr "Voulez vous configurer X avec le pilote libre ATI (radeon)"
 
 #: tinyutils/hwsetup:743
 msgid "If ATI fails, you can remove %s to restore previous config."
-msgstr "Si ATI se plante, retirez %s pour restorer la config précédante."
+msgstr "Si ATI se plante, retirez %s pour restorer la config précédente."
 
 #: tinyutils/hwsetup:745
 msgid "Create %s configured with radeon driver."
