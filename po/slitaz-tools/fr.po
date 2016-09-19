@@ -653,7 +653,8 @@ msgstr "Configuration :"
 #: tinyutils/hwsetup:724
 msgid ""
 "Use: aticonfig utility to generate a template configuration file if necessary"
-msgstr "Utilise: aticonfig pour créer un modèle de fichier de config si besion"
+msgstr ""
+"Utilise: aticonfig pour créer un modèle de fichier de config si besion"
 
 #: tinyutils/hwsetup:739
 msgid "Do you want to configure X using free ATI (radeon) driver"
@@ -830,7 +831,7 @@ msgstr "Mot de passe Wi-Fi"
 
 #: tinyutils/slitaz-config:193 tinyutils/slitaz-config:204
 msgid "Enter Wi-Fi key (password) for \\Zb\\Z4%s"
-msgstr "Enterz la clé (ou mot de passe) Wi-Fi pour \\Zb\\Z4%s"
+msgstr "Entrez la clé (ou mot de passe) Wi-Fi pour \\Zb\\Z4%s"
 
 #: tinyutils/slitaz-config:213
 msgid "Shutting down network interfaces..."
