@@ -143,3 +143,4 @@ install-boxes:
 clean:
 	rm -rf po/mo
 	rm -f po/*/*.po~
+	rm -f po/*/*.mo

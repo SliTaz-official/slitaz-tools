@@ -140,6 +140,84 @@ logout_main() {
 }
 
 
+# logout functions with auto-confirmation
+
+logout_confirm() {
+	timeout=5
+	case $1 in
+		exit)   action="$(_n 'Closing the X session...')";    icon='system-log-out';;
+		reboot) action="$(_n 'Rebooting the system...')";     icon='system-reboot';;
+		halt)   action="$(_n 'Shutting down the system...')"; icon='system-shutdown';;
+		*) exit;;
+	esac
+	warning="$(_ 'Selected action will be executed automatically in %s seconds.' "$timeout")"
+	yad --title="$(_n 'SliTaz Logout')" --window-icon="$icon" \
+		--on-top --center --width='300' --image="$icon" --image-on-top \
+		--text="<b>$action</b>\n\n$warning" \
+		--timeout $timeout --timeout-indicator=bottom \
+		--button "gtk-cancel:252"
+	[ "$?" -ne 252 ] || exit 0
+}
+
+
+# make logout menu in the right edge of LXPanel
+
+mkmenu() {
+	# (re)make the menu button with the user log name
+	dd="$HOME/.local/share/desktop-directories"; mkdir -p "$dd"
+	echo -e "[Desktop Entry]\nType=Directory\nName=$(whoami)" > "$dd/user.directory"
+
+	# check the panel config file existence, copy from default config if needed
+	panels=$(find $HOME/.config/lxpanel -type f -name panel 2>/dev/null)
+	if [ -z "$panels" ]; then
+		mkdir -p "$HOME/.config/lxpanel"
+		cp -a /etc/skel/.config/lxpanel/* "$HOME/.config/lxpanel"
+	fi
+
+	for panel in $panels; do
+		conf=$(tr '\n' '`' < $panel | sed 's|Plugin|\n&|g') # each plugin on its own line
+		if fgrep -q 'user.directory' "$panel"; then
+			# if menu already exists - shrink it to '@@@'
+			newconf=$(echo "$conf" | sed 's|.*user\.directory.*$|@@@|')
+		else
+			# otherwise add '@@@' before the last line (last line is the space)
+			newconf=$(echo "$conf" | tac | sed '2i@@@' | tac)
+		fi
+		menu=$(cat <<EOT
+Plugin {
+    type = menu
+    Config {
+        name=user.directory
+        image=avatar-default
+        tintcolor=#33230D
+        item {
+            image=system-log-out-panel
+            name=$(_ 'Close X session')
+            action=tazbox logout exit
+        }
+        item {
+            image=system-reboot-panel
+            name=$(_ 'Reboot system')
+            action=tazbox logout reboot
+        }
+        item {
+            image=system-shutdown-panel
+            name=$(_ 'Shutdown system')
+            action=tazbox logout halt
+        }
+    }
+}
+
+EOT
+)
+		# rebuild the menu: change '@@@' to the menu content
+		echo "$newconf" | \
+		awk -vmenu="$menu" '{if ($1=="@@@") {printf ("%s\n\n", menu)} else {print}}' | \
+		tr '`' '\n' > $panel
+	done
+}
+
+
 # generate keymap list
 
 gen_kmap_list() {
@@ -751,8 +829,9 @@ case "$1" in
 
 	logout)
 		# Logout window with actions
-		if [ -n "$oldstyle" ]; then
-			answer=$(logout_oldstyle)
+		if [ -n "$2" ]; then
+			answer="$2"
+			logout_confirm $answer
 		else
 			logout_main; answer=$?
 		fi
@@ -761,7 +840,7 @@ case "$1" in
 		# DE and WM started with a custom -session script should export
 		# XDG_CURRENT_DESKTOP
 		case $answer in
-			4|*exit)
+			4|exit)
 				case $XDG_CURRENT_DESKTOP in
 					LXDE)
 						[ -n "$_LXSESSION_PID" ] && kill $_LXSESSION_PID
@@ -773,9 +852,9 @@ case "$1" in
 						# Try to kill other WM that dont set XDG var.
 						jwm -exit 2>/dev/null ;;
 				esac ;;
-			3|*reboot)
+			3|reboot)
 				reboot || reboot -f ;;
-			2|*halt)
+			2|halt)
 				poweroff ;;
 		esac
 		;;
@@ -898,6 +977,8 @@ TERMINAL=\"%s\"\nWINDOW_MANAGER=\"%s\"\n", $1, $2, $3, $4, $5}')
 	newvt)
 		$@
 		;;
+
+	mkmenu) $@ ;;
 
 	*)
 		usage

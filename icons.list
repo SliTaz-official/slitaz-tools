@@ -2,26 +2,11 @@
 # applications
 #
 
-# slitaz-logout.desktop
-system-shutdown-panel-restart: panel(22)
-
 # burn-box.desktop
 burn-box: menu(16) big(48)
 
 # burn-iso.desktop
 iso-image-burn: context-menu(16) big(48)?
-
-# scp-box.desktop
-folder-remote: menu(16) big(48)
-
-# tazbox-tazapps.desktop
-preferences-desktop-default-applications: menu(16) big(48)
-
-# slitaz-cofig.desktop
-slitaz-icon: menu(16) big(48)
-
-# wifi-box.desktop
-network-wireless: menu(16) big(48)
 
 # gpl-license.desktop
 text-x-readme: menu(16) big(48)
@@ -29,14 +14,41 @@ text-x-readme: menu(16) big(48)
 # passwd.desktop
 user_auth: menu(16) big(48)
 
+# scp-box.desktop
+folder-remote: menu(16) big(48)
+
+# slitaz-cofig.desktop
+slitaz-icon: menu(16) big(48)
+
+# slitaz-logout.desktop
+system-shutdown-panel-restart: panel(22)
+
 # tazbox-keymap.desktop
 preferences-desktop-keyboard: menu(16) big(48)
 
 # tazbox-locale.desktop
 preferences-desktop-locale: menu(16) big(48)
 
+# tazbox-manage_i18n.desktop
+preferences-desktop-locale: menu(16) big(48)
+
+# tazbox-tazapps.desktop
+preferences-desktop-default-applications: menu(16) big(48)
+
 # tazbox-tz.desktop
 preferences-system-time: menu(16) big(48)
+
+# tazbox-video-fullscreen.desktop
+multimedia-video-player: menu(16) big(48)
+
+# tazbox-video.desktop
+multimedia-video-player: menu(16) big(48)
+
+# tazbox-vnc.desktop
+video-display: menu(16) big(48)
+
+# wifi-box.desktop
+network-wireless: menu(16) big(48)
 
 
 #
