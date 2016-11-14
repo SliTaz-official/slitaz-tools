@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-12 11:55+0200\n"
-"PO-Revision-Date: 2016-09-18 22:36+0200\n"
+"PO-Revision-Date: 2016-11-13 22:36+0200\n"
 "Last-Translator: Pascal Bellard <pascal.bellard@slitaz.org>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -142,23 +142,20 @@ msgid "Shutdown system"
 msgstr "Eteindre le système"
 
 #: tazbox/tazbox:148
-#, fuzzy
 msgid "Closing the X session..."
-msgstr "Fermer la session X"
+msgstr "Fermeture de la session X"
 
 #: tazbox/tazbox:149
-#, fuzzy
 msgid "Rebooting the system..."
-msgstr "Redémarrer le système"
+msgstr "Redémarrage du système"
 
 #: tazbox/tazbox:150
-#, fuzzy
 msgid "Shutting down the system..."
-msgstr "Eteindre le système"
+msgstr "Arrêt du système"
 
 #: tazbox/tazbox:153
 msgid "Selected action will be executed automatically in %s seconds."
-msgstr ""
+msgstr "L'action choisie sera exécutée automatiquement dans %s secondes."
 
 #: tazbox/tazbox:240
 msgid "SliTaz Initial Setup"
