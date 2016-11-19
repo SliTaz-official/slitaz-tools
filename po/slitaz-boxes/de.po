@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Boxes\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-04 13:59+0300\n"
+"POT-Creation-Date: 2016-11-19 23:23+0200\n"
 "PO-Revision-Date: 2016-10-23 15:15+0100\n"
 "Last-Translator: Hans-Günter Theisgen\n"
 "Language-Team: German\n"
@@ -19,7 +19,8 @@ msgstr ""
 
 #: boxes/wifi-box:16
 msgid "Small Wi-Fi utility to quickly connect to a network."
-msgstr "Kleines Dienstprogramm zum schnellen Verbinden mit einem Drahtlosnetzwerk"
+msgstr ""
+"Kleines Dienstprogramm zum schnellen Verbinden mit einem Drahtlosnetzwerk"
 
 #: boxes/wifi-box:17 boxes/burn-box:41 boxes/scp-box:44
 msgid "Usage:"
@@ -79,7 +80,8 @@ msgstr "Drahtlosnetzwerk"
 
 #: boxes/wifi-box:135
 msgid "<b>Connect to a Wi-Fi network</b> (Double click to connect)"
-msgstr "<b>Mit einem Drahtlosnetzwerk verbinden</b> (Doppelklick zum Verbinden)"
+msgstr ""
+"<b>Mit einem Drahtlosnetzwerk verbinden</b> (Doppelklick zum Verbinden)"
 
 #: boxes/wifi-box:137
 msgid "ESSID Name"
@@ -163,7 +165,8 @@ msgstr "Burn-box"
 
 #: boxes/burn-box:120
 msgid "Burn ISO images and audio files [data in next releases]"
-msgstr "ISO-Abbilder und Audiodateien schreiben [Daten in einer künftigen Version]"
+msgstr ""
+"ISO-Abbilder und Audiodateien schreiben [Daten in einer künftigen Version]"
 
 #: boxes/burn-box:122
 msgid "Drive speed:"
@@ -238,7 +241,8 @@ msgid "<b>Secure copy</b> - Copy files remotely with scp"
 msgstr "<b>\"Secure copy\"</b> - Fernkopieren von Dateien mit scp"
 
 #: boxes/scp-box:79
-msgid "Username:"
+#, fuzzy
+msgid "User name:"
 msgstr "Benutzername:"
 
 #: boxes/scp-box:80

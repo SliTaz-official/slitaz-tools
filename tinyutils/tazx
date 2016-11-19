@@ -92,7 +92,7 @@ xkb() {
 				fgrep -o ',') in
 				'')
 					for CFG in $(find $CFG_LXPANEL -type f -name panel); do
-						if [ -n "$(grep 'type = xkb' $CFG)" ]; then
+						if [ -n "$(grep 'type *= *xkb' $CFG)" ]; then
 							echo "Remove xkb applet from $CFG"
 							sed -i "$(grep -n -e "^Plugin {" -e "^}" -e "xkb" \
 								$CFG | grep -C 1 xkb | grep -v xkb | cut -d: \
@@ -101,7 +101,7 @@ xkb() {
 					done ;;
 				',')
 					for CFG in $(find $CFG_LXPANEL -type f -name panel); do
-						if [ -z "$(grep 'type = xkb' $CFG)" ]; then
+						if [ -z "$(grep 'type *= *xkb' $CFG)" ]; then
 							echo "Add xkb applet to $CFG"
 							XKB='Plugin {\
     type = xkb\

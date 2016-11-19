@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-04 13:59+0300\n"
+"POT-Creation-Date: 2016-11-19 23:23+0200\n"
 "PO-Revision-Date: 2016-10-16 15:39+0100\n"
 "Last-Translator: Hans-Günter Theisgen\n"
 "Language-Team: German \n"
@@ -36,7 +36,9 @@ msgstr "Optionen:"
 
 #: tinyutils/tazlocale:24
 msgid "Show info about config file and current locale."
-msgstr "Informationen über die Konfigurationsdatei und die aktuelle Lokalisierung anzeigen."
+msgstr ""
+"Informationen über die Konfigurationsdatei und die aktuelle Lokalisierung "
+"anzeigen."
 
 #: tinyutils/tazlocale:25
 msgid "Show list of available locales."
@@ -45,14 +47,14 @@ msgstr "Verfügbare Lokalisierungen anzeigen."
 #: tinyutils/tazlocale:28
 msgid "Any other option treated as locale - set locale (root)."
 msgstr ""
-"Alle anderen Angaben werden als Lokalisierung interpretiert - "
-"Lokalisierung einstellen (Administrator)."
+"Alle anderen Angaben werden als Lokalisierung interpretiert - Lokalisierung "
+"einstellen (Administrator)."
 
 #: tinyutils/tazlocale:29
 msgid "Display locale selecting dialog if no option given (root)."
 msgstr ""
-"Wenn keine Option angegeben ist, wird (für den Administrator) "
-"ein Auswahldialog für die Lokalisierung ausgegeben."
+"Wenn keine Option angegeben ist, wird (für den Administrator) ein "
+"Auswahldialog für die Lokalisierung ausgegeben."
 
 #: tinyutils/tazlocale:141
 msgid "SliTaz language setting"
@@ -62,8 +64,8 @@ msgstr "SliTaz-Spracheinstellung"
 msgid ""
 "Please logout of your current session and login again to use new locale."
 msgstr ""
-"Damit die neue Lokalisierung wirksam wird, müssen Sie sich ab- und "
-"wieder anmelden."
+"Damit die neue Lokalisierung wirksam wird, müssen Sie sich ab- und wieder "
+"anmelden."
 
 #: tinyutils/tazlocale:162 tinyutils/tazkeymap:71
 msgid "Information"
@@ -89,8 +91,8 @@ msgstr "SliTaz-Tastaturbelegung"
 msgid ""
 "Please logout of your current session and login again to use new keyboard."
 msgstr ""
-"Damit die neue Tastaturbelegung wirksam wird, müssen Sie sich ab- und "
-"wieder anmelden."
+"Damit die neue Tastaturbelegung wirksam wird, müssen Sie sich ab- und wieder "
+"anmelden."
 
 #: tinyutils/setmixer:14
 msgid "Setting default mixer volumes... "
@@ -203,8 +205,8 @@ msgstr "Xorg konfigurieren, Konfigurationsdateien erzeugen"
 #: tinyutils/tazx:617
 msgid "Set monitor default depth (valid parameters: 8, 15, 16 or 24)"
 msgstr ""
-"Standard-Farbtiefe des Bildschirms einstellen "
-"(gültige Werte: 8, 15, 16 or 24)"
+"Standard-Farbtiefe des Bildschirms einstellen (gültige Werte: 8, 15, 16 or "
+"24)"
 
 #: tinyutils/tazx:618
 msgid "Auto-select and install Xorg driver"
@@ -220,7 +222,9 @@ msgstr "Xorg-Tastaturkonfiguration erzeugen oder ändern"
 
 #: tinyutils/tazx:630
 msgid "Run tazx as root if you need to configure xorg"
-msgstr "Wenn Xorg konfiguriert werden soll, muss tazx vom Administrator aufgerufen werden"
+msgstr ""
+"Wenn Xorg konfiguriert werden soll, muss tazx vom Administrator aufgerufen "
+"werden"
 
 #: tinyutils/decode:32
 msgid "Decode audio and video files"
@@ -360,8 +364,8 @@ msgid ""
 "not been properly tested. Please report any success, failure, bug to SliTaz "
 "Bug tracker or Forum."
 msgstr ""
-"Aus Mangel an kompatibler Hardware zur Diagnose konnte dieses %s-Gerät "
-"nicht richtig getestet werden. Bitte berichten Sie jeden Erfolg, Fehlschlag oder "
+"Aus Mangel an kompatibler Hardware zur Diagnose konnte dieses %s-Gerät nicht "
+"richtig getestet werden. Bitte berichten Sie jeden Erfolg, Fehlschlag oder "
 "Fehler an \"SliTaz Bug tracker\" oder im Forum."
 
 #: tinyutils/hwsetup:113
@@ -385,7 +389,7 @@ msgid " %s) Vendor  : %s "
 msgstr " %s) Hersteller : %s "
 
 #: tinyutils/hwsetup:194
-msgid "    Produkt : %s"
+msgid "    Product : %s"
 msgstr ""
 
 #: tinyutils/hwsetup:205
@@ -496,12 +500,13 @@ msgstr "Soll die Kamera durch Installation von mplayer-svn getestet werden?"
 #: tinyutils/hwsetup:478
 msgid "Webcam is set up; please use mplayer-svn/fswebcam/amsn/skype to view"
 msgstr ""
-"Die Kamera ist eingerichtet; sie kann mit mplayer-svn, fswebcam, amsn oder skype "
-"verwendet werden"
+"Die Kamera ist eingerichtet; sie kann mit mplayer-svn, fswebcam, amsn oder "
+"skype verwendet werden"
 
 #: tinyutils/hwsetup:494
 msgid "Do you want to check if gphoto2 can talk to your camera"
-msgstr "Soll geprüft werden, ob gphoto2 sich mit Ihrer Kamera verständigen kann?"
+msgstr ""
+"Soll geprüft werden, ob gphoto2 sich mit Ihrer Kamera verständigen kann?"
 
 #: tinyutils/hwsetup:499
 msgid "Do you want to test importing photos"
@@ -509,7 +514,9 @@ msgstr "Soll das Importieren von Fotos getestet werden?"
 
 #: tinyutils/hwsetup:509
 msgid "Camera is set up; please use gphoto2 to import photos"
-msgstr "Die Kamera ist eingerichtet; zum Importieren von Fotos kann gphoto2 verwendet werden"
+msgstr ""
+"Die Kamera ist eingerichtet; zum Importieren von Fotos kann gphoto2 "
+"verwendet werden"
 
 #: tinyutils/hwsetup:510
 msgid "Quick start guide: %s"
@@ -541,7 +548,8 @@ msgstr "verbinde mit fernen \"bluetooth\"-Geräten..."
 
 #: tinyutils/hwsetup:550 tinyutils/hwsetup:571
 msgid "You can manually edit the configuration files in %s if need be"
-msgstr "Die Konfigurationsdateien in %s können bei Bedarf manuell bearbeitet werden"
+msgstr ""
+"Die Konfigurationsdateien in %s können bei Bedarf manuell bearbeitet werden"
 
 #: tinyutils/hwsetup:564
 msgid "for starting bluetooth daemon"
@@ -581,7 +589,8 @@ msgstr "In %s die DNS-Adresse des Netzbetreibers einfügen"
 
 #: tinyutils/hwsetup:605
 msgid "Setting IPTABLES_RULES to yes in /etc/slitaz/firewall.conf"
-msgstr "In /etc/slitaz/firewall.conf wird IPTABLES_RULES der Wert \"yes\" zugewiesen"
+msgstr ""
+"In /etc/slitaz/firewall.conf wird IPTABLES_RULES der Wert \"yes\" zugewiesen"
 
 #: tinyutils/hwsetup:614
 msgid "Probing for open ports..."
@@ -590,8 +599,8 @@ msgstr "Suche offene Ports..."
 #: tinyutils/hwsetup:618
 msgid "Adding firewall daemon to start automatically at boot"
 msgstr ""
-"Der Hintergrundprozess für das Zugangsschutzsystem "
-"wird bei der Systemeinleitung automatisch gestartet"
+"Der Hintergrundprozess für das Zugangsschutzsystem wird bei der "
+"Systemeinleitung automatisch gestartet"
 
 #: tinyutils/hwsetup:635
 msgid "Do you want to configure X using non-free nvidia driver"
@@ -631,8 +640,8 @@ msgstr "nvidia testen"
 #: tinyutils/hwsetup:663
 msgid "Use: nvidia-settings utility to configure your settings if necessary"
 msgstr ""
-"Wenn erforderlich, können die Einstellungen mit dem Programm "
-"nvidia-settings geändert werden"
+"Wenn erforderlich, können die Einstellungen mit dem Programm nvidia-settings "
+"geändert werden"
 
 #: tinyutils/hwsetup:674
 msgid "Do you want to configure X using free nvidia driver"
@@ -644,7 +653,9 @@ msgstr "Erzeuge %s konfiguriert mit dem nv-Treiber"
 
 #: tinyutils/hwsetup:706
 msgid "Do you want to configure X using non-free catalyst ATI (radeon) driver"
-msgstr "Soll X mithilfe des nicht-freien 'catalyst ATI (radeon)'-Treibers konfiguriert werden?"
+msgstr ""
+"Soll X mithilfe des nicht-freien 'catalyst ATI (radeon)'-Treibers "
+"konfiguriert werden?"
 
 #: tinyutils/hwsetup:710
 msgid "If ati fails, you can remove %s to restore previous config."
@@ -667,7 +678,8 @@ msgstr "Mit aticonfig kann eine Muster-Konfigurationsdatei erzeugt werden."
 
 #: tinyutils/hwsetup:739
 msgid "Do you want to configure X using free ATI (radeon) driver"
-msgstr "Soll X mithilfe des freien 'ATI (radeon)' -Treibers konfiguriert werden?"
+msgstr ""
+"Soll X mithilfe des freien 'ATI (radeon)' -Treibers konfiguriert werden?"
 
 #: tinyutils/hwsetup:743
 msgid "If ATI fails, you can remove %s to restore previous config."
@@ -697,8 +709,9 @@ msgstr "Die folgenden optionalen Pakete können installiert werden:"
 
 #: tinyutils/hwsetup:800
 msgid "Do you want to install all/few/no optional dependencies (all|few|N)? "
-msgstr "Sollen alle, einige oder keine optionalen benötigten Pakete "
-"installiert werden (alle|einige|N)?"
+msgstr ""
+"Sollen alle, einige oder keine optionalen benötigten Pakete installiert "
+"werden (alle|einige|N)?"
 
 #: tinyutils/frugal:39
 msgid "SliTaz frugal installation"

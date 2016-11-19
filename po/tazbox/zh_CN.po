@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-12 11:55+0200\n"
+"POT-Creation-Date: 2016-11-19 23:23+0200\n"
 "PO-Revision-Date: 2014-06-26 15:06+0800\n"
 "Last-Translator: 张文宇 <jame987165702@gmail.com>\n"
 "Language-Team: 张文宇 <jame987165702@gmail.com>\n"
@@ -161,282 +161,282 @@ msgstr "关机"
 msgid "Selected action will be executed automatically in %s seconds."
 msgstr ""
 
-#: tazbox/tazbox:240
+#: tazbox/tazbox:241
 msgid "SliTaz Initial Setup"
 msgstr "SliTaz初始设定"
 
-#: tazbox/tazbox:243
+#: tazbox/tazbox:244
 msgid ""
 "Here you can set your preferences \\n for <b>locale, keymap and timezone</b>."
 msgstr "你可以在这里设定 \\n <b>locale,键映射及时区</b>的偏好."
 
-#: tazbox/tazbox:245
+#: tazbox/tazbox:246
 msgid "Locale"
 msgstr "Locale"
 
-#: tazbox/tazbox:246 tazbox/tazbox:315
+#: tazbox/tazbox:247 tazbox/tazbox:316
 msgid "Keymap"
 msgstr "键映射"
 
-#: tazbox/tazbox:247
+#: tazbox/tazbox:248
 msgid "Timezone"
 msgstr "时区"
 
-#: tazbox/tazbox:273
+#: tazbox/tazbox:274
 msgid "SliTaz locale"
 msgstr "SliTaz locale"
 
-#: tazbox/tazbox:276
+#: tazbox/tazbox:277
 msgid "Language configuration"
 msgstr "语言配置"
 
-#: tazbox/tazbox:277
+#: tazbox/tazbox:278
 msgid "Tip: manage locales list by installing/removing locale packages."
 msgstr "提示: 安装locale包以管理locales列表."
 
-#: tazbox/tazbox:278 tazbox/tazbox:399
+#: tazbox/tazbox:279 tazbox/tazbox:400
 msgid "Flag"
 msgstr "旗标"
 
-#: tazbox/tazbox:278
+#: tazbox/tazbox:279
 msgid "Name"
 msgstr "名称"
 
-#: tazbox/tazbox:279 tazbox/tazbox:584
+#: tazbox/tazbox:280 tazbox/tazbox:585
 msgid "Description"
 msgstr "描述"
 
-#: tazbox/tazbox:281 tazbox/tazbox:400
+#: tazbox/tazbox:282 tazbox/tazbox:401
 msgid "Manage"
 msgstr "管理"
 
-#: tazbox/tazbox:297
+#: tazbox/tazbox:298
 msgid "Locale was set to %s"
 msgstr "Locale已设為 %s"
 
-#: tazbox/tazbox:311
+#: tazbox/tazbox:312
 msgid "SliTaz keymap"
 msgstr "SliTaz 键映射"
 
-#: tazbox/tazbox:314
+#: tazbox/tazbox:315
 msgid "Keyboard configuration"
 msgstr "键盘配置"
 
-#: tazbox/tazbox:315
+#: tazbox/tazbox:316
 msgid "Type"
 msgstr "类型"
 
-#: tazbox/tazbox:363 tazbox/tazbox:392 tazbox/tazbox:408 tazbox/tazbox:421
+#: tazbox/tazbox:364 tazbox/tazbox:393 tazbox/tazbox:409 tazbox/tazbox:422
 msgid "SliTaz TZ"
 msgstr "SliTaz TZ"
 
-#: tazbox/tazbox:366
+#: tazbox/tazbox:367
 msgid "Suggested location:"
 msgstr "建议地区:"
 
-#: tazbox/tazbox:367
+#: tazbox/tazbox:368
 msgid "Are you agreed?"
 msgstr "你同意吗?"
 
-#: tazbox/tazbox:395 tazbox/tazbox:411 tazbox/tazbox:424
+#: tazbox/tazbox:396 tazbox/tazbox:412 tazbox/tazbox:425
 msgid "TimeZone Configuration"
 msgstr "时区配置."
 
-#: tazbox/tazbox:396
+#: tazbox/tazbox:397
 msgid "Select country and press \"Forward\" or manually select timezone file."
 msgstr "选择国家并按\"前进\"或手动选择时区文件."
 
-#: tazbox/tazbox:397
+#: tazbox/tazbox:398
 msgid "Tip: manage timezones list by installing/removing locale packages."
 msgstr "提示: 安装locale包以管理时区列表."
 
-#: tazbox/tazbox:399
+#: tazbox/tazbox:400
 msgid "Code"
 msgstr "代码"
 
-#: tazbox/tazbox:399
+#: tazbox/tazbox:400
 msgid "Country"
 msgstr "国家"
 
-#: tazbox/tazbox:401
+#: tazbox/tazbox:402
 msgid "Manual"
 msgstr "手册"
 
-#: tazbox/tazbox:411
+#: tazbox/tazbox:412
 msgid "Select time zone"
 msgstr "选择时区"
 
-#: tazbox/tazbox:424
+#: tazbox/tazbox:425
 msgid "Select location"
 msgstr "选择所在地"
 
-#: tazbox/tazbox:425
+#: tazbox/tazbox:426
 msgid "Location/City"
 msgstr "所在地/城市"
 
-#: tazbox/tazbox:454
+#: tazbox/tazbox:455
 msgid "TimeZone was set to %s"
 msgstr "时区已设為 %s"
 
-#: tazbox/tazbox:507 tazbox/tazbox:578
+#: tazbox/tazbox:508 tazbox/tazbox:579
 msgid "Manage locale packages"
 msgstr "管理locale包"
 
-#: tazbox/tazbox:510
+#: tazbox/tazbox:511
 msgid "Please, recharge packages database."
 msgstr ""
 
-#: tazbox/tazbox:511 tazbox/tazbox:586
+#: tazbox/tazbox:512 tazbox/tazbox:587
 msgid "Recharge list"
 msgstr "更新列表"
 
-#: tazbox/tazbox:520
+#: tazbox/tazbox:521
 msgid "Please wait"
 msgstr "请稍等"
 
-#: tazbox/tazbox:581
+#: tazbox/tazbox:582
 msgid "Check only locale packages you need and press \"Install/Remove\"."
 msgstr "只检查你需要的locale包,并按\"安装/移除\"."
 
-#: tazbox/tazbox:583
+#: tazbox/tazbox:584
 msgid "Inst."
 msgstr "安装."
 
-#: tazbox/tazbox:583
+#: tazbox/tazbox:584
 msgid "Package Name"
 msgstr "包名称"
 
-#: tazbox/tazbox:584
+#: tazbox/tazbox:585
 msgid "Size"
 msgstr "大小"
 
-#: tazbox/tazbox:585
+#: tazbox/tazbox:586
 msgid "Installed"
 msgstr "已安装"
 
-#: tazbox/tazbox:587
+#: tazbox/tazbox:588
 msgid "Install/Remove"
 msgstr "安装/移浓密度"
 
-#: tazbox/tazbox:606
+#: tazbox/tazbox:607
 msgid "TazPkg log"
 msgstr "TazPkg 纪录"
 
-#: tazbox/tazbox:609
+#: tazbox/tazbox:610
 msgid "REMOVE: %s"
 msgstr "移除: %s"
 
-#: tazbox/tazbox:613
+#: tazbox/tazbox:614
 msgid "INSTALL: %s"
 msgstr "安装: %s"
 
-#: tazbox/tazbox:616
+#: tazbox/tazbox:617
 msgid "Done!"
 msgstr "完成!"
 
-#: tazbox/tazbox:627
+#: tazbox/tazbox:628
 msgid "New file"
 msgstr "新文件"
 
-#: tazbox/tazbox:631
+#: tazbox/tazbox:632
 msgid "Create a new file or folder on your desktop"
 msgstr "在桌面上创建新的文件或文件夹"
 
-#: tazbox/tazbox:632
+#: tazbox/tazbox:633
 msgid "File name"
 msgstr "文件名"
 
-#: tazbox/tazbox:635
+#: tazbox/tazbox:636
 msgid "SHell script"
 msgstr "SHell脚本"
 
-#: tazbox/tazbox:636
+#: tazbox/tazbox:637
 msgid "Folder"
 msgstr "文件夹"
 
-#: tazbox/tazbox:637
+#: tazbox/tazbox:638
 msgid "File"
 msgstr "文件"
 
-#: tazbox/tazbox:665
+#: tazbox/tazbox:666
 msgid "All Applications"
 msgstr "所有程式"
 
-#: tazbox/tazbox:685
+#: tazbox/tazbox:686
 msgid "Framebuffer VNC viewer"
 msgstr ""
 
-#: tazbox/tazbox:689
+#: tazbox/tazbox:690
 msgid "Remote display connection"
 msgstr ""
 
-#: tazbox/tazbox:690
+#: tazbox/tazbox:691
 msgid "VNC Server"
 msgstr ""
 
-#: tazbox/tazbox:691
+#: tazbox/tazbox:692
 msgid "Via a SSH tunnel"
 msgstr ""
 
-#: tazbox/tazbox:693
+#: tazbox/tazbox:694
 msgid "On this console"
 msgstr ""
 
-#: tazbox/tazbox:694
+#: tazbox/tazbox:695
 msgid "In a new console"
 msgstr ""
 
-#: tazbox/tazbox:717
+#: tazbox/tazbox:718
 #, fuzzy
 msgid "Select the video file"
 msgstr "选择时区"
 
-#: tazbox/tazbox:718
+#: tazbox/tazbox:719
 #, fuzzy
 msgid "All video files"
 msgstr "选择时区"
 
-#: tazbox/tazbox:719
+#: tazbox/tazbox:720
 #, fuzzy
 msgid "All files"
 msgstr "选择时区"
 
-#: tazbox/tazbox:750
+#: tazbox/tazbox:751
 msgid "Unsupported video file format."
 msgstr ""
 
-#: tazbox/tazbox:751
+#: tazbox/tazbox:752
 msgid "Retry with %s, %s, %s, %s, %s or %s."
 msgstr ""
 
-#: tazbox/tazbox:869
+#: tazbox/tazbox:870
 msgid "Downloading..."
 msgstr "正在下载..."
 
-#: tazbox/tazbox:937
+#: tazbox/tazbox:938
 msgid "SliTaz default applications"
 msgstr "SliTaz 预设应用程式"
 
-#: tazbox/tazbox:939
+#: tazbox/tazbox:940
 msgid "SliTaz default applications configuration"
 msgstr "SliTaz 预设应用程式配置"
 
-#: tazbox/tazbox:941
+#: tazbox/tazbox:942
 msgid "File manager:"
 msgstr "文件管理器"
 
-#: tazbox/tazbox:942
+#: tazbox/tazbox:943
 msgid "Web browser:"
 msgstr "网页瀏览器:"
 
-#: tazbox/tazbox:943
+#: tazbox/tazbox:944
 msgid "Text editor:"
 msgstr "文字编辑器:"
 
-#: tazbox/tazbox:944
+#: tazbox/tazbox:945
 msgid "Terminal:"
 msgstr "终端:"
 
-#: tazbox/tazbox:945
+#: tazbox/tazbox:946
 msgid "Window manager:"
 msgstr "窗口管理员"

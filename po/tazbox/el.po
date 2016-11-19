@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-12 11:55+0200\n"
+"POT-Creation-Date: 2016-11-19 23:23+0200\n"
 "PO-Revision-Date: 2012-11-23 11:30+0200\n"
 "Last-Translator: Constantine Mousafiris <kvisitor@gnugr.org>\n"
 "Language-Team: Kostis Mousafiris\n"
@@ -162,281 +162,281 @@ msgstr "Κλείσιμο συστήματος"
 msgid "Selected action will be executed automatically in %s seconds."
 msgstr ""
 
-#: tazbox/tazbox:240
+#: tazbox/tazbox:241
 msgid "SliTaz Initial Setup"
 msgstr "Αρχικές ρυθμίσεις του SliTaz"
 
-#: tazbox/tazbox:243
+#: tazbox/tazbox:244
 msgid ""
 "Here you can set your preferences \\n for <b>locale, keymap and timezone</b>."
 msgstr ""
 "Εδώ, μπορείτε να ορίσετε τις προτιμήσεις σας \\n για το <b>locale, το keymap "
 "και τη ζώνη ώρας</b>."
 
-#: tazbox/tazbox:245
+#: tazbox/tazbox:246
 msgid "Locale"
 msgstr ""
 
-#: tazbox/tazbox:246 tazbox/tazbox:315
+#: tazbox/tazbox:247 tazbox/tazbox:316
 msgid "Keymap"
 msgstr "Αναπαράσταση συμβόλων πληκτρολογίου (keymap)"
 
-#: tazbox/tazbox:247
+#: tazbox/tazbox:248
 msgid "Timezone"
 msgstr ""
 
-#: tazbox/tazbox:273
+#: tazbox/tazbox:274
 msgid "SliTaz locale"
 msgstr ""
 
-#: tazbox/tazbox:276
+#: tazbox/tazbox:277
 msgid "Language configuration"
 msgstr "Ρύθμιση γλώσσας"
 
-#: tazbox/tazbox:277
+#: tazbox/tazbox:278
 msgid "Tip: manage locales list by installing/removing locale packages."
 msgstr ""
 
-#: tazbox/tazbox:278 tazbox/tazbox:399
+#: tazbox/tazbox:279 tazbox/tazbox:400
 msgid "Flag"
 msgstr ""
 
-#: tazbox/tazbox:278
+#: tazbox/tazbox:279
 msgid "Name"
 msgstr "Όνομα"
 
-#: tazbox/tazbox:279 tazbox/tazbox:584
+#: tazbox/tazbox:280 tazbox/tazbox:585
 msgid "Description"
 msgstr "Περιγραφή"
 
-#: tazbox/tazbox:281 tazbox/tazbox:400
+#: tazbox/tazbox:282 tazbox/tazbox:401
 msgid "Manage"
 msgstr ""
 
-#: tazbox/tazbox:297
+#: tazbox/tazbox:298
 msgid "Locale was set to %s"
 msgstr ""
 
-#: tazbox/tazbox:311
+#: tazbox/tazbox:312
 msgid "SliTaz keymap"
 msgstr ""
 
-#: tazbox/tazbox:314
+#: tazbox/tazbox:315
 msgid "Keyboard configuration"
 msgstr "Ρύθμιση πληκτρολογίου"
 
-#: tazbox/tazbox:315
+#: tazbox/tazbox:316
 msgid "Type"
 msgstr "Τύπος"
 
-#: tazbox/tazbox:363 tazbox/tazbox:392 tazbox/tazbox:408 tazbox/tazbox:421
+#: tazbox/tazbox:364 tazbox/tazbox:393 tazbox/tazbox:409 tazbox/tazbox:422
 msgid "SliTaz TZ"
 msgstr ""
 
-#: tazbox/tazbox:366
+#: tazbox/tazbox:367
 msgid "Suggested location:"
 msgstr ""
 
-#: tazbox/tazbox:367
+#: tazbox/tazbox:368
 msgid "Are you agreed?"
 msgstr ""
 
-#: tazbox/tazbox:395 tazbox/tazbox:411 tazbox/tazbox:424
+#: tazbox/tazbox:396 tazbox/tazbox:412 tazbox/tazbox:425
 msgid "TimeZone Configuration"
 msgstr "Ρύθμιση ζώνης ώρας"
 
-#: tazbox/tazbox:396
+#: tazbox/tazbox:397
 msgid "Select country and press \"Forward\" or manually select timezone file."
 msgstr ""
 
-#: tazbox/tazbox:397
+#: tazbox/tazbox:398
 msgid "Tip: manage timezones list by installing/removing locale packages."
 msgstr ""
 
-#: tazbox/tazbox:399
+#: tazbox/tazbox:400
 msgid "Code"
 msgstr ""
 
-#: tazbox/tazbox:399
+#: tazbox/tazbox:400
 msgid "Country"
 msgstr ""
 
-#: tazbox/tazbox:401
+#: tazbox/tazbox:402
 msgid "Manual"
 msgstr ""
 
-#: tazbox/tazbox:411
+#: tazbox/tazbox:412
 msgid "Select time zone"
 msgstr ""
 
-#: tazbox/tazbox:424
+#: tazbox/tazbox:425
 msgid "Select location"
 msgstr ""
 
-#: tazbox/tazbox:425
+#: tazbox/tazbox:426
 msgid "Location/City"
 msgstr ""
 
-#: tazbox/tazbox:454
+#: tazbox/tazbox:455
 msgid "TimeZone was set to %s"
 msgstr ""
 
-#: tazbox/tazbox:507 tazbox/tazbox:578
+#: tazbox/tazbox:508 tazbox/tazbox:579
 msgid "Manage locale packages"
 msgstr ""
 
-#: tazbox/tazbox:510
+#: tazbox/tazbox:511
 msgid "Please, recharge packages database."
 msgstr ""
 
-#: tazbox/tazbox:511 tazbox/tazbox:586
+#: tazbox/tazbox:512 tazbox/tazbox:587
 msgid "Recharge list"
 msgstr ""
 
-#: tazbox/tazbox:520
+#: tazbox/tazbox:521
 msgid "Please wait"
 msgstr ""
 
-#: tazbox/tazbox:581
+#: tazbox/tazbox:582
 msgid "Check only locale packages you need and press \"Install/Remove\"."
 msgstr ""
 
-#: tazbox/tazbox:583
+#: tazbox/tazbox:584
 msgid "Inst."
 msgstr ""
 
-#: tazbox/tazbox:583
+#: tazbox/tazbox:584
 msgid "Package Name"
 msgstr ""
 
-#: tazbox/tazbox:584
+#: tazbox/tazbox:585
 msgid "Size"
 msgstr ""
 
-#: tazbox/tazbox:585
+#: tazbox/tazbox:586
 msgid "Installed"
 msgstr ""
 
-#: tazbox/tazbox:587
+#: tazbox/tazbox:588
 msgid "Install/Remove"
 msgstr ""
 
-#: tazbox/tazbox:606
+#: tazbox/tazbox:607
 msgid "TazPkg log"
 msgstr ""
 
-#: tazbox/tazbox:609
+#: tazbox/tazbox:610
 msgid "REMOVE: %s"
 msgstr ""
 
-#: tazbox/tazbox:613
+#: tazbox/tazbox:614
 msgid "INSTALL: %s"
 msgstr ""
 
-#: tazbox/tazbox:616
+#: tazbox/tazbox:617
 msgid "Done!"
 msgstr ""
 
-#: tazbox/tazbox:627
+#: tazbox/tazbox:628
 msgid "New file"
 msgstr "Νέο αρχείο"
 
-#: tazbox/tazbox:631
+#: tazbox/tazbox:632
 msgid "Create a new file or folder on your desktop"
 msgstr "Δημιουργία νέου αρχείου ή καταλόγου, πάνω στην επιφάνεια εργασίας σας"
 
-#: tazbox/tazbox:632
+#: tazbox/tazbox:633
 msgid "File name"
 msgstr "Όνομα αρχείου"
 
-#: tazbox/tazbox:635
+#: tazbox/tazbox:636
 msgid "SHell script"
 msgstr "Σενάριο κελύφους (SHell script)"
 
-#: tazbox/tazbox:636
+#: tazbox/tazbox:637
 msgid "Folder"
 msgstr "Κατάλογος"
 
-#: tazbox/tazbox:637
+#: tazbox/tazbox:638
 msgid "File"
 msgstr "Αρχείο"
 
-#: tazbox/tazbox:665
+#: tazbox/tazbox:666
 msgid "All Applications"
 msgstr "Όλες οι εφαρμογές"
 
-#: tazbox/tazbox:685
+#: tazbox/tazbox:686
 msgid "Framebuffer VNC viewer"
 msgstr ""
 
-#: tazbox/tazbox:689
+#: tazbox/tazbox:690
 msgid "Remote display connection"
 msgstr ""
 
-#: tazbox/tazbox:690
+#: tazbox/tazbox:691
 msgid "VNC Server"
 msgstr ""
 
-#: tazbox/tazbox:691
+#: tazbox/tazbox:692
 msgid "Via a SSH tunnel"
 msgstr ""
 
-#: tazbox/tazbox:693
+#: tazbox/tazbox:694
 msgid "On this console"
 msgstr ""
 
-#: tazbox/tazbox:694
+#: tazbox/tazbox:695
 msgid "In a new console"
 msgstr ""
 
-#: tazbox/tazbox:717
+#: tazbox/tazbox:718
 msgid "Select the video file"
 msgstr ""
 
-#: tazbox/tazbox:718
+#: tazbox/tazbox:719
 msgid "All video files"
 msgstr ""
 
-#: tazbox/tazbox:719
+#: tazbox/tazbox:720
 msgid "All files"
 msgstr ""
 
-#: tazbox/tazbox:750
+#: tazbox/tazbox:751
 msgid "Unsupported video file format."
 msgstr ""
 
-#: tazbox/tazbox:751
+#: tazbox/tazbox:752
 msgid "Retry with %s, %s, %s, %s, %s or %s."
 msgstr ""
 
-#: tazbox/tazbox:869
+#: tazbox/tazbox:870
 msgid "Downloading..."
 msgstr ""
 
-#: tazbox/tazbox:937
+#: tazbox/tazbox:938
 msgid "SliTaz default applications"
 msgstr ""
 
-#: tazbox/tazbox:939
+#: tazbox/tazbox:940
 msgid "SliTaz default applications configuration"
 msgstr ""
 
-#: tazbox/tazbox:941
+#: tazbox/tazbox:942
 msgid "File manager:"
 msgstr ""
 
-#: tazbox/tazbox:942
+#: tazbox/tazbox:943
 msgid "Web browser:"
 msgstr ""
 
-#: tazbox/tazbox:943
+#: tazbox/tazbox:944
 msgid "Text editor:"
 msgstr ""
 
-#: tazbox/tazbox:944
+#: tazbox/tazbox:945
 msgid "Terminal:"
 msgstr ""
 
-#: tazbox/tazbox:945
+#: tazbox/tazbox:946
 msgid "Window manager:"
 msgstr ""
