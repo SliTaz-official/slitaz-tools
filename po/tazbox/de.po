@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-19 23:23+0200\n"
-"PO-Revision-Date: 2016-10-23 15:47+0100\n"
+"PO-Revision-Date: 2016-12-11 17:07+0100\n"
 "Last-Translator: Hans-Günter Theisgen\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -67,14 +67,11 @@ msgstr "Zeitzone des Systems einstellen (Administrator)"
 
 #: tazbox/tazbox:54
 msgid "System initial setup (locale, keymap & timezone)"
-msgstr ""
-"Anfangseinstellungen des Systems (Lokalisierung, Tastaturbelegung und "
-"Zeitzone"
+msgstr "Anfangseinstellungen des Systems (Lokalisierung, Tastaturbelegung und Zeitzone"
 
 #: tazbox/tazbox:55
 msgid "Create a new file or folder on the desktop"
-msgstr ""
-"Eine neue Datei oder ein neues Verzeichnis auf der Arbeitsfläche einrichten"
+msgstr "Eine neue Datei oder ein neues Verzeichnis auf der Arbeitsfläche einrichten"
 
 #: tazbox/tazbox:56
 msgid "Display icons of all installed applications"
@@ -98,8 +95,7 @@ msgstr "SliTaz Administrator-Kennwort"
 
 #: tazbox/tazbox:87
 msgid "Please enter root password (default root) to execute:"
-msgstr ""
-"Bitte das Administrator-Kennwort (standard: root) eingeben zur Ausführung von"
+msgstr "Bitte das Administrator-Kennwort (standard: root) eingeben zur Ausführung von"
 
 #: tazbox/tazbox:90
 msgid "Password:"
@@ -146,23 +142,20 @@ msgid "Shutdown system"
 msgstr "Rechner ausschalten"
 
 #: tazbox/tazbox:148
-#, fuzzy
 msgid "Closing the X session..."
-msgstr "X-Sitzung beenden"
+msgstr "X-Sitzung wird beendet..."
 
 #: tazbox/tazbox:149
-#, fuzzy
 msgid "Rebooting the system..."
-msgstr "System neu laden"
+msgstr "System wird neu geladen..."
 
 #: tazbox/tazbox:150
-#, fuzzy
 msgid "Shutting down the system..."
-msgstr "Rechner ausschalten"
+msgstr "Rechner wird ausgeschaltet..."
 
 #: tazbox/tazbox:153
 msgid "Selected action will be executed automatically in %s seconds."
-msgstr ""
+msgstr "Die ausgewählte Aktion wird automatisch in %s Sekunden ausgeführt."
 
 #: tazbox/tazbox:241
 msgid "SliTaz Initial Setup"
@@ -172,8 +165,7 @@ msgstr "SliTaz Anfangseinstellungen"
 msgid ""
 "Here you can set your preferences \\n for <b>locale, keymap and timezone</b>."
 msgstr ""
-"Hier können <b>Lokalisierung, Tastaturbelegung und Zeitzone</b> eingestellt "
-"werden."
+"Hier können <b>Lokalisierung, Tastaturbelegung und Zeitzone</b> eingestellt werden."
 
 #: tazbox/tazbox:246
 msgid "Locale"
@@ -198,8 +190,8 @@ msgstr "Sprachkonfiguration"
 #: tazbox/tazbox:278
 msgid "Tip: manage locales list by installing/removing locale packages."
 msgstr ""
-"Hinweis: Die Liste der Lokalisierungen kann durch Installation und "
-"Deinstallation von Lokalisierungs-Paketen verwaltet werden."
+"Hinweis: Die Liste der Lokalisierungen kann durch Installation "
+"und Deinstallation von Lokalisierungs-Paketen verwaltet werden."
 
 #: tazbox/tazbox:279 tazbox/tazbox:400
 msgid "Flag"
@@ -251,15 +243,13 @@ msgstr "Konfiguration der Zeitzone"
 
 #: tazbox/tazbox:397
 msgid "Select country and press \"Forward\" or manually select timezone file."
-msgstr ""
-"Ein Land wählen und \"Weiter\" drücken oder manuell eine Zeitzonendatei "
-"auswählen."
+msgstr "Ein Land wählen und \"Weiter\" drücken oder manuell eine Zeitzonendatei auswählen."
 
 #: tazbox/tazbox:398
 msgid "Tip: manage timezones list by installing/removing locale packages."
 msgstr ""
-"Hinweis: Die Liste der Zeitzonen kann durch Installation und Deinstallation "
-"von Lokalisierungs-Paketen verwaltet werden."
+"Hinweis: Die Liste der Zeitzonen kann durch Installation "
+"und Deinstallation von Lokalisierungs-Paketen verwaltet werden."
 
 #: tazbox/tazbox:400
 msgid "Code"
@@ -308,8 +298,8 @@ msgstr "Bitte warten"
 #: tazbox/tazbox:582
 msgid "Check only locale packages you need and press \"Install/Remove\"."
 msgstr ""
-"Nur die benötigten Lokalisierungs-Pakete markieren und \"Installieren/"
-"Deinstallieren\" drücken."
+"Nur die benötigten Lokalisierungs-Pakete markieren und "
+"\"Installieren/Deinstallieren\" drücken."
 
 #: tazbox/tazbox:584
 msgid "Inst."
@@ -353,8 +343,7 @@ msgstr "Neue Datei"
 
 #: tazbox/tazbox:632
 msgid "Create a new file or folder on your desktop"
-msgstr ""
-"Eine neue Datei oder ein neues Verzeichnis auf der Arbeitsfläche einrichten"
+msgstr "Eine neue Datei oder ein neues Verzeichnis auf der Arbeitsfläche einrichten"
 
 #: tazbox/tazbox:633
 msgid "File name"
