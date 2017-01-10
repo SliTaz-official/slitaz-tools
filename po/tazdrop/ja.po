@@ -1,0 +1,67 @@
+# Japanese translations for the slitaz-tools package.
+# Copyright (C) 2017 SliTaz
+# This file is distributed under the same license as the slitaz-tools package.
+# BALLOON a.k.a. Fu-sen. (Keiichi SHIGA) <balloonakafusen AT gmail DOT com>, 2017.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: TazDrop\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-01-02 18:50+0900\n"
+"PO-Revision-Date: 2017-01-05 22:44+0900\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7.1\n"
+"Last-Translator: BALLOON a.k.a. Fu-sen. (Keiichi SHIGA) <balloonakafusen　AT gmail DOT com>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: ja_JP\n"
+
+#: tazdrop/tazdrop:31
+msgid "SliTaz Drag N Drop tool"
+msgstr "SliTaz　ドラッグ・ドロップツール"
+
+#: tazdrop/tazdrop:33
+msgid "Usage:"
+msgstr "用途:"
+
+#: tazdrop/tazdrop:34
+msgid "option"
+msgstr "オプション"
+
+#: tazdrop/tazdrop:34
+msgid "file"
+msgstr "ファイル"
+
+#: tazdrop/tazdrop:34
+msgid "URL"
+msgstr "URL"
+
+#: tazdrop/tazdrop:36
+msgid "Options:"
+msgstr "オプション:"
+
+#: tazdrop/tazdrop:38
+msgid "Display this small help"
+msgstr "この短いヘルプを表示"
+
+#: tazdrop/tazdrop:39
+msgid "Display the desktop Drag N Drop window"
+msgstr "デスクトップのドラッグ・ドロップウィンドウを表示"
+
+#: tazdrop/tazdrop:40
+msgid "Display the desktop Drag N Drop image"
+msgstr "デスクトップのドラッグ・ドロップ画像を表示"
+
+#: tazdrop/tazdrop:41
+msgid "Display your dropped text notes"
+msgstr "ドロップされたテキストノートを表示"
+
+#: tazdrop/tazdrop:95
+msgid "Dropped Notes"
+msgstr "ドロップノート"
+
+#: tazdrop/tazdrop:99
+msgid "Edit or clean-up your dropped text notes"
+msgstr "ドロップされたテキストノートを編集・クリーンアップ"

@@ -1,0 +1,898 @@
+# Japanese translations for the slitaz-tools package.
+# Copyright (C) 2017 SliTaz
+# This file is distributed under the same license as the slitaz-tools package.
+# BALLOON a.k.a. Fu-sen. (Keiichi SHIGA) <balloonakafusen AT gmail DOT com>, 2017.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: SliTaz Tools\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-01-02 18:41+0900\n"
+"PO-Revision-Date: 2017-01-07 15:57+0900\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7.1\n"
+"Last-Translator: BALLOON a.k.a. Fu-sen. (Keiichi SHIGA) <balloonakafusen　AT "
+"gmail DOT com>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: ja_JP\n"
+
+#: tinyutils/tazlocale:17
+msgid "SliTaz GNU/Linux locale setting using dialog boxes."
+msgstr "ダイアログボックスを使用した SliTaz　GNU/Linux の言語設定です。"
+
+#: tinyutils/tazlocale:19 tinyutils/tazx:612 tinyutils/decode:34
+#: tinyutils/hwsetup:26 tinyutils/frugal:37
+msgid "Usage:"
+msgstr "用途:"
+
+#: tinyutils/tazlocale:20 tinyutils/decode:35 tinyutils/hwsetup:27
+msgid "option"
+msgstr "オプション"
+
+#: tinyutils/tazlocale:22 tinyutils/hwsetup:42 tinyutils/frugal:46
+msgid "Options:"
+msgstr "オプション:"
+
+#: tinyutils/tazlocale:24
+msgid "Show info about config file and current locale."
+msgstr "設定ファイルと現在の言語に関する情報を表示します。"
+
+#: tinyutils/tazlocale:25
+msgid "Show list of available locales."
+msgstr "使用可能な言語一覧を表示します。"
+
+#: tinyutils/tazlocale:28
+msgid "Any other option treated as locale - set locale (root)."
+msgstr ""
+"ロケール (ルート) を設定している場合、その他のオプションは言語として扱われま"
+"す。"
+
+#: tinyutils/tazlocale:29
+msgid "Display locale selecting dialog if no option given (root)."
+msgstr ""
+"オプション (ルート) が指定されていない場合は、言語選択ダイアログを表示しま"
+"す。"
+
+#: tinyutils/tazlocale:141
+msgid "SliTaz language setting"
+msgstr "SliTaz 言語設定"
+
+#: tinyutils/tazlocale:160
+msgid ""
+"Please logout of your current session and login again to use new locale."
+msgstr ""
+"新しい言語設定を使用するには、現在のセッションからログアウトして、もう一度ロ"
+"グインしてください。"
+
+#: tinyutils/tazlocale:162 tinyutils/tazkeymap:71
+msgid "Information"
+msgstr "情報"
+
+#: tinyutils/tazlocale:172 tinyutils/tazkeymap:49
+msgid "Config file: %s"
+msgstr "設定ファイル: %s"
+
+#: tinyutils/tazlocale:173
+msgid "Current locale: %s"
+msgstr "現在の言語: %s"
+
+#: tinyutils/tazkeymap:50
+msgid "Current keymap: %s"
+msgstr "現在のキーボード: %s"
+
+#: tinyutils/tazkeymap:59
+msgid "SliTaz keyboard setting"
+msgstr "SliTaz キーボード設定"
+
+#: tinyutils/tazkeymap:72
+msgid ""
+"Please logout of your current session and login again to use new keyboard."
+msgstr ""
+"新しいキーボード設定を使用するには、現在のセッションからログアウトしてもう一"
+"度ログインしてください。"
+
+#: tinyutils/setmixer:14
+msgid "Setting default mixer volumes... "
+msgstr "デフォルトのミキサーボリュームを設定..."
+
+#: tinyutils/tazx:141
+msgid "Creating:"
+msgstr "作成:"
+
+#: tinyutils/tazx:277
+msgid "Install Xorg"
+msgstr "Xorg のインストール"
+
+#: tinyutils/tazx:278
+msgid "Tazx helps you to select your X driver."
+msgstr "Tazx は X ドライバーの選択を助けます。"
+
+#: tinyutils/tazx:279
+msgid "Auto configuring"
+msgstr "自動設定"
+
+#: tinyutils/tazx:281
+msgid "driver"
+msgstr "ドライバー"
+
+#: tinyutils/tazx:282 tinyutils/slitaz-config:251
+msgid "Quit"
+msgstr "終了"
+
+#: tinyutils/tazx:311
+msgid "Failed to setup driver"
+msgstr "ドライバーの設定に失敗しました"
+
+#: tinyutils/tazx:311
+msgid "(unknown hardware)"
+msgstr "(ハードウェアが不明)"
+
+#: tinyutils/tazx:323 tinyutils/hwsetup:125
+msgid "Installing pkg: %s"
+msgstr "パッケージインストール中: %s"
+
+#: tinyutils/tazx:341 tinyutils/tazx:431 tinyutils/tazx:437
+msgid "Install"
+msgstr "インストール"
+
+#: tinyutils/tazx:342 tinyutils/tazx:461
+msgid "Install Window Manager and applications"
+msgstr "ウインドウマネージャー・アプリケーションのインストール"
+
+#: tinyutils/tazx:447
+msgid "ON"
+msgstr "オン"
+
+#: tinyutils/tazx:448 tinyutils/tazx:479
+msgid "OFF"
+msgstr "オフ"
+
+#: tinyutils/tazx:455
+msgid "SliTaz Xorg config"
+msgstr "SliTaz Xorg 設定"
+
+#: tinyutils/tazx:457
+msgid "Install or reconfigure Xorg"
+msgstr "Xorg のインストール・再設定"
+
+#: tinyutils/tazx:458
+msgid "Install Xorg server (light version)"
+msgstr "Xorg サーバ (軽量版) のインストール"
+
+#: tinyutils/tazx:459
+msgid "AutoStart Xorg by SLiM on boot"
+msgstr "起動時に SLiM で Xorg を自動開始"
+
+#: tinyutils/tazx:460
+msgid "(Re)Start Simple Login Manager now"
+msgstr "今すぐログインマネージャーを(再)開始する"
+
+#: tinyutils/tazx:462
+msgid "Quit Tazx utility"
+msgstr "Tazx ユーティリティを終了"
+
+#: tinyutils/tazx:487
+msgid "Start X on boot:"
+msgstr "起動時に X 起動:"
+
+#: tinyutils/tazx:610
+msgid "Configuration tool for SliTaz GNU/Linux"
+msgstr "SliTaz GNU/Linux 設定ツール"
+
+#: tinyutils/tazx:612 tinyutils/hwsetup:27
+msgid "command"
+msgstr "コマンド"
+
+#: tinyutils/tazx:612
+msgid "parameter"
+msgstr "パラメータ"
+
+#: tinyutils/tazx:614 tinyutils/hwsetup:29 tinyutils/frugal:41
+msgid "Commands:"
+msgstr "コマンド:"
+
+#: tinyutils/tazx:615
+msgid "Install Xorg and selected Xorg driver"
+msgstr "Xorg インストールと Xorg ドライバーの選択"
+
+#: tinyutils/tazx:616
+msgid "Configure Xorg, generate configuration files"
+msgstr "Xorg の設定と設定ファイルの生成"
+
+#: tinyutils/tazx:617
+msgid "Set monitor default depth (valid parameters: 8, 15, 16 or 24)"
+msgstr "モニタのデフォルト深度を設定する (値のパラメータ: 8、15、16、24)"
+
+#: tinyutils/tazx:618
+msgid "Auto-select and install Xorg driver"
+msgstr "インストールする Xorg ドライバーを自動で選択"
+
+#: tinyutils/tazx:619
+msgid "Get files for starting an X session and config the keyboard"
+msgstr "X セッションを開始するためのファイルを取得しキーボードを設定"
+
+#: tinyutils/tazx:620
+msgid "Generate or regenerate Xorg keyboard config"
+msgstr "Xorg キーボードの設定を生成・再生成"
+
+#: tinyutils/tazx:630
+msgid "Run tazx as root if you need to configure xorg"
+msgstr "xorg を設定する必要がある場合は、root で tazx を実行して下さい"
+
+#: tinyutils/decode:32
+msgid "Decode audio and video files"
+msgstr "音楽・動画ファイルのデコード"
+
+#: tinyutils/decode:35 tinyutils/decode:40
+msgid "file"
+msgstr "ファイル"
+
+#: tinyutils/decode:35
+msgid "URL"
+msgstr "URL"
+
+#: tinyutils/decode:37 tinyutils/frugal:50
+msgid "Examples:"
+msgstr "例:"
+
+#: tinyutils/decode:39
+msgid "/path/to/files/*"
+msgstr "/path/to/files/*"
+
+#: tinyutils/decode:53
+msgid "Missing decoder: %s"
+msgstr "デコードツールがありません: %s"
+
+#: tinyutils/decode:54 tinyutils/decode:88
+msgid "Skipping file: %s"
+msgstr "次のファイルをスキップ: %s"
+
+#: tinyutils/decode:57
+msgid "Decoding: %s"
+msgstr "デコード中: %s"
+
+#: tinyutils/decode:68
+msgid "No file: %s"
+msgstr "ファイルなし: %s"
+
+#: tinyutils/decode:90
+msgid "Unsupported file: %s"
+msgstr "非対応ファイル: %s"
+
+#: tinyutils/terminal:11
+msgid "configurable SliTaz wrapper for terminal."
+msgstr "ターミナル用の設定可能な SliTaz ラッパーです。"
+
+#: tinyutils/terminal:13
+msgid "Recognized options:"
+msgstr "認識されたオプション:"
+
+#: tinyutils/terminal:14
+msgid "Print the version number"
+msgstr "バージョン番号を出力"
+
+#: tinyutils/terminal:15
+msgid "Print out this message"
+msgstr "このメッセージを出力"
+
+#: tinyutils/terminal:16
+msgid "Width and height of terminal window (%s)"
+msgstr "ターミナルウインドウ (%s) の縦横幅"
+
+#: tinyutils/terminal:17
+msgid "Title name for window (\"%s\")"
+msgstr "ウインドウのタイトル名 (\"%s\")"
+
+#: tinyutils/terminal:18
+msgid "Don't close terminal after command finished"
+msgstr "コマンド終了後に端末を閉じない"
+
+#: tinyutils/terminal:19
+msgid "Command to execute (must be last in line)"
+msgstr "実行するコマンド (最後の行にする必要があります)"
+
+#: tinyutils/terminal:22
+msgid "Help for %s:"
+msgstr "%s のヘルプ:"
+
+#: tinyutils/hwsetup:24
+msgid "SliTaz Setup configuration"
+msgstr "SliTaz 設定"
+
+#: tinyutils/hwsetup:31
+msgid "Print this short usage."
+msgstr "短い使用法を出力します。"
+
+#: tinyutils/hwsetup:32
+msgid "Parallel and USB Printer setup."
+msgstr "パラレル・USB プリンターを設定します。"
+
+#: tinyutils/hwsetup:33
+msgid "USB Scanner setup."
+msgstr "USB スキャナを設定します。"
+
+#: tinyutils/hwsetup:34
+msgid "Integrated and USB webcam setup."
+msgstr "統合された USB ウェブカメラを設定します。"
+
+#: tinyutils/hwsetup:35
+msgid "Digital Camera setup."
+msgstr "デジタルカメラを設定します。"
+
+#: tinyutils/hwsetup:36
+msgid "Bluetooth setup."
+msgstr "Bluetooth を設定します。"
+
+#: tinyutils/hwsetup:37
+msgid "3g-modem setup."
+msgstr "3G モデムを設定します。"
+
+#: tinyutils/hwsetup:38
+msgid "Start/stop firewall."
+msgstr "ファイヤーウォールを開始・停止します。"
+
+#: tinyutils/hwsetup:39
+msgid "Nvidia (non-free/free) setup."
+msgstr "Nvidia (フリー・非フリー) を設定します。"
+
+#: tinyutils/hwsetup:40
+msgid "ATI (non-free/free) setup."
+msgstr "ATI (フリー・非フリー) を設定します。"
+
+#: tinyutils/hwsetup:44
+msgid "install non-free packages (nvidia, ati)."
+msgstr "非フリーパッケージをインストールします (nvidia、ati)"
+
+#: tinyutils/hwsetup:45
+msgid "auto-install optional dependencies."
+msgstr "追加の依存関係を自動インストールします。"
+
+#: tinyutils/hwsetup:46
+msgid "confirm before installing optional dependencies"
+msgstr "オプションの依存関係をインストールする前に確認"
+
+#: tinyutils/hwsetup:103
+msgid ""
+"Due to a lack of compatible hardware for troubleshooting, this %s device has "
+"not been properly tested. Please report any success, failure, bug to SliTaz "
+"Bug tracker or Forum."
+msgstr ""
+"トラブルシューティングに互換性のあるハードウェアがないため、この %s デバイス"
+"は適切にテストされていません。 成功、失敗、不具合をSliTaz バグトラッカーまた"
+"はフォーラムへ報告してください。"
+
+#: tinyutils/hwsetup:113
+msgid "Failed to setup %s"
+msgstr "%s の設定に失敗しました"
+
+#: tinyutils/hwsetup:141
+msgid "Would you like to install pkg: %s"
+msgstr "パッケージをインストール: %s"
+
+#: tinyutils/hwsetup:159
+msgid "adding %s to %s"
+msgstr "追加中 %s を %s へ "
+
+#: tinyutils/hwsetup:183
+msgid "Detected USB Device : Vendor : Product"
+msgstr "検出 USB デバイス : ベンダー : 製品"
+
+#: tinyutils/hwsetup:193
+msgid " %s) Vendor  : %s "
+msgstr " %s) ベンダー: %s "
+
+#: tinyutils/hwsetup:194
+msgid "    Product : %s"
+msgstr "    製品    : %s"
+
+#: tinyutils/hwsetup:205
+msgid "Which no. is your %s shown in the above lines (1,2,3,none)? "
+msgstr "それでもなければ、%s は上の行 (1,2,3、none) に表示されていますか？"
+
+#: tinyutils/hwsetup:228
+msgid "Do you want to use hp-setup utility"
+msgstr "hp-setup ユーティリティを使用しますか"
+
+#: tinyutils/hwsetup:245
+msgid "Verify %s Permissions"
+msgstr "%s パーミッションを検査"
+
+#: tinyutils/hwsetup:246
+msgid "Your %s must be in %s group with rw-rw-rw- permissions"
+msgstr "%s は rw-rw-rw- パーミッションの %s グループに属している必要があります"
+
+#: tinyutils/hwsetup:270
+msgid "New udev rules are added by a package"
+msgstr "新しい udev ルールがパッケージによって追加されます"
+
+#: tinyutils/hwsetup:279
+msgid "Auto configuring Xorg..."
+msgstr "Xorg を自動設定中..."
+
+#: tinyutils/hwsetup:283
+msgid "Configuring Xorg..."
+msgstr "Xorg を設定中..."
+
+#: tinyutils/hwsetup:317
+msgid "Wvdial Box"
+msgstr "Wvdial Box"
+
+#: tinyutils/hwsetup:320
+msgid "Phone Number:"
+msgstr "電話番号:"
+
+#: tinyutils/hwsetup:321
+msgid "Username:"
+msgstr "ユーザー名:"
+
+#: tinyutils/hwsetup:322
+msgid "Password:"
+msgstr "パスワード:"
+
+#: tinyutils/hwsetup:323
+msgid "Pin (if required):"
+msgstr "ピン (必要な場合):"
+
+#: tinyutils/hwsetup:324
+msgid "Modem:"
+msgstr "モデム:"
+
+#: tinyutils/hwsetup:325
+msgid "Access Point Name (APN):"
+msgstr "アクセスポイント名 (APN):"
+
+#: tinyutils/hwsetup:326
+msgid "You must save your account info before dialing"
+msgstr "ダイヤルする前にアカウント情報を保存する必要があります"
+
+#: tinyutils/hwsetup:327
+msgid "Edit config file"
+msgstr "設定ファイルの編集"
+
+#: tinyutils/hwsetup:328
+msgid "Save Configuration"
+msgstr "設定を保存"
+
+#: tinyutils/hwsetup:329
+msgid "Dial Pin Once"
+msgstr "一度だけのダイヤル Pin"
+
+#: tinyutils/hwsetup:408
+msgid "Do you want to start cups"
+msgstr "cups を開始する"
+
+#: tinyutils/hwsetup:416
+msgid "Starting <b>cups</b> using:"
+msgstr "次を使用し <b>cups</b> を開始中:"
+
+#: tinyutils/hwsetup:435
+msgid "Do you want to start scanner"
+msgstr "スキャーナーを開始する"
+
+#: tinyutils/hwsetup:443
+msgid "Following <b>scanner commands</b> may be of help:"
+msgstr "<b>scanner コマンド</b> でこれは役立つかもしれません:"
+
+#: tinyutils/hwsetup:444
+msgid "to verify scanner has been found"
+msgstr "スキャナが見つかったことを確認する"
+
+#: tinyutils/hwsetup:445
+msgid "scanner application"
+msgstr "スキャナーアプリケーション"
+
+#: tinyutils/hwsetup:464
+msgid "Would you like to test webcam"
+msgstr "Web カメラをテストする"
+
+#: tinyutils/hwsetup:471
+msgid "Would you like to test webcam by installing mplayer-svn"
+msgstr "mplayer-svn　をインストールして Web カメラをテストしますか"
+
+#: tinyutils/hwsetup:478
+msgid "Webcam is set up; please use mplayer-svn/fswebcam/amsn/skype to view"
+msgstr ""
+"Webcam がセットアップされました; 表示するには mplayer-svn・fswebcam・amsn・"
+"skype を使用して下さい"
+
+#: tinyutils/hwsetup:494
+msgid "Do you want to check if gphoto2 can talk to your camera"
+msgstr "gphoto2 でカメラへ話すことができるかどうかチェックしますか？"
+
+#: tinyutils/hwsetup:499
+msgid "Do you want to test importing photos"
+msgstr "写真の読み込みをテストする"
+
+#: tinyutils/hwsetup:509
+msgid "Camera is set up; please use gphoto2 to import photos"
+msgstr ""
+"カメラが設定されています。 gphoto2　を使って写真をインポートしてください"
+
+#: tinyutils/hwsetup:510
+msgid "Quick start guide: %s"
+msgstr "クイックスターロガイド: %s"
+
+#: tinyutils/hwsetup:522
+msgid "Do you want to see if the bluetooth is working"
+msgstr "bluetooth が動作する場合は使用する"
+
+#: tinyutils/hwsetup:531
+msgid "<b>Bluetooth</b> interfaces"
+msgstr "<b>Bluetooth</b> インターフェイス"
+
+#: tinyutils/hwsetup:540 tinyutils/hwsetup:557
+msgid "Following <b>Bluetooth commands</b> may be of help"
+msgstr "<b>Bluetooth　コマンド　</b> に役立つかもしれません"
+
+#: tinyutils/hwsetup:545
+msgid "checking local bluetooth devices..."
+msgstr "ローカル bluetooth デバイスを確認中..."
+
+#: tinyutils/hwsetup:546
+msgid "scanning remote bluetooth devices..."
+msgstr "リモート bluetooth デバイスを検索中..."
+
+#: tinyutils/hwsetup:547
+msgid "pairing with remote bluetooth devices..."
+msgstr "レモート bluetooth デバイスをペアリング中..."
+
+#: tinyutils/hwsetup:550 tinyutils/hwsetup:571
+msgid "You can manually edit the configuration files in %s if need be"
+msgstr "必要に応じて %s の設定ファイルを手動で編集することができます"
+
+#: tinyutils/hwsetup:564
+msgid "for starting bluetooth daemon"
+msgstr "bluetooth デーモンの起動に必要なもの"
+
+#: tinyutils/hwsetup:566
+msgid "for checking local devices"
+msgstr "ローカルデバイスで確認するもの"
+
+#: tinyutils/hwsetup:567
+msgid "for scanning remote devices"
+msgstr "リモートデバイスで確認するもの"
+
+#: tinyutils/hwsetup:568
+msgid "pairing with remote bluetooth devices"
+msgstr "リモート bluetooth デバイスのペアリング中"
+
+#: tinyutils/hwsetup:582
+msgid "List detected devices"
+msgstr "検出デバイスの一覧"
+
+#: tinyutils/hwsetup:586
+msgid "Detected Modem at:"
+msgstr "検出モデム:"
+
+#: tinyutils/hwsetup:588
+msgid "Do you want to configure wvdial"
+msgstr "wvdial を設定する"
+
+#: tinyutils/hwsetup:595
+msgid "Edit %s for phone number, login name, password and pin"
+msgstr "電話番号、ログイン名、パスワード、pinの ％s を編集"
+
+#: tinyutils/hwsetup:596
+msgid "Add DNS address of your provider in %s"
+msgstr "プロバイダの DNS アドレスを %s へ追加する"
+
+#: tinyutils/hwsetup:605
+msgid "Setting IPTABLES_RULES to yes in /etc/slitaz/firewall.conf"
+msgstr "/etc/slitaz/firewall.conf で IPTABLES_RULES を yes に設定中"
+
+#: tinyutils/hwsetup:614
+msgid "Probing for open ports..."
+msgstr "開いているポートを調査中..."
+
+#: tinyutils/hwsetup:618
+msgid "Adding firewall daemon to start automatically at boot"
+msgstr "起動時に自動起動するファイアウォールデーモンを追加"
+
+#: tinyutils/hwsetup:635
+msgid "Do you want to configure X using non-free nvidia driver"
+msgstr "非フリー nvidia ドライバーを使って X を設定しますか？"
+
+#: tinyutils/hwsetup:638 tinyutils/hwsetup:677 tinyutils/hwsetup:709
+#: tinyutils/hwsetup:742
+msgid "Your previous config is in %s"
+msgstr "以前の設定は %s です"
+
+#: tinyutils/hwsetup:639 tinyutils/hwsetup:678
+msgid "If nvidia fails, you can remove %s to restore previous config."
+msgstr "nvidia が失敗した場合は、%s を削除して以前の設定を復元できます。"
+
+#: tinyutils/hwsetup:646
+msgid "Adding to xorg.conf:"
+msgstr "xorg.conf へ追加中:"
+
+#: tinyutils/hwsetup:651 tinyutils/hwsetup:687
+msgid "Checking if nvidia is working..."
+msgstr "nvidia の動作を確認中..."
+
+#: tinyutils/hwsetup:655
+msgid "Configure nvidia settings:"
+msgstr "nvidia の設定:"
+
+#: tinyutils/hwsetup:661
+msgid "Use '%s' to generate a template configuration file."
+msgstr "'%s' を使用してテンプレート構成ファイルを生成します。"
+
+#: tinyutils/hwsetup:662
+msgid "test nvidia"
+msgstr "nvidia のテスト"
+
+#: tinyutils/hwsetup:663
+msgid "Use: nvidia-settings utility to configure your settings if necessary"
+msgstr ""
+"使用: 必要に応じて nvidia-settings ユーティリティを使用して設定を構成します"
+
+#: tinyutils/hwsetup:674
+msgid "Do you want to configure X using free nvidia driver"
+msgstr "フリー nvidia ドライバーを使用して X を設定しますか"
+
+#: tinyutils/hwsetup:680
+msgid "Create %s configured with nv driver."
+msgstr "nv ドライバで設定された ％s を作成します。"
+
+#: tinyutils/hwsetup:706
+msgid "Do you want to configure X using non-free catalyst ATI (radeon) driver"
+msgstr "非フリー catalyst ATI（radeon）ドライバを使用して X を設定しますか"
+
+#: tinyutils/hwsetup:710
+msgid "If ati fails, you can remove %s to restore previous config."
+msgstr ""
+"ati が失敗した場合は、%s を削除して以前の設定を復元することができます。"
+
+#: tinyutils/hwsetup:719
+msgid "Checking if ati catalyst is working..."
+msgstr "ati catalyst の動作を確認中..."
+
+#: tinyutils/hwsetup:723
+msgid "Configuration:"
+msgstr "設定:"
+
+#: tinyutils/hwsetup:724
+msgid ""
+"Use: aticonfig utility to generate a template configuration file if necessary"
+msgstr ""
+"使用: 必要に応じて aticonfig ユーティリティへテンプレート設定ファイルを生成す"
+"る"
+
+#: tinyutils/hwsetup:739
+msgid "Do you want to configure X using free ATI (radeon) driver"
+msgstr "フリー ATI（radeon）ドライバを使用して X を設定しますか"
+
+#: tinyutils/hwsetup:743
+msgid "If ATI fails, you can remove %s to restore previous config."
+msgstr "ATI が失敗した場合は、%s を削除して以前の設定を復元できます。"
+
+#: tinyutils/hwsetup:745
+msgid "Create %s configured with radeon driver."
+msgstr "radeon ドライバで設定された %s を作成します。"
+
+#: tinyutils/hwsetup:751
+msgid "Checking if ATI radeon is working..."
+msgstr "ATI radeon 動作の確認中..."
+
+#: tinyutils/hwsetup:769
+msgid "Bringing eth0 down..."
+msgstr "eth0 をダウンしています..."
+
+#: tinyutils/hwsetup:770
+msgid "Dialing..."
+msgstr "ダイヤル中..."
+
+#: tinyutils/hwsetup:796
+msgid "The following optional packages can be installed:"
+msgstr "次のオプションパッケージをインストールできます:"
+
+#: tinyutils/hwsetup:800
+msgid "Do you want to install all/few/no optional dependencies (all|few|N)? "
+msgstr "依存関係をインストールしますか すべて/いくつか/任意（all|few|N）？"
+
+#: tinyutils/frugal:39
+msgid "SliTaz frugal installation"
+msgstr "SliTaz frugal インストール"
+
+#: tinyutils/frugal:42
+msgid "Display install path and size stats"
+msgstr "インストールパスとサイズの統計情報を表示"
+
+#: tinyutils/frugal:43
+msgid "Remove all frugal files"
+msgstr "すべての frugal ファイルを削除"
+
+#: tinyutils/frugal:44
+msgid "Show GRUB configuration example"
+msgstr "GRUB の設定例を表示"
+
+#: tinyutils/frugal:47
+msgid "Set root installation path"
+msgstr "root インストールパスを設定"
+
+#: tinyutils/frugal:48
+msgid "Display some useful debug information"
+msgstr "有用なデバッグ情報を表示"
+
+#: tinyutils/frugal:81
+msgid "Frugal system running detected"
+msgstr "Frugal システムが検出されました"
+
+#: tinyutils/frugal:84
+msgid "Installation directory:"
+msgstr "インストールディレクトリ:"
+
+#: tinyutils/frugal:85
+msgid "Kernel size:"
+msgstr "カーネルサイズ:"
+
+#: tinyutils/frugal:91
+msgid "Rootfs size:"
+msgstr "Rootfs サイズ:"
+
+#: tinyutils/frugal:100
+msgid "Cleaning:"
+msgstr "クリーニング: "
+
+#: tinyutils/frugal:112
+msgid "Unable to find ISO image:"
+msgstr "ISO イメージが見つかりません: "
+
+#: tinyutils/frugal:117
+msgid "Mounting ISO image..."
+msgstr "ISO イメージのマウント中..."
+
+#: tinyutils/frugal:122
+msgid "Installing the Kernel..."
+msgstr "カーネルをインストール中..."
+
+#: tinyutils/frugal:126
+msgid "Installing the root filesystem..."
+msgstr "root ファイルシステムをインストール中..."
+
+#: tinyutils/frugal:137
+msgid "Unmounting ISO image..."
+msgstr "ISO イメージのマウント解除中..."
+
+#: tinyutils/slitaz-config:15
+msgid "SliTaz Config"
+msgstr "SliTaz 設定"
+
+#: tinyutils/slitaz-config:41
+msgid "Post Installation"
+msgstr "インストール後"
+
+#: tinyutils/slitaz-config:42
+msgid "Continue"
+msgstr "続ける"
+
+#: tinyutils/slitaz-config:50
+msgid "Root Password"
+msgstr "Root パスワード"
+
+#: tinyutils/slitaz-config:51
+msgid "Enter new password for %s"
+msgstr "%s の新たなパスワードを入力して下さい。"
+
+#: tinyutils/slitaz-config:62
+msgid "Add User"
+msgstr "追加ユーザー"
+
+#: tinyutils/slitaz-config:65
+msgid "Enter login name for the new \\Zb\\Z4user"
+msgstr "新しい \\Zb\\Z4user のログイン名を入力"
+
+#: tinyutils/slitaz-config:70
+msgid "Enter password for user \\Zb\\Z4%s"
+msgstr "ユーザー \\Zb\\Z4%s のパスワードを入力"
+
+#: tinyutils/slitaz-config:133
+msgid "connected"
+msgstr "接続済み"
+
+#: tinyutils/slitaz-config:148
+msgid "Quality"
+msgstr "品質"
+
+#: tinyutils/slitaz-config:148
+msgid "Key"
+msgstr "キー"
+
+#: tinyutils/slitaz-config:152 tinyutils/slitaz-config:185
+msgid "hidden.network"
+msgstr "hidden.network"
+
+#: tinyutils/slitaz-config:152
+msgid "Connect.to.a.hidden.network"
+msgstr "Connect.to.a.hidden.network"
+
+#: tinyutils/slitaz-config:172
+msgid "Select"
+msgstr "選択"
+
+#: tinyutils/slitaz-config:173
+msgid "Connect to a Wi-Fi network"
+msgstr "Wi-Fi ネットワークへ接続"
+
+#: tinyutils/slitaz-config:175
+msgid "Connect.to.any.network"
+msgstr "Connect.to.any.network"
+
+#: tinyutils/slitaz-config:186
+msgid "Wi-Fi ESSID"
+msgstr "Wi-Fi ESSID"
+
+#: tinyutils/slitaz-config:187
+msgid "Enter Wi-Fi access point ESSID (name)"
+msgstr "Wi-Fi アクセスポイント ESSID (名称) を入力"
+
+#: tinyutils/slitaz-config:192 tinyutils/slitaz-config:203
+msgid "Wi-Fi Password"
+msgstr "Wi-Fi パスワード"
+
+#: tinyutils/slitaz-config:193 tinyutils/slitaz-config:204
+msgid "Enter Wi-Fi key (password) for \\Zb\\Z4%s"
+msgstr "\\Zb\\Z4%s　の Wi-Fi キー (パスワード) を入力"
+
+#: tinyutils/slitaz-config:213
+msgid "Shutting down network interfaces..."
+msgstr "ネットワークインターフェイスをシャットダウン中..."
+
+#: tinyutils/slitaz-config:217
+msgid "Configuring: %s..."
+msgstr "設定中: %s..."
+
+#: tinyutils/slitaz-config:227
+msgid "Restarting Wi-Fi interface..."
+msgstr "Wi-Fi インターフェイスを再起動中..."
+
+#: tinyutils/slitaz-config:231
+msgid "Checking connection..."
+msgstr "接続を確認中..."
+
+#: tinyutils/slitaz-config:236
+msgid "IP address: %s"
+msgstr "IP アドレス: %s"
+
+#: tinyutils/slitaz-config:238
+msgid "Unable to connect..."
+msgstr "接続できません..."
+
+#: tinyutils/slitaz-config:242
+msgid "Wi-Fi Config"
+msgstr "Wi-Fi 設定"
+
+#: tinyutils/slitaz-config:251
+msgid "Exec"
+msgstr "実行"
+
+#: tinyutils/slitaz-config:253
+msgid "System keyboard setting"
+msgstr "システムキーボード設定"
+
+#: tinyutils/slitaz-config:254
+msgid "System language setting"
+msgstr "システム言語設定"
+
+#: tinyutils/slitaz-config:255
+msgid "Wi-Fi network settings"
+msgstr "Wi-Fi ネットワーク設定"
+
+#: tinyutils/slitaz-config:256
+msgid "Add a new user"
+msgstr "新しいユーザーの追加"
+
+#: tinyutils/slitaz-config:257
+msgid "Change root password"
+msgstr "root パスワードの変更"
+
+#: tinyutils/slitaz-config:258
+msgid "Set system date from the web"
+msgstr "web よりシステム日付を設定"
+
+#: tinyutils/slitaz-config:259
+msgid "Exit from SliTaz Config"
+msgstr "SliTaz 設定を終了"

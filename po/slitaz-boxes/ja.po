@@ -1,0 +1,271 @@
+# Japanese translations for the slitaz-tools package.
+# Copyright (C) 2017 SliTaz
+# This file is distributed under the same license as the slitaz-tools package.
+# BALLOON a.k.a. Fu-sen. (Keiichi SHIGA) <balloonakafusen AT gmail DOT com>, 2017.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: SliTaz Boxes\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-01-02 18:36+0900\n"
+"PO-Revision-Date: 2017-01-05 22:43+0900\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7.1\n"
+"Last-Translator: BALLOON a.k.a. Fu-sen. (Keiichi SHIGA) <balloonakafusen　AT gmail DOT com>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: ja_JP\n"
+
+#: boxes/wifi-box:16
+msgid "Small Wi-Fi utility to quickly connect to a network."
+msgstr "ネットワークにすばやく接続するための小さな Wi-Fi ユーティリティです。"
+
+#: boxes/wifi-box:17 boxes/burn-box:41 boxes/scp-box:44
+msgid "Usage:"
+msgstr "用途:"
+
+#: boxes/wifi-box:18
+msgid "interface"
+msgstr "インターフェイス"
+
+#: boxes/wifi-box:43
+msgid "any"
+msgstr "任意"
+
+#: boxes/wifi-box:43
+msgid "N/A"
+msgstr "不可"
+
+#: boxes/wifi-box:43
+msgid "none"
+msgstr "なし"
+
+#: boxes/wifi-box:43 boxes/wifi-box:54 boxes/wifi-box:69
+msgid "-"
+msgstr "-"
+
+#: boxes/wifi-box:67
+msgid "connected"
+msgstr "接続"
+
+#: boxes/wifi-box:82
+msgid "WPA Password:"
+msgstr "WPA パスワード:"
+
+#: boxes/wifi-box:83
+msgid "WEP Password:"
+msgstr "WEP パスワード:"
+
+#: boxes/wifi-box:89
+msgid "Wi-Fi connection"
+msgstr "Wi-Fi 接続"
+
+#: boxes/wifi-box:92
+msgid "Connection to:"
+msgstr "接続先:"
+
+#: boxes/wifi-box:126
+msgid "Start Wi-Fi"
+msgstr "Wi-Fi 開始"
+
+#: boxes/wifi-box:129
+msgid "Stop Wi-Fi"
+msgstr "Wi-Fi 停止"
+
+#: boxes/wifi-box:132
+msgid "Wi-Fi network"
+msgstr "Wi-Fi ネットワーク"
+
+#: boxes/wifi-box:135
+msgid "<b>Connect to a Wi-Fi network</b> (Double click to connect)"
+msgstr "<b>Wi-Fi ネットワークへ接続</b> (ダブルクリックで接続)"
+
+#: boxes/wifi-box:137
+msgid "ESSID Name"
+msgstr "ESSID 名"
+
+#: boxes/wifi-box:137
+msgid "Quality"
+msgstr "品質"
+
+#: boxes/wifi-box:138
+msgid "Encryption"
+msgstr "暗号化"
+
+#: boxes/wifi-box:138
+msgid "Status"
+msgstr "状態"
+
+#: boxes/burn-box:40
+msgid "Burn-box a small front end to cdrkit powered by Yad/GTK."
+msgstr "Burn-box　は Yad/GTK を搭載した cdrkit の小さなフロントエンドです。"
+
+#: boxes/burn-box:42 boxes/scp-box:45
+msgid "command"
+msgstr "コマンド"
+
+#: boxes/burn-box:42 boxes/scp-box:45
+msgid "option"
+msgstr "オプション"
+
+#: boxes/burn-box:42
+msgid "file"
+msgstr "ファイル"
+
+#: boxes/burn-box:44 boxes/scp-box:47
+msgid "Commands:"
+msgstr "コマンド:"
+
+#: boxes/burn-box:46
+msgid "Show all Wodim options"
+msgstr "Wodim オプションをすべて表示"
+
+#: boxes/burn-box:47
+msgid "Burn an ISO image"
+msgstr "ISO イメージの書込"
+
+#: boxes/burn-box:48
+msgid "Create and burn an audio CD"
+msgstr "音楽 CD の生成・書込"
+
+#: boxes/burn-box:49
+msgid "Erase a RW disk"
+msgstr "RW ディスクの消去"
+
+#: boxes/burn-box:51 boxes/scp-box:50 boxes/scp-box:82
+msgid "Options:"
+msgstr "オプション:"
+
+#: boxes/burn-box:53 boxes/burn-box:58 boxes/burn-box:59
+msgid "/path/to/image.iso"
+msgstr "/path/to/image.iso"
+
+#: boxes/burn-box:54 boxes/scp-box:52
+msgid "/path/to/directory"
+msgstr "/path/to/directory"
+
+#: boxes/burn-box:56 boxes/scp-box:54
+msgid "Examples:"
+msgstr "例:"
+
+#: boxes/burn-box:76
+msgid "Decoding files from: %s"
+msgstr "ファイルをデコード: %s"
+
+#: boxes/burn-box:98
+msgid "Not an ISO image: \"%s\""
+msgstr "ISO イメージがありません: \"%s\""
+
+#: boxes/burn-box:118
+msgid "Burn-box"
+msgstr "Burn-box"
+
+#: boxes/burn-box:120
+msgid "Burn ISO images and audio files [data in next releases]"
+msgstr "ISO イメージ・音楽ファイルの書込 [次のデータ]"
+
+#: boxes/burn-box:122
+msgid "Drive speed:"
+msgstr "ドライブの速度:"
+
+#: boxes/burn-box:123
+msgid "Wodim options:"
+msgstr "Wodim オプション:"
+
+#: boxes/burn-box:124
+msgid "ISO image:"
+msgstr "ISO イメージ:"
+
+#: boxes/burn-box:125
+msgid "Audio files:"
+msgstr "音楽ファイル:"
+
+#: boxes/burn-box:126
+msgid "Wodim help"
+msgstr "Wodim ヘルプ"
+
+#: boxes/burn-box:127
+msgid "Blank CD"
+msgstr "空の CD"
+
+#: boxes/burn-box:128
+msgid "Burn"
+msgstr "書込"
+
+#: boxes/burn-box:152
+msgid "Burning ISO"
+msgstr "ISO の書込中"
+
+#: boxes/burn-box:157
+msgid "Burning Audio"
+msgstr "音楽の書込中"
+
+#: boxes/burn-box:170
+msgid "Wodim Help"
+msgstr "Wodim ヘルプ"
+
+#: boxes/burn-box:175
+msgid "Missing ISO image \"%s\""
+msgstr "ISO イメージ \"%s\" が見つかりません"
+
+#: boxes/burn-box:183
+msgid "Missing audio directory \"%s\""
+msgstr "音楽ディレクトリ \"%s\" が見つかりません"
+
+#: boxes/burn-box:187
+msgid "Blank disk"
+msgstr "空のディスク"
+
+#: boxes/scp-box:42
+msgid "SCP Box - Small front end to the secure file copy utility."
+msgstr "SCP Box - 安全なファイルコピーユーティリティの小さなフロントエンドです。"
+
+#: boxes/scp-box:48
+msgid "List all known hosts"
+msgstr "すべての既知ホスト一覧"
+
+#: boxes/scp-box:51 boxes/scp-box:55
+msgid "/path/to/file"
+msgstr "/path/to/file"
+
+#: boxes/scp-box:74
+msgid "SCP Box"
+msgstr "SCP Box"
+
+#: boxes/scp-box:77
+msgid "<b>Secure copy</b> - Copy files remotely with scp"
+msgstr "<b>暗号化コピー</b> - scp のリモートファイルコピー"
+
+#: boxes/scp-box:79
+msgid "User name:"
+msgstr "ユーザー名:"
+
+#: boxes/scp-box:80
+msgid "Hostname:"
+msgstr "ホスト名:"
+
+#: boxes/scp-box:81
+msgid "Known hosts:"
+msgstr "既知のホスト："
+
+#: boxes/scp-box:83
+msgid "Local file:"
+msgstr "ローカルファイル:"
+
+#: boxes/scp-box:84
+msgid "Local directory:"
+msgstr "ローカルディレクトリ:"
+
+#: boxes/scp-box:85
+msgid "Remote path:"
+msgstr "リモートパス:"
+
+#: boxes/scp-box:86
+msgid "Download"
+msgstr "ダウンロード"
+
+#: boxes/scp-box:87
+msgid "Upload"
+msgstr "アップロード"
