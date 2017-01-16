@@ -6,7 +6,7 @@ DOCDIR?=/usr/share/doc
 DESTDIR?=
 
 PROJECTS=slitaz-tools slitaz-boxes tazbox tazdrop
-LINGUAS=de el es fa fr ja pl pt_BR ru sv vi_VN zh_CN zh_TW
+LINGUAS=de el es fa fr ja pl pt_BR ru sv vi zh_CN zh_TW
 
 all: msgfmt
 
