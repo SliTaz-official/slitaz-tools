@@ -235,7 +235,7 @@ gen_kmap_list() {
 setup_main() {
 	icon='preferences-desktop-locale'
 	gen_kmap_list
-	locale=$(ls -1 $db | grep ^[a-z][a-z]_[A-Z][A-Z] | tr "\n" "!")
+	locale=$(ls -1 $db 2> /dev/null | grep ^[a-z][a-z]_[A-Z][A-Z] | tr "\n" "!")
 	keymap=$(cat $tmp | sort | tr "\n" "!")
 	timezone=$(find $zi -type f | sed s,$zi,,g | grep -v -F '.tab' | tr "\n" "!")
 	yad --title="$(_n 'SliTaz Initial Setup')" --window-icon=$icon \
@@ -266,7 +266,7 @@ setup() {
 
 locale_main() {
 	icon='preferences-desktop-locale'
-	for locale in $(ls -1 $db | grep '[a-z]_[A-Z]'); do
+	for locale in $(ls -1 $db 2> /dev/null | grep '[a-z]_[A-Z]'); do
 		desc=$(fgrep -m1 title $db/$locale | cut -d'"' -f2)
 		ll_CC=${locale%%@*}
 		echo -e "${ll_CC##*_}\n$locale\n$desc"
