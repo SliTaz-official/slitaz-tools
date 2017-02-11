@@ -96,6 +96,9 @@ install:
 		decode frugal startd stopd; do \
 		install -m 0755 tinyutils/$$app $(DESTDIR)$(PREFIX)/bin; \
 	done;
+	
+	# sdt
+	install -m 0755 sdt/sdt $(DESTDIR)$(PREFIX)/bin
 
 	# /usr/sbin sound tools.
 	#install -m 0755 tinyutils/soundconf $(DESTDIR)$(PREFIX)/sbin
