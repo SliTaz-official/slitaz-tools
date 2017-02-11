@@ -44,6 +44,10 @@ case "$1" in
 		separator && newline ;;
 	send)
 		# Send stats to online DB
+		if [ -f "${HOME}/.cache/slitaz/sdt.log" ]; then
+			echo "It look like you alrady sended this distro to the DB"
+			exit 0
+		fi
 		user="$2"
 		[ "$user" ] || user="anonymous"
 		country=$(get_geoloc)
@@ -71,7 +75,8 @@ EOT
 		wget -q --user-agent "SliTaz/SDT" \
 "${url}?sdt=add&user=${user}&country=${country}&release=${release}&kernel=${kernel}&mode=${mode}" \
 			-O ${tmp} && cat ${tmp} && rm ${tmp}
-		;;
+		mkdir -p ${HOME}/.cache/slitaz
+		echo "sent" > ${HOME}/.cache/slitaz/sdt.log ;;
 	*)
 		newline
 		echo "$(boldify 'Usage:') $(basename $0) [get-stats|send] [username]"
