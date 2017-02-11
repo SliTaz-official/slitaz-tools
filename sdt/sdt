@@ -1,0 +1,80 @@
+#!/bin/sh
+#
+# SDT - SliTaz Distro Tracker Cmdline client
+#
+# (C) SliTaz GNU/Linux 2017 - BSD License
+#
+. /lib/libtaz.sh
+
+version="0.1"
+url="http://scn.slitaz.org/"
+tmp="/tmp/$(basename $0).msg"
+date="$(date +%Y%m%d)"
+
+get_geoloc() {
+	# freegeoip.net/{format}/{ip_or_hostname}
+	# Exemple: wget freegeoip.net/csv/${ip} -O /tmp/geoloc
+	wget -q "${url}?sdt=geoloc" -O ${tmp}
+	ip=$(cat ${tmp}) && rm ${tmp}
+	wget -q freegeoip.net/csv/${ip} -O /tmp/geoloc
+	country=$(cat /tmp/geoloc | cut -d ',' -f 3 )
+	echo "$country" && rm -f /tmp/geoloc
+}
+
+get_mode() {
+	if grep -q "root=/dev/null" /proc/cmdline; then
+		echo "live"
+	else
+		echo "install"
+	fi
+}
+
+case "$1" in
+	get-stats)
+		# Get some info from the DB
+		newline
+		boldify "SDT Stats"
+		separator
+		if wget -q -T 5 --spider ${url}; then
+			echo "Tracker in online..."
+			wget -q "${url}?sdt=raw" -O ${tmp} && cat ${tmp} && rm ${tmp}
+		else
+			echo "Tracker in unreachable..."
+		fi
+		separator && newline ;;
+	send)
+		# Send stats to online DB
+		user="$2"
+		[ "$user" ] || user="anonymous"
+		country=$(get_geoloc)
+		release=$(cat /etc/slitaz-release)
+		kernel=$(uname -r)
+		mode=$(get_mode)
+		cat << EOT
+
+$(boldify "Informations sent to SliTaz Distro Tracker")
+$(separator)
+User         : ${user}
+Country      : ${country}
+Release      : SliTaz ${release}
+Kernel       : ${kernel}
+Running	     : ${mode}
+EOT
+		separator && newline
+		echo "Send these data to SliTaz Distro Tracker ? "
+		echo -n "Press 'c' then ENTER to continue or any other key to quit: "
+		read anser && newline
+		if [ "$anser" != "c" ]; then
+			exit 0
+		fi
+		echo "Sending data to: $url" && newline
+		wget -q --user-agent "SliTaz/SDT" \
+"${url}?sdt=add&user=${user}&country=${country}&release=${release}&kernel=${kernel}&mode=${mode}" \
+			-O ${tmp} && cat ${tmp} && rm ${tmp}
+		;;
+	*)
+		newline
+		echo "$(boldify 'Usage:') $(basename $0) [get-stats|send] [username]"
+		newline ;;
+esac
+exit 0
