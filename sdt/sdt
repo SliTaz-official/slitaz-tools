@@ -13,7 +13,7 @@ date="$(date +%Y%m%d)"
 
 get_geoloc() {
 	# freegeoip.net/{format}/{ip_or_hostname}
-	# Exemple: wget freegeoip.net/csv/${ip} -O /tmp/geoloc
+	# Example: wget freegeoip.net/csv/${ip} -O /tmp/geoloc
 	wget -q "${url}?sdt=geoloc" -O ${tmp}
 	ip=$(cat ${tmp}) && rm ${tmp}
 	wget -q freegeoip.net/csv/${ip} -O /tmp/geoloc
@@ -36,16 +36,16 @@ case "$1" in
 		boldify "SDT Stats"
 		separator
 		if wget -q -T 5 --spider ${url}; then
-			echo "Tracker in online..."
+			echo "Tracker is online..."
 			wget -q "${url}?sdt=raw" -O ${tmp} && cat ${tmp} && rm ${tmp}
 		else
-			echo "Tracker in unreachable..."
+			echo "Tracker is unreachable..."
 		fi
 		separator && newline ;;
 	send)
 		# Send stats to online DB
 		if [ -f "${HOME}/.cache/slitaz/sdt.log" ]; then
-			echo "It look like you alrady sended this distro to the DB"
+			echo "It looks like you already sent this distro to the DB"
 			exit 0
 		fi
 		user="$2"
@@ -56,7 +56,7 @@ case "$1" in
 		mode=$(get_mode)
 		cat << EOT
 
-$(boldify "Informations sent to SliTaz Distro Tracker")
+$(boldify "Information sent to the SliTaz Distro Tracker")
 $(separator)
 User         : ${user}
 Country      : ${country}
@@ -65,7 +65,7 @@ Kernel       : ${kernel}
 Running	     : ${mode}
 EOT
 		separator && newline
-		echo "Send these data to SliTaz Distro Tracker ? "
+		echo "Send this data to SliTaz Distro Tracker ? "
 		echo -n "Press 'c' then ENTER to continue or any other key to quit: "
 		read anser && newline
 		if [ "$anser" != "c" ]; then

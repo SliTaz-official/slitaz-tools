@@ -1,11 +1,11 @@
 SDT
 ================================================================================
 
-SDT stand for SliTaz Distro Tracker. A small set of tools to track and 
-build a DB of SliTaz live and insall systems.
+SDT stands for SliTaz Distro Tracker. A small set of tools to track and 
+build a DB of SliTaz live and install systems.
 
 sdt: is the cmdline client
 Web interface is on scn.slitaz.org/?sdt
 
-The CGI web interface work as a TinyCM plugin, code can be found in 
+The CGI web interface works as a TinyCM plugin, code can be found in
 slitaz-forge/scn HG repository.
