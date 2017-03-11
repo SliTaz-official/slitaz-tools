@@ -57,6 +57,7 @@ all-apps	$(_ 'Display icons of all installed applications')
 notify		$(_ 'Notify user with a desktop centered box')
 tazapps		$(_ 'Configure SliTaz default applications')
 vnc		$(_ 'Launch a framebuffer VNC viewer')"
+ssh		$(_ 'Open a remote terminal')
 	newline
 }
 
@@ -696,6 +697,20 @@ vnc_main() {
 }
 
 
+ssh_main() {
+	icon='xterm'
+	yad --title="$(_n 'SSH connection')" --window-icon="$icon" \
+		--width='250' --height='180' --on-top --center \
+		--image="$icon" --image-on-top --icon="$icon" \
+		--form \
+		--text="<b>$(_n 'Remote terminal connection')</b>" "user@host" \
+		--field="$(_n 'SSH Server')" \
+		--field="$(_n 'Password'):H" \
+		--field="$(_n 'Prefer sakura'):CHK" \
+		--always-print-result
+}
+
+
 video() {
 	icon='video-x-generic'
 
@@ -786,6 +801,14 @@ vnc() {
 	1)	$fbvnc ${server%%|*} ;;
 	0)	newvt $fbvnc ${server%%|*} ;;
 	esac
+}
+
+
+ssh() { 
+	IFS='|'; set -- $(ssh_main) ; unset IFS
+	[ "$3" == "TRUE" ] && export TERM=sakura
+	[ -n "$2" ] && export DROPBEAR_PASSWORD="$2"
+	sshx $1
 }
 
 
@@ -963,6 +986,10 @@ TERMINAL=\"%s\"\nWINDOW_MANAGER=\"%s\"\n", $1, $2, $3, $4, $5}')
 			--text-info \
 			--fontname='monospace' \
 			--button 'OK' < /usr/share/licenses/gpl.txt
+		;;
+
+	ssh)
+		ssh
 		;;
 
 	vnc)

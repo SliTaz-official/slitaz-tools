@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=SSH terminal
+Exec=tazbox ssh
+Icon=xterm
+Categories=Utility;
+Name[fr]=Terminal SSH
