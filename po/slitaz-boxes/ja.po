@@ -7,16 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Boxes\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-02 18:36+0900\n"
+"POT-Creation-Date: 2017-03-14 01:15+0200\n"
 "PO-Revision-Date: 2017-01-05 22:43+0900\n"
+"Last-Translator: BALLOON a.k.a. Fu-sen. (Keiichi SHIGA) <balloonakafusen　AT "
+"gmail DOT com>\n"
 "Language-Team: \n"
+"Language: ja_JP\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.8.7.1\n"
-"Last-Translator: BALLOON a.k.a. Fu-sen. (Keiichi SHIGA) <balloonakafusen　AT gmail DOT com>\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"Language: ja_JP\n"
 
 #: boxes/wifi-box:16
 msgid "Small Wi-Fi utility to quickly connect to a network."
@@ -220,7 +221,8 @@ msgstr "空のディスク"
 
 #: boxes/scp-box:42
 msgid "SCP Box - Small front end to the secure file copy utility."
-msgstr "SCP Box - 安全なファイルコピーユーティリティの小さなフロントエンドです。"
+msgstr ""
+"SCP Box - 安全なファイルコピーユーティリティの小さなフロントエンドです。"
 
 #: boxes/scp-box:48
 msgid "List all known hosts"

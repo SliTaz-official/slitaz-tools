@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-19 23:23+0200\n"
+"POT-Creation-Date: 2017-03-14 01:15+0200\n"
 "PO-Revision-Date: 2016-11-13 22:36+0200\n"
 "Last-Translator: Pascal Bellard <pascal.bellard@slitaz.org>\n"
 "Language-Team: French\n"
@@ -89,352 +89,379 @@ msgstr "Configure les applications SliTaz par défaut"
 msgid "Launch a framebuffer VNC viewer"
 msgstr "Visionneuse VNC en incrustation"
 
-#: tazbox/tazbox:84
+#: tazbox/tazbox:60
+msgid "Open a remote terminal"
+msgstr ""
+
+#: tazbox/tazbox:85
 msgid "SliTaz admin password"
 msgstr "Mot de passe administrateur"
 
-#: tazbox/tazbox:87
+#: tazbox/tazbox:88
 msgid "Please enter root password (default root) to execute:"
 msgstr "Veuillez entrer le mot de passe root (defaut root) pour exécuter :"
 
-#: tazbox/tazbox:90
+#: tazbox/tazbox:91
 msgid "Password:"
 msgstr "Mot de passe :"
 
-#: tazbox/tazbox:91
+#: tazbox/tazbox:92
 msgid "Autosave password"
 msgstr "Sauvegarder le mot de passe"
 
-#: tazbox/tazbox:97
+#: tazbox/tazbox:98
 msgid "Error"
 msgstr "Erreur"
 
-#: tazbox/tazbox:100
+#: tazbox/tazbox:101
 msgid "Error: wrong password!"
 msgstr "Erreur: mauvais mot de passe !"
 
-#: tazbox/tazbox:109
+#: tazbox/tazbox:110
 msgid "CANCEL"
 msgstr "ANNULER"
 
-#: tazbox/tazbox:118
+#: tazbox/tazbox:119
 msgid "TazBox Output"
 msgstr "sortie TazBox"
 
-#: tazbox/tazbox:132 tazbox/tazbox:154
+#: tazbox/tazbox:133 tazbox/tazbox:155
 msgid "SliTaz Logout"
 msgstr "Déconnexion"
 
-#: tazbox/tazbox:135
+#: tazbox/tazbox:136
 msgid "SliTaz Logout - Please choose an action:"
 msgstr "Fermeture de SliTaz - Veuillez sélectionner votre choix :"
 
-#: tazbox/tazbox:137 tazbox/tazbox:195
+#: tazbox/tazbox:138 tazbox/tazbox:196
 msgid "Close X session"
 msgstr "Fermer la session X"
 
-#: tazbox/tazbox:138 tazbox/tazbox:200
+#: tazbox/tazbox:139 tazbox/tazbox:201
 msgid "Reboot system"
 msgstr "Redémarrer le système"
 
-#: tazbox/tazbox:139 tazbox/tazbox:205
+#: tazbox/tazbox:140 tazbox/tazbox:206
 msgid "Shutdown system"
 msgstr "Eteindre le système"
 
-#: tazbox/tazbox:148
+#: tazbox/tazbox:149
 msgid "Closing the X session..."
 msgstr "Fermeture de la session X"
 
-#: tazbox/tazbox:149
+#: tazbox/tazbox:150
 msgid "Rebooting the system..."
 msgstr "Redémarrage du système"
 
-#: tazbox/tazbox:150
+#: tazbox/tazbox:151
 msgid "Shutting down the system..."
 msgstr "Arrêt du système"
 
-#: tazbox/tazbox:153
+#: tazbox/tazbox:154
 msgid "Selected action will be executed automatically in %s seconds."
 msgstr "L'action choisie sera exécutée automatiquement dans %s secondes."
 
-#: tazbox/tazbox:241
+#: tazbox/tazbox:242
 msgid "SliTaz Initial Setup"
 msgstr "Réglages initiaux de SliTaz"
 
-#: tazbox/tazbox:244
+#: tazbox/tazbox:245
 msgid ""
 "Here you can set your preferences \\n for <b>locale, keymap and timezone</b>."
 msgstr ""
 "Ici vous pouver régler vos préférences \\n pour <b>la langue, le clavier et "
 "la zone horaire</b>"
 
-#: tazbox/tazbox:246
+#: tazbox/tazbox:247
 msgid "Locale"
 msgstr "Localisation"
 
-#: tazbox/tazbox:247 tazbox/tazbox:316
+#: tazbox/tazbox:248 tazbox/tazbox:317
 msgid "Keymap"
 msgstr "Clavier"
 
-#: tazbox/tazbox:248
+#: tazbox/tazbox:249
 msgid "Timezone"
 msgstr "Fuseau horaire"
 
-#: tazbox/tazbox:274
+#: tazbox/tazbox:275
 msgid "SliTaz locale"
 msgstr "Localisation de SliTaz"
 
-#: tazbox/tazbox:277
+#: tazbox/tazbox:278
 msgid "Language configuration"
 msgstr "Configurer la langue"
 
-#: tazbox/tazbox:278
+#: tazbox/tazbox:279
 msgid "Tip: manage locales list by installing/removing locale packages."
 msgstr "Info: fixe les localisations en ajoutant/retirant des paquets."
 
-#: tazbox/tazbox:279 tazbox/tazbox:400
+#: tazbox/tazbox:280 tazbox/tazbox:401
 msgid "Flag"
 msgstr "Fanion"
 
-#: tazbox/tazbox:279
+#: tazbox/tazbox:280
 msgid "Name"
 msgstr "Nom"
 
-#: tazbox/tazbox:280 tazbox/tazbox:585
+#: tazbox/tazbox:281 tazbox/tazbox:586
 msgid "Description"
 msgstr "Description"
 
-#: tazbox/tazbox:282 tazbox/tazbox:401
+#: tazbox/tazbox:283 tazbox/tazbox:402
 msgid "Manage"
 msgstr "Gère"
 
-#: tazbox/tazbox:298
+#: tazbox/tazbox:299
 msgid "Locale was set to %s"
 msgstr "La langue système était %s"
 
-#: tazbox/tazbox:312
+#: tazbox/tazbox:313
 msgid "SliTaz keymap"
 msgstr "clavier SliTaz"
 
-#: tazbox/tazbox:315
+#: tazbox/tazbox:316
 msgid "Keyboard configuration"
 msgstr "Configurer le clavier"
 
-#: tazbox/tazbox:316
+#: tazbox/tazbox:317
 msgid "Type"
 msgstr "Type"
 
-#: tazbox/tazbox:364 tazbox/tazbox:393 tazbox/tazbox:409 tazbox/tazbox:422
+#: tazbox/tazbox:365 tazbox/tazbox:394 tazbox/tazbox:410 tazbox/tazbox:423
 msgid "SliTaz TZ"
 msgstr "TZ SliTaz"
 
-#: tazbox/tazbox:367
+#: tazbox/tazbox:368
 msgid "Suggested location:"
 msgstr "Localisation proposée"
 
-#: tazbox/tazbox:368
+#: tazbox/tazbox:369
 msgid "Are you agreed?"
 msgstr "D'accord ?"
 
-#: tazbox/tazbox:396 tazbox/tazbox:412 tazbox/tazbox:425
+#: tazbox/tazbox:397 tazbox/tazbox:413 tazbox/tazbox:426
 msgid "TimeZone Configuration"
 msgstr "Configurer la zone horaire"
 
-#: tazbox/tazbox:397
+#: tazbox/tazbox:398
 msgid "Select country and press \"Forward\" or manually select timezone file."
 msgstr ""
 "Choisissez le pays et pressez \"suivant\" ou choissez un fichier de zone "
 "horaire."
 
-#: tazbox/tazbox:398
+#: tazbox/tazbox:399
 msgid "Tip: manage timezones list by installing/removing locale packages."
 msgstr "Info: fixe les zones horaires en ajoutant/retirant des paquets."
 
-#: tazbox/tazbox:400
+#: tazbox/tazbox:401
 msgid "Code"
 msgstr "Code"
 
-#: tazbox/tazbox:400
+#: tazbox/tazbox:401
 msgid "Country"
 msgstr "Pays"
 
-#: tazbox/tazbox:402
+#: tazbox/tazbox:403
 msgid "Manual"
 msgstr "Manuel"
 
-#: tazbox/tazbox:412
+#: tazbox/tazbox:413
 msgid "Select time zone"
 msgstr "Choisissez une zone horaire"
 
-#: tazbox/tazbox:425
+#: tazbox/tazbox:426
 msgid "Select location"
 msgstr "Choisissez la localisation"
 
-#: tazbox/tazbox:426
+#: tazbox/tazbox:427
 msgid "Location/City"
 msgstr "Location/Ville"
 
-#: tazbox/tazbox:455
+#: tazbox/tazbox:456
 msgid "TimeZone was set to %s"
 msgstr "Le fuseau horaire était %s"
 
-#: tazbox/tazbox:508 tazbox/tazbox:579
+#: tazbox/tazbox:509 tazbox/tazbox:580
 msgid "Manage locale packages"
 msgstr "Gère les paquets de localisation"
 
-#: tazbox/tazbox:511
+#: tazbox/tazbox:512
 msgid "Please, recharge packages database."
 msgstr "Rechargez la liste de paquets SVP."
 
-#: tazbox/tazbox:512 tazbox/tazbox:587
+#: tazbox/tazbox:513 tazbox/tazbox:588
 msgid "Recharge list"
 msgstr "Recharge les listes"
 
-#: tazbox/tazbox:521
+#: tazbox/tazbox:522
 msgid "Please wait"
 msgstr "Veuillez patienter"
 
-#: tazbox/tazbox:582
+#: tazbox/tazbox:583
 msgid "Check only locale packages you need and press \"Install/Remove\"."
 msgstr ""
 "Sélectionnez seulement les paquets nécéssaires et pressez \"Ajoute/Retire\"."
 
-#: tazbox/tazbox:584
+#: tazbox/tazbox:585
 msgid "Inst."
 msgstr "Inst."
 
-#: tazbox/tazbox:584
+#: tazbox/tazbox:585
 msgid "Package Name"
 msgstr "Nom du paquet"
 
-#: tazbox/tazbox:585
+#: tazbox/tazbox:586
 msgid "Size"
 msgstr "Taille"
 
-#: tazbox/tazbox:586
+#: tazbox/tazbox:587
 msgid "Installed"
 msgstr "Installé"
 
-#: tazbox/tazbox:588
+#: tazbox/tazbox:589
 msgid "Install/Remove"
 msgstr "Ajoute/Retire"
 
-#: tazbox/tazbox:607
+#: tazbox/tazbox:608
 msgid "TazPkg log"
 msgstr "Journal de TazPkg"
 
-#: tazbox/tazbox:610
+#: tazbox/tazbox:611
 msgid "REMOVE: %s"
 msgstr "RETIRE: %s"
 
-#: tazbox/tazbox:614
+#: tazbox/tazbox:615
 msgid "INSTALL: %s"
 msgstr "AJOUTE: %s"
 
-#: tazbox/tazbox:617
+#: tazbox/tazbox:618
 msgid "Done!"
 msgstr "Fait !"
 
-#: tazbox/tazbox:628
+#: tazbox/tazbox:629
 msgid "New file"
 msgstr "Nouveau fichier"
 
-#: tazbox/tazbox:632
+#: tazbox/tazbox:633
 msgid "Create a new file or folder on your desktop"
 msgstr "Créer un nouveau fichier ou dossier sur le bureau"
 
-#: tazbox/tazbox:633
+#: tazbox/tazbox:634
 msgid "File name"
 msgstr "Nom du fichier"
 
-#: tazbox/tazbox:636
+#: tazbox/tazbox:637
 msgid "SHell script"
 msgstr "Script SHell"
 
-#: tazbox/tazbox:637
+#: tazbox/tazbox:638
 msgid "Folder"
 msgstr "Dossier"
 
-#: tazbox/tazbox:638
+#: tazbox/tazbox:639
 msgid "File"
 msgstr "Fichier"
 
-#: tazbox/tazbox:666
+#: tazbox/tazbox:667
 msgid "All Applications"
 msgstr "Toutes les applications"
 
-#: tazbox/tazbox:686
+#: tazbox/tazbox:687
 msgid "Framebuffer VNC viewer"
 msgstr "Visionneuse VNC"
 
-#: tazbox/tazbox:690
+#: tazbox/tazbox:691
 msgid "Remote display connection"
 msgstr "Connexion à une console"
 
-#: tazbox/tazbox:691
+#: tazbox/tazbox:692
 msgid "VNC Server"
 msgstr "Serveur VNC"
 
-#: tazbox/tazbox:692
+#: tazbox/tazbox:693
 msgid "Via a SSH tunnel"
 msgstr "Par un tunnel SSH"
 
-#: tazbox/tazbox:694
+#: tazbox/tazbox:695
 msgid "On this console"
 msgstr "Sur cette console"
 
-#: tazbox/tazbox:695
+#: tazbox/tazbox:696
 msgid "In a new console"
 msgstr "Nouvelle console"
 
-#: tazbox/tazbox:718
+#: tazbox/tazbox:702
+msgid "SSH connection"
+msgstr ""
+
+#: tazbox/tazbox:706
+#, fuzzy
+msgid "Remote terminal connection"
+msgstr "Connexion à une console"
+
+#: tazbox/tazbox:707
+#, fuzzy
+msgid "SSH Server"
+msgstr "Serveur VNC"
+
+#: tazbox/tazbox:708
+#, fuzzy
+msgid "Password"
+msgstr "Mot de passe :"
+
+#: tazbox/tazbox:709
+msgid "Prefer sakura"
+msgstr ""
+
+#: tazbox/tazbox:733
 msgid "Select the video file"
 msgstr "Choisissez le fichier vidéo"
 
-#: tazbox/tazbox:719
+#: tazbox/tazbox:734
 msgid "All video files"
 msgstr "Tous les fichiers vidéo"
 
-#: tazbox/tazbox:720
+#: tazbox/tazbox:735
 msgid "All files"
 msgstr "Tous les fichiers"
 
-#: tazbox/tazbox:751
+#: tazbox/tazbox:766
 msgid "Unsupported video file format."
 msgstr "Format de fichier vidéo non supporté."
 
-#: tazbox/tazbox:752
+#: tazbox/tazbox:767
 msgid "Retry with %s, %s, %s, %s, %s or %s."
 msgstr "Réessayez avec %s, %s, %s, %s, %s ou %s."
 
-#: tazbox/tazbox:870
+#: tazbox/tazbox:893
 msgid "Downloading..."
 msgstr "Télécharge..."
 
-#: tazbox/tazbox:938
+#: tazbox/tazbox:961
 msgid "SliTaz default applications"
 msgstr "Applications SliTaz par défaut"
 
-#: tazbox/tazbox:940
+#: tazbox/tazbox:963
 msgid "SliTaz default applications configuration"
 msgstr "Configuration des applications SliTaz par défaut"
 
-#: tazbox/tazbox:942
+#: tazbox/tazbox:965
 msgid "File manager:"
 msgstr "Gestionnaire de fichiers :"
 
-#: tazbox/tazbox:943
+#: tazbox/tazbox:966
 msgid "Web browser:"
 msgstr "Navigateur WEB :"
 
-#: tazbox/tazbox:944
+#: tazbox/tazbox:967
 msgid "Text editor:"
 msgstr "Editeur de textes :"
 
-#: tazbox/tazbox:945
+#: tazbox/tazbox:968
 msgid "Terminal:"
 msgstr "Terminal :"
 
-#: tazbox/tazbox:946
+#: tazbox/tazbox:969
 msgid "Window manager:"
 msgstr "Gestionnaire de fenêtres :"
