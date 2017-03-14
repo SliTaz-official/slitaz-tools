@@ -8,17 +8,13 @@
 
 version="0.1"
 url="http://scn.slitaz.org/"
-tmp="/tmp/$(basename $0).msg"
 date="$(date +%Y%m%d)"
+mark="$HOME/.cache/slitaz/sdt.log"
 
 get_geoloc() {
-	# freegeoip.net/{format}/{ip_or_hostname}
-	# Example: wget freegeoip.net/csv/${ip} -O /tmp/geoloc
-	wget -q "${url}?sdt=geoloc" -O ${tmp}
-	ip=$(cat ${tmp}) && rm ${tmp}
-	wget -q freegeoip.net/csv/${ip} -O /tmp/geoloc
-	country=$(cat /tmp/geoloc | cut -d ',' -f 3 )
-	echo "$country" && rm -f /tmp/geoloc
+	# freegeoip.net/<format>/[<ip_or_hostname>]
+	# Example: wget freegeoip.net/csv/$ip -O /tmp/geoloc
+	wget -q http://freegeoip.net/csv/ -O- | cut -d, -f3
 }
 
 get_mode() {
@@ -32,54 +28,54 @@ get_mode() {
 case "$1" in
 	get-stats)
 		# Get some info from the DB
-		newline
-		boldify "SDT Stats"
-		separator
-		if wget -q -T 5 --spider ${url}; then
+		title "SDT Stats"
+		if wget -q -T 5 --spider $url; then
 			echo "Tracker is online..."
-			wget -q "${url}?sdt=raw" -O ${tmp} && cat ${tmp} && rm ${tmp}
+			wget -q "$url?sdt=raw" -O-
 		else
 			echo "Tracker is unreachable..."
 		fi
-		separator && newline ;;
+		footer
+		;;
 	send)
 		# Send stats to online DB
-		if [ -f "${HOME}/.cache/slitaz/sdt.log" ]; then
+		if [ -f "$mark" ]; then
 			echo "It looks like you already sent this distro to the DB"
 			exit 0
 		fi
 		user="$2"
-		[ "$user" ] || user="anonymous"
+		[ -n "$user" ] || user="anonymous"
 		country=$(get_geoloc)
 		release=$(cat /etc/slitaz-release)
 		kernel=$(uname -r)
 		mode=$(get_mode)
-		cat << EOT
+		cat <<EOT
 
-$(boldify "Information sent to the SliTaz Distro Tracker")
+$(boldify "Information that will be sent to the SliTaz Distro Tracker")
 $(separator)
-User         : ${user}
-Country      : ${country}
-Release      : SliTaz ${release}
-Kernel       : ${kernel}
-Running	     : ${mode}
+User         : $user
+Country      : $country
+Release      : SliTaz $release
+Kernel       : $kernel
+Running      : $mode
 EOT
-		separator && newline
-		echo "Send this data to SliTaz Distro Tracker ? "
+		footer
+		echo "Send this data to SliTaz Distro Tracker?"
 		echo -n "Press 'c' then ENTER to continue or any other key to quit: "
-		read anser && newline
-		if [ "$anser" != "c" ]; then
-			exit 0
-		fi
-		echo "Sending data to: $url" && newline
+		read answer; newline
+		[ "$answer" == 'c' ] || exit 0
+
+		echo "Sending data to $url"; newline
 		wget -q --user-agent "SliTaz/SDT" \
-"${url}?sdt=add&user=${user}&country=${country}&release=${release}&kernel=${kernel}&mode=${mode}" \
-			-O ${tmp} && cat ${tmp} && rm ${tmp}
-		mkdir -p ${HOME}/.cache/slitaz
-		echo "sent" > ${HOME}/.cache/slitaz/sdt.log ;;
+"$url?sdt=add&user=$user&country=$country&release=$release&kernel=$kernel&mode=$mode" \
+			-O-
+		mkdir -p $(dirname $mark)
+		echo "sent" > $mark
+		;;
 	*)
 		newline
 		echo "$(boldify 'Usage:') $(basename $0) [get-stats|send] [username]"
-		newline ;;
+		newline
+		;;
 esac
 exit 0
