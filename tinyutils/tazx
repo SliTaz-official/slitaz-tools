@@ -1,10 +1,10 @@
 #!/bin/sh
 #
 # Tazx - Ncurses X configuration for SliTaz GNU/Linux using Dialog boxes.
-# This tinyutil is part of slitaz-tools. Tazx can configure Xorg with
+# This tiny util is part of slitaz-tools. Tazx can configure Xorg with
 # several Window Managers. The GTK interface to configure X is in tazbox.
 #
-# (c) 2011-2015 SliTaz GNU/Linux - GNU GPL v3.
+# (c) 2011-2017 SliTaz GNU/Linux - GNU GPL v3.
 # Authors: Christophe Lincoln <pankso@slitaz.org>
 #          Pascal Bellard <pascal.bellard@slitaz.org>
 #
@@ -45,7 +45,7 @@ save_chunk() {
 
 gen_xorg_conf_file() {
 	if [ ! -f /etc/X11/xorg.conf ]; then
-		cat > /etc/X11/xorg.conf << EOT
+		cat > /etc/X11/xorg.conf <<EOT
 # You can put here your own Xorg configurations. This config file is read
 # before all files in /etc/X11/xorg.conf.d and will NOT be erased by any
 # updates.
@@ -54,84 +54,10 @@ EOT
 }
 
 
-# Add or remove xkb applet from lxpanel
-
-xkb() {
-	case $(id -u) in
-		0)
-			# Empty if lxpanel not running, else something like:
-			# tux lxpanel -p slitaz
-			LXPS=$(ps -ouser,args | sed -n '/[l]xpanel/ s|  *| |p' | \
-				fgrep -v '[' | fgrep -v 'xkb' | fgrep -v 'sh')
-
-			# Stop lxpanel
-			if [ -n "$LXPS" ]; then
-				lxpanelctl exit
-				killall lxpanel
-			fi
-
-			# For all human users
-			for USER in $(awk -F: '/\/home\//{print $1}' /etc/passwd); do
-				su $USER -c '. ~/.profile; tazx xkb'
-			done
-
-			# Re-run lxpanel
-			[ -n "$LXPS" ] && su ${LXPS%% *} -c "exec ${LXPS#* }" &
-			;;
-
-		*)
-			DOTCONFIG=${XDG_CONFIG_HOME:-$HOME/.config}
-			CFG_LXPANEL=$DOTCONFIG/lxpanel
-
-			if [ ! -d $CFG_LXPANEL ]; then
-				mkdir -p $DOTCONFIG
-				cp -r /etc/lxpanel $DOTCONFIG
-			fi
-
-			case $(fgrep 'XkbLayout' /etc/X11/xorg.conf.d/40-Keyboard.conf | \
-				fgrep -o ',') in
-				'')
-					for CFG in $(find $CFG_LXPANEL -type f -name panel); do
-						if [ -n "$(grep 'type *= *xkb' $CFG)" ]; then
-							echo "Remove xkb applet from $CFG"
-							sed -i "$(grep -n -e "^Plugin {" -e "^}" -e "xkb" \
-								$CFG | grep -C 1 xkb | grep -v xkb | cut -d: \
-								-f1 | tr '\n' ' ' | sed 's| |,|')d" $CFG
-						fi
-					done ;;
-				',')
-					for CFG in $(find $CFG_LXPANEL -type f -name panel); do
-						if [ -z "$(grep 'type *= *xkb' $CFG)" ]; then
-							echo "Add xkb applet to $CFG"
-							XKB='Plugin {\
-    type = xkb\
-    Config {\
-        DisplayType=1\
-        PerWinLayout=0\
-        NoResetOpt=0\
-        KeepSysLayouts=1\
-        Model=pc105\
-        LayoutsList=us\
-        VariantsList=,\
-        ToggleOpt=shift_caps_toggle\
-        FlagSize=4\
-    }\
-}\
-'
-							sed -i "$(grep -n -e "^Plugin {" -e "tray" $CFG | \
-								grep -B1 tray | head -n1 | cut -d: -f1) i\\
-$XKB" $CFG
-						fi
-					done ;;
-			esac ;;
-	esac
-}
-
-
 # Generate or regenerate 40-Keyboard.conf
 
 keyboard_conf() {
-	# Configure the keyboard with the right keymap
+	# Configure the keyboard with the correct keymap
 	keymap=$(cat /etc/keymap.conf)
 	keyboard_config="/etc/X11/xorg.conf.d/40-Keyboard.conf"
 	variant=""
@@ -204,7 +130,7 @@ keyboard_conf() {
 		update_conf='1'
 	fi
 
-	[ -n "$update_conf" ] && cat > $keyboard_config << EOC
+	[ -n "$update_conf" ] && cat > $keyboard_config <<EOC
 Section "InputClass"
 	Identifier "Keyboard Defaults"
 	MatchIsKeyboard "yes"
@@ -216,7 +142,6 @@ EOC
 
 	status
 	[ -z "$variant" ] && sed -i '/XkbVariant/d' $keyboard_config
-	[ -z $(busybox which lxpanel) ] || xkb
 }
 
 
@@ -233,7 +158,7 @@ xorg_conf_d() {
 	Xorg -configure :2
 
 	# Backup existing config.
-	tar -cf $xorg_config/../Previous_xorg.conf.d.tar $xorg_config/ &> /dev/null
+	tar -cf $xorg_config/../Previous_xorg.conf.d.tar $xorg_config/ &>/dev/null
 
 	# Put the different sections in separate files in the config directory.
 	save_chunk 10-ServerLayout
@@ -600,10 +525,6 @@ case "$1" in
 		xorg_conf_d
 		proc_cmdline
 		set_depth $2 ;;
-
-	xkb)
-		xkb ;;
-
 
 	*help|-h|-?)
 		emsg "
