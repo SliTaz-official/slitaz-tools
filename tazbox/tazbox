@@ -181,8 +181,8 @@ mkmenu() {
 			# if menu already exists - shrink it to '@@@'
 			newconf=$(echo "$conf" | sed 's|.*user\.directory.*$|@@@|')
 		else
-			# otherwise add '@@@' before the last line (last line is the space)
-			newconf=$(echo "$conf" | tac | sed '2i@@@' | tac)
+			# otherwise do nothing
+			newconf="$conf"
 		fi
 		menu=$(cat <<EOT
 Plugin {
