@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-24 22:14+0200\n"
+"POT-Creation-Date: 2017-04-19 17:11+0200\n"
 "PO-Revision-Date: 2014-06-26 16:08+0400\n"
 "Last-Translator: Ali Rashidi <alirashidi17@yahoo.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "SliTaz GNU/Linux locale setting using dialog boxes."
 msgstr ":توسط کادر های محاوره SliTaz GNU/Linux تنظیمات منطقه ای"
 
-#: tinyutils/tazlocale:19 tinyutils/tazx:612 tinyutils/decode:34
+#: tinyutils/tazlocale:19 tinyutils/tazx:533 tinyutils/decode:34
 #: tinyutils/hwsetup:26 tinyutils/frugal:37
 msgid "Usage:"
 msgstr ":طریقه استفاده"
@@ -91,135 +91,135 @@ msgstr ""
 msgid "Setting default mixer volumes... "
 msgstr "...در حال تنظیم صدای پیش فرض"
 
-#: tinyutils/tazx:141
+#: tinyutils/tazx:67
 msgid "Creating:"
 msgstr ":در حال ایجاد"
 
-#: tinyutils/tazx:277
+#: tinyutils/tazx:202
 msgid "Install Xorg"
 msgstr "Xorg نصب"
 
-#: tinyutils/tazx:278
+#: tinyutils/tazx:203
 msgid "Tazx helps you to select your X driver."
 msgstr "خود را انتخاب نمایید. X به شما کمک میکند تا درایور  Tazx"
 
-#: tinyutils/tazx:279
+#: tinyutils/tazx:204
 #, fuzzy
 msgid "Auto configuring"
 msgstr "...Xorg در حال نصب خودکار "
 
-#: tinyutils/tazx:281
+#: tinyutils/tazx:206
 msgid "driver"
 msgstr "درایور"
 
-#: tinyutils/tazx:282 tinyutils/slitaz-config:251
+#: tinyutils/tazx:207 tinyutils/slitaz-config:251
 msgid "Quit"
 msgstr "خروج"
 
-#: tinyutils/tazx:311
+#: tinyutils/tazx:236
 #, fuzzy
 msgid "Failed to setup driver"
 msgstr "نشد %s موفق به نصب "
 
-#: tinyutils/tazx:311
+#: tinyutils/tazx:236
 msgid "(unknown hardware)"
 msgstr ""
 
-#: tinyutils/tazx:323 tinyutils/hwsetup:125
+#: tinyutils/tazx:248 tinyutils/hwsetup:125
 msgid "Installing pkg: %s"
 msgstr "%s :در حال نصب پکیج"
 
-#: tinyutils/tazx:341 tinyutils/tazx:431 tinyutils/tazx:437
+#: tinyutils/tazx:266 tinyutils/tazx:356 tinyutils/tazx:362
 #, fuzzy
 msgid "Install"
 msgstr "Xorg نصب"
 
-#: tinyutils/tazx:342 tinyutils/tazx:461
+#: tinyutils/tazx:267 tinyutils/tazx:386
 #, fuzzy
 msgid "Install Window Manager and applications"
 msgstr "نرم افزار اسکنر"
 
-#: tinyutils/tazx:447
+#: tinyutils/tazx:372
 msgid "ON"
 msgstr ""
 
-#: tinyutils/tazx:448 tinyutils/tazx:479
+#: tinyutils/tazx:373 tinyutils/tazx:404
 msgid "OFF"
 msgstr ""
 
-#: tinyutils/tazx:455
+#: tinyutils/tazx:380
 msgid "SliTaz Xorg config"
 msgstr "SliTaz Xorg پیکربندی"
 
-#: tinyutils/tazx:457
+#: tinyutils/tazx:382
 msgid "Install or reconfigure Xorg"
 msgstr "Xorg نصب یا پیکربندی مجدد"
 
-#: tinyutils/tazx:458
+#: tinyutils/tazx:383
 msgid "Install Xorg server (light version)"
 msgstr "(نسخه کم حجم) Xorg server نصب"
 
-#: tinyutils/tazx:459
+#: tinyutils/tazx:384
 msgid "AutoStart Xorg by SLiM on boot"
 msgstr ""
 
-#: tinyutils/tazx:460
+#: tinyutils/tazx:385
 msgid "(Re)Start Simple Login Manager now"
 msgstr ""
 
-#: tinyutils/tazx:462
+#: tinyutils/tazx:387
 msgid "Quit Tazx utility"
 msgstr "Tazx خروج از ابزار"
 
-#: tinyutils/tazx:487
+#: tinyutils/tazx:412
 msgid "Start X on boot:"
 msgstr ""
 
-#: tinyutils/tazx:610
+#: tinyutils/tazx:531
 msgid "Configuration tool for SliTaz GNU/Linux"
 msgstr ""
 
-#: tinyutils/tazx:612 tinyutils/hwsetup:27
+#: tinyutils/tazx:533 tinyutils/hwsetup:27
 msgid "command"
 msgstr "فرمان"
 
-#: tinyutils/tazx:612
+#: tinyutils/tazx:533
 msgid "parameter"
 msgstr ""
 
-#: tinyutils/tazx:614 tinyutils/hwsetup:29 tinyutils/frugal:41
+#: tinyutils/tazx:535 tinyutils/hwsetup:29 tinyutils/frugal:41
 msgid "Commands:"
 msgstr ":فرامین"
 
-#: tinyutils/tazx:615
+#: tinyutils/tazx:536
 #, fuzzy
 msgid "Install Xorg and selected Xorg driver"
 msgstr "(نسخه کم حجم) Xorg server نصب"
 
-#: tinyutils/tazx:616
+#: tinyutils/tazx:537
 #, fuzzy
 msgid "Configure Xorg, generate configuration files"
 msgstr ""
 "برای تولید یک فایل قالب پیکربندی در صورت نیاز استفاده کنید aticonfig :از "
 "ابزار"
 
-#: tinyutils/tazx:617
+#: tinyutils/tazx:538
 msgid "Set monitor default depth (valid parameters: 8, 15, 16 or 24)"
 msgstr ""
 
-#: tinyutils/tazx:618
+#: tinyutils/tazx:539
 msgid "Auto-select and install Xorg driver"
 msgstr ""
 
-#: tinyutils/tazx:619
+#: tinyutils/tazx:540
 msgid "Get files for starting an X session and config the keyboard"
 msgstr ""
 
-#: tinyutils/tazx:620
+#: tinyutils/tazx:541
 msgid "Generate or regenerate Xorg keyboard config"
 msgstr ""
 
-#: tinyutils/tazx:630
+#: tinyutils/tazx:551
 msgid "Run tazx as root if you need to configure xorg"
 msgstr ""
 

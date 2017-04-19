@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tazbox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-14 01:15+0200\n"
+"POT-Creation-Date: 2017-04-19 17:11+0200\n"
 "PO-Revision-Date: 2016-03-28 03:32-0300\n"
 "Last-Translator: Leonardo Laporte <hackdorte@sapo.pt>\n"
 "Language-Team: Brazilian Portuguese <i18n@slitaz.org>\n"
@@ -419,61 +419,69 @@ msgid "Password"
 msgstr "Senha:"
 
 #: tazbox/tazbox:709
-msgid "Prefer sakura"
+msgid "SSH Keys"
 msgstr ""
 
-#: tazbox/tazbox:733
+#: tazbox/tazbox:710
+msgid "SSH Proxy"
+msgstr ""
+
+#: tazbox/tazbox:711
+msgid "Prefer sakura terminal"
+msgstr ""
+
+#: tazbox/tazbox:735
 #, fuzzy
 msgid "Select the video file"
 msgstr "Selecionar zona horária"
 
-#: tazbox/tazbox:734
+#: tazbox/tazbox:736
 #, fuzzy
 msgid "All video files"
 msgstr "Selecionar zona horária"
 
-#: tazbox/tazbox:735
+#: tazbox/tazbox:737
 #, fuzzy
 msgid "All files"
 msgstr "Selecionar zona horária"
 
-#: tazbox/tazbox:766
+#: tazbox/tazbox:768
 msgid "Unsupported video file format."
 msgstr ""
 
-#: tazbox/tazbox:767
+#: tazbox/tazbox:769
 msgid "Retry with %s, %s, %s, %s, %s or %s."
 msgstr ""
 
-#: tazbox/tazbox:893
+#: tazbox/tazbox:896
 msgid "Downloading..."
 msgstr "Baixando..."
 
-#: tazbox/tazbox:961
+#: tazbox/tazbox:964
 msgid "SliTaz default applications"
 msgstr "Aplicativos padrão do SliTaz"
 
-#: tazbox/tazbox:963
+#: tazbox/tazbox:966
 msgid "SliTaz default applications configuration"
 msgstr "Configuração dos aplicativos padrão do SliTaz"
 
-#: tazbox/tazbox:965
+#: tazbox/tazbox:968
 msgid "File manager:"
 msgstr "Gerenciador de arquivos:"
 
-#: tazbox/tazbox:966
+#: tazbox/tazbox:969
 msgid "Web browser:"
 msgstr "Navegador web:"
 
-#: tazbox/tazbox:967
+#: tazbox/tazbox:970
 msgid "Text editor:"
 msgstr "Editor de texto:"
 
-#: tazbox/tazbox:968
+#: tazbox/tazbox:971
 msgid "Terminal:"
 msgstr "Terminal:"
 
-#: tazbox/tazbox:969
+#: tazbox/tazbox:972
 msgid "Window manager:"
 msgstr "Gerenciador de janelas:"
 

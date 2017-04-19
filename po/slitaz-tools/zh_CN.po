@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-24 22:14+0200\n"
+"POT-Creation-Date: 2017-04-19 17:11+0200\n"
 "PO-Revision-Date: 2015-07-25 13:09+0800\n"
 "Last-Translator: Wenyu Zhang <jame987165702@gmail.com>\n"
 "Language-Team: \n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "SliTaz GNU/Linux locale setting using dialog boxes."
 msgstr "SliTaz GNU / Linux地区设置对话框。"
 
-#: tinyutils/tazlocale:19 tinyutils/tazx:612 tinyutils/decode:34
+#: tinyutils/tazlocale:19 tinyutils/tazx:533 tinyutils/decode:34
 #: tinyutils/hwsetup:26 tinyutils/frugal:37
 msgid "Usage:"
 msgstr "用法:"
@@ -89,127 +89,127 @@ msgstr "请您的当前会话注销并再次登录来使用新的键盘设置。
 msgid "Setting default mixer volumes... "
 msgstr "设置默认混合卷中…"
 
-#: tinyutils/tazx:141
+#: tinyutils/tazx:67
 msgid "Creating:"
 msgstr "创建："
 
-#: tinyutils/tazx:277
+#: tinyutils/tazx:202
 msgid "Install Xorg"
 msgstr "安装Xorg"
 
-#: tinyutils/tazx:278
+#: tinyutils/tazx:203
 msgid "Tazx helps you to select your X driver."
 msgstr "Tazx帮助你选择你的X驱动程序。"
 
-#: tinyutils/tazx:279
+#: tinyutils/tazx:204
 msgid "Auto configuring"
 msgstr "自动配置Xorg中…"
 
-#: tinyutils/tazx:281
+#: tinyutils/tazx:206
 msgid "driver"
 msgstr "驱动）"
 
-#: tinyutils/tazx:282 tinyutils/slitaz-config:251
+#: tinyutils/tazx:207 tinyutils/slitaz-config:251
 msgid "Quit"
 msgstr "离开"
 
-#: tinyutils/tazx:311
+#: tinyutils/tazx:236
 msgid "Failed to setup driver"
 msgstr "无法安装驱动程序"
 
-#: tinyutils/tazx:311
+#: tinyutils/tazx:236
 msgid "(unknown hardware)"
 msgstr "（未知硬件）"
 
-#: tinyutils/tazx:323 tinyutils/hwsetup:125
+#: tinyutils/tazx:248 tinyutils/hwsetup:125
 msgid "Installing pkg: %s"
 msgstr "安装 %s包"
 
-#: tinyutils/tazx:341 tinyutils/tazx:431 tinyutils/tazx:437
+#: tinyutils/tazx:266 tinyutils/tazx:356 tinyutils/tazx:362
 msgid "Install"
 msgstr "安装"
 
-#: tinyutils/tazx:342 tinyutils/tazx:461
+#: tinyutils/tazx:267 tinyutils/tazx:386
 msgid "Install Window Manager and applications"
 msgstr "安装窗口管理器和应用程序"
 
-#: tinyutils/tazx:447
+#: tinyutils/tazx:372
 msgid "ON"
 msgstr "开"
 
-#: tinyutils/tazx:448 tinyutils/tazx:479
+#: tinyutils/tazx:373 tinyutils/tazx:404
 msgid "OFF"
 msgstr "关"
 
-#: tinyutils/tazx:455
+#: tinyutils/tazx:380
 msgid "SliTaz Xorg config"
 msgstr "SliTaz Xorg配置"
 
-#: tinyutils/tazx:457
+#: tinyutils/tazx:382
 msgid "Install or reconfigure Xorg"
 msgstr "安装或配置Xorg"
 
-#: tinyutils/tazx:458
+#: tinyutils/tazx:383
 msgid "Install Xorg server (light version)"
 msgstr "安装Xorg服务器（简版）"
 
-#: tinyutils/tazx:459
+#: tinyutils/tazx:384
 msgid "AutoStart Xorg by SLiM on boot"
 msgstr "开机自动启动Xorg by SLiM"
 
-#: tinyutils/tazx:460
+#: tinyutils/tazx:385
 msgid "(Re)Start Simple Login Manager now"
 msgstr "重启简单登录管理器"
 
-#: tinyutils/tazx:462
+#: tinyutils/tazx:387
 msgid "Quit Tazx utility"
 msgstr "退出Tazx实用程序"
 
-#: tinyutils/tazx:487
+#: tinyutils/tazx:412
 msgid "Start X on boot:"
 msgstr "启动X在开机时："
 
-#: tinyutils/tazx:610
+#: tinyutils/tazx:531
 msgid "Configuration tool for SliTaz GNU/Linux"
 msgstr "SliTaz GNU / Linux配置工具"
 
-#: tinyutils/tazx:612 tinyutils/hwsetup:27
+#: tinyutils/tazx:533 tinyutils/hwsetup:27
 msgid "command"
 msgstr "命令"
 
-#: tinyutils/tazx:612
+#: tinyutils/tazx:533
 msgid "parameter"
 msgstr "参数"
 
-#: tinyutils/tazx:614 tinyutils/hwsetup:29 tinyutils/frugal:41
+#: tinyutils/tazx:535 tinyutils/hwsetup:29 tinyutils/frugal:41
 msgid "Commands:"
 msgstr "命令:"
 
-#: tinyutils/tazx:615
+#: tinyutils/tazx:536
 msgid "Install Xorg and selected Xorg driver"
 msgstr "安装Xorg和选择Xorg的驱动程序"
 
-#: tinyutils/tazx:616
+#: tinyutils/tazx:537
 msgid "Configure Xorg, generate configuration files"
 msgstr "配置Xorg，生成的配置文件"
 
-#: tinyutils/tazx:617
+#: tinyutils/tazx:538
 msgid "Set monitor default depth (valid parameters: 8, 15, 16 or 24)"
 msgstr "设置显示器默认色深（有效参数：8，15，16或24）"
 
-#: tinyutils/tazx:618
+#: tinyutils/tazx:539
 msgid "Auto-select and install Xorg driver"
 msgstr "自动选择并安装Xorg驱动程序"
 
-#: tinyutils/tazx:619
+#: tinyutils/tazx:540
 msgid "Get files for starting an X session and config the keyboard"
 msgstr "获取文件用以启动X会话和配置键盘"
 
-#: tinyutils/tazx:620
+#: tinyutils/tazx:541
 msgid "Generate or regenerate Xorg keyboard config"
 msgstr "生成或重新生成Xorg的键盘配置"
 
-#: tinyutils/tazx:630
+#: tinyutils/tazx:551
 msgid "Run tazx as root if you need to configure xorg"
 msgstr "以root用户运行tazx，如果你需要配置xorg"
 

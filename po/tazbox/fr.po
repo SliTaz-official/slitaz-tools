@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-14 01:15+0200\n"
+"POT-Creation-Date: 2017-04-19 17:11+0200\n"
 "PO-Revision-Date: 2016-11-13 22:36+0200\n"
 "Last-Translator: Pascal Bellard <pascal.bellard@slitaz.org>\n"
 "Language-Team: French\n"
@@ -91,7 +91,7 @@ msgstr "Visionneuse VNC en incrustation"
 
 #: tazbox/tazbox:60
 msgid "Open a remote terminal"
-msgstr ""
+msgstr "Ouvrir un terminal distant"
 
 #: tazbox/tazbox:85
 msgid "SliTaz admin password"
@@ -393,75 +393,80 @@ msgstr "Nouvelle console"
 
 #: tazbox/tazbox:702
 msgid "SSH connection"
-msgstr ""
+msgstr "Connexion SSH"
 
 #: tazbox/tazbox:706
-#, fuzzy
 msgid "Remote terminal connection"
 msgstr "Connexion à une console"
 
 #: tazbox/tazbox:707
-#, fuzzy
 msgid "SSH Server"
 msgstr "Serveur VNC"
 
 #: tazbox/tazbox:708
-#, fuzzy
 msgid "Password"
-msgstr "Mot de passe :"
+msgstr "Mot de passe"
 
 #: tazbox/tazbox:709
-msgid "Prefer sakura"
-msgstr ""
+msgid "SSH Keys"
+msgstr "Clés SSH"
 
-#: tazbox/tazbox:733
+#: tazbox/tazbox:710
+msgid "SSH Proxy"
+msgstr "Proxy SSH"
+
+#: tazbox/tazbox:711
+msgid "Prefer sakura terminal"
+msgstr "Terminal sakura (si possible)"
+
+#: tazbox/tazbox:735
 msgid "Select the video file"
 msgstr "Choisissez le fichier vidéo"
 
-#: tazbox/tazbox:734
+#: tazbox/tazbox:736
 msgid "All video files"
 msgstr "Tous les fichiers vidéo"
 
-#: tazbox/tazbox:735
+#: tazbox/tazbox:737
 msgid "All files"
 msgstr "Tous les fichiers"
 
-#: tazbox/tazbox:766
+#: tazbox/tazbox:768
 msgid "Unsupported video file format."
 msgstr "Format de fichier vidéo non supporté."
 
-#: tazbox/tazbox:767
+#: tazbox/tazbox:769
 msgid "Retry with %s, %s, %s, %s, %s or %s."
 msgstr "Réessayez avec %s, %s, %s, %s, %s ou %s."
 
-#: tazbox/tazbox:893
+#: tazbox/tazbox:896
 msgid "Downloading..."
 msgstr "Télécharge..."
 
-#: tazbox/tazbox:961
+#: tazbox/tazbox:964
 msgid "SliTaz default applications"
 msgstr "Applications SliTaz par défaut"
 
-#: tazbox/tazbox:963
+#: tazbox/tazbox:966
 msgid "SliTaz default applications configuration"
 msgstr "Configuration des applications SliTaz par défaut"
 
-#: tazbox/tazbox:965
+#: tazbox/tazbox:968
 msgid "File manager:"
 msgstr "Gestionnaire de fichiers :"
 
-#: tazbox/tazbox:966
+#: tazbox/tazbox:969
 msgid "Web browser:"
 msgstr "Navigateur WEB :"
 
-#: tazbox/tazbox:967
+#: tazbox/tazbox:970
 msgid "Text editor:"
 msgstr "Editeur de textes :"
 
-#: tazbox/tazbox:968
+#: tazbox/tazbox:971
 msgid "Terminal:"
 msgstr "Terminal :"
 
-#: tazbox/tazbox:969
+#: tazbox/tazbox:972
 msgid "Window manager:"
 msgstr "Gestionnaire de fenêtres :"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-24 22:14+0200\n"
+"POT-Creation-Date: 2017-04-19 17:11+0200\n"
 "PO-Revision-Date: 2016-04-20 16:08+0300\n"
 "Last-Translator: Aleksej Bobylev <al.bobylev@gmail.com>\n"
 "Language-Team: \n"
@@ -23,7 +23,7 @@ msgstr ""
 msgid "SliTaz GNU/Linux locale setting using dialog boxes."
 msgstr "Настройка локали SliTaz GNU/Linux с использованием dialog."
 
-#: tinyutils/tazlocale:19 tinyutils/tazx:612 tinyutils/decode:34
+#: tinyutils/tazlocale:19 tinyutils/tazx:533 tinyutils/decode:34
 #: tinyutils/hwsetup:26 tinyutils/frugal:37
 msgid "Usage:"
 msgstr "Использование:"
@@ -97,127 +97,127 @@ msgstr ""
 msgid "Setting default mixer volumes... "
 msgstr "Установка уровней регулятора громкости по умолчанию… "
 
-#: tinyutils/tazx:141
+#: tinyutils/tazx:67
 msgid "Creating:"
 msgstr "Создается:"
 
-#: tinyutils/tazx:277
+#: tinyutils/tazx:202
 msgid "Install Xorg"
 msgstr "Установка Xorg"
 
-#: tinyutils/tazx:278
+#: tinyutils/tazx:203
 msgid "Tazx helps you to select your X driver."
 msgstr "Tazx поможет вам выбрать драйвер для Xorg."
 
-#: tinyutils/tazx:279
+#: tinyutils/tazx:204
 msgid "Auto configuring"
 msgstr "Авто-настройка"
 
-#: tinyutils/tazx:281
+#: tinyutils/tazx:206
 msgid "driver"
 msgstr "драйвер"
 
-#: tinyutils/tazx:282 tinyutils/slitaz-config:251
+#: tinyutils/tazx:207 tinyutils/slitaz-config:251
 msgid "Quit"
 msgstr "Выход"
 
-#: tinyutils/tazx:311
+#: tinyutils/tazx:236
 msgid "Failed to setup driver"
 msgstr "Не удалось установить драйвер"
 
-#: tinyutils/tazx:311
+#: tinyutils/tazx:236
 msgid "(unknown hardware)"
 msgstr "(неизвестное оборудование)"
 
-#: tinyutils/tazx:323 tinyutils/hwsetup:125
+#: tinyutils/tazx:248 tinyutils/hwsetup:125
 msgid "Installing pkg: %s"
 msgstr "Установка пакета «%s»"
 
-#: tinyutils/tazx:341 tinyutils/tazx:431 tinyutils/tazx:437
+#: tinyutils/tazx:266 tinyutils/tazx:356 tinyutils/tazx:362
 msgid "Install"
 msgstr "Установить"
 
-#: tinyutils/tazx:342 tinyutils/tazx:461
+#: tinyutils/tazx:267 tinyutils/tazx:386
 msgid "Install Window Manager and applications"
 msgstr "Установка менеджера окон и приложений"
 
-#: tinyutils/tazx:447
+#: tinyutils/tazx:372
 msgid "ON"
 msgstr "ВКЛ"
 
-#: tinyutils/tazx:448 tinyutils/tazx:479
+#: tinyutils/tazx:373 tinyutils/tazx:404
 msgid "OFF"
 msgstr "ОТКЛ"
 
-#: tinyutils/tazx:455
+#: tinyutils/tazx:380
 msgid "SliTaz Xorg config"
 msgstr "Настройка Xorg в SliTaz"
 
-#: tinyutils/tazx:457
+#: tinyutils/tazx:382
 msgid "Install or reconfigure Xorg"
 msgstr "Установить или перенастроить Xorg"
 
-#: tinyutils/tazx:458
+#: tinyutils/tazx:383
 msgid "Install Xorg server (light version)"
 msgstr "Установить облегченный сервер Xorg"
 
-#: tinyutils/tazx:459
+#: tinyutils/tazx:384
 msgid "AutoStart Xorg by SLiM on boot"
 msgstr "Автозапуск Xorg через SLiM при старте системы"
 
-#: tinyutils/tazx:460
+#: tinyutils/tazx:385
 msgid "(Re)Start Simple Login Manager now"
 msgstr "(Пере)запустить простой менеджер входа SLiM сейчас"
 
-#: tinyutils/tazx:462
+#: tinyutils/tazx:387
 msgid "Quit Tazx utility"
 msgstr "Выйти из утилиты Tazx"
 
-#: tinyutils/tazx:487
+#: tinyutils/tazx:412
 msgid "Start X on boot:"
 msgstr "Запуск X при старте системы:"
 
-#: tinyutils/tazx:610
+#: tinyutils/tazx:531
 msgid "Configuration tool for SliTaz GNU/Linux"
 msgstr "утилита настройки SliTaz GNU/Linux"
 
-#: tinyutils/tazx:612 tinyutils/hwsetup:27
+#: tinyutils/tazx:533 tinyutils/hwsetup:27
 msgid "command"
 msgstr "команда"
 
-#: tinyutils/tazx:612
+#: tinyutils/tazx:533
 msgid "parameter"
 msgstr "параметр"
 
-#: tinyutils/tazx:614 tinyutils/hwsetup:29 tinyutils/frugal:41
+#: tinyutils/tazx:535 tinyutils/hwsetup:29 tinyutils/frugal:41
 msgid "Commands:"
 msgstr "Команды:"
 
-#: tinyutils/tazx:615
+#: tinyutils/tazx:536
 msgid "Install Xorg and selected Xorg driver"
 msgstr "Установить Xorg и выбранный драйвер Xorg"
 
-#: tinyutils/tazx:616
+#: tinyutils/tazx:537
 msgid "Configure Xorg, generate configuration files"
 msgstr "Настроить Xorg, создать конфигурационные файлы"
 
-#: tinyutils/tazx:617
+#: tinyutils/tazx:538
 msgid "Set monitor default depth (valid parameters: 8, 15, 16 or 24)"
 msgstr "Установить глубину цвета монитора (параметр: 8, 15, 16 или 24)"
 
-#: tinyutils/tazx:618
+#: tinyutils/tazx:539
 msgid "Auto-select and install Xorg driver"
 msgstr "Автоматически выбрать и установить драйвер Xorg"
 
-#: tinyutils/tazx:619
+#: tinyutils/tazx:540
 msgid "Get files for starting an X session and config the keyboard"
 msgstr "Создать файлы для запуска X-сессии и настроить клавиатуру"
 
-#: tinyutils/tazx:620
+#: tinyutils/tazx:541
 msgid "Generate or regenerate Xorg keyboard config"
 msgstr "Создать конфигурационный файл клавиатуры для Xorg"
 
-#: tinyutils/tazx:630
+#: tinyutils/tazx:551
 msgid "Run tazx as root if you need to configure xorg"
 msgstr "Если нужно настроить Xorg — запустите tazx от имени root"
 

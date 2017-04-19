@@ -706,7 +706,9 @@ ssh_main() {
 		--text="<b>$(_n 'Remote terminal connection')</b>" "user@host" \
 		--field="$(_n 'SSH Server')" \
 		--field="$(_n 'Password'):H" \
-		--field="$(_n 'Prefer sakura'):CHK" \
+		--field="$(_n 'SSH Keys'):MFL" \
+		--field="$(_n 'SSH Proxy')" \
+		--field="$(_n 'Prefer sakura terminal'):CHK" \
 		--always-print-result
 }
 
@@ -806,9 +808,10 @@ vnc() {
 
 ssh() { 
 	IFS='|'; set -- $(ssh_main) ; unset IFS
-	[ "$3" == "TRUE" ] && export TERM=sakura
+	[ "$5" == "TRUE" ] && export TERM=sakura
 	[ -n "$2" ] && export DROPBEAR_PASSWORD="$2"
-	sshx $1
+	[ -n "$4" ] && export DBPROXY="$4"
+	sshx ${3:+-i ${3//!/ -i }} $1
 }
 
 
