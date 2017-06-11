@@ -401,7 +401,7 @@ msgstr "Connexion à une console"
 
 #: tazbox/tazbox:707
 msgid "SSH Server"
-msgstr "Serveur VNC"
+msgstr "Serveur SSH"
 
 #: tazbox/tazbox:708
 msgid "Password"

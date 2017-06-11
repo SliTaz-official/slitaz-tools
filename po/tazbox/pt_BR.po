@@ -409,9 +409,8 @@ msgid "Remote terminal connection"
 msgstr "Visualizador de conexão remota"
 
 #: tazbox/tazbox:707
-#, fuzzy
 msgid "SSH Server"
-msgstr "Servidor VNC"
+msgstr "Servidor SSH"
 
 #: tazbox/tazbox:708
 #, fuzzy

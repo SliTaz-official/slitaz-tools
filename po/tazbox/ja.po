@@ -405,9 +405,8 @@ msgid "Remote terminal connection"
 msgstr "リモードディスプレイ接続"
 
 #: tazbox/tazbox:707
-#, fuzzy
 msgid "SSH Server"
-msgstr "VNC サーバー"
+msgstr "SSH サーバー"
 
 #: tazbox/tazbox:708
 #, fuzzy

@@ -411,9 +411,8 @@ msgid "Remote terminal connection"
 msgstr "Verbindung zu fernem Bildschirm"
 
 #: tazbox/tazbox:707
-#, fuzzy
 msgid "SSH Server"
-msgstr "VNC-Server"
+msgstr "SSH-Server"
 
 #: tazbox/tazbox:708
 #, fuzzy
