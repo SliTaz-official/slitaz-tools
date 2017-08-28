@@ -29,7 +29,7 @@ EOT
 USER_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/slitaz/applications.conf"
 [ -f  $USER_CONFIG ] && . $USER_CONFIG
 
-local PARAMS='' GEOMETRY='80x24' TITLE="SliTaz $(cat /etc/slitaz-release)" COMMAND
+PARAMS=''; GEOMETRY='80x24'; TITLE="SliTaz $(cat /etc/slitaz-release)"
 
 case $TERMINAL in
 	sakura)
