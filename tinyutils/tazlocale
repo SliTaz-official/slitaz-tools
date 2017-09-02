@@ -3,7 +3,7 @@
 # Tazlocale: SliTaz GNU/Linux locale setting using dialog boxes.
 # Configuration file is: /etc/locale.conf
 #
-# Copyright (C) 2008-2015 SliTaz GNU/Linux - BSD License
+# Copyright (C) 2008-2017 SliTaz GNU/Linux - BSD License
 #
 # Author: Christophe Lincoln <pankso@slitaz.org>
 #
@@ -15,15 +15,14 @@ export TEXTDOMAIN='slitaz-tools' #i18n
 usage() {
 	newline
 	_ 'SliTaz GNU/Linux locale setting using dialog boxes.'
-
-	newline; boldify "$(_ 'Usage:')"
+	newline
+	boldify "$(_ 'Usage:')"
 	echo "  tazlocale [$(_ 'option')]"
-
-	newline; boldify "$(_ 'Options:')"
+	newline
+	boldify "$(_ 'Options:')"
 	optlist "\
 info	$(_ 'Show info about config file and current locale.')
 list	$(_ 'Show list of available locales.')"
-
 	newline
 	_ 'Any other option treated as locale - set locale (root).'
 	_ 'Display locale selecting dialog if no option given (root).'
@@ -112,6 +111,7 @@ get_locale_name() {
 
 gen_utf8_locale() {
 	if [ ! -d "/usr/lib/locale/$locale.UTF-8" ]; then
+		mkdir -p /usr/lib/locale
 		localedef -i "$locale" -c -f 'UTF-8' "/usr/lib/locale/$locale.UTF-8" &
 	fi
 }
@@ -151,7 +151,7 @@ $(get_locale_name) \
 	esac
 
 	# Default: POSIX => English
-	[ "$locale" = 'en' ] && locale='en_US'
+	[ "$locale" == 'en' ] && locale='en_US'
 	[ -s /etc/locale.conf ] && RECONFIG='yes'
 
 	# If it's a reconfiguration give an info message.
