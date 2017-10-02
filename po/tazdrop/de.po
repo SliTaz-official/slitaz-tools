@@ -1,14 +1,14 @@
 # German translations for TazDrop package.
-# Copyright (C) 2016 SliTaz
+# Copyright (C) 2017 SliTaz
 # This file is distributed under the same license as the TazDrop package.
-# Hans-Günter Theisgen, 2016.
+# Hans-Günter Theisgen, 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: TazDrop\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-04 13:59+0300\n"
-"PO-Revision-Date: 2016-10-23 15:46+0100\n"
+"POT-Creation-Date: 2017-04-19 17:11+0200\n"
+"PO-Revision-Date: 2017-10-02 16:45+0100\n"
 "Last-Translator: Hans-Günter Theisgen\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -50,9 +50,8 @@ msgid "Display the desktop Drag N Drop window"
 msgstr "Das 'Ziehen und Ablegen'-Fenster anzeigen"
 
 #: tazdrop/tazdrop:40
-#, fuzzy
 msgid "Display the desktop Drag N Drop image"
-msgstr "Das 'Ziehen und Ablegen'-Bild anzeigen"
+msgstr "Das 'Ziehen und Ablegen'-Symbol anzeigen"
 
 #: tazdrop/tazdrop:41
 msgid "Display your dropped text notes"

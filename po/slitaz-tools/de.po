@@ -1,14 +1,14 @@
 # German translations for SliTaz Tools package.
-# Copyright (C) 2016 SliTaz
+# Copyright (C) 2017 SliTaz
 # This file is distributed under the same license as the SliTaz Tools package.
-# Hans-Günter Theisgen, 2016.
+# Hans-Günter Theisgen, 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-19 23:23+0200\n"
-"PO-Revision-Date: 2016-10-16 15:39+0100\n"
+"POT-Creation-Date: 2017-04-19 17:11+0200\n"
+"PO-Revision-Date: 2017-10-02 17:39+0100\n"
 "Last-Translator: Hans-Günter Theisgen\n"
 "Language-Team: German \n"
 "Language: de\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "SliTaz GNU/Linux locale setting using dialog boxes."
 msgstr "Einstellung der Lokalisierung für SliTaz GNU/Linux mit Dialogfenstern."
 
-#: tinyutils/tazlocale:19 tinyutils/tazx:612 tinyutils/decode:34
+#: tinyutils/tazlocale:19 tinyutils/tazx:533 tinyutils/decode:34
 #: tinyutils/hwsetup:26 tinyutils/frugal:37
 msgid "Usage:"
 msgstr "Anwendung:"
@@ -98,133 +98,133 @@ msgstr ""
 msgid "Setting default mixer volumes... "
 msgstr "Standard Mischpult-Lautstärken werden eingestellt..."
 
-#: tinyutils/tazx:141
+#: tinyutils/tazx:67
 msgid "Creating:"
 msgstr "Erzeuge:"
 
-#: tinyutils/tazx:277
+#: tinyutils/tazx:202
 msgid "Install Xorg"
 msgstr "Installiere Xorg"
 
-#: tinyutils/tazx:278
+#: tinyutils/tazx:203
 msgid "Tazx helps you to select your X driver."
 msgstr "Tazx hilft bei der Auswahl des X-Treibers"
 
-#: tinyutils/tazx:279
+#: tinyutils/tazx:204
 msgid "Auto configuring"
 msgstr "Automatische Konfigurierung"
 
-#: tinyutils/tazx:281
+#: tinyutils/tazx:206
 msgid "driver"
 msgstr "Treiber"
 
-#: tinyutils/tazx:282 tinyutils/slitaz-config:251
+#: tinyutils/tazx:207 tinyutils/slitaz-config:251
 msgid "Quit"
 msgstr "Beenden"
 
-#: tinyutils/tazx:311
+#: tinyutils/tazx:236
 msgid "Failed to setup driver"
 msgstr "Treiber konnte nicht eingerichtet werden"
 
-#: tinyutils/tazx:311
+#: tinyutils/tazx:236
 msgid "(unknown hardware)"
 msgstr "(unbekannte Hardware)"
 
-#: tinyutils/tazx:323 tinyutils/hwsetup:125
+#: tinyutils/tazx:248 tinyutils/hwsetup:125
 msgid "Installing pkg: %s"
 msgstr "Installiere Paket: %s"
 
-#: tinyutils/tazx:341 tinyutils/tazx:431 tinyutils/tazx:437
+#: tinyutils/tazx:266 tinyutils/tazx:356 tinyutils/tazx:362
 msgid "Install"
 msgstr "Installieren"
 
-#: tinyutils/tazx:342 tinyutils/tazx:461
+#: tinyutils/tazx:267 tinyutils/tazx:386
 msgid "Install Window Manager and applications"
 msgstr "Installiere Fensterverwaltung und Anwendungen"
 
-#: tinyutils/tazx:447
+#: tinyutils/tazx:372
 msgid "ON"
 msgstr "EIN"
 
-#: tinyutils/tazx:448 tinyutils/tazx:479
+#: tinyutils/tazx:373 tinyutils/tazx:404
 msgid "OFF"
 msgstr "AUS"
 
-#: tinyutils/tazx:455
+#: tinyutils/tazx:380
 msgid "SliTaz Xorg config"
 msgstr "SliTaz-Xorg-Konfiguration"
 
-#: tinyutils/tazx:457
+#: tinyutils/tazx:382
 msgid "Install or reconfigure Xorg"
 msgstr "Xorg installieren oder neu konfigurieren"
 
-#: tinyutils/tazx:458
+#: tinyutils/tazx:383
 msgid "Install Xorg server (light version)"
 msgstr "Xorg-Server installieren (einfache Version)"
 
-#: tinyutils/tazx:459
+#: tinyutils/tazx:384
 msgid "AutoStart Xorg by SLiM on boot"
 msgstr "Bei der Systemeinleitung Xorg durch SLiM starten"
 
-#: tinyutils/tazx:460
+#: tinyutils/tazx:385
 msgid "(Re)Start Simple Login Manager now"
 msgstr "SLiM jetzt (neu) starten"
 
-#: tinyutils/tazx:462
+#: tinyutils/tazx:387
 msgid "Quit Tazx utility"
 msgstr "Tazx beenden"
 
-#: tinyutils/tazx:487
+#: tinyutils/tazx:412
 msgid "Start X on boot:"
 msgstr "X bei der Systemeinleitung starten:"
 
-#: tinyutils/tazx:610
+#: tinyutils/tazx:531
 msgid "Configuration tool for SliTaz GNU/Linux"
 msgstr "Konfigurationswerkzeug für SliTaz GNU/Linux"
 
-#: tinyutils/tazx:612 tinyutils/hwsetup:27
+#: tinyutils/tazx:533 tinyutils/hwsetup:27
 msgid "command"
 msgstr "Kommando"
 
-#: tinyutils/tazx:612
+#: tinyutils/tazx:533
 msgid "parameter"
 msgstr "Parameter"
 
-#: tinyutils/tazx:614 tinyutils/hwsetup:29 tinyutils/frugal:41
+#: tinyutils/tazx:535 tinyutils/hwsetup:29 tinyutils/frugal:41
 msgid "Commands:"
 msgstr "Kommandos:"
 
-#: tinyutils/tazx:615
+#: tinyutils/tazx:536
 msgid "Install Xorg and selected Xorg driver"
 msgstr "Xorg und ausgewählten Xorg-Treiber installieren"
 
-#: tinyutils/tazx:616
+#: tinyutils/tazx:537
 msgid "Configure Xorg, generate configuration files"
 msgstr "Xorg konfigurieren, Konfigurationsdateien erzeugen"
 
-#: tinyutils/tazx:617
+#: tinyutils/tazx:538
 msgid "Set monitor default depth (valid parameters: 8, 15, 16 or 24)"
 msgstr ""
 "Standard-Farbtiefe des Bildschirms einstellen (gültige Werte: 8, 15, 16 or "
 "24)"
 
-#: tinyutils/tazx:618
+#: tinyutils/tazx:539
 msgid "Auto-select and install Xorg driver"
 msgstr "Xorg-Treiber automatisch auswählen und installieren"
 
-#: tinyutils/tazx:619
+#: tinyutils/tazx:540
 msgid "Get files for starting an X session and config the keyboard"
 msgstr "Dateien zum Starten einer X-Sitzung holen und Tastatur konfigurieren"
 
-#: tinyutils/tazx:620
+#: tinyutils/tazx:541
 msgid "Generate or regenerate Xorg keyboard config"
 msgstr "Xorg-Tastaturkonfiguration erzeugen oder ändern"
 
-#: tinyutils/tazx:630
+#: tinyutils/tazx:551
 msgid "Run tazx as root if you need to configure xorg"
 msgstr ""
-"Wenn Xorg konfiguriert werden soll, muss tazx vom Administrator aufgerufen "
-"werden"
+"Wenn Xorg konfiguriert werden soll, muss tazx vom Systemadministrator "
+"aufgerufen werden"
 
 #: tinyutils/decode:32
 msgid "Decode audio and video files"
@@ -244,7 +244,7 @@ msgstr "Beispiele:"
 
 #: tinyutils/decode:39
 msgid "/path/to/files/*"
-msgstr ""
+msgstr "/pfad/zu/dateien/*"
 
 #: tinyutils/decode:53
 msgid "Missing decoder: %s"
@@ -390,7 +390,7 @@ msgstr " %s) Hersteller : %s "
 
 #: tinyutils/hwsetup:194
 msgid "    Product : %s"
-msgstr ""
+msgstr "    Produkt : %s"
 
 #: tinyutils/hwsetup:205
 msgid "Which no. is your %s shown in the above lines (1,2,3,none)? "
@@ -461,7 +461,6 @@ msgid "Save Configuration"
 msgstr "Konfiguration speichern"
 
 #: tinyutils/hwsetup:329
-#, fuzzy
 msgid "Dial Pin Once"
 msgstr "PIN einmal anwählen"
 
@@ -771,7 +770,7 @@ msgstr "Der Linux-Kern wird installiert..."
 
 #: tinyutils/frugal:126
 msgid "Installing the root filesystem..."
-msgstr "Das Dateisystem wird installiert..."
+msgstr "Das Wurzeldateisystem wird installiert..."
 
 #: tinyutils/frugal:137
 msgid "Unmounting ISO image..."
@@ -907,7 +906,7 @@ msgstr "Neue Benutzerkennung einrichten"
 
 #: tinyutils/slitaz-config:257
 msgid "Change root password"
-msgstr "Administratorkennwort ändern"
+msgstr "Systemadministrator-Kennwort ändern"
 
 #: tinyutils/slitaz-config:258
 msgid "Set system date from the web"

@@ -1,14 +1,14 @@
 # German translations for slitaz-boxes package.
-# Copyright (C) 2016 SliTaz
+# Copyright (C) 2017 SliTaz
 # This file is distributed under the same license as the slitaz-boxes package.
-# Hans-Günter Theisgen, 2016.
+# Hans-Günter Theisgen, 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Boxes\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-19 23:23+0200\n"
-"PO-Revision-Date: 2016-10-23 15:15+0100\n"
+"POT-Creation-Date: 2017-04-19 17:11+0200\n"
+"PO-Revision-Date: 2017-10-02 17:45+0100\n"
 "Last-Translator: Hans-Günter Theisgen\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -125,7 +125,7 @@ msgstr "Alle Wodim-Parameter anzeigen"
 
 #: boxes/burn-box:47
 msgid "Burn an ISO image"
-msgstr "Ein ISO-Abbild schreiben"
+msgstr "Ein ISO-Abbild auf Datenträger schreiben"
 
 #: boxes/burn-box:48
 msgid "Create and burn an audio CD"
@@ -141,11 +141,11 @@ msgstr "Optionen:"
 
 #: boxes/burn-box:53 boxes/burn-box:58 boxes/burn-box:59
 msgid "/path/to/image.iso"
-msgstr ""
+msgstr "/pfad/zu/ISO-Abbild"
 
 #: boxes/burn-box:54 boxes/scp-box:52
 msgid "/path/to/directory"
-msgstr ""
+msgstr "/pfad/zu/verzeichnis"
 
 #: boxes/burn-box:56 boxes/scp-box:54
 msgid "Examples:"
@@ -230,7 +230,7 @@ msgstr "Alle bekannten Rechner anzeigen"
 
 #: boxes/scp-box:51 boxes/scp-box:55
 msgid "/path/to/file"
-msgstr ""
+msgstr "/pfad/zu/datei"
 
 #: boxes/scp-box:74
 msgid "SCP Box"
@@ -241,7 +241,6 @@ msgid "<b>Secure copy</b> - Copy files remotely with scp"
 msgstr "<b>\"Secure copy\"</b> - Fernkopieren von Dateien mit scp"
 
 #: boxes/scp-box:79
-#, fuzzy
 msgid "User name:"
 msgstr "Benutzername:"
 

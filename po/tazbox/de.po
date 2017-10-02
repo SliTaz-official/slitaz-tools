@@ -1,14 +1,14 @@
 # German translations for TazBox package.
-# Copyright (C) 2016 SliTaz
+# Copyright (C) 2017 SliTaz
 # This file is distributed under the same license as the TazBox package.
-# Hans-Günter Theisgen, 2016.
+# Hans-Günter Theisgen, 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-19 17:11+0200\n"
-"PO-Revision-Date: 2016-12-11 17:07+0100\n"
+"PO-Revision-Date: 2017-10-02 17:02+0100\n"
 "Last-Translator: Hans-Günter Theisgen\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -94,7 +94,7 @@ msgstr "Einen 'framebuffer VNC viewer' starten"
 
 #: tazbox/tazbox:60
 msgid "Open a remote terminal"
-msgstr ""
+msgstr "Terminal für ein fernes System öffnen"
 
 #: tazbox/tazbox:85
 msgid "SliTaz admin password"
@@ -296,11 +296,11 @@ msgstr "Lokalisierungspakete verwalten"
 
 #: tazbox/tazbox:512
 msgid "Please, recharge packages database."
-msgstr "Bitte die Paketdatenbank auffrischen."
+msgstr "Bitte die Paketdatenbank aktualisieren."
 
 #: tazbox/tazbox:513 tazbox/tazbox:588
 msgid "Recharge list"
-msgstr "Liste auffrischen"
+msgstr "Liste aktualisieren"
 
 #: tazbox/tazbox:522
 msgid "Please wait"
@@ -379,7 +379,7 @@ msgstr "Alle Anwendungen"
 
 #: tazbox/tazbox:687
 msgid "Framebuffer VNC viewer"
-msgstr ""
+msgstr "'Framebuffer VNC viewer'"
 
 #: tazbox/tazbox:691
 msgid "Remote display connection"
@@ -403,33 +403,31 @@ msgstr "Auf einer neuen Konsole"
 
 #: tazbox/tazbox:702
 msgid "SSH connection"
-msgstr ""
+msgstr "SSH-Verbindung"
 
 #: tazbox/tazbox:706
-#, fuzzy
 msgid "Remote terminal connection"
-msgstr "Verbindung zu fernem Bildschirm"
+msgstr "Verbindung zu fernem System"
 
 #: tazbox/tazbox:707
 msgid "SSH Server"
 msgstr "SSH-Server"
 
 #: tazbox/tazbox:708
-#, fuzzy
 msgid "Password"
 msgstr "Kennwort:"
 
 #: tazbox/tazbox:709
 msgid "SSH Keys"
-msgstr ""
+msgstr "SSH-Schlüssel"
 
 #: tazbox/tazbox:710
 msgid "SSH Proxy"
-msgstr ""
+msgstr "SSH-'Proxy'"
 
 #: tazbox/tazbox:711
 msgid "Prefer sakura terminal"
-msgstr ""
+msgstr "Vorzugsweise Sakura verwenden"
 
 #: tazbox/tazbox:735
 msgid "Select the video file"
