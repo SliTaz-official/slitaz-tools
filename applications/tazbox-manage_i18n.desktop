@@ -1,6 +1,7 @@
 [Desktop Entry]
 Type=Application
 Name=Manage locale packages
+Name[de]=Sprachpakete
 Name[fr]=Paquets linguistiques
 Name[ru]=Управление пакетами локалей
 Exec=tazbox su "tazbox manage_i18n"
