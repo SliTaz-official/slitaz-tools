@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-19 17:11+0200\n"
+"POT-Creation-Date: 2018-01-30 11:37+0200\n"
 "PO-Revision-Date: 2016-03-28 03:19-0300\n"
 "Last-Translator: Leonardo Laporte <hackdorte@sapo.pt>\n"
 "Language-Team: Portuguese <i18n@slitaz.org>\n"
@@ -44,11 +44,11 @@ msgstr "Mostrar informação sobre arquivo de configuração e locale atual."
 msgid "Show list of available locales."
 msgstr "Mostrar lista de locales disponíveis."
 
-#: tinyutils/tazlocale:28
+#: tinyutils/tazlocale:27
 msgid "Any other option treated as locale - set locale (root)."
 msgstr "Qualquer outra opção considerada como locale - set locale (root)."
 
-#: tinyutils/tazlocale:29
+#: tinyutils/tazlocale:28
 msgid "Display locale selecting dialog if no option given (root)."
 msgstr ""
 "Mostra o diálogo de configuração de locale se nenhuma opção for informada "

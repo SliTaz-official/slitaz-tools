@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-19 17:11+0200\n"
+"POT-Creation-Date: 2018-01-30 11:37+0200\n"
 "PO-Revision-Date: 2015-07-25 13:09+0800\n"
 "Last-Translator: Wenyu Zhang <jame987165702@gmail.com>\n"
 "Language-Team: \n"
@@ -43,11 +43,11 @@ msgstr "显示配置文件和当前区域设置信息。"
 msgid "Show list of available locales."
 msgstr "显示可用语言列表。"
 
-#: tinyutils/tazlocale:28
+#: tinyutils/tazlocale:27
 msgid "Any other option treated as locale - set locale (root)."
 msgstr "任何其他的选项作为本地（root）。"
 
-#: tinyutils/tazlocale:29
+#: tinyutils/tazlocale:28
 msgid "Display locale selecting dialog if no option given (root)."
 msgstr "显示区域选择对话框（如果没有选择）（root）"
 

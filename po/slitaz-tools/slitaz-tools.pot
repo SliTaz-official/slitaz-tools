@@ -1,6 +1,6 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SliTaz Tools package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-19 17:11+0200\n"
+"POT-Creation-Date: 2018-01-30 11:37+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,11 +42,11 @@ msgstr ""
 msgid "Show list of available locales."
 msgstr ""
 
-#: tinyutils/tazlocale:28
+#: tinyutils/tazlocale:27
 msgid "Any other option treated as locale - set locale (root)."
 msgstr ""
 
-#: tinyutils/tazlocale:29
+#: tinyutils/tazlocale:28
 msgid "Display locale selecting dialog if no option given (root)."
 msgstr ""
 

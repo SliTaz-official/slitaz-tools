@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SliTaz Tools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-19 17:11+0200\n"
+"POT-Creation-Date: 2018-01-30 11:37+0200\n"
 "PO-Revision-Date: 2016-04-20 16:08+0300\n"
 "Last-Translator: Aleksej Bobylev <al.bobylev@gmail.com>\n"
 "Language-Team: \n"
@@ -44,13 +44,13 @@ msgstr "Информация о файле настроек и текущей л
 msgid "Show list of available locales."
 msgstr "Список доступных локалей."
 
-#: tinyutils/tazlocale:28
+#: tinyutils/tazlocale:27
 msgid "Any other option treated as locale - set locale (root)."
 msgstr ""
 "Любой другой параметр считается именем локали — установить локаль (требуются "
 "права root)."
 
-#: tinyutils/tazlocale:29
+#: tinyutils/tazlocale:28
 msgid "Display locale selecting dialog if no option given (root)."
 msgstr ""
 "При отсутствии параметров — показать диалог выбора локали (требуются права "
