@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-19 17:11+0200\n"
+"POT-Creation-Date: 2018-05-05 21:39+0200\n"
 "PO-Revision-Date: 2014-06-26 19:26+0400\n"
 "Last-Translator: Ali Rashidi <alirashidi17@yahoo.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -396,7 +396,7 @@ msgid "In a new console"
 msgstr ""
 
 #: tazbox/tazbox:702
-msgid "SSH connection"
+msgid "Remote connection"
 msgstr ""
 
 #: tazbox/tazbox:706
@@ -404,7 +404,7 @@ msgid "Remote terminal connection"
 msgstr ""
 
 #: tazbox/tazbox:707
-msgid "SSH Server"
+msgid "Server"
 msgstr ""
 
 #: tazbox/tazbox:708
@@ -424,57 +424,61 @@ msgstr ""
 msgid "Prefer sakura terminal"
 msgstr ""
 
-#: tazbox/tazbox:735
+#: tazbox/tazbox:712
+msgid "Telnet protocol (instead of SSH)"
+msgstr ""
+
+#: tazbox/tazbox:736
 #, fuzzy
 msgid "Select the video file"
 msgstr "انتخاب منطقه زمانی"
 
-#: tazbox/tazbox:736
+#: tazbox/tazbox:737
 #, fuzzy
 msgid "All video files"
 msgstr "انتخاب منطقه زمانی"
 
-#: tazbox/tazbox:737
+#: tazbox/tazbox:738
 #, fuzzy
 msgid "All files"
 msgstr "انتخاب منطقه زمانی"
 
-#: tazbox/tazbox:768
+#: tazbox/tazbox:769
 msgid "Unsupported video file format."
 msgstr ""
 
-#: tazbox/tazbox:769
+#: tazbox/tazbox:770
 msgid "Retry with %s, %s, %s, %s, %s or %s."
 msgstr ""
 
-#: tazbox/tazbox:896
+#: tazbox/tazbox:901
 msgid "Downloading..."
 msgstr "...در حال دانلود"
 
-#: tazbox/tazbox:964
+#: tazbox/tazbox:969
 msgid "SliTaz default applications"
 msgstr "SliTaz برنامه های پیشفرض"
 
-#: tazbox/tazbox:966
+#: tazbox/tazbox:971
 msgid "SliTaz default applications configuration"
 msgstr "SliTaz پیکربندی برنامه های پیشفرض"
 
-#: tazbox/tazbox:968
+#: tazbox/tazbox:973
 msgid "File manager:"
 msgstr ":مدیر فایل"
 
-#: tazbox/tazbox:969
+#: tazbox/tazbox:974
 msgid "Web browser:"
 msgstr ":مرورگر وب"
 
-#: tazbox/tazbox:970
+#: tazbox/tazbox:975
 msgid "Text editor:"
 msgstr ":ویرایشگر متن"
 
-#: tazbox/tazbox:971
+#: tazbox/tazbox:976
 msgid "Terminal:"
 msgstr ":ترمینال"
 
-#: tazbox/tazbox:972
+#: tazbox/tazbox:977
 msgid "Window manager:"
 msgstr ":مدیر پنجره"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-19 17:11+0200\n"
+"POT-Creation-Date: 2018-05-05 21:39+0200\n"
 "PO-Revision-Date: 2017-01-08 14:50+0900\n"
 "Last-Translator: BALLOON a.k.a. Fu-sen. (Keiichi SHIGA) <balloonakafusen　AT "
 "gmail DOT com>\n"
@@ -396,8 +396,9 @@ msgid "In a new console"
 msgstr "新しいコンソール"
 
 #: tazbox/tazbox:702
-msgid "SSH connection"
-msgstr ""
+#, fuzzy
+msgid "Remote connection"
+msgstr "リモードディスプレイ接続"
 
 #: tazbox/tazbox:706
 #, fuzzy
@@ -405,8 +406,8 @@ msgid "Remote terminal connection"
 msgstr "リモードディスプレイ接続"
 
 #: tazbox/tazbox:707
-msgid "SSH Server"
-msgstr "SSH サーバー"
+msgid "Server"
+msgstr "サーバー"
 
 #: tazbox/tazbox:708
 #, fuzzy
@@ -425,54 +426,61 @@ msgstr ""
 msgid "Prefer sakura terminal"
 msgstr ""
 
-#: tazbox/tazbox:735
+#: tazbox/tazbox:712
+msgid "Telnet protocol (instead of SSH)"
+msgstr ""
+
+#: tazbox/tazbox:736
 msgid "Select the video file"
 msgstr "動画ファイルの選択"
 
-#: tazbox/tazbox:736
+#: tazbox/tazbox:737
 msgid "All video files"
 msgstr "すべての動画ファイル"
 
-#: tazbox/tazbox:737
+#: tazbox/tazbox:738
 msgid "All files"
 msgstr "すべてのファイル"
 
-#: tazbox/tazbox:768
+#: tazbox/tazbox:769
 msgid "Unsupported video file format."
 msgstr "動作ファイル形式が対応していません。"
 
-#: tazbox/tazbox:769
+#: tazbox/tazbox:770
 msgid "Retry with %s, %s, %s, %s, %s or %s."
 msgstr "%s, %s, %s, %s, %s, %s を再度行って下さい。"
 
-#: tazbox/tazbox:896
+#: tazbox/tazbox:901
 msgid "Downloading..."
 msgstr "ダウンロード中..."
 
-#: tazbox/tazbox:964
+#: tazbox/tazbox:969
 msgid "SliTaz default applications"
 msgstr "SliTaz デフォルトアプリケーション"
 
-#: tazbox/tazbox:966
+#: tazbox/tazbox:971
 msgid "SliTaz default applications configuration"
 msgstr "SliTaz デフォルトアプリケーションの設定"
 
-#: tazbox/tazbox:968
+#: tazbox/tazbox:973
 msgid "File manager:"
 msgstr "ファイルマネージャー:"
 
-#: tazbox/tazbox:969
+#: tazbox/tazbox:974
 msgid "Web browser:"
 msgstr "ウェブブラウザ:"
 
-#: tazbox/tazbox:970
+#: tazbox/tazbox:975
 msgid "Text editor:"
 msgstr "テキストエディタ:"
 
-#: tazbox/tazbox:971
+#: tazbox/tazbox:976
 msgid "Terminal:"
 msgstr "ターミナル:"
 
-#: tazbox/tazbox:972
+#: tazbox/tazbox:977
 msgid "Window manager:"
 msgstr "ウインドウマネージャー:"
+
+#~ msgid "SSH Server"
+#~ msgstr "SSH サーバー"

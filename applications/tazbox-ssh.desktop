@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
-Name=SSH terminal
+Name=Remote terminal
 Exec=tazbox ssh
 Icon=xterm
 Categories=Utility;
-Name[fr]=Terminal SSH
+Name[fr]=Terminal distant

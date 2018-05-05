@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-19 17:11+0200\n"
+"POT-Creation-Date: 2018-05-05 21:39+0200\n"
 "PO-Revision-Date: 2016-11-13 22:36+0200\n"
 "Last-Translator: Pascal Bellard <pascal.bellard@slitaz.org>\n"
 "Language-Team: French\n"
@@ -392,16 +392,16 @@ msgid "In a new console"
 msgstr "Nouvelle console"
 
 #: tazbox/tazbox:702
-msgid "SSH connection"
-msgstr "Connexion SSH"
+msgid "Remote connection"
+msgstr "Connexion à distance"
 
 #: tazbox/tazbox:706
 msgid "Remote terminal connection"
 msgstr "Connexion à une console"
 
 #: tazbox/tazbox:707
-msgid "SSH Server"
-msgstr "Serveur SSH"
+msgid "Server"
+msgstr "Serveur"
 
 #: tazbox/tazbox:708
 msgid "Password"
@@ -419,54 +419,64 @@ msgstr "Proxy SSH"
 msgid "Prefer sakura terminal"
 msgstr "Terminal sakura (si possible)"
 
-#: tazbox/tazbox:735
+#: tazbox/tazbox:712
+msgid "Telnet protocol (instead of SSH)"
+msgstr "Protocole Telnet (et non SSH)"
+
+#: tazbox/tazbox:736
 msgid "Select the video file"
 msgstr "Choisissez le fichier vidéo"
 
-#: tazbox/tazbox:736
+#: tazbox/tazbox:737
 msgid "All video files"
 msgstr "Tous les fichiers vidéo"
 
-#: tazbox/tazbox:737
+#: tazbox/tazbox:738
 msgid "All files"
 msgstr "Tous les fichiers"
 
-#: tazbox/tazbox:768
+#: tazbox/tazbox:769
 msgid "Unsupported video file format."
 msgstr "Format de fichier vidéo non supporté."
 
-#: tazbox/tazbox:769
+#: tazbox/tazbox:770
 msgid "Retry with %s, %s, %s, %s, %s or %s."
 msgstr "Réessayez avec %s, %s, %s, %s, %s ou %s."
 
-#: tazbox/tazbox:896
+#: tazbox/tazbox:901
 msgid "Downloading..."
 msgstr "Télécharge..."
 
-#: tazbox/tazbox:964
+#: tazbox/tazbox:969
 msgid "SliTaz default applications"
 msgstr "Applications SliTaz par défaut"
 
-#: tazbox/tazbox:966
+#: tazbox/tazbox:971
 msgid "SliTaz default applications configuration"
 msgstr "Configuration des applications SliTaz par défaut"
 
-#: tazbox/tazbox:968
+#: tazbox/tazbox:973
 msgid "File manager:"
 msgstr "Gestionnaire de fichiers :"
 
-#: tazbox/tazbox:969
+#: tazbox/tazbox:974
 msgid "Web browser:"
 msgstr "Navigateur WEB :"
 
-#: tazbox/tazbox:970
+#: tazbox/tazbox:975
 msgid "Text editor:"
 msgstr "Editeur de textes :"
 
-#: tazbox/tazbox:971
+#: tazbox/tazbox:976
 msgid "Terminal:"
 msgstr "Terminal :"
 
-#: tazbox/tazbox:972
+#: tazbox/tazbox:977
 msgid "Window manager:"
 msgstr "Gestionnaire de fenêtres :"
+
+#~ msgid "SSH connection"
+#~ msgstr "Connexion SSH"
+
+#~ msgid "SSH Server"
+#~ msgstr "Serveur SSH"

@@ -699,16 +699,17 @@ vnc_main() {
 
 ssh_main() {
 	icon='xterm'
-	yad --title="$(_n 'SSH connection')" --window-icon="$icon" \
+	yad --title="$(_n 'Remote connection')" --window-icon="$icon" \
 		--width='250' --height='180' --on-top --center \
 		--image="$icon" --image-on-top --icon="$icon" \
 		--form \
-		--text="<b>$(_n 'Remote terminal connection')</b>" "user@host" \
-		--field="$(_n 'SSH Server')" \
+		--text="<b>$(_n 'Remote terminal connection')</b>" "user@host:port" \
+		--field="$(_n 'Server')" \
 		--field="$(_n 'Password'):H" \
 		--field="$(_n 'SSH Keys'):MFL" \
 		--field="$(_n 'SSH Proxy')" \
 		--field="$(_n 'Prefer sakura terminal'):CHK" \
+		--field="$(_n 'Telnet protocol (instead of SSH)'):CHK" \
 		--always-print-result
 }
 
@@ -808,10 +809,14 @@ vnc() {
 
 ssh() { 
 	IFS='|'; set -- $(ssh_main) ; unset IFS
-	[ "$5" == "TRUE" ] && export TERM=sakura
+	[ "$5" == "TRUE" ] && export TERM=sakura || export TERM=xterm
 	[ -n "$2" ] && export DROPBEAR_PASSWORD="$2"
-	[ -n "$4" ] && export DBPROXY="$4"
-	sshx ${3:+-i ${3//!/ -i }} $1
+	s=${1#*@}; k="${3:+-i ${3//!/ -i }}"
+	case "$4$6" in
+	TRUE)	$TERM -e "telnet ${s/:/ }" ;;
+	*RUE)	dbclient $k -B $s $4 ;;
+	*)	export DBPROXY="$4"; sshx $k $1 ;;
+	esac
 }
 
 

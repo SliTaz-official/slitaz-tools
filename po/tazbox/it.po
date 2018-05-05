@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TazBox\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-30 11:37+0200\n"
+"POT-Creation-Date: 2018-05-05 21:39+0200\n"
 "PO-Revision-Date: 2018-01-30 11:33+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -389,7 +389,7 @@ msgid "In a new console"
 msgstr ""
 
 #: tazbox/tazbox:702
-msgid "SSH connection"
+msgid "Remote connection"
 msgstr ""
 
 #: tazbox/tazbox:706
@@ -397,7 +397,7 @@ msgid "Remote terminal connection"
 msgstr ""
 
 #: tazbox/tazbox:707
-msgid "SSH Server"
+msgid "Server"
 msgstr ""
 
 #: tazbox/tazbox:708
@@ -416,54 +416,58 @@ msgstr ""
 msgid "Prefer sakura terminal"
 msgstr ""
 
-#: tazbox/tazbox:735
-msgid "Select the video file"
+#: tazbox/tazbox:712
+msgid "Telnet protocol (instead of SSH)"
 msgstr ""
 
 #: tazbox/tazbox:736
-msgid "All video files"
+msgid "Select the video file"
 msgstr ""
 
 #: tazbox/tazbox:737
+msgid "All video files"
+msgstr ""
+
+#: tazbox/tazbox:738
 msgid "All files"
 msgstr ""
 
-#: tazbox/tazbox:768
+#: tazbox/tazbox:769
 msgid "Unsupported video file format."
 msgstr ""
 
-#: tazbox/tazbox:769
+#: tazbox/tazbox:770
 msgid "Retry with %s, %s, %s, %s, %s or %s."
 msgstr ""
 
-#: tazbox/tazbox:896
+#: tazbox/tazbox:901
 msgid "Downloading..."
 msgstr ""
 
-#: tazbox/tazbox:964
+#: tazbox/tazbox:969
 msgid "SliTaz default applications"
 msgstr ""
 
-#: tazbox/tazbox:966
+#: tazbox/tazbox:971
 msgid "SliTaz default applications configuration"
 msgstr ""
 
-#: tazbox/tazbox:968
+#: tazbox/tazbox:973
 msgid "File manager:"
 msgstr ""
 
-#: tazbox/tazbox:969
+#: tazbox/tazbox:974
 msgid "Web browser:"
 msgstr ""
 
-#: tazbox/tazbox:970
+#: tazbox/tazbox:975
 msgid "Text editor:"
 msgstr ""
 
-#: tazbox/tazbox:971
+#: tazbox/tazbox:976
 msgid "Terminal:"
 msgstr ""
 
-#: tazbox/tazbox:972
+#: tazbox/tazbox:977
 msgid "Window manager:"
 msgstr ""
