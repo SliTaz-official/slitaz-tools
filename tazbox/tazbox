@@ -56,8 +56,8 @@ new-file	$(_ 'Create a new file or folder on the desktop')
 all-apps	$(_ 'Display icons of all installed applications')
 notify		$(_ 'Notify user with a desktop centered box')
 tazapps		$(_ 'Configure SliTaz default applications')
-vnc		$(_ 'Launch a framebuffer VNC viewer')"
-ssh		$(_ 'Open a remote terminal')
+vnc		$(_ 'Launch a framebuffer VNC viewer')
+ssh		$(_ 'Open a remote terminal')"
 	newline
 }
 
@@ -708,7 +708,6 @@ ssh_main() {
 		--field="$(_n 'Password'):H" \
 		--field="$(_n 'SSH Keys'):MFL" \
 		--field="$(_n 'SSH Proxy')" \
-		--field="$(_n 'Prefer sakura terminal'):CHK" \
 		--field="$(_n 'Telnet protocol (instead of SSH)'):CHK" \
 		--always-print-result
 }
@@ -809,11 +808,11 @@ vnc() {
 
 ssh() { 
 	IFS='|'; set -- $(ssh_main) ; unset IFS
-	[ "$5" == "TRUE" ] && export TERM=sakura || export TERM=xterm
+	export TERM=sakura; [ "$(which $TERM)" ] && XTERM=$TERM || XTERM=xterm
 	[ -n "$2" ] && export DROPBEAR_PASSWORD="$2"
 	s=${1#*@}; k="${3:+-i ${3//!/ -i }}"
-	case "$4$6" in
-	TRUE)	$TERM -e "telnet ${s/:/ }" ;;
+	case "$4$5" in
+	TRUE)	$XTERM -e "telnet ${s/:/ }" ;;
 	*RUE)	dbclient $k -B $s $4 ;;
 	*)	export DBPROXY="$4"; sshx $k $1 ;;
 	esac
