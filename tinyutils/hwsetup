@@ -139,7 +139,7 @@ confirm_install() {
 		# Avoid reinstall
 		if [ ! -d "$INSTALLED/$pkg" ]; then
 			_n 'Would you like to install pkg: %s' "$pkg"; confirm
-			if [ $? == 0 ]; then
+			if [ $? = 0 ]; then
 				tazpkg get-install "$pkg" --forced
 				if tazpkg list-files "$pkg" | grep -q "/etc/udev" ; then
 					UDEV_RULES="yes"
@@ -222,11 +222,11 @@ confirm_device() {
 
 
 hputil() {
-	if [ "$HP" == "1" ]; then
+	if [ "$HP" = "1" ]; then
 		install "hplip"
 		newline
 		_n 'Do you want to use hp-setup utility'; confirm
-		if [ $? == 0 ]; then
+		if [ $? = 0 ]; then
 			hp-setup
 		fi
 	fi
@@ -237,7 +237,7 @@ hputil() {
 
 fix_usb_permissions() {
 	grp=$1
-	if [ "$DETECTED" == "yes" ]; then
+	if [ "$DETECTED" = "yes" ]; then
 		if ls /dev/bus/usb/*$busno/*$deviceno ; then
 			chmod 666 /dev/bus/usb/*$busno/*$deviceno
 			chgrp $grp /dev/bus/usb/*$busno/*$deviceno
@@ -266,7 +266,7 @@ load_modules() {
 
 
 udev() {
-	if [ "$UDEV_RULES" == "yes" ]; then
+	if [ "$UDEV_RULES" = "yes" ]; then
 		_ 'New udev rules are added by a package'
 		udevadm trigger
 		sleep 2
@@ -296,15 +296,15 @@ get_wvdial_vars() {
 	PIN=$(     grep AT+CPIN=       $CONF | cut -d= -f3 | tr -d '[" ]')
 	MODEM=$(   grep ^Modem.*/dev.* $CONF | cut -d= -f2 | tr -d '[" ]' | uniq)
 	APN=$(     grep AT+CGDCONT     $CONF | cut -d, -f3 | tr -d '[" ]')
-	[ "x$USERNAME" == "x''" ] && USERNAME=
-	[ "x$PASSWORD" == "x''" ] && PASSWORD=
+	[ "x$USERNAME" = "x''" ] && USERNAME=
+	[ "x$PASSWORD" = "x''" ] && PASSWORD=
 }
 
 
 set_wvdial_vars() {
 	# wvdial needs something right the equal sign
-	[ x$USERNAME == x ] && USERNAME="''"
-	[ x$PASSWORD == x ] && PASSWORD="''"
+	[ x$USERNAME = x ] && USERNAME="''"
+	[ x$PASSWORD = x ] && PASSWORD="''"
 	sed 's|^Phone.*|Phone = '$PHONE'|; s|^Username.*|Username = '$USERNAME'|; \
 	s|^Password.*|Password = '$PASSWORD'|; s|.*AT+CPIN=.*|Init4 = AT+CPIN='$PIN'|; \
 	s|.*AT+CGDCONT=.*|Init3 = AT+CGDCONT=1,"IP", "'$APN'"|; \
@@ -403,10 +403,10 @@ setup() {
 			fi
 
 			#lpinfo -v
-			if [ "$DETECTED" == "yes" ]; then
+			if [ "$DETECTED" = "yes" ]; then
 				newline
 				_n 'Do you want to start cups'; confirm
-				if [ $? == 0 ]; then
+				if [ $? = 0 ]; then
 					newline
 					/etc/init.d/cupsd start
 					sleep 2
@@ -429,11 +429,11 @@ setup() {
 			find_usb_device
 			fix_usb_permissions "scanner"
 
-			if [ "$DETECTED" == "yes" ]; then
+			if [ "$DETECTED" = "yes" ]; then
 				#hputil
 				newline
 				_n 'Do you want to start scanner'; confirm
-				if [ $? == 0 ]; then
+				if [ $? = 0 ]; then
 					newline
 					sane-find-scanner # to verify scanner has been found
 					scanimage -L # List scanners
@@ -462,14 +462,14 @@ setup() {
 				if [ -d $INSTALLED/mplayer-svn ]; then
 					newline
 					_n 'Would you like to test webcam'; confirm
-					if [ $? == 0 ]; then
+					if [ $? = 0 ]; then
 						newline
 						mplayer tv:// -tv driver=v4l2:width=320:height=240:device=/dev/video0 -vo x11 &
 					fi
 				else
 					newline
 					_n 'Would you like to test webcam by installing mplayer-svn'; confirm
-					if [ $? == 0 ]; then
+					if [ $? = 0 ]; then
 						newline
 						install mplayer-svn
 						mplayer tv:// -tv driver=v4l2:width=320:height=240:device=/dev/video0 -vo x11 &
@@ -489,15 +489,15 @@ setup() {
 			find_usb_device
 			fix_usb_permissions "camera"
 
-			if [ "$DETECTED" == "yes" ]; then
+			if [ "$DETECTED" = "yes" ]; then
 				newline
 				_n 'Do you want to check if gphoto2 can talk to your camera'; confirm
-				if [ $? == 0 ]; then
+				if [ $? = 0 ]; then
 					newline
 					# Show if the camera is detected
 					gphoto2 --auto-detect
 					_n 'Do you want to test importing photos'; confirm
-					if [ $? == 0 ]; then
+					if [ $? = 0 ]; then
 						mkdir -p ~/Images/Photos
 						cd ~/Images/Photos
 						gphoto2 --get-all-files
@@ -520,7 +520,7 @@ setup() {
 			udev
 
 			_n 'Do you want to see if the bluetooth is working'; confirm
-			if [ $? == 0 ]; then
+			if [ $? = 0 ]; then
 				newline
 
 				# sanity check: btusb is not loaded automagically for unknown reasons
@@ -586,7 +586,7 @@ in %s if need be" "$bt")
 				_ 'Detected Modem at:'
 				ls /dev/ttyUSB* /dev/ttyACM* 2> /dev/null
 				_n 'Do you want to configure wvdial'; confirm
-				if [ $? == 0 ]; then
+				if [ $? = 0 ]; then
 					wvdialbox
 				else
 					#nameserver `tail -30 /var/log/messages| grep DNS| sed 's/*\([.0-9]*\)$/\1/'` >/etc/resolv.conf
@@ -605,7 +605,7 @@ wvdial		$(_ 'Add DNS address of your provider in %s' "$(boldify '/etc/resolv.con
 			_ 'Setting IPTABLES_RULES to yes in /etc/slitaz/firewall.conf'
 			sed -i 's/^IPTABLES_RULES="no"/IPTABLES_RULES="yes"/' /etc/slitaz/firewall.conf
 			# default is "start"
-			if [ "$STOP" == "yes" ] ; then
+			if [ "$STOP" = "yes" ] ; then
 				/etc/init.d/firewall stop
 			else
 				/etc/init.d/firewall start
@@ -625,7 +625,7 @@ wvdial		$(_ 'Add DNS address of your provider in %s' "$(boldify '/etc/resolv.con
 			xorg55=/etc/X11/xorg.conf.d/55-DeviceTweaks.conf
 			xorg60=/etc/X11/xorg.conf.d/60-Device.conf
 			xorg55short=55-DeviceTweaks.conf
-			if [ "$NON_FREE" == "yes" ] ; then
+			if [ "$NON_FREE" = "yes" ] ; then
 				if [ -d $INSTALLED/xorg-xf86-video-nv ]; then
 					rm $xorg55
 					tazpkg remove xorg-xf86-video-nv
@@ -633,7 +633,7 @@ wvdial		$(_ 'Add DNS address of your provider in %s' "$(boldify '/etc/resolv.con
 				load_modules
 				#xorg
 				_n 'Do you want to configure X using non-free nvidia driver'; confirm
-				if [ $? == 0 ]; then
+				if [ $? = 0 ]; then
 					newline
 					_ 'Your previous config is in %s' "$xorg60"
 					_ 'If nvidia fails, you can remove %s to restore previous config.' "$xorg55"
@@ -672,7 +672,7 @@ wvdial		$(_ 'Add DNS address of your provider in %s' "$(boldify '/etc/resolv.con
 				load_modules
 				#xorg
 				_n 'Do you want to configure X using free nvidia driver'; confirm
-				if [ $? == 0 ]; then
+				if [ $? = 0 ]; then
 					newline; separator
 					_ 'Your previous config is in %s' "$xorg60"
 					_ 'If nvidia fails, you can remove %s to restore previous config.' "$xorg55"
@@ -696,7 +696,7 @@ wvdial		$(_ 'Add DNS address of your provider in %s' "$(boldify '/etc/resolv.con
 			xorg60=/etc/X11/xorg.conf.d/60-Device.conf
 			xorg55short=55-DeviceTweaks.conf
 			untested
-			if [ "$NON_FREE" == "yes" ] ; then
+			if [ "$NON_FREE" = "yes" ] ; then
 				if [ -d $INSTALLED/xorg-xf86-video-ati ]; then
 					rm $xorg55
 					tazpkg remove xorg-xf86-video-ati
@@ -704,7 +704,7 @@ wvdial		$(_ 'Add DNS address of your provider in %s' "$(boldify '/etc/resolv.con
 				load_modules
 				#xorg
 				_n 'Do you want to configure X using non-free catalyst ATI (radeon) driver'; confirm
-				if [ $? == 0 ]; then
+				if [ $? = 0 ]; then
 					newline
 					_ 'Your previous config is in %s' "$xorg60"
 					_ 'If ati fails, you can remove %s to restore previous config.' "$xorg55"
@@ -737,7 +737,7 @@ EOT
 				load_modules
 				#xorg
 				_n 'Do you want to configure X using free ATI (radeon) driver'; confirm
-				if [ $? == 0 ]; then
+				if [ $? = 0 ]; then
 					newline; separator
 					_ 'Your previous config is in %s' "$xorg60"
 					_ 'If ATI fails, you can remove %s to restore previous config.' "$xorg55"
@@ -777,21 +777,21 @@ case "$1" in
 		AUTO_INSTALL_SUGGESTED="$suggested"
 		CONFIRM_SUGGESTED="$confirm"
 		for i in "$@"; do
-#			if [ "$i" == "--non-free" ] ;  then NON_FREE="yes"; 				fi
-#			if [ "$i" == "--suggested" ] ; then AUTO_INSTALL_SUGGESTED="yes"; 	fi
-#			if [ "$i" == "--confirm" ] ;   then CONFIRM_SUGGESTED="yes"; 		fi
-			if [ "$i" == "stop" ] ;        then STOP="yes"; 					fi
+#			if [ "$i" = "--non-free" ] ;  then NON_FREE="yes"; 				fi
+#			if [ "$i" = "--suggested" ] ; then AUTO_INSTALL_SUGGESTED="yes"; 	fi
+#			if [ "$i" = "--confirm" ] ;   then CONFIRM_SUGGESTED="yes"; 		fi
+			if [ "$i" = "stop" ] ;        then STOP="yes"; 					fi
 		done
 
 		device
 		#untested
-		if [ -n "$NON_FREE_DEPENDS" -a "$NON_FREE" == "yes" ]; then
+		if [ -n "$NON_FREE_DEPENDS" -a "$NON_FREE" = "yes" ]; then
 			DEPENDS="$NON_FREE_DEPENDS"
 		fi
 
-		if [ "$AUTO_INSTALL_SUGGESTED" == "yes" ]; then
+		if [ "$AUTO_INSTALL_SUGGESTED" = "yes" ]; then
 			anser="all"
-		elif [ "$CONFIRM_SUGGESTED" == "yes" ]; then
+		elif [ "$CONFIRM_SUGGESTED" = "yes" ]; then
 			newline; separator
 			_ 'The following optional packages can be installed:'
 			newline

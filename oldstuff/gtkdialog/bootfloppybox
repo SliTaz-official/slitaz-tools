@@ -1026,7 +1026,7 @@ It may not be able to complete the boot process.\"
 
 while true; do
 
-if [ "$1" == "call" ]; then
+if [ "$1" = "call" ]; then
 	case "$2" in
 	mkmenu) mkmenu $3;;
 	mkisofloppiesxterm)

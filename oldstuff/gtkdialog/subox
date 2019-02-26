@@ -98,9 +98,9 @@ export SU_DIALOG=''${SU_DIALOG}'
 		</checkbox>
 		<button ok>
 			<action> echo $PASSWD | su -c "$SU_CMD &" || gtkdialog --center --program=ERROR_DIALOG</action>
-			<action>[ $AUTOSAVE == true ] && echo $PASSWD > '$HOME/.config/slitaz/subox.conf'</action>
-			<action>[ $AUTOSAVE == true ] && chmod 0600 '$HOME/.config/slitaz/subox.conf'</action>
-			<action>[ $AUTOSAVE == false ] && cat /dev/null > '$HOME/.config/slitaz/subox.conf'</action>
+			<action>[ $AUTOSAVE = true ] && echo $PASSWD > '$HOME/.config/slitaz/subox.conf'</action>
+			<action>[ $AUTOSAVE = true ] && chmod 0600 '$HOME/.config/slitaz/subox.conf'</action>
+			<action>[ $AUTOSAVE = false ] && cat /dev/null > '$HOME/.config/slitaz/subox.conf'</action>
 			<action type="closewindow">SU_DIALOG</action>
 		</button>
 		<button cancel></button>

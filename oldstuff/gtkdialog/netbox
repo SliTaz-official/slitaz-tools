@@ -761,7 +761,7 @@ echo "\$PPTP_USER PPTP \"$PPTP_PASS\" *" >> /etc/ppp/chap-secrets</action>
 	  <action>grep -qs ^\$PPTP_SERVER /etc/ppp/pptp-servers || \
 echo "\$PPTP_SERVER" >> /etc/ppp/pptp-servers</action>
 	  <action>PASS=""; [ -n "\$PPTP_PASS" ] && PASS="password \$PASS"; \
-ENC=""; [ x\$PPTP_ENC == xtrue ] && ENC="require-mppe-128"; \
+ENC=""; [ x\$PPTP_ENC = xtrue ] && ENC="require-mppe-128"; \
 /usr/sbin/pptp \$PPTP_SERVER file /etc/ppp/options.pptp \$ENC user \$PPTP_USER \$PASS &
 	  </action>
         </button>

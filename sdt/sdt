@@ -63,7 +63,7 @@ EOT
 		echo "Send this data to SliTaz Distro Tracker?"
 		echo -n "Press 'c' then ENTER to continue or any other key to quit: "
 		read answer; newline
-		[ "$answer" == 'c' ] || exit 0
+		[ "$answer" = 'c' ] || exit 0
 
 		echo "Sending data to $url"; newline
 		wget -q --user-agent "SliTaz/SDT" \

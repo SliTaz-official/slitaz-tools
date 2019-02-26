@@ -109,7 +109,7 @@ scpbox() {
 	else
 		host=$(echo $main | cut -d "|" -f 3)
 	fi
-	if [ "$host" == "(null)" ] || [ ! "$host" ]; then
+	if [ "$host" = "(null)" ] || [ ! "$host" ]; then
 		echo "No host, exit"; exit 0
 	fi
 

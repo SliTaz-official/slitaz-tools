@@ -44,7 +44,7 @@ check_firmware() {
 			# only install firmware if specified from cmdline.
 			if ifconfig | grep -q "inet addr"; then
 				# Ensure module is not loaded and get files.
-				if [ "$firmware" == "get" ]; then
+				if [ "$firmware" = "get" ]; then
 					rmmod $mod 2>/dev/null
 					get-$mod-firmware
 				else
@@ -136,7 +136,7 @@ detect_usb_devices() {
 
 # Get firmware used by check_firmware()
 
-if [ "$2" == "--get-firmware" ]; then
+if [ "$2" = "--get-firmware" ]; then
 	firmware='get'
 fi
 

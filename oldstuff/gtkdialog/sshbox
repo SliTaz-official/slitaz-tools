@@ -178,7 +178,7 @@ gtk_settings(){
 		
 		. /tmp/_out_
 		
-		if [ "$EXIT" == "OK" ]; then
+		if [ "$EXIT" = "OK" ]; then
 			save_settings
 		fi
 }
@@ -322,7 +322,7 @@ ssh_connect(){
 	[ ! -z $SSH_PORT ] && SSH_OPTION="-p $SSH_PORT"
 	
 	# set terminal options
-	if [ "$XTERM" ==  "sakura" ]; then
+	if [ "$XTERM" =  "sakura" ]; then
 		OPTION="--title $SSH_USER@$SSH_HOST"
 	else 
 		OPTION="-T $SSH_USER@$SSH_HOST"

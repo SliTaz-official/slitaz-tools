@@ -142,7 +142,7 @@ case $1 in
 	mounted-fs-infos)
 		# Mounted fs info and actions, rootfs or other fs.
 		#
-		if [ "$MOUNTED" == "/dev/root" ]; then
+		if [ "$MOUNTED" = "/dev/root" ]; then
 			export MOUNTED_DEVICE="
 <window title=\"Device: rootfs\" icon-name=\"media-flash\">
 <vbox>
@@ -267,7 +267,7 @@ Label: $LABEL
 			<action type=\"closewindow\">MOUNTED_DEVICE</action>
 		</button>"
 while read type fsck args; do
-	[ "$TYPE" == "$type" ] || continue
+	[ "$TYPE" = "$type" ] || continue
 	which $fsck > /dev/null || continue
 UMOUNTED_DEVICE="$UMOUNTED_DEVICE		
 		<button>
@@ -406,12 +406,12 @@ Label: $LABEL
 		file=$2
 		size=$3
 		[ -n "$file" -a -n "$size" ] || exit
-		[ "$4" == "true" ] && bs="1K"
-		[ "$5" == "true" ] && bs="1M"
-		[ "$6" == "true" ] && bs="1024M"
-		[ "$8" == "true" ] && dev="/dev/zero count=$size"
-		[ "$9" == "true" ] && dev="/dev/urandom count=$size"
-		[ "$10" == "true" ] && dev="/dev/zero seek=$size count=0"
+		[ "$4" = "true" ] && bs="1K"
+		[ "$5" = "true" ] && bs="1M"
+		[ "$6" = "true" ] && bs="1024M"
+		[ "$8" = "true" ] && dev="/dev/zero count=$size"
+		[ "$9" = "true" ] && dev="/dev/urandom count=$size"
+		[ "$10" = "true" ] && dev="/dev/zero seek=$size count=0"
 		if [ "$7" != "true" -a -e "$file" ]; then
 			export FILE_EXIST="
 <window title=\"File exist\" icon-name=\"media-flash\">

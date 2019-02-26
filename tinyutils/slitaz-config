@@ -182,7 +182,7 @@ $(detect_wifi) 2>$tmp
 	esac
 
 	# Connect to hidden network
-	if [ "$essid" == "$(_ 'hidden.network')" ]; then
+	if [ "$essid" = "$(_ 'hidden.network')" ]; then
 		dialog --title "{ $(_ 'Wi-Fi ESSID') }" \
 			--inputbox "\n$(_ 'Enter Wi-Fi access point ESSID (name)')" \
 			12 $width 2>$tmp
@@ -199,7 +199,7 @@ $(detect_wifi) 2>$tmp
 		key=$(iwlist $WIFI_INTERFACE scan last | grep -E 'Cell |Encryption|ESSID' | \
 			grep -C1 "$essid" | sed -n 's|.*key:\(.*\)|\1|p')
 
-		if [ "$key" == "on" ]; then
+		if [ "$key" = "on" ]; then
 			dialog --title "{ $(_ 'Wi-Fi Password') }" --colors \
 				--inputbox "\n$(_ 'Enter Wi-Fi key (password) for \Zb\Z4%s' "$essid")" \
 				12 $width 2>$tmp

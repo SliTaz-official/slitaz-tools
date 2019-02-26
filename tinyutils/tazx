@@ -280,7 +280,7 @@ apps_dialog() {
 	esac
 
 	if [ "$appname" != " " ]; then
-		if [ "$appname" == 'show_ALL' ]; then
+		if [ "$appname" = 'show_ALL' ]; then
 			app_name_dialog full-list
 			inst_pkg $appname
 		fi
@@ -349,7 +349,7 @@ xfwm4"
 				t='<--' ;;
 		esac
 
-		if [ "$2" == 'full-list' ] || [ "$t" == '<--' ]; then
+		if [ "$2" = 'full-list' ] || [ "$t" = '<--' ]; then
 			echo "$i"
 
 			if [ "$3" != 'yad' ]; then
@@ -358,7 +358,7 @@ xfwm4"
 		fi
 	done
 
-	if [ "$2" == 'only-installed' ] && [ "$3" != 'yad' ]; then
+	if [ "$2" = 'only-installed' ] && [ "$3" != 'yad' ]; then
 		echo 'show_ALL' "+$(_n 'Install')"
 	fi
 }
@@ -401,7 +401,7 @@ config_dialog() {
 			inst_pkg slim
 			inst_pkg dbus
 
-			if [ $LM == "$(_ 'OFF')" ]; then
+			if [ $LM = "$(_ 'OFF')" ]; then
 				LM='slim'
 			else
 				LM=''

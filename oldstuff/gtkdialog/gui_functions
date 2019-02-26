@@ -16,7 +16,7 @@ header|body)
 	  /*)  [ -e $exe ] || continue;;
 	  *)   which $exe > /dev/null || continue
 	  esac
-	  if [ "$2" == "header" ]; then
+	  if [ "$2" = "header" ]; then
 	    echo -n "$tmp$name"
 	    tmp='|'
 	  else

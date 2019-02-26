@@ -57,7 +57,7 @@ make_i18n_link() {
 link_language_files() {
 	. /etc/locale.conf
 	LANGUAGE=${LANG%_*}
-	[ "$LANG" == 'POSIX' ] && LANGUAGE='en'
+	[ "$LANG" = 'POSIX' ] && LANGUAGE='en'
 
 	# Openbox menu
 	make_i18n_link /etc/xdg/openbox/menu.%%.xml
@@ -151,7 +151,7 @@ $(get_locale_name) \
 	esac
 
 	# Default: POSIX => English
-	[ "$locale" == 'en' ] && locale='en_US'
+	[ "$locale" = 'en' ] && locale='en_US'
 	[ -s /etc/locale.conf ] && RECONFIG='yes'
 
 	# If it's a reconfiguration give an info message.
