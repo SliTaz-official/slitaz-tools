@@ -156,7 +156,7 @@ logout_confirm() {
 		--on-top --center --width='300' --image="$icon" --image-on-top \
 		--text="<b>$action</b>\n\n$warning" \
 		--timeout $timeout --timeout-indicator=bottom \
-		--button "gtk-cancel:252"
+		--button "gtk-cancel:252" --button "gtk-ok:0"
 	[ "$?" -ne 252 ] || exit 0
 }
 
