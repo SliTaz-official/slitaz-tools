@@ -70,7 +70,7 @@ find_icon() {
 	system_desktop=$(find /usr/share/applications \
 		-name ${1##*/}.desktop 2&>/dev/null | head -n1)
 	desktop="${local_desktop:-$system_desktop}"
-	[ -n "$desktop" ] && cat $desktop | sed '/\[Desktop\ Entry\]/,/^\[/!d' | \
+	[ "$desktop" ] && sed '/\[Desktop\ Entry\]/,/^\[/!d' $desktop | \
 		sed '/^Icon=/!d' | head -n1 | cut -d= -f2
 }
 
@@ -384,13 +384,13 @@ tz_select() {
 			grep -m1 $(basename $tzfile) $ztab
 		done | cut -d$'\t' -f1 | sort -u > $tmpcc
 
-		for CC in $(cat $tmpcc); do
+		while read CC; do
 			cat << EOT
 $CC
 $CC
 $(grep -m1 "$CC	" ${zi}iso3166.tab | cut -d$'\t' -f2 | sed 's|\&|&amp;|g')
 EOT
-		done | \
+		done < $tmpcc | \
 		yad --title="$(_ 'SliTaz TZ')" --window-icon="$icon" \
 			--width='500' --height='380' --on-top --center \
 			--image="$icon" --image-on-top \
@@ -575,7 +575,6 @@ manage_i18n() {
 	fi
 
 	icon='preferences-desktop-locale'
-	cat $PKGS_LIST | \
 	{
 		yad --title="$(_n 'Manage locale packages')" --window-icon="$icon" \
 		--width='600' --height='400' --on-top --center \
@@ -589,7 +588,7 @@ manage_i18n() {
 		--button="$(_n 'Install/Remove')!gtk-execute:2" \
 		--button="gtk-cancel:1" \
 		--print-all
-	} > $ANSWER
+	} < $PKGS_LIST > $ANSWER
 
 	case "$?" in
 		1) rm_temp; exit 0;;

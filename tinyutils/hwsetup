@@ -177,7 +177,7 @@ find_usb_device() {
 		count=1
 
 		# assume device to be in last 3 entries; use tac
-		DEVICES_LIST=$(cat /proc/bus/usb/devices | grep ^[TDP] | \
+		DEVICES_LIST=$(grep ^[TDP] /proc/bus/usb/devices | \
 			grep -B1 -A1 "$PATTERN" | grep -i vendor | awk ' { print $2,$3 } ' | \
 			sed 's/ /   /'|sed 's/Vendor=//' | sed 's/ProdID=//' | tail -3)
 		_ 'Detected USB Device : Vendor : Product'
