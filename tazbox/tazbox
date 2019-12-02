@@ -832,7 +832,7 @@ case "$1" in
 
 		# Check if a password has been saved before launching main dialog
 		if [ -s "$SUBOX_CONF" ]; then
-			PASSWD="$(cat $SUBOX_CONF)"
+			PASSWD="$(cat $SUBOX_CONF | base64 --decode)"
 			CHECKED='TRUE'
 		fi
 
@@ -845,7 +845,7 @@ case "$1" in
 
 		# Save or erase Autosaved password
 		if [ $(echo "$main" | cut -d"|" -f2) = 'TRUE' ]; then
-			echo "$main" | cut -d"|" -f1 > $SUBOX_CONF
+			echo "$main" | cut -d"|" -f1 | base64 > $SUBOX_CONF
 			chmod 0600 $SUBOX_CONF
 		else
 			cat /dev/null > $SUBOX_CONF
