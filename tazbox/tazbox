@@ -29,6 +29,7 @@ db='/usr/share/i18n/locales'
 zi='/usr/share/zoneinfo/'
 ztab="${zi}zone-mini.tab"
 csv='/tmp/freegeoip.csv'
+prncf=~/.config/slitaz/printer
 
 
 #
@@ -57,7 +58,8 @@ all-apps	$(_ 'Display icons of all installed applications')
 notify		$(_ 'Notify user with a desktop centered box')
 tazapps		$(_ 'Configure SliTaz default applications')
 vnc		$(_ 'Launch a framebuffer VNC viewer')
-ssh		$(_ 'Open a remote terminal')"
+ssh		$(_ 'Open a remote terminal')
+print		$(_ 'Print PDF or PS files on a network printer')"
 	newline
 }
 
@@ -681,6 +683,8 @@ ask_root() {
 }
 
 
+# VNC gui
+
 vnc_main() {
 	icon='video-display'
 	yad --title="$(_n 'Framebuffer VNC viewer')" --window-icon="$icon" \
@@ -696,6 +700,8 @@ vnc_main() {
 }
 
 
+# SSH gui
+
 ssh_main() {
 	icon='xterm'
 	yad --title="$(_n 'Remote connection')" --window-icon="$icon" \
@@ -709,6 +715,199 @@ ssh_main() {
 		--field="$(_n 'SSH Proxy')" \
 		--field="$(_n 'Telnet protocol (instead of SSH)'):CHK" \
 		--always-print-result
+}
+
+
+# Network printer gui
+
+printer0_main() {
+	icon='printer'
+	yad --title="$(_n 'Printer server')" --window-icon="$icon" \
+		--width='250' --height='180' --on-top --center \
+		--image="$icon" --image-on-top --icon="$icon" \
+		--form \
+		--text="<b>$(_n 'Network printer server')</b>" \
+		--field="$(_n 'Printer IP'):CB" 0.0.0.0!$(ifconfig | sed '/inet6\? addr/!d;s|[^:]*: *||;s| .*||;s|^127|^&|' | xargs | sed 's| |!|g') \
+		"9100" --field="$(_n 'Port')" \
+		--field="$(_n 'Device'):CB" $(ls /dev/*lp? | xargs | sed 's| |!|g') \
+		--always-print-result
+}
+
+
+printer1_main() {
+	icon='printer'
+	yad --title="$(_n 'Remote printer')" --window-icon="$icon" \
+		--width='250' --height='180' --on-top --center \
+		--image="$icon" --image-on-top --icon="$icon" \
+		--form \
+		--text="<b>$(_n 'Remote PDF or PS printer')</b>" "192.168.0.254" \
+		--field="$(_n 'Printer IP')" "9100" \
+		--field="$(_n 'Port')" \
+		$([ "$(ls /dev/*lp? 2> /dev/null)" ] && echo --button "$(_ 'Server'):2") \
+		--button "gtk-cancel:1" --button "gtk-ok:0" \
+		--always-print-result
+}
+
+
+# Parse printer configuration file
+
+conf_printer()
+{
+awk 'BEGIN { state = -1 }
+{
+	if (state < 0) {
+		if (/@PJL INFO VARIABLES/) state=0
+	}
+	else {
+		if (state == 0) {
+			printf "%s " $0
+			sub(/.*\[/,"")
+			state=$0 + 0
+		}
+		else {
+			printf "%s " $1
+			state--
+		}
+		if (state == 0) print ""
+	}
+}' < $prncf
+}
+
+var_printer()
+{
+while read key name; do
+	conf_printer | grep "^ *$key=" | grep -v '\[1 ' | \
+	if [ "$1" ]; then
+		#[ "$key=$1" = "COPIES=1" ] ||
+		echo "@PJL SET $key=$1"
+	else
+		awk -vn=$name '{
+    sub(/.*=/,"")
+    if (/ RANGE\]/) {
+	sub(/ \[.*\] /,"!")
+	sub(/ /,"..")
+	print "--field=" n ":NUM " $0 "!1!0"
+    }
+    else if (/ ENUMERATED\]/) {
+	def=$0
+	sub(/ .*/,"",def)
+	sub(/.*\] /,"")
+	gsub(/ /,"!")
+	pos=index($0,def)
+	print "--field=" n ":CB " substr($0,0,pos-1) "^" substr($0,pos)
+    }
+}'
+	fi
+	shift
+done <<EOT
+COPIES		$(_n 'Number')
+RESOLUTION	$(_n 'Resolution')
+ORIENTATION	$(_n 'Orientation')
+PAPER		$(_n 'Paper')
+LPAPERSOURCE	$(_n 'Source')
+DUPLEX		$(_n 'Twosided')
+BINDING		$(_n 'Binding')
+ECONOMODE	$(_n 'Eco-Mode')
+DENSITY		$(_n 'Density')
+MANUALFEED	$(_n 'Manual-Feed')
+EOT
+}
+
+
+# File print gui
+
+printer2_main() {
+	icon='printer'
+	support=
+	filter=
+	grep -q PDF $prncf && support="PDF" && filter="*.pdf *.PDF "
+	if grep -q POSTSCRIPT $prncf ; then
+		[ "$support" ] && support="$support or PostScript" ||
+		support="PostScript"
+		filter="${filter}*.ps *.eps *.PS *.EPS"
+	fi
+	yad --title="$(_n 'Print %s files' "$support")" --window-icon="$icon" \
+		--width='250' --height='180' --on-top --center \
+		--image="$icon" --image-on-top --icon="$icon" \
+		--form \
+		--text="<b>$(_n 'Print %s files' "$support")</b>" "" \
+		--field="$(_n 'Files'):MFL" \
+		--file-filter="$(_ 'All printable files')|$filter" \
+		--file-filter="$(_ 'All files')|*" \
+		$(var_printer) \
+		--button "$(_ 'Printer'):2" \
+		--button "gtk-cancel:1" --button "gtk-ok:0" \
+		--always-print-result
+}
+
+printer_server() {
+	while true; do
+		nc -l -p $2 $1 < $3 > $3
+	done
+}
+
+printer_query() {
+	echo -e "\033%-12345X@PJL"
+	echo "@PJL INFO CONFIG"
+	echo "@PJL INFO VARIABLES"
+	echo -e "\033%-12345X"
+	sleep 5
+}
+
+printer() {
+	local tmpprncf=$prncf
+	while true; do
+		if [ ! -s "$tmpprncf" ]; then
+			while true; do
+				ip="$(printer1_main)"
+				case "$?" in
+				0) break ;;
+				1) return ;;
+				esac
+				ip="$(printer0_main)"
+				[ $? = 0 ] && $0 prnsvr ${ip//|/ }
+			done
+			echo -e "${ip//|/ }\n" > $prncf
+			printer_query | nc ${ip//|/ } | sed 's|\r||;s|'$'^\f''|\n|g' >> $prncf
+		fi
+		if ! grep -q PDF$ $prncf && ! grep -q POSTSCRIPT$ $prncf; then
+			yad --title="$(_n 'Print')" --window-icon="$icon" \
+				--width='280' --height='80' --on-top --center \
+				--image="$icon" --image-on-top --icon="$icon" \
+				--text="Your printer doesn't support PDF or POSTSCRIPT" \
+				--button="$(_n 'Remove'):0" \
+				--button="$(_n 'Quit'):1"
+			[ $? -eq 0 ] && rm -f $prncf
+			return
+		fi
+		tmpprncf=
+		result="$(printer2_main)"
+		case "$?" in
+		0) break ;;
+		1) return ;;
+		esac
+	done
+	for file in $(echo ${result%%|*} | sed 's|!| |g'); do
+		case $(sed 1q "$file") in
+		%PDF*) LG="PDF" ;;
+		%!PS-ADOBE*) LG="POSTSCRIPT" ;;
+		esac
+		if grep -q $LG$ $prncf; then
+		{
+			echo -e "\033%-12345X@PJL"
+			var_printer $(echo ${result#*|} | sed 's/|/ /g')
+			echo "@PJL ENTER LANGUAGE = $LG"
+			cat $file
+			echo -e "\033%-12345X"
+			sleep 5
+		} | nc $(sed 1q $prncf)
+		else
+			yad --title="$(_n 'Print')" --window-icon="$icon" \
+				--width='280' --height='80' --on-top --center \
+				--image="$icon" --image-on-top --icon="$icon" \
+				--text="Your printer can't print the $LG file $file"
+		fi
+	done
 }
 
 
@@ -994,6 +1193,13 @@ TERMINAL=\"%s\"\nWINDOW_MANAGER=\"%s\"\n", $1, $2, $3, $4, $5}')
 			--button 'OK' < /usr/share/licenses/gpl.txt
 		;;
 
+	print)
+		printer
+		;;
+	prnsvr)
+		shift
+		printer_server $@ &
+		;;
 	ssh)
 		ssh
 		;;

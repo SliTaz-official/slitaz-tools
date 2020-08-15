@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Network printer
+Name[fr]=Imprimante réseau
+Comment=Print PDF or PostScript files
+Comment[fr]=Imprime des fichiers PDF ou PostScript
+Exec=tazbox print
+Icon=printer
+Categories=GTK;Office;
