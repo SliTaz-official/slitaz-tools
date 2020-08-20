@@ -66,7 +66,7 @@ link_language_files() {
 	make_i18n_link /usr/share/doc/slitaz/index.%%.html
 
 	# SliTaz Software Manuals
-	for soft in tazpkg tazlito tazusb tazwok tazweb cookutils; do
+	for soft in tazpkg tazlito tazusb tazwok tazweb tazinst cookutils; do
 		make_i18n_link /usr/share/doc/$soft/$soft.%%.html
 	done
 
