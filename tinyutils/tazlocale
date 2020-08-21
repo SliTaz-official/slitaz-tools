@@ -30,6 +30,10 @@ list	$(_ 'Show list of available locales.')"
 }
 
 
+mksymlink() {
+	[ "$(readlink $2)" = "$1" ] || ln -fs "$1" "$2"
+}
+
 # Make symlink to file, substitute "%%" to "ll_CC", "ll" or "en" according to
 # current language settings and file existence
 # (where "ll_CC" - full locale format (lang and country, and maybe, modifier).
@@ -39,12 +43,12 @@ make_i18n_link() {
 		cd $(dirname ${1/.%%/})
 
 		if [ -e ${1/%%/$LANG} ]; then
-			ln -fs $(basename ${1/%%/$LANG}) ${1/.%%/}
+			mksymlink $(basename ${1/%%/$LANG}) ${1/.%%/}
 		else
 			if [ -e ${1/%%/$LANGUAGE} ]; then
-				ln -fs $(basename ${1/%%/$LANGUAGE}) ${1/.%%/}
+				mksymlink $(basename ${1/%%/$LANGUAGE}) ${1/.%%/}
 			else
-				ln -fs $(basename ${1/%%/en}) ${1/.%%/}
+				mksymlink $(basename ${1/%%/en}) ${1/.%%/}
 			fi
 		fi
 	fi
@@ -62,12 +66,10 @@ link_language_files() {
 	# Openbox menu
 	make_i18n_link /etc/xdg/openbox/menu.%%.xml
 
-	# Documentation
-	make_i18n_link /usr/share/doc/slitaz/index.%%.html
-
-	# SliTaz Software Manuals
-	for soft in tazpkg tazlito tazusb tazwok tazweb tazinst cookutils; do
-		make_i18n_link /usr/share/doc/$soft/$soft.%%.html
+	# Documentation & manuals
+	find /usr/share/doc -name '*.en.html' | \
+	while read doc; do
+		make_i18n_link ${doc/.en./.%%.}
 	done
 
 	# SliTaz TazWeb "My Web Home"
@@ -78,11 +80,6 @@ link_language_files() {
 
 	# TazPanel Doc under www
 	make_i18n_link /var/www/tazpanel/doc/tazpanel.%%.html
-
-	# SliTaz Tools Manuals
-	for soft in burnbox tazinst; do
-		make_i18n_link /usr/share/doc/slitaz-tools/$soft.%%.html
-	done
 }
 
 
