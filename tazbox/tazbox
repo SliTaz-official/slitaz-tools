@@ -888,7 +888,7 @@ printer() {
 		esac
 	done
 	for file in $(echo ${result%%|*} | sed 's|!| |g'); do
-		case $(sed 1q "$file") in
+		case $(sed 'y/pdfsaobe/PDFSAOBE/;q' "$file") in
 		%PDF*) LG="PDF" ;;
 		%!PS-ADOBE*) LG="POSTSCRIPT" ;;
 		esac
