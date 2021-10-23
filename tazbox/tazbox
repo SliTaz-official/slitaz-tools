@@ -1026,6 +1026,11 @@ case "$1" in
 		shift
 		# Don't show dialog if we are root
 		[ "$(id -u)" -eq 0 ] && exec "$@"
+
+		# lxpolkit support
+		[ -f "/var/run/ConsoleKit/pid" ] &&
+		  exec pkexec env XAUTHORITY=$XAUTHORITY DISPLAY=$DISPLAY "$@"
+
 		SU_CMD="$@"
 		SUBOX_CONF="$HOME/.config/slitaz/subox.conf"
 
